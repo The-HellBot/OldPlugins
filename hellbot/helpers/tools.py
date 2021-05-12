@@ -7,6 +7,7 @@ from hellbot import bot
 from hellbot.config import Config
 
 
+# forward check
 def forwards():
     def decorator(func):
         @functools.wraps(func)
@@ -21,6 +22,7 @@ def forwards():
     return decorator
 
 
+# am i admin?
 def iadmin():
     def decorator(func):
         @functools.wraps(func)
@@ -41,6 +43,7 @@ def iadmin():
     return decorator
 
 
+# user you replied is a bot?
 def if_bot():
     def decorator(func):
         @functools.wraps(func)
@@ -57,6 +60,7 @@ def if_bot():
     return decorator
 
 
+# set the pm limit
 def pm_limit():
     def decorator(func):
         @functools.wraps(func)
@@ -71,6 +75,7 @@ def pm_limit():
     return decorator
 
 
+# checks for groups
 def no_grp():
     def decorator(func):
         @functools.wraps(func)
@@ -83,3 +88,6 @@ def no_grp():
         return wrapper
 
     return decorator
+
+
+# hellbot
