@@ -69,9 +69,9 @@ LOGS.info(
 # that's life...
 async def hell_is_on():
     try:
-        if Config.LOGGER != 0:
+        if Config.LOGGER_ID != 0:
             await bot.send_file(
-                Config.LOGGER,
+                Config.LOGGER_ID,
                 HELL_PIC,
                 caption="Deployed Hêllẞø† Successfully\n\nType `.ping` or `.alive` to check! \n\nJoin [Hêllẞø† Channel](t.me/The_HellBot) for Updates & [Hêllẞø† Chat](t.me/its_fuckin_hell) for any query regarding Hêllẞø†",
             )
