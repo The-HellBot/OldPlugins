@@ -65,6 +65,7 @@ def load_module(shortname):
         mod.edit_or_reply = edit_or_reply
         mod.eor = edit_or_reply
         mod.delete_hell = delete_hell
+        mod.admin_cmd = hell_cmd
         # support for other userbots
         sys.modules["userbot.utils"] = hellbot.utils
         sys.modules["userbot"] = hellbot
