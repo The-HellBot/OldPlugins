@@ -1,1 +1,1 @@
-# Here We Handler Basic Utilities Required For HellBot
+# Here We Handle Basic Utilities Required For HellBot
