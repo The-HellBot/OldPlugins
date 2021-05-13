@@ -86,6 +86,16 @@ async def cult_small_video(video_file, output_directory, start_time, end_time):
         logger.info(t_response)
         return None
 
+#####################################
+# for animated sticker to gif.....
+#
+# unzipper
+async def unzip(downloaded_file_name):
+    with zipfile.ZipFile(downloaded_file_name, "r") as zip_ref:
+        zip_ref.extractall("./temp")
+    downloaded_file_name = os.path.splitext(downloaded_file_name)[0]
+    return f"{downloaded_file_name}.gif"
+
 
 # silent conv..
 async def silently_send_message(conv, text):
