@@ -86,6 +86,15 @@ async def cult_small_video(video_file, output_directory, start_time, end_time):
         logger.info(t_response)
         return None
 
+
+# silent conv..
+async def silently_send_message(conv, text):
+    await conv.send_message(text)
+    response = await conv.get_response()
+    await conv.mark_read(message=response)
+    return response
+
+
 # makes animated sticker to gif
 async def make_gif(event, file):
     chat = "@tgstogifbot"
