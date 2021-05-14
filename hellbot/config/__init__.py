@@ -1,1 +1,1 @@
-
+from .Vars import Config
