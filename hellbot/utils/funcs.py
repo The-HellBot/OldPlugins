@@ -16,8 +16,6 @@ from telethon import events
 from telethon.tl.functions.channels import GetParticipantRequest
 from telethon.tl.types import ChannelParticipantAdmin, ChannelParticipantCreator
 
-from var import Var
-
 from hellbot import *
 from hellbot.helpers import *
 from hellbot.config import Config
