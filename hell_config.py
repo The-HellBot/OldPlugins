@@ -8,7 +8,20 @@
 import os
 from telethon.tl.types import ChatBannedRights
 
+
 class Config(object):
     LOGGER = True
 
+
 # sorting configs soon....
+
+
+class Production(Config):
+    LOGGER = False
+
+
+class Development(Config):
+    LOGGER = True
+
+
+# hellbot
