@@ -5,6 +5,7 @@ from pathlib import Path
 
 import telethon.utils
 from telethon import TelegramClient
+from telethon.tl.functions.channels import InviteToChannelRequest, JoinChannelRequest
 
 from hellbot import LOGS, bot
 from hellbot.config import Config
@@ -70,6 +71,12 @@ async def hell_is_on():
             )
     except Exception as e:
         LOGS.info(str(e))
+
+# Join HellBot Channel after deploying 🤐😅
+    try:
+        await bot(JoinChannelRequest("@The_HellBot"))
+    except BaseException:
+        pass
 
 
 bot.loop.create_task(hell_is_on())
