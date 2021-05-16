@@ -12,7 +12,6 @@ from telethon.tl.types import ChatBannedRights
 class Config(object):
     LOGGER = True
     ALIVE_MSG = os.environ.get("ALIVE_MSG", None)
-    ALIVE_NAME = os.environ.get("ALIVE_NAME", None)
     ALIVE_PIC = os.environ.get("ALIVE_PIC", None)
     ANTI_FLOOD_WARN_MODE = ChatBannedRights(
         until_date=None,
@@ -31,7 +30,9 @@ class Config(object):
     BOT_USERNAME = os.environ.get("BOT_USERNAME", None)
     BUTTONS_IN_HELP = int(os.environ.get("BUTTONS_IN_HELP", 7))
     CHATS_TO_MONITOR_FOR_ANTI_FLOOD = []
+    CHROME_BIN = os.environ.get("CHROME_BIN", "/app/.apt/usr/bin/google-chrome")
     CHROME_DRIVER = os.environ.get("CHROME_DRIVER", "/app/.chromedriver/bin/chromedriver")
+    CUSTOM_PMPERMIT = os.environ.get("CUSTOM_PMPERMIT", None)
     DB_URI = os.environ.get("DATABASE_URL", None)
     DUAL_LOG = os.environ.get("DUAL_LOG", None)
     EMOJI_IN_HELP = os.environ.get("EMOJI_IN_HELP", "🔸")
@@ -63,10 +64,11 @@ class Config(object):
     OCR_SPACE_API_KEY = os.environ.get("OCR_SPACE_API_KEY", None)
     OPEN_WEATHER_MAP_APPID = os.environ.get("OPEN_WEATHER_MAP_APPID", None)
     PM_PERMIT = os.environ.get("PM_PERMIT", "ENABLE")
+    PMPERMIT_PIC = os.environ.get("PMPERMIT_PIC", None)
     REM_BG_API_KEY = os.environ.get("REM_BG_API_KEY", None)
     SCREEN_SHOT_LAYER_ACCESS_KEY = os.environ.get("SCREEN_SHOT_LAYER_ACCESS_KEY", None)
     STICKER_PACKNAME = os.environ.get("STICKER_PACKNAME", None)
-    STRING_SESSION = os.environ.get("STRING_SESSION", None)
+    HELLBOT_SESSION = os.environ.get("HELLBOT_SESSION", None)
     SUDO_HANDLER = os.environ.get("SUDO_HANDLER", r"\.")
     SUDO_USERS = set(int(x) for x in os.environ.get("SUDO_USERS", "").split())
     TAG_LOGGER = os.environ.get("TAG_LOGGER", None)
@@ -75,7 +77,9 @@ class Config(object):
     TELEGRAPH_SHORT_NAME = os.environ.get("TELEGRAPH_SHORT_NAME", "HellBot")
     TEMP_DIR = os.environ.get("TEMP_DIR", None)
     TMP_DOWNLOAD_DIRECTORY = os.environ.get("TMP_DOWNLOAD_DIRECTORY", "./DOWNLOADS/")
+    TZ = os.environ.get("TZ", "Asia/Kolkata")
     UPSTREAM_REPO = os.environ.get("UPSTREAM_REPO", "https://github.com/The-HellBot/HellBot")
+    YOUR_NAME = os.environ.get("YOUR_NAME", None)
     YOUTUBE_API_KEY = os.environ.get("YOUTUBE_API_KEY", None)
 
 
