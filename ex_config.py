@@ -10,7 +10,7 @@ class Development(Config):
 
   # the name to display in your alive message.
   # If not filled anything then default value is I'm Hêll.
-  ALIVE_NAME = "I'm Hêll"
+  YOUR_NAME = "I'm Hêll"
 
   # create any PostgreSQL database.
   # I recommend to use elephantsql and paste that link here
@@ -20,7 +20,7 @@ class Development(Config):
   # Do `python string.py` and fill the on screen prompts.
   # String session will be saved in your saved message of telegram.
   # Put that string here.
-  STRING_SESSION = "Your value"
+  HELLBOT_SESSION = "Your value"
 
   # Create a bot in @BotFather
   # And fill the following values with bot token and username.
