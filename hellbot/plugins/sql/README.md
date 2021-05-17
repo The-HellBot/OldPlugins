@@ -1,1 +1,1 @@
-Here we control plugins with SQL Mode
+# Here we control plugins with SQL Mode
