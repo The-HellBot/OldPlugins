@@ -11,7 +11,7 @@ from hellbot import LOGS, bot
 from hellbot.config import Config
 from hellbot.utils import load_module
 
-HELL_PIC = Config.ALIVE_PIC or "https://telegra.ph/  " #soon
+HELL_PIC = Config.ALIVE_PIC or "https://telegra.ph/file/ea9e11f7c9db21c1b8d5e.mp4"
 
 # let's get the bot ready
 async def hell_bot(bot_token):
