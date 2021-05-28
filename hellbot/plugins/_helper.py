@@ -11,7 +11,7 @@ async def yardim(event):
     tgbotusername = Config.BOT_USERNAME
     input_str = event.pattern_match.group(1)
     if tgbotusername is not None or input_str == "text":
-        results = await event.client.inline_query(tgbotusername, "@The_HellBot)
+        results = await event.client.inline_query(tgbotusername, "@The_HellBot")
         await results[0].click(
             event.chat_id, reply_to=event.reply_to_msg_id, hide_via=True
         )
