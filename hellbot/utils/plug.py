@@ -19,6 +19,7 @@ from telethon.tl.types import ChannelParticipantAdmin, ChannelParticipantCreator
 from hellbot import *
 from hellbot.helpers import *
 from hellbot.config import *
+from hellbot.utils import *
 
 
 # ENV
@@ -52,7 +53,6 @@ def load_module(shortname):
         mod = importlib.util.module_from_spec(spec)
         mod.bot = bot
         mod.tgbot = bot.tgbot
-        mod.Var = Var
         mod.command = command
         mod.logger = logging.getLogger(shortname)
         # support for uniborg
