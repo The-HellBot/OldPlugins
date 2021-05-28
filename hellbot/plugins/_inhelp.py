@@ -46,7 +46,7 @@ def button(page, modules):
     return [max_pages, buttons]
 
 
-    modules = CMD_HELP
+    modules = CmdHelp
 if Config.BOT_USERNAME is not None and tgbot is not None:
     @tgbot.on(InlineQuery)  # pylint:disable=E0602
     async def inline_handler(event):
@@ -55,10 +55,10 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
         query = event.text
         if event.query.user_id == bot.uid and query == "@The_HellBot":
             rev_text = query[::-1]
-            veriler = button(0, sorted(CMD_HELP))
+            veriler = button(0, sorted(CmdHelp))
             result = await builder.article(
                 f"Hey! Only use .help please",
-                text=f"**Running HellBot**\n\n__Number of plugins installed__ :`{len(CMD_HELP)}`\n**page:** 1/{veriler[0]}",
+                text=f"**Running HellBot**\n\n__Number of plugins installed__ :`{len(CmdHelp)}`\n**page:** 1/{veriler[0]}",
                 buttons=veriler[1],
                 link_preview=False,
             )
@@ -103,9 +103,9 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
                 alert=True,
             )
         page = int(event.data_match.group(1).decode("UTF-8"))
-        veriler = button(page, CMD_HELP)
+        veriler = button(page, CmdHelp)
         await event.edit(
-            f"**Legenday AF** [Hêllẞøt](https://t.me/The_HellBot) __Working...__\n\n**Number of modules installed :** `{len(CMD_HELP)}`\n**page:** {page + 1}/{veriler[0]}",
+            f"**Legenday AF** [Hêllẞøt](https://t.me/The_HellBot) __Working...__\n\n**Number of modules installed :** `{len(CmdHelp)}`\n**page:** {page + 1}/{veriler[0]}",
             buttons=veriler[1],
             link_preview=False,
         )
