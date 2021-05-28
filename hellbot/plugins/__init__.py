@@ -5,7 +5,7 @@ from hellbot.utils import *
 
 
 HELL_USER = Config.YOUR_NAME or "Hêll"
-ForGot10God = bot.uid
+ForGo10God = bot.uid
 hell_mention = f"[{HELL_USER}](tg://user?id={ForGo10God})"
 
 
