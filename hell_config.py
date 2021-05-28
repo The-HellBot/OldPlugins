@@ -41,7 +41,9 @@ class Config(object):
         FBAN_LOG_GROUP = int(FBAN_LOG_GROUP)
     G_DRIVE_CLIENT_ID = os.environ.get("G_DRIVE_CLIENT_ID", None)
     G_DRIVE_CLIENT_SECRET = os.environ.get("G_DRIVE_CLIENT_SECRET", None)
-    GBAN_LOG_GROUP = int(os.environ.get("GBAN_LOG_GROUP", None))
+    GBAN_LOG_GROUP = os.environ.get("GBAN_LOG_GROUP", None)
+    if GBAN_LOG_GROUP:
+        GBAN_LOG_GROUP = int(GBAN_LOG_GROUP)
     GDRIVE_FOLDER_ID = os.environ.get("GDRIVE_FOLDER_ID", None)
     GDRIVE_FOLDER_ID = os.environ.get("GDRIVE_FOLDER_ID", None)
     GIT_REPO_NAME = os.environ.get("GIT_REPO_NAME", None)
