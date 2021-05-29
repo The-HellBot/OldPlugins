@@ -37,4 +37,6 @@ CmdHelp("power").add_command(
   "shutdown", None, "Turns off Dynos of Userbot. Userbot will stop working unless you manually turn it on from heroku"
 ).add_info(
   "Power Switch For Bot"
+).add_warning(
+  "✅ Harmless Module"
 ).add()
