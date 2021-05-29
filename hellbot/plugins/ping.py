@@ -1,6 +1,5 @@
 import asyncio
 import datetime
-from datetime import datetime
 
 from . import *
 
@@ -9,9 +8,9 @@ from . import *
 async def pong(hell):
     if hell.fwd_from:
         return
-    start = datetime.now()
+    start = datetime.datetime.now()
     event = await eor(hell, "`·.·★ ℘ıŋɠ ★·.·´")
-    end = datetime.now()
+    end = datetime.datetime.now()
     ms = (end - start).microseconds / 1000
     await event.edit(
         f"╰•★★  ℘ơŋɠ ★★•╯\n\n    ⚘  {ms}\n    ⚘  __**Oɯɳҽɾ**__ **:** {hell_mention}"
@@ -23,3 +22,5 @@ CmdHelp("ping").add_command(
 ).add_warning(
   "✅ Harmless Module"
 ).add()
+
+# hellbot
