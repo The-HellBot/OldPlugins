@@ -177,11 +177,11 @@ async def dyno_usage(hell):
         "⚡ **Dyno Usage** ⚡:\n\n"
         f" ➠ __Dyno usage for__ • **{Config.HEROKU_APP_NAME}** • :\n"
         f"     ★  `{AppHours}`**h**  `{AppMinutes}`**m**  "
-        f"**|**  [`{AppPercentage}`**%**]"
+        f"**|**  `{AppPercentage}`**%**"
         "\n\n"
         " ➠ __Dyno hours remaining this month__ :\n"
         f"     ★  `{hours}`**h**  `{minutes}`**m**  "
-        f"**|**  [`{percentage}`**%**]"
+        f"**|**  `{percentage}`**%**"
         f"\n\n**Owner :** {hell_mention}"
     )
 
