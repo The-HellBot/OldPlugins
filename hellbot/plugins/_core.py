@@ -91,7 +91,7 @@ async def uninstall(kraken):
 
 
 @bot.on(hell_cmd(pattern=r"unload (?P<shortname>\w+)$"))
-@bot.on(sudo_cmd(pattern=r"upload (?P<shortname>\w+)$", allow_sudo=True))
+@bot.on(sudo_cmd(pattern=r"unload (?P<shortname>\w+)$", allow_sudo=True))
 async def unload(event):
     if event.fwd_from:
         return
