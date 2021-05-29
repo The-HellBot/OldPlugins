@@ -138,7 +138,7 @@ CmdHelp("core").add_command(
 ).add_command(
   "cmds", None, "Gives out the list of modules in HellBot."
 ).add_warning(
-  "Don't install unknown plugins. If you do and something happens with your data only you will be liable for that."
+  "❌ Install External Plugin On Your Own Risk. We won't help if anything goes wrong after installing a plugin."
 ).add()
 
 # hellbot
