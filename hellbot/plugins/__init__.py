@@ -8,6 +8,8 @@ HELL_USER = Config.YOUR_NAME or "Hêll"
 ForGo10God = bot.uid
 hell_mention = f"[{HELL_USER}](tg://user?id={ForGo10God})"
 hell_logo = "./hellbot/resources/hellbot_logo.jpg"
+hl = Config.HANDLER
+shl = Config.SUDO_HANDLER
 
 
 sudos = Config.SUDO_USERS
