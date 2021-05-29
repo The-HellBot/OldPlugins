@@ -29,8 +29,6 @@ async def up(hell):
 
 CmdHelp("alive").add_command(
   "alive", None, "Shows the Default Alive Message"
-).add_info(
-  "Check If Bot Is Alive"
 ).add_warning(
-  "Harmless Module. No warnings."
+  "✅ Harmless Module"
 ).add()
