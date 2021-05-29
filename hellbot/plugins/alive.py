@@ -18,7 +18,7 @@ alive_c += f"•♦• Channel      :  {hell_channel}\n"
 
 @bot.on(hell_cmd(outgoing=True, pattern="alive$"))
 @bot.on(sudo_cmd(pattern="alive$", allow_sudo=True))
-async def _(hell):
+async def up(hell):
     if hell.fwd_from:
         return
     await hell.get_chat()
