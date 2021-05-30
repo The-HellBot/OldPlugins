@@ -32,14 +32,14 @@ async def set_not_afk(event):
         total_afk_time = str((afk_end - afk_start))
     current_message = event.message.message
     if ".afk" not in current_message and "yes" in USER_AFK:  # pylint:disable=E0602
-        hellbot = await bot.send_message(
+        hellbot = await event.client.send_message(
             event.chat_id,
             "__**Back to Virtual World!**__\nNo Longer AFK.\n⏱️ Was afk for: `"
             + total_afk_time
             + "`", file=hellpic
         )
         try:
-            await bot.send_message(  # pylint:disable=E0602
+            await event.client.send_message(  # pylint:disable=E0602
                 Config.LOGGER_ID,  # pylint:disable=E0602
                 "#AFKFALSE \n\nAFK mode = **False**\n"
                 + "__**Back to Virtual World!**__\nNo Longer afk.\n⏱️ Was afk for: "
@@ -149,8 +149,7 @@ async def _(event):
                   f"#AFKTRUE \nAFK mode = **True**",file=hellpic
             )
         except Exception as e:  # pylint:disable=C0103,W0703
-            logger.warn(str(e))  # pylint:disable=E0602
-
+            logger.warn(str(e))  # pylint:disable=E06
 
 CmdHelp("afk").add_command(
   'afk', '<reply to media>/<reason>', 'Marks you AFK with reason also shows afk time. Media also supported.'
