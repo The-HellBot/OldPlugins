@@ -69,7 +69,7 @@ class Config(object):
     OCR_SPACE_API_KEY = os.environ.get("OCR_SPACE_API_KEY", None)
     OPEN_WEATHER_MAP_APPID = os.environ.get("OPEN_WEATHER_MAP_APPID", None)
     PM_PERMIT = os.environ.get("PM_PERMIT", "ENABLE")
-    PMPERMIT_PIC = os.environ.get("PMPERMIT_PIC", None)
+    PMPERMIT_PIC = os.environ.get("PMPERMIT_PIC", "https://telegra.ph/file/73e95f4325159336766c0.jpg")
     REM_BG_API_KEY = os.environ.get("REM_BG_API_KEY", None)
     SCREEN_SHOT_LAYER_ACCESS_KEY = os.environ.get("SCREEN_SHOT_LAYER_ACCESS_KEY", None)
     STICKER_PACKNAME = os.environ.get("STICKER_PACKNAME", None)
