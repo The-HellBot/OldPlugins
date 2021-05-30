@@ -224,7 +224,7 @@ async def do_pm_permit_action(chat_id, event):
     # inline pmpermit menu
     mybot = Config.BOT_USERNAME
     MSG = USER_BOT_NO_WARN.format(
-        HELL_USER, ForGo10God, mssge, PM_WARNS[chat_id] + 1, Config.MAX_SPAM
+        hell_mention, mssge, PM_WARNS[chat_id] + 1, Config.MAX_SPAM
     )
     hell_ = await bot.inline_query(mybot, MSG)
     r = await hell_[0].click(event.chat_id, hide_via=True)
