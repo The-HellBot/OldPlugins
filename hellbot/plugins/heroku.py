@@ -218,8 +218,7 @@ async def erlog(hell):
         thumb=thumb,
         caption=hell_url,
     )
-
-    await asyncio.sleep(4)
+    await asyncio.sleep(2)
     await hell.delete()
     return os.remove("logs.txt")
 
