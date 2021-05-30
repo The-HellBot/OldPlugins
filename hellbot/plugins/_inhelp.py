@@ -58,7 +58,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
             veriler = button(0, sorted(CMD_HELP))
             result = await builder.article(
                 f"Hey! Only use .help please",
-                text=f"**Running HellBot**\n\n__Number of plugins installed__ :`{len(CMD_HELP)}`\n**page:** 1/{veriler[0]}",
+                text=f"🔰 **Running HellBot**\n\n📜 __Number of plugins installed__ :`{len(CMD_HELP)}`\n🗒️ **Page:** 1/{veriler[0]}",
                 buttons=veriler[1],
                 link_preview=False,
             )
@@ -101,7 +101,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
                 current_page_number=0
                 simp = button(current_page_number, CMD_HELP)
                 await event.edit(
-                    f"{hell_emoji} Re-Open Menu {hell_emoji}",
+                    f"{hell_emoji} **Hêllẞø† Menu Provider** {hell_emoji}\n\n📜 **No.of Plugins :**  `{len(CMD_HELP)}`",
                     buttons=simp[1],
                     link_preview=False,
                 )
