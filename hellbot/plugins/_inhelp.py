@@ -167,35 +167,32 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
         page = int(event.data_match.group(2).decode("UTF-8"))
         commands = event.data_match.group(3).decode("UTF-8")
 
-        result = f"**📗 File:** `{cmd}`\n"
+        result = f"**📗 File:**  `{cmd}`\n"
         if CMD_HELP_BOT[cmd]["info"]["info"] == "":
             if not CMD_HELP_BOT[cmd]["info"]["warning"] == "":
-                result += f"**⬇️ Official:** {'✅' if CMD_HELP_BOT[cmd]['info']['official'] else '❌'}\n"
-                result += f"**⚠️ Warning :** {CMD_HELP_BOT[cmd]['info']['warning']}\n\n"
-            else:
-                result += f"**⬇️ Official:** {'✅' if CMD_HELP_BOT[cmd]['info']['official'] else '❌'}\n\n"
+                result += f"**⚠️ Warning :**  {CMD_HELP_BOT[cmd]['info']['warning']}\n\n"
+
         else:
-            result += f"**⬇️ Official:** {'✅' if CMD_HELP_BOT[cmd]['info']['official'] else '❌'}\n"
             if not CMD_HELP_BOT[cmd]["info"]["warning"] == "":
-                result += f"**⚠️ Warning:** {CMD_HELP_BOT[cmd]['info']['warning']}\n"
-            result += f"**ℹ️ Info:** {CMD_HELP_BOT[cmd]['info']['info']}\n\n"
+                result += f"**⚠️ Warning:**  {CMD_HELP_BOT[cmd]['info']['warning']}\n"
+            result += f"**ℹ️ Info:**  {CMD_HELP_BOT[cmd]['info']['info']}\n\n"
 
         command = CMD_HELP_BOT[cmd]["commands"][commands]
         if command["params"] is None:
-            result += f"**🛠 Commands:** `{HANDLER[:1]}{command['command']}`\n"
+            result += f"**🛠 Commands :**  `{HANDLER[:1]}{command['command']}`\n"
         else:
-            result += f"**🛠 Commands:** `{HANDLER[:1]}{command['command']} {command['params']}`\n"
+            result += f"**🛠 Commands :**  `{HANDLER[:1]}{command['command']} {command['params']}`\n"
 
         if command["example"] is None:
-            result += f"**💬 Explanation:** `{command['usage']}`\n\n"
+            result += f"**💬 Explanation :**  `{command['usage']}`\n\n"
         else:
-            result += f"**💬 Explanation:** `{command['usage']}`\n"
-            result += f"**⌨️ For Example:** `{HANDLER[:1]}{command['example']}`\n\n"
+            result += f"**💬 Explanation :**  `{command['usage']}`\n"
+            result += f"**⌨️ For Example :**  `{HANDLER[:1]}{command['example']}`\n\n"
 
         await event.edit(
             result,
             buttons=[
-                custom.Button.inline("◀️ Back", data=f"Information[{page}]({cmd})")
+                custom.Button.inline(f"◀️ Back {hell_emoji}", data=f"Information[{page}]({cmd})")
             ],
             link_preview=False,
         )
