@@ -5,7 +5,7 @@ import os
 from telethon import events, functions
 from telethon.tl.functions.users import GetFullUserRequest
 
-from ..sql import pmpermit_sql as pmpermit_sql
+from hellbot.plugins.sql import pmpermit_sql as pmpermit_sql
 from . import *
 
 hell_pic = Config.PMPERMIT_PIC
