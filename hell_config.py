@@ -56,6 +56,7 @@ class Config(object):
     HASH_TO_TORRENT_API = os.environ.get("HASH_TO_TORRENT_API", "https://example.com/torrent/{}");
     HEROKU_API_KEY = os.environ.get("HEROKU_API_KEY", None)
     HEROKU_APP_NAME = os.environ.get("HEROKU_APP_NAME", None)
+    INSTANT_BLOCK = os.environ.get("INSTANT_BLOCK", "DISABLE")
     LOCATION = os.environ.get("LOCATION", None)
     LOGGER_ID = os.environ.get("LOGGER_ID", None)
     if LOGGER_ID:
