@@ -99,7 +99,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
     async def reopn(event):
             if event.query.user_id == bot.uid :
                 current_page_number=0
-                simp = button(current_page_number, CMD_HELP, "helpme")
+                simp = button(current_page_number, CMD_HELP)
                 await event.edit(f"{hell_emoji} Re-Open Menu {hell_emoji}", buttons=simp)
             else:
                 reply_pop_up_alert = "Hoo gya aapka. Kabse tapar tapar dabae jaa rhe h. Khudka bna lo na agr chaiye to. © Hêllẞø† ™"
