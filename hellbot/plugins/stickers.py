@@ -1,3 +1,4 @@
+import asyncio
 import io
 import math
 import random
@@ -5,6 +6,8 @@ import urllib.request
 from os import remove
 from PIL import Image
 
+from telethon import events
+from telethon.errors.rpcerrorlist import YouBlockedUserError
 from telethon.tl.functions.messages import GetStickerSetRequest
 from telethon.tl.types import DocumentAttributeFilename, DocumentAttributeSticker, InputStickerSetID, MessageMediaPhoto
 
@@ -330,12 +333,101 @@ async def get_pack_info(event):
     await edit_or_reply(event, OUTPUT)
 
 
+@bot.on(hell_cmd(pattern=r"delst ?(.*)", outgoing=True))
+@bot.on(sudo_cmd(pattern=r"delst ?(.*)", allow_sudo=True))
+async def _(event):
+    if event.fwd_from:
+        return
+    if not event.reply_to_msg_id:
+        await event.edit("`Reply to any user's message.`")
+        return
+    reply_message = await event.get_reply_message()
+    chat = "@Stickers"
+    reply_message.sender
+    if reply_message.sender.bot:
+        await edit_or_reply(event, "`Reply to actual user's message.`")
+        return
+    await event.edit("🥴 `Deleting sticker...`")
+    async with bot.conversation(chat) as conv:
+        try:
+            response = conv.wait_event(
+                events.NewMessage(incoming=True, from_users=429000)
+            )
+            await conv.send_message("/delsticker")
+            await conv.get_response()
+            await asyncio.sleep(2)
+            await bot.forward_messages(chat, reply_message)
+            response = await response
+        except YouBlockedUserError:
+            await event.reply("Please unblock @Stickers and try again")
+            return
+        if response.text.startswith("Sorry, I can't do this, it seems that you are not the owner of the relevant pack."):
+            await event.edit("**🥴 Nashe me hai kya lawde!!**"
+            )
+        elif response.text.startswith("You don't have any sticker packs yet. You can create one using the /newpack command."):
+            await event.edit("**😪 You don't have any sticker pack to delete stickers.** \n\n@Stickers :- 'Pehle Pack Bna Lamde 🤧'")
+        elif response.text.startswith("Please send me the sticker."):
+            await event.edit("**😪 Nashe me hai kya lawde**")
+        elif response.text.startswith("Invalid pack selected."):
+            await event.edit("**😪 Nashe me hai kya lawde**")
+        else:
+            await event.edit("**😐 Deleted that replied sticker, it will stop being available to Telegram users within about an hour.**")
+
+
+@bot.on(hell_cmd(pattern=r"editst ?(.*)", outgoing=True))
+@bot.on(sudo_cmd(pattern=r"editst ?(.*)", allow_sudo=True))
+async def _(event):
+    if event.fwd_from:
+        return
+    if not event.reply_to_msg_id:
+        await event.edit("`Reply to any user's message.`")
+        return
+    reply_message = await event.get_reply_message()
+    hell = event.pattern_match.group(1)
+    chat = "@Stickers"
+    reply_message.sender
+    if reply_message.sender.bot:
+        await edit_or_reply(event, "`Reply to actual user's message.`")
+        return
+    await event.edit("📝 `Editing sticker emoji...`")
+    if hell == "":
+        await event.edit("**🤧 Nashe me hai kya lawde**")
+    else:
+        async with bot.conversation(chat) as conv:
+            try:
+                response = conv.wait_event(
+                    events.NewMessage(incoming=True, from_users=429000)
+                )
+                await conv.send_message(f"/editsticker")
+                await conv.get_response()
+                await asyncio.sleep(2)
+                await bot.forward_messages(chat, reply_message)
+                await conv.get_response()
+                await asyncio.sleep(2)
+                await conv.send_message(f"{hell}")
+                response = await response
+            except YouBlockedUserError:
+                await event.reply("Please unblock @Stickers and try again")
+                return
+            if response.text.startswith("Invalid pack selected."):
+                await event.edit("**🥴 Nashe me h kya lawde**"
+                )
+            elif response.text.startswith("Please send us an emoji that best describes your sticker."):
+                await event.edit("**🤧 Nashe me hai kya lawde**")
+            else:
+                await event.edit(f"**😉 Done!! Edited sticker emoji**\n\nNew Emoji(s) :- {hell}")
+
+
 CmdHelp("stickers").add_command(
   "kang", "<emoji> <number>", "Adds the sticker to desired pack with a custom emoji of your choice. If emoji is not mentioned then default is 😎. And if number is not mentioned then Pack will go on serial wise. \n  ✓(1 pack = 120 non-animated stickers)\n  ✓(1 pack = 50 animated stickers)"
 ).add_command(
   "stkrinfo", "<reply to sticker>", "Gets all the infos of the sticker pack"
+).add_command(
+  "delst", "<reply to sticker>", "Deletes The Replied Sticker from your pack."
+).add_command(
+  "editst", "<reply to sticker> <new emoji>", "Edits the emoji of replied sticker of your pack."
 ).add_info(
-  "Stickers Info & Kang"
+  "Almost Everything Of @Stickers"
 ).add_warning(
   "✅ Harmless Module."
 ).add()
