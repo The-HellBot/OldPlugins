@@ -1,7 +1,12 @@
 from math import ceil
 from re import compile
 import asyncio
+import html
+import os
+import re
 
+from telethon import Button, custom, events, functions
+from telethon.tl.functions.users import GetFullUserRequest
 from telethon.events import InlineQuery, callbackquery
 from telethon.sync import custom
 from telethon.tl.functions.channels import JoinChannelRequest
