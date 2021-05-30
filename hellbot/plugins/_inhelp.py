@@ -58,7 +58,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
             veriler = button(0, sorted(CMD_HELP))
             result = await builder.article(
                 f"Hey! Only use .help please",
-                text=f"🔰 **Running HellBot**\n\n📜 __Number of plugins installed__ :`{len(CMD_HELP)}`\n🗒️ **Page:** 1/{veriler[0]}",
+                text=f"🔰 **Running HellBot**\n\n📜 __Number of plugins__ :`{len(CMD_HELP)}`\n🗒️ **Page:** 1/{veriler[0]}",
                 buttons=veriler[1],
                 link_preview=False,
             )
@@ -153,7 +153,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
         try:
             buttons = [
                 custom.Button.inline(
-                    "⚡ " + cmd[0], data=f"commands[{commands}[{page}]]({cmd[0]})"
+                    "⚡ " + cmd[0] + " ⚡", data=f"commands[{commands}[{page}]]({cmd[0]})"
                 )
                 for cmd in CMD_HELP_BOT[commands]["commands"].items()
             ]
