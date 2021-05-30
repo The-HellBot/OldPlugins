@@ -112,8 +112,8 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
         
     @tgbot.on(events.callbackquery.CallbackQuery(data=re.compile(b"close")))
     async def on_plug_in_callback_query_handler(event):
-        buttons = [buttons[i : i + 2] for i in range(0, len(buttons), 2)]
-        buttons.append([custom.Button.inline(f"{hell_emoji} Re-open Menu {hell_emoji}", data=f"page({page})")])
+       # buttons = [buttons[i : i + 2] for i in range(0, len(buttons), 2)]
+        buttons = ([custom.Button.inline(f"{hell_emoji} Re-open Menu {hell_emoji}", data=f"page({page})")])
         if event.query.user_id == bot.uid:
             await event.edit(
                 f"⚜️Hêllẞø† Menu Provider Is now Closed⚜️\n\n         **[© Hêllẞø† ™]({chnl_link})**", 
