@@ -10,6 +10,31 @@ from . import *
 
 hell_row = Config.BUTTONS_IN_HELP
 hell_emoji = Config.EMOJI_IN_HELP
+hell_pic = Config.PMPERMIT_PIC
+cstm_pmp = Config.CUSTOM_PMPERMIT
+
+PM_WARNS = {}
+PREV_REPLY_MESSAGE = {}
+
+mybot = Config.BOT_USERNAME
+if mybot.startswith("@"):
+    botname = mybot
+else:
+    botname = f"@{mybot}"
+LOG_GP = Config.LOGGER_ID
+mssge = (
+    str(cstm_pmp)
+    if cstm_pmp
+    else "**You Have Trespassed To My Master's PM!\nThis Is Illegal And Regarded As Crime.**"
+)
+
+USER_BOT_WARN_ZERO = "Enough Of Your Flooding In My Master's PM!! \n\n**🚫 Blocked and Reported**"
+
+USER_BOT_NO_WARN = (
+    "**🔥 Hêllẞø† Prîvã†é Sêçürïty Prø†öçõl 🔥**\n\nThis is to inform you that"
+    "{} is currently unavailable.\nThis is an automated message.\n\n"
+    "{}\n\n**Please Choose Why You Are Here!!**".format(hell_mention, mssge))
+
 
 def button(page, modules):
     Row = hell_row
@@ -62,6 +87,35 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
                 buttons=veriler[1],
                 link_preview=False,
             )
+        elif event.query.user_id == bot.uid and query.startswith("**PM"):
+            hel_l = USER_BOT_NO_WARN.format(hell_mention, mssge)
+            result = builder.photo(
+                file=hell_pic,
+                text=hel_l,
+                buttons=[
+                    [
+                        custom.Button.inline("📝 Request 📝", data="req"),
+                        custom.Button.inline("💬 Chat 💬", data="chat"),
+                    ],
+                    [custom.Button.inline("🚫 Spam 🚫", data="heheboi")],
+                    [custom.Button.inline("Curious ❓", data="pmclick")],
+                ],
+            )
+        elif event.query.user_id == bot.uid and query == "repo":
+            result = builder.article(
+                title="Repository",
+                text=f"🔥 Legendary AF Hêllẞø† 🔥",
+                buttons=[
+                    [
+                        Button.url("📑 Repo 📑", "https://github.com/The-HellBot/HellBot"),
+                        Button.url(
+                            "📺 Channel 📺",
+                            "https://t.me/the_hellbot",
+                        ),
+                    ],
+                    [Button.url("🏘️ Group 🏘️", "https://t.me/its_fuckin_hell")],
+                ],
+            )
         elif query.startswith("http"):
             part = query.split(" ")
             result = builder.article(
@@ -93,6 +147,76 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
                 link_preview=False,
             )
         await event.answer([result] if result else None)
+
+
+    @tgbot.on(callbackquery.CallbackQuery(data=compile(b"pmclick")))
+    async def on_pm_click(event):
+        if event.query.user_id == bot.uid:
+            reply_pop_up_alert = "This is for Other Users..."
+            await event.answer(reply_pop_up_alert, cache_time=0, alert=True)
+        else:
+            await event.edit(
+                f"🔰 This is Hêllẞø† PM Security for {hell_mention} to keep away unwanted retards from spamming PM..."
+            )
+
+
+    @tgbot.on(callbackquery.CallbackQuery(data=compile(b"req")))
+    async def on_pm_click(event):
+        if event.query.user_id == bot.uid:
+            reply_pop_up_alert = "This is for other users!"
+            await event.answer(reply_pop_up_alert, cache_time=0, alert=True)
+        else:
+            await event.edit(
+                f"✅ **Request Registered** \n\n{hell_mention} will now decide to look for your request or not.\n😐 Till then wait patiently and don't spam!!"
+            )
+            target = await event.client(GetFullUserRequest(event.query.user_id))
+            first_name = html.escape(target.user.first_name)
+            ok = event.query.user_id
+            if first_name is not None:
+                first_name = first_name.replace("\u2060", "")
+            tosend = f"**👀 Hey {hell_mention} !!** \n\n⚜️ You Got A Request From [{first_name}](tg://user?id={ok}) In PM!!"
+            await tgbot.send_message(LOG_GP, tosend)
+
+
+    @tgbot.on(callbackquery.CallbackQuery(data=compile(b"chat")))
+    async def on_pm_click(event):
+        event.query.user_id
+        if event.query.user_id == bot.uid:
+            reply_pop_up_alert = "This is for other users!"
+            await event.answer(reply_pop_up_alert, cache_time=0, alert=True)
+        else:
+            await event.edit(
+                f"Ahh!! You here to do chit-chat!!\n\nPlease wait for {hell_mention} to come. Till then keep patience and don't spam."
+            )
+            target = await event.client(GetFullUserRequest(event.query.user_id))
+            ok = event.query.user_id
+            first_name = html.escape(target.user.first_name)
+            if first_name is not None:
+                first_name = first_name.replace("\u2060", "")
+            tosend = f"**👀 Hey {hell_mention} !!** \n\n⚜️ You Got A PM from  [{first_name}](tg://user?id={ok})  for random chats!!"
+            await tgbot.send_message(LOG_GP, tosend)
+
+
+    @tgbot.on(callbackquery.CallbackQuery(data=compile(b"heheboi")))
+    async def on_pm_click(event):
+        if event.query.user_id == bot.uid:
+            reply_pop_up_alert = "This is for other users!"
+            await event.answer(reply_pop_up_alert, cache_time=0, alert=True)
+        else:
+            await event.edit(
+                f"🥴 **Nikal lawde\nPehli fursat me nikal**"
+            )
+            await bot(functions.contacts.BlockRequest(event.query.user_id))
+            target = await event.client(GetFullUserRequest(event.query.user_id))
+            ok = event.query.user_id
+            first_name = html.escape(target.user.first_name)
+            if first_name is not None:
+                first_name = first_name.replace("\u2060", "")
+            first_name = html.escape(target.user.first_name)
+            await tgbot.send_message(
+                LOG_GP,
+                f"**Blocked**  [{first_name}](tg://user?id={ok}) \n\nReason:- Spam",
+            )
 
 
     @tgbot.on(callbackquery.CallbackQuery(data=compile(b"reopen")))
