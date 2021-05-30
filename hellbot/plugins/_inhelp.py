@@ -92,7 +92,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
                 buttons=veriler[1],
                 link_preview=False,
             )
-        elif event.query.user_id == bot.uid and query.startswith("PM"):
+        elif event.query.user_id == bot.uid and query.startswith("**🔥"):
             hel_l = USER_BOT_NO_WARN.format(hell_mention, mssge)
             result = builder.photo(
                 file=hell_pic,
