@@ -64,7 +64,7 @@ class Config(object):
     LYDIA_API = os.environ.get("LYDIA_API", None)
     MAX_ANTI_FLOOD_MESSAGES = 10
     MAX_MESSAGE_SIZE_LIMIT = 4095
-    MAX_PM_MSG = int(os.environ.get("MAX_PM_MSG", 3))
+    MAX_SPAM = int(os.environ.get("MAX_SPAM", 3))
     MONGO_URI = os.environ.get("MONGO_URI", None)
     OCR_SPACE_API_KEY = os.environ.get("OCR_SPACE_API_KEY", None)
     OPEN_WEATHER_MAP_APPID = os.environ.get("OPEN_WEATHER_MAP_APPID", None)
