@@ -112,8 +112,13 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
         
     @tgbot.on(events.callbackquery.CallbackQuery(data=re.compile(b"close")))
     async def on_plug_in_callback_query_handler(event):
+        buttons = [buttons[i : i + 2] for i in range(0, len(buttons), 2)]
+        buttons.append([custom.Button.inline(f"{hell_emoji} Re-open Menu {hell_emoji}", data=f"page({page})")])
         if event.query.user_id == bot.uid:
-            await event.edit("⚜️Hêllẞø† Menu Provider Is now Closed⚜️\n\n         **[© Hêllẞø† ™](t.me/The_HellBot)**", link_preview=False
+            await event.edit(
+                f"⚜️Hêllẞø† Menu Provider Is now Closed⚜️\n\n         **[© Hêllẞø† ™]({chnl_link})**", 
+                buttons=buttons,
+                link_preview=False,
             )
         else:
             hell_alert = "Ho gya aapka? Kabse tapar tapar dabae jaa rhe h. Khudka bna lo na agr chaiye to. © Héllẞø† ™"
@@ -145,9 +150,9 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
             )
 
         buttons = [buttons[i : i + 2] for i in range(0, len(buttons), 2)]
-        buttons.append([custom.Button.inline("◀️ Back", data=f"page({page})")])
+        buttons.append([custom.Button.inline(f"{hell_emoji} Main Menu {hell_emoji}", data=f"page({page})")])
         await event.edit(
-            f"**📗 File:** `{commands}`\n**🔢 Number of commands :** `{len(CMD_HELP_BOT[commands]['commands'])}`",
+            f"**📗 File :**  `{commands}`\n**🔢 Number of commands :**  `{len(CMD_HELP_BOT[commands]['commands'])}`",
             buttons=buttons,
             link_preview=False,
         )
@@ -167,15 +172,15 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
         page = int(event.data_match.group(2).decode("UTF-8"))
         commands = event.data_match.group(3).decode("UTF-8")
 
-        result = f"**📗 File:**  `{cmd}`\n"
+        result = f"**📗 File :**  `{cmd}`\n"
         if CMD_HELP_BOT[cmd]["info"]["info"] == "":
             if not CMD_HELP_BOT[cmd]["info"]["warning"] == "":
                 result += f"**⚠️ Warning :**  {CMD_HELP_BOT[cmd]['info']['warning']}\n\n"
 
         else:
             if not CMD_HELP_BOT[cmd]["info"]["warning"] == "":
-                result += f"**⚠️ Warning:**  {CMD_HELP_BOT[cmd]['info']['warning']}\n"
-            result += f"**ℹ️ Info:**  {CMD_HELP_BOT[cmd]['info']['info']}\n\n"
+                result += f"**⚠️ Warning :**  {CMD_HELP_BOT[cmd]['info']['warning']}\n"
+            result += f"**ℹ️ Info :**  {CMD_HELP_BOT[cmd]['info']['info']}\n\n"
 
         command = CMD_HELP_BOT[cmd]["commands"][commands]
         if command["params"] is None:
@@ -192,7 +197,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
         await event.edit(
             result,
             buttons=[
-                custom.Button.inline(f"◀️ Back {hell_emoji}", data=f"Information[{page}]({cmd})")
+                custom.Button.inline(f"{hell_emoji} Return {hell_emoji}", data=f"Information[{page}]({cmd})")
             ],
             link_preview=False,
         )
