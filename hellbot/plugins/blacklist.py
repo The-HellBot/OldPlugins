@@ -1,7 +1,7 @@
 import re
 from telethon import events
 
-from userbot.plugins.sql_helper import blacklist_sql as sq
+from hellbot.plugins.sql import blacklist_sql as sq
 from . import *
 
 
