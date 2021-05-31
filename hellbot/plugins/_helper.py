@@ -1,8 +1,31 @@
 import asyncio
 import requests
 from telethon import functions
+from telethon.errors import ChatSendInlineForbiddenError as noin
+from telethon.errors.rpcerrorlist import BotMethodInvalidError as dedbot
 
 from . import *
+
+msg = f"""
+**⚡ ʟɛɢɛռɖaʀʏ ᴀғ ɦɛʟʟɮօt ⚡**
+
+  •        [📑 Repo 📑](https://github.com/The-HellBot/HellBot)
+
+  •  ©️ {hell_channel} ™
+"""
+botname = Config.BOT_USERNAME
+
+@bot.on(hell_cmd(pattern="repo$"))
+@bot.on(sudo_cmd(pattern="repo$", allow_sudo=True))
+async def repo(event):
+    try:
+        hell = await bot.inline_query(botname, "repo")
+        await hell[0].click(event.chat_id)
+        if event.sender_id == ForGo10God:
+            await event.delete()
+    except (noin, dedbot):
+        await eor(event, msg)
+
 
 @bot.on(hell_cmd(pattern="help ?(.*)", outgoing=True))
 async def yardim(event):
