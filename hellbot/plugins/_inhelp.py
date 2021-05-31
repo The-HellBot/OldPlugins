@@ -109,16 +109,21 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
         elif event.query.user_id == bot.uid and query == "repo":
             result = builder.article(
                 title="Repository",
-                text=f"🔥 Legendary AF Hêllẞø† 🔥",
+                text=f"**⚡ ʟɛɢɛռɖaʀʏ ᴀғ ɦɛʟʟɮօt ⚡**",
                 buttons=[
                     [
-                        Button.url("📑 Repo 📑", "https://github.com/The-HellBot/HellBot"),
+                        Button.url("🔥 Group 🔥", "https://t.me/its_fuckin_hell"),
                         Button.url(
-                            "📺 Channel 📺",
+                            "⚜️ Channel ⚜️",
                             "https://t.me/the_hellbot",
                         ),
                     ],
-                    [Button.url("🏘️ Group 🏘️", "https://t.me/its_fuckin_hell")],
+                    [   Button.url("📑 Repo 📑", "https://github.com/The-HellBot/HellBot"),
+                        Button.url(
+                            "📝 More Bots 📝",
+                            "https://github.com/The-HellBot",
+                       ),
+                    ],
                 ],
             )
         elif query.startswith("http"):
