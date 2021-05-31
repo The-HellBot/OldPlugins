@@ -3,10 +3,10 @@ import asyncio
 from telethon.tl.functions.channels import EditBannedRequest
 from telethon.tl.types import ChatBannedRights
 
-from hellbot.plugins.sql import antiflood_sql as sql
+from hellbot.plugins.sql import antiflood_sql as sq
 from . import *
 
-CHAT_FLOOD = sql.__load_flood_settings()
+CHAT_FLOOD = sq.__load_flood_settings()
 # warn mode for anti flood
 ANTI_FLOOD_WARN_MODE = ChatBannedRights(
     until_date=None, view_messages=None, send_messages=True
@@ -21,7 +21,7 @@ async def _(event):
         return
     if str(event.chat_id) not in CHAT_FLOOD:
         return
-    should_ban = sql.update_flood(event.chat_id, event.message.sender_id)
+    should_ban = sq.update_flood(event.chat_id, event.message.sender_id)
     if not should_ban:
         return
     try:
@@ -64,8 +64,8 @@ async def _(event):
     input_str = event.pattern_match.group(1)
     event = await edit_or_reply(event, "updating flood settings!")
     try:
-        sql.set_flood(event.chat_id, input_str)
-        sql.__load_flood_settings()
+        sq.set_flood(event.chat_id, input_str)
+        sq.__load_flood_settings()
         await event.edit(
             "Antiflood updated to {} in the current chat".format(input_str)
         )
@@ -75,4 +75,8 @@ async def _(event):
 
 CmdHelp("antiflood").add_command(
   'setflood', '<number>', 'Warns the user if he/she spams the chat and if you are an admin then it mutes him/her in the grp'
+).add_info(
+  'Anti Spammer'
+).add_warning(
+  '✅ Harmless Module.'
 ).add()
