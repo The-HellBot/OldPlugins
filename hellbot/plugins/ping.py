@@ -13,7 +13,7 @@ async def pong(hell):
     end = datetime.datetime.now()
     ms = (end - start).microseconds / 1000
     await event.edit(
-        f"╰•★★  ℘ơŋɠ ★★•╯\n\n    ⚘  {ms}\n    ⚘  __**Oɯɳҽɾ**__ **:** {hell_mention}"
+        f"╰•★★  ℘ơŋɠ ★★•╯\n\n    ⚘  `{ms}`\n    ⚘  __**Oɯɳҽɾ**__ **:**  {hell_mention}"
     )
 
 
