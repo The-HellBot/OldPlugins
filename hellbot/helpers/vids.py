@@ -7,6 +7,7 @@ except:
 import re
 import requests
 import time
+import zipfile
 
 from bs4 import BeautifulSoup
 import PIL.ImageOps
