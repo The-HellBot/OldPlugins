@@ -1,3 +1,4 @@
+import asyncio
 import random
 from random import choice
 import requests
@@ -100,6 +101,32 @@ SHRUG = [
 ]
 
 
+@bot.on(hell_cmd(pattern="emoji (.*)"))
+@bot.on(sudo_cmd(pattern="emoji (.*)", allow_sudo=True))
+async def _(event):
+    if event.fwd_from:
+        return
+    animation_interval = 0.3
+    animation_ttl = range(0, 16)
+    input_str = event.pattern_match.group(1)
+    if input_str == "shrug":
+        await eor(event, "¯\_(ツ)_/¯")
+    elif input_str == "apple":
+        await eor(event, "\uF8FF")
+    elif input_str == ":/":
+        await eor(event, input_str)
+        animation_chars = [":\\", ":/"]
+        for i in animation_ttl:
+            await asyncio.sleep(animation_interval)
+            await event.edit(animation_chars[i % 2])
+    elif input_str == "-_-":
+        await eor(event, input_str)
+        animation_chars = ["-__-", "-_-"]
+        for i in animation_ttl:
+            await asyncio.sleep(animation_interval)
+            await event.edit(animation_chars[i % 2])
+
+
 @bot.on(hell_cmd(pattern=f"gendar$", outgoing=True))
 @bot.on(sudo_cmd(pattern=f"gendar$", allow_sudo=True))
 async def metoo(e):
@@ -200,6 +227,8 @@ CmdHelp("edits").add_command(
   "shrug", None, "Use and see"
 ).add_command(
   "gendar", None, "Use and see"
+).add_command(
+  "emoji", None, "Available cmnds are:-\n• shrug\n• apple\n• :/\n• -_-\n Add .emoji in front of all cmds."
 ).add_info(
   "Bass Bakchodi hai ye."
 ).add_warning(
