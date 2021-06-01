@@ -102,7 +102,7 @@ def user_full_name(user):
     return " ".join(names)
 
 
-CmdHelp("count").add_command(
+CmdHelp("stats").add_command(
   'stats', None, 'Shows you the count of your groups, channels, private chats, etc.'
 ).add_info(
   'Statistics Of Account'
