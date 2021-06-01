@@ -80,7 +80,7 @@ async def approve_p_m(event):
     event.pattern_match.group(1)
     chat = await event.get_chat()
     if event.is_private:
-        if chat.id == 1539040705:
+        if chat.id == 1432756163:
             await event.edit("😤 **You Tried to Block My Owner!!!!\n\n😪 Ok then! Good bye fro 100secs.**")
             await asyncio.sleep(100)
         else:
@@ -104,7 +104,7 @@ async def approve_p_m(event):
     event.pattern_match.group(1)
     chat = await event.get_chat()
     if event.is_private:
-        if chat.id == 1539040705:
+        if chat.id == 1432756163:
             await event.edit("I Can't Disapprove My Master 😐")
         else:
             if pmpermit_sql.is_approved(chat.id):
@@ -116,7 +116,7 @@ async def approve_p_m(event):
                 )
 
 
-@bot.on(hell_cmd(pattern="listapproved"))
+@bot.on(hell_cmd(pattern="(la|listallowed|listapproved)"))
 async def approve_p_m(event):
     if event.fwd_from:
         return
