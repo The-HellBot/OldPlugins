@@ -57,7 +57,7 @@ for name in files:
 # let the party begin...
 LOGS.info("⚡ Your HellBot Is Now Working ⚡")
 LOGS.info(
-    "Head to @The_HellBot for Updates. Also join chat group to get help regarding to HellBot."
+    "Head to @Its_HellBot for Updates. Also join chat group to get help regarding to HellBot."
 )
 
 # that's life...
@@ -67,14 +67,20 @@ async def hell_is_on():
             await bot.send_file(
                 Config.LOGGER_ID,
                 HELL_PIC,
-                caption="Deployed Hêllẞø† Successfully\n\nType `.ping` or `.alive` to check! \n\nJoin [Hêllẞø† Channel](t.me/The_HellBot) for Updates & [Hêllẞø† Chat](t.me/its_fuckin_hell) for any query regarding Hêllẞø†",
+                caption="#START \n\nDeployed Hêllẞø† Successfully\n\nType `.ping` or `.alive` to check! \n\nJoin [Hêllẞø† Channel](t.me/Its_HellBot) for Updates & [Hêllẞø† Chat](t.me/hellbot_chat) for any query regarding Hêllẞø†",
             )
     except Exception as e:
         LOGS.info(str(e))
 
 # Join HellBot Channel after deploying 🤐😅
     try:
-        await bot(JoinChannelRequest("@The_HellBot"))
+        await bot(JoinChannelRequest("@Its_HellBot"))
+    except BaseException:
+        pass
+
+# Why not come here and chat??
+    try:
+        await bot(JoinChannelRequest("@HellBot_Chat"))
     except BaseException:
         pass
 
