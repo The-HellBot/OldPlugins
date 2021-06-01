@@ -67,6 +67,9 @@ class Config(object):
     MAX_SPAM = int(os.environ.get("MAX_SPAM", 3))
     MONGO_URI = os.environ.get("MONGO_URI", None)
     OCR_SPACE_API_KEY = os.environ.get("OCR_SPACE_API_KEY", None)
+    PLUGIN_CHANNEL = os.environ.get("PLUGIN_CHANNEL", None)
+    if PLUGIN_CHANNEL:
+        PLUGIN_CHANNEL = int(PLUGIN_CHANNEL)
     PM_PERMIT = os.environ.get("PM_PERMIT", "ENABLE")
     PMPERMIT_PIC = os.environ.get("PMPERMIT_PIC", "https://telegra.ph/file/73e95f4325159336766c0.jpg")
     REM_BG_API_KEY = os.environ.get("REM_BG_API_KEY", None)
