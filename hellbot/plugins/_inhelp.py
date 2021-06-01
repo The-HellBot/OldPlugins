@@ -136,7 +136,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
             )
         else:
             result = builder.article(
-                "@The_HellBot",
+                "@Its_HellBot",
                 text="""**Hey! This is [Hêllẞø†](https://t.me/its_hellbot) \nYou can know more about me from the links given below 👇**""",
                 buttons=[
                     [
