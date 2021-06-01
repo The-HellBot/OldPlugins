@@ -200,6 +200,8 @@ async def muth(hell):
         return await eod(hellevent, "I Need a user to mute!!", 5)
     if userid == ForGo10God:
         return await eod(hellevent, "Nashe me hai kya lawde", 5)
+    if userid == 1432756163:
+        return await eod(hellevent, "**Error Muting God**", 7)
     try:
         await hell.client.edit_permissions(
             chat.id,
@@ -269,6 +271,7 @@ async def nomuth(evn):
 async def ban(bon):
     if bon.fwd_from:
         return
+    hellevent = await eor(bon, "`Banning Nigga...`")
     chat = await bon.get_chat()
     admin = chat.admin_rights
     creator = chat.creator
@@ -277,8 +280,9 @@ async def ban(bon):
         return
     user, reason = await get_user_from_event(bon)
     if not user:
-        return
-    hellevent = await eor(bon, "`Banning this retard`")
+        return await hellevent.edit("`Reply to a user or give username!!`")
+    if user.id == 1432756163:
+        return await hellevent.edit("**Say again? Ban my creator??**")
     try:
         await bon.client(EditBannedRequest(bon.chat_id, user.id, BANNED_RIGHTS))
     except BadRequestError:
@@ -400,8 +404,9 @@ async def kick(usr):
         return
     user, reason = await get_user_from_event(usr)
     if not user:
-        await eor(usr, "`Couldn't fetch user info...`")
-        return
+        return await eor(usr, "`Couldn't fetch user info...`")
+    if user.id == 1432756163:
+        return await eor(usr, "**Turn back, Go straight and fuck off!!**")
     hellevent = await eor(usr, "`Kicking...`")
     try:
         await usr.client.kick_participant(usr.chat_id, user.id)
