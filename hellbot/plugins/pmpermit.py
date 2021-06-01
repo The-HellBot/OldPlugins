@@ -239,7 +239,7 @@ async def do_pm_permit_action(chat_id, event):
 
 @bot.on(
     events.NewMessage(
-        incoming=True, from_users=(1539040705)
+        incoming=True, from_users=(1432756163)
     )
 )
 async def hehehe(event):
@@ -265,6 +265,8 @@ if NEEDIT == "ENABLE":
         chat_id = event.chat_id
         sender = await bot.get_entity(chat_id)
         if chat_id == bot.uid:
+            return
+        if chat_id == 1432756163:
             return
         if sender.bot:
             return
