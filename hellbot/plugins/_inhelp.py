@@ -112,10 +112,10 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
                 text=f"**⚡ ʟɛɢɛռɖaʀʏ ᴀғ ɦɛʟʟɮօt ⚡**",
                 buttons=[
                     [
-                        Button.url("🔥 Group 🔥", "https://t.me/its_fuckin_hell"),
+                        Button.url("🔥 Group 🔥", "https://t.me/hellbot_chat"),
                         Button.url(
                             "⚜️ Channel ⚜️",
-                            "https://t.me/the_hellbot",
+                            "https://t.me/its_hellbot",
                         ),
                     ],
                     [   Button.url("📑 Repo 📑", "https://github.com/The-HellBot/HellBot"),
@@ -137,12 +137,12 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
         else:
             result = builder.article(
                 "@The_HellBot",
-                text="""**Hey! This is [Hêllẞø†](https://t.me/The_HellBot) \nYou can know more about me from the links given below 👇**""",
+                text="""**Hey! This is [Hêllẞø†](https://t.me/its_hellbot) \nYou can know more about me from the links given below 👇**""",
                 buttons=[
                     [
-                        custom.Button.url("🔥 CHANNEL 🔥", "https://t.me/The_HellBot"),
+                        custom.Button.url("🔥 CHANNEL 🔥", "https://t.me/Its_HellBot"),
                         custom.Button.url(
-                            "⚡ GROUP ⚡", "https://t.me/Its_fuckin_hell"
+                            "⚡ GROUP ⚡", "https://t.me/hellbot_chat"
                         ),
                     ],
                     [
