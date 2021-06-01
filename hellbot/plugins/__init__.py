@@ -19,9 +19,9 @@ if sudos:
 else:
     is_sudo = "False"
 
-chnl_link = "https://t.me/the_hellbot"
+chnl_link = "https://t.me/its_hellbot"
 hell_channel = f"[†hê Hêllẞø†]({chnl_link})"
-grp_link = "https://t.me/Its_Fuckin_Hell"
+grp_link = "https://t.me/HellBot_Chat"
 hell_grp = f"[Hêllẞø† Group]({grp_link})"
 
 # will add more soon
