@@ -50,7 +50,7 @@ MUTE_RIGHTS = ChatBannedRights(until_date=None, send_messages=True)
 UNMUTE_RIGHTS = ChatBannedRights(until_date=None, send_messages=False)
 
 
-@bot.on(hell_cmd("setgpic$"))
+@bot.on(hell_cmd(pattern="setgpic$"))
 @bot.on(sudo_cmd(pattern="setgpic$", allow_sudo=True))
 @errors_handler
 async def set_group_photo(gpic):
@@ -97,7 +97,7 @@ async def set_group_photo(gpic):
             )
 
 
-@bot.on(hell_cmd("promote(?: |$)(.*)"))
+@bot.on(hell_cmd(pattern="promote(?: |$)(.*)"))
 @bot.on(sudo_cmd(pattern="promote(?: |$)(.*)", allow_sudo=True))
 @errors_handler
 async def promote(promt):
@@ -137,7 +137,7 @@ async def promote(promt):
     )
 
 
-@bot.on(hell_cmd("demote(?: |$)(.*)"))
+@bot.on(hell_cmd(pattern="demote(?: |$)(.*)"))
 @bot.on(sudo_cmd(pattern="demote(?: |$)(.*)", allow_sudo=True))
 @errors_handler
 async def demote(dmod):
@@ -263,7 +263,7 @@ async def nomuth(evn):
     )
 
 
-@bot.on(hell_cmd("ban(?: |$)(.*)"))
+@bot.on(hell_cmd(pattern="ban(?: |$)(.*)"))
 @bot.on(sudo_cmd(pattern="ban(?: |$)(.*)", allow_sudo=True))
 @errors_handler
 async def ban(bon):
@@ -303,7 +303,7 @@ async def ban(bon):
     )
 
 
-@bot.on(hell_cmd("unban(?: |$)(.*)"))
+@bot.on(hell_cmd(pattern="unban(?: |$)(.*)"))
 @bot.on(sudo_cmd(pattern="unban(?: |$)(.*)", allow_sudo=True))
 @errors_handler
 async def nothanos(unbon):
@@ -344,7 +344,7 @@ async def watcher(event):
             LOGS.info(str(e))
 
 
-@bot.on(hell_cmd("pin($| (.*))"))
+@bot.on(hell_cmd(pattern="pin($| (.*))"))
 @bot.on(sudo_cmd(pattern="pin($| (.*))", allow_sudo=True))
 @errors_handler
 async def pin(msg):
@@ -386,7 +386,7 @@ async def pin(msg):
         pass
 
 
-@bot.on(hell_cmd("kick(?: |$)(.*)"))
+@bot.on(hell_cmd(pattern="kick(?: |$)(.*)"))
 @bot.on(sudo_cmd(pattern="kick(?: |$)(.*)", allow_sudo=True))
 @errors_handler
 async def kick(usr):
@@ -423,11 +423,9 @@ async def kick(usr):
     )
 
 
-@bot.on(hell_cmd("undlt$"))
+@bot.on(hell_cmd(pattern="undlt$"))
 @bot.on(sudo_cmd(pattern="undlt$", allow_sudo=True))
 async def _(event):
-    if event.fwd_from:
-        return
     if event.fwd_from:
         return
     c = await event.get_chat()
