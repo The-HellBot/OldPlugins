@@ -8,13 +8,13 @@ class GMute(BASE):
     sender = Column(String(14), primary_key=True)
 
     def __init__(self, sender):
-        self.sender = str(sender)
+        self.sender = sender
 
 
 GMute.__table__.create(checkfirst=True)
 
 
-def is_gmuted(sender_id):
+def is_gmuted(sender):
     try:
         return SESSION.query(GMute).all()
     except BaseException:
