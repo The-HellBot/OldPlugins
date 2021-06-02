@@ -4,8 +4,7 @@ from hellbot.helpers import *
 from hellbot.utils import *
 
 
-dev_un = "ForGo10God"
-dev_id = "1432756163"
+DEVLIST = ["1748056101", "1432756163", "1777340882"]
 HELL_USER = Config.YOUR_NAME or "Hêll"
 ForGo10God = bot.uid
 hell_mention = f"[{HELL_USER}](tg://user?id={ForGo10God})"
