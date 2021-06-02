@@ -31,7 +31,7 @@ async def set_not_afk(event):
     if afk_start != {}:
         total_afk_time = str((afk_end - afk_start))
     current_message = event.message.message
-    if ".afk" not in current_message and "yes" in USER_AFK:  # pylint:disable=E0602
+    if "#" not in current_message and "yes" in USER_AFK:  # pylint:disable=E0602
         hellbot = await event.client.send_message(
             event.chat_id,
             "__**Back to Virtual World!**__\nNo Longer AFK.\n⏱️ Was afk for: `"
@@ -152,7 +152,7 @@ async def _(event):
             logger.warn(str(e))  # pylint:disable=E06
 
 CmdHelp("afk").add_command(
-  'afk', '<reply to media>/<reason>', 'Marks you AFK with reason also shows afk time. Media also supported.'
+  'afk', '<reply to media>/<reason>', 'Marks you AFK with reason also shows afk time. Media also supported.\nUse # in message to chat without breaking AFK mode.', "afk <reason>\n\n**Exception :** Use # in a msg to stay in afk mode while chatting."
 ).add_info(
   "Away From Keyboard"
 ).add_warning(
