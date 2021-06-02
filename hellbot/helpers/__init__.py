@@ -4,6 +4,7 @@ from .google import *
 from .image import *
 from .pranks import *
 from .progress import *
+from .random_str import *
 from .runner import *
 from .tools import *
 from .tweets import *
