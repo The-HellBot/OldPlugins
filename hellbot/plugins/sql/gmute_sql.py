@@ -8,7 +8,7 @@ class GMute(BASE):
     sender = Column(String(14), primary_key=True)
 
     def __init__(self, sender):
-        self.sender = str(sender)
+        self.sender = sender
 
 
 GMute.__table__.create(checkfirst=True)
@@ -30,7 +30,7 @@ def gmute(sender):
 
 
 def ungmute(sender):
-    rem = SESSION.query(GMute).get((str(sender)))
+    rem = SESSION.query(GMute).get(str(sender))
     if rem:
         SESSION.delete(rem)
         SESSION.commit()
