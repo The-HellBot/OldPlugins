@@ -1,5 +1,6 @@
 import asyncio
 import random
+import nekos
 
 from telethon.tl.types import ChannelParticipantsAdmins
 
@@ -206,6 +207,61 @@ async def _(event):
     await eor(event, mentions)
 
 
+@bot.on(hell_cmd(pattern="ftext ?(.*)"))
+@bot.on(sudo_cmd(pattern="ftext ?(.*)", allow_sudo=True))
+async def payf(event):
+    if event.fwd_from:
+        return
+    input_str = event.pattern_match.group(1)
+    if input_str:
+        paytext = input_str
+        pay = "{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}".format(
+            paytext * 8,
+            paytext * 8,
+            paytext * 2,
+            paytext * 2,
+            paytext * 2,
+            paytext * 6,
+            paytext * 6,
+            paytext * 2,
+            paytext * 2,
+            paytext * 2,
+            paytext * 2,
+            paytext * 2,
+        )
+    else:
+        pay = "╭━━━╮\n┃╭━━╯\n┃╰━━╮\n┃╭━━╯\n┃┃\n╰╯\n"
+
+    await event.edit(pay)
+
+
+@bot.on(hell_cmd(pattern="cat$"))
+@bot.on(sudo_cmd(pattern="cat$", allow_sudo=True))
+async def hmm(hell):
+    if hell.fwd_from:
+        return
+    reactcat = nekos.textcat()
+    await eor(hell, reactcat)
+
+
+@bot.on(hell_cmd(pattern="why$"))
+@bot.on(sudo_cmd(pattern="why$", allow_sudo=True))
+async def hmm(hell):
+    if hell.fwd_from:
+        return
+    whyhell = nekos.why()
+    await eor(hell, whyhell)
+
+
+@bot.on(hell_cmd(pattern="fact$"))
+@bot.on(sudo_cmd(pattern="fact$", allow_sudo=True))
+async def hmm(hell):
+    if hell.fwd_from:
+        return
+    facthell = nekos.fact()
+    await eor(hell, facthell)
+
+
 CmdHelp("fun2").add_command(
   "join", None, "Use and see"
 ).add_command(
@@ -228,6 +284,14 @@ CmdHelp("fun2").add_command(
   "climb", None, "Use and see"
 ).add_command(
   "pay", None, "Use and see"
+).add_command(
+  "cat", None, "Sends you some random cat facial text art"
+).add_command(
+  "why", None, "Asks some random funny questions"
+).add_command(
+  "fact", None, "Sends you some random facts"
+).add_command(
+  "ftext", "<text>", "Writes your text in "F" format"
 ).add_info(
   "Bakchodi h bass."
 ).add_warning(
