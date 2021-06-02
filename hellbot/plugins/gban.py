@@ -219,9 +219,9 @@ async def blowjob(event):
     if user_id == (await bot.get_me()).id:	
         await eod(event, "I guess you need some rest. You are trying to gmute yourself😌")	
         return
-    if user_id in DEVLIST:
-        await eod(event, "**Mute my creator? Really??**")
-        return
+    if str(user_id) in DEVLIST:
+        return await eod(event, "**Mute my creator? Really??**")
+   
     elif event.is_private:
         await eor(event, "`Son can't speak now🤐. Filled mouth with cum`💦")
         await asyncio.sleep(3)
