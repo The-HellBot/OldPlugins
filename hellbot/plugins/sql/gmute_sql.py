@@ -8,7 +8,7 @@ class GMute(BASE):
     sender = Column(String(14), primary_key=True)
 
     def __init__(self, sender):
-        self.sender = sender
+        self.sender = str(sender)
 
 
 GMute.__table__.create(checkfirst=True)
