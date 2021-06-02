@@ -1,5 +1,6 @@
 from telethon.tl.functions.contacts import BlockRequest, UnblockRequest
 import html
+import asyncio
 from telethon import events
 from telethon.tl.functions.photos import GetUserPhotosRequest
 from telethon.tl.functions.users import GetFullUserRequest
@@ -7,6 +8,7 @@ from telethon.tl.types import MessageEntityMentionName
 from telethon.utils import get_input_location
 from telethon.events import ChatAction
 from hellbot.plugins.sql.gmute_sql import gmute, ungmute, is_gmuted, all_gmuted
+from hellbot.plugins.sql.mute_sql import is_muted, mute, unmute
 from . import *
 
 
@@ -206,5 +208,88 @@ async def handler(kraken):
                     kraken.reply("`Sheit!! No permission to ban users.\n@admins ban this retard.\nGlobally Banned User And A Potential Spammer`\n**Make your group a safe place by cleaning this shit**")                   
                     return
 
+@bot.on(hell_cmd(pattern=r"gmute ?(\d+)?"))
+@bot.on(sudo_cmd(pattern=r"gmute ?(\d+)?", allow_sudo=True))
+async def blowjob(event):
+    private = False
+    if event.fwd_from:
+        return
+    reply = await event.get_reply_message()
+    user_id = reply.sender_id
+    if user_id == (await bot.get_me()).id:	
+        await eod(event, "I guess you need some rest. You are trying to gmute yourself😌")	
+        return
+    if user_id in DEVLIST:
+        await eod(event, "**Mute my creator? Really??**")
+        return
+    elif event.is_private:
+        await eor(event, "`Son can't speak now🤐. Filled mouth with cum`💦")
+        await asyncio.sleep(3)
+        private = True
+    reply = await event.get_reply_message()
+    if event.pattern_match.group(1) is not None:
+        userid = event.pattern_match.group(1)
+    elif reply is not None:
+        userid = reply.sender_id
+    elif private is True:
+        userid = event.chat_id
+    else:
+        return await eod(event, "I need a user to gmute. Please reply or get his uid", 7)
+    chat_id = event.chat_id
+    chat = await event.get_chat()
+    if is_muted(userid, "gmute"):
+        return await eod(event, "This retard cant speak. Was already gmutted earlier")
+    try:
+        mute(userid, "gmute")
+    except Exception as e:
+        await eod(event, "Error occured!\nError is " + str(e))
+    else:
+        await eor(event, "Successfully Fucked this user's mouth.")
+
+
+@bot.on(hell_cmd(pattern=r"ungmute ?(\d+)?"))
+@bot.on(sudo_cmd(pattern=r"ungmute ?(\d+)?", allow_sudo=True))
+async def cumshot(event):
+    private = False
+    if event.fwd_from:
+        return
+    elif event.is_private:
+        await eor(event, "Today's sex done. Now son can speak✌️🚶")
+        await asyncio.sleep(3)
+        private = True
+    reply = await event.get_reply_message()
+    if event.pattern_match.group(1) is not None:
+        userid = event.pattern_match.group(1)
+    elif reply is not None:
+        userid = reply.sender_id
+    elif private is True:
+        userid = event.chat_id
+    else:
+        return await eod(event, "Please reply to a user or add them into the command to ungmute them.", 7)
+    chat_id = event.chat_id
+    if not is_muted(userid, "gmute"):
+        return await eod(event, "This user can already speak freely✌️😃")
+    try:
+        unmute(userid, "gmute")
+    except Exception as e:
+        await eod(event, "Error occured!\nError is " + str(e))
+    else:
+        await eor(event, "Ok! Today's sex is done now. Son can speak🔥🔥")
+        
+@command(incoming=True)
+async def watcher(event):
+    if is_muted(event.sender_id, "gmute"):
+        await event.delete()
+        
+
+CmdHelp("gmute").add_command(
+  "gmute", "<reply/id/username>", "Globally Mutes the user by deleting his/her messages."
+).add_command(
+  "ungmute", "<reply/id>", "Globally Unmutes the gmuted user."
+).add_info(
+  "Global Mute!"
+).add_warning(
+  "✅ Harmless Module."
+).add()
 
 CmdHelp("gban").add_command("gban", "<reply>/<id>/<username>", "Globally Bans the user from all the chats you are admin with ban right.").add_command("ungban", "<reply>/<id>/<username>", "Globally Unbans the user if gbanned previously.").add_command("listgban", None, "Gives the list of all gbanned users!").add_info("Global Ban.").add_warning("✅ Harmless Module.").add()
