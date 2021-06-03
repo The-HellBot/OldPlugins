@@ -600,19 +600,19 @@ async def _(event):
 
 
 CmdHelp("infos").add_command(
-  'admins', None, 'Gets the list of admins in current chat along with the crator'
+  "admins", None, "Gets the list of admins in current chat along with the crator"
 ).add_command(
-  'id', '<reply>', 'Gets the user id of the replied user.'
+  "id", "<reply>", "Gets the user id of the replied user."
 ).add_command(
-  'bots', None, 'Gets the list of all the bots in the chat.'
+  "bots", None, "Gets the list of all the bots in the chat."
 ).add_command(
-  'info', '<reply / username>', 'Fetches the information of the user'
+  "info", "<reply / username>", "Fetches the information of the user"
 ).add_command(
-  'whois', '<reply / username>, 'Same as info'
+  "whois", "<reply / username>", "Same as info"
 ).add_command(
-  'chatinfo', '<username of group>', 'Shows you the total information of the required chat'
+  "chatinfo", "<username of group>", "Shows you the total information of the required chat"
 ).add_command(
-  'users', '<name of member> (optional)', 'Retrives all the (or mentioned) users in the chat'
+  "users", "<name of member> (optional)", "Retrives all the (or mentioned) users in the chat"
 ).add_info(
   "Basic Cmds for groups."
 ).add_warning(
