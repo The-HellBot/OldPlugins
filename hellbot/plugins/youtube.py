@@ -32,7 +32,6 @@ async def download_video(v_url):
         return
     url = v_url.pattern_match.group(2)
     type = v_url.pattern_match.group(1).lower()
-    perf = "[ †hê Hêllẞø† ]"
 
     event = await eor(v_url, "`Preparing to download...`")
 
