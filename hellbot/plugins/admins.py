@@ -573,6 +573,10 @@ CmdHelp("admins").add_command(
 ).add_command(
   "kick", "<username/reply>", "kick the person off your chat"
 ).add_command(
+  "zombies", None, "Check If The Group is Infected By Zombies."
+).add_command(
+  "zombies clean", None, "Clears all the zombies in the group."
+).add_command(
   "iundlt", None, "display last 5 deleted messages in group."
 ).add_info(
   "Admins Things!"
