@@ -1,12 +1,24 @@
 import asyncio
 import os
 import re
+import time
 
 from telethon import functions
 from telethon.errors.rpcerrorlist import YouBlockedUserError
+from telethon.tl.functions.channels import LeaveChannelRequest
 
 from . import *
 
+
+@bot.on(hell_cmd("kickme", outgoing=True))
+async def leave(e):
+    if not e.text[0].isalpha() and e.text[0] not in ("/", "#", "@", "!"):
+        await e.edit("😪 **KThnxBye** See u all in hell!!")
+        time.sleep(1)
+        if "-" in str(e.chat_id):
+            await bot(LeaveChannelRequest(e.chat_id))
+        else:
+            await eod(e, "**Iz this even a grp?😑**")
 
 @bot.on(hell_cmd(pattern=r"dc"))
 @bot.on(sudo_cmd(pattern=r"dc", allow_sudo=True))
@@ -60,6 +72,8 @@ CmdHelp("bot").add_command(
   "dc", None, "Gets the DataCenter Number"
 ).add_command(
   "config", None, "😒"
+).add_command(
+  "kickme", None, "Kicks Yourself from the group."
 ).add_command(
   "dm", "<username> <message>", "Sends a DM to given username with required msg", "dm @SupRemE_AnanD Sar U pro"
 ).add_info(
