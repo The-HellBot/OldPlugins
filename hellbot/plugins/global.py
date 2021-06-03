@@ -119,10 +119,40 @@ async def _(event):
                     pass
 
 
+@bot.on(hell_cmd(pattern=r"gkick ?(.*)"))
+@bot.on(sudo_cmd(pattern=r"gkick ?(.*)", allow_sudo=True))
+async def gkick(event):
+    hell = await eor(event, "`Kicking globally...`")
+    if event.reply_to_msg_id:
+        userid = (await event.get_reply_message()).sender_id
+    elif event.pattern_match.group(1):
+        userid = await get_user_id(event.pattern_match.group(1))
+    elif event.is_private:
+        userid = (await event.get_chat()).id
+    else:
+        return await eod(hell, "`Reply to some msg or add their id.`")
+    name = (await event.client.get_entity(userid)).first_name
+    chats = 0
+    if userid == ForGo10God:
+        return await eod(hell, "**🥴 Nashe me hai kya lawde!!**")
+    if str(userid) in DEVLIST:
+        return await eod(hell, "**😪 I'm not going to gkick my developer!!**")
+    async for gkick in event.client.iter_dialogs():
+        if gkick.is_group or gkick.is_channel:
+            try:
+                await bot.kick_participant(gkick.id, userid)
+                chats += 1
+            except BaseException:
+                pass
+    await hell.edit(f"🏃 **Globally Kicked** [{name}](tg://user?id={userid})'s butts !! \n\n📝 **Chats :**  `{chats}`")
+
+
 CmdHelp("global").add_command(
   "gban", "<reply>/<userid>", "Globally Bans the mentioned user in 'X' chats you are admin with ban permission."
 ).add_command(
   "ungban", "<reply>/<userid>", "Globally Unbans the user in 'X' chats you are admin!"
+).add_command(
+  "gkick", "<reply>/<userid>", "Globally Kicks the user in 'X' chats you are admin!"
 ).add_info(
   "Global Admin Tool."
 ).add_warning(
