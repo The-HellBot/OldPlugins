@@ -74,3 +74,4 @@ wheel
 wikipedia
 youtube-search-python
 youtube_dl
+youtube-search
