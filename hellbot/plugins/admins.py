@@ -428,6 +428,61 @@ async def kick(usr):
     )
 
 
+@bot.on(hell_cmd(pattern=f"zombies ?(.*)"))
+@bot.on(sudo_cmd(pattern=f"zombies ?(.*)", allow_sudo=True))
+async def rm_deletedacc(show):
+    if show.fwd_from:
+        return
+    con = show.pattern_match.group(1).lower()
+    del_u = 0
+    del_status = "`No zombies or deleted accounts found in this group, Group is clean`"
+    if con != "clean":
+        event = await eor(
+            show, "**Searching For Zombies...**"
+        )
+        async for user in show.client.iter_participants(show.chat_id):
+            if user.deleted:
+                del_u += 1
+                await sleep(0.5)
+        if del_u > 0:
+            del_status = f"**🆘 ALERT !!**\n\n`{del_u}`  **Zombies detected ☣️\nClean them by using**  `{hl}zombies clean`"
+        await event.edit(del_status)
+        return
+    chat = await show.get_chat()
+    admin = chat.admin_rights
+    creator = chat.creator
+    if not admin and not creator:
+        await eod(show, NO_ADMIN)
+        return
+    event = await eor(
+        show, "🧹 Purging out zombies from this group..."
+    )
+    del_u = 0
+    del_a = 0
+    async for user in show.client.iter_participants(show.chat_id):
+        if user.deleted:
+            try:
+                await show.client.kick_participant(show.chat_id, user.id)
+                await sleep(0.5)
+                del_u += 1
+            except ChatAdminRequiredError:
+                await edit_or_reply(event, "`I don't have ban rights in this group`")
+                return
+            except UserAdminInvalidError:
+                del_a += 1
+    if del_u > 0:
+        del_status = f"**Ongoing Zombie Purge!!**\n\n**Zombies Killed :**  `{del_u}`"
+    if del_a > 0:
+        del_status = f"**Zombies Killed**  `{del_u}`\n\n`{del_a}`  **Zombies Holds Immunity!!**"
+    await edit_or_reply(event, del_status)
+    await show.client.send_message(
+        lg_id,
+        f"#ZOMBIES\
+        \n{del_status}\
+       \nCHAT: {show.chat.title}(`{show.chat_id}`)",
+    )
+
+
 @bot.on(hell_cmd(pattern="undlt$"))
 @bot.on(sudo_cmd(pattern="undlt$", allow_sudo=True))
 async def _(event):
