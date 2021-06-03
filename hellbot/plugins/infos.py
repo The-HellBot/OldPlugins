@@ -599,7 +599,7 @@ async def _(event):
         await hell.edit("🔸 **Current Chat ID:** `{}`".format(str(event.chat_id)))
 
 
-CmdHelp("group_tools").add_command(
+CmdHelp("infos").add_command(
   'admins', None, 'Gets the list of admins in current chat along with the crator'
 ).add_command(
   'id', '<reply>', 'Gets the user id of the replied user.'
