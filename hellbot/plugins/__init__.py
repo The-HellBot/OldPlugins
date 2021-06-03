@@ -12,6 +12,12 @@ hell_logo = "./hellbot/resources/hellbot_logo.jpg"
 hl = Config.HANDLER
 shl = Config.SUDO_HANDLER
 
+async def get_user_id(ids):
+    if str(ids).isdigit():
+        userid = int(ids)
+    else:
+        userid = (await bot.get_entity(ids)).id
+    return userid
 
 sudos = Config.SUDO_USERS
 
