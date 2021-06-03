@@ -192,7 +192,7 @@ async def on_new_private_message(event):
 
 
 async def do_pm_permit_action(chat_id, event):
-    if Config.PM_PERMIT.lower() == "DISABLE":
+    if Config.PM_PERMIT == "DISABLE":
         return
     if chat_id not in PM_WARNS:
         PM_WARNS.update({chat_id: 0})
