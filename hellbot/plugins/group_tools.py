@@ -608,6 +608,8 @@ CmdHelp("group_tools").add_command(
 ).add_command(
   'info', '<reply / username>', 'Fetches the information of the user'
 ).add_command(
+  'whois', '<reply / username>, 'Same as info'
+).add_command(
   'chatinfo', '<username of group>', 'Shows you the total information of the required chat'
 ).add_command(
   'users', '<name of member> (optional)', 'Retrives all the (or mentioned) users in the chat'
