@@ -65,7 +65,7 @@ async def send(event):
         )
         await event.delete()
     else:
-        await edit_or_reply(event, "File not found..... Kek")
+        await eod(event, "File not found..... Kek")
 
 
 @bot.on(hell_cmd(pattern="install$", outgoing=True))
@@ -99,14 +99,14 @@ async def install(event):
                         else:
                             a = "__Installing...__"
                             b = 1
-                        await event.edit(a)
-                    return await event.edit(f"✅ **Installed module** :- `{shortname}` \n✨ BY :- {hell_mention}\n\n{string}\n\n        ⚡ **[ʟɛɢɛռɖaʀʏ ᴀғ ɦɛʟʟɮօt]({chnl_link})** ⚡", link_preview=False)
-                return await event.edit(f"Installed module `{os.path.basename(downloaded_file_name)}`")
+                        hell = await eor(event, a)
+                    return await hell.edit(f"✅ **Installed module** :- `{shortname}` \n✨ BY :- {hell_mention}\n\n{string}\n\n        ⚡ **[ʟɛɢɛռɖaʀʏ ᴀғ ɦɛʟʟɮօt]({chnl_link})** ⚡", link_preview=False)
+                return await hell.edit(f"Installed module `{os.path.basename(downloaded_file_name)}`")
             else:
                 os.remove(downloaded_file_name)
-                return await event.edit(f"**Failed to Install** \n`Error`\nModule already installed or unknown format")
+                return await eod(hell, f"**Failed to Install** \n`Error`\nModule already installed or unknown format")
         except Exception as e: 
-            await event.edit(f"**Failed to Install** \n`Error`\n{str(e)}")
+            await eod(event, f"**Failed to Install** \n`Error`\n{str(e)}")
             return os.remove(downloaded_file_name)
 
 @bot.on(hell_cmd(pattern=r"uninstall (?P<shortname>\w+)", outgoing=True))
@@ -119,7 +119,7 @@ async def uninstall(kraken):
     try:
         remove_plugin(shortname)
         os.remove(dir_path)
-        await kraken.edit(f"Uninstalled `{shortname}` successfully")
+        await eod(kraken, f"Uninstalled `{shortname}` successfully")
     except OSError as e:
         await kraken.edit("Error: %s : %s" % (dir_path, e.strerror))
 
