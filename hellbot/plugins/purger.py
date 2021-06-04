@@ -5,6 +5,20 @@ from . import *
 
 lg_id = Config.LOGGER_ID
 
+
+@bot.on(hell_cmd(pattern="del$"))
+@bot.on(sudo_cmd(pattern="del$", allow_sudo=True))
+@errors_handler
+async def delete_it(safai):
+    msg_src = await safai.get_reply_message()
+    if safai.reply_to_msg_id:
+        try:
+            await msg_src.delete()
+            await safai.delete()
+        except rpcbaseerrors.BadRequestError:
+        	pass
+
+
 @bot.on(hell_cmd(pattern=r"purge", outgoing=True))
 @bot.on(sudo_cmd(pattern=r"purge", allow_sudo=True))
 @errors_handler
@@ -82,6 +96,8 @@ CmdHelp("purger").add_command(
   "purgeme", "<no.of msgs>", "Purges the required number of your messages", "purgeme 100"
 ).add_command(
   "sd", "<time> <text>", "Sends a self destruct text. Fill time in secs", "sd 10 hello"
+).add_command(
+  "del", "<reply>", "Deletes the replied msg."
 ).add_info(
   "Ninja Techniques"
 ).add_warning(
