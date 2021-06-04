@@ -128,7 +128,7 @@ async def getwelcome(event):
 @bot.on(hell_cmd(pattern="welcome_note$"))
 @bot.on(sudo_cmd(pattern="welcome_note$", allow_sudo=True))
 async def note(event):
-    await eor(event, NOTE)
+    await eor(event, WELCOME_FORMAT)
 
 
 CmdHelp("welcome").add_command(
