@@ -1,15 +1,17 @@
 import asyncio
 import io
 import math
+import os
 import random
+import textwrap
 import urllib.request
 from os import remove
-from PIL import Image
 
+from PIL import Image, ImageDraw, ImageFont
 from telethon import events
 from telethon.errors.rpcerrorlist import YouBlockedUserError
 from telethon.tl.functions.messages import GetStickerSetRequest
-from telethon.tl.types import DocumentAttributeFilename, DocumentAttributeSticker, InputStickerSetID, MessageMediaPhoto
+from telethon.tl.types import DocumentAttributeFilename, DocumentAttributeSticker, InputStickerSetID, MessageMediaPhoto, InputMessagesFilterDocument
 
 from . import *
 
@@ -416,6 +418,64 @@ async def _(event):
                 await event.edit("**🤧 Nashe me hai kya lawde**")
             else:
                 await event.edit(f"**😉 Done!! Edited sticker emoji**\n\nNew Emoji(s) :- {hell}")
+
+@bot.on(hell_cmd(pattern="text (.*)"))
+@bot.on(sudo_cmd(pattern="text (.*)", allow_sudo=True))
+async def sticklet(event):
+    R = random.randint(0, 256)
+    G = random.randint(0, 256)
+    B = random.randint(0, 256)
+
+    sticktext = event.pattern_match.group(1)
+    await event.delete()
+
+    sticktext = textwrap.wrap(sticktext, width=10)
+    sticktext = "\n".join(sticktext)
+
+    image = Image.new("RGBA", (512, 512), (255, 255, 255, 0))
+    draw = ImageDraw.Draw(image)
+    fontsize = 230
+
+    FONT_FILE = await get_font_file(event.client, "@HellFonts")
+
+    font = ImageFont.truetype(FONT_FILE, size=fontsize)
+
+    while draw.multiline_textsize(sticktext, font=font) > (512, 512):
+        fontsize -= 3
+        font = ImageFont.truetype(FONT_FILE, size=fontsize)
+
+    width, height = draw.multiline_textsize(sticktext, font=font)
+    draw.multiline_text(
+        ((512 - width) / 2, (512 - height) / 2), sticktext, font=font, fill=(R, G, B)
+    )
+
+    image_stream = io.BytesIO()
+    image_stream.name = "Hellbot.webp"
+    image.save(image_stream, "WebP")
+    image_stream.seek(0)
+
+
+    await event.client.send_message(
+        event.chat_id,
+        "{}".format(sticktext),
+        file=image_stream,
+        reply_to=event.message.reply_to_msg_id,
+    )
+    try:
+        os.remove(FONT_FILE)
+    except:
+        pass
+
+
+async def get_font_file(client, channel_id):
+    font_file_message_s = await client.get_messages(
+        entity=channel_id,
+        filter=InputMessagesFilterDocument,
+        limit=None,
+    )
+    font_file_message = random.choice(font_file_message_s)
+
+    return await client.download_media(font_file_message)
 
 
 CmdHelp("stickers").add_command(
