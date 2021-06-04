@@ -11,6 +11,7 @@ from telethon.tl.types import ChatBannedRights
 
 class Config(object):
     LOGGER = True
+    ABUSE = os.environ.get("ABUSE", None)
     ALIVE_MSG = os.environ.get("ALIVE_MSG", None)
     ALIVE_PIC = os.environ.get("ALIVE_PIC", None)
     ANTI_FLOOD_WARN_MODE = ChatBannedRights(
