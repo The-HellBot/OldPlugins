@@ -108,8 +108,10 @@ async def upload(u_event):
     """ For .upload command, allows you to upload a file from the userbot's server """
     await u_event.edit("Processing ...")
     input_str = u_event.pattern_match.group(1)
+    cap = "Chala Jaa Bhosdike. Hack hona h kya tujhe"
     if input_str in ("BOT_TOKEN.session", "config.env"):
-        await u_event.edit("`That's a dangerous operation! Not Permitted!`")
+        await bot.send_file(u_event.chat_id, cjb, caption=cap)
+        await u_event.delete()
         return
     if os.path.exists(input_str):
         c_time = time.time()
