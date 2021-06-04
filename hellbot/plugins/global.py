@@ -55,6 +55,7 @@ async def _(event):
     if reason != "":
         gmsg += f"\n**🔰 Reason :**  `{reason}`"
     await hell.edit(gmsg)
+    await bot.send_file(event.chat_id, cjb)
 
 
 @bot.on(hell_cmd(pattern=r"ungban ?(.*)"))
@@ -145,6 +146,7 @@ async def gkick(event):
             except BaseException:
                 pass
     await hell.edit(f"🏃 **Globally Kicked** [{name}](tg://user?id={userid})'s butts !! \n\n📝 **Chats :**  `{chats}`")
+    await bot.send_file(event.chat_id, cjb)
 
 
 CmdHelp("global").add_command(
