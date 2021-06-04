@@ -269,7 +269,6 @@ INSULT_STRINGS = [
     "`You’re so ugly that when you cry, the tears roll down the back of your head…just to avoid your face.`",
     "`If you’re talking behind my back then you’re in a perfect position to kiss my a**!.`",
 ]
-
 GENDER = [
     "u is mard",
     "u is man",
@@ -278,7 +277,6 @@ GENDER = [
     "u is gey",
     "u is chakka",
 ]
-    
 EMOTICONS = [
     "(҂⌣̀_⌣́)",
     "（；¬＿¬)",
@@ -286,7 +284,6 @@ EMOTICONS = [
     "┌[ O ʖ̯ O ]┐",
     "〳 ͡° Ĺ̯ ͡° 〵",
 ]
-
 WAVING = [
     "(ノ^∇^)",
     "(;-_-)/",
@@ -296,7 +293,6 @@ WAVING = [
     "(ό‿ὸ)ﾉ",
     "(ヾ(´・ω・｀)",
 ]
-
 WTF = [
     "༎ຶ‿༎ຶ",
     "(‿ˠ‿)",
@@ -305,7 +301,6 @@ WTF = [
     "╭∩╮(︶ε︶*)chu",
     "( ＾◡＾)っ (‿|‿)",
 ]
-    
 LOB = [
     "乂❤‿❤乂",
     "(｡♥‿♥｡)",
@@ -313,7 +308,6 @@ LOB = [
     "໒( ♥ ◡ ♥ )७",
     "༼♥ل͜♥༽",
 ]
-    
 CONFUSED = [
     "(・_・ヾ",
     "｢(ﾟﾍﾟ)",
@@ -322,7 +316,6 @@ CONFUSED = [
     "▐ ˵ ͠° (oo) °͠ ˵ ▐",
     "(-_-)ゞ゛",
 ]
-    
 DEAD = [
     "(✖╭╮✖)",
     "✖‿✖",
@@ -330,7 +323,6 @@ DEAD = [
     "(✖﹏✖)",
     "∑(✘Д✘๑)",
 ]
-  
 SED = [
     "(＠´＿｀＠)",
     "⊙︿⊙",
@@ -339,12 +331,10 @@ SED = [
     "(　´_ﾉ` )",
     "彡(-_-;)彡",
 ]
-    
 DOG = [
     "-ᄒᴥᄒ-",
     "◖⚆ᴥ⚆◗",
 ]
-
 SHRUG = [
     "( ͡° ͜ʖ ͡°)",
     "¯\_(ツ)_/¯",
@@ -357,4 +347,61 @@ SHRUG = [
     "(☞ ͡° ͜ʖ ͡°)☞",
     "¯\_༼ ି ~ ି ༽_/¯",
     "c༼ ͡° ͜ʖ ͡° ༽⊃",
+]
+SLAP_TEMPLATES = [
+    "{user1} {hits} {user2} with a {item}.",
+    "{user1} {hits} {user2} in the face with a {item}.",
+    "{user1} {hits} {user2} around a bit with a {item}.",
+    "{user1} {throws} a {item} at {user2}.",
+    "{user1} grabs a {item} and {throws} it at {user2}'s face.",
+    "{user1} launches a {item} in {user2}'s general direction.",
+    "{user1} starts slapping {user2} silly with a {item}.",
+    "{user1} pins {user2} down and repeatedly {hits} them with a {item}.",
+    "{user1} grabs up a {item} and {hits} {user2} with it.",
+    "{user1} ties {user2} to a chair and {throws} a {item} at them.",
+    "{user1} gave a friendly push to help {user2} learn to swim in lava.",
+]
+ITEMS = [
+    "cast iron skillet",
+    "large trout",
+    "baseball bat",
+    "cricket bat",
+    "wooden cane",
+    "nail",
+    "printer",
+    "shovel",
+    "CRT monitor",
+    "physics textbook",
+    "toaster",
+    "portrait of Richard Stallman",
+    "television",
+    "five ton truck",
+    "roll of duct tape",
+    "book",
+    "laptop",
+    "old television",
+    "sack of rocks",
+    "rainbow trout",
+    "rubber chicken",
+    "spiked bat",
+    "fire extinguisher",
+    "heavy rock",
+    "chunk of dirt",
+    "beehive",
+    "piece of rotten meat",
+    "bear",
+    "ton of bricks",
+]
+THROW = [
+    "throws",
+    "flings",
+    "chucks",
+    "hurls",
+]
+HIT = [
+    "hits",
+    "whacks",
+    "slaps",
+    "smacks",
+    "bashes",
 ]
