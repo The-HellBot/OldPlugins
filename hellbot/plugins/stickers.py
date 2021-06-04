@@ -478,6 +478,29 @@ async def get_font_file(client, channel_id):
     return await client.download_media(font_file_message)
 
 
+@bot.on(hell_cmd(pattern="waifu(?: |$)(.*)", outgoing=True))
+@bot.on(sudo_cmd(pattern="waifu(?: |$)(.*)", allow_sudo=True))
+async def waifu(animu):
+    text = animu.pattern_match.group(1)
+    if not text:
+        if animu.is_reply:
+            text = (await animu.get_reply_message()).message
+        else:
+            await eod(animu, "Give some text... **PRO !!**")
+            return
+    animus = [1, 3, 7, 9, 13, 22, 34, 35, 36, 37, 43, 44, 45, 52, 53, 55]
+    sticcers = await bot.inline_query(
+        "stickerizerbot", f"#{random.choice(animus)}{(deEmojify(text))}"
+    )
+    await sticcers[0].click(
+        animu.chat_id,
+        reply_to=animu.reply_to_msg_id,
+        silent=True if animu.is_reply else False,
+        hide_via=True,
+    )
+    await animu.delete()
+
+
 CmdHelp("stickers").add_command(
   "kang", "<emoji> <number>", "Adds the sticker to desired pack with a custom emoji of your choice. If emoji is not mentioned then default is 😎. And if number is not mentioned then Pack will go on serial wise. \n  ✓(1 pack = 120 non-animated stickers)\n  ✓(1 pack = 50 animated stickers)"
 ).add_command(
@@ -486,8 +509,12 @@ CmdHelp("stickers").add_command(
   "delst", "<reply to sticker>", "Deletes The Replied Sticker from your pack."
 ).add_command(
   "editst", "<reply to sticker> <new emoji>", "Edits the emoji of replied sticker of your pack."
+).add_command(
+  "text", "<word>", "Sends the written text in sticker format."
+).add_command(
+  "waifu", "<word>", "Waifu writes the word for you."
 ).add_info(
-  "Almost Everything Of @Stickers"
+  "Everything about Sticker."
 ).add_warning(
   "✅ Harmless Module."
 ).add()
