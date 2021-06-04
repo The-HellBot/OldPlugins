@@ -11,94 +11,37 @@ from telethon.tl.types import MessageEntityMentionName
 from . import *
 
 
-GENDER = [
-    "u is mard",
-    "u is man",
-    "u is aurat",
-    "u is woman",
-    "u is gey",
-    "u is chakka",
-]
-    
-EMOTICONS = [
-    "(҂⌣̀_⌣́)",
-    "（；¬＿¬)",
-    "(-｡-;",
-    "┌[ O ʖ̯ O ]┐",
-    "〳 ͡° Ĺ̯ ͡° 〵",
-]
-
-WAVING = [
-    "(ノ^∇^)",
-    "(;-_-)/",
-    "@(o・ェ・)@ノ",
-    "ヾ(＾-＾)ノ",
-    "ヾ(◍’౪◍)ﾉﾞ♡",
-    "(ό‿ὸ)ﾉ",
-    "(ヾ(´・ω・｀)",
-]
-
-WTF = [
-    "༎ຶ‿༎ຶ",
-    "(‿ˠ‿)",
-    "╰U╯☜(◉ɷ◉ )",
-    "(;´༎ຶ益༎ຶ)♡",
-    "╭∩╮(︶ε︶*)chu",
-    "( ＾◡＾)っ (‿|‿)",
-]
-    
-LOB = [
-    "乂❤‿❤乂",
-    "(｡♥‿♥｡)",
-    "( ͡~ ͜ʖ ͡°)",
-    "໒( ♥ ◡ ♥ )७",
-    "༼♥ل͜♥༽",
-]
-    
-CONFUSED = [
-    "(・_・ヾ",
-    "｢(ﾟﾍﾟ)",
-    "﴾͡๏̯͡๏﴿",
-    "(￣■￣;)!?",
-    "▐ ˵ ͠° (oo) °͠ ˵ ▐",
-    "(-_-)ゞ゛",
-]
-    
-DEAD = [
-    "(✖╭╮✖)",
-    "✖‿✖",
-    "(+_+)",
-    "(✖﹏✖)",
-    "∑(✘Д✘๑)",
-]
-  
-SED = [
-    "(＠´＿｀＠)",
-    "⊙︿⊙",
-    "(▰˘︹˘▰)",
-    "●︿●",
-    "(　´_ﾉ` )",
-    "彡(-_-;)彡",
-]
-    
-DOG = [
-    "-ᄒᴥᄒ-",
-    "◖⚆ᴥ⚆◗",
-]
-
-SHRUG = [
-    "( ͡° ͜ʖ ͡°)",
-    "¯\_(ツ)_/¯",
-    "( ͡°( ͡° ͜ʖ( ͡° ͜ʖ ͡°)ʖ ͡°) ͡°)",
-    "ʕ•ᴥ•ʔ",
-    "(▀ Ĺ̯▀   )",
-    "(ง ͠° ͟ل͜ ͡°)ง",
-    "༼ つ ◕_◕ ༽つ",
-    "ಠ_ಠ",
-    "(☞ ͡° ͜ʖ ͡°)☞",
-    "¯\_༼ ି ~ ି ༽_/¯",
-    "c༼ ͡° ͜ʖ ͡° ༽⊃",
-]
+@bot.on(hell_cmd(pattern="type (.*)"))
+@bot.on(sudo_cmd(pattern="type (.*)", allow_sudo=True))
+async def _(event):
+    if event.fwd_from:
+        return
+    input_str = event.pattern_match.group(1)
+    shiiinabot = "\u2060"
+    for i in range(601):
+        shiiinabot += "\u2060"
+    try:
+        await eor(event, shiiinabot)
+    except Exception as e:
+        logger.warn(str(e))
+    typing_symbol = "_"
+    DELAY_BETWEEN_EDITS = 0.3
+    previous_text = ""
+    await eor(event, typing_symbol)
+    await asyncio.sleep(DELAY_BETWEEN_EDITS)
+    for character in input_str:
+        previous_text = previous_text + "" + character
+        typing_text = previous_text + "" + typing_symbol
+        try:
+            await eor(event, typing_text)
+        except Exception as e:
+            logger.warn(str(e))
+        await asyncio.sleep(DELAY_BETWEEN_EDITS)
+        try:
+            await eor(event, previous_text)
+        except Exception as e:
+            logger.warn(str(e))
+        await asyncio.sleep(DELAY_BETWEEN_EDITS)
 
 
 @bot.on(hell_cmd(pattern="emoji (.*)"))
@@ -227,6 +170,8 @@ CmdHelp("edits").add_command(
   "shrug", None, "Use and see"
 ).add_command(
   "gendar", None, "Use and see"
+).add_command(
+  "type", "<word>", "Animates the given word into a typewriter."
 ).add_command(
   "emoji", None, "Available cmnds are:-\n• shrug\n• apple\n• :/\n• -_-\n Add .emoji in front of all cmds."
 ).add_info(
