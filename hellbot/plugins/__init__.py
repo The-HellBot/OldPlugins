@@ -8,7 +8,8 @@ DEVLIST = ["1748056101", "1432756163", "1746995580", "1777340882", "816517310"]
 HELL_USER = Config.YOUR_NAME or "Hêll"
 ForGo10God = bot.uid
 hell_mention = f"[{HELL_USER}](tg://user?id={ForGo10God})"
-hell_logo = "./hellbot/resources/hellbot_logo.jpg"
+hell_logo = "./hellbot/resources/pics/hellbot_logo.jpg"
+cjb = "./hellbot/resources/pics/cjb.png"
 hl = Config.HANDLER
 shl = Config.SUDO_HANDLER
 
