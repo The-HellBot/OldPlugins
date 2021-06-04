@@ -40,3 +40,16 @@ if Config.TAG_LOGGER:
             )
         else:
             return
+
+
+@bot.on(hell_cmd(pattern=r"tagall (.*)", outgoing=True))
+@bot.on(sudo_cmd(pattern=r"tagall (.*)", allow_sudo=True))
+async def _(event):
+    if event.fwd_from:
+        return
+    mentions = event.pattern_match.group(1)
+    chat = await event.get_input_chat()
+    async for x in bot.iter_participants(chat, 100):
+        mentions += f" \n [{x.first_name}](tg://user?id={x.id})"
+    await event.reply(mentions)
+    await event.delete()
