@@ -54,8 +54,10 @@ async def _(event):
     gmsg = f"🥴 [{name}](tg://user?id={userid}) **beta majdur ko khodna 😪 aur** {hell_mention} **ko chodna... Kabhi sikhana nhi!! 😏**\n\n📍 Added to Gban Watch!!\n**🔰 Total Chats :**  `{chats}`"
     if reason != "":
         gmsg += f"\n**🔰 Reason :**  `{reason}`"
-    await hell.edit(gmsg)
-    await bot.send_file(event.chat_id, cjb)
+    if Config.ABUSE == "ON":
+        await bot.send_file(event.chat_id, cjb, caption=gmsg)
+    else:
+        await hell.edit(gmsg)
 
 
 @bot.on(hell_cmd(pattern=r"ungban ?(.*)"))
@@ -145,8 +147,11 @@ async def gkick(event):
                 chats += 1
             except BaseException:
                 pass
-    await hell.edit(f"🏃 **Globally Kicked** [{name}](tg://user?id={userid})'s butts !! \n\n📝 **Chats :**  `{chats}`")
-    await bot.send_file(event.chat_id, cjb)
+    gkmsg = f"🏃 **Globally Kicked** [{name}](tg://user?id={userid})'s butts !! \n\n📝 **Chats :**  `{chats}`"
+    if Config.ABUSE == "ON":
+        await bot.send_file(event.chat_id, cjb, caption=gkmsg)
+    else:
+        await hell.edit(gkmsg)
 
 
 CmdHelp("global").add_command(
