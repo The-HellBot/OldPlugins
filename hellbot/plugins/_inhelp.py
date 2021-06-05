@@ -169,7 +169,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
                 f"🔰 This is Hêllẞø† PM Security for {hell_mention} to keep away unwanted retards from spamming PM..."
             )
 
-    @tgbot.om(callbackquery.CallbackQuery(data=compile(b"khtmtatabyebye")))
+    @tgbot.on(callbackquery.CallbackQuery(data=compile(b"khtmtatabyebye")))
     async def gya(event):
         if event.query.user_id == bot.uid:
             await event.answer("**Deleted Menu.**")
