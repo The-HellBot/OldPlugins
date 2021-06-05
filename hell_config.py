@@ -73,7 +73,7 @@ class Config(object):
         PLUGIN_CHANNEL = int(PLUGIN_CHANNEL)
     PM_PERMIT = os.environ.get("PM_PERMIT", "ENABLE")
     PMPERMIT_PIC = os.environ.get("PMPERMIT_PIC", "https://telegra.ph/file/73e95f4325159336766c0.jpg")
-    REM_BG_API_KEY = os.environ.get("REM_BG_API_KEY", None)
+    REMOVE_BG_API = os.environ.get("REMOVE_BG_API", None)
     SCREEN_SHOT_LAYER_ACCESS_KEY = os.environ.get("SCREEN_SHOT_LAYER_ACCESS_KEY", None)
     STICKER_PACKNAME = os.environ.get("STICKER_PACKNAME", None)
     HELLBOT_SESSION = os.environ.get("HELLBOT_SESSION", None)
