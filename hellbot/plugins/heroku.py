@@ -35,9 +35,9 @@ async def re(hell):
 async def down(hell):
     if hell.fwd_from:
         return
-    await hell.edit("**[ ! ]** Turning off Hêllẞø† Dynos... Manually turn me on later ಠ_ಠ")
+    await eor(hell, "**[ ! ]** Turning off Hêllẞø† Dynos... Manually turn me on later ಠ_ಠ")
     if HEROKU_APP is not None:
-        HEROKU_APP.process_formation()["userbot"].scale(0)
+        HEROKU_APP.process_formation()["worker"].scale(0)
     else:
         sys.exit(0)
 
