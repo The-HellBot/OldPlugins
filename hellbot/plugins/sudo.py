@@ -45,8 +45,6 @@ async def add(event):
 
 @bot.on(hell_cmd(pattern="rmsudo(?: |$)"))
 async def _(event):
-    if event.fwd_from:
-	return
     ok = await eor(event, "**🚫 Removing Sudo User...**")
     bot = "SUDO_USERS"
     if Config.HEROKU_APP_NAME is not None:
