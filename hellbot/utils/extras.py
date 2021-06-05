@@ -92,7 +92,7 @@ async def edit_or_reply(
 async def delete_hell(event, text, time=None, parse_mode=None, link_preview=None):
     parse_mode = parse_mode or "md"
     link_preview = link_preview or False
-    time = time or 5
+    time = time or 10
     if event.sender_id in Config.SUDO_USERS:
         reply_to = await event.get_reply_message()
         hellevent = (
