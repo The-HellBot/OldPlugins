@@ -186,19 +186,16 @@ async def dyno_usage(hell):
     )
 
 
-@bot.on(hell_cmd(pattern="logs$", outgoing=True))
+@bot.on(hell_cmd(pattern="logs$"))
 @bot.on(sudo_cmd(pattern="logs$", allow_sudo=True))
-async def erlog(hell):
-    if hell.fwd_from:
-        return
+async def _(dyno):
+    if (HEROKU_APP_NAME is None) or (HEROKU_API_KEY is None):
+        return await eor(dyno, f"Make Sure Your HEROKU_APP_NAME & HEROKU_API_KEY are filled correct. Visit {hell_grp} for help.", link_preview=False")
     try:
         Heroku = heroku3.from_key(HEROKU_API_KEY)
         app = Heroku.app(HEROKU_APP_NAME)
-        thumb = hell_logo
-    except:
-        return await hell.reply(
-           f"Make Sure Your Heroku AppName & API Key are filled correct. Visit {hell_grp} for help.", link_preview=False
-        )
+    except BaseException:
+        return await dyno.reply(f"Make Sure Your Heroku AppName & API Key are filled correct. Visit {hell_grp} for help.", link_preview=False)
     hell_data = app.get_log()
     hell_key = (
         requests.post("https://nekobin.com/api/documents", json={"content": hell_data})
@@ -206,27 +203,15 @@ async def erlog(hell):
         .get("result")
         .get("key")
     )
-    hell_url = f"⚡ Also Pasted to [NekoBin](https://nekobin.com/{hell_key}) && [RAW PAGE](https://nekobin.com/raw/{hell_key}) ⚡"
-    await hell.edit("Getting Logs....")
-    with open("logs.txt", "w") as log:
-        log.write(app.get_log())
-    await hell.edit("Uploading Logs...")
-    await hell.client.send_file(
-        hell.chat_id,
-        "logs.txt",
-        reply_to=hell.id,
-        thumb=thumb,
-        caption=hell_url,
-    )
-    await asyncio.sleep(2)
-    await hell.delete()
-    return os.remove("logs.txt")
+    hell_url = f"https://nekobin.com/{key}"
+    url_raw = f"https://nekobin.com/raw/{key}"
+    foutput = f"**🗒️ Heroku Logs of 💯 lines. 🗒️** \n\n📍 [Nekobin]({hell_url}) & [Raw]({url_raw}) 📍\n\n🌟 **Bot Of :**  {hell_mention}"
+    await eor(dyno, foutput)
 
 
 def prettyjson(obj, indent=2, maxlinelength=80):
     """Renders JSON content with indentation and line splits/concatenations to fit maxlinelength.
     Only dicts, lists and basic types are supported"""
-
     items, _ = getsubitems(
         obj,
         itemkey="",
