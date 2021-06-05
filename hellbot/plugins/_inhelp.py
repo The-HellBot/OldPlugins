@@ -170,18 +170,6 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
                 f"🔰 This is Hêllẞø† PM Security for {hell_mention} to keep away unwanted retards from spamming PM..."
             )
 
-    @tgbot.on(callbackquery.CallbackQuery(data=compile(b"khtmtatabyebye")))
-    async def gya(event):
-        if event.query.user_id == bot.uid:
-            await event.edit("Restarted  **[  ✓  ]** ...\nType `.ping`  after 1 min to check if I am working...")
-            await bot.disconnect()
-            os.execl(sys.executable, sys.executable, *sys.argv)
-            quit()
-        else:
-            reply_pop_up_alert = "Bhag Ja Bhosdike.."
-            await event.answer(reply_pop_up_alert, cache_time=0, alert=True)
-
-
     @tgbot.on(callbackquery.CallbackQuery(data=compile(b"req")))
     async def on_pm_click(event):
         if event.query.user_id == bot.uid:
@@ -276,11 +264,8 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
     @tgbot.on(callbackquery.CallbackQuery(data=compile(b"close")))
     async def on_plug_in_callback_query_handler(event):
         if event.query.user_id == bot.uid:
-            veriler=[
-                    [custom.Button.inline(f"{hell_emoji} Re-Open Menu {hell_emoji}", data="reopen")],
-                    [custom.Button.inline(f"{hell_emoji} Restart {hell_emoji}", data="khtmtatabyebye")],
-            ]      
-            await event.edit(f"**⚜️ Hêllẞø† Mêñû Prõvîdêr ìs ñôw Çlösëd ⚜️**\n\n        [©️ Hêllẞø† ™️]({chnl_link})", buttons=veriler)
+            veriler = custom.Button.inline(f"{hell_emoji} Re-Open Menu {hell_emoji}", data="reopen")
+            await event.edit(f"**⚜️ Hêllẞø† Mêñû Prõvîdêr ìs ñôw Çlösëd ⚜️**\n**Bot Of :**  {hell_mention}\n\n        [©️ Hêllẞø† ™️]({chnl_link})", buttons=veriler)
         else:
             reply_pop_up_alert = "Hoo gya aapka. Kabse tapar tapar dabae jaa rhe h. Khudka bna lo na agr chaiye to. © Hêllẞø† ™"
             await event.answer(reply_pop_up_alert, cache_time=0, alert=True)
