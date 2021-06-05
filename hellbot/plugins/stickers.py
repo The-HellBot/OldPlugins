@@ -36,7 +36,6 @@ hellbot = Config.STICKER_PACKNAME
 @bot.on(hell_cmd(outgoing=True, pattern="kang"))
 @bot.on(sudo_cmd(pattern="kang", allow_sudo=True))
 async def kang(args):
-    """ For .kang command, kangs stickers or creates new ones. """
     user = await bot.get_me()
     if not user.username:
         user.username = user.first_name
@@ -48,11 +47,11 @@ async def kang(args):
 
     if message and message.media:
         if isinstance(message.media, MessageMediaPhoto):
-            await args.edit(f"`{random.choice(KANGING_STR)}`")
+            hell = await eor(args, f"`{random.choice(KANGING_STR)}`")
             photo = io.BytesIO()
             photo = await bot.download_media(message.photo, photo)
         elif "image" in message.media.document.mime_type.split("/"):
-            await args.edit(f"`{random.choice(KANGING_STR)}`")
+            hell = await eor(args, f"`{random.choice(KANGING_STR)}`")
             photo = io.BytesIO()
             await bot.download_file(message.media.document, photo)
             if (
@@ -62,7 +61,7 @@ async def kang(args):
                 emoji = message.media.document.attributes[1].alt
                 emojibypass = True
         elif "tgsticker" in message.media.document.mime_type:
-            await args.edit(f"`{random.choice(KANGING_STR)}`")
+            hell = await eor(args, f"`{random.choice(KANGING_STR)}`")
             await bot.download_file(message.media.document, "AnimatedSticker.tgs")
 
             attributes = message.media.document.attributes
@@ -74,10 +73,10 @@ async def kang(args):
             is_anim = True
             photo = 1
         else:
-            await args.edit("`Unsupported File!`")
+            await eod(args, "`Unsupported File!`")
             return
     else:
-        await args.edit("`I can't kang that...`")
+        await eod(args, "`I can't kang that...`")
         return
 
     if photo:
@@ -140,7 +139,7 @@ async def kang(args):
                         if hellbot
                         else f"@{user.username}'s HellBot Vol.{pack}"
                     )
-                    await args.edit(
+                    await hell.edit(
                         "`Switching to Pack "
                         + str(pack)
                         + " due to insufficient space`"
@@ -184,7 +183,7 @@ async def kang(args):
                         await conv.get_response()
                         # Ensure user doesn't get spamming notifications
                         await bot.send_read_acknowledge(conv.chat_id)
-                        await args.edit(
+                        await hell.edit(
                             f"`Sticker added in a Different Pack !\
                             \nThis Pack is Newly created!\
                             \nYour pack can be found [here](t.me/addstickers/{packname})",
@@ -199,7 +198,7 @@ async def kang(args):
                     await conv.send_file(file, force_document=True)
                 rsp = await conv.get_response()
                 if "Sorry, the file type is invalid." in rsp.text:
-                    await args.edit(
+                    await hell.edit(
                         "`Failed to add sticker, use` @Stickers `bot to add the sticker manually.`"
                     )
                     return
@@ -212,7 +211,7 @@ async def kang(args):
                 # Ensure user doesn't get spamming notifications
                 await bot.send_read_acknowledge(conv.chat_id)
         else:
-            await args.edit("`Preparing a new pack....`")
+            await hell.edit("`Preparing a new pack....`")
             async with bot.conversation("Stickers") as conv:
                 await conv.send_message(cmd)
                 await conv.get_response()
@@ -230,7 +229,7 @@ async def kang(args):
                     await conv.send_file(file, force_document=True)
                 rsp = await conv.get_response()
                 if "Sorry, the file type is invalid." in rsp.text:
-                    await args.edit(
+                    await hell.edit(
                         "`Failed to add sticker, use` @Stickers `bot to add the sticker manually.`"
                     )
                     return
@@ -256,7 +255,7 @@ async def kang(args):
                 # Ensure user doesn't get spamming notifications
                 await bot.send_read_acknowledge(conv.chat_id)
 
-        await args.edit(
+        await hell.edit(
             f"⚡** This Sticker iz [kanged](t.me/addstickers/{packname}) successfully to your pack **⚡",
             parse_mode="md",
         )
