@@ -97,7 +97,9 @@ CmdHelp("bot").add_command(
 ).add_command(
   "kickme", None, "Kicks Yourself from the group."
 ).add_command(
-  "dm", "<username> <message>", "Sends a DM to given username with required msg", "dm @SupRemE_AnanD Sar U pro"
+  "schd", "<secs> - <message>", "Sends your message in given secs", "schd 10 - Hello"
+).add_command(
+  "dm", "<username> <message>", "Sends a DM to given username with required msg"
 ).add_info(
   "Haa vai? Kya hua?"
 ).add_warning(
