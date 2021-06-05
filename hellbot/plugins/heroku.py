@@ -197,7 +197,7 @@ async def _(dyno):
     except BaseException:
         return await dyno.reply(f"Make Sure Your Heroku AppName & API Key are filled correct. Visit {hell_grp} for help.", link_preview=False)
     hell_data = app.get_log()
-    hell_key = (
+    key = (
         requests.post("https://nekobin.com/api/documents", json={"content": hell_data})
         .json()
         .get("result")
