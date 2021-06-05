@@ -2,9 +2,9 @@ from hellbot import *
 from hellbot.config import Config
 from hellbot.helpers import *
 from hellbot.utils import *
+from hellbot.random_strings import *
 
 
-DEVLIST = ["1748056101", "1432756163", "1746995580", "1777340882", "816517310", "1384994671"]
 HELL_USER = Config.YOUR_NAME or "Hêll"
 ForGo10God = bot.uid
 hell_mention = f"[{HELL_USER}](tg://user?id={ForGo10God})"
