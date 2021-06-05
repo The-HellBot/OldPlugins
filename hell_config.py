@@ -71,6 +71,7 @@ class Config(object):
     PLUGIN_CHANNEL = os.environ.get("PLUGIN_CHANNEL", None)
     if PLUGIN_CHANNEL:
         PLUGIN_CHANNEL = int(PLUGIN_CHANNEL)
+    PM_LOG_ID = int(os.environ.get("PM_LOG_ID", 0))
     PM_PERMIT = os.environ.get("PM_PERMIT", "ENABLE")
     PMPERMIT_PIC = os.environ.get("PMPERMIT_PIC", "https://telegra.ph/file/73e95f4325159336766c0.jpg")
     REMOVE_BG_API = os.environ.get("REMOVE_BG_API", None)
