@@ -172,7 +172,8 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
     @tgbot.on(callbackquery.CallbackQuery(data=compile(b"khtmtatabyebye")))
     async def gya(event):
         if event.query.user_id == bot.uid:
-            await eod(event, "**Deleted Menu**", 2)
+            hell = await eor(event, "**Deleted Menu**")
+            await hell.delete()
         else:
             reply_pop_up_alert = "Bhag Ja Bhosdike.."
             await event.answer(reply_pop_up_alert, cache_time=0, alert=True)
