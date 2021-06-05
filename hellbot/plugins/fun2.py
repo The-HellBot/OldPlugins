@@ -315,6 +315,8 @@ CmdHelp("fun2").add_command(
 ).add_command(
   "pay", None, "Use and see"
 ).add_command(
+  "pat", "<reply> or <@username>", "Pats the user."
+).add_command(
   "cat", None, "Sends you some random cat facial text art"
 ).add_command(
   "why", None, "Asks some random funny questions"
