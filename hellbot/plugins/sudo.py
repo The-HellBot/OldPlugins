@@ -20,7 +20,7 @@ async def sudo(event):
 
 
 @bot.on(hell_cmd(pattern="addsudo(?: |$)"))
-async def tb(event):
+async def add(event):
     ok = await eor(event, "**🚀 Adding Sudo User...**")
     bot = "SUDO_USERS"
     if Config.HEROKU_APP_NAME is not None:
@@ -43,6 +43,32 @@ async def tb(event):
     heroku_Config[bot] = newsudo
 
 
+@bot.on(hell_cmd(pattern="rmsudo(?: |$)"))
+async def _(event):
+	if event.fwd_from:
+		return
+    ok = await eor(event, "**🚫 Removing Sudo User...**")
+    bot = "SUDO_USERS"
+    if Config.HEROKU_APP_NAME is not None:
+        app = Heroku.app(Config.HEROKU_APP_NAME)
+    else:
+        await eod(ok, "**Please Set-Up**  `HEROKU_APP_NAME` **to remove sudo users!!**")
+        return
+    heroku_Config = app.config()
+    if event is None:
+        return
+    try:
+        target = await get_user(event)
+    except Exception:
+        await eod(ok, f"Reply to a user to remove them from sudo.")
+    if target in sudousers:
+    	newsudo = sudousers.replace(target, "")
+    	await ok.edit(f"❌** Removed**  `{target}`  **from Sudo User.**\n\n __Restarting Heroku to Apply Changes. Wait for a minute.__")
+    	heroku_Config[bot] = newsudo
+    else:
+    	await ok.edit("😑** This user is not in your Sudo Users List.**")
+
+
 async def get_user(event):
     if event.reply_to_msg_id:
         previous_message = await event.get_reply_message()
@@ -62,6 +88,8 @@ CmdHelp("sudo").add_command(
   "sudo", None, "Check If Your Bot Has Sudo Enabled!!"
 ).add_command(
   "addsudo", "<reply to user>", "Adds replied user to sudo list."
+).add_command(
+  "rmsudo", "<reply to user>", "Removes the replied user from your sudo list if already added."
 ).add_info(
   "Manage Sudo."
 ).add_warning(
