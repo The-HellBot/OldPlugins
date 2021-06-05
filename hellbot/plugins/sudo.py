@@ -42,6 +42,8 @@ async def add(event):
     await ok.edit(f"✅** Added**  `{target}`  **in Sudo User.**\n\n __Restarting Heroku to Apply Changes. Wait for a minute.__")
     heroku_Config[bot] = newsudo
 
+"""
+   SOON...
 
 @bot.on(hell_cmd(pattern="rmsudo(?: |$)"))
 async def _(event):
@@ -65,7 +67,7 @@ async def _(event):
     	heroku_Config[bot] = newsudo
     else:
     	await ok.edit("😑** This user is not in your Sudo Users List.**")
-
+"""
 
 async def get_user(event):
     if event.reply_to_msg_id:
