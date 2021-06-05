@@ -42,9 +42,6 @@ async def add(event):
     await ok.edit(f"✅** Added**  `{target}`  **in Sudo User.**\n\n __Restarting Heroku to Apply Changes. Wait for a minute.__")
     heroku_Config[bot] = newsudo
 
-"""
-   SOON...
-
 @bot.on(hell_cmd(pattern="rmsudo(?: |$)"))
 async def _(event):
     ok = await eor(event, "**🚫 Removing Sudo User...**")
@@ -52,22 +49,22 @@ async def _(event):
     if Config.HEROKU_APP_NAME is not None:
         app = Heroku.app(Config.HEROKU_APP_NAME)
     else:
-        await eod(ok, "**Please Set-Up**  `HEROKU_APP_NAME` **to remove sudo users!!**")
+        await eod(ok, "**Please Set-Up**  HEROKU_APP_NAME to remove sudo users!!")
         return
     heroku_Config = app.config()
     if event is None:
         return
     try:
         target = await get_user(event)
+        gett = str(target)
     except Exception:
         await eod(ok, f"Reply to a user to remove them from sudo.")
-    if target in sudousers:
-    	newsudo = sudousers.replace(target, "")
-    	await ok.edit(f"❌** Removed**  `{target}`  **from Sudo User.**\n\n __Restarting Heroku to Apply Changes. Wait for a minute.__")
-    	heroku_Config[bot] = newsudo
+    if gett in sudousers:
+        newsudo = sudousers.replace(gett, "")
+        await ok.edit(f"❌** Removed**  `{target}`  from Sudo User.\n\n Restarting Heroku to Apply Changes. Wait for a minute.")
+        heroku_Config[bot] = newsudo
     else:
-    	await ok.edit("😑** This user is not in your Sudo Users List.**")
-"""
+        await ok.edit("**😑This user is not in your Sudo Users List.**")
 
 async def get_user(event):
     if event.reply_to_msg_id:
