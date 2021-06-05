@@ -7,11 +7,9 @@ from telethon.tl.types import (
     MessageEntityMentionName,
 )
 from telethon.utils import pack_bot_file_id, get_input_location
-
 from datetime import datetime
 from math import sqrt
 from os import remove
-
 import emoji
 from telethon.errors import (
     ChannelInvalidError,
@@ -26,11 +24,57 @@ from telethon.tl.functions.channels import (
     LeaveChannelRequest,
 )
 from telethon.tl.functions.messages import GetFullChatRequest, GetHistoryRequest
-
 from telethon.tl.functions.photos import GetUserPhotosRequest
 from telethon.tl.functions.users import GetFullUserRequest
 import html
 from . import *
+from telethon import events
+from telethon.errors.rpcerrorlist import YouBlockedUserError
+
+
+@bot.on(hell_cmd(pattern="recognize ?(.*)", outgoing=True))
+@bot.on(sudo_cmd(pattern="recognize ?(.*)", allow_sudo=True))
+async def _(event):
+    if event.fwd_from:
+        return
+    if not event.reply_to_msg_id:
+        await eod(event, "Reply to any user's media message.")
+        return
+    reply_message = await event.get_reply_message()
+    if not reply_message.media:
+        await eod(event, "reply to media file")
+        return
+    chat = "@Rekognition_Bot"
+    reply_message.sender
+    if reply_message.sender.bot:
+        await eod(event, "Reply to actual users message.")
+        return
+    hell = await eor(event, "recognizeing this media")
+    async with event.client.conversation(chat) as conv:
+        try:
+            response = conv.wait_event(
+                events.NewMessage(incoming=True, from_users=461083923)
+            )
+            first = await event.client.forward_messages(chat, reply_message)
+            second = await response
+        except YouBlockedUserError:
+            await event.reply("unblock @Rekognition_Bot and try again")
+            await hell.delete()
+            return
+        if second.text.startswith("See next message."):
+            response = conv.wait_event(
+                events.NewMessage(incoming=True, from_users=461083923)
+            )
+            third = await response
+            hell = third.message.message
+            await eor(event, hell)
+            await bot.delete_messages(
+            	conv.chat_id, [first.id, second.id, third.id]
+            )
+
+        else:
+            await eod(event, "sorry, I couldnt find it")
+
 
 @bot.on(hell_cmd(pattern="(whois|info) ?(.*)", outgoing=True))
 @bot.on(sudo_cmd(pattern="(whois|info) ?(.*)", allow_sudo=True))
@@ -613,6 +657,8 @@ CmdHelp("infos").add_command(
   "chatinfo", "<username of group>", "Shows you the total information of the required chat"
 ).add_command(
   "users", "<name of member> (optional)", "Retrives all the (or mentioned) users in the chat"
+).add_command(
+  "recognize", "<reply to photo>", "Sends you the details of that replied picture."
 ).add_info(
   "Basic Cmds for groups."
 ).add_warning(
