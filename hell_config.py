@@ -67,7 +67,7 @@ class Config(object):
     MAX_MESSAGE_SIZE_LIMIT = 4095
     MAX_SPAM = int(os.environ.get("MAX_SPAM", 3))
     MONGO_URI = os.environ.get("MONGO_URI", None)
-    OCR_SPACE_API_KEY = os.environ.get("OCR_SPACE_API_KEY", None)
+    OCR_API = os.environ.get("OCR_API", None)
     PLUGIN_CHANNEL = os.environ.get("PLUGIN_CHANNEL", None)
     if PLUGIN_CHANNEL:
         PLUGIN_CHANNEL = int(PLUGIN_CHANNEL)
