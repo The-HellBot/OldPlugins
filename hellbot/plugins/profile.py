@@ -1,4 +1,5 @@
 import os
+import urllib
 
 from telethon.errors.rpcerrorlist import UsernameOccupiedError
 from telethon.tl import functions
@@ -18,8 +19,92 @@ BIO_SUCCESS = "🌟 Bio Message Edited Successfully."
 NAME_OK = "~~Kimi No Nawa~~ \nYour Name is successfully chnaged.."
 USERNAME_SUCCESS = "🌝 Successfully Changed Your Username."
 USERNAME_TAKEN = "😬 This Username is already taken. Try another one."
+OFFLINE_TAG = "[ • OFFLINE • ]"
+ONLINE_TAG = "[ • ONLINE • ]"
+PROFILE_IMAGE = "https://telegra.ph/file/9f0638dbfa028162a8682.jpg"
 # ===============================================================
 
+@bot.on(hell_cmd(pattern="offline$", outgoing=True)) 
+async def _(event):
+    if event.fwd_from:
+        return
+    user_it = "me"
+    user = await event.client.get_entity(user_it)
+    if user.first_name.startswith(OFFLINE_TAG):
+        await eod(event, "**Already in Offline Mode.**")
+        return
+    await eor(event, "**Changing Profile to Offline...**")
+    if not os.path.isdir(Config.TMP_DOWNLOAD_DIRECTORY):
+        os.makedirs(Config.TMP_DOWNLOAD_DIRECTORY)
+    urllib.request.urlretrieve(
+        "https://telegra.ph/file/249f27d5b52a87babcb3f.jpg", "donottouch.jpg"
+    )
+    photo = "donottouch.jpg"
+    if photo:
+        file = await event.client.upload_file(photo)
+        try:
+            await bot(functions.photos.UploadProfilePhotoRequest(file))
+        except Exception as e:
+            await eod(event, str(e))
+        else:
+            await eod(event, "**Changed profile to OffLine.**")
+    try:
+        os.system("rm -fr donottouch.jpg")
+    except Exception as e:
+        logger.warn(str(e))
+    last_name = ""
+    first_name = OFFLINE_TAG
+    try:
+        await bot(
+            functions.account.UpdateProfileRequest(
+                last_name=last_name, first_name=first_name
+            )
+        )
+        result = "**`{} {}`\nI am Offline now.**".format(first_name, last_name)
+        await eod(event, result)
+    except Exception as e:
+        await eod(event, str(e))
+
+
+@bot.on(hell_cmd(pattern="online$", outgoing=True))
+async def _(event):
+    if event.fwd_from:
+        return
+    user_it = "me"
+    user = await event.client.get_entity(user_it)
+    if user.first_name.startswith(OFFLINE_TAG):
+        await eor(event, "**Changing Profile to Online...**")
+    else:
+        await eod(event, "**Already Online.**")
+        return
+    if not os.path.isdir(Config.TMP_DOWNLOAD_DIRECTORY):
+        os.makedirs(Config.TMP_DOWNLOAD_DIRECTORY)
+    urllib.request.urlretrieve(PROFILE_IMAGE, "donottouch.jpg")
+    photo = "donottouch.jpg"
+    if photo:
+        file = await event.client.upload_file(photo)
+        try:
+            await bot(functions.photos.UploadProfilePhotoRequest(file))
+        except Exception as e:
+            await eod(event, str(e))
+        else:
+            await eod(event, "**Changed profile to Online.**")
+    try:
+        os.system("rm -fr donottouch.jpg")
+    except Exception as e:
+        logger.warn(str(e))
+    first_name = ONLINE_TAG
+    last_name = ""
+    try:
+        await bot(
+            functions.account.UpdateProfileRequest(
+                last_name=last_name, first_name=first_name
+            )
+        )
+        result = "**`{} {}`\nI am Online !**".format(first_name, last_name)
+        await eod(event, result)
+    except Exception as e:
+        await eod(event, str(e))
 
 @bot.on(hell_cmd(pattern="pbio (.*)"))
 async def _(event):
@@ -187,6 +272,10 @@ CmdHelp("profile").add_command(
   "pname", "<firstname> or <firstname | lastname>", "Changes Your Telegram account name"
 ).add_command(
   "username", "<new username>", "Changes your Telegram Account Username"
+).add_command(
+  "online", None, "Remove Offline Tag from your name and change profile pic to vars PROFILE_IMAGE."
+).add_command(
+  "offline", None, "Add an offline tag in your name and change profile pic to black."
 ).add_command(
   "kickme", None, "Gets out of the grp..."
 ).add_info(
