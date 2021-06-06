@@ -1,7 +1,7 @@
 import io
 import json
 import logging
-from datetime import datetime
+import datetime
 
 import aiohttp
 import requests
@@ -15,14 +15,10 @@ logging.basicConfig(
     format="[%(levelname) 5s/%(asctime)s] %(name)s: %(message)s", level=logging.WARNING
 )
 
-# ===== CONSTANT =====
 DEFCITY = "Delhi"
-# ====================
 OWM_API = Config.WEATHER_API
 
-
 async def get_tz(con):
-    # Get time zone of the given country. Credits: @aragon12 and @zakaryan2004.
     for c_code in c_n:
         if con == c_n[c_code]:
             return tz(c_tz[c_code][0])
@@ -33,32 +29,27 @@ async def get_tz(con):
         return
 
 
-@bot.on(hell_cmd(pattern="climate ?(.*)"))
-@bot.on(sudo_cmd(pattern="climate ?(.*)", allow_sudo=True))
-@errors_handler
+@bot.on(hell_cmd(pattern="(climate|weather) ?(.*)"))
+@bot.on(sudo_cmd(pattern="(climate|weather) ?(.*)", allow_sudo=True))
 async def get_weather(weather):
-    if weather.fwd_from:
-        return
     if not OWM_API:
-        await edit_or_reply(
-            weather, "`Get an API key from` https://openweathermap.org/ `first.`"
-        )
+        await eor(weather, "**Get an API key from** https://openweathermap.org/ **first.**")
         return
     APPID = OWM_API
     if not weather.pattern_match.group(1):
         CITY = DEFCITY
         if not CITY:
-            await edit_or_reply(
-                weather, "`Please specify a city or set it as default.`"
-            )
+            await eod(weather, "`Please specify a city or set one as default.`")
             return
     else:
         CITY = weather.pattern_match.group(1)
+
     timezone_countries = {
         timezone: country
         for country, timezones in c_tz.items()
         for timezone in timezones
     }
+
     if "," in CITY:
         newcity = CITY.split(",")
         if len(newcity[1]) == 2:
@@ -68,15 +59,18 @@ async def get_weather(weather):
             try:
                 countrycode = timezone_countries[f"{country}"]
             except KeyError:
-                await weather.edit("`Invalid country.`")
+                await eod(weather, "`Invalid country.`")
                 return
             CITY = newcity[0].strip() + "," + countrycode.strip()
+
     url = f"https://api.openweathermap.org/data/2.5/weather?q={CITY}&appid={APPID}"
     request = requests.get(url)
     result = json.loads(request.text)
+
     if request.status_code != 200:
-        await weather.edit(f"`Invalid country.`")
+        await eod(weather, f"`Invalid country.`")
         return
+
     cityname = result["name"]
     curtemp = result["main"]["temp"]
     humidity = result["main"]["humidity"]
@@ -93,11 +87,12 @@ async def get_weather(weather):
     winddir = result["wind"]["deg"]
     cloud = result["clouds"]["all"]
     ctimezone = tz(c_tz[country][0])
-    time = datetime.now(ctimezone).strftime("%A, %I:%M %p")
+    time = datetime.datetime.now(ctimezone).strftime("%A, %I:%M %p")
     fullc_n = c_n[f"{country}"]
     # dirs = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE",
     #        "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"]
     dirs = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"]
+
     div = 360 / len(dirs)
     funmath = int((winddir + (div / 2)) / div)
     findir = dirs[funmath % len(dirs)]
@@ -113,9 +108,10 @@ async def get_weather(weather):
         return temp[0]
 
     def sun(unix):
-        return datetime.fromtimestamp(unix, tz=ctimezone).strftime("%I:%M %p")
+        xx = datetime.datetime.fromtimestamp(unix, tz=ctimezone).strftime("%I:%M %p")
+        return xx
 
-    await edit_or_reply(
+    await eor(
         weather,
         f"🌡️ **Temperature :** `{celsius(curtemp)}°C | {fahrenheit(curtemp)}°F`\n"
         + f"👩‍🏫 **Human Feeling** `{celsius(feel)}°C | {fahrenheit(feel)}°F`\n"
@@ -129,7 +125,7 @@ async def get_weather(weather):
         + f"🌅 **Sunset :** `{sun(sunset)}`\n\n\n"
         + f"**{desc}**\n"
         + f"`{cityname}, {fullc_n}`\n"
-        + f"`{time}`\n\n",
+        + f"`{time}`\n\n"
         + f"**By :**  {hell_mention}",
     )
 
@@ -212,13 +208,15 @@ async def _(event):
 
 
 CmdHelp("climate").add_command(
-  'climate', 'Name of state/country', 'Gets the weather of a city. By default it is Delhi, change it by setcity'
+  "climate", "Name of state/country", "Gets the weather of a city. By default it is Delhi, change it by setcity"
 ).add_command(
-  'setcity', '<city>/<country>', 'Sets your default city.'
+  "weather", "Name of state/country", f"Same as {hl}climate"
 ).add_command(
-  'wttr', '<city>', 'Shows you the climate data of 3 days from today in a image format.'
+  "setcity", "<city>/<country>", "Sets your default city."
+).add_command(
+  "wttr", "<city>", "Shows you the climate data of 3 days from today in a image format."
 ).add_info(
-  'Climates And Weathers.'
+  "Climates And Weathers."
 ).add_warning(
-  '✅ Harmless Module.'
+  "✅ Harmless Module."
 ).add()
