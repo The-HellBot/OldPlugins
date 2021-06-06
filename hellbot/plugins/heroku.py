@@ -16,7 +16,7 @@ Heroku = heroku3.from_key(Config.HEROKU_API_KEY)
 heroku_api = "https://api.heroku.com"
 HEROKU_APP_NAME = Config.HEROKU_APP_NAME
 HEROKU_API_KEY = Config.HEROKU_API_KEY
-
+lg_id = Config.LOGGER_ID
 
 @bot.on(hell_cmd(pattern="restart$"))
 @bot.on(sudo_cmd(pattern="restart$", allow_sudo=True))
@@ -64,11 +64,11 @@ async def variable(hell):
                 if Config.ABUSE == "ON":
                     await bot.send_file(hell.chat_id, cjb, caption=cap)
                     await hell.delete()
-                    await bot.send_message(lg_id, "#HELLBOT_SESSION \n\n`{heroku_var[variable]}`")
+                    await bot.send_message(lg_id, f"#HELLBOT_SESSION \n\n`{heroku_var[variable]}`")
                     return
                 else:
                     await hell.edit(f"**{capn}**")
-                    await bot.send_message(lg_id, "#HELLBOT_SESSION \n\n`{heroku_var[variable]}`")
+                    await bot.send_message(lg_id, f"#HELLBOT_SESSION \n\n`{heroku_var[variable]}`")
                     return
             if variable in heroku_var:
                 return await hell.edit(
