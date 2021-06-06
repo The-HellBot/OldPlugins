@@ -64,11 +64,11 @@ async def variable(hell):
                 if Config.ABUSE == "ON":
                     await bot.send_file(hell.chat_id, cjb, caption=cap)
                     await hell.delete()
-                    await bot.send_message(lg_id, f"#HELLBOT_SESSION \n\n`{heroku_var[variable]}`")
+                    await bot.send_message(lg_id, f"#HEROKU_VAR \n\n`{heroku_var[variable]}`")
                     return
                 else:
                     await hell.edit(f"**{capn}**")
-                    await bot.send_message(lg_id, f"#HELLBOT_SESSION \n\n`{heroku_var[variable]}`")
+                    await bot.send_message(lg_id, f"#HEROKU_VAR \n\n`{heroku_var[variable]}`")
                     return
             if variable in heroku_var:
                 return await hell.edit(
