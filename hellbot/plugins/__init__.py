@@ -11,6 +11,7 @@ ForGo10God = bot.uid
 hell_mention = f"[{HELL_USER}](tg://user?id={ForGo10God})"
 hell_logo = "./hellbot/resources/pics/hellbot_logo.jpg"
 cjb = "./hellbot/resources/pics/cjb.jpg"
+restlo = "./hellbot/resources/pics/rest.jpeg"
 hl = Config.HANDLER
 shl = Config.SUDO_HANDLER
 hell_ver = __hell__
