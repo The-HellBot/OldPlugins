@@ -183,16 +183,15 @@ async def rem_locks(event):
                 peer=peer_id, banned_rights=unlock_rights
             )
         )
-        if Config.ABUSE != "ON":
-            await eor(event, f"{hell_mention} Unlocked `{what}` \n__Now Start Chit Chat !!__"
-            )
-        else:
+        if Config.ABUSE == "ON":
             await event.delete()
             await bot.send_file(
                 event.chat_id,
                 shuru,
                 caption=f"**{hell_mention} unlocked** `{what}`",
             )
+        else:
+            await eor(event, f"{hell_mention} Unlocked `{what}` \n__Now Start Chit Chat !!__")
     except BaseException as e:
         await eod(event, f"`Do I have proper rights for that ??`\n**Error:** {str(e)}")
         return
