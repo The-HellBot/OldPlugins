@@ -3,6 +3,7 @@ from hellbot.config import Config
 from hellbot.helpers import *
 from hellbot.utils import *
 from hellbot.random_strings import *
+from hellbot.version import __hell__
 
 
 HELL_USER = Config.YOUR_NAME or "Hêll"
@@ -12,6 +13,7 @@ hell_logo = "./hellbot/resources/pics/hellbot_logo.jpg"
 cjb = "./hellbot/resources/pics/cjb.jpg"
 hl = Config.HANDLER
 shl = Config.SUDO_HANDLER
+hell_ver = __hell__
 
 async def get_user_id(ids):
     if str(ids).isdigit():
