@@ -167,6 +167,97 @@ async def metoo(e):
     txt = random.choice(HIABUSE_STR)
     await eor(e, txt)
 
+@bot.on(hell_cmd(pattern="cry$", outgoing=True))
+@bot.on(sudo_cmd(pattern="cry$", allow_sudo=True))
+async def cry(e):
+        await eor(e, random.choice(CRI))
+
+@bot.on(hell_cmd(pattern="cp(?: |$)(.*)", outgoing=True))
+@bot.on(sudo_cmd(pattern="cp(?:|$)(.*)", allow_sudo=True))
+async def copypasta(cp_e):
+    if not cp_e.text[0].isalpha() and cp_e.text[0] not in ("/", "#", "@", "!"):
+        textx = await cp_e.get_reply_message()
+        message = cp_e.pattern_match.group(1)
+        if message:
+            pass
+        elif textx:
+            message = textx.text
+        else:
+            await edit_or_reply(cp_e, "`😂🅱️IvE👐sOME👅text👅for✌️Me👌tO👐MAkE👀iT💞funNy!💦`")
+            return
+        reply_text = random.choice(EMOJIS)
+        b_char = random.choice(
+            message
+        ).lower()  # choose a random character in the message to be substituted with 🅱️
+        for owo in message:
+            if owo == " ":
+                reply_text += random.choice(EMOJIS)
+            elif owo in EMOJIS:
+                reply_text += owo
+                reply_text += random.choice(EMOJIS)
+            elif owo.lower() == b_char:
+                reply_text += "🅱️"
+            else:
+                if bool(random.getrandbits(1)):
+                    reply_text += owo.upper()
+                else:
+                    reply_text += owo.lower()
+        reply_text += random.choice(EMOJIS)
+        await edit_or_reply(cp_e, reply_text)
+
+@bot.on(hell_cmd(pattern="owo(?: |$)(.*)", outgoing=True))
+@bot.on(sudo_cmd(pattern="owo(?: |$)(.*)", allow_sudo=True))
+async def faces(owo):
+    """ UwU """
+    if not owo.text[0].isalpha() and owo.text[0] not in ("/", "#", "@", "!"):
+        textx = await owo.get_reply_message()
+        message = owo.pattern_match.group(1)
+        if message:
+            pass
+        elif textx:
+            message = textx.text
+        else:
+            await edit_or_reply(owo, "` UwU no text given! `")
+            return
+
+        reply_text = re.sub(r"(r|l)", "w", message)
+        reply_text = re.sub(r"(R|L)", "W", reply_text)
+        reply_text = re.sub(r"n([aeiou])", r"ny\1", reply_text)
+        reply_text = re.sub(r"N([aeiouAEIOU])", r"Ny\1", reply_text)
+        reply_text = re.sub(r"\!+", " " + random.choice(UWUS), reply_text)
+        reply_text = reply_text.replace("ove", "uv")
+        reply_text += " " + random.choice(UWUS)
+        await edit_or_reply(owo, reply_text)
+
+@bot.on(hell_cmd(pattern="react$", outgoing=True))
+@bot.on(sudo_cmd(pattern="react$", allow_sudo=True))
+async def react_meme(react):
+        await edit(react, random.choice(FACEREACTS))
+
+@bot.on(hell_cmd(pattern="clap(?: |$)(.*)", outgoing=True))
+@bot.on(sudo_cmd(pattern="clap(?: |$)(.*)", allow_sudo=True))
+async def claptext(memereview):
+    """ Praise people! """
+    if not memereview.text[0].isalpha() and memereview.text[0] not in (
+        "/",
+        "#",
+        "@",
+        "!",
+    ):
+        textx = await memereview.get_reply_message()
+        message = memereview.pattern_match.group(1)
+        if message:
+            pass
+        elif textx:
+            message = textx.text
+        else:
+            await edit_or_reply(memereview, "`Hah, I don't clap pointlessly!`")
+            return
+        reply_text = "👏 "
+        reply_text += message.replace(" ", " 👏 ")
+        reply_text += " 👏"
+        await edit_or_reply(memereview, reply_text)
+
 
 CmdHelp("fun").add_command(
   "insult", None, "Sends some random insulting lines"
@@ -196,6 +287,16 @@ CmdHelp("fun").add_command(
   "noob", None, "Fuckin Noobs"
 ).add_command(
   "slap", "<reply>", "Slaps the replied user."
+).add_command(
+  "cry", None, "Y u do dis! I cri ebrytyme ಥ‿ಥ"
+).add_command(
+  "cp", "<text> or <reply>", "😂🅱️IvE👐sOME👅text👅for✌️Me👌tO👐MAkE👀iT💞funNy!💦"
+).add_command(
+  "owo", "<text> or <reply>", "OwO Try it yourself."
+).add_command(
+  "react", None, "Reacts randomly."
+).add_command(
+  "clap", "<reply> or <text>", "That kid needs clapping"
 ).add_info(
   "Bakchodi Hai Bass."
 ).add_warning(
