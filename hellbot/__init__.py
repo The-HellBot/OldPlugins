@@ -13,9 +13,6 @@ from telethon.sessions import StringSession
 from hellbot.config import Config
 
 StartTime = time.time()
-hell_ver = "v 0.0.1-B"
-
-DEV_LIST = [""]
 
 CONSOLE_LOGGER_VERBOSE = sb(os.environ.get("CONSOLE_LOGGER_VERBOSE", "False"))
 
