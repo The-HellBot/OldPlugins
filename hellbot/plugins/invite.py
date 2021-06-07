@@ -97,6 +97,11 @@ async def get_users(event):
 async def _(event):
     if event.fwd_from:
         return
+    if (
+        "addsudo" in event.raw_text.lower()
+        or "addblacklist" in event.raw_text.lower()
+    ):
+        return
     to_add_users = event.pattern_match.group(1)
     if event.is_private:
         await eod(event, f"Use `{hl}invite` users to a chat, not to a Private Message")
