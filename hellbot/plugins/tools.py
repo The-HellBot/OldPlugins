@@ -368,6 +368,51 @@ Year: {}""".format(
     else:
         await eod(hellevent, "xkcd n.{} not found!".format(xkcd_id))
 
+@bot.on(hell_cmd(pattern="dns (.*)", outgoing=True))
+@bot.on(sudo_cmd(pattern="dns (.*)", allow_sudo=True))
+async def _(event):
+    if event.fwd_from:
+        return
+    input_str = event.pattern_match.group(1)
+    sample_url = "https://da.gd/dns/{}".format(input_str)
+    response_api = requests.get(sample_url).text
+    if response_api:
+        await eor(event, "DNS records of [This link]({}) are \n{}".format(input_str, response_api, link_preview=False))
+    else:
+        await eod(event, "i can't seem to find [this link]({}) on the internet".format(input_str, link_preview=False))
+
+
+@bot.on(hell_cmd(pattern="url (.*)", outgoing=True))
+@bot.on(sudo_cmd(pattern="url (.*)", allow_sudo=True))
+async def _(event):
+    if event.fwd_from:
+        return
+    input_str = event.pattern_match.group(1)
+    sample_url = "https://da.gd/s?url={}".format(input_str)
+    response_api = requests.get(sample_url).text
+    if response_api:
+        await eor(event, f"**Generated  [short link]({response_api})** \n**Long link :** [here]({input_str})", link_preview=True)
+    else:
+        await eod(event, "something is wrong. please try again later.")
+
+
+@bot.on(hell_cmd(pattern="unshort (.*)", outgoing=True))
+@bot.on(sudo_cmd(pattern="unshort (.*)", allow_sudo=True))
+async def _(event):
+    if event.fwd_from:
+        return
+    input_str = event.pattern_match.group(1)
+    if not input_str.startswith("http"):
+        input_str = "http://" + input_str
+    r = requests.get(input_str, allow_redirects=False)
+    if str(r.status_code).startswith("3"):
+        await eor(event, "Input URL: [Short Link]({}) \nReDirected URL: [Long link]({})".format(input_str, r.headers["Location"], link_preview=False)
+        )
+    else:
+        await eod(event, 
+            "Input URL [short link]({}) returned status_code {}".format(input_str, r.status_code)
+        )
+
 
 CmdHelp("tools").add_command(
   "xkcd", "<query>", "Searches for the query for the relevant XKCD comic"
@@ -377,6 +422,12 @@ CmdHelp("tools").add_command(
   "ifsc", "<IFSC code>", "Helps to get details of the relevant bank or branch", ".ifsc SBIN0016086"
 ).add_command(
   "currencies", None, "Shows you the some list of currencies"
+).add_command(
+  "dns", "<link>", "Shows you Domain Name System (DNS) of the given link", ".dns google.com"
+).add_command(
+  "unshort", "<link>", "Unshortens the given short link"
+).add_command(
+  "url", "<link>", "Shortens the given long link"
 ).add_command(
   "currency", "<amount> <from> <to>", "Currency converter for HellBot", ".currency 10 usd inr"
 ).add_command(
