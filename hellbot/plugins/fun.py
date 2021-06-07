@@ -1,5 +1,8 @@
 import random
 from random import choice
+import time
+import re
+import requests
 
 from telethon.tl.functions.users import GetFullUserRequest
 from telethon.tl.types import MessageEntityMentionName
