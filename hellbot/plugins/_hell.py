@@ -3,6 +3,7 @@ import datetime
 import time
 
 from telethon import Button, custom, events, version
+from telethon.events import InlineQuery
 from telethon.tl.custom import Button
 
 from . import *
