@@ -1,4 +1,4 @@
-from telethon import events, version
+from telethon import events
 from telethon.events import NewMessage
 from telethon.tl.custom import Dialog
 from telethon.tl.types import Channel, Chat, User
@@ -10,7 +10,7 @@ from . import *
 hell_pic = "https://telegra.ph/file/ea9e11f7c9db21c1b8d5e.mp4"
 alive_c = f"__**🔥🔥ɦɛʟʟɮօt ɨs օռʟɨռɛ🔥🔥**__\n\n"
 alive_c += f"__↼ Øwñêr ⇀__ : 『 {hell_mention} 』\n\n"
-alive_c += f"•♦• Telethon     :  `{version.__version__}` \n"
+alive_c += f"•♦• Telethon     :  `{tel_ver}` \n"
 alive_c += f"•♦• Hêllẞø†       :  __**{hell_ver}**__\n"
 alive_c += f"•♦• Sudo            :  `{is_sudo}`\n"
 alive_c += f"•♦• Channel      :  {hell_channel}\n"
