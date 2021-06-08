@@ -30,8 +30,15 @@ async def up(hell):
     await hell.delete()
 
 msg = f"""
-
-""" # Soon
+**⚡ нєℓℓвσт ιѕ σиℓιиє ⚡**
+{Config.ALIVE_MSG}
+**🏅 𝙱𝚘𝚝 𝚂𝚝𝚊𝚝𝚞𝚜 🏅**
+**Telethon :**  `{tel_ver}`
+**Hêllẞø†  :**  **{hell_ver}**
+**Uptime   :**  `{uptime}`
+**Abuse    :**  **{abuse_m}**
+**Sudo     :**  **{is_sudo}**
+"""
 botname = Config.BOT_USERNAME
 
 @bot.on(hell_cmd(pattern="hell$"))
