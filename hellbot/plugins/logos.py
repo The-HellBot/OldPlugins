@@ -1,40 +1,25 @@
-import glob
 import os
 import random
 import time
 
 from PIL import Image, ImageDraw, ImageFont
-from telethon.tl.types import InputMessagesFilterPhotos
+from telethon.tl.types import InputMessagesFilterPhotos, InputMessagesFilterDocument
 
 from . import *
 
-# Soon : Swith to import fonts from channel....
-FONT_STR = [
-	"./hellbot/resources/fonts/Streamster.ttf",
-	"./hellbot/resources/fonts/Ace Records.ttf",
-	"./hellbot/resources/fonts/Homina.ttf",
-	"./hellbot/resources/fonts/Intro_Inline.otf",
-	"./hellbot/resources/fonts/MagmaWave Caps.otf",
-	"./hellbot/resources/fonts/LEVIBRUSH.TTF",
-	"./hellbot/resources/fonts/Megadeth.ttf",
-	"./hellbot/resources/fonts/savatage.ttf",
-	"./hellbot/resources/fonts/hotpizza.ttf",
-	"./hellbot/resources/fonts/Sheeping Dogs.ttf",
-]
 
 PICS_STR = []
-
 
 @bot.on(hell_cmd(pattern=r"logo ?(.*)"))
 @bot.on(sudo_cmd(pattern=r"logo ?(.*)", allow_sudo=True))
 async def lg1(hellevent):
     event = await eor(hellevent, "`Processing.....`")
-    fnt = random.choice(FONT_STR)
+    fnt = await get_font_file(hellevent.client, "@HELL_FRONTS")
     if hellevent.reply_to_msg_id:
         rply = await hellevent.get_reply_message()
         logo_ = await rply.download_media()
     else:
-        async for i in bot.iter_messages("@HellBot_Logos", filter=InputMessagesFilterPhotos):
+        async for i in bot.iter_messages("@HELLBOT_LOGOS", filter=InputMessagesFilterPhotos):
     	    PICS_STR.append(i)
         pic = random.choice(PICS_STR)
         logo_ = await pic.download_media()
@@ -77,14 +62,29 @@ async def lg1(hellevent):
         caption=f"**Made By :** {hell_mention}",
     )
     await event.delete()
-    if os.path.exists(file_name):
+    try:
         os.remove(file_name)
+        os.remove(fnt)
+        os.remove(logo_)
+    except:
+    	pass
+
+
+async def get_font_file(client, channel_id):
+    font_file_message_s = await client.get_messages(
+        entity=channel_id,
+        filter=InputMessagesFilterDocument,
+        limit=None,
+    )
+    font_file_message = random.choice(font_file_message_s)
+
+    return await client.download_media(font_file_message)
 
 
 CmdHelp("logos").add_command(
-  "logo", "<reply to pic + text> ot <text>", "Makes a logo with the given text. If replied to a picture makes logo on that else gets random BG."
+  "logo", "<reply to pic + text> ot <text>", "Makes a logo with the given text. If replied to a picture makes logo that else gets random BG."
 ).add_info(
-  "Logo Maker."
-).add_warning(
+  "Logo Maker.\n**🙋🏻‍♂️ Note :**  Currently only supports custom pics. Fonts are choosen randomly."
+).add_command(
   "✅ Harmless Module."
 ).add()
