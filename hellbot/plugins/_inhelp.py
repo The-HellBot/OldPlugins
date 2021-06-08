@@ -41,6 +41,19 @@ USER_BOT_NO_WARN = (
     "{} is currently unavailable.\nThis is an automated message.\n\n"
     "{}\n\n**Please Choose Why You Are Here!!**".format(hell_mention, mssge))
 
+alive_txt = """
+**⚡ нєℓℓвσт ιѕ σиℓιиє ⚡**
+
+{}
+
+**🏅 𝙱𝚘𝚝 𝚂𝚝𝚊𝚝𝚞𝚜 🏅**
+
+**Telethon :**  `{}`
+**Hêllẞø†  :**  **{}**
+**Uptime   :**  `{}`
+**Mode     :**  **{}**
+**Sudo     :**  **{}**
+"""
 
 def button(page, modules):
     Row = hell_row
@@ -93,6 +106,22 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
                 buttons=veriler[1],
                 link_preview=False,
             )
+        elif event.query.user_id == bot.uid and query.startswith("**⚡"):
+            he_ll = alive_txt.format(Config.ALIVE_MSG, tel_ver, hell_ver, uptime, abuse_m, is_sudo)
+            result = builder.photo(
+                title="Alive",
+                file=Config.ALIVE_PIC,
+                text = alive_txt,
+                buttons=[
+                    [
+                        Button.url(f"{HELL_USER}", f"tg://user?id={ForGo10God}")
+                    ],
+                    [
+                        Button.url("My Channel", f"https://t.me/{my_channel}"),
+                        Button.url("My Group", f"https://t.me/{my_group}"),
+                    ],
+                ],
+        )
         elif event.query.user_id == bot.uid and query.startswith("**🔥"):
             hel_l = USER_BOT_NO_WARN.format(hell_mention, mssge)
             result = builder.photo(
