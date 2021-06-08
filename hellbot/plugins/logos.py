@@ -82,7 +82,7 @@ async def get_font_file(client, channel_id):
 
 
 CmdHelp("logos").add_command(
-  "logo", "<reply to pic + text> ot <text>", "Makes a logo with the given text. If replied to a picture makes logo on that else gets random BG."
+  "logo", "<reply to pic + text> or <text>", "Makes a logo with the given text. If replied to a picture makes logo on that else gets random BG."
 ).add_info(
   "Logo Maker.\n**🙋🏻‍♂️ Note :**  Currently only supports custom pics. Fonts are choosen randomly."
 ).add_warning(
