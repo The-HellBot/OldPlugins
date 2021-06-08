@@ -99,9 +99,9 @@ async def install(event):
                         else:
                             a = "__Installing...__"
                             b = 1
-                        hell = await eor(event, a)
-                    return await hell.edit(f"✅ **Installed module** :- `{shortname}` \n✨ BY :- {hell_mention}\n\n{string}\n\n        ⚡ **[ʟɛɢɛռɖaʀʏ ᴀғ ɦɛʟʟɮօt]({chnl_link})** ⚡", link_preview=False)
-                return await hell.edit(f"Installed module `{os.path.basename(downloaded_file_name)}`")
+                        await eor(event, a)
+                    return await eor(event, f"✅ **Installed module** :- `{shortname}` \n✨ BY :- {hell_mention}\n\n{string}\n\n        ⚡ **[ʟɛɢɛռɖaʀʏ ᴀғ ɦɛʟʟɮօt]({chnl_link})** ⚡", link_preview=False)
+                return await eor(event, f"Installed module `{os.path.basename(downloaded_file_name)}`")
             else:
                 os.remove(downloaded_file_name)
                 return await eod(event, f"**Failed to Install** \n`Error`\nModule already installed or unknown format")
