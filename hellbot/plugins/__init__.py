@@ -36,6 +36,15 @@ if abus == "ON":
 else:
     abuse_m ="Disabled"
 
+START_TIME = datetime.datetime.now()
+uptime = f"{str(datetime.datetime.now() - START_TIME).split('.')[0]}"
+my_channel = Config.MY_CHANNEL or "Its_HellBot"
+my_group = Config.MY_GROUP or "HellBot_Chat"
+if "@" in my_channel:
+    my_channel = my_channel.replace("@", "")
+if "@" in my_group:
+    my_group = my_group.replace("@", "")
+
 chnl_link = "https://t.me/its_hellbot"
 hell_channel = f"[†hê Hêllẞø†]({chnl_link})"
 grp_link = "https://t.me/HellBot_Chat"
