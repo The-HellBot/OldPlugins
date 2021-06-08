@@ -4,6 +4,7 @@ from hellbot.helpers import *
 from hellbot.utils import *
 from hellbot.random_strings import *
 from hellbot.version import __hell__
+from telethon import version
 
 
 HELL_USER = Config.YOUR_NAME or "Hêll"
@@ -16,6 +17,7 @@ shuru = "./hellbot/resources/pics/shuru.jpg"
 hl = Config.HANDLER
 shl = Config.SUDO_HANDLER
 hell_ver = __hell__
+tel_ver = version.__version__
 
 async def get_user_id(ids):
     if str(ids).isdigit():
