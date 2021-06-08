@@ -85,6 +85,6 @@ CmdHelp("logos").add_command(
   "logo", "<reply to pic + text> ot <text>", "Makes a logo with the given text. If replied to a picture makes logo that else gets random BG."
 ).add_info(
   "Logo Maker.\n**🙋🏻‍♂️ Note :**  Currently only supports custom pics. Fonts are choosen randomly."
-).add_command(
+).add_warning(
   "✅ Harmless Module."
 ).add()
