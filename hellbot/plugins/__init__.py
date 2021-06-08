@@ -25,11 +25,16 @@ async def get_user_id(ids):
     return userid
 
 sudos = Config.SUDO_USERS
-
 if sudos:
     is_sudo = "True"
 else:
     is_sudo = "False"
+
+abus = Config.ABUSE
+if abus == "ON":
+    abuse_m = "Enabled"
+else:
+    abuse_m ="Disabled"
 
 chnl_link = "https://t.me/its_hellbot"
 hell_channel = f"[†hê Hêllẞø†]({chnl_link})"
