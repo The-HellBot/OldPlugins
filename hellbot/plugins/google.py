@@ -116,8 +116,8 @@ async def google(event):
     see.clear()
 
 
-@bot.on(hell_cmd(pattern="(img|image) (.*)", outgoing=True))
-@bot.on(sudo_cmd(pattern="(img|image) (.*)", allow_sudo=True))
+@bot.on(hell_cmd(pattern="img (.*)", outgoing=True))
+@bot.on(sudo_cmd(pattern="img (.*)", allow_sudo=True))
 async def img(event):
     sim = event.pattern_match.group(1)
     if not sim:
