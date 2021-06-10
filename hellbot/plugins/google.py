@@ -122,7 +122,7 @@ async def img(event):
     sim = event.pattern_match.group(1)
     if not sim:
         return await eod(event, "`Give something to search...`")
-    hell = await eor(event, "Searching ...`")
+    hell = await eor(event, f"Searching for  `{sim}`...")
     if "-" in sim:
         try:
             lim = int(sim.split(";")[1])
