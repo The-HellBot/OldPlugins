@@ -305,7 +305,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
         callbackquery.CallbackQuery(data=compile(b"Information\[(\d*)\]\((.*)\)"))
     )
     async def Information(event):
-        if str(event.query.user_id) in in_al:
+        if str(event.query.user_id) not in in_al:
             return await event.answer(
                 "Hoo gya aapka. Kabse tapar tapar dabae jaa rhe h. Khudka bna lo na agr chaiye to. © Hêllẞø† ™",
                 cache_time=0,
@@ -338,7 +338,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
         callbackquery.CallbackQuery(data=compile(b"commands\[(.*)\[(\d*)\]\]\((.*)\)"))
     )
     async def commands(event):
-        if str(event.query.user_id) in in_al:
+        if str(event.query.user_id) not in in_al:
             return await event.answer(
                 "Hoo gya aapka. Kabse tapar tapar dabae jaa rhe h. Khudka bna lo na agr chaiye to. © Hêllẞø† ™",
                 cache_time=0,
