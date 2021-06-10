@@ -22,8 +22,6 @@ cstm_pmp = Config.CUSTOM_PMPERMIT
 PM_WARNS = {}
 PREV_REPLY_MESSAGE = {}
 
-in_al = [ForGo10God, Config.SUDO_USERS]
-
 mybot = Config.BOT_USERNAME
 if mybot.startswith("@"):
     botname = mybot
@@ -99,7 +97,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
         builder = event.builder
         result = None
         query = event.text
-        if str(event.query.user_id) in in_al and query == "@Its_HellBot":
+        if event.query.user_id == bot.uid and query == "@Its_HellBot":
             rev_text = query[::-1]
             veriler = button(0, sorted(CMD_HELP))
             result = await builder.article(
@@ -261,7 +259,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
 
     @tgbot.on(callbackquery.CallbackQuery(data=compile(b"reopen")))
     async def reopn(event):
-            if str(event.query.user_id) in in_al :
+            if event.query.user_id == bot.uid :
                 current_page_number=0
                 simp = button(current_page_number, CMD_HELP)
                 await event.edit(
@@ -276,7 +274,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
 
     @tgbot.on(callbackquery.CallbackQuery(data=compile(b"page\((.+?)\)")))
     async def page(event):
-        if str(event.query.user_id) not in in_al:
+        if not event.query.user_id == bot.uid:
             return await event.answer(
                 "Hoo gya aapka. Kabse tapar tapar dabae jaa rhe h. Khudka bna lo na agr chaiye to. © Hêllẞø† ™",
                 cache_time=0,
@@ -293,7 +291,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
 
     @tgbot.on(callbackquery.CallbackQuery(data=compile(b"close")))
     async def on_plug_in_callback_query_handler(event):
-        if str(event.query.user_id) in in_al:
+        if event.query.user_id == bot.uid:
             veriler = custom.Button.inline(f"{hell_emoji} Re-Open Menu {hell_emoji}", data="reopen")
             await event.edit(f"**⚜️ Hêllẞø† Mêñû Prõvîdêr ìs ñôw Çlösëd ⚜️**\n\n**Bot Of :**  {hell_mention}\n\n        [©️ Hêllẞø† ™️]({chnl_link})", buttons=veriler)
         else:
@@ -305,7 +303,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
         callbackquery.CallbackQuery(data=compile(b"Information\[(\d*)\]\((.*)\)"))
     )
     async def Information(event):
-        if str(event.query.user_id) not in in_al:
+        if not event.query.user_id == bot.uid:
             return await event.answer(
                 "Hoo gya aapka. Kabse tapar tapar dabae jaa rhe h. Khudka bna lo na agr chaiye to. © Hêllẞø† ™",
                 cache_time=0,
@@ -338,7 +336,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
         callbackquery.CallbackQuery(data=compile(b"commands\[(.*)\[(\d*)\]\]\((.*)\)"))
     )
     async def commands(event):
-        if str(event.query.user_id) not in in_al:
+        if not event.query.user_id == bot.uid:
             return await event.answer(
                 "Hoo gya aapka. Kabse tapar tapar dabae jaa rhe h. Khudka bna lo na agr chaiye to. © Hêllẞø† ™",
                 cache_time=0,
