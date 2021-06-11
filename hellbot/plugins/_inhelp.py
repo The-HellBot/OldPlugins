@@ -102,7 +102,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
             veriler = button(0, sorted(CMD_HELP))
             result = await builder.article(
                 f"Hey! Only use .help please",
-                text=f"🔰 **{hell_mention}**\n\n📜 __No.of Plugins__ : `{len(CMD_HELP)}`\n🗂️ __No.of Commands__ : `{len(CMD_LIST)}` \n🗒️ **Page:** 1/{veriler[0]}",
+                text=f"🔰 **{hell_mention}**\n\n📜 __No.of Plugins__ : `{len(CMD_HELP)}` \n🗒️ **Page:** 1/{veriler[0]}",
                 buttons=veriler[1],
                 link_preview=False,
             )
@@ -113,7 +113,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
                 text=he_ll,
                 buttons=[
                     [
-                        Button.url(f"{HELL_USER}", f"tg://user?id={ForGo10God}")
+                        Button.url(f"{HELL_USER}", f"tg://openmessage?user_id={ForGo10God}")
                     ],
                     [
                         Button.url("My Channel", f"https://t.me/{my_channel}"),
