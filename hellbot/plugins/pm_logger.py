@@ -19,7 +19,7 @@ lg_id = Config.PM_LOG_ID
 
 @bot.on(hell_cmd(pattern=r"save(?: |$)([\s\S]*)", outgoing=True))
 async def log(log_text):
-    if lg_id:
+    if lg_id is not None:
         if log_text.reply_to_msg_id:
             reply_msg = await log_text.get_reply_message()
             await reply_msg.forward_to(lg_id)
@@ -37,7 +37,7 @@ async def log(log_text):
 
 @bot.on(events.NewMessage(incoming=True, func=lambda e: e.is_private))
 async def monito_p_m_s(event):
-    if lg_id == 0:
+    if lg_id is None:
         return
     sender = await event.get_sender()
     if lg_id and not sender.bot:
