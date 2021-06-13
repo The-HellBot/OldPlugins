@@ -262,8 +262,9 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
             if event.query.user_id == bot.uid :
                 current_page_number=0
                 simp = button(current_page_number, CMD_HELP)
+                veriler = button(0, sorted(CMD_HELP))
                 await event.edit(
-                    f"🔰 **{hell_mention}**\n\n📜 __No.of Plugins__ : `{len(CMD_HELP)}`\n🗂️ __No.of Commands__ : `{len(CMD_LIST)}` \n🗒️ **Page:** 1/{veriler[0]}",
+                    f"🔰 **{hell_mention}**\n\n📜 __No.of Plugins__ : `{len(CMD_HELP)}` \n🗒️ **Page:** 1/{veriler[0]}",
                     buttons=simp[1],
                     link_preview=False,
                 )
@@ -283,7 +284,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
         page = int(event.data_match.group(1).decode("UTF-8"))
         veriler = button(page, CMD_HELP)
         await event.edit(
-            f"🔰 **{hell_mention}**\n\n📜 __No.of Plugins__ : `{len(CMD_HELP)}`\n🗂️ __No.of Commands__ : `{len(CMD_LIST)}` \n🗒️ **Page :** {page + 1}/{veriler[0]}",
+            f"🔰 **{hell_mention}**\n\n📜 __No.of Plugins__ : `{len(CMD_HELP)}`\n🗒️ **Page :** {page + 1}/{veriler[0]}",
             buttons=veriler[1],
             link_preview=False,
         )
