@@ -97,7 +97,7 @@ async def kang(args):
                 # pack
                 emoji = splat[1]
 
-        packname = f"{user.username}_Hellbot_{pack}"
+        packname = f"{hellbot}_Hellbot_{pack}"
         packnick = (
             f"{hellbot} Vol.{pack}"
             if hellbot
