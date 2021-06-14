@@ -29,12 +29,14 @@ async def edit_or_reply(
     link_preview=None,
     file_name=None,
     aslink=False,
+    deflink=False,
+    noformat=False,
     linktext=None,
     caption=None,
 ):
     link_preview = link_preview or False
     reply_to = await event.get_reply_message()
-    if len(text) < 4096:
+    if len(text) < 4096 and not deflink:
         parse_mode = parse_mode or "md"
         if event.sender_id in Config.SUDO_USERS:
             if reply_to:
@@ -44,11 +46,13 @@ async def edit_or_reply(
             return await event.reply(
                 text, parse_mode=parse_mode, link_preview=link_preview
             )
-        return await event.edit(text, parse_mode=parse_mode, link_preview=link_preview)
-    asciich = ["*", "`", "_"]
-    for i in asciich:
-        text = re.sub(rf"\{i}", "", text)
-    if aslink:
+        await event.edit(text, parse_mode=parse_mode, link_preview=link_preview)
+        return event
+    if not noformat:
+        asciich = ["**", "`", "__"]
+        for i in asciich:
+            text = re.sub(rf"\{i}", "", text)
+    if aslink or deflink:
         linktext = linktext or "Message was to big so pasted to bin"
         try:
             key = (
@@ -60,7 +64,7 @@ async def edit_or_reply(
                 .get("key")
             )
             text = linktext + f" [here](https://nekobin.com/{key})"
-        except:
+        except Exception:
             text = re.sub(r"•", ">>", text)
             kresult = requests.post(
                 "https://del.dog/documents", data=text.encode("UTF-8")
@@ -70,7 +74,8 @@ async def edit_or_reply(
             if reply_to:
                 return await reply_to.reply(text, link_preview=link_preview)
             return await event.reply(text, link_preview=link_preview)
-        return await event.edit(text, link_preview=link_preview)
+        await event.edit(text, link_preview=link_preview)
+        return event
     file_name = file_name or "output.txt"
     caption = caption or None
     with open(file_name, "w+") as output:
