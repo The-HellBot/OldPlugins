@@ -209,6 +209,10 @@ async def _(dyno):
     except BaseException:
         return await dyno.reply(f"Make Sure Your Heroku AppName & API Key are filled correct. Visit {hell_grp} for help.", link_preview=False)
     hell_data = app.get_log()
+    await eor(
+        dyno, hell_data, deflink=True, linktext="**🗒️ Heroku Logs of 💯 lines. 🗒️**\n\n🌟 **Bot Of :**  {hell_mention}\n\n🚀** Pasted**  "
+    )
+"""
     key = (
         requests.post("https://nekobin.com/api/documents", json={"content": hell_data})
         .json()
@@ -218,7 +222,8 @@ async def _(dyno):
     hell_url = f"https://nekobin.com/{key}"
     url_raw = f"https://nekobin.com/raw/{key}"
     foutput = f"**🗒️ Heroku Logs of 💯 lines. 🗒️** \n\n📍 [Nekobin]({hell_url}) & [Raw]({url_raw}) 📍\n\n🌟 **Bot Of :**  {hell_mention}"
-    await eor(dyno, foutput)
+"""
+    
 
 
 def prettyjson(obj, indent=2, maxlinelength=80):
