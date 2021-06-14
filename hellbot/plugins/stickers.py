@@ -16,8 +16,8 @@ from telethon.tl.types import DocumentAttributeFilename, DocumentAttributeSticke
 from . import *
 
 KANGING_STR = [
-    "Using my hellbot to kang this sticker...😎",
-    "me steeling ...",
+    "Using Witchery to kang this sticker...",
+    "Plagiarising hehe...",
     "Inviting this sticker over to my pack...",
     "Kanging this sticker...",
     "Hey that's a nice sticker!\nMind if I kang?!..",
@@ -27,11 +27,10 @@ KANGING_STR = [
     "Imprisoning this sticker...",
     "Mr.Steal Your Sticker is stealing this sticker... ",
     "Hey! That's my sticker. Lemme get it back...",
-    "nothing in here ,just kanging\n hehe",
+    "Turn around, Go straight and f*ck off...",
 ]
 
 hellbot = Config.STICKER_PACKNAME
-hmm = Config.YOUR_NAME
 
 
 @bot.on(hell_cmd(outgoing=True, pattern="kang"))
@@ -98,12 +97,11 @@ async def kang(args):
                 # pack
                 emoji = splat[1]
 
-        packname = (
-            f"{hmm}_Hellbot_{pack}")
+        packname = f"{user.username}_Hellbot_{pack}"
         packnick = (
             f"{hellbot} Vol.{pack}"
             if hellbot
-            else f"{hmm}'s HellBot Vol.{pack}"
+            else f"@{user.username}'s HellBot Vol.{pack}"
         )
         cmd = "/newpack"
         file = io.BytesIO()
@@ -135,11 +133,11 @@ async def kang(args):
                 x = await conv.get_response()
                 while "120" in x.text:
                     pack += 1
-                    packname = f"{hmm}_hellbot_{pack}"
+                    packname = f"{user.username}_by_{user.username}_{pack}"
                     packnick = (
                         f"{hellbot} Vol.{pack}"
                         if hellbot
-                        else f"{hmm}'s HellBot Vol.{pack}"
+                        else f"@{user.username}'s HellBot Vol.{pack}"
                     )
                     await hell.edit(
                         "`Switching to Pack "
