@@ -13,7 +13,7 @@ class Config(object):
     LOGGER = True
     ABUSE = os.environ.get("ABUSE", None)
     ALIVE_MSG = os.environ.get("ALIVE_MSG", "⚡ ʟɛɢɛռɖaʀʏ ᴀғ ɦɛʟʟɮօt ⚡")
-    ALIVE_PIC = os.environ.get("ALIVE_PIC", None)
+    ALIVE_PIC = os.environ.get("ALIVE_PIC", "https://telegra.ph/file/8407ee2f1c096946cfcbe.mp4")
     ANTI_FLOOD_WARN_MODE = ChatBannedRights(
         until_date=None,
         view_messages=None,
