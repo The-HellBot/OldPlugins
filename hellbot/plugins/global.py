@@ -1,8 +1,9 @@
 from telethon import events
 from telethon.tl.functions.channels import EditAdminRequest
 from telethon.tl.types import ChatAdminRights
-
-from hellbot.plugins.sql.gban_sql import is_gbanned, gbaner, ungbaner, all_gbanned
+import asyncio
+from .sql.gban_sql import is_gbanned, gbaner, ungbaner, all_gbanned
+from .sql import gmute_sql as gsql
 from . import *
 
 
@@ -157,12 +158,89 @@ async def gkick(event):
         await hell.edit(gkmsg)
 
 
+@bot.on(hell_cmd(pattern=r"gmute ?(\d+)?"))
+@bot.on(sudo_cmd(allow_sudo=True, pattern=r"gmute ?(\d+)?"))
+async def gm(event):
+    private = False
+    if event.fwd_from:
+        return
+    elif event.is_private:
+        await eor(event, "`Trying to gmute user...`")
+        await asyncio.sleep(2)
+        private = True
+    reply = await event.get_reply_message()
+    if event.pattern_match.group(1) is not None:
+        userid = event.pattern_match.group(1)
+    elif reply is not None:
+        userid = reply.sender_id
+    elif private is True:
+        userid = event.chat_id
+    else:
+        return await eod(event, "Need a user to gmute. Reply or give userid to gmute them..")
+    event.chat_id
+    await event.get_chat()
+    if gsql.is_gmuted(userid, "gmute"):
+        return await eod(event, "This kid is already Gmuted.")
+    try:
+        if str(userid) in DEVLIST:
+            return await eod(event, "**Sorry I'm not going to gmute them..**")
+    except:
+        pass
+    try:
+        gsql.gmute(userid, "gmute")
+    except Exception as e:
+        await eod(event, "Error occured!\nError is " + str(e))
+    else:
+        await eor(event, "Shhh.... Now keep quiet !!")
+        
+
+
+@bot.on(hell_cmd(outgoing=True, pattern=r"ungmute ?(\d+)?"))
+@bot.on(sudo_cmd(allow_sudo=True, pattern=r"ungmute ?(\d+)?"))
+async def endgmute(event):
+    private = False
+    if event.fwd_from:
+        return
+    elif event.is_private:
+        await eor(event, "`Trying to ungmute !!`")
+        await asyncio.sleep(2)
+        private = True
+    reply = await event.get_reply_message()
+    if event.pattern_match.group(1) is not None:
+        userid = event.pattern_match.group(1)
+    elif reply is not None:
+        userid = reply.sender_id
+    elif private is True:
+        userid = event.chat_id
+    else:
+        return await eod(event,"Please reply to a user or add their into the command to ungmute them.")
+    event.chat_id
+    if not gsql.is_gmuted(userid, "gmute"):
+        return await eod(event, "I don't remember I gmuted him...")
+    try:
+        gsql.ungmute(userid, "gmute")
+    except Exception as e:
+        await eod(event, "Error occured!\nError is " + str(e))
+    else:
+        await eor(event, "Ok!! Speak")
+
+
+@command(incoming=True)
+async def watcher(event):
+    if gsql.is_gmuted(event.sender_id, "gmute"):
+        await event.delete()
+
+
 CmdHelp("global").add_command(
   "gban", "<reply>/<userid>", "Globally Bans the mentioned user in 'X' chats you are admin with ban permission."
 ).add_command(
   "ungban", "<reply>/<userid>", "Globally Unbans the user in 'X' chats you are admin!"
 ).add_command(
   "gkick", "<reply>/<userid>", "Globally Kicks the user in 'X' chats you are admin!"
+).add_command(
+  "gmute", "<reply> or <userid>", "Globally Mutes the User."
+).add_command(
+  "ungmute", "<reply> or <userid>", "Globally Unmutes the gmutes user."
 ).add_info(
   "Global Admin Tool."
 ).add_warning(
