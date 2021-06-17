@@ -9,7 +9,7 @@ from . import *
 
 #-------------------------------------------------------------------------------
 
-hell_pic = "https://telegra.ph/file/ea9e11f7c9db21c1b8d5e.mp4"
+hell_pic = Config.ALIVE_PIC or "https://telegra.ph/file/ea9e11f7c9db21c1b8d5e.mp4"
 alive_c = f"__**🔥🔥ɦɛʟʟɮօt ɨs օռʟɨռɛ🔥🔥**__\n\n"
 alive_c += f"__↼ Øwñêr ⇀__ : 『 {hell_mention} 』\n\n"
 alive_c += f"•♦• Telethon     :  `{tel_ver}` \n"
