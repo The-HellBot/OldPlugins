@@ -29,8 +29,8 @@ async def get_tz(con):
         return
 
 
-@bot.on(hell_cmd(pattern="(climate|weather) ?(.*)"))
-@bot.on(sudo_cmd(pattern="(climate|weather) ?(.*)", allow_sudo=True))
+@bot.on(hell_cmd(pattern="climate ?(.*)"))
+@bot.on(sudo_cmd(pattern="climate ?(.*)", allow_sudo=True))
 async def get_weather(weather):
     if not OWM_API:
         await eor(weather, "**Get an API key from** https://openweathermap.org/ **first.**")
@@ -209,8 +209,6 @@ async def _(event):
 
 CmdHelp("climate").add_command(
   "climate", "Name of state/country", "Gets the weather of a city. By default it is Delhi, change it by setcity"
-).add_command(
-  "weather", "Name of state/country", f"Same as {hl}climate"
 ).add_command(
   "setcity", "<city>/<country>", "Sets your default city."
 ).add_command(
