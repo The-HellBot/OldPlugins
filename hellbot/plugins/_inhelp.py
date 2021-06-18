@@ -100,6 +100,10 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
         if event.query.user_id == bot.uid and query == "@Its_HellBot":
             rev_text = query[::-1]
             veriler = button(0, sorted(CMD_HELP))
+            apn = []
+            for x in CMD_LIST.values():
+                for y in x:
+                    apn.append(y)
             result = await builder.article(
                 f"Hey! Only use .help please",
                 text=f"🔰 **{hell_mention}**\n\n📜 __No.of Plugins__ : `{len(CMD_HELP)}` \n🗂️ __Commands__ : `{len(apn)}`\n🗒️ __Page__ : 1/{veriler[0]}",
