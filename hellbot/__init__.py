@@ -56,7 +56,7 @@ else:
     session_name = "startup"
     bot = TelegramClient(session_name, Config.APP_ID, Config.API_HASH)
 
-tbot = TelegramClient('hellbot', api_id=Config.API_ID, api_hash=Config.API_HASH).start(bot_token=Config.BOT_TOKEN)
+tbot = TelegramClient('hellbot', api_id=Config.APP_ID, api_hash=Config.API_HASH).start(bot_token=Config.BOT_TOKEN)
 
 
 # global variables
