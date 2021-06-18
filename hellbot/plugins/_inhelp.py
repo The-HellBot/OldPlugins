@@ -128,12 +128,14 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
                 result = builder.document(
                     ALV_PIC,
                     text=he_ll,
+                    title="HellBot Alive",
                     buttons=alv_btn,
                     link_preview=False,
                 )
             else:
                 result = builder.article(
                     text=he_ll,
+                    title="HellBot Alive",
                     buttons=alv_btn,
                     link_preview=False,
                 )
