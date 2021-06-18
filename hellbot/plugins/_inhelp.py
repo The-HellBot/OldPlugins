@@ -52,7 +52,7 @@ alive_txt = """
 **Hêllẞø†  :**  **{}**
 **Uptime   :**  `{}`
 **Abuse    :**  **{}**
-**Sudo     :**  **{}**
+**Sudo      :**  **{}**
 """
 
 def button(page, modules):
@@ -118,13 +118,14 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
                 [Button.url("My Channel", f"https://t.me/{my_channel}"), 
                 Button.url("My Group", f"https://t.me/{my_group}")],
             ]
-            if Config.ALIVE_PIC and Config.ALIVE_PIC.endswith(".jpg", ".png"):
+            if Config.ALIVE_PIC:
                 result = builder.photo(
                     file=Config.ALIVE_PIC,
                     text=he_ll,
                     buttons=alv_btn,
                     link_preview=False,
                 )
+"""
             elif Config.ALIVE_PIC:
                 result = builder.document(
                     file=Config.ALIVE_PIC,
@@ -138,7 +139,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
                     buttons=alv_btn,
                     link_preview=False,
                 )
-
+"""
         elif event.query.user_id == bot.uid and query.startswith("**🔥"):
             hel_l = USER_BOT_NO_WARN.format(hell_mention, mssge)
             result = builder.photo(
