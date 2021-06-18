@@ -125,21 +125,12 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
                     buttons=alv_btn,
                     link_preview=False,
                 )
-"""
-            elif Config.ALIVE_PIC:
-                result = builder.document(
-                    file=Config.ALIVE_PIC,
-                    text=he_ll,
-                    buttons=alv_btn,
-                    link_preview=False,
-                )
             else:
                 result = builder.article(
                     text=he_ll,
                     buttons=alv_btn,
                     link_preview=False,
                 )
-"""
         elif event.query.user_id == bot.uid and query.startswith("**🔥"):
             hel_l = USER_BOT_NO_WARN.format(hell_mention, mssge)
             result = builder.photo(
