@@ -69,7 +69,7 @@ def button(page, modules):
     for pairs in pairs[page]:
         buttons.append(
             [
-                custom.Button.inline(f"{hell_emoji} " + pair, data=f"Information[{page}]({pair})")
+                custom.Button.inline(f"{hell_emoji} " + pair + f" {hell_emoji}, data=f"Information[{page}]({pair})")
                 for pair in pairs
             ]
         )
@@ -283,8 +283,12 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
             )
         page = int(event.data_match.group(1).decode("UTF-8"))
         veriler = button(page, CMD_HELP)
+        apn = []
+        for x in CMD_HELP_BOT.values():
+            for y in x:
+                apn.append(y)
         await event.edit(
-            f"🔰 **{hell_mention}**\n\n📜 __No.of Plugins__ : `{len(CMD_HELP)}`\n🗒️ **Page :** {page + 1}/{veriler[0]}",
+            f"🔰 **{hell_mention}**\n\n📜 __No.of Plugins__ : `{len(CMD_HELP)}`\n🗂️ __Commands__ : `{len(apn)}`\n🗒️ **Page :** {page + 1}/{veriler[0]}",
             buttons=veriler[1],
             link_preview=False,
         )
