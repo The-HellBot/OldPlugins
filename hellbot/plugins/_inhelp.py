@@ -124,7 +124,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
                     buttons=alv_btn,
                     link_preview=False,
                 )
-            elif:
+            elif ALV_PIC:
                 result = builder.document(
                     ALV_PIC,
                     text=he_ll,
