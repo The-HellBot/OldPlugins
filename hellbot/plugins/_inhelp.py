@@ -110,21 +110,35 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
                 buttons=veriler[1],
                 link_preview=False,
             )
+
         elif event.query.user_id == bot.uid and query == "alive":
             he_ll = alive_txt.format(Config.ALIVE_MSG, tel_ver, hell_ver, uptime, abuse_m, is_sudo)
-            result = builder.photo(
-                file=Config.ALIVE_PIC,
-                text=he_ll,
-                buttons=[
-                    [
-                        Button.url(f"{HELL_USER}", f"tg://openmessage?user_id={ForGo10God}")
-                    ],
-                    [
-                        Button.url("My Channel", f"https://t.me/{my_channel}"),
-                        Button.url("My Group", f"https://t.me/{my_group}"),
-                    ],
-                ],
-        )
+            alv_btn = [
+                [Button.url(f"{HELL_USER}", f"tg://openmessage?user_id={ForGo10God}")],
+                [Button.url("My Channel", f"https://t.me/{my_channel}"), 
+                Button.url("My Group", f"https://t.me/{my_group}")],
+            ]
+            if Config.ALIVE_PIC and Config.ALIVE_PIC.endswith(".jpg", ".png"):
+                result = builder.photo(
+                    file=Config.ALIVE_PIC,
+                    text=he_ll,
+                    buttons=alv_btn,
+                    link_preview=False,
+                )
+            elif Config.ALIVE_PIC:
+                result = builder.document(
+                    file=Config.ALIVE_PIC,
+                    text=he_ll,
+                    buttons=alv_btn,
+                    link_preview=False,
+                )
+            else:
+                result = builder.article(
+                    text=he_ll,
+                    buttons=alv_btn,
+                    link_preview=False,
+                )
+
         elif event.query.user_id == bot.uid and query.startswith("**🔥"):
             hel_l = USER_BOT_NO_WARN.format(hell_mention, mssge)
             result = builder.photo(
@@ -139,6 +153,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
                     [custom.Button.inline("Curious ❓", data="pmclick")],
                 ],
             )
+
         elif event.query.user_id == bot.uid and query == "repo":
             result = builder.article(
                 title="Repository",
@@ -159,6 +174,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
                     ],
                 ],
             )
+
         elif query.startswith("http"):
             part = query.split(" ")
             result = builder.article(
@@ -167,6 +183,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
                 buttons=[[custom.Button.url("URL", part[0])]],
                 link_preview=True,
             )
+
         else:
             result = builder.article(
                 "@Its_HellBot",
