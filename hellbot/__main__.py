@@ -7,7 +7,7 @@ import telethon.utils
 from telethon import TelegramClient
 from telethon.tl.functions.channels import InviteToChannelRequest, JoinChannelRequest
 
-from hellbot import LOGS, bot
+from hellbot import LOGS, bot, tbot
 from hellbot.config import Config
 from hellbot.utils import load_module
 from hellbot.version import __hell__ as hellver
@@ -56,6 +56,8 @@ for name in files:
         load_module(shortname.replace(".py", ""))
 
 # let the party begin...
+LOGS.info("Starting Bot Mode !")
+tbot.start()
 LOGS.info("⚡ Your HellBot Is Now Working ⚡")
 LOGS.info(
     "Head to @Its_HellBot for Updates. Also join chat group to get help regarding to HellBot."
