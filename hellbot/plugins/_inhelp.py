@@ -102,7 +102,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
             veriler = button(0, sorted(CMD_HELP))
             result = await builder.article(
                 f"Hey! Only use .help please",
-                text=f"🔰 **{hell_mention}**\n\n📜 __No.of Plugins__ : `{len(CMD_HELP)}` \n🗒️ **Page:** 1/{veriler[0]}",
+                text=f"🔰 **{hell_mention}**\n\n📜 __No.of Plugins__ : `{len(CMD_HELP)}` \n🗂️ __Commands__ : `{len(apn)}`\n🗒️ __Page__ : 1/{veriler[0]}",
                 buttons=veriler[1],
                 link_preview=False,
             )
@@ -263,8 +263,12 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
                 current_page_number=0
                 simp = button(current_page_number, CMD_HELP)
                 veriler = button(0, sorted(CMD_HELP))
+                apn = []
+                for x in CMD_LIST.values():
+                    for y in x:
+                        apn.append(y)
                 await event.edit(
-                    f"🔰 **{hell_mention}**\n\n📜 __No.of Plugins__ : `{len(CMD_HELP)}` \n🗒️ **Page:** 1/{veriler[0]}",
+                    f"🔰 **{hell_mention}**\n\n📜 __No.of Plugins__ : `{len(CMD_HELP)}` \n🗂️ __Commands__ : `{len(apn)}`\n🗒️ __Page__ : 1/{veriler[0]}",
                     buttons=simp[1],
                     link_preview=False,
                 )
@@ -284,11 +288,11 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
         page = int(event.data_match.group(1).decode("UTF-8"))
         veriler = button(page, CMD_HELP)
         apn = []
-        for x in CMD_HELP_BOT.values():
+        for x in CMD_LIST.values():
             for y in x:
                 apn.append(y)
         await event.edit(
-            f"🔰 **{hell_mention}**\n\n📜 __No.of Plugins__ : `{len(CMD_HELP)}`\n🗂️ __Commands__ : `{len(apn)}`\n🗒️ **Page :** {page + 1}/{veriler[0]}",
+            f"🔰 **{hell_mention}**\n\n📜 __No.of Plugins__ : `{len(CMD_HELP)}`\n🗂️ __Commands__ : `{len(apn)}`\n🗒️ __Page__ : {page + 1}/{veriler[0]}",
             buttons=veriler[1],
             link_preview=False,
         )
