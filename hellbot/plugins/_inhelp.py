@@ -18,6 +18,7 @@ hell_row = Config.BUTTONS_IN_HELP
 hell_emoji = Config.EMOJI_IN_HELP
 hell_pic = Config.PMPERMIT_PIC
 cstm_pmp = Config.CUSTOM_PMPERMIT
+ALV_PIC = Config.ALIVE_PIC
 
 PM_WARNS = {}
 PREV_REPLY_MESSAGE = {}
@@ -42,10 +43,8 @@ USER_BOT_NO_WARN = (
     "{}\n\n**Please Choose Why You Are Here!!**".format(hell_mention, mssge))
 
 alive_txt = """
-**⚡ нєℓℓвσт ιѕ σиℓιиє ⚡**
-
+**⚜️ нєℓℓвσт ιѕ σиℓιиє ⚜️**
 {}
-
 **🏅 𝙱𝚘𝚝 𝚂𝚝𝚊𝚝𝚞𝚜 🏅**
 
 **Telethon :**  `{}`
@@ -118,9 +117,16 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
                 [Button.url("My Channel", f"https://t.me/{my_channel}"), 
                 Button.url("My Group", f"https://t.me/{my_group}")],
             ]
-            if Config.ALIVE_PIC:
+            if ALV_PIC and ALV_PIC.endswith((".jpg", ".png")):
                 result = builder.photo(
-                    file=Config.ALIVE_PIC,
+                    ALV_PIC,
+                    text=he_ll,
+                    buttons=alv_btn,
+                    link_preview=False,
+                )
+            elif:
+                result = builder.document(
+                    ALV_PIC,
                     text=he_ll,
                     buttons=alv_btn,
                     link_preview=False,
@@ -131,6 +137,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
                     buttons=alv_btn,
                     link_preview=False,
                 )
+
         elif event.query.user_id == bot.uid and query.startswith("**🔥"):
             hel_l = USER_BOT_NO_WARN.format(hell_mention, mssge)
             result = builder.photo(
