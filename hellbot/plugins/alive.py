@@ -37,7 +37,7 @@ msg = f"""
 **Hêllẞø†  :**  **{hell_ver}**
 **Uptime   :**  `{uptime}`
 **Abuse    :**  **{abuse_m}**
-**Sudo     :**  **{is_sudo}**
+**Sudo      :**  **{is_sudo}**
 """
 botname = Config.BOT_USERNAME
 
