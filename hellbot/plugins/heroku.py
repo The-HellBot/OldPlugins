@@ -67,11 +67,11 @@ async def variable(hell):
     if Config.HEROKU_APP_NAME is not None:
         app = Heroku.app(Config.HEROKU_APP_NAME)
     else:
-        return await hell.edit("`[HEROKU]:" "\nPlease setup your` **HEROKU_APP_NAME**")
+        return await eor(hell, "`[HEROKU]:" "\nPlease setup your` **HEROKU_APP_NAME**")
     exe = hell.pattern_match.group(1)
     heroku_var = app.config()
     if exe == "get":
-        await hell.edit("Getting Variable Info...")
+        event = await eor(hell, "Getting Variable Info...")
         await asyncio.sleep(1.5)
         cap = "Logger me chala jaa bsdk."
         capn = "Saved in LOGGER_ID !!"
@@ -80,19 +80,19 @@ async def variable(hell):
             if variable in ("HELLBOT_SESSION", "BOT_TOKEN"):
                 if Config.ABUSE == "ON":
                     await bot.send_file(hell.chat_id, cjb, caption=cap)
-                    await hell.delete()
+                    await event.delete()
                     await bot.send_message(lg_id, f"#HEROKU_VAR \n\n`{heroku_var[variable]}`")
                     return
                 else:
-                    await hell.edit(f"**{capn}**")
+                    await event.edit(f"**{capn}**")
                     await bot.send_message(lg_id, f"#HEROKU_VAR \n\n`{heroku_var[variable]}`")
                     return
             if variable in heroku_var:
-                return await hell.edit(
+                return await event.edit(
                     "**Heroku Var** :" f"\n\n`{variable}` = `{heroku_var[variable]}`\n"
                 )
             else:
-                return await hell.edit(
+                return await event.edit(
                     "**Heroku Var** :" f"\n\n__Error:__\n-> I doubt `{variable}` exists!"
                 )
         except IndexError:
@@ -109,7 +109,7 @@ async def variable(hell):
                         caption="`Output too large, sending it as a file`",
                     )
                 else:
-                    await hell.edit(
+                    await event.edit(
                         "**Heroku Var :**\n\n"
                         "================================"
                         f"\n```{result}```\n"
@@ -118,39 +118,39 @@ async def variable(hell):
             os.remove("configs.json")
             return
     elif exe == "set":
-        await hell.edit("Setting Heroku Variable...")
+        event = await eor(hell, "Setting Heroku Variable...")
         variable = hell.pattern_match.group(2)
         if not variable:
-            return await hell.edit(f"`{hl}set var <Var Name> <Value>`")
+            return await event.edit(f"`{hl}set var <Var Name> <Value>`")
         value = hell.pattern_match.group(3)
         if not value:
             variable = variable.split()[0]
             try:
                 value = hell.pattern_match.group(2).split()[1]
             except IndexError:
-                return await hell.edit(f"`{hl}set var <Var Name> <Value>`")
+                return await event.edit(f"`{hl}set var <Var Name> <Value>`")
         await asyncio.sleep(1.5)
         if variable in heroku_var:
-            await hell.edit(
+            await event.edit(
                 f"`{variable}` **successfully changed to**  ->  `{value}`"
             )
         else:
-            await hell.edit(
+            await event.edit(
                 f"`{variable}` **successfully added with value**  ->  `{value}`"
             )
         heroku_var[variable] = value
     elif exe == "del":
-        await hell.edit("Getting info to delete Variable")
+        event = await eor(hell, "Getting info to delete Variable")
         try:
             variable = hell.pattern_match.group(2).split()[0]
         except IndexError:
-            return await hell.edit("`Please specify ConfigVars you want to delete`")
+            return await event.edit("`Please specify ConfigVars you want to delete`")
         await asyncio.sleep(1.5)
         if variable in heroku_var:
-            await hell.edit(f"**Successfully Deleted** \n`{variable}`")
+            await event.edit(f"**Successfully Deleted** \n`{variable}`")
             del heroku_var[variable]
         else:
-            return await hell.edit(f"`{variable}`  **does not exists**")
+            return await event.edit(f"`{variable}`  **does not exists**")
 
 
 @bot.on(hell_cmd(pattern="usage(?: |$)", outgoing=True))
