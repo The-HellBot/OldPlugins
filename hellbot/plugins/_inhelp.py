@@ -110,7 +110,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
                 link_preview=False,
             )
 
-        elif event.query.user_id == bot.uid and query == "alive":
+        elif event.query.user_id == bot.uid or event.query.user_id in Config.SUDO_USERS and query == "alive":
             he_ll = alive_txt.format(Config.ALIVE_MSG, tel_ver, hell_ver, uptime, abuse_m, is_sudo)
             alv_btn = [
                 [Button.url(f"{HELL_USER}", f"tg://openmessage?user_id={ForGo10God}")],
@@ -155,7 +155,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
                 ],
             )
 
-        elif event.query.user_id == bot.uid and query == "repo":
+        elif event.query.user_id == bot.uid or event.query.user_id in Config.SUDO_USERS and query == "repo":
             result = builder.article(
                 title="Repository",
                 text=f"**⚡ ʟɛɢɛռɖaʀʏ ᴀғ ɦɛʟʟɮօt ⚡**",
