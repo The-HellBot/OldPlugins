@@ -281,7 +281,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
 
     @tgbot.on(callbackquery.CallbackQuery(data=compile(b"reopen")))
     async def reopn(event):
-            if event.query.user_id == bot.uid :
+            if event.query.user_id == bot.uid or event.query.user_id in Config.SUDO_USERS:
                 current_page_number=0
                 simp = button(current_page_number, CMD_HELP)
                 veriler = button(0, sorted(CMD_HELP))
@@ -322,7 +322,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
 
     @tgbot.on(callbackquery.CallbackQuery(data=compile(b"close")))
     async def on_plug_in_callback_query_handler(event):
-        if event.query.user_id == bot.uid:
+        if event.query.user_id == bot.uid or event.query.user_id in Config.SUDO_USERS:
             veriler = custom.Button.inline(f"{hell_emoji} Re-Open Menu {hell_emoji}", data="reopen")
             await event.edit(f"**⚜️ Hêllẞø† Mêñû Prõvîdêr ìs ñôw Çlösëd ⚜️**\n\n**Bot Of :**  {hell_mention}\n\n        [©️ Hêllẞø† ™️]({chnl_link})", buttons=veriler, link_preview=False)
         else:
@@ -334,7 +334,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
         callbackquery.CallbackQuery(data=compile(b"Information\[(\d*)\]\((.*)\)"))
     )
     async def Information(event):
-        if not event.query.user_id == bot.uid:
+        if not event.query.user_id == bot.uid or event.query.user_id not in Config.SUDO_USERS:
             return await event.answer(
                 "Hoo gya aapka. Kabse tapar tapar dabae jaa rhe h. Khudka bna lo na agr chaiye to. © Hêllẞø† ™",
                 cache_time=0,
@@ -367,7 +367,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
         callbackquery.CallbackQuery(data=compile(b"commands\[(.*)\[(\d*)\]\]\((.*)\)"))
     )
     async def commands(event):
-        if not event.query.user_id == bot.uid:
+        if not event.query.user_id == bot.uid or event.query.user_id not in Config.SUDO_USERS:
             return await event.answer(
                 "Hoo gya aapka. Kabse tapar tapar dabae jaa rhe h. Khudka bna lo na agr chaiye to. © Hêllẞø† ™",
                 cache_time=0,
