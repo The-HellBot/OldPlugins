@@ -64,16 +64,17 @@ def load_module(shortname):
         mod.eor = edit_or_reply
         mod.delete_hell = delete_hell
         mod.eod = delete_hell
+        mod.Var = Config
         mod.admin_cmd = hell_cmd
         # support for other userbots
-        sys.modules["userbot.utils"] = hellbot.utils
-        sys.modules["userbot"] = hellbot
+        sys.modules["userbot.utils"] = hellbot.plugins
+        sys.modules["userbot"] = hellbot.plugins
         # support for paperplaneextended
-        sys.modules["userbot.events"] = hellbot.utils
+        sys.modules["userbot.events"] = hellbot.plugins
         spec.loader.exec_module(mod)
         # for imports
         sys.modules["hellbot.plugins." + shortname] = mod
-        LOGS.info("HellBot - Successfully imported " + shortname)
+        LOGS.info("⚡ Hêllẞø† ⚡ - Successfully Imported " + shortname)
 
 
 # remove plugins
