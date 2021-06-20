@@ -96,7 +96,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
         builder = event.builder
         result = None
         query = event.text
-        if event.query.user_id == bot.uid and query == "@Its_HellBot":
+        if event.query.user_id == bot.uid or event.query.user_id in Config.SUDO_USERS and query == "hellbot_help":
             rev_text = query[::-1]
             veriler = button(0, sorted(CMD_HELP))
             apn = []
