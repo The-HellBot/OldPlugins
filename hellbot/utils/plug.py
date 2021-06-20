@@ -67,10 +67,10 @@ def load_module(shortname):
         mod.Var = Config
         mod.admin_cmd = hell_cmd
         # support for other userbots
-        sys.modules["userbot.utils"] = hellbot.plugins
-        sys.modules["userbot"] = hellbot.plugins
+        sys.modules["userbot.utils"] = hellbot.utils
+        sys.modules["userbot"] = hellbot
         # support for paperplaneextended
-        sys.modules["userbot.events"] = hellbot.plugins
+        sys.modules["userbot.events"] = hellbot
         spec.loader.exec_module(mod)
         # for imports
         sys.modules["hellbot.plugins." + shortname] = mod
