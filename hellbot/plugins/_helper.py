@@ -28,13 +28,14 @@ async def repo(event):
 
 
 @bot.on(hell_cmd(pattern="help ?(.*)", outgoing=True))
+@bot.on(sudo_cmd(pattern="help ?(.*)", allow_sudo=True))
 async def yardim(event):
     if event.fwd_from:
         return
     tgbotusername = Config.BOT_USERNAME
     input_str = event.pattern_match.group(1)
     if tgbotusername is not None or input_str == "text":
-        results = await event.client.inline_query(tgbotusername, "@Its_HellBot")
+        results = await event.client.inline_query(tgbotusername, "hellbot_help")
         await results[0].click(
             event.chat_id, reply_to=event.reply_to_msg_id, hide_via=True
         )
