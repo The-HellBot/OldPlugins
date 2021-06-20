@@ -28,6 +28,9 @@ async def approve_p_m(event):
     if event.is_private:
         replied_user = await event.client(GetFullUserRequest(await event.get_input_chat()))
         firstname = replied_user.user.first_name
+        if str(event.chat_id) in DEVLIST:
+            await event.edit("**I can't block my creator !!**")
+            return
         if pm_sql.is_approved(event.chat_id):
             pm_sql.disapprove(event.chat_id)
         await event.edit("Go Get Some Sleep Retard !! \n\n**Blocked** [{}](tg://user?id={})".format(firstname, event.chat_id))
@@ -39,6 +42,9 @@ async def approve_p_m(event):
             return
         replied_user = await event.client(GetFullUserRequest(reply_s.sender_id))
         firstname = replied_user.user.first_name
+        if str(reply_s.sender_id) in DEVLIST:
+            await event.edit("**I can't Block My Creator !!**")
+            return
         if pm_sql.is_approved(event.chat_id):
             pm_sql.disapprove(event.chat_id)
         await event.edit("Go fuck yourself !! \n\n**Blocked** [{}](tg://user?id={})".format(firstname, reply_s.sender_id))
@@ -64,6 +70,8 @@ if PM_ON_OFF != "DISABLE":
         if sender.user.verified:
             return
         if PM_ON_OFF == "DISABLE":
+            return
+        if str(event.chat_id) in DEVLIST:
             return
         if not pm_sql.is_approved(event.chat_id):
             if not event.chat_id in PM_WARNS:
@@ -117,6 +125,9 @@ if PM_ON_OFF != "DISABLE":
         if event.is_private:
             replied_user = await event.client(GetFullUserRequest(await event.get_input_chat()))
             firstname = replied_user.user.first_name
+            if str(event.chat_id) in DEVLIST:
+                await event.edit("**Unable to disapprove this user. Seems like God !!**")
+                return
             if pm_sql.is_approved(event.chat_id):
                 pm_sql.disapprove(event.chat_id)
                 await event.edit(
@@ -132,6 +143,9 @@ if PM_ON_OFF != "DISABLE":
             reply_s = await event.get_reply_message()
             if not reply_s:
                 await event.edit("Reply to someone to Disapprove them !!")
+                return
+            if str(reply_s.sender_id) in DEVLIST:
+                await event.edit("**Unable to disapprove this user. Seems like God !!**")
                 return
             if pm_sql.is_approved(reply_s.sender_id):
                 replied_user = await event.client(GetFullUserRequest(reply_s.sender_id))
