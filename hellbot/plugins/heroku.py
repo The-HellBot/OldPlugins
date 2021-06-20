@@ -141,7 +141,7 @@ async def variable(hell):
 async def dyno_usage(hell):
     if hell.fwd_from:
         return
-    await edit_or_reply(hell, "`Processing...`")
+    event = await edit_or_reply(hell, "`Processing...`")
     useragent = (
         "Mozilla/5.0 (Linux; Android 10; SM-G975F) "
         "AppleWebKit/537.36 (KHTML, like Gecko) "
@@ -156,7 +156,7 @@ async def dyno_usage(hell):
     path = "/accounts/" + user_id + "/actions/get-quota"
     r = requests.get(heroku_api + path, headers=headers)
     if r.status_code != 200:
-        return await hell.edit(
+        return await event.edit(
             "`Error: something bad happened`\n\n" f">.`{r.reason}`\n"
         )
     result = r.json()
@@ -185,7 +185,7 @@ async def dyno_usage(hell):
 
     await asyncio.sleep(1.5)
 
-    return await hell.edit(
+    return await event.edit(
         "⚡ **Dyno Usage** ⚡:\n\n"
         f" ➠ __Dyno usage for__ • **{Config.HEROKU_APP_NAME}** • :\n"
         f"     ★  `{AppHours}`**h**  `{AppMinutes}`**m**  "
