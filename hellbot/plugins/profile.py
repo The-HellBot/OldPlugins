@@ -120,7 +120,7 @@ async def _(event):
         await event.edit(str(e))
 
 
-@bot.on(hell_cmd(pattern="pname ((.-\n)*)"))
+@bot.on(hell_cmd(pattern="pname (.*)"))
 async def _(event):
     if event.fwd_from:
         return
