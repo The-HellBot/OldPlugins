@@ -9,7 +9,7 @@ from . import *
 from .sql import pmpermit_sql as pm_sql
 
 
-WARN_PIC = Config.PMPERMIT_PIC or hell_logo
+WARN_PIC = Config.PMPERMIT_PIC or "https://telegra.ph/file/58df4d86400922aa32acd.jpg"
 PM_WARNS = {}
 PREV_REPLY_MESSAGE = {}
 PM_ON_OFF = Config.PM_PERMIT
