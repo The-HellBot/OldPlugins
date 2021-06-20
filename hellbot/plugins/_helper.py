@@ -59,9 +59,9 @@ async def hellbott(event):
     args = event.pattern_match.group(1).lower()
     if args:
         if args in CMD_HELP:
-            await event.edit(str(CMD_HELP[args]))
+            await eor(event, str(CMD_HELP[args]))
         else:
-            await event.edit("**⚠️ Error !** \nNeed a module name to show plugin info.")
+            await eod(event, "**⚠️ Error !** \nNeed a module name to show plugin info.")
     else:
         string = ""
         sayfa = [
@@ -78,6 +78,6 @@ async def hellbott(event):
                 else:
                     string += "`, "
             string += "\n"
-        await event.edit("Please Specify A Module Name Of Which You Want Info" + "\n\n" + string)
+        await eod(event, "Please Specify A Module Name Of Which You Want Info" + "\n\n" + string)
 
 # hellbot
