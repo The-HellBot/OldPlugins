@@ -176,7 +176,7 @@ async def demote(dmod):
         f"CHAT: {dmod.chat.title}(`{dmod.chat_id}`)",
     )
 
-@bot.on(incoming=True)
+@command(incoming=True)
 async def watcher(event):
     if is_muted(event.sender_id, event.chat_id):
         try:
