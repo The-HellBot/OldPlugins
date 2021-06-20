@@ -184,7 +184,7 @@ if PM_ON_OFF != "DISABLE":
             return
         if event.sender_id == bot.uid:
             return
-        if event.sender_id in str(DEV_LIST):
+        if event.sender_id in str(DEVLIST):
             return
         if Config.LOGGER_ID is None:
             await bot.send_message(bot.uid, "Please Set `LOGGER_ID` For Working Of Pm Permit")
