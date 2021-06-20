@@ -235,7 +235,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
             if first_name is not None:
                 first_name = first_name.replace("\u2060", "")
             tosend = f"**👀 Hey {hell_mention} !!** \n\n⚜️ You Got A Request From [{first_name}](tg://user?id={ok}) In PM!!"
-            await tgbot.send_message(LOG_GP, tosend)
+            await bot.send_message(LOG_GP, tosend)
 
 
     @tgbot.on(callbackquery.CallbackQuery(data=compile(b"chat")))
@@ -254,7 +254,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
             if first_name is not None:
                 first_name = first_name.replace("\u2060", "")
             tosend = f"**👀 Hey {hell_mention} !!** \n\n⚜️ You Got A PM from  [{first_name}](tg://user?id={ok})  for random chats!!"
-            await tgbot.send_message(LOG_GP, tosend)
+            await bot.send_message(LOG_GP, tosend)
 
 
     @tgbot.on(callbackquery.CallbackQuery(data=compile(b"heheboi")))
@@ -273,7 +273,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
             if first_name is not None:
                 first_name = first_name.replace("\u2060", "")
             first_name = html.escape(target.user.first_name)
-            await tgbot.send_message(
+            await bot.send_message(
                 LOG_GP,
                 f"**Blocked**  [{first_name}](tg://user?id={ok}) \n\nReason:- Spam",
             )
