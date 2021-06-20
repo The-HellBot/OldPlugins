@@ -9,7 +9,7 @@ from telethon.tl.functions.users import GetFullUserRequest
 from telethon.tl.types import ChatAdminRights, ChatBannedRights, MessageEntityMentionName, MessageMediaPhoto
 
 from . import *
-from hellbot.plugins.sql.mute_sql import *
+from .sql.mute_sql import is_muted, mute, unmute
 
 
 lg_id = Config.LOGGER_ID
@@ -176,93 +176,136 @@ async def demote(dmod):
         f"CHAT: {dmod.chat.title}(`{dmod.chat_id}`)",
     )
 
+@bot.on(incoming=True)
+async def watcher(event):
+    if is_muted(event.sender_id, event.chat_id):
+        try:
+            await event.delete()
+        except Exception as e:
+            LOGS.info(str(e))
+
 
 @bot.on(hell_cmd(pattern=r"mute ?(.*)"))
 @bot.on(sudo_cmd(pattern=r"mute ?(.*)", allow_sudo=True))
 async def muth(hell):
-    hellevent = await eor(hell, "`Muting...`")
-    input_str = hell.pattern_match.group(1)
-    chat = await hell.get_chat()
-    if hell.reply_to_msg_id:
-        userid = (await hell.get_reply_message()).sender_id
-        name = (await hell.client.get_entity(userid)).first_name
-    elif input_str:
-        if input_str.isdigit():
-            try:
-                userid = input_str
-                name = (await hell.client.get_entity(userid)).first_name
-            except ValueError as ve:
-                return await hellevent.edit(str(ve))
+    if hell.is_private:
+        await eor(hell, "**Enough of your bullshit  !!**")
+        await sleep(2)
+        await hell.get_reply_message()
+        replied_user = await hell.client(GetFullUserRequest(hell.chat_id))
+        if is_muted(hell.chat_id, hell.chat_id):
+            return await hell.edit(
+                "Nigga is already muted here 🥴"
+            )
+        if hell.chat_id == ForGo10God:
+            return await eod(hell, "Nashe me hai kya lawde 🥴")
+        try:
+            mute(hell.chat_id, hell.chat_id)
+        except Exception as e:
+            await eor(hell, f"**Error **\n`{str(e)}`")
         else:
-            userid = (await hell.client.get_entity(input_str)).id
-            name = (await hell.client.get_entity(userid)).first_name
+            await eor(hell, "**Chup Reh Lawde 🥴\n`**｀-´)⊃━☆ﾟ.*･｡ﾟ **`")
     else:
-        return await eod(hellevent, "I Need a user to mute!!", 5)
-    if userid == ForGo10God:
-        return await eod(hellevent, "Nashe me hai kya lawde", 5)
-    if str(userid) in DEVLIST:
-        return await eod(hellevent, "**Error Muting God**", 7)
-    try:
-        await hell.client.edit_permissions(
-            chat.id,
-            userid,
-            until_date=None,
-            send_messages=False,
+        hellevent = await eor(hell, "`Muting...`")
+        input_str = hell.pattern_match.group(1)
+        chat = await hell.get_chat()
+        if hell.reply_to_msg_id:
+            userid = (await hell.get_reply_message()).sender_id
+            name = (await hell.client.get_entity(userid)).first_name
+        elif input_str:
+            if input_str.isdigit():
+                try:
+                    userid = input_str
+                    name = (await hell.client.get_entity(userid)).first_name
+                except ValueError as ve:
+                    return await hellevent.edit(str(ve))
+            else:
+                userid = (await hell.client.get_entity(input_str)).id
+                name = (await hell.client.get_entity(userid)).first_name
+        else:
+            return await eod(hellevent, "I Need a user to mute!!", 5)
+        if userid == ForGo10God:
+            return await eod(hellevent, "Nashe me hai kya lawde", 5)
+        if str(userid) in DEVLIST:
+            return await eod(hellevent, "**Error Muting God**", 7)
+        try:
+            await hell.client.edit_permissions(
+                chat.id,
+                userid,
+                until_date=None,
+                send_messages=False,
+            )
+            await eor(
+                hellevent,
+                f"**Successfully Muted**  [{name}](tg://user?id={userid}) **in**  `{chat.title}`",
+            )
+        except BaseException as be:
+            await eor(hellevent, f"`{str(be)}`")
+        await hell.client.send_message(
+            lg_id,
+            "#MUTE\n"
+            f"\nUSER:  [{name}](tg://user?id={userid})\n"
+            f"CHAT:  {chat.title}",
         )
-        await eor(
-            hellevent,
-            f"**Successfully Muted**  [{name}](tg://user?id={userid}) **in**  `{chat.title}`",
-        )
-    except BaseException as be:
-        await eor(hellevent, f"`{str(be)}`")
-    await hell.client.send_message(
-        lg_id,
-        "#MUTE\n"
-        f"\nUSER:  [{name}](tg://user?id={userid})\n"
-        f"CHAT:  {chat.title}",
-    )
         
         
 @bot.on(hell_cmd(pattern=r"unmute ?(.*)"))
 @bot.on(sudo_cmd(pattern=r"unmute ?(.*)", allow_sudo=True))
 async def nomuth(evn):
-    hellevent = await eor(evn, "`Unmuting...`")
-    input_str = evn.pattern_match.group(1)
-    chat = await evn.get_chat()
-    if evn.reply_to_msg_id:
-        userid = (await evn.get_reply_message()).sender_id
-        name = (await evn.client.get_entity(userid)).first_name
-    elif input_str:
-        if input_str.isdigit():
-            try:
-                userid = input_str
-                name = (await evn.client.get_entity(userid)).first_name
-            except ValueError as ve:
-                return await hellevent.edit(str(ve))
+    if evn.is_private:
+        await eor(evn, "Talk bich..")
+        await sleep(1)
+        replied_user = await evn.client(GetFullUserRequest(evn.chat_id))
+        if not is_muted(evn.chat_id, evn.chat_id):
+            return await eor(evn,
+                "Not even muted !!"
+            )
+        try:
+            unmute(evn.chat_id, evn.chat_id)
+        except Exception as e:
+            await eor(evn, f"**Error **\n`{str(e)}`")
         else:
-            userid = (await evn.client.get_entity(input_str)).id
-            name = (await evn.client.get_entity(userid)).first_name
+            await eor(evn,
+                "Abb boll bsdk."
+            )
     else:
-        return await eod(hellevent, "I need a user to unmute!!", 3)
-    try:
-        await evn.client.edit_permissions(
-            chat.id,
-            userid,
-            until_date=None,
-            send_messages=True,
+        hellevent = await eor(evn, "`Unmuting...`")
+        input_str = evn.pattern_match.group(1)
+        chat = await evn.get_chat()
+        if evn.reply_to_msg_id:
+            userid = (await evn.get_reply_message()).sender_id
+            name = (await evn.client.get_entity(userid)).first_name
+        elif input_str:
+            if input_str.isdigit():
+                try:
+                    userid = input_str
+                    name = (await evn.client.get_entity(userid)).first_name
+                except ValueError as ve:
+                    return await hellevent.edit(str(ve))
+            else:
+                userid = (await evn.client.get_entity(input_str)).id
+                name = (await evn.client.get_entity(userid)).first_name
+        else:
+            return await eod(hellevent, "I need a user to unmute!!", 3)
+        try:
+            await evn.client.edit_permissions(
+                chat.id,
+                userid,
+                until_date=None,
+                send_messages=True,
+            )
+            await eor(
+                hellevent,
+                f"**Successfully Unmuted**  [{name}](tg://user?id={userid}) **in**  `{chat.title}`",
+            )
+        except BaseException as be:
+            await eor(hellevent, f"`{str(be)}`")
+        await evn.client.send_message(
+            lg_id,
+            "#UNMUTE\n"
+            f"\nUSER:  [{name}](tg://user?id={userid})\n"
+            f"CHAT:  {chat.title}",
         )
-        await eor(
-            hellevent,
-            f"**Successfully Unmuted**  [{name}](tg://user?id={userid}) **in**  `{chat.title}`",
-        )
-    except BaseException as be:
-        await eor(hellevent, f"`{str(be)}`")
-    await evn.client.send_message(
-        lg_id,
-        "#UNMUTE\n"
-        f"\nUSER:  [{name}](tg://user?id={userid})\n"
-        f"CHAT:  {chat.title}",
-    )
 
 
 @bot.on(hell_cmd(pattern="ban(?: |$)(.*)"))
@@ -335,17 +378,6 @@ async def nothanos(unbon):
         )
     except UserIdInvalidError:
         await hellevent.edit("Invalid UserId!! Please Recheck it!!")
-
-
-@command(incoming=True)
-async def watcher(event):
-    if event.fwd_from:
-        return
-    if is_muted(event.sender_id, event.chat_id):
-        try:
-            await event.delete()
-        except Exception as e:
-            LOGS.info(str(e))
 
 
 @bot.on(hell_cmd(pattern="pin($| (.*))"))
