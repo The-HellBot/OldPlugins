@@ -37,7 +37,7 @@ mssge = (
 
 USER_BOT_WARN_ZERO = "Enough Of Your Flooding In My Master's PM!! \n\n**🚫 Blocked and Reported**"
 
-USER_BOT_NO_WARN = (
+HELL_FIRST = (
     "**🔥 Hêllẞø† Prîvã†é Sêçürïty Prø†öçõl 🔥**\n\nThis is to inform you that "
     "{} is currently unavailable.\nThis is an automated message.\n\n"
     "{}\n\n**Please Choose Why You Are Here!!**".format(hell_mention, mssge))
@@ -140,8 +140,8 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
                     link_preview=False,
                 )
 
-        elif event.query.user_id == bot.uid and query.startswith("**🔥"):
-            hel_l = USER_BOT_NO_WARN.format(hell_mention, mssge)
+        elif event.query.user_id == bot.uid and query == "pm_warn":
+            hel_l = HELL_FIRST.format(hell_mention, mssge)
             result = builder.photo(
                 file=hell_pic,
                 text=hel_l,
