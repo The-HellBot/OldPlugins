@@ -18,16 +18,33 @@ HEROKU_APP_NAME = Config.HEROKU_APP_NAME
 HEROKU_API_KEY = Config.HEROKU_API_KEY
 lg_id = Config.LOGGER_ID
 
+
+
+async def restart(event):
+    if HEROKU_APP_NAME and HEROKU_API_KEY:
+        try:
+            Heroku
+        except BaseException:
+            return await eor(
+                event, "`HEROKU_API_KEY` is wrong. Re-Check in config vars."
+            )
+        await eor(event, f"✅ **Restarted Dynos** \n**Type** `{hl}ping` after 1 minute to checkif I am working !**")
+        app = Heroku.apps()[HEROKU_APP_NAME]
+        app.restart()
+    else:
+        execl(executable, executable, "bash", "HellBot")
+
+
 @bot.on(hell_cmd(pattern="restart$"))
 @bot.on(sudo_cmd(pattern="restart$", allow_sudo=True))
 async def re(hell):
     if hell.fwd_from:
         return
     event = await eor(hell, "Restarting Dynos ...")
-    await event.edit("✅ **Restarted Dynos** \n**Type** `.ping` **after 1 minute to check if I am working!**")
-    await bot.disconnect()
-    os.execl(sys.executable, sys.executable, *sys.argv)
-    quit()
+    if HEROKU_API_KEY:
+        await restart(event)
+    else:
+        await event.edit("Please Set Your `HEROKU_API_KEY` to restart Hêllẞø†")
 
 
 @bot.on(hell_cmd(pattern="shutdown$"))
