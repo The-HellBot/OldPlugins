@@ -63,7 +63,7 @@ async def _(event):
 async def _(event):
     if event.fwd_from:
         return
-    name = f"{HELL_USER}"
+    name = Config.YOUR_NAME or "Hêll"
     bio = f"{DEFAULTUSERBIO}"
     n = 1
     await bot(
