@@ -65,43 +65,43 @@ async def _(event):
 @bot.on(hell_cmd(pattern="dm ?(.*)"))
 @bot.on(sudo_cmd(pattern="dm ?(.*)", allow_sudo=True))
 async def _(event):
-    if event.fwd_from:
-        return
-    hell = event.pattern_match.group(1)
-    kraken = hell.split(" ")
-    chat_id = kraken[0]
+    if len(event.text) > 3:
+        if not event.text[3] == " ":
+            return
+    d = event.pattern_match.group(1)
+    c = d.split(" ")
     try:
-        chat_id = int(chat_id)
-    except BaseException:
-        pass
-    patra = ""
-    letter = await event.get_reply_message()
-    if event.reply_to_msg_id:
-        await bot.send_message(chat_id, letter)
-        await eor(event, "**[ ✓ Done ]**")
-    for i in kraken[1:]:
-        patra += i + " "
-    if patra == "":
+        chat_id = await get_user_id(c[0])
+    except Exception as ex:
+        return await eod(event, "`" + str(ex) = "`")
+    msg = ""
+    hunter = await event.get_reply_message()
+    if e.reply_to_msg_id:
+        await bot.send_message(chat_id, hunter)
+        await eod(event, "**[Done]**")
+    for i in c[1:]:
+        msg += i + " "
+    if msg == "":
         return
     try:
-        await bot.send_message(chat_id, patra)
-        await eor(event, "**[ ✓ Done ]**")
+        await bot.send_message(chat_id, msg)
+        await eod(event, "**[Done]**")
     except BaseException:
-        await eor(event, f"**Syntax :-** `{hl}dm <username> <message>")
-
+        await eod(f"**Invalid Syntax !!**\n\n`{hl}dm <Username or UserID> <message>`")
+    
 
 CmdHelp("bot").add_command(
-  "dc", None, "Gets the DataCenter Number"
+    "dc", None, "Gets the DataCenter Number"
 ).add_command(
-  "config", None, "😒"
+    "config", None, "😒"
 ).add_command(
-  "kickme", None, "Kicks Yourself from the group."
+    "kickme", None, "Kicks Yourself from the group."
 ).add_command(
-  "schd", "<secs> - <message>", "Sends your message in given secs", "schd 10 - Hello"
+    "schd", "<secs> - <message>", "Sends your message in given secs", "schd 10 - Hello"
 ).add_command(
-  "dm", "<username> <message>", "Sends a DM to given username with required msg"
+    "dm", "<username or user id> <message>", "Sends a DM to given username with required msg"
 ).add_info(
-  "Haa vai? Kya hua?"
+    "Haa vai? Kya hua?"
 ).add_warning(
-  "✅ Harmless Module."
+    "✅ Harmless Module."
 ).add()
