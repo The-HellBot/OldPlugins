@@ -76,8 +76,8 @@ async def _(event):
             await eod(event, "sorry, I couldnt find it")
 
 
-@bot.on(hell_cmd(pattern="(whois|info) ?(.*)", outgoing=True))
-@bot.on(sudo_cmd(pattern="(whois|info) ?(.*)", allow_sudo=True))
+@bot.on(hell_cmd(pattern="info ?(.*)", outgoing=True))
+@bot.on(sudo_cmd(pattern="info ?(.*)", allow_sudo=True))
 async def _(event):
     if event.fwd_from:
         return
