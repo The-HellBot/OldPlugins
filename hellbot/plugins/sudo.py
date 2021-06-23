@@ -4,16 +4,18 @@ from telethon.tl.functions.users import GetFullUserRequest
 from . import *
 from .sql import sudo_sql as s_ql
 
-@bot.on(hell_cmd(pattern="sudo"))
+@bot.on(hell_cmd(pattern="sudo$", outgoing=True))
 async def sudo(event):
-    sudo = "True" if Config.SUDO_USERS else "False"
-    users = list(s_ql.all_sudo())
-    if sudo == "True":
+    if Config.SUDO_USERS == "True":  
+        users = list(s_ql.all_sudo())
         sudo_users = list(s_ql.all_sudo())
-        SUDO_LIST = "**🚀 Sudo Users :**\n"
         if len(sudo) > 0:
+            SUDO_LIST = "**🚀 Sudo Users :**\n"
             for user in sudo_users:
-                SUDO_LIST += f"📍 [{user.chat_id}](tg://user?id={user.chat_id})\t{users}\n" 
+                SUDO_LIST += f"📍 [{user.chat_id}](tg://user?id={user.chat_id})\t{users}\n"
+        else:
+            SUDO_LIST = "**No User Added To Sudo !**"
+        await eor(event, SUDO_LIST)
     else:
         await eod(event, f"📍 **Sudo :**  `Disabled`")
        
