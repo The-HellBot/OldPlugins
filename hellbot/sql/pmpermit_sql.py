@@ -1,5 +1,5 @@
 from sqlalchemy import Column, String
-from hellbot.plugins.sql import SESSION, BASE
+from . import SESSION, BASE
 
 
 class PMPermit(BASE):

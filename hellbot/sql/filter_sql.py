@@ -1,6 +1,6 @@
 from sqlalchemy import Column, LargeBinary, Numeric, String, UnicodeText
 
-from hellbot.plugins.sql import BASE, SESSION
+from . import BASE, SESSION
 
 
 class Filters(BASE):

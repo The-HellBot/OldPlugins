@@ -2,8 +2,8 @@ from telethon import events
 from telethon.tl.functions.channels import EditAdminRequest
 from telethon.tl.types import ChatAdminRights
 import asyncio
-from .sql.gban_sql import is_gbanned, gbaner, ungbaner, all_gbanned
-from .sql import gmute_sql as gsql
+from hellbot.sql.gban_sql import is_gbanned, gbaner, ungbaner, all_gbanned
+from hellbot.sql import gmute_sql as gsql
 from . import *
 
 
@@ -100,7 +100,8 @@ async def already(event):
     GBANNED_LIST = "**Gbanned Users :**\n"
     if len(gbanned_users) > 0:
         for user in gbanned_users:
-            GBANNED_LIST += f"📍 [{user.chat_id}](tg://user?id={user.chat_id})\n"
+            name = (await bot.get_entity(int(user))).first_name
+            GBANNED_LIST += f"📍 [{name}](tg://user?id={user.chat_id})\n"
     else:
         GBANNED_LIST = "No Gbanned Users!!"
     await edit_or_reply(event, GBANNED_LIST)
@@ -235,6 +236,8 @@ CmdHelp("global").add_command(
   "gban", "<reply>/<userid>", "Globally Bans the mentioned user in 'X' chats you are admin with ban permission."
 ).add_command(
   "ungban", "<reply>/<userid>", "Globally Unbans the user in 'X' chats you are admin!"
+).add_command(
+  "listgban", None, "Gives the list of all GBanned Users."
 ).add_command(
   "gkick", "<reply>/<userid>", "Globally Kicks the user in 'X' chats you are admin!"
 ).add_command(

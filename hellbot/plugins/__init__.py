@@ -8,7 +8,7 @@ from hellbot.version import __hell__
 from telethon import version
 
 
-HELL_USER = Config.YOUR_NAME or "Hêll"
+HELL_USER = bot.me.first_name
 ForGo10God = bot.uid
 hell_mention = f"[{HELL_USER}](tg://user?id={ForGo10God})"
 hell_logo = "./hellbot/resources/pics/hellbot_logo.jpg"
@@ -54,7 +54,6 @@ grp_link = "https://t.me/HellBot_Chat"
 hell_grp = f"[Hêllẞø† Group]({grp_link})"
 
 WELCOME_FORMAT = """**Use these fomats in your welcome note to make them attractive.**
-
   {mention} :  To mention the user
   {title} : To get chat name in message
   {count} : To get group members

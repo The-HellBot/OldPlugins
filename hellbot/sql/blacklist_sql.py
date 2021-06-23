@@ -2,7 +2,7 @@ import threading
 
 from sqlalchemy import Column, String, UnicodeText, distinct, func
 
-from hellbot.plugins.sql import BASE, SESSION
+from . import BASE, SESSION
 
 
 class BlackListFilters(BASE):

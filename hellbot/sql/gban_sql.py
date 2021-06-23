@@ -1,4 +1,4 @@
-from hellbot.plugins.sql import SESSION, BASE
+from . import SESSION, BASE
 from sqlalchemy import Column, String
 
 

@@ -16,7 +16,7 @@ PP_CHANGED = "**📍 Profile picture changed successfully.**"
 PP_TOO_SMOL = "🖼️ Image size is small. Use a bigger picture."
 PP_ERROR = "🥴 Failure occured while processing image."
 BIO_SUCCESS = "🌟 Bio Message Edited Successfully."
-NAME_OK = "~~Kimi No Nawa~~ \nYour Name is successfully chnaged.."
+NAME_OK = "~~Kimi No Nawa~~ **Your Name Changed to**  {}.."
 USERNAME_SUCCESS = "🌝 Successfully Changed Your Username."
 USERNAME_TAKEN = "😬 This Username is already taken. Try another one."
 OFFLINE_TAG = "[ • OFFLINE • ]"
@@ -120,7 +120,7 @@ async def _(event):
         await event.edit(str(e))
 
 
-@bot.on(hell_cmd(pattern="pname ((.-\n)*)"))
+@bot.on(hell_cmd(pattern="pname (.*)"))
 async def _(event):
     if event.fwd_from:
         return
@@ -135,7 +135,7 @@ async def _(event):
                 first_name=first_name, last_name=last_name
             )
         )
-        await eod(event, NAME_OK)
+        await eod(event, NAME_OK.format(names))
     except Exception as e:
         await event.edit(str(e))
 

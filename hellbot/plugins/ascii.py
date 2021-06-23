@@ -4,8 +4,8 @@ from telethon.errors.rpcerrorlist import YouBlockedUserError
 from . import *
 
 
-@bot.on(hell_cmd(pattern="ascii ?(.*)"))
-@bot.on(sudo_cmd(pattern="ascii ?(.*)", allow_sudo=True))
+@bot.on(hell_cmd(pattern="ascii (.*)"))
+@bot.on(sudo_cmd(pattern="ascii (.*)", allow_sudo=True))
 async def _(event):
     if event.fwd_from:
         return
@@ -16,71 +16,66 @@ async def _(event):
     if not reply_message.media:
         await edit_or_reply(event, "Reply to media message😒🤐")
         return
-    chat = "@asciiart_bot"
-    reply_message.sender
-    if reply_message.sender.bot:
-        await edit_or_reply(event, "Reply to actual users message.😒🤐")
-        return
-    kraken = await edit_or_reply(event, "Wait making ASCII...🤓🔥🔥")
-    async with event.client.conversation(chat) as conv:
+    bot = "@asciiart_bot"
+    kraken = await eor(event, "Wait making ASCII...🤓🔥🔥")
+    async with event.client.conversation(bot) as conv:
         try:
-            response = conv.wait_event(
-                events.NewMessage(incoming=True, from_users=164766745)
-            )
-            await event.client.send_message(chat, reply_message)
-            response = await response
-        except YouBlockedUserError:
-            await kraken.edit("`Please unblock @asciiart_bot and try again`")
-            return
-        if response.text.startswith("Forward"):
-            await kraken.edit(
-                "`can you kindly disable your forward privacy settings for good?`"
-            )
-        else:
-            await kraken.delete()
-            await event.client.send_file(
-                event.chat_id,
-                response.message.media,
-                caption=f"**Image Type :** ASCII Art\n**Uploaded By :** {hell_mention}",
-            )
-            await event.client.send_read_acknowledge(conv.chat_id)
-
-
-@bot.on(hell_cmd(pattern="line ?(.*)"))
-@bot.on(sudo_cmd(pattern="line ?(.*)", allow_sudo=True))
-async def _(event):
-    if event.fwd_from:
-        return
-    if not event.reply_to_msg_id:
-        await edit_or_reply(event, "Reply to any user message.😒🤐")
-        return
-    reply_message = await event.get_reply_message()
-    if not reply_message.media:
-        await edit_or_reply(event, "Reply to media message😒🤐")
-        return
-    chat = "@Lines50Bot"
-    reply_message.sender
-    if reply_message.sender.bot:
-        await edit_or_reply(event, "Reply to actual users message.😒🤐")
-        return
-    kraken = await edit_or_reply(event, "`Processing`")
-    async with event.client.conversation(chat) as conv:
-        try:
-            await conv.send_message("/start")
-            await conv.get_response()
-            await conv.send_message(reply_message)
-            await conv.get_response()
-            pic = await conv.get_response()
+            first = await conv.send_message("/start")
+            response = await conv.get_response()
+            second = await conv.send_message(reply_message)
+            output_op = await conv.get_response()
+            last = await conv.get_response()
             await event.client.send_read_acknowledge(conv.chat_id)
         except YouBlockedUserError:
-            await kraken.edit("Please unblock @Lines50Bot and try again")
+            await kraken.edit("User Blocked!! Please Unblock @asciiart_bot and try again...")
             return
         await kraken.delete()
-        await event.client.send_file(
+        final = await event.client.send_file(
             event.chat_id,
-            pic,
-            caption=f"**Image Type :** LINE Art \n**Uploaded By :** {hell_mention}",
+            output_op,
         )
+        await final.edit(
+            f"ASCII art By :- {hell_mention}")
+    await event.client.delete_messages(
+        conv.chat_id, [first.id, response.id, second.id, output_op.id, last.id]
+    )
+
+@bot.on(hell_cmd(pattern="line (.*)"))
+@bot.on(sudo_cmd(pattern="line (.*)", allow_sudo=True))
+async def _(event):
+    if event.fwd_from:
+        return
+    if not event.reply_to_msg_id:
+        await edit_or_reply(event, "Reply to any user message.😒🤐")
+        return
+    reply_message = await event.get_reply_message()
+    if not reply_message.media:
+        await edit_or_reply(event, "Reply to media message😒🤐")
+        return
+    bot = "@lines50bot"
+    kraken = await eor(event, "`Processing...`")
+    async with event.client.conversation(bot) as conv:
+        try:
+            first = await conv.send_message("/start")
+            response = await conv.get_response()
+            second = await conv.send_message(reply_message)
+            output_op = await conv.get_response()
+            last = await conv.get_response()
+            await event.client.send_read_acknowledge(conv.chat_id)
+        except YouBlockedUserError:
+            await kraken.edit("User Blocked!! Please Unblock @Lines50Bot and try again...")
+            return
+        await kraken.delete()
+        final = await event.client.send_file(
+            event.chat_id,
+            output_op,
+        )
+        await final.edit(
+            f"Lines By :- {hell_mention}")
+    await event.client.delete_messages(
+        conv.chat_id, [first.id, response.id, second.id, output_op.id, last.id]
+    )
+
 
 CmdHelp("ascii").add_command(
   'ascii', 'reply to any image file', 'Makes an image ascii style, try out your own'

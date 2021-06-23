@@ -16,8 +16,9 @@ from . import *
 
 hell_row = Config.BUTTONS_IN_HELP
 hell_emoji = Config.EMOJI_IN_HELP
-hell_pic = Config.PMPERMIT_PIC
+hell_pic = Config.PMPERMIT_PIC or "https://telegra.ph/file/58df4d86400922aa32acd.jpg"
 cstm_pmp = Config.CUSTOM_PMPERMIT
+ALV_PIC = Config.ALIVE_PIC
 
 PM_WARNS = {}
 PREV_REPLY_MESSAGE = {}
@@ -36,23 +37,21 @@ mssge = (
 
 USER_BOT_WARN_ZERO = "Enough Of Your Flooding In My Master's PM!! \n\n**🚫 Blocked and Reported**"
 
-USER_BOT_NO_WARN = (
+HELL_FIRST = (
     "**🔥 Hêllẞø† Prîvã†é Sêçürïty Prø†öçõl 🔥**\n\nThis is to inform you that "
     "{} is currently unavailable.\nThis is an automated message.\n\n"
     "{}\n\n**Please Choose Why You Are Here!!**".format(hell_mention, mssge))
 
 alive_txt = """
-**⚡ нєℓℓвσт ιѕ σиℓιиє ⚡**
-
+**⚜️ нєℓℓвσт ιѕ σиℓιиє ⚜️**
 {}
-
 **🏅 𝙱𝚘𝚝 𝚂𝚝𝚊𝚝𝚞𝚜 🏅**
 
 **Telethon :**  `{}`
 **Hêllẞø†  :**  **{}**
 **Uptime   :**  `{}`
 **Abuse    :**  **{}**
-**Sudo     :**  **{}**
+**Sudo      :**  **{}**
 """
 
 def button(page, modules):
@@ -69,7 +68,7 @@ def button(page, modules):
     for pairs in pairs[page]:
         buttons.append(
             [
-                custom.Button.inline(f"{hell_emoji} " + pair, data=f"Information[{page}]({pair})")
+                custom.Button.inline(f"{hell_emoji} " + pair + f" {hell_emoji}", data=f"Information[{page}]({pair})")
                 for pair in pairs
             ]
         )
@@ -97,32 +96,52 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
         builder = event.builder
         result = None
         query = event.text
-        if event.query.user_id == bot.uid and query == "@Its_HellBot":
+        if event.query.user_id == bot.uid and query == "hellbot_help":
             rev_text = query[::-1]
             veriler = button(0, sorted(CMD_HELP))
+            apn = []
+            for x in CMD_LIST.values():
+                for y in x:
+                    apn.append(y)
             result = await builder.article(
                 f"Hey! Only use .help please",
-                text=f"🔰 **{hell_mention}**\n\n📜 __No.of Plugins__ : `{len(CMD_HELP)}` \n🗒️ **Page:** 1/{veriler[0]}",
+                text=f"🔰 **{hell_mention}**\n\n📜 __No.of Plugins__ : `{len(CMD_HELP)}` \n🗂️ __Commands__ : `{len(apn)}`\n🗒️ __Page__ : 1/{veriler[0]}",
                 buttons=veriler[1],
                 link_preview=False,
             )
+
         elif event.query.user_id == bot.uid and query == "alive":
             he_ll = alive_txt.format(Config.ALIVE_MSG, tel_ver, hell_ver, uptime, abuse_m, is_sudo)
-            result = builder.photo(
-                file=Config.ALIVE_PIC,
-                text=he_ll,
-                buttons=[
-                    [
-                        Button.url(f"{HELL_USER}", f"tg://openmessage?user_id={ForGo10God}")
-                    ],
-                    [
-                        Button.url("My Channel", f"https://t.me/{my_channel}"),
-                        Button.url("My Group", f"https://t.me/{my_group}"),
-                    ],
-                ],
-        )
-        elif event.query.user_id == bot.uid and query.startswith("**🔥"):
-            hel_l = USER_BOT_NO_WARN.format(hell_mention, mssge)
+            alv_btn = [
+                [Button.url(f"{HELL_USER}", f"tg://openmessage?user_id={ForGo10God}")],
+                [Button.url("My Channel", f"https://t.me/{my_channel}"), 
+                Button.url("My Group", f"https://t.me/{my_group}")],
+            ]
+            if ALV_PIC and ALV_PIC.endswith((".jpg", ".png")):
+                result = builder.photo(
+                    ALV_PIC,
+                    text=he_ll,
+                    buttons=alv_btn,
+                    link_preview=False,
+                )
+            elif ALV_PIC:
+                result = builder.document(
+                    ALV_PIC,
+                    text=he_ll,
+                    title="HellBot Alive",
+                    buttons=alv_btn,
+                    link_preview=False,
+                )
+            else:
+                result = builder.article(
+                    text=he_ll,
+                    title="HellBot Alive",
+                    buttons=alv_btn,
+                    link_preview=False,
+                )
+
+        elif event.query.user_id == bot.uid and query == "pm_warn":
+            hel_l = HELL_FIRST.format(hell_mention, mssge)
             result = builder.photo(
                 file=hell_pic,
                 text=hel_l,
@@ -135,6 +154,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
                     [custom.Button.inline("Curious ❓", data="pmclick")],
                 ],
             )
+
         elif event.query.user_id == bot.uid and query == "repo":
             result = builder.article(
                 title="Repository",
@@ -155,6 +175,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
                     ],
                 ],
             )
+
         elif query.startswith("http"):
             part = query.split(" ")
             result = builder.article(
@@ -163,6 +184,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
                 buttons=[[custom.Button.url("URL", part[0])]],
                 link_preview=True,
             )
+
         else:
             result = builder.article(
                 "@Its_HellBot",
@@ -213,7 +235,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
             if first_name is not None:
                 first_name = first_name.replace("\u2060", "")
             tosend = f"**👀 Hey {hell_mention} !!** \n\n⚜️ You Got A Request From [{first_name}](tg://user?id={ok}) In PM!!"
-            await tgbot.send_message(LOG_GP, tosend)
+            await bot.send_message(LOG_GP, tosend)
 
 
     @tgbot.on(callbackquery.CallbackQuery(data=compile(b"chat")))
@@ -232,7 +254,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
             if first_name is not None:
                 first_name = first_name.replace("\u2060", "")
             tosend = f"**👀 Hey {hell_mention} !!** \n\n⚜️ You Got A PM from  [{first_name}](tg://user?id={ok})  for random chats!!"
-            await tgbot.send_message(LOG_GP, tosend)
+            await bot.send_message(LOG_GP, tosend)
 
 
     @tgbot.on(callbackquery.CallbackQuery(data=compile(b"heheboi")))
@@ -251,7 +273,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
             if first_name is not None:
                 first_name = first_name.replace("\u2060", "")
             first_name = html.escape(target.user.first_name)
-            await tgbot.send_message(
+            await bot.send_message(
                 LOG_GP,
                 f"**Blocked**  [{first_name}](tg://user?id={ok}) \n\nReason:- Spam",
             )
@@ -259,58 +281,60 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
 
     @tgbot.on(callbackquery.CallbackQuery(data=compile(b"reopen")))
     async def reopn(event):
-            if event.query.user_id == bot.uid :
+            if event.query.user_id == bot.uid or event.query.user_id in Config.SUDO_USERS:
                 current_page_number=0
                 simp = button(current_page_number, CMD_HELP)
                 veriler = button(0, sorted(CMD_HELP))
+                apn = []
+                for x in CMD_LIST.values():
+                    for y in x:
+                        apn.append(y)
                 await event.edit(
-                    f"🔰 **{hell_mention}**\n\n📜 __No.of Plugins__ : `{len(CMD_HELP)}` \n🗒️ **Page:** 1/{veriler[0]}",
+                    f"🔰 **{hell_mention}**\n\n📜 __No.of Plugins__ : `{len(CMD_HELP)}` \n🗂️ __Commands__ : `{len(apn)}`\n🗒️ __Page__ : 1/{veriler[0]}",
                     buttons=simp[1],
                     link_preview=False,
                 )
             else:
                 reply_pop_up_alert = "Hoo gya aapka. Kabse tapar tapar dabae jaa rhe h. Khudka bna lo na agr chaiye to. © Hêllẞø† ™"
                 await event.answer(reply_pop_up_alert, cache_time=0, alert=True)
-       
-
-    @tgbot.on(callbackquery.CallbackQuery(data=compile(b"page\((.+?)\)")))
-    async def page(event):
-        if not event.query.user_id == bot.uid:
-            return await event.answer(
-                "Hoo gya aapka. Kabse tapar tapar dabae jaa rhe h. Khudka bna lo na agr chaiye to. © Hêllẞø† ™",
-                cache_time=0,
-                alert=True,
-            )
-        page = int(event.data_match.group(1).decode("UTF-8"))
-        veriler = button(page, CMD_HELP)
-        await event.edit(
-            f"🔰 **{hell_mention}**\n\n📜 __No.of Plugins__ : `{len(CMD_HELP)}`\n🗒️ **Page :** {page + 1}/{veriler[0]}",
-            buttons=veriler[1],
-            link_preview=False,
-        )
         
 
     @tgbot.on(callbackquery.CallbackQuery(data=compile(b"close")))
     async def on_plug_in_callback_query_handler(event):
-        if event.query.user_id == bot.uid:
+        if event.query.user_id == bot.uid or event.query.user_id in Config.SUDO_USERS:
             veriler = custom.Button.inline(f"{hell_emoji} Re-Open Menu {hell_emoji}", data="reopen")
-            await event.edit(f"**⚜️ Hêllẞø† Mêñû Prõvîdêr ìs ñôw Çlösëd ⚜️**\n\n**Bot Of :**  {hell_mention}\n\n        [©️ Hêllẞø† ™️]({chnl_link})", buttons=veriler)
+            await event.edit(f"**⚜️ Hêllẞø† Mêñû Prõvîdêr ìs ñôw Çlösëd ⚜️**\n\n**Bot Of :**  {hell_mention}\n\n        [©️ Hêllẞø† ™️]({chnl_link})", buttons=veriler, link_preview=False)
         else:
             reply_pop_up_alert = "Hoo gya aapka. Kabse tapar tapar dabae jaa rhe h. Khudka bna lo na agr chaiye to. © Hêllẞø† ™"
             await event.answer(reply_pop_up_alert, cache_time=0, alert=True)
    
 
-    @tgbot.on(
-        callbackquery.CallbackQuery(data=compile(b"Information\[(\d*)\]\((.*)\)"))
-    )
-    async def Information(event):
-        if not event.query.user_id == bot.uid:
+    @tgbot.on(callbackquery.CallbackQuery(data=compile(b"page\((.+?)\)")))
+    async def page(event):
+        page = int(event.data_match.group(1).decode("UTF-8"))
+        veriler = button(page, CMD_HELP)
+        apn = []
+        for x in CMD_LIST.values():
+            for y in x:
+                apn.append(y)
+        if event.query.user_id == bot.uid or event.query.user_id in Config.SUDO_USERS:
+            await event.edit(
+                f"🔰 **{hell_mention}**\n\n📜 __No.of Plugins__ : `{len(CMD_HELP)}`\n🗂️ __Commands__ : `{len(apn)}`\n🗒️ __Page__ : {page + 1}/{veriler[0]}",
+                buttons=veriler[1],
+                link_preview=False,
+            )
+        else:
             return await event.answer(
                 "Hoo gya aapka. Kabse tapar tapar dabae jaa rhe h. Khudka bna lo na agr chaiye to. © Hêllẞø† ™",
                 cache_time=0,
                 alert=True,
             )
 
+
+    @tgbot.on(
+        callbackquery.CallbackQuery(data=compile(b"Information\[(\d*)\]\((.*)\)"))
+    )
+    async def Information(event):
         page = int(event.data_match.group(1).decode("UTF-8"))
         commands = event.data_match.group(2).decode("UTF-8")
         try:
@@ -327,56 +351,59 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
 
         buttons = [buttons[i : i + 2] for i in range(0, len(buttons), 2)]
         buttons.append([custom.Button.inline(f"{hell_emoji} Main Menu {hell_emoji}", data=f"page({page})")])
-        await event.edit(
-            f"**📗 File :**  `{commands}`\n**🔢 Number of commands :**  `{len(CMD_HELP_BOT[commands]['commands'])}`",
-            buttons=buttons,
-            link_preview=False,
-        )
-
-    @tgbot.on(
-        callbackquery.CallbackQuery(data=compile(b"commands\[(.*)\[(\d*)\]\]\((.*)\)"))
-    )
-    async def commands(event):
-        if not event.query.user_id == bot.uid:
+        if event.query.user_id == bot.uid or event.query.user_id in Config.SUDO_USERS:
+            await event.edit(
+                f"**📗 File :**  `{commands}`\n**🔢 Number of commands :**  `{len(CMD_HELP_BOT[commands]['commands'])}`",
+                buttons=buttons,
+                link_preview=False,
+            )
+        else:
             return await event.answer(
                 "Hoo gya aapka. Kabse tapar tapar dabae jaa rhe h. Khudka bna lo na agr chaiye to. © Hêllẞø† ™",
                 cache_time=0,
                 alert=True,
             )
 
+
+    @tgbot.on(
+        callbackquery.CallbackQuery(data=compile(b"commands\[(.*)\[(\d*)\]\]\((.*)\)"))
+    )
+    async def commands(event):
         cmd = event.data_match.group(1).decode("UTF-8")
         page = int(event.data_match.group(2).decode("UTF-8"))
         commands = event.data_match.group(3).decode("UTF-8")
-
         result = f"**📗 File :**  `{cmd}`\n"
         if CMD_HELP_BOT[cmd]["info"]["info"] == "":
             if not CMD_HELP_BOT[cmd]["info"]["warning"] == "":
                 result += f"**⚠️ Warning :**  {CMD_HELP_BOT[cmd]['info']['warning']}\n\n"
-
         else:
             if not CMD_HELP_BOT[cmd]["info"]["warning"] == "":
                 result += f"**⚠️ Warning :**  {CMD_HELP_BOT[cmd]['info']['warning']}\n"
             result += f"**ℹ️ Info :**  {CMD_HELP_BOT[cmd]['info']['info']}\n\n"
-
         command = CMD_HELP_BOT[cmd]["commands"][commands]
         if command["params"] is None:
             result += f"**🛠 Commands :**  `{HANDLER[:1]}{command['command']}`\n"
         else:
             result += f"**🛠 Commands :**  `{HANDLER[:1]}{command['command']} {command['params']}`\n"
-
         if command["example"] is None:
             result += f"**💬 Explanation :**  `{command['usage']}`\n\n"
         else:
             result += f"**💬 Explanation :**  `{command['usage']}`\n"
             result += f"**⌨️ For Example :**  `{HANDLER[:1]}{command['example']}`\n\n"
-
-        await event.edit(
-            result,
-            buttons=[
-                custom.Button.inline(f"{hell_emoji} Return {hell_emoji}", data=f"Information[{page}]({cmd})")
-            ],
-            link_preview=False,
-        )
+        if event.query.user_id == bot.uid or event.query.user_id in Config.SUDO_USERS:
+            await event.edit(
+                result,
+                buttons=[
+                    custom.Button.inline(f"{hell_emoji} Return {hell_emoji}", data=f"Information[{page}]({cmd})")
+                ],
+                link_preview=False,
+            )
+        else:
+            return await event.answer(
+                "Hoo gya aapka. Kabse tapar tapar dabae jaa rhe h. Khudka bna lo na agr chaiye to. © Hêllẞø† ™",
+                cache_time=0,
+                alert=True,
+            )
 
 
 # hellbot

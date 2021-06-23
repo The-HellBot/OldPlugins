@@ -28,13 +28,14 @@ async def repo(event):
 
 
 @bot.on(hell_cmd(pattern="help ?(.*)", outgoing=True))
+@bot.on(sudo_cmd(pattern="help ?(.*)", allow_sudo=True))
 async def yardim(event):
     if event.fwd_from:
         return
     tgbotusername = Config.BOT_USERNAME
     input_str = event.pattern_match.group(1)
     if tgbotusername is not None or input_str == "text":
-        results = await event.client.inline_query(tgbotusername, "@Its_HellBot")
+        results = await event.client.inline_query(tgbotusername, "hellbot_help")
         await results[0].click(
             event.chat_id, reply_to=event.reply_to_msg_id, hide_via=True
         )
@@ -59,9 +60,9 @@ async def hellbott(event):
     args = event.pattern_match.group(1).lower()
     if args:
         if args in CMD_HELP:
-            await event.edit(str(CMD_HELP[args]))
+            await eor(event, str(CMD_HELP[args]))
         else:
-            await event.edit("**⚠️ Error !** \nNeed a module name to show plugin info.")
+            await eod(event, "**⚠️ Error !** \nNeed a module name to show plugin info.")
     else:
         string = ""
         sayfa = [
@@ -78,6 +79,6 @@ async def hellbott(event):
                 else:
                     string += "`, "
             string += "\n"
-        await event.edit("Please Specify A Module Name Of Which You Want Info" + "\n\n" + string)
+        await eod(event, "Please Specify A Module Name Of Which You Want Info" + "\n\n" + string)
 
 # hellbot

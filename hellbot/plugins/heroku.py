@@ -18,16 +18,33 @@ HEROKU_APP_NAME = Config.HEROKU_APP_NAME
 HEROKU_API_KEY = Config.HEROKU_API_KEY
 lg_id = Config.LOGGER_ID
 
+
+
+async def restart(event):
+    if HEROKU_APP_NAME and HEROKU_API_KEY:
+        try:
+            Heroku
+        except BaseException:
+            return await eor(
+                event, "`HEROKU_API_KEY` is wrong. Re-Check in config vars."
+            )
+        await eor(event, f"✅ **Restarted Dynos** \n**Type** `{hl}ping` **after 1 minute to check if I am working !**")
+        app = Heroku.apps()[HEROKU_APP_NAME]
+        app.restart()
+    else:
+        execl(executable, executable, "bash", "HellBot")
+
+
 @bot.on(hell_cmd(pattern="restart$"))
 @bot.on(sudo_cmd(pattern="restart$", allow_sudo=True))
 async def re(hell):
     if hell.fwd_from:
         return
     event = await eor(hell, "Restarting Dynos ...")
-    await event.edit("✅ **Restarted Dynos** \n**Type** `.ping` **after 1 minute to check if I am working!**")
-    await bot.disconnect()
-    os.execl(sys.executable, sys.executable, *sys.argv)
-    quit()
+    if HEROKU_API_KEY:
+        await restart(event)
+    else:
+        await event.edit("Please Set Your `HEROKU_API_KEY` to restart Hêllẞø†")
 
 
 @bot.on(hell_cmd(pattern="shutdown$"))
@@ -50,32 +67,32 @@ async def variable(hell):
     if Config.HEROKU_APP_NAME is not None:
         app = Heroku.app(Config.HEROKU_APP_NAME)
     else:
-        return await hell.edit("`[HEROKU]:" "\nPlease setup your` **HEROKU_APP_NAME**")
+        return await eor(hell, "`[HEROKU]:" "\nPlease setup your` **HEROKU_APP_NAME**")
     exe = hell.pattern_match.group(1)
     heroku_var = app.config()
     if exe == "get":
-        await hell.edit("Getting Variable Info...")
+        event = await eor(hell, "Getting Variable Info...")
         await asyncio.sleep(1.5)
         cap = "Logger me chala jaa bsdk."
         capn = "Saved in LOGGER_ID !!"
         try:
             variable = hell.pattern_match.group(2).split()[0]
-            if variable in ("HELLBOT_SESSION", "BOT_TOKEN"):
+            if variable in ("HELLBOT_SESSION", "BOT_TOKEN", "HEROKU_API_KEY"):
                 if Config.ABUSE == "ON":
                     await bot.send_file(hell.chat_id, cjb, caption=cap)
-                    await hell.delete()
+                    await event.delete()
                     await bot.send_message(lg_id, f"#HEROKU_VAR \n\n`{heroku_var[variable]}`")
                     return
                 else:
-                    await hell.edit(f"**{capn}**")
+                    await event.edit(f"**{capn}**")
                     await bot.send_message(lg_id, f"#HEROKU_VAR \n\n`{heroku_var[variable]}`")
                     return
             if variable in heroku_var:
-                return await hell.edit(
+                return await event.edit(
                     "**Heroku Var** :" f"\n\n`{variable}` = `{heroku_var[variable]}`\n"
                 )
             else:
-                return await hell.edit(
+                return await event.edit(
                     "**Heroku Var** :" f"\n\n__Error:__\n-> I doubt `{variable}` exists!"
                 )
         except IndexError:
@@ -92,7 +109,7 @@ async def variable(hell):
                         caption="`Output too large, sending it as a file`",
                     )
                 else:
-                    await hell.edit(
+                    await event.edit(
                         "**Heroku Var :**\n\n"
                         "================================"
                         f"\n```{result}```\n"
@@ -101,39 +118,39 @@ async def variable(hell):
             os.remove("configs.json")
             return
     elif exe == "set":
-        await hell.edit("Setting Heroku Variable...")
+        event = await eor(hell, "Setting Heroku Variable...")
         variable = hell.pattern_match.group(2)
         if not variable:
-            return await hell.edit(f"`{hl}set var <Var Name> <Value>`")
+            return await event.edit(f"`{hl}set var <Var Name> <Value>`")
         value = hell.pattern_match.group(3)
         if not value:
             variable = variable.split()[0]
             try:
                 value = hell.pattern_match.group(2).split()[1]
             except IndexError:
-                return await hell.edit(f"`{hl}set var <Var Name> <Value>`")
+                return await event.edit(f"`{hl}set var <Var Name> <Value>`")
         await asyncio.sleep(1.5)
         if variable in heroku_var:
-            await hell.edit(
+            await event.edit(
                 f"`{variable}` **successfully changed to**  ->  `{value}`"
             )
         else:
-            await hell.edit(
+            await event.edit(
                 f"`{variable}` **successfully added with value**  ->  `{value}`"
             )
         heroku_var[variable] = value
     elif exe == "del":
-        await hell.edit("Getting info to delete Variable")
+        event = await eor(hell, "Getting info to delete Variable")
         try:
             variable = hell.pattern_match.group(2).split()[0]
         except IndexError:
-            return await hell.edit("`Please specify ConfigVars you want to delete`")
+            return await event.edit("`Please specify ConfigVars you want to delete`")
         await asyncio.sleep(1.5)
         if variable in heroku_var:
-            await hell.edit(f"**Successfully Deleted** \n`{variable}`")
+            await event.edit(f"**Successfully Deleted** \n`{variable}`")
             del heroku_var[variable]
         else:
-            return await hell.edit(f"`{variable}`  **does not exists**")
+            return await event.edit(f"`{variable}`  **does not exists**")
 
 
 @bot.on(hell_cmd(pattern="usage(?: |$)", outgoing=True))
@@ -141,7 +158,7 @@ async def variable(hell):
 async def dyno_usage(hell):
     if hell.fwd_from:
         return
-    await edit_or_reply(hell, "`Processing...`")
+    event = await edit_or_reply(hell, "`Processing...`")
     useragent = (
         "Mozilla/5.0 (Linux; Android 10; SM-G975F) "
         "AppleWebKit/537.36 (KHTML, like Gecko) "
@@ -156,7 +173,7 @@ async def dyno_usage(hell):
     path = "/accounts/" + user_id + "/actions/get-quota"
     r = requests.get(heroku_api + path, headers=headers)
     if r.status_code != 200:
-        return await hell.edit(
+        return await event.edit(
             "`Error: something bad happened`\n\n" f">.`{r.reason}`\n"
         )
     result = r.json()
@@ -185,7 +202,7 @@ async def dyno_usage(hell):
 
     await asyncio.sleep(1.5)
 
-    return await hell.edit(
+    return await event.edit(
         "⚡ **Dyno Usage** ⚡:\n\n"
         f" ➠ __Dyno usage for__ • **{Config.HEROKU_APP_NAME}** • :\n"
         f"     ★  `{AppHours}`**h**  `{AppMinutes}`**m**  "

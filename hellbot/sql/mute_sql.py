@@ -1,7 +1,4 @@
-try:
-    from hellbot.plugins.sql import BASE, SESSION
-except ImportError:
-    raise Exception("Hello!")
+from . import BASE, SESSION
 
 from sqlalchemy import Column, String
 
