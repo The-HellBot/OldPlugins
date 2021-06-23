@@ -19,7 +19,7 @@ from telethon.tl.types import ChannelParticipantAdmin, ChannelParticipantCreator
 from hellbot import *
 from hellbot.helpers import *
 from hellbot.config import Config
-from hellbot.plugins.sql import sudo_sql as s_ql
+from hellbot.sql import sudo_sql as s_ql
 
 # admin cmd or normal user cmd
 def hell_cmd(pattern=None, command=None, **args):
