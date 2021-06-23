@@ -2,7 +2,7 @@ import threading
 
 from sqlalchemy import Column, Integer, String
 
-from hellbot.plugins.sql import BASE, SESSION
+from . import BASE, SESSION
 
 DEF_COUNT = 0
 DEF_LIMIT = 0
