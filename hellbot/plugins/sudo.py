@@ -1,79 +1,70 @@
 import os
+import heroku3
 from telethon.tl.functions.users import GetFullUserRequest
 
 from . import *
-from hellbot.sql import sudo_sql as s_ql
 
-@bot.on(hell_cmd(pattern="sudo$", outgoing=True))
+Heroku = heroku3.from_key(Config.HEROKU_API_KEY)
+heroku_api = "https://api.heroku.com"
+sudousers = os.environ.get("SUDO_USERS", None)
+
+
+@bot.on(hell_cmd(pattern="sudo"))
 async def sudo(event):
-    if Config.SUDO_USERS == "True":  
-        users = list(s_ql.all_sudo())
-        sudo_users = list(s_ql.all_sudo())
-        if len(sudo) > 0:
-            SUDO_LIST = "**🚀 Sudo Users :**\n"
-            for user in sudo_users:
-                SUDO_LIST += f"📍 [{user.chat_id}](tg://user?id={user.chat_id})\t{users}\n"
-        else:
-            SUDO_LIST = "**No User Added To Sudo !**"
-        await eor(event, SUDO_LIST)
+    sudo = "True" if Config.SUDO_USERS else "False"
+    users = os.environ.get("SUDO_USERS", None)
+    if sudo == "True":
+        await eod(event, f"📍 **Sudo :**  `Enabled`\n\n📝 **Sudo users :**  `{users}`", 10)
     else:
-        await eod(event, f"📍 **Sudo :**  `Disabled`")
-       
+        await eod(event, f"📍 **Sudo :**  `Disabled`", 7)
+
 
 @bot.on(hell_cmd(pattern="addsudo(?: |$)"))
 async def add(event):
-    hell = await eor(event, "**Adding To Sudo...**")
-    reason = ""
-    if event.reply_to_msg_id:
-        userid = (await event.get_reply_message()).sender_id
-        try:
-            reason = event.text.split(" ", maxsplit=1)[1]
-        except IndexError:
-            reason = ""
-    elif event.pattern_match.group(1):
-        usr = event.text.split(" ", maxsplit=2)[1]
-        userid = await get_user_id(usr)
-        try:
-            reason = event.text.split(" ", maxsplit=2)[2]
-        except IndexError:
-            reason = ""
-    elif event.is_private:
-        userid = (await event.get_chat()).id
-        try:
-            reason = event.text.split(" ", maxsplit=1)[1]
-        except IndexError:
-            reason = ""
+    ok = await eor(event, "**🚀 Adding Sudo User...**")
+    bot = "SUDO_USERS"
+    if Config.HEROKU_APP_NAME is not None:
+        app = Heroku.app(Config.HEROKU_APP_NAME)
     else:
-        return await eod(hell, "**To Add user in SUDO i need a userid or reply to his/her message!!**")
-    name = (await event.client.get_entity(userid)).first_name
-    chats = 0
-    if userid == ForGo10God:
-        return await eod(hell, "**Can't Add Myself In Sudo**")
-    if s_ql.in_sudo(userid):
-        return await eod(hell, "**User Is Already In Sudo**")
-    s_ql.add_sudo(userid)
-    await hell.edit(f"Added [{name}](tg://user?id={userid}) To Sudo Users !")
-
+        await eod(ok, "**Please Set-Up**  `HEROKU_APP_NAME` **to add sudo users!!**")
+        return
+    heroku_Config = app.config()
+    if event is None:
+        return
+    try:
+        target = await get_user(event)
+    except Exception:
+        await eod(ok, f"Reply to a user to add them in sudo.")
+    if sudousers:
+        newsudo = f"{sudousers} {target}"
+    else:
+        newsudo = f"{target}"
+    await ok.edit(f"✅** Added**  `{target}`  **in Sudo User.**\n\n __Restarting Heroku to Apply Changes. Wait for a minute.__")
+    heroku_Config[bot] = newsudo
 
 @bot.on(hell_cmd(pattern="rmsudo(?: |$)"))
 async def _(event):
-    hell = await eor(event, "**Removing From Sudo...**")
-    if event.reply_to_msg_id:
-        userid = (await event.get_reply_message()).sender_id
-    elif event.pattern_match.group(1):
-        userid = await get_user_id(event.pattern_match.group(1))
-    elif event.is_private:
-        userid = (await event.get_chat()).id
+    ok = await eor(event, "**🚫 Removing Sudo User...**")
+    bot = "SUDO_USERS"
+    if Config.HEROKU_APP_NAME is not None:
+        app = Heroku.app(Config.HEROKU_APP_NAME)
     else:
-        return await eod(hell, "`Reply to a user or give their userid... `")
-    name = (await event.client.get_entity(userid)).first_name
-    chats = 0
-    if not s_ql.in_sudo(userid):
-        return await eod(hell, "**User Is Not In Sudo List**")
-    s_ql.rem_sudo(userid)
-    await hell.edit(
-        f"**📍 Removed** [{name}](tg://user?id={userid}) **From Sudo !**",
-    )
+        await eod(ok, "**Please Set-Up**  HEROKU_APP_NAME to remove sudo users!!")
+        return
+    heroku_Config = app.config()
+    if event is None:
+        return
+    try:
+        target = await get_user(event)
+        gett = str(target)
+    except Exception:
+        await eod(ok, f"Reply to a user to remove them from sudo.")
+    if gett in sudousers:
+        newsudo = sudousers.replace(gett, "")
+        await ok.edit(f"❌** Removed**  `{target}`  from Sudo User.\n\n Restarting Heroku to Apply Changes. Wait for a minute.")
+        heroku_Config[bot] = newsudo
+    else:
+        await ok.edit("**😑This user is not in your Sudo Users List.**")
 
 async def get_user(event):
     if event.reply_to_msg_id:
