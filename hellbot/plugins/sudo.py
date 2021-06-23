@@ -13,7 +13,7 @@ async def sudo(event):
         SUDO_LIST = "**🚀 Sudo Users :**\n"
         if len(sudo) > 0:
             for user in sudo_users:
-            SUDO_LIST += f"📍 [{user.chat_id}](tg://user?id={user.chat_id})\t{users}\n" 
+                SUDO_LIST += f"📍 [{user.chat_id}](tg://user?id={user.chat_id})\t{users}\n" 
     else:
         await eod(event, f"📍 **Sudo :**  `Disabled`")
        
