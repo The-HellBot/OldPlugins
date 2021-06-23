@@ -83,7 +83,7 @@ class Config(object):
     STICKER_PACKNAME = os.environ.get("STICKER_PACKNAME", None)
     HELLBOT_SESSION = os.environ.get("HELLBOT_SESSION", None)
     SUDO_HANDLER = os.environ.get("SUDO_HANDLER", r"\.")
-    SUDO_USERS = set(int(x) for x in os.environ.get("SUDO_USERS", "").split())
+    SUDO_USERS = os.environ.get("SUDO_MODE", None)
     TAG_LOGGER = os.environ.get("TAG_LOGGER", None)
     if TAG_LOGGER: 
         TAG_LOGGER = int(TAG_LOGGER)
