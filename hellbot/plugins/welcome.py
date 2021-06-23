@@ -1,6 +1,6 @@
 from telethon import events
 
-from hellbot.plugins.sql.welcome_sql import get_current_welcome, add_welcome, rm_welcome, update_welcome
+from hellbot.sql.welcome_sql import get_current_welcome, add_welcome, rm_welcome, update_welcome
 from . import *
 
 lg_id = Config.LOGGER_ID
