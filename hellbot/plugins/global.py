@@ -2,8 +2,8 @@ from telethon import events
 from telethon.tl.functions.channels import EditAdminRequest
 from telethon.tl.types import ChatAdminRights
 import asyncio
-from .sql.gban_sql import is_gbanned, gbaner, ungbaner, all_gbanned
-from .sql import gmute_sql as gsql
+from hellbot.sql.gban_sql import is_gbanned, gbaner, ungbaner, all_gbanned
+from hellbot.sql import gmute_sql as gsql
 from . import *
 
 
