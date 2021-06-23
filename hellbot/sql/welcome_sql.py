@@ -1,7 +1,4 @@
-try:
-    from hellbot.plugins.sql import BASE, SESSION
-except ImportError:
-    raise AttributeError
+from . import BASE, SESSION
 
 from sqlalchemy import BigInteger, Column, Numeric, String, UnicodeText
 
