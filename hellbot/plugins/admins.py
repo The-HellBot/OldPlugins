@@ -9,7 +9,7 @@ from telethon.tl.functions.users import GetFullUserRequest
 from telethon.tl.types import ChatAdminRights, ChatBannedRights, MessageEntityMentionName, MessageMediaPhoto
 
 from . import *
-from .sql.mute_sql import is_muted, mute, unmute
+from hellbot.sql.mute_sql import is_muted, mute, unmute
 
 
 lg_id = Config.LOGGER_ID
