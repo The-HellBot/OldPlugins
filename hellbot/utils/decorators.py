@@ -202,7 +202,7 @@ def register(**args):
             pass
 
     if allow_sudo:
-        args["from_users"] = list(Config.SUDO_USERS)
+        args["from_users"] = list(s_ql.all_sudo())
         # Mutually exclusive with outgoing (can only set one of either).
         args["incoming"] = True
         del args["allow_sudo"]
@@ -268,7 +268,7 @@ def command(**args):
         except BaseException:
             pass
     if allow_sudo:
-        args["from_users"] = list(Config.SUDO_USERS)
+        args["from_users"] = list(s_ql.all_sudo())
         # Mutually exclusive with outgoing (can only set one of either).
         args["incoming"] = True
     del allow_sudo
