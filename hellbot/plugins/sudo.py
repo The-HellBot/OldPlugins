@@ -20,7 +20,7 @@ async def sudo(event):
 
 @bot.on(hell_cmd(pattern="addsudo(?: |$)"))
 async def add(event):
-   hell = await eor(event, "**Adding To Sudo...**")
+    hell = await eor(event, "**Adding To Sudo...**")
     reason = ""
     if event.reply_to_msg_id:
         userid = (await event.get_reply_message()).sender_id
