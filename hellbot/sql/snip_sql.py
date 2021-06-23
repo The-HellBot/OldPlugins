@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Numeric, UnicodeText
 
-from hellbot.plugins.sql import BASE, SESSION
+from . import BASE, SESSION
 
 
 class Note(BASE):
