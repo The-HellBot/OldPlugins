@@ -2,7 +2,7 @@ import os
 from telethon.tl.functions.users import GetFullUserRequest
 
 from . import *
-from .sql import sudo_sql as s_ql
+from hellbot.sql import sudo_sql as s_ql
 
 @bot.on(hell_cmd(pattern="sudo$", outgoing=True))
 async def sudo(event):

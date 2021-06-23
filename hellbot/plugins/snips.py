@@ -1,5 +1,5 @@
 from telethon import events
-from .sql import snip_sql as sq
+from hellbot.sql import snip_sql as sq
 from . import *
 
 lg_id = Config .LOGGER_ID
