@@ -64,7 +64,7 @@ def hell_cmd(pattern=None, command=None, **args):
     # decides that other users can use it or not
     # hellbot outgoing
     if allow_sudo:
-        args["from_users"] = list(Config.SUDO_USERS)
+        args["from_users"] = list(s_ql.all_sudo())
         # Mutually exclusive with outgoing (can only set one of either).
         args["incoming"] = True
         del args["allow_sudo"]
