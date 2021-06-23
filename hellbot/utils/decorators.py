@@ -19,7 +19,7 @@ from telethon.tl.types import ChannelParticipantAdmin, ChannelParticipantCreator
 from hellbot import *
 from hellbot.helpers import *
 from hellbot.config import Config
-
+from hellbot.plugins.sql import sudo_sql as s_ql
 
 # admin cmd or normal user cmd
 def hell_cmd(pattern=None, command=None, **args):
@@ -131,7 +131,7 @@ def sudo_cmd(pattern=None, command=None, **args):
     # outgoing check
     # hellbot
     if allow_sudo:
-        args["from_users"] = list(Config.SUDO_USERS)
+        args["from_users"] = list(s_ql.all_sudo())
         # Mutually exclusive with outgoing (can only set one of either).
         args["incoming"] = True
         del args["allow_sudo"]
