@@ -1,3 +1,4 @@
+from telethon.events import InlineQuery, callbackquery
 from telethon.tl.custom import Button
 from telethon.errors.rpcerrorlist import UserNotParticipantError
 from telethon.tl.functions.channels import GetParticipantRequest
