@@ -122,7 +122,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
                 link = (await bot(ExportChatInviteRequest(channel))).link
             else:
                 link = "https://t.me/" + channel.username
-            sub = [
+            result = [
                 await builder.article(
                     title="force_sub",
                     text = msg,
