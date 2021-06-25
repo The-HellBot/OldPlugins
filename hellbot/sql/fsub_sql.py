@@ -8,8 +8,8 @@ class Fsub(BASE):
     usrname = Column(String(14), primary_key=True)
 
     def __init__(self, chat_id, usrname):
-        self.chat_id = chat_id
-        self.usrname = usrname
+        self.chat_id = str(chat_id)
+        self.usrname = str(usrname)
 
 
 Fsub.__table__.create(checkfirst=True)
