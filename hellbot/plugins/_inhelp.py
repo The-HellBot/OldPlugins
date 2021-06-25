@@ -112,7 +112,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
                 buttons=veriler[1],
                 link_preview=False,
             )
-        elif event.query.user_id == bot.uid and query == "fsub":
+        elif event.query.user_id == bot.uid and query.startswith("fsub"):
             hunter = event.pattern_match.group(1)
             hell = hunter.split("+")
             user = await bot.get_entity(int(hell[0]))
@@ -128,7 +128,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
                     text = msg,
                     buttons=[
                         [Button.url(text="Channel", url=link)],
-                        [Button.url(text="🔓 Unmute Me", data=unmute)],
+                        [custom.Button.inline("🔓 Unmute Me", data=unmute)],
                     ],
                 )
             ]
