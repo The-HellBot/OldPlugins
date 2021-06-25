@@ -5,7 +5,7 @@ from telethon.tl.functions.channels import GetParticipantRequest
 from telethon.tl.functions.messages import ExportChatInviteRequest
 from hellbot.sql.fsub_sql import *
 from . import *
-
+"""
 @tgbot.on(InlineQuery)
 async def fsub_in(event):
         builder = event.builder
@@ -32,6 +32,7 @@ async def fsub_in(event):
             ]
             await event.answer(sub)
 
+
 @tgbot.on(callbackquery.CallbackQuery(data=compile(b"unmute")))
 async def on_pm_click(event):
     hunter = (event.data_match.group(1)).decode("UTF-8")
@@ -48,7 +49,7 @@ async def on_pm_click(event):
         event.chat_id, int(hell[0]), send_message=True, until_date=None
     )
     await event.edit("Yay! You can chat now !!")
-
+"""
 
 
 @bot.on(events.ChatAction())
