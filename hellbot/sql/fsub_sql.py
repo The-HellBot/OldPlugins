@@ -24,7 +24,7 @@ def is_fsub(chat_id):
         SESSION.close()
 
 
-def add_fsub(chat_id, target):
+def add_fsub(chat_id, usrname):
     adder = Fsub(str(chat_id), str(usrname))
     SESSION.add(adder)
     SESSION.commit()
