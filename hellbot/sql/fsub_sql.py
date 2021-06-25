@@ -5,9 +5,11 @@ from sqlalchemy import Column, String
 class Fsub(BASE):
     __tablename__ = "fsub"
     chat_id = Column(String(14), primary_key=True)
+    target = Column(String(127))
 
-    def __init__(self, chat_id):
+    def __init__(self, chat_id, target=""):
         self.chat_id = chat_id
+        self.target = target
 
 
 Fsub.__table__.create(checkfirst=True)
@@ -22,8 +24,8 @@ def is_fsub(chat_id):
         SESSION.close()
 
 
-def add_fsub(chat_id):
-    adder = Fsub(str(chat_id))
+def add_fsub(chat_id, target):
+    adder = Fsub(str(chat_id), str(target))
     SESSION.add(adder)
     SESSION.commit()
 
