@@ -10,7 +10,10 @@ from telethon import Button, custom, events, functions
 from telethon.tl.functions.users import GetFullUserRequest
 from telethon.events import InlineQuery, callbackquery
 from telethon.sync import custom
+from telethon.errors.rpcerrorlist import UserNotParticipantError
+from telethon.tl.functions.channels import GetParticipantRequest
 from telethon.tl.functions.channels import JoinChannelRequest
+from telethon.tl.functions.messages import ExportChatInviteRequest
 
 from . import *
 
@@ -109,6 +112,26 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
                 buttons=veriler[1],
                 link_preview=False,
             )
+        elif event.query.user_id == bot.uid and query.startswith("fsub"):
+            hunter = event.pattern_match.group(1)
+            hell = hunter.split("+")
+            user = await bot.get_entity(int(hell[0]))
+            channel = await bot.get_entity(int(hell[1]))
+            msg = f"**👋 Welcome** [{user.first_name}](tg://user?id={user.id}), \n\n**📍 You need to Join** {channel.title} **to chat in this group.**"
+            if not channel.username:
+                link = (await bot(ExportChatInviteRequest(channel))).link
+            else:
+                link = "https://t.me/" + channel.username
+            result = [
+                await builder.article(
+                    title="force_sub",
+                    text = msg,
+                    buttons=[
+                        [Button.url(text="Channel", url=link)],
+                        [custom.Button.inline("🔓 Unmute Me", data=unmute)],
+                    ],
+                )
+            ]
 
         elif event.query.user_id == bot.uid and query == "alive":
             he_ll = alive_txt.format(Config.ALIVE_MSG, tel_ver, hell_ver, uptime, abuse_m, is_sudo)
@@ -277,6 +300,24 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
                 LOG_GP,
                 f"**Blocked**  [{first_name}](tg://user?id={ok}) \n\nReason:- Spam",
             )
+
+
+    @tgbot.on(callbackquery.CallbackQuery(data=compile(b"unmute")))
+    async def on_pm_click(event):
+        hunter = (event.data_match.group(1)).decode("UTF-8")
+        hell = hunter.split("+")
+        if not event.sender_id == int(hell[0]):
+            return await event.answer("This Ain't For You!!", alert=True)
+        try:
+            await bot(GetParticipantRequest(int(hell[1]), int(hell[0])))
+        except UserNotParticipantError:
+            return await event.answer(
+                "You need to join the channel first.", alert=True
+            )
+        await bot.edit_permissions(
+            event.chat_id, int(hell[0]), send_message=True, until_date=None
+        )
+        await event.edit("Yay! You can chat now !!")
 
 
     @tgbot.on(callbackquery.CallbackQuery(data=compile(b"reopen")))
