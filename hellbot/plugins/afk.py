@@ -87,12 +87,12 @@ async def on_afk(event):
         msg = None
         if reason:
             message_to_reply = (
-                f"**I'm currently AFK!** \n\n**Total AFK time :**  `{total_afk_time}`\n"
-                + f"\n**Reason :** {reason}"
+                f"**I'm currently AFK!** \n\n**⏰ AFK Since :**  `{total_afk_time}`\n"
+                + f"\n**💬 Reason :** {reason}"
                 )
         else:
             message_to_reply = (
-                f"**I'm currently AFK!** \n\n**AFK Timer :**  `{total_afk_time}`\n"
+                f"**I'm currently AFK!** \n\n**⏰ AFK Since :**  `{total_afk_time}`\n"
                 )
         msg = await event.reply(message_to_reply, file=hellpic)
         await asyncio.sleep(2)
