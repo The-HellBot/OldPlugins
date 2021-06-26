@@ -88,7 +88,7 @@ async def on_afk(event):
         if reason:
             message_to_reply = (
                 f"**I'm currently AFK!** \n\n**Total AFK time :**  `{total_afk_time}`\n"
-                + f"\n__Reason__ :  `{reason}`"
+                + f"\n**Reason :** {reason}"
                 )
         else:
             message_to_reply = (
@@ -130,7 +130,7 @@ async def _(event):
         USER_AFK = f"yes: {reason} {hellpic}"  # pylint:disable=E0602
         if reason:
             await bot.send_message(
-                event.chat_id, f"**I'm going afk🚶** \n\nBecause  `{reason}`", file=hellpic
+                event.chat_id, f"**I'm going afk🚶** \n\n**Because :** {reason}", file=hellpic
             )
         else:
             await bot.send_message(
