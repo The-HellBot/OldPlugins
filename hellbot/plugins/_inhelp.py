@@ -183,19 +183,8 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
                 title="Repository",
                 text=f"**⚡ ʟɛɢɛռɖaʀʏ ᴀғ ɦɛʟʟɮօt ⚡**",
                 buttons=[
-                    [
-                        Button.url("🔥 Group 🔥", "https://t.me/hellbot_chat"),
-                        Button.url(
-                            "⚜️ Channel ⚜️",
-                            "https://t.me/its_hellbot",
-                        ),
-                    ],
-                    [   Button.url("📑 Repo 📑", "https://github.com/The-HellBot/HellBot"),
-                        Button.url(
-                            "📝 More Bots 📝",
-                            "https://github.com/The-HellBot",
-                       ),
-                    ],
+                    [Button.url("📑 Repo 📑", "https://t.me/hellbot_chat")],
+                    [Button.url("🚀 Deploy 🚀", "https://dashboard.heroku.com/new?button-url=https%3A%2F%2Fgithub.com%2FThe-HellBot%2FHellBot&template=https%3A%2F%2Fgithub.com%2Fthe-hellbot%2Fhellbot")],
                 ],
             )
 
