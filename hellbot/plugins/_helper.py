@@ -21,7 +21,7 @@ botname = Config.BOT_USERNAME
 async def repo(event):
     try:
         hell = await bot.inline_query(botname, "repo")
-        await hell[0].click(event.chat_id, reply_to=reply_to_msg_id, hide_via=True)
+        await hell[0].click(event.chat_id)
         if event.sender_id == ForGo10God:
             await event.delete()
     except (noin, dedbot):
