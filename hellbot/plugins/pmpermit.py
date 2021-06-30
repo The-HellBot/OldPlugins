@@ -224,7 +224,7 @@ if PM_ON_OFF != "DISABLE":
     async def do_pm_permit_action(chat_ids, event):
         if chat_ids not in PM_WARNS:
             PM_WARNS.update({chat_ids: 0})
-        if PM_WARNS[chat_ids] == 3:
+        if PM_WARNS[chat_ids] == Config.MAX_SPAM:
             r = await event.reply(HELL_ZERO)
             await asyncio.sleep(3)
             await event.client(functions.contacts.BlockRequest(chat_ids))
