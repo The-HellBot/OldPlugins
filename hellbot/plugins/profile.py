@@ -24,8 +24,7 @@ ONLINE_TAG = "[ • ONLINE • ]"
 PROFILE_IMAGE = "https://telegra.ph/file/9f0638dbfa028162a8682.jpg"
 # ===============================================================
 
-
-@bot.on(hell_cmd(pattern="offline$", outgoing=True))
+@bot.on(hell_cmd(pattern="offline$", outgoing=True)) 
 async def _(event):
     if event.fwd_from:
         return
@@ -107,14 +106,15 @@ async def _(event):
     except Exception as e:
         await eod(event, str(e))
 
-
 @bot.on(hell_cmd(pattern="pbio (.*)"))
 async def _(event):
     if event.fwd_from:
         return
     bio = event.pattern_match.group(1)
     try:
-        await bot(functions.account.UpdateProfileRequest(about=bio))
+        await bot(
+            functions.account.UpdateProfileRequest(about=bio)
+        )
         await eod(event, BIO_SUCCESS)
     except Exception as e:
         await event.edit(str(e))
@@ -150,7 +150,9 @@ async def _(event):
         os.makedirs(Config.TMP_DOWNLOAD_DIRECTORY)
     photo = None
     try:
-        photo = await bot.download_media(reply_message, Config.TMP_DOWNLOAD_DIRECTORY)
+        photo = await bot.download_media(
+            reply_message, Config.TMP_DOWNLOAD_DIRECTORY
+        )
     except Exception as e:
         await event.edit(str(e))
     else:
@@ -158,7 +160,11 @@ async def _(event):
             await event.edit("now, Uploading to @Telegram ...")
             file = await bot.upload_file(photo)
             try:
-                await bot(functions.photos.UploadProfilePhotoRequest(file))
+                await bot(
+                    functions.photos.UploadProfilePhotoRequest(
+                        file
+                    )
+                )
             except Exception as e:
                 await event.edit(str(e))
             else:
@@ -238,10 +244,7 @@ async def remove_profilepic(delpfp):
             )
         )
     await delpfp.client(DeletePhotosRequest(id=input_photos))
-    await eod(
-        delpfp,
-        f"🗑️ **Successfully deleted**  `{len(input_photos)}`  **profile picture(s).**",
-    )
+    await eod(delpfp, f"🗑️ **Successfully deleted**  `{len(input_photos)}`  **profile picture(s).**")
 
 
 @bot.on(hell_cmd(pattern="myusernames$"))
@@ -256,35 +259,27 @@ async def _(event):
 
 
 CmdHelp("profile").add_command(
-    "count", None, "Counts your groups, chats, bots etc..."
+  "count", None, "Counts your groups, chats, bots etc..."
 ).add_command(
-    "myusernames",
-    None,
-    "Shows usernames reserved by you. That is public groups or channels created by you",
+  "myusernames", None, "Shows usernames reserved by you. That is public groups or channels created by you"
 ).add_command(
-    "delpfp", "<count> or all", "Deletes your Telegram profile picture(s)."
+  "delpfp", "<count> or all", "Deletes your Telegram profile picture(s)."
 ).add_command(
-    "pbio", "<text>", "Changes your Telegram bio", ".pbio Hello there, This iz my bio"
+  "pbio", "<text>", "Changes your Telegram bio", ".pbio Hello there, This iz my bio"
 ).add_command(
-    "ppic",
-    "<reply to image>",
-    "Changes your Telegram profie picture with the one you replied to",
+  "ppic", "<reply to image>", "Changes your Telegram profie picture with the one you replied to"
 ).add_command(
-    "pname",
-    "<firstname> or <firstname | lastname>",
-    "Changes Your Telegram account name",
+  "pname", "<firstname> or <firstname | lastname>", "Changes Your Telegram account name"
 ).add_command(
-    "username", "<new username>", "Changes your Telegram Account Username"
+  "username", "<new username>", "Changes your Telegram Account Username"
 ).add_command(
-    "online",
-    None,
-    "Remove Offline Tag from your name and change profile pic to vars PROFILE_IMAGE.",
+  "online", None, "Remove Offline Tag from your name and change profile pic to vars PROFILE_IMAGE."
 ).add_command(
-    "offline", None, "Add an offline tag in your name and change profile pic to black."
+  "offline", None, "Add an offline tag in your name and change profile pic to black."
 ).add_command(
-    "kickme", None, "Gets out of the grp..."
+  "kickme", None, "Gets out of the grp..."
 ).add_info(
-    "🌝 Managing Profile was never so easy."
+  "🌝 Managing Profile was never so easy."
 ).add_warning(
-    "✅ Harmless Module."
+  "✅ Harmless Module."
 ).add()

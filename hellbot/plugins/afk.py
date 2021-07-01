@@ -36,15 +36,14 @@ async def set_not_afk(event):
             event.chat_id,
             "__**Back to Virtual World!**__\nNo Longer AFK.\n⏱️ Was afk for: `"
             + total_afk_time
-            + "`",
-            file=hellpic,
+            + "`", file=hellpic
         )
         try:
             await event.client.send_message(  # pylint:disable=E0602
                 Config.LOGGER_ID,  # pylint:disable=E0602
                 "#AFKFALSE \n\nAFK mode = **False**\n"
                 + "__**Back to Virtual World!**__\nNo Longer afk.\n⏱️ Was afk for: "
-                + total_afk_time,
+                + total_afk_time
             )
         except Exception as e:  # pylint:disable=C0103,W0703
             await bot.send_message(  # pylint:disable=E0602
@@ -90,11 +89,11 @@ async def on_afk(event):
             message_to_reply = (
                 f"**I'm currently AFK!** \n\n**⏰ AFK Since :**  `{total_afk_time}`\n"
                 + f"\n**💬 Reason :** {reason}"
-            )
+                )
         else:
             message_to_reply = (
                 f"**I'm currently AFK!** \n\n**⏰ AFK Since :**  `{total_afk_time}`\n"
-            )
+                )
         msg = await event.reply(message_to_reply, file=hellpic)
         await asyncio.sleep(2)
         if event.chat_id in last_afk_message:  # pylint:disable=E0602
@@ -131,39 +130,38 @@ async def _(event):
         USER_AFK = f"yes: {reason} {hellpic}"  # pylint:disable=E0602
         if reason:
             await bot.send_message(
-                event.chat_id,
-                f"**I'm going afk🚶** \n\n**Because :** {reason}",
-                file=hellpic,
+                event.chat_id, f"**I'm going afk🚶** \n\n**Because :** {reason}", file=hellpic
             )
         else:
-            await bot.send_message(event.chat_id, f"**I am Going afk!**🚶", file=hellpic)
+            await bot.send_message(
+                event.chat_id, f"**I am Going afk!**🚶", file=hellpic)
         await asyncio.sleep(0.001)
         await event.delete()
         try:
             if reason:
                 await bot.send_message(
-                    Config.LOGGER_ID,
-                    f"#AFKTRUE \nAFK mode = **True**\nReason  `{reason}`",
-                    file=hellpic,
-                )
+                  Config.LOGGER_ID,
+                  f"#AFKTRUE \nAFK mode = **True**\nReason  `{reason}`",file=hellpic
+                 )
             else:
                 await bot.send_message(
-                    Config.LOGGER_ID, f"#AFKTRUE \nAFK mode = **True**", file=hellpic
-                )
+                  Config.LOGGER_ID,
+                  f"#AFKTRUE \nAFK mode = **True**",file=hellpic
+            )
         except Exception as e:  # pylint:disable=C0103,W0703
             logger.warn(str(e))  # pylint:disable=E06
 
-
 CmdHelp("afk").add_command(
-    "afk",
-    "<reply to media>/<reason>",
-    "Marks you AFK with reason also shows afk time. Media also supported.\nUse # in message to chat without breaking AFK mode.",
-    "afk <reason>`\n📍 **Exception :** `Use # in a msg to stay in afk mode while chatting.",
-).add_info("Away From Keyboard").add_warning("✅ Harmless Module.").add()
+  'afk', '<reply to media>/<reason>', 'Marks you AFK with reason also shows afk time. Media also supported.\nUse # in message to chat without breaking AFK mode.', "afk <reason>`\n📍 **Exception :** `Use # in a msg to stay in afk mode while chatting."
+).add_info(
+  "Away From Keyboard"
+).add_warning(
+  "✅ Harmless Module."
+).add()
 
 
 global USER_night
-global night_time
+global night_time 
 global last_night_message
 USER_night = {}
 night_time = None
@@ -172,8 +170,8 @@ last_night_message = {}
 
 @bot.on(events.NewMessage(outgoing=True))
 async def set_not_night(event):
-    global USER_night
-    global night_time
+    global USER_night 
+    global night_time 
     global last_night_message
     current_message = event.message.message
     if ".night" not in current_message and "yes" in USER_night:
@@ -221,13 +219,17 @@ async def _(event):
         await asyncio.sleep(5)
         await event.delete()
         try:
-            await bot.send_message(Config.LOGGER_ID, f"Time to sleep 😴")
+            await bot.send_message(
+                Config.LOGGER_ID, f"Time to sleep 😴"
+            )
         except Exception as e:
             logger.warn(str(e))
 
 
 @bot.on(
-    events.NewMessage(incoming=True, func=lambda e: bool(e.mentioned or e.is_private))
+    events.NewMessage(
+        incoming=True, func=lambda e: bool(e.mentioned or e.is_private)
+    )
 )
 async def on_night(event):
     if event.fwd_from:
@@ -282,9 +284,10 @@ async def on_night(event):
             await last_night_message[event.chat_id].delete()
         last_night_message[event.chat_id] = msg
 
-
 CmdHelp("night").add_command(
-    "night",
-    None,
-    "Same like AFK. But fixed reason and for sleeping purpose only. Sed ;_;",
-).add_info("Good Night 🌃").add_warning("✅ Harmless Module.").add()
+  "night", None, "Same like AFK. But fixed reason and for sleeping purpose only. Sed ;_;"
+).add_info(
+  "Good Night 🌃"
+).add_warning(
+  "✅ Harmless Module."
+).add()

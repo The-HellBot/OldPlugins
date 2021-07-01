@@ -1,14 +1,13 @@
 import asyncio
 import io
+import time
 import os
 import sys
-import time
 import traceback
 
 from . import *
 
 lg_id = Config.LOGGER_ID
-
 
 @bot.on(hell_cmd(pattern="exec(?: |$|\n)(.*)", command="exec"))
 @bot.on(sudo_cmd(pattern="exec(?: |$|\n)(.*)", command="exec", allow_sudo=True))
@@ -18,7 +17,7 @@ async def _(event):
     cmd = "".join(event.text.split(maxsplit=1)[1:])
     if not cmd:
         return await eod(event, "`What should i execute?..`")
-    await eor(event, "`Executing.....`")
+    hellevent = await eor(event, "`Executing.....`")
     process = await asyncio.create_subprocess_shell(
         cmd, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
     )
@@ -34,10 +33,7 @@ async def _(event):
         cresult = f"`{curruser}:~#` `{cmd}`\n`{result}`"
     else:
         cresult = f"`{curruser}:~$` `{cmd}`\n`{result}`"
-    await eor(
-        event,
-        "**Terminal Command Was Executed Successfully. Check LOGGER for Output.**",
-    )
+    await eor(event, "**Terminal Command Was Executed Successfully. Check LOGGER for Output.**")
     await event.client.send_message(
         lg_id,
         f"#EXEC \n\nTerminal command was executed sucessfully.\n\n**Command :**  `{cmd}`\n**Result :** \n{cresult}",
@@ -134,19 +130,20 @@ async def _(event):
             )
             await event.delete()
     await eor(event, "**Check out logger for result..**")
-    await event.client.send_message(lg_id, f"#BASH \n\n{output}")
-
+    await event.client.send_message(
+        lg_id, 
+        f"#BASH \n\n{output}"
+    )
+    
 
 CmdHelp("evaluators").add_command(
-    "eval", "<expr>", "Execute python script"
+  "eval", "<expr>", "Execute python script"
 ).add_command(
-    "exec",
-    "<command>",
-    "Execute a Terminal command on HellBot server and shows details",
+  "exec", "<command>", "Execute a Terminal command on HellBot server and shows details"
 ).add_command(
-    "bash", "<query>", "Bash your codes on linux and gives the output in current chat"
+  "bash", "<query>", "Bash your codes on linux and gives the output in current chat"
 ).add_info(
-    "Evaluating Modules. (Most Secure of all Bots)"
+  "Evaluating Modules. (Most Secure of all Bots)"
 ).add_warning(
-    "🚫 Don't Execute Commands Unknowingly."
+  "🚫 Don't Execute Commands Unknowingly."
 ).add()

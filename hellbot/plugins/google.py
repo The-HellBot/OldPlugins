@@ -1,17 +1,17 @@
-import datetime
+import asyncio
 import os
 from shutil import rmtree
-
-import requests
+import datetime
 import wikipedia
+import requests
+from justwatch import JustWatch
 from bs4 import BeautifulSoup
-from geopy.geocoders import Nominatim
 from search_engine_parser import GoogleSearch
 from search_engine_parser.core.exceptions import NoResultsOrTrafficError as GoglError
+from geopy.geocoders import Nominatim
 from telethon.tl import types
 
 from . import *
-
 
 def progress(current, total):
     logger.info(
@@ -34,9 +34,7 @@ async def _(event):
         page = wikipedia.page(s)
         url = page.url
         result += f"> [{s}]({url}) \n"
-    await edit_or_reply(
-        event,
-        "WikiPedia **Search**: {} \n\n **Result**: \n\n{}".format(input_str, result),
+    await edit_or_reply(event, "WikiPedia **Search**: {} \n\n **Result**: \n\n{}".format(input_str, result)
     )
 
 
@@ -46,7 +44,7 @@ async def _(event):
     if event.fwd_from:
         return
     query = event.pattern_match.group(1)
-    await eor(event, "Finding Sites...")
+    hell = await eor(event, "Finding Sites...")
     streams = get_stream_data(query)
     title = streams["title"]
     thumb_link = streams["movie_thumb"]
@@ -218,7 +216,7 @@ async def gps(event):
     input_str = event.pattern_match.group(1)
     if not input_str:
         return await eod(event, "What should i find? Give me location.🤨")
-
+        
     await edit_or_reply(event, "Finding😁")
 
     geolocator = Nominatim(user_agent="hellbot")
@@ -236,23 +234,19 @@ async def gps(event):
 
 
 CmdHelp("google").add_command(
-    "google", "<query>", "Does a google search for the query provided"
+  "google", "<query>", "Does a google search for the query provided"
 ).add_command(
-    "img", "<query>", "Does a image search for the query provided"
+  "img", "<query>", "Does a image search for the query provided"
 ).add_command(
-    "reverse",
-    "<reply to a sticker/pic>",
-    "Does a reverse image search on google and provides the similar images",
+  "reverse", "<reply to a sticker/pic>", "Does a reverse image search on google and provides the similar images"
 ).add_command(
-    "gps", "<place>", "Gives the location of the given place/city/state."
+  "gps", "<place>", "Gives the location of the given place/city/state."
 ).add_command(
-    "wikipedia", "<query>", "Searches for the query on Wikipedia."
+  "wikipedia", "<query>", "Searches for the query on Wikipedia."
 ).add_command(
-    "watch",
-    "<query>",
-    "Searches for all the available sites for watching that movie or series.",
+  "watch", "<query>", "Searches for all the available sites for watching that movie or series."
 ).add_info(
-    "Google Search."
+  "Google Search."
 ).add_warning(
-    "✅ Harmless Module."
+  "✅ Harmless Module."
 ).add()

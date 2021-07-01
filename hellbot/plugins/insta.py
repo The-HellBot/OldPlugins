@@ -1,6 +1,12 @@
+import asyncio
+import os
+import re
+
+from telethon import functions
 from telethon.errors.rpcerrorlist import YouBlockedUserError
 
 from . import *
+
 
 
 @bot.on(hell_cmd(pattern="insta (.*)"))
@@ -11,10 +17,7 @@ async def _(event):
     bot = "@instasavegrambot"
     input_str = event.pattern_match.group(1)
     if "www.instagram.com" not in input_str:
-        await eor(
-            event,
-            "Well... this is not instagram link... Mind giving a proper instagram link?",
-        )
+        await eor(event, "Well... this is not instagram link... Mind giving a proper instagram link?")
     else:
         kraken = await eor(event, "Trying to download.... please wait!")
     async with event.client.conversation(bot) as conv:
@@ -26,24 +29,24 @@ async def _(event):
             last = await conv.get_response()
             await event.client.send_read_acknowledge(conv.chat_id)
         except YouBlockedUserError:
-            await kraken.edit(
-                "User Blocked!! Please Unblock @instasavegrambot and try again..."
-            )
+            await kraken.edit("User Blocked!! Please Unblock @instasavegrambot and try again...")
             return
         await kraken.delete()
         final = await event.client.send_file(
             event.chat_id,
             output_op,
         )
-        await final.edit(f"📥 InstaGram Video Downloaded By :- {hell_mention}")
+        await final.edit(
+            f"📥 InstaGram Video Downloaded By :- {hell_mention}")
     await event.client.delete_messages(
         conv.chat_id, [first.id, response.id, second.id, output_op.id, last.id]
     )
 
 
 CmdHelp("instagram").add_command(
-    "insta",
-    "<link>",
-    "Downloads the provided instagram video/pic from link.",
-    "insta www.instagram.com/yeuehiwnwiqo",
-).add_info("Insta Downloader.").add_warning("✅ Harmless Module").add()
+  "insta", "<link>", "Downloads the provided instagram video/pic from link.", "insta www.instagram.com/yeuehiwnwiqo"
+).add_info(
+  "Insta Downloader."
+).add_warning(
+  "✅ Harmless Module"
+).add()

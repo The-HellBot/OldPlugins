@@ -5,7 +5,7 @@ from . import *
 @bot.on(sudo_cmd(pattern="tweet(?: |$)(.*)", allow_sudo=True))
 async def nope(kraken):
     hell = kraken.pattern_match.group(1)
-    await eor(kraken, "Trying to tweet for you...")
+    okvai = await eor(kraken, "Trying to tweet for you...")
     if not hell:
         if kraken.is_reply:
             (await kraken.get_reply_message()).message
@@ -320,6 +320,7 @@ async def nekobot(event):
     await event.delete()
 
 
+
 @bot.on(hell_cmd(pattern=r"kanna(?: |$)(.*)"))
 @bot.on(sudo_cmd(pattern=r"kanna(?: |$)(.*)", allow_sudo=True))
 async def nekobot(event):
@@ -354,27 +355,29 @@ async def nekobot(event):
 
 
 CmdHelp("tweets").add_command(
-    "kanna", "<text>/<reply to text>", "Kanna writes for you"
-).add_command("cmm", "<text>/<reply>", "Get a banner of Change My Mind").add_command(
-    "johhny", "<text>/<reply>", "Tweet with Johhny Sins"
+  "kanna", "<text>/<reply to text>", "Kanna writes for you"
 ).add_command(
-    "sunny", "<text>/<reply>", "Tweet with Sunny Leone"
+  "cmm", "<text>/<reply>", "Get a banner of Change My Mind"
 ).add_command(
-    "gandhi", "<text>/<reply>", "Tweet with Mahatma Gandhi"
+  "johhny", "<text>/<reply>", "Tweet with Johhny Sins"
 ).add_command(
-    "pappu", "<text>/<reply>", "Tweet with pappu A.K.A Rahul Gandhi"
+  "sunny", "<text>/<reply>", "Tweet with Sunny Leone"
 ).add_command(
-    "mia", "<text>/<reply>", "Tweet with Mia Khalifa 😍"
+  "gandhi", "<text>/<reply>", "Tweet with Mahatma Gandhi"
 ).add_command(
-    "trump", "<text>/<reply>", "Tweet with Mr. DooLand Trump"
+  "pappu", "<text>/<reply>", "Tweet with pappu A.K.A Rahul Gandhi"
 ).add_command(
-    "modi", "<text>/<reply>", "Tweet with Sir Narendra Modi"
+  "mia", "<text>/<reply>", "Tweet with Mia Khalifa 😍"
 ).add_command(
-    "tweet", "<text>/<reply>", "Tweets in your name"
+  "trump", "<text>/<reply>", "Tweet with Mr. DooLand Trump"
 ).add_command(
-    "dani", "<text>/<reply>", "Tweet with Dani Daniels 😍🥰"
+  "modi", "<text>/<reply>", "Tweet with Sir Narendra Modi"
+).add_command(
+  "tweet", "<text>/<reply>", "Tweets in your name"
+).add_command(
+  "dani", "<text>/<reply>", "Tweet with Dani Daniels 😍🥰"
 ).add_info(
-    "Lets Tweet."
+  "Lets Tweet."
 ).add_warning(
-    "✅ Harmless Module."
+  "✅ Harmless Module."
 ).add()

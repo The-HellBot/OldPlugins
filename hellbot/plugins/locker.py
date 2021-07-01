@@ -92,7 +92,7 @@ async def locks(event):
             event.chat_id,
             restlo,
             caption=f"{hell_mention} Locked `{what}` \n__Cause its Rest Time !!__",
-        )
+            )
     except BaseException as e:
         await eod(event, f"`Do I have proper rights for that ??`\n**Error:** {str(e)}")
         return
@@ -191,13 +191,10 @@ async def rem_locks(event):
                 caption=f"**{hell_mention} unlocked** `{what}`",
             )
         else:
-            await eor(
-                event, f"{hell_mention} Unlocked `{what}` \n__Now Start Chit Chat !!__"
-            )
+            await eor(event, f"{hell_mention} Unlocked `{what}` \n__Now Start Chit Chat !!__")
     except BaseException as e:
         await eod(event, f"`Do I have proper rights for that ??`\n**Error:** {str(e)}")
         return
-
 
 @bot.on(hell_cmd(pattern="ltype$"))
 @bot.on(sudo_cmd(pattern="ltype$", allow_sudo=True))
@@ -205,23 +202,17 @@ async def _(event):
     if event.fwd_from:
         return
     event = await eor(event, "Lock Types")
-    await event.edit(
-        "**Following are the lock types :** \n\n• all\n• msg\n• media\n• sticker\n• gif\n• game\n• inline\n• poll\n• invite\n• pin\n• info\n"
-    )
+    await event.edit("**Following are the lock types :** \n\n• all\n• msg\n• media\n• sticker\n• gif\n• game\n• inline\n• poll\n• invite\n• pin\n• info\n")
 
 
 CmdHelp("locker").add_command(
-    "lock",
-    "<lock type>",
-    "Locks the mentioned lock type in current chat. You can Get all lock type by using '.ltype'.",
+  "lock", "<lock type>", "Locks the mentioned lock type in current chat. You can Get all lock type by using '.ltype'."
 ).add_command(
-    "unlock",
-    "<lock type>",
-    "Unlocks the mentioned lock type in current chat. You can Get all lock types by using '.ltype'.",
+  "unlock", "<lock type>", "Unlocks the mentioned lock type in current chat. You can Get all lock types by using '.ltype'."
 ).add_command(
-    "ltype", None, "Use this to get the list of lock types..."
+  "ltype", None, "Use this to get the list of lock types..."
 ).add_info(
-    "Chat Locker."
+  "Chat Locker."
 ).add_warning(
-    "✅ Harmless Module."
+  "✅ Harmless Module."
 ).add()

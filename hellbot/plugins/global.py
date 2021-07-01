@@ -1,10 +1,9 @@
-import asyncio
-
 from telethon import events
-
+from telethon.tl.functions.channels import EditAdminRequest
+from telethon.tl.types import ChatAdminRights
+import asyncio
+from hellbot.sql.gban_sql import is_gbanned, gbaner, ungbaner, all_gbanned
 from hellbot.sql import gmute_sql as gsql
-from hellbot.sql.gban_sql import all_gbanned, gbaner, is_gbanned, ungbaner
-
 from . import *
 
 
@@ -33,9 +32,7 @@ async def _(event):
         except IndexError:
             reason = ""
     else:
-        return await eod(
-            hell, "**To gban a user i need a userid or reply to his/her message!!**"
-        )
+        return await eod(hell, "**To gban a user i need a userid or reply to his/her message!!**")
     name = (await event.client.get_entity(userid)).first_name
     chats = 0
     if userid == ForGo10God:
@@ -50,9 +47,7 @@ async def _(event):
     async for gfuck in event.client.iter_dialogs():
         if gfuck.is_group or gfuck.is_channel:
             try:
-                await event.client.edit_permissions(
-                    gfuck.id, userid, view_messages=False
-                )
+                await event.client.edit_permissions(gfuck.id, userid, view_messages=False)
                 chats += 1
             except BaseException:
                 pass
@@ -88,9 +83,7 @@ async def _(event):
     async for gfuck in event.client.iter_dialogs():
         if gfuck.is_group or gfuck.is_channel:
             try:
-                await event.client.edit_permissions(
-                    gfuck.id, userid, view_messages=True
-                )
+                await event.client.edit_permissions(gfuck.id, userid, view_messages=True)
                 chats += 1
             except BaseException:
                 pass
@@ -128,9 +121,7 @@ async def _(event):
                         view_messages=False,
                     )
                     gban_watcher = f"⚠️⚠️**Warning**⚠️⚠️\n\n`Gbanned User Joined the chat!!`\n**⚜️ Victim Id :**  [{user.first_name}](tg://user?id={user.id})\n"
-                    gban_watcher += (
-                        f"**🔥 Action 🔥**  \n`Banned this piece of shit....` **AGAIN!**"
-                    )
+                    gban_watcher += f"**🔥 Action 🔥**  \n`Banned this piece of shit....` **AGAIN!**"
                     await event.reply(gban_watcher)
                 except BaseException:
                     pass
@@ -186,9 +177,7 @@ async def gm(event):
     elif private is True:
         userid = event.chat_id
     else:
-        return await eod(
-            event, "Need a user to gmute. Reply or give userid to gmute them.."
-        )
+        return await eod(event, "Need a user to gmute. Reply or give userid to gmute them..")
     event.chat_id
     await event.get_chat()
     if gsql.is_gmuted(userid, "gmute"):
@@ -204,6 +193,7 @@ async def gm(event):
         await eod(event, "Error occured!\nError is " + str(e))
     else:
         await eor(event, "Shhh.... Now keep quiet !!")
+        
 
 
 @bot.on(hell_cmd(outgoing=True, pattern=r"ungmute ?(\d+)?"))
@@ -224,10 +214,7 @@ async def endgmute(event):
     elif private is True:
         userid = event.chat_id
     else:
-        return await eod(
-            event,
-            "Please reply to a user or add their into the command to ungmute them.",
-        )
+        return await eod(event,"Please reply to a user or add their into the command to ungmute them.")
     event.chat_id
     if not gsql.is_gmuted(userid, "gmute"):
         return await eod(event, "I don't remember I gmuted him...")
@@ -246,21 +233,19 @@ async def watcher(event):
 
 
 CmdHelp("global").add_command(
-    "gban",
-    "<reply>/<userid>",
-    "Globally Bans the mentioned user in 'X' chats you are admin with ban permission.",
+  "gban", "<reply>/<userid>", "Globally Bans the mentioned user in 'X' chats you are admin with ban permission."
 ).add_command(
-    "ungban", "<reply>/<userid>", "Globally Unbans the user in 'X' chats you are admin!"
+  "ungban", "<reply>/<userid>", "Globally Unbans the user in 'X' chats you are admin!"
 ).add_command(
-    "listgban", None, "Gives the list of all GBanned Users."
+  "listgban", None, "Gives the list of all GBanned Users."
 ).add_command(
-    "gkick", "<reply>/<userid>", "Globally Kicks the user in 'X' chats you are admin!"
+  "gkick", "<reply>/<userid>", "Globally Kicks the user in 'X' chats you are admin!"
 ).add_command(
-    "gmute", "<reply> or <userid>", "Globally Mutes the User."
+  "gmute", "<reply> or <userid>", "Globally Mutes the User."
 ).add_command(
-    "ungmute", "<reply> or <userid>", "Globally Unmutes the gmutes user."
+  "ungmute", "<reply> or <userid>", "Globally Unmutes the gmutes user."
 ).add_info(
-    "Global Admin Tool."
+  "Global Admin Tool."
 ).add_warning(
-    "✅ Harmlesss Module."
+  "✅ Harmlesss Module."
 ).add()

@@ -1,20 +1,3 @@
-import html
-from datetime import datetime
-from math import sqrt
-from os import remove
-
-from telethon import events
-from telethon.errors import (
-    ChannelInvalidError,
-    ChannelPrivateError,
-    ChannelPublicGroupNaError,
-    ChatAdminRequiredError,
-)
-from telethon.errors.rpcerrorlist import MessageTooLongError, YouBlockedUserError
-from telethon.tl.functions.channels import GetFullChannelRequest, GetParticipantsRequest
-from telethon.tl.functions.messages import GetFullChatRequest, GetHistoryRequest
-from telethon.tl.functions.photos import GetUserPhotosRequest
-from telethon.tl.functions.users import GetFullUserRequest
 from telethon.tl.types import (
     ChannelParticipantAdmin,
     ChannelParticipantCreator,
@@ -23,9 +6,30 @@ from telethon.tl.types import (
     MessageActionChannelMigrateFrom,
     MessageEntityMentionName,
 )
-from telethon.utils import get_input_location, pack_bot_file_id
-
+from telethon.utils import pack_bot_file_id, get_input_location
+from datetime import datetime
+from math import sqrt
+from os import remove
+import emoji
+from telethon.errors import (
+    ChannelInvalidError,
+    ChannelPrivateError,
+    ChannelPublicGroupNaError,
+    ChatAdminRequiredError,
+)
+from telethon.errors.rpcerrorlist import MessageTooLongError
+from telethon.tl.functions.channels import (
+    GetFullChannelRequest,
+    GetParticipantsRequest,
+    LeaveChannelRequest,
+)
+from telethon.tl.functions.messages import GetFullChatRequest, GetHistoryRequest
+from telethon.tl.functions.photos import GetUserPhotosRequest
+from telethon.tl.functions.users import GetFullUserRequest
+import html
 from . import *
+from telethon import events
+from telethon.errors.rpcerrorlist import YouBlockedUserError
 
 
 @bot.on(hell_cmd(pattern="recognize ?(.*)", outgoing=True))
@@ -64,7 +68,9 @@ async def _(event):
             third = await response
             hell = third.message.message
             await eor(event, hell)
-            await bot.delete_messages(conv.chat_id, [first.id, second.id, third.id])
+            await bot.delete_messages(
+            	conv.chat_id, [first.id, second.id, third.id]
+            )
 
         else:
             await eod(event, "sorry, I couldnt find it")
@@ -244,8 +250,8 @@ async def get_chatinfo(event):
             await edit_or_reply(event, "`Invalid channel/group`")
             return None
         except ChannelPrivateError:
-            await edit_or_reply(
-                event, "`This is a private channel/group or I am banned from there`"
+            await edit_or_reply(event, 
+                "`This is a private channel/group or I am banned from there`"
             )
             return None
         except ChannelPublicGroupNaError:
@@ -469,7 +475,7 @@ async def fetch_info(chat, event):
             caption += "\n"
     if hasattr(chat_obj_info, "scam") and chat_obj_info.scam:
         caption += "📍 Scam : <b>Yes</b>\n\n"
-    if hasattr(chat_obj_info, "verified"):
+    if hasattr(chat_obj_info, "verified"): 
         caption += f"💟 Verified by Telegram : {verified}\n\n"
     if description:
         caption += f"📝 Description : \n<code>{description}</code>\n"
@@ -512,9 +518,7 @@ async def get_users(show):
     try:
         await edit_or_reply(show, mentions)
     except MessageTooLongError:
-        await edit_or_reply(
-            show, "Damn, this is a huge group. Uploading users lists as file."
-        )
+        await edit_or_reply(show, "Damn, this is a huge group. Uploading users lists as file.")
         file = open("userslist.txt", "w+")
         file.write(mentions)
         file.close()
@@ -611,8 +615,8 @@ async def _(event):
     except Exception as e:
         mentions += " " + str(e) + "\n"
     await event.edit(mentions)
-
-
+    
+    
 @bot.on(hell_cmd(pattern="id$"))
 @bot.on(sudo_cmd(pattern="id$", allow_sudo=True))
 async def _(event):
@@ -640,25 +644,23 @@ async def _(event):
 
 
 CmdHelp("infos").add_command(
-    "admins", None, "Gets the list of admins in current chat along with the crator"
-).add_command("id", "<reply>", "Gets the user id of the replied user.").add_command(
-    "bots", None, "Gets the list of all the bots in the chat."
+  "admins", None, "Gets the list of admins in current chat along with the crator"
 ).add_command(
-    "info", "<reply / username>", "Fetches the information of the user"
+  "id", "<reply>", "Gets the user id of the replied user."
 ).add_command(
-    "whois", "<reply / username>", "Same as info"
+  "bots", None, "Gets the list of all the bots in the chat."
 ).add_command(
-    "chatinfo",
-    "<username of group>",
-    "Shows you the total information of the required chat",
+  "info", "<reply / username>", "Fetches the information of the user"
 ).add_command(
-    "users",
-    "<name of member> (optional)",
-    "Retrives all the (or mentioned) users in the chat",
+  "whois", "<reply / username>", "Same as info"
 ).add_command(
-    "recognize", "<reply to photo>", "Sends you the details of that replied picture."
+  "chatinfo", "<username of group>", "Shows you the total information of the required chat"
+).add_command(
+  "users", "<name of member> (optional)", "Retrives all the (or mentioned) users in the chat"
+).add_command(
+  "recognize", "<reply to photo>", "Sends you the details of that replied picture."
 ).add_info(
-    "Basic Cmds for groups."
+  "Basic Cmds for groups."
 ).add_warning(
-    "✅ Harmless Module."
+  "✅ Harmless Module."
 ).add()

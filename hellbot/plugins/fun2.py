@@ -1,11 +1,11 @@
 import asyncio
 import random
-from os import remove
-from urllib import parse
-
-import nekos
 import requests
+import nekos
+
+from os import remove
 from telethon.tl.types import ChannelParticipantsAdmins
+from urllib import parse
 
 from . import *
 
@@ -68,7 +68,7 @@ async def _(event):
         await reply_message.reply(mentions)
     else:
         await eor(event, mentions)
-
+  
 
 @bot.on(hell_cmd(pattern="climb$", outgoing=True))
 @bot.on(sudo_cmd(pattern="climb$", allow_sudo=True))
@@ -85,7 +85,7 @@ async def _(event):
         await reply_message.reply(mentions)
     else:
         await eor(event, mentions)
-
+  
 
 @bot.on(hell_cmd(pattern="aag$", outgoing=True))
 @bot.on(sudo_cmd(pattern="aag$", allow_sudo=True))
@@ -102,7 +102,7 @@ async def _(event):
         await reply_message.reply(mentions)
     else:
         await eor(event, mentions)
-
+    
 
 @bot.on(hell_cmd(pattern="push$", outgoing=True))
 @bot.on(sudo_cmd(pattern="push$", allow_sudo=True))
@@ -119,7 +119,7 @@ async def _(event):
         await reply_message.reply(mentions)
     else:
         await eor(event, mentions)
-
+    
 
 @bot.on(hell_cmd(pattern="work$", outgoing=True))
 @bot.on(sudo_cmd(pattern="work$", allow_sudo=True))
@@ -136,7 +136,7 @@ async def _(event):
         await reply_message.reply(mentions)
     else:
         await eor(event, mentions)
-
+    
 
 @bot.on(hell_cmd(pattern="suckit$", outgoing=True))
 @bot.on(sudo_cmd(pattern="suckit$", allow_sudo=True))
@@ -153,7 +153,7 @@ async def _(event):
         await reply_message.reply(mentions)
     else:
         await eor(event, mentions)
-
+   
 
 @bot.on(hell_cmd(pattern="ohh$", outgoing=True))
 @bot.on(sudo_cmd(pattern="ohh$", allow_sudo=True))
@@ -170,7 +170,7 @@ async def _(event):
         await reply_message.reply(mentions)
     else:
         await eor(event, mentions)
-
+  
 
 @bot.on(hell_cmd(pattern="lovestory$", outgoing=True))
 @bot.on(sudo_cmd(pattern="lovestory$", allow_sudo=True))
@@ -292,36 +292,40 @@ async def hmm(hell):
     await eor(hell, facthell)
 
 
-CmdHelp("fun2").add_command("join", None, "Use and see").add_command(
-    "bf", None, "Use and see"
-).add_command("push", None, "Use and see").add_command(
-    "lovestory", None, "Use and see"
+CmdHelp("fun2").add_command(
+  "join", None, "Use and see"
 ).add_command(
-    "session", None, "Use and see"
+  "bf", None, "Use and see"
 ).add_command(
-    "ohh", None, "Use and see"
+  "push", None, "Use and see"
 ).add_command(
-    "suckit", None, "Use and see"
+  "lovestory", None, "Use and see"
 ).add_command(
-    "work", None, "Use and see"
+  "session", None, "Use and see"
 ).add_command(
-    "aag", None, "Use and see"
+  "ohh", None, "Use and see"
 ).add_command(
-    "climb", None, "Use and see"
+  "suckit", None, "Use and see"
 ).add_command(
-    "pay", None, "Use and see"
+  "work", None, "Use and see"
 ).add_command(
-    "pat", "<reply> or <@username>", "Pats the user."
+  "aag", None, "Use and see"
 ).add_command(
-    "cat", None, "Sends you some random cat facial text art"
+  "climb", None, "Use and see"
 ).add_command(
-    "why", None, "Asks some random funny questions"
+  "pay", None, "Use and see"
 ).add_command(
-    "fact", None, "Sends you some random facts"
+  "pat", "<reply> or <@username>", "Pats the user."
 ).add_command(
-    "ftext", "<text>", "Writes your text in " f" format"
+  "cat", None, "Sends you some random cat facial text art"
+).add_command(
+  "why", None, "Asks some random funny questions"
+).add_command(
+  "fact", None, "Sends you some random facts"
+).add_command(
+  "ftext", "<text>", "Writes your text in "F" format"
 ).add_info(
-    "Bakchodi h bass."
+  "Bakchodi h bass."
 ).add_warning(
-    "✅ Harmless Module."
+  "✅ Harmless Module."
 ).add()

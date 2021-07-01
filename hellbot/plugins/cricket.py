@@ -1,7 +1,5 @@
 import urllib.request
-
 from bs4 import BeautifulSoup
-
 from . import *
 
 
@@ -24,5 +22,9 @@ async def _(event):
 
 
 CmdHelp("cricket").add_command(
-    "cs", None, "Collects all the live cricket scores."
-).add_info("Cricket Kheloge Vro?").add_warning("✅ Harmless Module.").add()
+  "cs", None, "Collects all the live cricket scores."
+).add_info(
+  "Cricket Kheloge Vro?"
+).add_warning(
+  "✅ Harmless Module."
+).add()

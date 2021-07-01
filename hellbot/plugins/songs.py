@@ -1,8 +1,10 @@
 import asyncio
+import re
 import json
 import os
 import time
 
+from telethon.errors.rpcerrorlist import YouBlockedUserError
 from telethon.tl.types import DocumentAttributeAudio
 from youtube_dl import YoutubeDL
 from youtube_dl.utils import (
@@ -15,7 +17,6 @@ from youtube_dl.utils import (
     UnavailableVideoError,
     XAttrMetadataError,
 )
-
 try:
     from youtubesearchpython import SearchVideos
 except:
@@ -23,7 +24,6 @@ except:
     from youtubesearchpython import SearchVideos
 
 from . import *
-
 
 @bot.on(hell_cmd(pattern="lyrics(?: |$)(.*)", outgoing=True))
 @bot.on(sudo_cmd(pattern="lyrics(?: |$)(.*)", allow_sudo=True))
@@ -47,7 +47,7 @@ async def nope(kraken):
     )
 
     await kraken.delete()
-
+    
 
 @bot.on(hell_cmd(pattern="song(?: |$)(.*)", outgoing=True))
 @bot.on(sudo_cmd(pattern="song(?: |$)(.*)", allow_sudo=True))
@@ -106,9 +106,8 @@ async def download_video(v_url):
         await eod(rkp, "`The download content was too short.`")
         return
     except GeoRestrictedError:
-        await eod(
-            rkp,
-            "`Video is not available from your geographic location due to geographic restrictions imposed by a website.`",
+        await eod(rkp,
+            "`Video is not available from your geographic location due to geographic restrictions imposed by a website.`"
         )
         return
     except MaxDownloadsReached:
@@ -223,9 +222,8 @@ async def download_video(v_url):
         await eod(rkp, "`The download content was too short.`")
         return
     except GeoRestrictedError:
-        await eod(
-            rkp,
-            "`Video is not available from your geographic location due to geographic restrictions imposed by a website.`",
+        await eod(rkp,
+            "`Video is not available from your geographic location due to geographic restrictions imposed by a website.`"
         )
         return
     except MaxDownloadsReached:
@@ -290,13 +288,13 @@ async def download_video(v_url):
 
 
 CmdHelp("songs").add_command(
-    "song", "<song name>", "Downloads the song from YouTube."
+	"song", "<song name>", "Downloads the song from YouTube."
 ).add_command(
-    "vsong", "<song name>", "Downloads the Video Song from YouTube."
+	"vsong", "<song name>", "Downloads the Video Song from YouTube."
 ).add_command(
-    "lyrics", "<song name>", "Gives the lyrics of that song.."
+	"lyrics", "<song name>", "Gives the lyrics of that song.."
 ).add_info(
-    "Songs & Lyrics."
+	"Songs & Lyrics."
 ).add_warning(
-    "✅ Harmless Module."
+	"✅ Harmless Module."
 ).add()

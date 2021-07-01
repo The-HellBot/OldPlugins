@@ -1,13 +1,12 @@
 import datetime
-
-from telethon import version
-
 from hellbot import *
 from hellbot.config import Config
 from hellbot.helpers import *
-from hellbot.random_strings import *
 from hellbot.utils import *
+from hellbot.random_strings import *
 from hellbot.version import __hell__
+from telethon import version
+
 
 HELL_USER = bot.me.first_name
 ForGo10God = bot.uid
@@ -21,14 +20,12 @@ shl = Config.SUDO_HANDLER
 hell_ver = __hell__
 tel_ver = version.__version__
 
-
 async def get_user_id(ids):
     if str(ids).isdigit():
         userid = int(ids)
     else:
         userid = (await bot.get_entity(ids)).id
     return userid
-
 
 sudos = Config.SUDO_USERS
 if sudos:
@@ -40,7 +37,7 @@ abus = Config.ABUSE
 if abus == "ON":
     abuse_m = "Enabled"
 else:
-    abuse_m = "Disabled"
+    abuse_m ="Disabled"
 
 START_TIME = datetime.datetime.now()
 uptime = f"{str(datetime.datetime.now() - START_TIME).split('.')[0]}"

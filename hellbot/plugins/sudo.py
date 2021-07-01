@@ -1,5 +1,4 @@
 import os
-
 import heroku3
 from telethon.tl.functions.users import GetFullUserRequest
 
@@ -15,9 +14,7 @@ async def sudo(event):
     sudo = "True" if Config.SUDO_USERS else "False"
     users = os.environ.get("SUDO_USERS", None)
     if sudo == "True":
-        await eod(
-            event, f"📍 **Sudo :**  `Enabled`\n\n📝 **Sudo users :**  `{users}`", 10
-        )
+        await eod(event, f"📍 **Sudo :**  `Enabled`\n\n📝 **Sudo users :**  `{users}`", 10)
     else:
         await eod(event, f"📍 **Sudo :**  `Disabled`", 7)
 
@@ -42,11 +39,8 @@ async def add(event):
         newsudo = f"{sudousers} {target}"
     else:
         newsudo = f"{target}"
-    await ok.edit(
-        f"✅** Added**  `{target}`  **in Sudo User.**\n\n __Restarting Heroku to Apply Changes. Wait for a minute.__"
-    )
+    await ok.edit(f"✅** Added**  `{target}`  **in Sudo User.**\n\n __Restarting Heroku to Apply Changes. Wait for a minute.__")
     heroku_Config[bot] = newsudo
-
 
 @bot.on(hell_cmd(pattern="rmsudo(?: |$)"))
 async def _(event):
@@ -67,13 +61,10 @@ async def _(event):
         await eod(ok, f"Reply to a user to remove them from sudo.")
     if gett in sudousers:
         newsudo = sudousers.replace(gett, "")
-        await ok.edit(
-            f"❌** Removed**  `{target}`  from Sudo User.\n\n Restarting Heroku to Apply Changes. Wait for a minute."
-        )
+        await ok.edit(f"❌** Removed**  `{target}`  from Sudo User.\n\n Restarting Heroku to Apply Changes. Wait for a minute.")
         heroku_Config[bot] = newsudo
     else:
         await ok.edit("**😑This user is not in your Sudo Users List.**")
-
 
 async def get_user(event):
     if event.reply_to_msg_id:
@@ -91,15 +82,13 @@ async def get_user(event):
 
 
 CmdHelp("sudo").add_command(
-    "sudo", None, "Check If Your Bot Has Sudo Enabled!!"
+  "sudo", None, "Check If Your Bot Has Sudo Enabled!!"
 ).add_command(
-    "addsudo", "<reply to user>", "Adds replied user to sudo list."
+  "addsudo", "<reply to user>", "Adds replied user to sudo list."
 ).add_command(
-    "rmsudo",
-    "<reply to user>",
-    "Removes the replied user from your sudo list if already added.",
+  "rmsudo", "<reply to user>", "Removes the replied user from your sudo list if already added."
 ).add_info(
-    "Manage Sudo."
+  "Manage Sudo."
 ).add_warning(
-    "⚠️ Grant Sudo Access to someone you trust!"
+  "⚠️ Grant Sudo Access to someone you trust!"
 ).add()

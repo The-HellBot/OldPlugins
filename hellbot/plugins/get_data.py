@@ -1,12 +1,14 @@
-import datetime
 import io
+import datetime
 import string
 
+from telethon import events
 from telethon.tl.tlobject import TLObject
 from telethon.tl.types import MessageEntityPre
 from telethon.utils import add_surrogate
 
 from . import *
+
 
 PRINTABLE_SET = set(bytes(string.printable, "ascii"))
 STR_LEN_MAX = 256
@@ -97,7 +99,6 @@ async def _(event):
     yaml_text = yaml_format(msg)
     await edit_or_reply(event, yaml_text, parse_mode=parse_pre)
 
-
 @bot.on(hell_cmd(pattern="json$", outgoing=True))
 @bot.on(admin_cmd(pattern="json$", allow_sudo=True))
 async def _(event):
@@ -128,13 +129,11 @@ async def _(event):
 
 
 CmdHelp("get_data").add_command(
-    "yaml", "<reply>", "Gives out Data of replied msg."
+  "yaml", "<reply>", "Gives out Data of replied msg."
 ).add_command(
-    "json",
-    "<reply>",
-    "Gets the json data of the replied msg/media from a user/bot/channel",
+  "json", "<reply>", "Gets the json data of the replied msg/media from a user/bot/channel"
 ).add_info(
-    "Data Snatch in YAML & JSON"
+  "Data Snatch in YAML & JSON"
 ).add_warning(
-    "✅ Harmless Module."
+  "✅ Harmless Module."
 ).add()

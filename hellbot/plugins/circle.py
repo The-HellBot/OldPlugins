@@ -3,7 +3,6 @@ from telethon.errors.rpcerrorlist import YouBlockedUserError
 
 from . import *
 
-
 @bot.on(hell_cmd(pattern="circle ?(.*)"))
 @bot.on(sudo_cmd(pattern="circle ?(.*)", allow_sudo=True))
 async def _(event):
@@ -48,9 +47,10 @@ async def _(event):
             )
             await event.client.send_read_acknowledge(conv.chat_id)
 
-
 CmdHelp("circle").add_command(
-    "circle",
-    "<reply to a 4×4(square) media>",
-    "Converts the replied square media into circle telegram video",
-).add_info("Telegram Circle Video").add_warning("✅ Harmless Module.").add()
+  "circle", "<reply to a 4×4(square) media>", "Converts the replied square media into circle telegram video"
+).add_info(
+  "Telegram Circle Video"
+).add_warning(
+  "✅ Harmless Module."
+).add()

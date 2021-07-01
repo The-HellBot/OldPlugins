@@ -1,7 +1,10 @@
 import asyncio
+import os
+import re
 import time
 
 from telethon import functions
+from telethon.errors.rpcerrorlist import YouBlockedUserError
 from telethon.tl.functions.channels import LeaveChannelRequest
 
 from . import *
@@ -16,7 +19,6 @@ async def leave(e):
             await bot(LeaveChannelRequest(e.chat_id))
         else:
             await eod(e, "**Iz this even a grp?😑**")
-
 
 @bot.on(hell_cmd(pattern=r"dc"))
 @bot.on(sudo_cmd(pattern=r"dc", allow_sudo=True))
@@ -86,16 +88,18 @@ async def _(event):
         await eod(event, "**[Done]**")
     except BaseException:
         await eod(f"**Invalid Syntax !!**\n\n`{hl}dm <Username or UserID> <message>`")
+    
 
-
-CmdHelp("bot").add_command("dc", None, "Gets the DataCenter Number").add_command(
+CmdHelp("bot").add_command(
+    "dc", None, "Gets the DataCenter Number"
+).add_command(
     "config", None, "😒"
-).add_command("kickme", None, "Kicks Yourself from the group.").add_command(
+).add_command(
+    "kickme", None, "Kicks Yourself from the group."
+).add_command(
     "schd", "<secs> - <message>", "Sends your message in given secs", "schd 10 - Hello"
 ).add_command(
-    "dm",
-    "<username or user id> <message>",
-    "Sends a DM to given username with required msg",
+    "dm", "<username or user id> <message>", "Sends a DM to given username with required msg"
 ).add_info(
     "Haa vai? Kya hua?"
 ).add_warning(

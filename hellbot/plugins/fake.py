@@ -1,12 +1,11 @@
 import asyncio
 import os
-
 import requests
+
 from telethon.tl.functions.users import GetFullUserRequest
 from telethon.tl.types import ChannelParticipantsAdmins
 
 from . import *
-
 
 @bot.on(hell_cmd(pattern="picgen"))
 @bot.on(sudo_cmd(pattern="picgen", allow_sudo=True))
@@ -17,9 +16,9 @@ async def _(event):
     response = requests.get(url)
     await eor(event, "`Creating a fake face...`")
     if response.status_code == 200:
-        with open("HELLBOT.jpg", "wb") as f:
-            f.write(response.content)
-
+      with open("HELLBOT.jpg", 'wb') as f:
+        f.write(response.content)
+    
     captin = f"Fake Image By {hell_mention}"
     fole = "HELLBOT.jpg"
     await bot.send_file(event.chat_id, fole, caption=captin)
@@ -39,7 +38,6 @@ async def _(event):
         action = input_str
     async with borg.action(event.chat_id, action):
         await asyncio.sleep(86400)  # type for 10 seconds
-
 
 @bot.on(hell_cmd(pattern="gbam$"))
 @bot.on(sudo_cmd(pattern="gbam$", allow_sudo=True))
@@ -93,13 +91,13 @@ async def gbun(event):
 
 
 CmdHelp("fake").add_command(
-    "fake",
-    "<action>",
-    "This shows the fake action in the group  the actions are typing, contact, game ,location, voice, round, video, photo, document.",
-).add_command("gbam", "<reason> (optional)", "Fake gban. Just for fun🤓").add_command(
-    "picgen", None, "Gives a fake face image"
+  'fake', '<action>', 'This shows the fake action in the group  the actions are typing, contact, game ,location, voice, round, video, photo, document.'
+).add_command(
+  'gbam', '<reason> (optional)', 'Fake gban. Just for fun🤓'
+).add_command(
+  'picgen', None, 'Gives a fake face image'
 ).add_info(
-    "Fake Actions."
+  'Fake Actions.'
 ).add_warning(
-    "✅ Harmless Module."
+  '✅ Harmless Module.'
 ).add()

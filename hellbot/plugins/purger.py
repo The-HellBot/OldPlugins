@@ -1,5 +1,4 @@
 from asyncio import sleep
-
 from telethon.errors import rpcbaseerrors
 
 from . import *
@@ -17,7 +16,7 @@ async def delete_it(safai):
             await msg_src.delete()
             await safai.delete()
         except rpcbaseerrors.BadRequestError:
-            pass
+        	pass
 
 
 @bot.on(hell_cmd(pattern=r"purge", outgoing=True))
@@ -44,8 +43,9 @@ async def fastpurger(purg):
     )
 
     await purg.client.send_message(
-        lg_id, "#PURGE\n\nPurged `" + str(count) + "` messages."
-    )
+        lg_id, 
+        "#PURGE\n\nPurged `" + str(count) + "` messages."
+        )
     await sleep(2)
     await done.delete()
 
@@ -87,28 +87,19 @@ async def selfdestruct(destroy):
     smsg = await destroy.client.send_message(destroy.chat_id, text)
     await sleep(counter)
     await smsg.delete()
-    await destroy.client.send_message(
-        lg_id,
-        f"#SELF_DESTRUCT \n\nSelf Destruct message query done successfully!\n\n**SD Msg :**  `{text}`",
-    )
-
+    await destroy.client.send_message(lg_id, f"#SELF_DESTRUCT \n\nSelf Destruct message query done successfully!\n\n**SD Msg :**  `{text}`")
+        
 
 CmdHelp("purger").add_command(
-    "purge", "<reply from a msg>", "Purges all the messages from replied message."
+  "purge", "<reply from a msg>", "Purges all the messages from replied message."
 ).add_command(
-    "purgeme",
-    "<no.of msgs>",
-    "Purges the required number of your messages",
-    "purgeme 100",
+  "purgeme", "<no.of msgs>", "Purges the required number of your messages", "purgeme 100"
 ).add_command(
-    "sd",
-    "<time> <text>",
-    "Sends a self destruct text. Fill time in secs",
-    "sd 10 hello",
+  "sd", "<time> <text>", "Sends a self destruct text. Fill time in secs", "sd 10 hello"
 ).add_command(
-    "del", "<reply>", "Deletes the replied msg."
+  "del", "<reply>", "Deletes the replied msg."
 ).add_info(
-    "Ninja Techniques"
+  "Ninja Techniques"
 ).add_warning(
-    "✅ Harmless Module."
+  "✅ Harmless Module."
 ).add()

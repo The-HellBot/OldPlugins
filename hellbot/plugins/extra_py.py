@@ -5,7 +5,6 @@ from telethon.tl.types import InputMessagesFilterDocument
 
 from . import *
 
-
 @bot.on(hell_cmd(pattern="extdl$", outgoing=True))
 @bot.on(sudo_cmd(pattern="extdl$", allow_sudo=True))
 async def install(event):
@@ -46,7 +45,8 @@ async def install(event):
     if event.fwd_from:
         return
     chat = event.pattern_match.group(1)
-    await eor(event, f"Starting To Install Plugins From {chat} !!")
+    hell = await eor(event, f"Starting To Install Plugins From {chat} !!"
+    )
     documentss = await bot.get_messages(chat, None, filter=InputMessagesFilterDocument)
     total = int(documentss.total)
     total_doxx = range(0, total)
@@ -75,17 +75,12 @@ async def install(event):
                 ),
             )
 
-
 CmdHelp("extra_py").add_command(
-    "extdl",
-    None,
-    "Installs all plugins from the channal which id is in PLUGIN_CHANNEL Configiable",
+  "extdl", None, "Installs all plugins from the channal which id is in PLUGIN_CHANNEL Configiable"
 ).add_command(
-    "installall",
-    "<channel/grp username>",
-    "Installs all the plugins in provided channel / group. (May get floodwait error)",
+  "installall", "<channel/grp username>", "Installs all the plugins in provided channel / group. (May get floodwait error)"
 ).add_info(
-    "Extra Plugins."
+  "Extra Plugins."
 ).add_warning(
-    "✅ Harmless Module."
+  "✅ Harmless Module."
 ).add()

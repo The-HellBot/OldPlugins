@@ -1,3 +1,6 @@
+import asyncio
+import requests
+from telethon import functions
 from telethon.errors import ChatSendInlineForbiddenError as noin
 from telethon.errors.rpcerrorlist import BotMethodInvalidError as dedbot
 
@@ -12,7 +15,6 @@ msg = f"""
   •  ©️ {hell_channel} ™
 """
 botname = Config.BOT_USERNAME
-
 
 @bot.on(hell_cmd(pattern="repo$"))
 @bot.on(sudo_cmd(pattern="repo$", allow_sudo=True))
@@ -46,10 +48,7 @@ async def yardim(event):
         )
         await event.delete()
     else:
-        await eor(
-            event,
-            "**⚠️ ERROR !!** \nPlease Re-Check BOT_TOKEN & BOT_USERNAME on Heroku.",
-        )
+        await eor(event, "**⚠️ ERROR !!** \nPlease Re-Check BOT_TOKEN & BOT_USERNAME on Heroku.")
 
 
 @bot.on(hell_cmd(pattern="plinfo(?: |$)(.*)", outgoing=True))
@@ -79,10 +78,6 @@ async def hellbott(event):
                 else:
                     string += "`, "
             string += "\n"
-        await eod(
-            event,
-            "Please Specify A Module Name Of Which You Want Info" + "\n\n" + string,
-        )
-
+        await eod(event, "Please Specify A Module Name Of Which You Want Info" + "\n\n" + string)
 
 # hellbot

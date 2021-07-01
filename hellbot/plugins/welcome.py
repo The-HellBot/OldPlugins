@@ -1,16 +1,9 @@
 from telethon import events
 
-from hellbot.sql.welcome_sql import (
-    add_welcome,
-    get_current_welcome,
-    rm_welcome,
-    update_welcome,
-)
-
+from hellbot.sql.welcome_sql import get_current_welcome, add_welcome, rm_welcome, update_welcome
 from . import *
 
 lg_id = Config.LOGGER_ID
-
 
 @bot.on(events.ChatAction)
 async def _(event):  # sourcery no-metrics
@@ -118,11 +111,17 @@ async def getwelcome(event):
     if not cws:
         return await eod(event, "`No welcome message saved here.`")
     if cws.f_mesg_id:
-        msg_o = await event.client.get_messages(entity=lg_id, ids=int(cws.f_mesg_id))
-        await eor(event, "Welcome note in this chat is...")
+        msg_o = await event.client.get_messages(
+            entity=lg_id, ids=int(cws.f_mesg_id)
+        )
+        await eor(
+            event, "Welcome note in this chat is..."
+        )
         await event.reply(msg_o.message, file=msg_o.media)
     elif cws.reply:
-        await eor(event, "Welcome note in this chat is...")
+        await eor(
+            event, "Welcome note in this chat is..."
+        )
         await event.reply(cws.reply)
 
 
@@ -133,17 +132,15 @@ async def note(event):
 
 
 CmdHelp("welcome").add_command(
-    "savewelcome", "<reply>", "Sets the replied message as welcome note of that group"
+  "savewelcome", "<reply>", "Sets the replied message as welcome note of that group"
 ).add_command(
-    "cleanwelcome", None, "Cleans the current welcome message of that chat."
+  "cleanwelcome", None, "Cleans the current welcome message of that chat."
 ).add_command(
-    "showwelcome", None, "Gets your current welcome message for that chat."
+  "showwelcome", None, "Gets your current welcome message for that chat."
 ).add_command(
-    "welcome_note",
-    None,
-    "Gives you a message containing all the formatting of welcome message.",
+  "welcome_note", None, "Gives you a message containing all the formatting of welcome message."
 ).add_info(
-    "Welcome Greetings."
+  "Welcome Greetings."
 ).add_warning(
-    "✅ Harmless Module."
+  "✅ Harmless Module."
 ).add()
