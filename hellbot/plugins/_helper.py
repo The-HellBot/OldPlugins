@@ -35,7 +35,13 @@ async def yardim(event):
         return
     tgbotusername = Config.BOT_USERNAME
     input_str = event.pattern_match.group(1)
-    if tgbotusername is not None or input_str == "text":
+    try:
+        if not input_str == "":
+            if input_str in CMD_HELP:
+                await eor(event, str(CMD_HELP[args]))
+    except:
+        pass
+    if tgbotusername is not None:
         results = await event.client.inline_query(tgbotusername, "hellbot_help")
         await results[0].click(
             event.chat_id, reply_to=event.reply_to_msg_id, hide_via=True
@@ -43,15 +49,7 @@ async def yardim(event):
         await event.delete()
     else:
         await eor(event, "**⚠️ ERROR !!** \nPlease Re-Check BOT_TOKEN & BOT_USERNAME on Heroku.")
-    
-        if input_str in CMD_LIST:
-          string = "Commands found in {}:\n".format(input_str)
-          for i in CMD_LIST[input_str]:
-              string += "  " + i
-              string += "\n"
-          await event.edit(string)
-        else:
-          await event.edit(input_str + " is not a valid plugin!")
+
 
 @bot.on(hell_cmd(pattern="plinfo(?: |$)(.*)", outgoing=True))
 @bot.on(sudo_cmd(pattern="plinfo(?: |$)(.*)", allow_sudo=True))
