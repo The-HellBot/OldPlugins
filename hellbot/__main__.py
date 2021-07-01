@@ -81,12 +81,6 @@ async def hell_is_on():
     except BaseException:
         pass
 
-# Why not come here and chat??
-    try:
-        await bot(JoinChannelRequest("@HellBot_Chat"))
-    except BaseException:
-        pass
-
 
 bot.loop.create_task(hell_is_on())
 
