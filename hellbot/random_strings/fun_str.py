@@ -142,7 +142,7 @@ HIABUSE_STR = [
     "Teri maa ki chut- Your mother’s pussy",
     "Tere gaand mein keede paday- May worms infest your ass-hole",
     "Ullu ke pathe- Idiot",
-  ]
+]
 GEY_STRINGS = [
     "`you gey bsdk`",
     "`you gey`",
@@ -150,7 +150,7 @@ GEY_STRINGS = [
     "`you chakka`",
     "`you gey gey gey gey gey gey gey gey`",
     "`you gey go away`",
-    "`bhago bhenchod gay aaya`"
+    "`bhago bhenchod gay aaya`",
 ]
 RENDISTR = [
     "`I Know Uh ez Rendi Bhay Dont show Your Randi Pesa Here`",

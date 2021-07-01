@@ -1,5 +1,6 @@
 from . import *
 
+
 @bot.on(hell_cmd(pattern="carry (.*)"))
 @bot.on(sudo_cmd(pattern="carry (.*)", allow_sudo=True))
 async def kraken(carry):
@@ -598,54 +599,50 @@ async def bluedevildislike(dislike):
     await edit_or_reply(dislike, T)
 
 
-CmdHelp("arts").add_command(
-  'elove', None, 'Use and see'
+CmdHelp("arts").add_command("elove", None, "Use and see").add_command(
+    "monster", None, "Use and see"
+).add_command("pig", None, "Use and see").add_command(
+    "gun", None, "Use and see"
 ).add_command(
-  'monster', None, 'Use and see'
+    "dog", None, "Use and see"
 ).add_command(
-  'pig', None, 'Use and see'
+    "hello", None, "Use and see"
 ).add_command(
-  'gun', None, 'Use and see'
+    "hmf", None, "Use and see"
 ).add_command(
-  'dog', None, 'Use and see'
+    "couple", None, "Use and see"
 ).add_command(
-  'hello', None, 'Use and see'
+    "sup", None, "Use and see"
 ).add_command(
-  'hmf', None, 'Use and see'
+    "india", None, "Use and see"
 ).add_command(
-  'couple', None, 'Use and see'
+    "wc", None, "Use and see"
 ).add_command(
-  'sup', None, 'Use and see'
+    "snk", None, "Use and see"
 ).add_command(
-  'india', None, 'Use and see'
+    "bye", None, "Use and see"
 ).add_command(
-  'wc', None, 'Use and see'
+    "shitos", None, "Use and see"
 ).add_command(
-  'snk', None, 'Use and see'
+    "dislike", None, "Use and see"
 ).add_command(
-  'bye', None, 'Use and see'
+    "carry", "<text>", "send your text with carry art"
 ).add_command(
-  'shitos', None, 'Use and see'
+    "ded", "<text>", "Hang yourself"
 ).add_command(
-  'dislike', None, 'Use and see'
+    "sthink", "<text>", "Send your text in thinking art"
 ).add_command(
-  'carry', '<text>', 'send your text with carry art'
+    "sfrog", "<text>", "Send your text in frog art"
 ).add_command(
-  'ded', '<text>', 'Hang yourself'
+    "sdead", "<text>", "Send your text in dear frog art"
 ).add_command(
-  'sthink', '<text>', 'Send your text in thinking art'
+    "strump", "<text>", "Send your text in trump art"
 ).add_command(
-  'sfrog', '<text>', 'Send your text in frog art'
+    "china", "<text>", "Send your text in china art"
 ).add_command(
-  'sdead', '<text>', 'Send your text in dear frog art'
-).add_command(
-  'strump', '<text>', 'Send your text in trump art'
-).add_command(
-  'china', '<text>', 'Send your text in china art'
-).add_command(
-  'sshit', None, 'Send a art in "Ahh shit. Here we go again"'
+    "sshit", None, 'Send a art in "Ahh shit. Here we go again"'
 ).add_info(
-  'Artistic Module'
+    "Artistic Module"
 ).add_warning(
-  '✅ Harmless Module.'
+    "✅ Harmless Module."
 ).add()

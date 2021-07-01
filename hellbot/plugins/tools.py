@@ -1,17 +1,16 @@
 import asyncio
+import datetime
 import json
 import os
-import datetime
 from urllib.parse import quote
 
-from telethon import events
 import barcode
 import qrcode
 import requests
 from barcode.writer import ImageWriter
 from bs4 import BeautifulSoup
 from PIL import Image, ImageColor
-
+from telethon import events
 from telethon.errors.rpcerrorlist import YouBlockedUserError
 
 from . import *
@@ -45,13 +44,14 @@ async def _(event):
             await eod(hellevent, "`Please unblock `@DrWebBot `and try again`")
             return
         if response.text.startswith("Forward"):
-            await eod(hellevent,
-                "Can you kindly disable your forward privacy settings for good?"
+            await eod(
+                hellevent,
+                "Can you kindly disable your forward privacy settings for good?",
             )
         else:
             if response.text.startswith("Select"):
-                await eod(hellevent,
-                    "`Please go to` @DrWebBot `and select your language.`"
+                await eod(
+                    hellevent, "`Please go to` @DrWebBot `and select your language.`"
                 )
             else:
                 await hellevent.edit(
@@ -318,7 +318,8 @@ async def _(event):
             await event.delete()
     else:
         await eod(
-            event, f"**Syntax : **`{hl}color <color_code>` example : `{hl}color #ff0000`"
+            event,
+            f"**Syntax : **`{hl}color <color_code>` example : `{hl}color #ff0000`",
         )
 
 
@@ -368,6 +369,7 @@ Year: {}""".format(
     else:
         await eod(hellevent, "xkcd n.{} not found!".format(xkcd_id))
 
+
 @bot.on(hell_cmd(pattern="dns (.*)", outgoing=True))
 @bot.on(sudo_cmd(pattern="dns (.*)", allow_sudo=True))
 async def _(event):
@@ -377,9 +379,19 @@ async def _(event):
     sample_url = "https://da.gd/dns/{}".format(input_str)
     response_api = requests.get(sample_url).text
     if response_api:
-        await eor(event, "DNS records of [This link]({}) are \n{}".format(input_str, response_api, link_preview=False))
+        await eor(
+            event,
+            "DNS records of [This link]({}) are \n{}".format(
+                input_str, response_api, link_preview=False
+            ),
+        )
     else:
-        await eod(event, "i can't seem to find [this link]({}) on the internet".format(input_str, link_preview=False))
+        await eod(
+            event,
+            "i can't seem to find [this link]({}) on the internet".format(
+                input_str, link_preview=False
+            ),
+        )
 
 
 @bot.on(hell_cmd(pattern="url (.*)", outgoing=True))
@@ -391,7 +403,11 @@ async def _(event):
     sample_url = "https://da.gd/s?url={}".format(input_str)
     response_api = requests.get(sample_url).text
     if response_api:
-        await eor(event, f"**Generated  [short link]({response_api})** \n**Long link :** [here]({input_str})", link_preview=True)
+        await eor(
+            event,
+            f"**Generated  [short link]({response_api})** \n**Long link :** [here]({input_str})",
+            link_preview=True,
+        )
     else:
         await eod(event, "something is wrong. please try again later.")
 
@@ -406,42 +422,66 @@ async def _(event):
         input_str = "http://" + input_str
     r = requests.get(input_str, allow_redirects=False)
     if str(r.status_code).startswith("3"):
-        await eor(event, "Input URL: [Short Link]({}) \nReDirected URL: [Long link]({})".format(input_str, r.headers["Location"], link_preview=False)
+        await eor(
+            event,
+            "Input URL: [Short Link]({}) \nReDirected URL: [Long link]({})".format(
+                input_str, r.headers["Location"], link_preview=False
+            ),
         )
     else:
-        await eod(event, 
-            "Input URL [short link]({}) returned status_code {}".format(input_str, r.status_code)
+        await eod(
+            event,
+            "Input URL [short link]({}) returned status_code {}".format(
+                input_str, r.status_code
+            ),
         )
 
 
 CmdHelp("tools").add_command(
-  "xkcd", "<query>", "Searches for the query for the relevant XKCD comic"
+    "xkcd", "<query>", "Searches for the query for the relevant XKCD comic"
 ).add_command(
-  "color", "<color code>", "Sends you a plain image of the color", ".color #ff0000"
+    "color", "<color code>", "Sends you a plain image of the color", ".color #ff0000"
 ).add_command(
-  "ifsc", "<IFSC code>", "Helps to get details of the relevant bank or branch", ".ifsc SBIN0016086"
+    "ifsc",
+    "<IFSC code>",
+    "Helps to get details of the relevant bank or branch",
+    ".ifsc SBIN0016086",
 ).add_command(
-  "currencies", None, "Shows you the some list of currencies"
+    "currencies", None, "Shows you the some list of currencies"
 ).add_command(
-  "dns", "<link>", "Shows you Domain Name System (DNS) of the given link", ".dns google.com"
+    "dns",
+    "<link>",
+    "Shows you Domain Name System (DNS) of the given link",
+    ".dns google.com",
 ).add_command(
-  "unshort", "<link>", "Unshortens the given short link"
+    "unshort", "<link>", "Unshortens the given short link"
 ).add_command(
-  "url", "<link>", "Shortens the given long link"
+    "url", "<link>", "Shortens the given long link"
 ).add_command(
-  "currency", "<amount> <from> <to>", "Currency converter for HellBot", ".currency 10 usd inr"
+    "currency",
+    "<amount> <from> <to>",
+    "Currency converter for HellBot",
+    ".currency 10 usd inr",
 ).add_command(
-  "cal", "<year ; month>", "Shows you the calendar of given month and year"
+    "cal", "<year ; month>", "Shows you the calendar of given month and year"
 ).add_command(
-  "decode", "<reply to barcode/qrcode>", "To get decoded content of those codes."
+    "decode", "<reply to barcode/qrcode>", "To get decoded content of those codes."
 ).add_command(
-  "barcode", "<content>", "Make a BarCode from the given content.", ".barcode www.google.com"
+    "barcode",
+    "<content>",
+    "Make a BarCode from the given content.",
+    ".barcode www.google.com",
 ).add_command(
-  "makeqr", "<content>", "Make a Qrcode from the given content.", ".makeqr www.google.com"
+    "makeqr",
+    "<content>",
+    "Make a Qrcode from the given content.",
+    ".makeqr www.google.com",
 ).add_command(
-  "scan", "<reply to media or file>", "It scans the media or file and checks either any virus is in the file or media"
+    "scan",
+    "<reply to media or file>",
+    "It scans the media or file and checks either any virus is in the file or media",
 ).add_info(
-  "Some Basic Tools."
+    "Some Basic Tools."
 ).add_warning(
-  "✅ Harmless Module."
+    "✅ Harmless Module."
 ).add()

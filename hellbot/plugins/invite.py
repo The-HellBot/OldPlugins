@@ -9,6 +9,7 @@ from telethon.tl.functions.messages import GetFullChatRequest
 
 from . import *
 
+
 async def get_chatinfo(event):
     chat = event.pattern_match.group(1)
     chat_info = None
@@ -104,10 +105,7 @@ async def get_users(event):
 async def _(event):
     if event.fwd_from:
         return
-    if (
-        "addsudo" in event.raw_text.lower()
-        or "addblacklist" in event.raw_text.lower()
-    ):
+    if "addsudo" in event.raw_text.lower() or "addblacklist" in event.raw_text.lower():
         return
     to_add_users = event.pattern_match.group(1)
     if event.is_private:
@@ -141,11 +139,13 @@ async def _(event):
 
 
 CmdHelp("invite").add_command(
-  "add", "<username/id>", "Adds the given user to the group"
+    "add", "<username/id>", "Adds the given user to the group"
 ).add_command(
-  "inviteall", "<group username>", "Scraps user from the targeted group to your group. Basically Kidnapps user from one chat to another"
+    "inviteall",
+    "<group username>",
+    "Scraps user from the targeted group to your group. Basically Kidnapps user from one chat to another",
 ).add_info(
-  "Invite them."
+    "Invite them."
 ).add_warning(
-  "✅ Harmless Module."
+    "✅ Harmless Module."
 ).add()

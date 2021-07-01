@@ -1,5 +1,5 @@
-import os
 import asyncio
+import os
 
 from . import *
 
@@ -13,7 +13,9 @@ async def _(event):
     a.close()
     a = await eor(event, "**Unpacking...**")
     if len(c) > 4095:
-        await a.edit("Telegram Word Limit Of **4095** words exceeded. \n**ABORTING PROCESS !!**")
+        await a.edit(
+            "Telegram Word Limit Of **4095** words exceeded. \n**ABORTING PROCESS !!**"
+        )
     else:
         await event.client.send_message(event.chat_id, f"{c}")
         await a.delete()
@@ -38,11 +40,16 @@ async def _(event):
 
 
 CmdHelp("packer").add_command(
-  "unpack", "<reply to a file>", "Read contents of file and send as a telegram message."
+    "unpack",
+    "<reply to a file>",
+    "Read contents of file and send as a telegram message.",
 ).add_command(
-  "pack", "<reply to text> <filename . extension>", "Packs the text and sends as a file of given extension", "<reply to text> example.py"
+    "pack",
+    "<reply to text> <filename . extension>",
+    "Packs the text and sends as a file of given extension",
+    "<reply to text> example.py",
 ).add_info(
-  "Packer Iz Here !"
+    "Packer Iz Here !"
 ).add_warning(
-  "✅ Harmless Module."
+    "✅ Harmless Module."
 ).add()

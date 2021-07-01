@@ -90,13 +90,17 @@ async def _(event):
 
 
 CmdHelp("msgs").add_command(
-  "fpost", "<your msg>", "Checks all your groups and sends the msg matching the given keyword"
+    "fpost",
+    "<your msg>",
+    "Checks all your groups and sends the msg matching the given keyword",
 ).add_command(
-  "frwd", "<reply to a msg>", "Enables seen counter in replied msg. To know how many users have seen your msg."
+    "frwd",
+    "<reply to a msg>",
+    "Enables seen counter in replied msg. To know how many users have seen your msg.",
 ).add_command(
-  "resend", "<reply to a msg>", "Just resends the replied msg"
+    "resend", "<reply to a msg>", "Just resends the replied msg"
 ).add_info(
-  "Messages tools."
+    "Messages tools."
 ).add_warning(
-  "✅ Harmless Module."
+    "✅ Harmless Module."
 ).add()

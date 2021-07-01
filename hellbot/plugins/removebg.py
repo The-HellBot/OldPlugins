@@ -1,11 +1,12 @@
 import os
+
 import requests
-import PIL.ImageOps
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image
 
 from . import *
 
 TEMP_DIR = os.environ.get("TEMP_DIR", "./temp/")
+
 
 def convert_toimage(image, filename=None):
     filename = filename or os.path.join("./temp/", "temp.jpg")
@@ -32,8 +33,7 @@ def convert_tosticker(response, filename=None):
 async def remove_background(event):
     if Config.REMOVE_BG_API is None:
         return await eod(
-            event,
-            "You need to set  `REMOVE_BG_API`  for this module to work..."
+            event, "You need to set  `REMOVE_BG_API`  for this module to work..."
         )
     cmd = event.pattern_match.group(1)
     input_str = event.pattern_match.group(2)
@@ -58,7 +58,7 @@ async def remove_background(event):
     else:
         await edit_or_reply(
             event,
-            "`Reply to any image or sticker with rmbg/srmbg to get background less png file or webp format or provide image link along with command`"
+            "`Reply to any image or sticker with rmbg/srmbg to get background less png file or webp format or provide image link along with command`",
         )
         return
     contentType = response.headers.get("content-type")
@@ -118,12 +118,17 @@ def ReTrieveURL(input_url):
         stream=True,
     )
 
+
 CmdHelp("removebg").add_command(
-  "rmbg", "<reply to image/stcr> or <link>", "`Removes Background of replied image or sticker and sends output as a file. Need` REMOVE_BG_API `to be set in Heroku Config Vars."
+    "rmbg",
+    "<reply to image/stcr> or <link>",
+    "`Removes Background of replied image or sticker and sends output as a file. Need` REMOVE_BG_API `to be set in Heroku Config Vars.",
 ).add_command(
-  "srmbg", "<reply to img/stcr> or <link>", f"Same as {hl}rmbg but sends output as a sticker. Need REMOVE_BG_API to be set in Heroku Config Vars."
+    "srmbg",
+    "<reply to img/stcr> or <link>",
+    f"Same as {hl}rmbg but sends output as a sticker. Need REMOVE_BG_API to be set in Heroku Config Vars.",
 ).add_info(
-  "Remove Background."
+    "Remove Background."
 ).add_warning(
-  "✅ Harmless Module."
+    "✅ Harmless Module."
 ).add()

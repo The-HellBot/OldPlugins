@@ -580,23 +580,21 @@ async def carbon_api(e):
 
 
 CmdHelp("carbon").add_command(
-  "carbon", "<your text>", "Carbonize your text. (Fixed style)"
+    "carbon", "<your text>", "Carbonize your text. (Fixed style)"
+).add_command("krb", "<your text>", "Carbonize your text.(Random Style)").add_command(
+    "kar1", "<your text>", "Carbonize your text.(Fixed style)"
 ).add_command(
-  "krb", "<your text>", "Carbonize your text.(Random Style)"
+    "kar2", "<your text>", "Carbonize your text.(Fixed style)"
 ).add_command(
-  "kar1", "<your text>", "Carbonize your text.(Fixed style)"
+    "kar3", "<your text>", "Carbonize your text.(Fixed style)"
 ).add_command(
-  "kar2", "<your text>", "Carbonize your text.(Fixed style)"
+    "kar4", "<your text>", "Carbonize your text.(Fixed style)"
 ).add_command(
-  "kar3", "<your text>", "Carbonize your text.(Fixed style)"
+    "rgbk2", "<your text>", "Carbonize your text.(Fixed style)"
 ).add_command(
-  "kar4", "<your text>", "Carbonize your text.(Fixed style)"
-).add_command(
-  "rgbk2", "<your text>", "Carbonize your text.(Fixed style)"
-).add_command(
-  "kargb", "<your text>", "Carbonize your text.(random style)"
+    "kargb", "<your text>", "Carbonize your text.(random style)"
 ).add_info(
-  "Carbonizer"
+    "Carbonizer"
 ).add_warning(
-  "✅ Harmless Module."
+    "✅ Harmless Module."
 ).add()

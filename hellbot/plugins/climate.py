@@ -1,7 +1,7 @@
+import datetime
 import io
 import json
 import logging
-import datetime
 
 import aiohttp
 import requests
@@ -18,6 +18,7 @@ logging.basicConfig(
 DEFCITY = "Delhi"
 OWM_API = Config.WEATHER_API
 
+
 async def get_tz(con):
     for c_code in c_n:
         if con == c_n[c_code]:
@@ -33,7 +34,9 @@ async def get_tz(con):
 @bot.on(sudo_cmd(pattern="climate ?(.*)", allow_sudo=True))
 async def get_weather(weather):
     if not OWM_API:
-        await eor(weather, "**Get an API key from** https://openweathermap.org/ **first.**")
+        await eor(
+            weather, "**Get an API key from** https://openweathermap.org/ **first.**"
+        )
         return
     APPID = OWM_API
     if not weather.pattern_match.group(1):
@@ -208,13 +211,15 @@ async def _(event):
 
 
 CmdHelp("climate").add_command(
-  "climate", "Name of state/country", "Gets the weather of a city. By default it is Delhi, change it by setcity"
-).add_command(
-  "setcity", "<city>/<country>", "Sets your default city."
-).add_command(
-  "wttr", "<city>", "Shows you the climate data of 3 days from today in a image format."
+    "climate",
+    "Name of state/country",
+    "Gets the weather of a city. By default it is Delhi, change it by setcity",
+).add_command("setcity", "<city>/<country>", "Sets your default city.").add_command(
+    "wttr",
+    "<city>",
+    "Shows you the climate data of 3 days from today in a image format.",
 ).add_info(
-  "Climates And Weathers."
+    "Climates And Weathers."
 ).add_warning(
-  "✅ Harmless Module."
+    "✅ Harmless Module."
 ).add()

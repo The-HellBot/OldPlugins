@@ -79,9 +79,7 @@ async def stats(
     response += f"🔱 **Unread:** {unread} \n"
     response += f"🔱 **Unread Mentions:** {unread_mentions} \n\n"
     response += f"☣️   __It Took:__ {stop_time:.02f}s \n"
-    response += (
-        f"📌 **From The DataBase Of** :- {hell_channel}"
-    )
+    response += f"📌 **From The DataBase Of** :- {hell_channel}"
     await hell.edit(response)
 
 
@@ -103,9 +101,5 @@ def user_full_name(user):
 
 
 CmdHelp("stats").add_command(
-  'stats', None, 'Shows you the count of your groups, channels, private chats, etc.'
-).add_info(
-  'Statistics Of Account'
-).add_warning(
-  '✅ Harmless Module.'
-).add()
+    "stats", None, "Shows you the count of your groups, channels, private chats, etc."
+).add_info("Statistics Of Account").add_warning("✅ Harmless Module.").add()

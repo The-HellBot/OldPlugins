@@ -1,10 +1,10 @@
 import asyncio
-import os
 import datetime
+import os
 
 from PIL import Image, ImageDraw, ImageFont
-from . import *
 
+from . import *
 
 FONT_FILE_TO_USE = "/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf"
 
@@ -54,5 +54,5 @@ async def _(event):
 
 
 CmdHelp("time").add_command(
-  "time", None, "Gives current time in a cool sticker format."
+    "time", None, "Gives current time in a cool sticker format."
 ).add()

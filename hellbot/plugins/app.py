@@ -1,5 +1,6 @@
 import bs4
 import requests
+
 from . import *
 
 
@@ -163,13 +164,15 @@ async def mod(event):
 
 
 CmdHelp("app").add_command(
-  "app", "<app name>", "Searches the app in the playstore and provides the link to the app in playstore and fetchs app details"
-).add_command(
-  "mods", "<app name>", "Searches the modded/premium app"
-).add_command(
-  "appr", "<app name>", "Searches the app in the playstore and provides the link to the app in playstore and fetchs app details with Xpl0iter request link."
+    "app",
+    "<app name>",
+    "Searches the app in the playstore and provides the link to the app in playstore and fetchs app details",
+).add_command("mods", "<app name>", "Searches the modded/premium app").add_command(
+    "appr",
+    "<app name>",
+    "Searches the app in the playstore and provides the link to the app in playstore and fetchs app details with Xpl0iter request link.",
 ).add_info(
-  "Apps Details"
+    "Apps Details"
 ).add_warning(
-  "✅ Harmless Module."
+    "✅ Harmless Module."
 ).add()

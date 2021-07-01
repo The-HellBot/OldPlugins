@@ -2,6 +2,7 @@ import pyfiglet
 
 from . import *
 
+
 @bot.on(hell_cmd(pattern="figlet ?(.*)", outgoing=True))
 @bot.on(sudo_cmd(pattern="figlet ?(.*)", allow_sudo=True))
 async def figlet(event):
@@ -45,9 +46,7 @@ async def figlet(event):
 
 
 CmdHelp("figlet").add_command(
-  "figlet", "text : type", "The types are slant, 3D, 5line, alpha, banner, doh, iso, letter, allig, dotm, bubble, bulb, digi"
-).add_info(
-  "Another Art plugin but figlet."
-).add_warning(
-  "✅ Harmless Module."
-).add()
+    "figlet",
+    "text : type",
+    "The types are slant, 3D, 5line, alpha, banner, doh, iso, letter, allig, dotm, bubble, bulb, digi",
+).add_info("Another Art plugin but figlet.").add_warning("✅ Harmless Module.").add()

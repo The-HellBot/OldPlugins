@@ -1,12 +1,5 @@
 import asyncio
 import random
-from random import choice
-import requests
-import re
-import time
-
-from telethon.tl.functions.users import GetFullUserRequest
-from telethon.tl.types import MessageEntityMentionName
 
 from . import *
 
@@ -77,7 +70,8 @@ async def metoo(e):
         return
     txt = random.choice(GENDER)
     await edit_or_reply(e, txt)
-    
+
+
 @bot.on(hell_cmd(pattern=f"shrug$", outgoing=True))
 @bot.on(sudo_cmd(pattern=f"shrug$", allow_sudo=True))
 async def metoo(e):
@@ -85,7 +79,8 @@ async def metoo(e):
         return
     txt = random.choice(SHRUG)
     await edit_or_reply(e, txt)
-    
+
+
 @bot.on(hell_cmd(pattern=f"doge", outgoing=True))
 @bot.on(sudo_cmd(pattern=f"doge", allow_sudo=True))
 async def metoo(e):
@@ -93,7 +88,8 @@ async def metoo(e):
         return
     txt = random.choice(DOG)
     await edit_or_reply(e, txt)
-    
+
+
 @bot.on(hell_cmd(pattern=f"mesed$", outgoing=True))
 @bot.on(sudo_cmd(pattern=f"mesed$", allow_sudo=True))
 async def metoo(e):
@@ -101,7 +97,8 @@ async def metoo(e):
         return
     txt = random.choice(SED)
     await edit_or_reply(e, txt)
-    
+
+
 @bot.on(hell_cmd(pattern=f"medead$", outgoing=True))
 @bot.on(sudo_cmd(pattern=f"medead$", allow_sudo=True))
 async def metoo(e):
@@ -109,7 +106,8 @@ async def metoo(e):
         return
     txt = random.choice(DEAD)
     await edit_or_reply(e, txt)
-    
+
+
 @bot.on(hell_cmd(pattern=f"confused$", outgoing=True))
 @bot.on(sudo_cmd(pattern=f"confused$", allow_sudo=True))
 async def metoo(e):
@@ -117,7 +115,8 @@ async def metoo(e):
         return
     txt = random.choice(CONFUSED)
     await edit_or_reply(e, txt)
-    
+
+
 @bot.on(hell_cmd(pattern=f"lobb$", outgoing=True))
 @bot.on(sudo_cmd(pattern=f"lobb$", allow_sudo=True))
 async def metoo(e):
@@ -125,7 +124,8 @@ async def metoo(e):
         return
     txt = random.choice(LOB)
     await edit_or_reply(e, txt)
-    
+
+
 @bot.on(hell_cmd(pattern=f"wut$", outgoing=True))
 @bot.on(sudo_cmd(pattern=f"wut$", allow_sudo=True))
 async def metoo(e):
@@ -133,7 +133,8 @@ async def metoo(e):
         return
     txt = random.choice(WTF)
     await edit_or_reply(e, txt)
-    
+
+
 @bot.on(hell_cmd(pattern=f"wavee$", outgoing=True))
 @bot.on(sudo_cmd(pattern=f"wavee$", allow_sudo=True))
 async def metoo(e):
@@ -141,7 +142,8 @@ async def metoo(e):
         return
     txt = random.choice(WAVING)
     await edit_or_reply(e, txt)
-    
+
+
 @bot.on(hell_cmd(pattern=f"hehe$", outgoing=True))
 @bot.on(sudo_cmd(pattern=f"hehe$", allow_sudo=True))
 async def metoo(e):
@@ -149,33 +151,32 @@ async def metoo(e):
         return
     txt = random.choice(EMOTICONS)
     await edit_or_reply(e, txt)
-    
-CmdHelp("edits").add_command(
-  "hehe", None, "Use and see"
+
+
+CmdHelp("edits").add_command("hehe", None, "Use and see").add_command(
+    "wavee", None, "Use and see"
+).add_command("wut", None, "Use and see").add_command(
+    "lobb", None, "Use and see"
 ).add_command(
-  "wavee", None, "Use and see"
+    "confused", None, "Use and see"
 ).add_command(
-  "wut", None, "Use and see"
+    "medead", None, "Use and see"
 ).add_command(
-  "lobb", None, "Use and see"
+    "mesed", None, "Use and see"
 ).add_command(
-  "confused", None, "Use and see"
+    "doge", None, "Use and see"
 ).add_command(
-  "medead", None, "Use and see"
+    "shrug", None, "Use and see"
 ).add_command(
-  "mesed", None, "Use and see"
+    "gendar", None, "Use and see"
 ).add_command(
-  "doge", None, "Use and see"
+    "type", "<word>", "Animates the given word into a typewriter."
 ).add_command(
-  "shrug", None, "Use and see"
-).add_command(
-  "gendar", None, "Use and see"
-).add_command(
-  "type", "<word>", "Animates the given word into a typewriter."
-).add_command(
-  "emoji", None, "Available cmnds are:-\n• shrug\n• apple\n• :/\n• -_-\n Add .emoji in front of all cmds."
+    "emoji",
+    None,
+    "Available cmnds are:-\n• shrug\n• apple\n• :/\n• -_-\n Add .emoji in front of all cmds.",
 ).add_info(
-  "Bass Bakchodi hai ye."
+    "Bass Bakchodi hai ye."
 ).add_warning(
-  "✅ Harmless Module."
+    "✅ Harmless Module."
 ).add()

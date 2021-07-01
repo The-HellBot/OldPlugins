@@ -1,9 +1,8 @@
 import os
+
 os.system("pip install telethon")
-import telethon
 from telethon.sessions import StringSession
 from telethon.sync import TelegramClient
-
 
 okvai = input("Enter 69 to continue: ")
 if okvai == "69":
@@ -14,7 +13,10 @@ if okvai == "69":
     with TelegramClient(StringSession(), APP_ID, API_HASH) as client:
         print(client.session.save())
         client.send_message("me", client.session.save())
-        client.send_message("me", "Above is your #HELLBOT_SESSION \nPaste this string in Heroku Var.\n\n[Team HellBot](t.me/the_hellbot)")
+        client.send_message(
+            "me",
+            "Above is your #HELLBOT_SESSION \nPaste this string in Heroku Var.\n\n[Team HellBot](t.me/the_hellbot)",
+        )
 
 else:
     print("Bhag jaa bhosdike")

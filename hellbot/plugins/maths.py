@@ -2,6 +2,7 @@ import math
 
 from . import *
 
+
 @bot.on(hell_cmd(pattern="sin ?(.*)"))
 @bot.on(sudo_cmd(pattern="sin ?(.*)", allow_sudo=True))
 async def findsin(event):
@@ -61,29 +62,27 @@ async def square(event):
 @bot.on(hell_cmd(pattern="cube ?(.*)"))
 @bot.on(sudo_cmd(pattern="cube ?(.*)", allow_sudo=True))
 async def cube(event):
-    input_str = float(event.pattern_match.group(1))  
+    input_str = float(event.pattern_match.group(1))
     output = input_str * input_str * input_str
     await event.edit(f"**Cube of** `{input_str}`==\n`{output}`")
 
 
 CmdHelp("maths").add_command(
-  "cube", "<query>", "Gives the cube of given number"
+    "cube", "<query>", "Gives the cube of given number"
+).add_command("square", "<query>", "Gives the square of given number").add_command(
+    "cot", "<query>", "Gives the cot of given query"
 ).add_command(
-  "square", "<query>", "Gives the square of given number"
+    "sec", "<query>", "Gives the sec of given query"
 ).add_command(
-  "cot", "<query>", "Gives the cot of given query"
+    "cosec", "<query>", "Gives the cosec of given query"
 ).add_command(
-  "sec", "<query>", "Gives the sec of given query"
+    "tan", "<query>", "Gives the tan of given query"
 ).add_command(
-  "cosec", "<query>", "Gives the cosec of given query"
+    "sin", "<query>", "Gives the sin of given query"
 ).add_command(
-  "tan", "<query>", "Gives the tan of given query"
-).add_command(
-  "sin", "<query>", "Gives the sin of given query"
-).add_command(
-  "cos", "<query>", "Gives the cos of given query"
+    "cos", "<query>", "Gives the cos of given query"
 ).add_info(
-  "A Plugin On Mathematics."
+    "A Plugin On Mathematics."
 ).add_warning(
-  "✅ Harmlesss Module."
+    "✅ Harmlesss Module."
 ).add()

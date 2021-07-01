@@ -1,4 +1,5 @@
 import os
+
 from hellbot import CMD_HELP, CMD_HELP_BOT
 
 HANDLER = os.environ.get("HANDLER", r".")
@@ -104,5 +105,6 @@ class CmdHelp:
             return "or"
         elif text == "USERNAMES":
             return "<user name (s)>"
+
 
 # hellbot

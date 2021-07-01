@@ -1,9 +1,10 @@
 import html
+
 from telethon.tl import functions
 from telethon.tl.functions.users import GetFullUserRequest
 from telethon.tl.types import MessageEntityMentionName
-from . import *
 
+from . import *
 
 DEFAULTUSERBIO = Config.BIO_MSG
 BOTLOG_CHATID = Config.LOGGER_ID
@@ -45,9 +46,7 @@ async def _(event):
     await bot(functions.account.UpdateProfileRequest(last_name=last_name))
     await bot(functions.account.UpdateProfileRequest(about=user_bio))
     pfile = await bot.upload_file(profile_pic)  # pylint:disable=E060
-    await bot(
-        functions.photos.UploadProfilePhotoRequest(pfile)  # pylint:disable=E0602
-    )
+    await bot(functions.photos.UploadProfilePhotoRequest(pfile))  # pylint:disable=E0602
     await event.delete()
     await bot.send_message(
         event.chat_id, "😋 **Hello friend!!**", reply_to=reply_message
@@ -135,11 +134,13 @@ async def get_full_user(event):
 
 
 CmdHelp("clone").add_command(
-  "clone", "username/reply to user", "Steals others profile including dp, name, bio."
+    "clone", "username/reply to user", "Steals others profile including dp, name, bio."
 ).add_command(
-  "revert", None, "To get back to your profile but it will show ALIVE_NAME instead of your current name and DEFAULT_BIO instead of your current bio"
+    "revert",
+    None,
+    "To get back to your profile but it will show ALIVE_NAME instead of your current name and DEFAULT_BIO instead of your current bio",
 ).add_info(
-  "Cloner."
+    "Cloner."
 ).add_warning(
-  "✅ Harmless Module."
+    "✅ Harmless Module."
 ).add()

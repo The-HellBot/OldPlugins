@@ -1,6 +1,7 @@
 import random
-from random import choice
+
 import requests
+
 from . import *
 
 
@@ -38,6 +39,7 @@ async def police(e):
     txt = random.choice(CHASE_STR)
     await eor(e, txt)
 
+
 @bot.on(hell_cmd(pattern=f"congo$", outgoing=True))
 @bot.on(sudo_cmd(pattern=f"congo$", allow_sudo=True))
 async def Sahih(e):
@@ -51,12 +53,13 @@ async def hoi(e):
     txt = random.choice(HELLOSTR)
     await eor(e, txt)
 
+
 @bot.on(hell_cmd(pattern=f"gdbye$", outgoing=True))
 @bot.on(sudo_cmd(pattern=f"gdbye$", allow_sudo=True))
 async def bhago(e):
     txt = random.choice(BYESTR)
     await eor(e, txt)
-    
+
 
 @bot.on(hell_cmd(pattern=f"gdnyt$", outgoing=True))
 @bot.on(sudo_cmd(pattern=f"gdnyt$", allow_sudo=True))
@@ -70,8 +73,8 @@ async def night(e):
 async def morning(e):
     txt = random.choice(GDMORNING)
     await eor(e, txt)
-  
-  
+
+
 @bot.on(hell_cmd(pattern="quote ?(.*)", outgoing=True))
 @bot.on(sudo_cmd(pattern="quote ?(.*)", allow_sudo=True))
 async def quote_search(event):
@@ -98,29 +101,27 @@ async def quote_search(event):
 
 
 CmdHelp("quotes").add_command(
-  "quote", None, "Sends a random mind-blowing quote"
+    "quote", None, "Sends a random mind-blowing quote"
+).add_command("gdmng", None, "Sends a random Good Morning Quote").add_command(
+    "gdnyt", None, "Sends a random Good Night Quote"
 ).add_command(
-  "gdmng", None, "Sends a random Good Morning Quote"
+    "gdbye", None, "Sends a random Good Byee Quote"
 ).add_command(
-  "gdnyt", None, "Sends a random Good Night Quote"
+    "qhi", None, "Sends a random Hello msg"
 ).add_command(
-  "gdbye", None, "Sends a random Good Byee Quote"
+    "congo", None, "Sends a random congratulations quote"
 ).add_command(
-  "qhi", None, "Sends a random Hello msg"
+    "chase", None, "Sends a random Chase quote"
 ).add_command(
-  "congo", None, "Sends a random congratulations quote"
+    "gdnoon", None, "Sends a random Good Afternoon quote"
 ).add_command(
-  "chase", None, "Sends a random Chase quote"
+    "metoo", None, "Sends a text saying Mee too."
 ).add_command(
-  "gdnoon", None, "Sends a random Good Afternoon quote"
+    "dhoka", None, "Sends a random Dhoka quote(katt gya bc)"
 ).add_command(
-  "metoo", None, "Sends a text saying Mee too."
-).add_command(
-  "dhoka", None, "Sends a random Dhoka quote(katt gya bc)"
-).add_command(
-  "love", None, "Sends a random love quote🥰. (A stage before .dhoka)"
+    "love", None, "Sends a random love quote🥰. (A stage before .dhoka)"
 ).add_info(
-  "Random Quotes."
+    "Random Quotes."
 ).add_warning(
-  "✅ Harmless Module."
+    "✅ Harmless Module."
 ).add()

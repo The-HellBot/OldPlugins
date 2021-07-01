@@ -1,12 +1,13 @@
 from telethon import events
+
 from hellbot.sql import snip_sql as sq
+
 from . import *
 
-lg_id = Config .LOGGER_ID
+lg_id = Config.LOGGER_ID
 
 
-
-@bot.on(events.NewMessage(pattern=r'\#(\S+)', outgoing=True))
+@bot.on(events.NewMessage(pattern=r"\#(\S+)", outgoing=True))
 async def incom_note(event):
     if not lg_id:
         return
@@ -39,13 +40,12 @@ async def incom_note(event):
     except AttributeError:
         pass
 
+
 @bot.on(hell_cmd(pattern=r"snip ?(.*)"))
 @bot.on(sudo_cmd(pattern=r"snip ?(.*)", allow_sudo=True))
 async def add_snip(event):
     if not lg_id:
-        return await eod(
-            event, "You need to setup  `LOGGER_ID`  to save snips..."
-        )
+        return await eod(event, "You need to setup  `LOGGER_ID`  to save snips...")
     trigger = event.pattern_match.group(1)
     stri = event.text.partition(trigger)[2]
     cht = await event.get_reply_message()
@@ -61,7 +61,10 @@ async def add_snip(event):
         )
         cht_id = cht_o.id
     elif cht:
-        return await eod(event, f"**ERROR** \nReply to a message with `{hl}snip <trigger>` to add snips...")
+        return await eod(
+            event,
+            f"**ERROR** \nReply to a message with `{hl}snip <trigger>` to add snips...",
+        )
     if not cht:
         if stri:
             await event.client.send_message(
@@ -72,14 +75,15 @@ async def add_snip(event):
             cht_id = cht_o.id
             stri = None
         else:
-            return await eod(event, f"Invalid Syntax. Check  `{hl}plinfo snips`  to get proper Syntax.")
+            return await eod(
+                event,
+                f"Invalid Syntax. Check  `{hl}plinfo snips`  to get proper Syntax.",
+            )
     success = "**Successfully {} snip with trigger**  `#{}` "
     if sq.add_note(trigger, stri, cht_id) is False:
         sq.rm_note(trigger)
         if sq.add_note(trigger, stri, cht_id) is False:
-            return await edit_or_reply(
-                event, f"Error Adding Snip.."
-            )
+            return await edit_or_reply(event, f"Error Adding Snip..")
         return await eor(event, success.format("updated", trigger))
     return await eor(event, success.format("added", trigger))
 
@@ -115,20 +119,23 @@ async def lsnote(event):
                 force_document=True,
                 allow_cache=False,
                 caption="Available Snips",
-                reply_to=event
+                reply_to=event,
             )
             await event.delete()
     else:
         await edit_or_reply(event, OUT_STR)
 
+
 CmdHelp("snips").add_command(
-	"snip", "<reply> <trigger>", "Saves the replied message as a note with given trigger."
+    "snip",
+    "<reply> <trigger>",
+    "Saves the replied message as a note with given trigger.",
 ).add_command(
-	"rmsnip", "<trigger>", "Removes the snip from your database."
+    "rmsnip", "<trigger>", "Removes the snip from your database."
 ).add_command(
-	"listsnip", None, "Get the list of all of the available snips."
+    "listsnip", None, "Get the list of all of the available snips."
 ).add_info(
-	"Sniped Notes."
+    "Sniped Notes."
 ).add_warning(
-	"✅ Harmless Module."
+    "✅ Harmless Module."
 ).add()

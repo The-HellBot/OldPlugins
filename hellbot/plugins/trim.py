@@ -1,11 +1,12 @@
 import asyncio
+import datetime
 import os
 import time
-import datetime
 
 from . import *
 
 FF_MPEG_DOWN_LOAD_MEDIA_PATH = "./trim/hellbot.media.ffmpeg"
+
 
 async def reply_id(event):
     reply_to_id = None
@@ -14,6 +15,7 @@ async def reply_id(event):
     if event.reply_to_msg_id:
         reply_to_id = event.reply_to_msg_id
     return reply_to_id
+
 
 def media_type(message):
     if message and message.photo:
@@ -35,7 +37,7 @@ def media_type(message):
     else:
         media = None
     return media
-    
+
 
 @bot.on(hell_cmd(pattern="tsave$"))
 @bot.on(sudo_cmd(pattern="tsave$", allow_sudo=True))
@@ -103,9 +105,7 @@ async def ff_mpeg_trim_cmd(event):
             end_time,
         )
         if o is None:
-            return await eod(
-                hellevent, f"**Error : **`Can't complete the process`"
-            )
+            return await eod(hellevent, f"**Error : **`Can't complete the process`")
         try:
             c_time = time.time()
             await event.client.send_file(
@@ -130,9 +130,7 @@ async def ff_mpeg_trim_cmd(event):
             FF_MPEG_DOWN_LOAD_MEDIA_PATH, Config.TMP_DOWNLOAD_DIRECTORY, start_time
         )
         if o is None:
-            return await eod(
-                hellevent, f"**Error : **`Can't complete the process`"
-            )
+            return await eod(hellevent, f"**Error : **`Can't complete the process`")
         try:
             c_time = time.time()
             await event.client.send_file(
@@ -188,9 +186,7 @@ async def ff_mpeg_trim_cmd(event):
             out_put_file_name,
         )
         if o is None:
-            return await eod(
-                hellevent, f"**Error : **`Can't complete the process`"
-            )
+            return await eod(hellevent, f"**Error : **`Can't complete the process`")
         try:
             c_time = time.time()
             await event.client.send_file(
@@ -294,18 +290,25 @@ async def cult_small_video(
         return out_put_file_name
     return None
 
+
 CmdHelp("trim").add_command(
-  "tsave", "<reply to a media>", "Saves the media file in bot to trim mutliple times"
+    "tsave", "<reply to a media>", "Saves the media file in bot to trim mutliple times"
 ).add_command(
-  "vtrim", "<time>", "Sends you the screenshot of the video at the given specific time"
+    "vtrim",
+    "<time>",
+    "Sends you the screenshot of the video at the given specific time",
 ).add_command(
-  "vtrim", "<starttime> <endtime>", "Trims the saved media with specific given time interval and outputs as video"
+    "vtrim",
+    "<starttime> <endtime>",
+    "Trims the saved media with specific given time interval and outputs as video",
 ).add_command(
-  "atrim", "<starttime> <endtime>", "Trims the saved media with specific given time interval and output as audio"
+    "atrim",
+    "<starttime> <endtime>",
+    "Trims the saved media with specific given time interval and output as audio",
 ).add_command(
-  "tclean", None, "Deletes the saved media. So you can save new one🚶"
+    "tclean", None, "Deletes the saved media. So you can save new one🚶"
 ).add_info(
-  "Trim Media By Ffmpeg."
+    "Trim Media By Ffmpeg."
 ).add_warning(
-  "✅ Harmless Module."
+    "✅ Harmless Module."
 ).add()

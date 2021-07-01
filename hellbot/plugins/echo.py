@@ -6,6 +6,7 @@ from telethon import events
 from telethon.tl.functions.messages import ImportChatInviteRequest as Get
 
 from hellbot.sql.echo_sql import addecho, get_all_echos, is_echo, remove_echo
+
 from . import *
 
 
@@ -104,13 +105,13 @@ async def samereply(hell):
 
 
 CmdHelp("echo").add_command(
-  "echo", "Reply to a user", "Replays every message from whom you enabled echo"
+    "echo", "Reply to a user", "Replays every message from whom you enabled echo"
 ).add_command(
-  "rmecho", "reply to a user", "Stop replayings targeted user message"
+    "rmecho", "reply to a user", "Stop replayings targeted user message"
 ).add_command(
-  "listecho", None, "Shows the list of users for whom you enabled echo"
+    "listecho", None, "Shows the list of users for whom you enabled echo"
 ).add_info(
-  "Message Echoer."
+    "Message Echoer."
 ).add_warning(
-  "✅ Harmless Module."
+    "✅ Harmless Module."
 ).add()

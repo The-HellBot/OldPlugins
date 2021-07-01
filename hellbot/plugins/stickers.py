@@ -11,7 +11,13 @@ from PIL import Image, ImageDraw, ImageFont
 from telethon import events
 from telethon.errors.rpcerrorlist import YouBlockedUserError
 from telethon.tl.functions.messages import GetStickerSetRequest
-from telethon.tl.types import DocumentAttributeFilename, DocumentAttributeSticker, InputStickerSetID, MessageMediaPhoto, InputMessagesFilterDocument
+from telethon.tl.types import (
+    DocumentAttributeFilename,
+    DocumentAttributeSticker,
+    InputMessagesFilterDocument,
+    InputStickerSetID,
+    MessageMediaPhoto,
+)
 
 from . import *
 
@@ -262,7 +268,7 @@ async def kang(args):
 
 
 async def resize_photo(photo):
-    """ Resize the given photo to 512x512 """
+    """Resize the given photo to 512x512"""
     image = Image.open(photo)
     maxsize = (512, 512)
     if (image.width and image.height) < 512:
@@ -300,7 +306,9 @@ async def get_pack_info(event):
 
     try:
         stickerset_attr = rep_msg.document.attributes[1]
-        await edit_or_reply(event, "`Fetching details of the sticker pack, please wait..`")
+        await edit_or_reply(
+            event, "`Fetching details of the sticker pack, please wait..`"
+        )
     except BaseException:
         await edit_or_reply(event, "`This is not a sticker. Reply to a sticker.`")
         return
@@ -362,17 +370,24 @@ async def _(event):
         except YouBlockedUserError:
             await event.reply("Please unblock @Stickers and try again")
             return
-        if response.text.startswith("Sorry, I can't do this, it seems that you are not the owner of the relevant pack."):
-            await event.edit("**🥴 Nashe me hai kya lawde!!**"
+        if response.text.startswith(
+            "Sorry, I can't do this, it seems that you are not the owner of the relevant pack."
+        ):
+            await event.edit("**🥴 Nashe me hai kya lawde!!**")
+        elif response.text.startswith(
+            "You don't have any sticker packs yet. You can create one using the /newpack command."
+        ):
+            await event.edit(
+                "**😪 You don't have any sticker pack to delete stickers.** \n\n@Stickers :- 'Pehle Pack Bna Lamde 🤧'"
             )
-        elif response.text.startswith("You don't have any sticker packs yet. You can create one using the /newpack command."):
-            await event.edit("**😪 You don't have any sticker pack to delete stickers.** \n\n@Stickers :- 'Pehle Pack Bna Lamde 🤧'")
         elif response.text.startswith("Please send me the sticker."):
             await event.edit("**😪 Nashe me hai kya lawde**")
         elif response.text.startswith("Invalid pack selected."):
             await event.edit("**😪 Nashe me hai kya lawde**")
         else:
-            await event.edit("**😐 Deleted that replied sticker, it will stop being available to Telegram users within about an hour.**")
+            await event.edit(
+                "**😐 Deleted that replied sticker, it will stop being available to Telegram users within about an hour.**"
+            )
 
 
 @bot.on(hell_cmd(pattern=r"editst ?(.*)", outgoing=True))
@@ -411,12 +426,16 @@ async def _(event):
                 await event.reply("Please unblock @Stickers and try again")
                 return
             if response.text.startswith("Invalid pack selected."):
-                await event.edit("**🥴 Nashe me h kya lawde**"
-                )
-            elif response.text.startswith("Please send us an emoji that best describes your sticker."):
+                await event.edit("**🥴 Nashe me h kya lawde**")
+            elif response.text.startswith(
+                "Please send us an emoji that best describes your sticker."
+            ):
                 await event.edit("**🤧 Nashe me hai kya lawde**")
             else:
-                await event.edit(f"**😉 Done!! Edited sticker emoji**\n\nNew Emoji(s) :- {hell}")
+                await event.edit(
+                    f"**😉 Done!! Edited sticker emoji**\n\nNew Emoji(s) :- {hell}"
+                )
+
 
 @bot.on(hell_cmd(pattern="text (.*)"))
 @bot.on(sudo_cmd(pattern="text (.*)", allow_sudo=True))
@@ -452,7 +471,6 @@ async def sticklet(event):
     image_stream.name = "Hellbot.webp"
     image.save(image_stream, "WebP")
     image_stream.seek(0)
-
 
     await event.client.send_message(
         event.chat_id,
@@ -501,19 +519,23 @@ async def waifu(animu):
 
 
 CmdHelp("stickers").add_command(
-  "kang", "<emoji> <number>", "Adds the sticker to desired pack with a custom emoji of your choice. If emoji is not mentioned then default is 😎. And if number is not mentioned then Pack will go on serial wise. \n  ✓(1 pack = 120 non-animated stickers)\n  ✓(1 pack = 50 animated stickers)"
+    "kang",
+    "<emoji> <number>",
+    "Adds the sticker to desired pack with a custom emoji of your choice. If emoji is not mentioned then default is 😎. And if number is not mentioned then Pack will go on serial wise. \n  ✓(1 pack = 120 non-animated stickers)\n  ✓(1 pack = 50 animated stickers)",
 ).add_command(
-  "stkrinfo", "<reply to sticker>", "Gets all the infos of the sticker pack"
+    "stkrinfo", "<reply to sticker>", "Gets all the infos of the sticker pack"
 ).add_command(
-  "delst", "<reply to sticker>", "Deletes The Replied Sticker from your pack."
+    "delst", "<reply to sticker>", "Deletes The Replied Sticker from your pack."
 ).add_command(
-  "editst", "<reply to sticker> <new emoji>", "Edits the emoji of replied sticker of your pack."
+    "editst",
+    "<reply to sticker> <new emoji>",
+    "Edits the emoji of replied sticker of your pack.",
 ).add_command(
-  "text", "<word>", "Sends the written text in sticker format."
+    "text", "<word>", "Sends the written text in sticker format."
 ).add_command(
-  "waifu", "<word>", "Waifu writes the word for you."
+    "waifu", "<word>", "Waifu writes the word for you."
 ).add_info(
-  "Everything about Sticker."
+    "Everything about Sticker."
 ).add_warning(
-  "✅ Harmless Module."
+    "✅ Harmless Module."
 ).add()

@@ -2,7 +2,6 @@ import asyncio
 import logging
 import os
 import sys
-from asyncio import sleep
 
 from telethon import events
 
@@ -81,13 +80,15 @@ async def set_no_log_p_m(event):
 
 
 CmdHelp("pm_logger").add_command(
-  "save", "<reply>", "Saves the replied message to your pm logger group/channel"
+    "save", "<reply>", "Saves the replied message to your pm logger group/channel"
 ).add_command(
-  "elog", "<chat>", "Enables logging pm messages from the selected chat."
+    "elog", "<chat>", "Enables logging pm messages from the selected chat."
 ).add_command(
-  "nlog", "<chat>", "Disables logging pm messages from the selected chat. Use .elog to enable it again."
+    "nlog",
+    "<chat>",
+    "Disables logging pm messages from the selected chat. Use .elog to enable it again.",
 ).add_info(
-  "PM logging."
+    "PM logging."
 ).add_warning(
-  "✅ Harmless Module."
+    "✅ Harmless Module."
 ).add()

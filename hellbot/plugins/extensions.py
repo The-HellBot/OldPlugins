@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 
 from . import *
 
+
 @bot.on(hell_cmd(pattern="fext (.*)"))
 @bot.on(sudo_cmd(pattern="fext (.*)", allow_sudo=True))
 async def _(event):
@@ -32,9 +33,7 @@ async def _(event):
 
 
 CmdHelp("fileext").add_command(
-  "filext", "<extension name>", "Shows you the detailed information of that extension type."
-).add_info(
-  "File Extensions."
-).add_warning(
-  "✅ Harmless Module."
-).add()
+    "filext",
+    "<extension name>",
+    "Shows you the detailed information of that extension type.",
+).add_info("File Extensions.").add_warning("✅ Harmless Module.").add()

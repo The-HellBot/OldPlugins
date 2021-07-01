@@ -1,24 +1,10 @@
 import asyncio
-import datetime
-import importlib
-import inspect
-import logging
-import math
 import os
 import re
-import sys
-import time
-import traceback
-from pathlib import Path
-from time import gmtime, strftime
-
-from telethon import events
-from telethon.tl.functions.channels import GetParticipantRequest
-from telethon.tl.types import ChannelParticipantAdmin, ChannelParticipantCreator
 
 from hellbot import *
-from hellbot.helpers import *
 from hellbot.config import Config
+from hellbot.helpers import *
 
 
 # either edit or reply that msg
@@ -113,5 +99,6 @@ async def delete_hell(event, text, time=None, parse_mode=None, link_preview=None
         )
     await asyncio.sleep(time)
     return await hellevent.delete()
+
 
 # hellbot

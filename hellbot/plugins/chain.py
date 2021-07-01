@@ -2,6 +2,7 @@ from telethon.tl.functions.messages import SaveDraftRequest
 
 from . import *
 
+
 @bot.on(hell_cmd(pattern="chain$"))
 @bot.on(sudo_cmd(pattern="chain$", allow_sudo=True))
 async def _(event):
@@ -24,9 +25,7 @@ async def _(event):
 
 
 CmdHelp("chain").add_command(
-  "chain", "Reply to a message", "Reply this command to any msg so that it finds chain length of that msg"
-).add_info(
-  "Chained Messages."
-).add_warning(
-  "✅ Harmless Module."
-).add()
+    "chain",
+    "Reply to a message",
+    "Reply this command to any msg so that it finds chain length of that msg",
+).add_info("Chained Messages.").add_warning("✅ Harmless Module.").add()

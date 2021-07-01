@@ -25,9 +25,7 @@ async def _(event):
             event = await eor(event, "`I can't deep fry that!`")
             return
     if not event.is_reply:
-        event = await eor(
-            event, "`Reply to an image or sticker to deep fry it!`"
-        )
+        event = await eor(event, "`Reply to an image or sticker to deep fry it!`")
         return
     chat = "@image_deepfrybot"
     if reply_message.sender.bot:
@@ -148,11 +146,13 @@ async def check_media(reply_message):
 
 
 CmdHelp("fryer").add_command(
-  "frybot", "<reply to a image/sticker>", "Fries the given sticker or image"
+    "frybot", "<reply to a image/sticker>", "Fries the given sticker or image"
 ).add_command(
-  "fry", "<1-9> <reply to image/sticker>", "Fries the given sticker or image based on level if you dont give anything then it is default to 2"
+    "fry",
+    "<1-9> <reply to image/sticker>",
+    "Fries the given sticker or image based on level if you dont give anything then it is default to 2",
 ).add_info(
-  "Image Destruction!"
+    "Image Destruction!"
 ).add_warning(
-  "✅ Harmless Module."
+    "✅ Harmless Module."
 ).add()

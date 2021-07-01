@@ -1,6 +1,7 @@
 import requests
-from telethon import events
+
 from . import *
+
 
 async def download_file_from_google_drive(id):
     URL = "https://docs.google.com/uc?export=download"
@@ -85,10 +86,9 @@ async def g_download(event):
     file_name = await download_file_from_google_drive(file_id)
     await event.edit("File Downloaded.\nName: `" + str(file_name) + "`")
 
+
 CmdHelp("gdrive").add_command(
-  "gdl", "gdrive link", "Downloads the file from gdirve to HellBot's local storage. Use .upload to upload it."
-).add_info(
-  "Google Drive Downloader"
-).add_warning(
-  "✅ Harmless Module."
-).add()
+    "gdl",
+    "gdrive link",
+    "Downloads the file from gdirve to HellBot's local storage. Use .upload to upload it.",
+).add_info("Google Drive Downloader").add_warning("✅ Harmless Module.").add()

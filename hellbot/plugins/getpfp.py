@@ -1,5 +1,4 @@
 import html
-import logging
 
 from telethon.tl.functions.photos import GetUserPhotosRequest
 from telethon.tl.functions.users import GetFullUserRequest
@@ -129,7 +128,9 @@ async def get_full_user(event):
             except Exception as e:
                 return None, e
 
+
 name = "Profile Photos"
+
 
 @bot.on(hell_cmd(pattern="poto ?(.*)", outgoing=True))
 @bot.on(sudo_cmd(pattern="poto ?(.*)", allow_sudo=True))
@@ -149,9 +150,7 @@ async def potocmd(event):
             send_photos = await event.client.download_media(photos[uid - 1])
             await event.client.send_file(event.chat_id, send_photos)
         else:
-            await eod(
-                event, "No photo found of this NIBBA. Now u Die!"
-            )
+            await eod(event, "No photo found of this NIBBA. Now u Die!")
             await asyncio.sleep(2)
             return
     elif uid.strip() == "all":
@@ -171,9 +170,7 @@ async def potocmd(event):
         try:
             uid = int(uid)
             if uid <= 0:
-                await eod(
-                    event, "```number Invalid!``` **Are you komedy Me ?**"
-                )
+                await eod(event, "```number Invalid!``` **Are you komedy Me ?**")
                 return
         except BaseException:
             await eod(event, "Are you komedy me ?")
@@ -182,19 +179,21 @@ async def potocmd(event):
             send_photos = await event.client.download_media(photos[uid - 1])
             await event.client.send_file(event.chat_id, send_photos)
         else:
-            await eod(
-                event, "No photo found of this NIBBA. Now u Die!"
-            )
+            await eod(event, "No photo found of this NIBBA. Now u Die!")
             await asyncio.sleep(2)
             return
 
 
 CmdHelp("getpfp").add_command(
-  "poto", "<all> / <desired pp number>", "Reply to user to get his/her profile pic. Use .poto <number> to get desired profile pic else use .poto all to get all profile pic(s). If you dont reply to a user then it gets group pics."
+    "poto",
+    "<all> / <desired pp number>",
+    "Reply to user to get his/her profile pic. Use .poto <number> to get desired profile pic else use .poto all to get all profile pic(s). If you dont reply to a user then it gets group pics.",
 ).add_command(
-  "getpic", "<reply> <username>", "Gets the user's 1st profile pic. But this time with a caption. Try it yourself..."
+    "getpic",
+    "<reply> <username>",
+    "Gets the user's 1st profile pic. But this time with a caption. Try it yourself...",
 ).add_info(
-  "Steal Profile Pictures."
+    "Steal Profile Pictures."
 ).add_warning(
-  "✅ Harmless Module."
+    "✅ Harmless Module."
 ).add()

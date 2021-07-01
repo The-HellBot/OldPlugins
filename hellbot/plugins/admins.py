@@ -1,20 +1,34 @@
 from asyncio import sleep
 
-from telethon import functions
-from telethon.errors import BadRequestError, ImageProcessFailedError, PhotoCropSizeSmallError
+from telethon.errors import (
+    BadRequestError,
+    ImageProcessFailedError,
+    PhotoCropSizeSmallError,
+)
 from telethon.errors.rpcerrorlist import UserAdminInvalidError, UserIdInvalidError
-from telethon.tl.functions.channels import EditAdminRequest, EditBannedRequest, EditPhotoRequest
+from telethon.tl.functions.channels import (
+    EditAdminRequest,
+    EditBannedRequest,
+    EditPhotoRequest,
+)
 from telethon.tl.functions.messages import UpdatePinnedMessageRequest
 from telethon.tl.functions.users import GetFullUserRequest
-from telethon.tl.types import ChatAdminRights, ChatBannedRights, MessageEntityMentionName, MessageMediaPhoto
+from telethon.tl.types import (
+    ChatAdminRights,
+    ChatBannedRights,
+    MessageEntityMentionName,
+    MessageMediaPhoto,
+)
 
-from . import *
 from hellbot.sql.mute_sql import is_muted, mute, unmute
 
+from . import *
 
 lg_id = Config.LOGGER_ID
 PP_TOO_SMOL = "🥴 The image is too small. Just like your crush's feelings"
-PP_ERROR = "😕 Failure while processing the image. Just like your proposal to your crush."
+PP_ERROR = (
+    "😕 Failure while processing the image. Just like your proposal to your crush."
+)
 NO_ADMIN = "😪 I am not an admin here! Chutiya sala"
 NO_PERM = "😐 Lack of Permissions. Just like your crush's feelings for you."
 CHAT_PP_CHANGED = "😉 Chat Picture Changed Successfully"
@@ -125,7 +139,9 @@ async def promote(promt):
         return
     try:
         await promt.client(EditAdminRequest(promt.chat_id, user.id, new_rights, rank))
-        await hellevent.edit(f"**🔥 Promoted  [{user.first_name}](tg://user?id={user.id})  Successfully In**  `{promt.chat.title}`!! \n**Admin Tag :**  `{rank}`")
+        await hellevent.edit(
+            f"**🔥 Promoted  [{user.first_name}](tg://user?id={user.id})  Successfully In**  `{promt.chat.title}`!! \n**Admin Tag :**  `{rank}`"
+        )
     except BadRequestError:
         await hellevent.edit(NO_PERM)
         return
@@ -168,13 +184,16 @@ async def demote(dmod):
     except BadRequestError:
         await hellevent.edit(NO_PERM)
         return
-    await hellevent.edit(f"**😪 Demoted  [{user.first_name}](tg://user?id={user.id})  Successfully In**  `{dmod.chat.title}`")
+    await hellevent.edit(
+        f"**😪 Demoted  [{user.first_name}](tg://user?id={user.id})  Successfully In**  `{dmod.chat.title}`"
+    )
     await dmod.client.send_message(
         lg_id,
         "#DEMOTE\n"
         f"\nUSER: [{user.first_name}](tg://user?id={user.id})\n"
         f"CHAT: {dmod.chat.title}(`{dmod.chat_id}`)",
     )
+
 
 @command(incoming=True)
 async def watcher(event):
@@ -192,11 +211,9 @@ async def muth(hell):
         await eor(hell, "**Enough of your bullshit  !!**")
         await sleep(2)
         await hell.get_reply_message()
-        replied_user = await hell.client(GetFullUserRequest(hell.chat_id))
+        await hell.client(GetFullUserRequest(hell.chat_id))
         if is_muted(hell.chat_id, hell.chat_id):
-            return await hell.edit(
-                "Nigga is already muted here 🥴"
-            )
+            return await hell.edit("Nigga is already muted here 🥴")
         if hell.chat_id == ForGo10God:
             return await eod(hell, "Nashe me hai kya lawde 🥴")
         try:
@@ -247,27 +264,23 @@ async def muth(hell):
             f"\nUSER:  [{name}](tg://user?id={userid})\n"
             f"CHAT:  {chat.title}",
         )
-        
-        
+
+
 @bot.on(hell_cmd(pattern=r"unmute ?(.*)"))
 @bot.on(sudo_cmd(pattern=r"unmute ?(.*)", allow_sudo=True))
 async def nomuth(evn):
     if evn.is_private:
         await eor(evn, "Talk bich..")
         await sleep(1)
-        replied_user = await evn.client(GetFullUserRequest(evn.chat_id))
+        await evn.client(GetFullUserRequest(evn.chat_id))
         if not is_muted(evn.chat_id, evn.chat_id):
-            return await eor(evn,
-                "Not even muted !!"
-            )
+            return await eor(evn, "Not even muted !!")
         try:
             unmute(evn.chat_id, evn.chat_id)
         except Exception as e:
             await eor(evn, f"**Error **\n`{str(e)}`")
         else:
-            await eor(evn,
-                "Abb boll bsdk."
-            )
+            await eor(evn, "Abb boll bsdk.")
     else:
         hellevent = await eor(evn, "`Unmuting...`")
         input_str = evn.pattern_match.group(1)
@@ -336,12 +349,18 @@ async def ban(bon):
         if reply:
             await reply.delete()
     except BadRequestError:
-        await hellevent.edit(f"**Banned  [{user.first_name}](tg://user?id={user.id})  in** `[{bon.chat.title}]` !!\n\nMessage Nuking : **False**")
+        await hellevent.edit(
+            f"**Banned  [{user.first_name}](tg://user?id={user.id})  in** `[{bon.chat.title}]` !!\n\nMessage Nuking : **False**"
+        )
         return
     if reason:
-        await hellevent.edit(f"**Bitch** [{user.first_name}](tg://user?id={user.id}) **is now banned in**  `[{bon.chat.title}]` !!\n**Reason :** `{reason}`")
+        await hellevent.edit(
+            f"**Bitch** [{user.first_name}](tg://user?id={user.id}) **is now banned in**  `[{bon.chat.title}]` !!\n**Reason :** `{reason}`"
+        )
     else:
-        await hellevent.edit(f"**Bitch** [{user.first_name}](tg://user?id={user.id}) **is now banned in**  `[{bon.chat.title}]`!!")
+        await hellevent.edit(
+            f"**Bitch** [{user.first_name}](tg://user?id={user.id}) **is now banned in**  `[{bon.chat.title}]`!!"
+        )
     await bon.client.send_message(
         lg_id,
         "#BAN\n"
@@ -369,7 +388,9 @@ async def nothanos(unbon):
         return
     try:
         await unbon.client(EditBannedRequest(unbon.chat_id, user.id, UNBAN_RIGHTS))
-        await hellevent.edit(f"[{user.first_name}](tg://user?id={user.id}) **Is Now Unbanned in**  `{unbon.chat.title}` !!")
+        await hellevent.edit(
+            f"[{user.first_name}](tg://user?id={user.id}) **Is Now Unbanned in**  `{unbon.chat.title}` !!"
+        )
         await unbon.client.send_message(
             lg_id,
             "#UNBAN\n"
@@ -406,7 +427,10 @@ async def pin(msg):
     except BadRequestError:
         await eor(msg, NO_PERM)
         return
-    hmm = await eor(msg, f"📌 **Pinned  [this message](https://t.me/c/{ms_l.id}/{to_pin})  Successfully!**")
+    hmm = await eor(
+        msg,
+        f"📌 **Pinned  [this message](https://t.me/c/{ms_l.id}/{to_pin})  Successfully!**",
+    )
     user = await get_user_from_id(msg.sender_id, msg)
     await msg.client.send_message(
         lg_id,
@@ -451,7 +475,9 @@ async def kick(usr):
             f"**🏃 Kicked**  [{user.first_name}](tg://user?id={user.id})'s **Butt from** `{usr.chat.title}!`\nReason: `{reason}`"
         )
     else:
-        await hellevent.edit(f"**🏃 Kicked**  [{user.first_name}](tg://user?id={user.id})'s **Butt from** `{usr.chat.title}!`")
+        await hellevent.edit(
+            f"**🏃 Kicked**  [{user.first_name}](tg://user?id={user.id})'s **Butt from** `{usr.chat.title}!`"
+        )
     await usr.client.send_message(
         lg_id,
         "#KICK\n"
@@ -469,9 +495,7 @@ async def rm_deletedacc(show):
     del_u = 0
     del_status = "`No zombies or deleted accounts found in this group, Group is clean`"
     if con != "clean":
-        event = await eor(
-            show, "**Searching For Zombies...**"
-        )
+        event = await eor(show, "**Searching For Zombies...**")
         async for user in show.client.iter_participants(show.chat_id):
             if user.deleted:
                 del_u += 1
@@ -486,9 +510,7 @@ async def rm_deletedacc(show):
     if not admin and not creator:
         await eod(show, NO_ADMIN)
         return
-    event = await eor(
-        show, "🧹 Purging out zombies from this group..."
-    )
+    event = await eor(show, "🧹 Purging out zombies from this group...")
     del_u = 0
     del_a = 0
     async for user in show.client.iter_participants(show.chat_id):
@@ -505,7 +527,9 @@ async def rm_deletedacc(show):
     if del_u > 0:
         del_status = f"**Ongoing Zombie Purge!!**\n\n**Zombies Killed :**  `{del_u}`"
     if del_a > 0:
-        del_status = f"**Zombies Killed**  `{del_u}`\n\n`{del_a}`  **Zombies Holds Immunity!!**"
+        del_status = (
+            f"**Zombies Killed**  `{del_u}`\n\n`{del_a}`  **Zombies Holds Immunity!!**"
+        )
     await edit_or_reply(event, del_status)
     await show.client.send_message(
         lg_id,
@@ -587,31 +611,35 @@ async def get_user_from_id(user, event):
 
 
 CmdHelp("admins").add_command(
-  "setgpic", "<reply to image>", "Changes the groups display picture"
+    "setgpic", "<reply to image>", "Changes the groups display picture"
 ).add_command(
-  "promote", "<username/reply> <custom rank (optional)>", "Provides admins right to a person in the chat."
+    "promote",
+    "<username/reply> <custom rank (optional)>",
+    "Provides admins right to a person in the chat.",
 ).add_command(
-  "demote", "<username/reply>", "Revokes the person admin permissions in the chat."
+    "demote", "<username/reply>", "Revokes the person admin permissions in the chat."
 ).add_command(
-  "ban", "<username/reply> <reason (optional)>", "Bans the person off your chat."
+    "ban", "<username/reply> <reason (optional)>", "Bans the person off your chat."
 ).add_command(
-  "unban", "<username/reply>", "Removes the ban from the person in the chat."
+    "unban", "<username/reply>", "Removes the ban from the person in the chat."
 ).add_command(
-  "mute", "<reply>/<userid or username>", "Mutes the person in the group. Works on non-admins only"
+    "mute",
+    "<reply>/<userid or username>",
+    "Mutes the person in the group. Works on non-admins only",
 ).add_command(
-  "unmute", "<reply>/<userid or username>", "Unmutes the person muted in that group."
+    "unmute", "<reply>/<userid or username>", "Unmutes the person muted in that group."
 ).add_command(
-  "pin", "<reply> or .pin loud", "Pins the replied message in Group"
+    "pin", "<reply> or .pin loud", "Pins the replied message in Group"
 ).add_command(
-  "kick", "<username/reply>", "kick the person off your chat"
+    "kick", "<username/reply>", "kick the person off your chat"
 ).add_command(
-  "zombies", None, "Check If The Group is Infected By Zombies."
+    "zombies", None, "Check If The Group is Infected By Zombies."
 ).add_command(
-  "zombies clean", None, "Clears all the zombies in the group."
+    "zombies clean", None, "Clears all the zombies in the group."
 ).add_command(
-  "iundlt", None, "display last 5 deleted messages in group."
+    "iundlt", None, "display last 5 deleted messages in group."
 ).add_info(
-  "Admins Things!"
+    "Admins Things!"
 ).add_warning(
-  "✅ Harmless Module."
+    "✅ Harmless Module."
 ).add()

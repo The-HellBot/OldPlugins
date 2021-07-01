@@ -1,8 +1,6 @@
 import os
 import re
-import requests
 
-import PIL.ImageOps
 from PIL import Image
 
 # convertions are done here...

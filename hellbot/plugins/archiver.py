@@ -1,10 +1,10 @@
 import asyncio
+import datetime
 import os
 import shutil
 import tarfile
 import time
 import zipfile
-import datetime
 
 import patoolib
 from hachoir.metadata import extractMetadata
@@ -17,6 +17,7 @@ thumb_image_path = Config.TMP_DOWNLOAD_DIRECTORY + "/thumb_image.jpg"
 extracted = Config.TMP_DOWNLOAD_DIRECTORY + "extracted/"
 if not os.path.isdir(extracted):
     os.makedirs(extracted)
+
 
 @bot.on(hell_cmd(pattern="zip", outgoing=True))
 @bot.on(sudo_cmd(pattern="zip", allow_sudo=True))
@@ -61,6 +62,7 @@ def zipdir(path, ziph):
         for file in files:
             ziph.write(os.path.join(root, file))
             os.remove(os.path.join(root, file))
+
 
 @bot.on(hell_cmd(pattern="compress"))
 @bot.on(sudo_cmd(pattern="compress", allow_sudo=True))
@@ -167,7 +169,7 @@ async def _(event):
 
 @bot.on(hell_cmd(pattern="7z ?(.*)"))
 @bot.on(sudo_cmd(pattern="7z ?(.*)", allow_sudo=True))
-async def _(event): 
+async def _(event):
     if event.fwd_from:
         return
     input_str = event.pattern_match.group(1)
@@ -601,23 +603,21 @@ def get_lst_of_files(input_directory, output_lst):
 
 
 CmdHelp("archiver").add_command(
-  "zip", "Reply to file/media", "It will zip the file/media"
+    "zip", "Reply to file/media", "It will zip the file/media"
+).add_command("rar", "Reply to file/media", "It will rar the file/media").add_command(
+    "7z", "Reply to file/media", "It will 7z the file/media"
 ).add_command(
-  "rar", "Reply to file/media", "It will rar the file/media"
+    "tar", "Reply to file/media", "It will tar the file/media"
 ).add_command(
-  "7z", "Reply to file/media", "It will 7z the file/media"
+    "unzip", "Reply to zip file", "It will unzip the zip file"
 ).add_command(
-  "tar", "Reply to file/media", "It will tar the file/media"
+    "unrar", "Reply to rar file", "It will unrar the rar file"
 ).add_command(
-  "unzip", "Reply to zip file", "It will unzip the zip file"
+    "untar", "Reply to tar file", "It will untar the tar file"
 ).add_command(
-  "unrar", "Reply to rar file", "It will unrar the rar file"
-).add_command(
-  "untar", "Reply to tar file", "It will untar the tar file"
-).add_command(
-  "compress", "Reply to file/media", "It will compress the replied media/file"
+    "compress", "Reply to file/media", "It will compress the replied media/file"
 ).add_info(
-  "Better Archiver"
+    "Better Archiver"
 ).add_warning(
-  "✅ Harmless Module."
+    "✅ Harmless Module."
 ).add()

@@ -1,13 +1,12 @@
 import json
 import os
+
 import requests
 
 from . import *
 
 
-def ocr_space_file(
-    filename, overlay=False, api_key=Config.OCR_API, language="eng"
-):
+def ocr_space_file(filename, overlay=False, api_key=Config.OCR_API, language="eng"):
     """OCR.space API request with local file.
         Python3.5 - not tested on 2.7
     :param filename: Your file path & name.
@@ -125,12 +124,15 @@ async def parse_ocr_space_api(event):
             int(test_file["ProcessingTimeInMilliseconds"]) // 1000
         )
     except Exception as e:
-        await eod(hell, "**Errors !!** \n`{}`\n**Report This to** {}\n\n`{}`".format(
+        await eod(
+            hell,
+            "**Errors !!** \n`{}`\n**Report This to** {}\n\n`{}`".format(
                 str(e), hell_grp, json.dumps(test_file, sort_keys=True, indent=4)
-            )
+            ),
         )
     else:
-        await hell.edit("Read Document in {} seconds. \n{}".format(
+        await hell.edit(
+            "Read Document in {} seconds. \n{}".format(
                 ProcessingTimeInMilliseconds, ParsedText
             )
         )
@@ -139,11 +141,13 @@ async def parse_ocr_space_api(event):
 
 
 CmdHelp("ocr").add_command(
-  "ocr", "<reply to a img> <lang code>", "Reads and sends you the text written in replied image in selected language"
+    "ocr",
+    "<reply to a img> <lang code>",
+    "Reads and sends you the text written in replied image in selected language",
 ).add_command(
-  "ocrlang", None, "Gives the list of supported languages of OCR."
+    "ocrlang", None, "Gives the list of supported languages of OCR."
 ).add_info(
-  "Read Texts On Images."
+    "Read Texts On Images."
 ).add_warning(
-  "✅ Harmless Module."
+    "✅ Harmless Module."
 ).add()

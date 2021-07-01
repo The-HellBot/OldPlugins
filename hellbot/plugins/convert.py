@@ -317,21 +317,29 @@ async def _(event):
 
 
 CmdHelp("convert").add_command(
-  "stoi", "<reply to a sticker", "Converts the replied sticker into an image"
+    "stoi", "<reply to a sticker", "Converts the replied sticker into an image"
 ).add_command(
-  "itos", "<reply to a image>", "Converts the replied image to sticker"
+    "itos", "<reply to a image>", "Converts the replied image to sticker"
 ).add_command(
-  "ftoi", "<reply to a image file", "Converts the replied file image to normal image"
+    "ftoi", "<reply to a image file", "Converts the replied file image to normal image"
 ).add_command(
-  "gif", "<reply to a animated sticker", "Converts the replied animated sticker into gif"
+    "gif",
+    "<reply to a animated sticker",
+    "Converts the replied animated sticker into gif",
 ).add_command(
-  "ttf", "<reply to text>", "Converts the given text message to required file(given file name)"
+    "ttf",
+    "<reply to text>",
+    "Converts the given text message to required file(given file name)",
 ).add_command(
-  "nfc voice", "<reply to media to extract voice>", "Converts the replied media file to voice"
+    "nfc voice",
+    "<reply to media to extract voice>",
+    "Converts the replied media file to voice",
 ).add_command(
-  "nfc mp3", "<reply to media to extract mp3>", "Converts the replied media file to mp3"
+    "nfc mp3",
+    "<reply to media to extract mp3>",
+    "Converts the replied media file to mp3",
 ).add_info(
-  "Converter."
+    "Converter."
 ).add_warning(
-  "✅ Harmless Module."
+    "✅ Harmless Module."
 ).add()

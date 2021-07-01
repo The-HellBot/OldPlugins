@@ -1,4 +1,5 @@
 import asyncio
+
 from telethon import events
 from telethon.errors.rpcerrorlist import YouBlockedUserError
 
@@ -35,19 +36,16 @@ async def _(event):
             await event.reply("Please unblock @QuotLyBot and try again!!")
             return
         if response.text.startswith("Hi!"):
-            await eor(event, "Can you kindly disable your forward privacy settings."
-            )
+            await eor(event, "Can you kindly disable your forward privacy settings.")
         else:
             await event.delete()
             await bot.forward_messages(event.chat_id, response.message)
-    await bot.delete_messages(
-        conv.chat_id, [first.id, ok.id, second.id, response.id]
-    )
+    await bot.delete_messages(conv.chat_id, [first.id, ok.id, second.id, response.id])
+
 
 CmdHelp("qbot").add_command(
-  "ss or qbot", "<reply to msg> <bg colour>", "Makes the sticker of the replied text, sticker, pic.", "ss black <reply to a msg>"
-).add_info(
-  "Makes Quoted Sticker."
-).add_warning(
-  "✅ Harmless Module."
-).add()
+    "ss or qbot",
+    "<reply to msg> <bg colour>",
+    "Makes the sticker of the replied text, sticker, pic.",
+    "ss black <reply to a msg>",
+).add_info("Makes Quoted Sticker.").add_warning("✅ Harmless Module.").add()

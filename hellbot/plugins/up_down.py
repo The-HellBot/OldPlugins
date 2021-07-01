@@ -1,18 +1,19 @@
 import asyncio
+import datetime
 import json
 import math
 import os
 import subprocess
 import time
-import datetime
-import requests
 
+import requests
 from hachoir.metadata import extractMetadata
 from hachoir.parser import createParser
 from pySmartDL import SmartDL
 from telethon.tl.types import DocumentAttributeVideo
 
 from . import *
+
 
 @bot.on(hell_cmd(pattern=r"webup ?(.*)", outgoing=True))
 @bot.on(sudo_cmd(pattern=r"webup ?(.*)", allow_sudo=True))
@@ -29,7 +30,9 @@ async def labstack(event):
             reply.media, Config.TMP_DOWNLOAD_DIRECTORY
         )
     else:
-        await eod(event, "Reply to a media file or provide a directory to upload the file to labstack"
+        await eod(
+            event,
+            "Reply to a media file or provide a directory to upload the file to labstack",
         )
         return
     filesize = os.path.getsize(filebase)
@@ -68,14 +71,15 @@ async def labstack(event):
         t_response_arry = "https://up.labstack.com/api/v1/links/{}/receive".format(
             r2json["code"]
         )
-    await eor(event, t_response_arry + "\nMax Days:" + str(max_days), link_preview=False
+    await eor(
+        event, t_response_arry + "\nMax Days:" + str(max_days), link_preview=False
     )
 
 
 @bot.on(admin_cmd(pattern=r"upld_dir (.*)", outgoing=True))
 @bot.on(sudo_cmd(pattern=r"upld_dir (.*)", allow_sudo=True))
 async def uploadir(udir_event):
-    """ For .uploadir command, allows you to upload everything from a folder in the server"""
+    """For .uploadir command, allows you to upload everything from a folder in the server"""
     input_str = udir_event.pattern_match.group(1)
     if os.path.exists(input_str):
         await udir_event.edit("Downloading Using Userbot Server....")
@@ -163,7 +167,7 @@ async def uploadir(udir_event):
 @bot.on(admin_cmd(pattern=r"upload (.*)", outgoing=True))
 @bot.on(sudo_cmd(pattern=r"upload (.*)", allow_sudo=True))
 async def upload(u_event):
-    """ For .upload command, allows you to upload a file from the userbot's server """
+    """For .upload command, allows you to upload a file from the userbot's server"""
     await u_event.edit("Processing ...")
     input_str = u_event.pattern_match.group(1)
     cap = "Chala Jaa Bhosdike. Hack hona h kya tujhe"
@@ -189,7 +193,7 @@ async def upload(u_event):
 
 
 def get_video_thumb(file, output=None, width=90):
-    """ Get video thumbnail """
+    """Get video thumbnail"""
     metadata = extractMetadata(createParser(file))
     popen = subprocess.Popen(
         [
@@ -215,7 +219,7 @@ def get_video_thumb(file, output=None, width=90):
 
 
 def extract_w_h(file):
-    """ Get width and height of media """
+    """Get width and height of media"""
     command_to_run = [
         "ffprobe",
         "-v",
@@ -242,7 +246,7 @@ def extract_w_h(file):
 @bot.on(admin_cmd(pattern=r"upld_as(stream|vn|all) (.*)", outgoing=True))
 @bot.on(sudo_cmd(pattern=r"upld_as (stream|vn|all) (.*)", allow_sudo=True))
 async def uploadas(uas_event):
-    """ For .uploadas command, allows you to specify some arguments for upload. """
+    """For .uploadas command, allows you to specify some arguments for upload."""
     await uas_event.edit("Processing ...")
     type_of_upload = uas_event.pattern_match.group(1)
     supports_streaming = False
@@ -414,19 +418,21 @@ async def _(event):
 
 
 CmdHelp("up_down").add_command(
-  "upload", "<path>", "Uploads a locally stored file to the chat"
+    "upload", "<path>", "Uploads a locally stored file to the chat"
 ).add_command(
-  "upld_as stream", "<path>", "Uploads the locally stored file in streamable format"
+    "upld_as stream", "<path>", "Uploads the locally stored file in streamable format"
 ).add_command(
-  "upld_as vn", "<path>", "Uploads the locally stored file in vs format"
+    "upld_as vn", "<path>", "Uploads the locally stored file in vs format"
 ).add_command(
-  "upldir", "<path>", "Uploads all the files in directory"
+    "upldir", "<path>", "Uploads all the files in directory"
 ).add_command(
-  "download", "<link/filename> or reply to media", "Downloads the file to the server"
+    "download", "<link/filename> or reply to media", "Downloads the file to the server"
 ).add_command(
-  "webup", "<reply to media>", "Makes a direct download link of the replied media for a limited time"
+    "webup",
+    "<reply to media>",
+    "Makes a direct download link of the replied media for a limited time",
 ).add_info(
-  "Upload & Download."
+    "Upload & Download."
 ).add_warning(
-  "✅ Harmless Module."
+    "✅ Harmless Module."
 ).add()

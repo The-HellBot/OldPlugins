@@ -172,7 +172,6 @@ async def _(event):
     else:
         await bot.send_message(Config.LOGGER_ID, f"#ENV \n\n{OUTPUT}")
         await event.edit("ENV sent to LOGGER")
-        
 
 
 @bot.on(hell_cmd(pattern="speed$"))
@@ -214,17 +213,15 @@ async def _(event):
 
 
 CmdHelp("execmod").add_command(
-  "pips", "<query>", "Gives the result of your query"
+    "pips", "<query>", "Gives the result of your query"
+).add_command("suicide", None, "Suicide").add_command(
+    "date", None, "Shows current date and time"
 ).add_command(
-  "suicide", None, "Suicide"
+    "env", None, "Shows Environment veriables from Heroku"
 ).add_command(
-  "date", None, "Shows current date and time"
-).add_command(
-  "env", None, "Shows Environment veriables from Heroku"
-).add_command(
-  "speed", None, "Shows server speed of your bot"
+    "speed", None, "Shows server speed of your bot"
 ).add_info(
-  "Exec Modules."
+    "Exec Modules."
 ).add_warning(
-  "✅ Harmless Module."
+    "✅ Harmless Module."
 ).add()

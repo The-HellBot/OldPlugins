@@ -81,13 +81,19 @@ async def mine(event):
 
 
 CmdHelp("auto_profile").add_command(
-  'autobio', None, 'Changes your bio with time. Need to set BIO_MSG in heroku vars(optional)'
+    "autobio",
+    None,
+    "Changes your bio with time. Need to set BIO_MSG in heroku vars(optional)",
 ).add_command(
-  'autoname', None, 'Changes your name with time according to your ALIVE_NAME in heroku var'
+    "autoname",
+    None,
+    "Changes your name with time according to your ALIVE_NAME in heroku var",
 ).add_command(
-  'reserved', None, 'Gives the list of usernames reserved by you. In short gives the list of public groups or channels that you are owner in.'
+    "reserved",
+    None,
+    "Gives the list of usernames reserved by you. In short gives the list of public groups or channels that you are owner in.",
 ).add_info(
-  "Manage Profiles"
+    "Manage Profiles"
 ).add_warning(
-  "🚫 Potentially Harmful"
+    "🚫 Potentially Harmful"
 ).add()
