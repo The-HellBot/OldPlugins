@@ -1,16 +1,16 @@
 import glob
+import os
 import sys
 from pathlib import Path
 
 import telethon.utils
 from telethon import TelegramClient
-from telethon.tl.functions.channels import JoinChannelRequest
+from telethon.tl.functions.channels import InviteToChannelRequest, JoinChannelRequest
 
 from hellbot import LOGS, bot, tbot
 from hellbot.config import Config
 from hellbot.utils import load_module
 from hellbot.version import __hell__ as hellver
-
 hl = Config.HANDLER
 HELL_PIC = Config.ALIVE_PIC or "https://telegra.ph/file/ea9e11f7c9db21c1b8d5e.mp4"
 
@@ -75,7 +75,7 @@ async def hell_is_on():
     except Exception as e:
         LOGS.info(str(e))
 
-    # Join HellBot Channel after deploying 🤐😅
+# Join HellBot Channel after deploying 🤐😅
     try:
         await bot(JoinChannelRequest("@Its_HellBot"))
     except BaseException:
