@@ -1,7 +1,13 @@
+import cv2
 import os
+import io
+import random
+import shutil
+import re
 import textwrap
+import lottie
 
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw, ImageEnhance, ImageFont, ImageOps
 
 
 async def draw_meme_text(image_path, text):

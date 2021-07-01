@@ -1,9 +1,11 @@
+import asyncio
 import os
-
 try:
     pass
 except:
     os.system("pip install colour")
+import re
+import requests
 
 import PIL.ImageOps
 from PIL import Image
@@ -37,7 +39,7 @@ async def mirror_file(imagefile, endname):
     inverted_image.save(endname)
 
 
-# sun kissed...
+# sun kissed... 
 # print("Agar Suraj ne sachme chum lia to gand fatt jaegi")
 async def solarize(imagefile, endname):
     image = Image.open(imagefile)
