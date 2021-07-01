@@ -1,6 +1,5 @@
+from . import SESSION, BASE
 from sqlalchemy import Column, String
-
-from . import BASE, SESSION
 
 
 class GBan(BASE):

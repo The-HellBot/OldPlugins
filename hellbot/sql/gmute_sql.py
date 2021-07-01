@@ -1,6 +1,6 @@
-from sqlalchemy import Column, String
+from . import SESSION, BASE
 
-from . import BASE, SESSION
+from sqlalchemy import Column, String
 
 
 class GMute(BASE):
