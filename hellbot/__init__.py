@@ -1,6 +1,7 @@
 import os
 import sys
 import time
+import datetime
 from distutils.util import strtobool as sb
 from logging import DEBUG, INFO, basicConfig, getLogger
 
@@ -12,7 +13,7 @@ from telethon.sessions import StringSession
 
 from hellbot.config import Config
 
-StartTime = time.time()
+StartTime = datetime.datetime.now()
 
 CONSOLE_LOGGER_VERBOSE = sb(os.environ.get("CONSOLE_LOGGER_VERBOSE", "False"))
 
