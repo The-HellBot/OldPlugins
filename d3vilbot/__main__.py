@@ -7,25 +7,25 @@ import telethon.utils
 from telethon import TelegramClient
 from telethon.tl.functions.channels import InviteToChannelRequest, JoinChannelRequest
 
-from hellbot import LOGS, bot, tbot
-from hellbot.config import Config
-from hellbot.utils import load_module
-from hellbot.version import __hell__ as hellver
+from d3vilbot import LOGS, bot, tbot
+from d3vilbot.config import Config
+from d3vilbot.utils import load_module
+from d3vilbot.version import __d3vil__ as d3vilver
 hl = Config.HANDLER
-HELL_PIC = Config.ALIVE_PIC or "https://telegra.ph/file/ea9e11f7c9db21c1b8d5e.mp4"
+D3VIL_PIC = Config.ALIVE_PIC or "https://telegra.ph/file/5abfcff75e1930dcdfaf3.mp4"
 
 # let's get the bot ready
-async def hell_bot(bot_token):
+async def d3vil_bot(bot_token):
     try:
         await bot.start(bot_token)
         bot.me = await bot.get_me()
         bot.uid = telethon.utils.get_peer_id(bot.me)
     except Exception as e:
-        LOGS.error(f"HELLBOT_SESSION - {str(e)}")
+        LOGS.error(f"D3VILBOT_SESSION - {str(e)}")
         sys.exit()
 
 
-# hellbot starter...
+# Userbot starter...
 if len(sys.argv) not in (1, 3, 4):
     bot.disconnect()
 else:
@@ -37,9 +37,9 @@ else:
                 "BOT_TOKEN", api_id=Config.APP_ID, api_hash=Config.API_HASH
             ).start(bot_token=Config.BOT_TOKEN)
             LOGS.info("Checking Completed. Proceeding to next step...")
-            LOGS.info("🔰 Starting HellBot 🔰")
-            bot.loop.run_until_complete(hell_bot(Config.BOT_USERNAME))
-            LOGS.info("🔥 HellBot Startup Completed 🔥")
+            LOGS.info("⚡ Starting D3vilBot ⚡")
+            bot.loop.run_until_complete(d3vil_bot(Config.BOT_USERNAME))
+            LOGS.info("⚔️ D3vilBot Startup Completed ⚔️")
         else:
             bot.start()
     except Exception as e:
@@ -47,7 +47,7 @@ else:
         sys.exit()
 
 # imports plugins...
-path = "hellbot/plugins/*.py"
+path = "d3vilbot/plugins/*.py"
 files = glob.glob(path)
 for name in files:
     with open(name) as f:
@@ -58,31 +58,31 @@ for name in files:
 # let the party begin...
 LOGS.info("Starting Bot Mode !")
 tbot.start()
-LOGS.info("⚡ Your HellBot Is Now Working ⚡")
+LOGS.info("⚡ Your D3vilBot Is Now Working ⚡")
 LOGS.info(
-    "Head to @Its_HellBot for Updates. Also join chat group to get help regarding to HellBot."
+    "Head to @D3VIL_SUPPORT for Updates. Also join chat group to get help regarding to D3vilBot."
 )
 
 # that's life...
-async def hell_is_on():
+async def d3vil_is_on():
     try:
         if Config.LOGGER_ID != 0:
             await bot.send_file(
                 Config.LOGGER_ID,
-                HELL_PIC,
-                caption=f"#START \n\nDeployed Hêllẞø† Successfully\n\n**Hêllẞø† - {hellver}**\n\nType `{hl}ping` or `{hl}alive` to check! \n\nJoin [Hêllẞø† Channel](t.me/Its_HellBot) for Updates & [Hêllẞø† Chat](t.me/hellbot_chat) for any query regarding Hêllẞø†",
+                D3VIL_PIC,
+                caption=f"#START \n\nDeployed 𝔡3𝔳𝔦𝔩𝔟𝔬𝔱 Successfully\n\n**𝔡3𝔳𝔦𝔩𝔟𝔬𝔱 - {d3bilver}**\n\nType `{hl}ping` or `{hl}alive` to check! \n\nJoin [𝔡3𝔳𝔦𝔩𝔲𝔰𝔢𝔯𝔅𝔬𝔱](t.me/D3VIL_SUPPORT) for Updates & [𝔇3𝔳𝔦𝔩𝔲𝔰𝔢𝔯𝔅𝔬𝔱 𝔠𝔥𝔞𝔱](t.me/D3VIL_BOT_SUPPORT) for any query regarding 𝔡3𝔳𝔦𝔩𝔅𝔬𝔱",
             )
     except Exception as e:
         LOGS.info(str(e))
 
-# Join HellBot Channel after deploying 🤐😅
+
     try:
-        await bot(JoinChannelRequest("@Its_HellBot"))
+        await bot(JoinChannelRequest("@D3VIL_SUPORT"))
     except BaseException:
         pass
 
 
-bot.loop.create_task(hell_is_on())
+bot.loop.create_task(d3vil_is_on())
 
 if len(sys.argv) not in (1, 3, 4):
     bot.disconnect()
@@ -90,4 +90,4 @@ else:
     bot.tgbot = None
     bot.run_until_disconnected()
 
-# hellbot
+
