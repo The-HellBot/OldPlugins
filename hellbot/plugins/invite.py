@@ -67,7 +67,7 @@ async def get_users(event):
         return await d3vil.edit("Restricted to invite users from there.")
     elif he_ll == "@d3vilbot_chat":
         return await d3vil.edit("Restricted to invite users from there.")
-    elif he_ll == "@HELLBOT_CHAT":
+    elif he_ll == "@D3VILBOT_CHAT":
         return await d3vil.edit("Restricted to invite users from there.")
     d3vilkrish = await get_chatinfo(event)
     chat = await event.get_chat()

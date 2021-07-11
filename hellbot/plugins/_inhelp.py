@@ -40,7 +40,7 @@ mssge = (
 
 USER_BOT_WARN_ZERO = "Enough Of Your Flooding In My Master's PM!! \n\n**🚫 Blocked and Reported**"
 
-HELL_FIRST = (
+D3VIL_FIRST = (
     "**🔥 Hêllẞø† Prîvã†é Sêçürïty Prø†öçõl 🔥**\n\nThis is to inform you that "
     "{} is currently unavailable.\nThis is an automated message.\n\n"
     "{}\n\n**Please Choose Why You Are Here!!**".format(d3vil_mention, mssge))
@@ -136,7 +136,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
         elif event.query.user_id == bot.uid and query == "alive":
             he_ll = alive_txt.format(Config.ALIVE_MSG, tel_ver, d3vil_ver, uptime, abuse_m, is_sudo)
             alv_btn = [
-                [Button.url(f"{HELL_USER}", f"tg://openmessage?user_id={d3krish}")],
+                [Button.url(f"{D3VIL_USER}", f"tg://openmessage?user_id={d3krish}")],
                 [Button.url("My Channel", f"https://t.me/{my_channel}"), 
                 Button.url("My Group", f"https://t.me/{my_group}")],
             ]
@@ -164,7 +164,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
                 )
 
         elif event.query.user_id == bot.uid and query == "pm_warn":
-            d3vl_l = HELL_FIRST.format(d3vil_mention, mssge)
+            d3vl_l = D3VIL_FIRST.format(d3vil_mention, mssge)
             result = builder.photo(
                 file=d3vil_pic,
                 text=d3vl_l,

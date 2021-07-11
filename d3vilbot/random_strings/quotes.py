@@ -149,7 +149,7 @@ CHASE_STR = [
 ]
 
 
-HELLOSTR = [
+D3VILOSTR = [
     "Hi !",
     "‘Ello, gov'nor!",
     "What’s crackin’?",
@@ -195,7 +195,7 @@ BYESTR = [
     "`Farewell!`",
 ]
 
-HELLOSTR = [
+D3VILOSTR = [
     "`Hi !`",
     "`‘Ello, gov'nor!`",
     "`What’s crackin’?`",

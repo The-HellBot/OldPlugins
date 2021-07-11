@@ -14,12 +14,12 @@ PICS_STR = []
 @bot.on(sudo_cmd(pattern=r"logo ?(.*)", allow_sudo=True))
 async def lg1(d3vilevent):
     event = await eor(d3vilevent, "`Processing.....`")
-    fnt = await get_font_file(d3vilevent.client, "@HELL_FRONTS")
+    fnt = await get_font_file(d3vilevent.client, "@D3VIL_FRONTS")
     if d3vilevent.reply_to_msg_id:
         rply = await d3vilevent.get_reply_message()
         logo_ = await rply.download_media()
     else:
-        async for i in bot.iter_messages("@HELLBOT_LOGOS", filter=InputMessagesFilterPhotos):
+        async for i in bot.iter_messages("@D3VILBOT_LOGOS", filter=InputMessagesFilterPhotos):
     	    PICS_STR.append(i)
         pic = random.choice(PICS_STR)
         logo_ = await pic.download_media()

@@ -14,8 +14,8 @@ PM_WARNS = {}
 PREV_REPLY_MESSAGE = {}
 PM_ON_OFF = Config.PM_PERMIT
 CSTM_PMP = Config.CUSTOM_PMPERMIT or "**You Have Trespassed To My Master's PM!\nThis Is Illegal And Regarded As Crime.**"
-HELL_ZERO = "Go get some sleep retard. \n\n**Blocked !!**"
-HELL_FIRST = (
+D3VIL_ZERO = "Go get some sleep retard. \n\n**Blocked !!**"
+D3VIL_FIRST = (
     "**🔥 Hêllẞø† Prîvã†é Sêçürïty Prø†öçõl 🔥**\n\nThis is to inform you that "
     "{} is currently unavailable.\nThis is an automated message.\n\n"
     "{}\n\n**Please Choose Why You Are Here!!**".format(d3vil_mention, CSTM_PMP)
@@ -205,7 +205,7 @@ if PM_ON_OFF != "DISABLE":
             return
         message_text = event.message.raw_text
         chat_ids = event.sender_id
-        if HELL_FIRST == message_text:
+        if D3VIL_FIRST == message_text:
             return
         sender = await event.client.get_entity(await event.get_input_chat())
         if chat_ids == bot.uid:
@@ -225,7 +225,7 @@ if PM_ON_OFF != "DISABLE":
         if chat_ids not in PM_WARNS:
             PM_WARNS.update({chat_ids: 0})
         if PM_WARNS[chat_ids] == Config.MAX_SPAM:
-            r = await event.reply(HELL_ZERO)
+            r = await event.reply(D3VIL_ZERO)
             await asyncio.sleep(3)
             await event.client(functions.contacts.BlockRequest(chat_ids))
             if chat_ids in PREV_REPLY_MESSAGE:

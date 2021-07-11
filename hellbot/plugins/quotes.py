@@ -48,7 +48,7 @@ async def Sahih(e):
 @bot.on(d3vil_cmd(pattern=f"qhi$", outgoing=True))
 @bot.on(sudo_cmd(pattern=f"qhi$", allow_sudo=True))
 async def hoi(e):
-    txt = random.choice(HELLOSTR)
+    txt = random.choice(D3VILOSTR)
     await eor(e, txt)
 
 @bot.on(d3vil_cmd(pattern=f"gdbye$", outgoing=True))

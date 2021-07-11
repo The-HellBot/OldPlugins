@@ -16,7 +16,7 @@ async def _(event):
         return
     current_time = datetime.datetime.now().strftime(
         "⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡\
-        \n   HELLBOT TIMEZONE   \
+        \n   D3VILBOT TIMEZONE   \
         \n   LOCATION: India🇮🇳  \
         \n   Time: %H:%M:%S  \
         \n   Date: %d.%m.%y     \

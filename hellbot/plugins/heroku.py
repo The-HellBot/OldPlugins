@@ -77,7 +77,7 @@ async def variable(d3vil):
         capn = "Saved in LOGGER_ID !!"
         try:
             variable = d3vil.pattern_match.group(2).split()[0]
-            if variable in ("HELLBOT_SESSION", "BOT_TOKEN", "HEROKU_API_KEY"):
+            if variable in ("D3VILBOT_SESSION", "BOT_TOKEN", "HEROKU_API_KEY"):
                 if Config.ABUSE == "ON":
                     await bot.send_file(d3vil.chat_id, cjb, caption=cap)
                     await event.delete()

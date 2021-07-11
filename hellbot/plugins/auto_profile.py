@@ -21,7 +21,7 @@ async def _(event):
     while True:
         HB = time.strftime("%d-%m-%y")
         HE = time.strftime("%H:%M")
-        name = f"🕒{HE} ⚡{HELL_USER}⚡ 📅{HB}"
+        name = f"🕒{HE} ⚡{D3VIL_USER}⚡ 📅{HB}"
         logger.info(name)
         try:
             await bot(
