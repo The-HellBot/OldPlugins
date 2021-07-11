@@ -50,7 +50,7 @@ async def set_not_afk(event):
                 event.chat_id,
                 "Please set `LOGGER_ID` "
                 + "for the proper functioning of afk."
-                + f"Ask in {d3vil_grp} to get help!",
+                + f"Ask in {d3vil_grp} to get d3vlp!",
                 reply_to=event.message.id,
                 link_preview=False,
                 silent=True,

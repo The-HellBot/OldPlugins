@@ -359,7 +359,7 @@ SLAP_TEMPLATES = [
     "{user1} pins {user2} down and repeatedly {hits} them with a {item}.",
     "{user1} grabs up a {item} and {hits} {user2} with it.",
     "{user1} ties {user2} to a chair and {throws} a {item} at them.",
-    "{user1} gave a friendly push to help {user2} learn to swim in lava.",
+    "{user1} gave a friendly push to d3vlp {user2} learn to swim in lava.",
 ]
 ITEMS = [
     "cast iron skillet",

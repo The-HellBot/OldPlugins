@@ -24,7 +24,7 @@ async def _(event):
 CmdHelp("cricket").add_command(
   "cs", None, "Collects all the live cricket scores."
 ).add_info(
-  "Cricket Kheloge Vro?"
+  "Cricket Kd3vloge Vro?"
 ).add_warning(
   "✅ Harmless Module."
 ).add()

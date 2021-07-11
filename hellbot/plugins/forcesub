@@ -104,8 +104,8 @@ async def _(event):
 @bot.on(d3vil_cmd(pattern="rmfsub"))
 @bot.on(sudo_cmd(pattern="rmfsub", allow_sudo=True))
 async def removef(event):
-    hel_ = rem_fsub(event.chat_id)
-    if not hel_:
+    d3vl_ = rem_fsub(event.chat_id)
+    if not d3vl_:
         return await eod(event, "I don't think force sub was activated here.")
     await eor(e, "Deactivated **Force Subscribe** In This Channel !!")
 

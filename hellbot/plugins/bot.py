@@ -25,7 +25,7 @@ async def leave(e):
 async def _(event):
     if event.fwd_from:
         return
-    result = await borg(functions.help.GetNearestDcRequest())
+    result = await borg(functions.d3vlp.GetNearestDcRequest())
     await eor(event, result.stringify())
 
 
@@ -34,7 +34,7 @@ async def _(event):
 async def _(event):
     if event.fwd_from:
         return
-    result = await borg(functions.help.GetConfigRequest())
+    result = await borg(functions.d3vlp.GetConfigRequest())
     result = result.stringify()
     logger.info(result)
     await eor("Config Saved In You Heroku Logs.")

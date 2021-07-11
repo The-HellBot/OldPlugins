@@ -99,7 +99,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
         builder = event.builder
         result = None
         query = event.text
-        if event.query.user_id == bot.uid and query == "d3vilbot_help":
+        if event.query.user_id == bot.uid and query == "d3vilbot_d3vlp":
             rev_text = query[::-1]
             veriler = button(0, sorted(CMD_HELP))
             apn = []
@@ -107,7 +107,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
                 for y in x:
                     apn.append(y)
             result = await builder.article(
-                f"Hey! Only use .help please",
+                f"Hey! Only use .d3vlp please",
                 text=f"🔰 **{d3vil_mention}**\n\n📜 __No.of Plugins__ : `{len(CMD_HELP)}` \n🗂️ __Commands__ : `{len(apn)}`\n🗒️ __Page__ : 1/{veriler[0]}",
                 buttons=veriler[1],
                 link_preview=False,
@@ -164,10 +164,10 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
                 )
 
         elif event.query.user_id == bot.uid and query == "pm_warn":
-            hel_l = HELL_FIRST.format(d3vil_mention, mssge)
+            d3vl_l = HELL_FIRST.format(d3vil_mention, mssge)
             result = builder.photo(
                 file=d3vil_pic,
-                text=hel_l,
+                text=d3vl_l,
                 buttons=[
                     [
                         custom.Button.inline("📝 Request 📝", data="req"),

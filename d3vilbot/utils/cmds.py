@@ -4,7 +4,7 @@ from d3vilbot import CMD_HELP, CMD_HELP_BOT
 HANDLER = os.environ.get("HANDLER", r".")
 
 
-# Made this class for help menu
+# Made this class for d3vlp menu
 class CmdHelp:
     FILE = ""
     ORIGINAL_FILE = ""

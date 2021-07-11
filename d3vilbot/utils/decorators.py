@@ -17,7 +17,7 @@ from telethon.tl.functions.channels import GetParticipantRequest
 from telethon.tl.types import ChannelParticipantAdmin, ChannelParticipantCreator
 
 from d3vilbot import *
-from d3vilbot.helpers import *
+from d3vilbot.d3vlpers import *
 from d3vilbot.config import Config
 from d3vilbot.sql import sudo_sql as s_ql
 

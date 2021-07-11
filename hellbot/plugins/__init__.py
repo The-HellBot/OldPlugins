@@ -1,7 +1,7 @@
 import datetime
 from d3vilbot import *
 from d3vilbot.config import Config
-from d3vilbot.helpers import *
+from d3vilbot.d3vlpers import *
 from d3vilbot.utils import *
 from d3vilbot.random_strings import *
 from d3vilbot.version import __d3vil__

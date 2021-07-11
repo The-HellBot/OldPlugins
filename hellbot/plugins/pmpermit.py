@@ -97,9 +97,9 @@ if PM_ON_OFF != "DISABLE":
                 await asyncio.sleep(3)
                 await event.delete()
             elif pm_sql.is_approved(event.chat_id):
-                hel_ = await event.edit('Already In Approved List!!')
+                d3vl_ = await event.edit('Already In Approved List!!')
                 await asyncio.sleep(3)
-                await hel_.delete()
+                await d3vl_.delete()
         elif event.is_group:
             reply_s = await event.get_reply_message()
             if not reply_s:
@@ -248,11 +248,11 @@ if PM_ON_OFF != "DISABLE":
         
         botusername = Config.BOT_USERNAME
         tap = await bot.inline_query(botusername, "pm_warn")
-        hel_ = await tap[0].click(event.chat_id)
+        d3vl_ = await tap[0].click(event.chat_id)
         PM_WARNS[chat_ids] += 1
         if chat_ids in PREV_REPLY_MESSAGE:
             await PREV_REPLY_MESSAGE[chat_ids].delete()
-        PREV_REPLY_MESSAGE[chat_ids] = hel_
+        PREV_REPLY_MESSAGE[chat_ids] = d3vl_
 
 NEEDIT = Config.INSTANT_BLOCK
 if NEEDIT == "ENABLE":

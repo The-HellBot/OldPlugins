@@ -219,12 +219,12 @@ async def dyno_usage(d3vil):
 @bot.on(sudo_cmd(pattern="logs$", allow_sudo=True))
 async def _(dyno):
     if (HEROKU_APP_NAME is None) or (HEROKU_API_KEY is None):
-        return await eor(dyno, f"Make Sure Your HEROKU_APP_NAME & HEROKU_API_KEY are filled correct. Visit {d3vil_grp} for help.", link_preview=False)
+        return await eor(dyno, f"Make Sure Your HEROKU_APP_NAME & HEROKU_API_KEY are filled correct. Visit {d3vil_grp} for d3vlp.", link_preview=False)
     try:
         Heroku = heroku3.from_key(HEROKU_API_KEY)
         app = Heroku.app(HEROKU_APP_NAME)
     except BaseException:
-        return await dyno.reply(f"Make Sure Your Heroku AppName & API Key are filled correct. Visit {d3vil_grp} for help.", link_preview=False)
+        return await dyno.reply(f"Make Sure Your Heroku AppName & API Key are filled correct. Visit {d3vil_grp} for d3vlp.", link_preview=False)
     event = await eor(dyno, "Downloading Logs...")
     with open("d3vilbot-logs.txt", "w") as log:
         log.write(app.get_log())

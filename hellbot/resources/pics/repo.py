@@ -1,4 +1,4 @@
-from d3vilbot.helpers import *
+from d3vilbot.d3vlpers import *
 
 Chakka = "You"
 Print(f"Teri vhen ki .....")

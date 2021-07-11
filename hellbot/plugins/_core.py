@@ -27,7 +27,7 @@ async def kk(event):
     o = stdout.decode()
     _o = o.split("\n")
     o = "\n".join(_o)
-    OUTPUT = f"List of Plugins in bot :- \n\n{o}\n\n<><><><><><><><><><><><><><><><><><><><><><><><>\nHELP:- If you want to know the commands for a plugin, do :- \n.plinfo <plugin name> without the < > brackets. \nJoin {d3vil_grp} for help."
+    OUTPUT = f"List of Plugins in bot :- \n\n{o}\n\n<><><><><><><><><><><><><><><><><><><><><><><><>\nHELP:- If you want to know the commands for a plugin, do :- \n.plinfo <plugin name> without the < > brackets. \nJoin {d3vil_grp} for d3vlp."
     if len(OUTPUT) > 69:
         with io.BytesIO(str.encode(OUTPUT)) as out_file:
             out_file.name = "cmd_list.text"
@@ -172,7 +172,7 @@ CmdHelp("core").add_command(
 ).add_command(
   "cmds", None, "Gives out the list of modules in HellBot."
 ).add_warning(
-  "❌ Install External Plugin On Your Own Risk. We won't help if anything goes wrong after installing a plugin."
+  "❌ Install External Plugin On Your Own Risk. We won't d3vlp if anything goes wrong after installing a plugin."
 ).add()
 
 # d3vilbot

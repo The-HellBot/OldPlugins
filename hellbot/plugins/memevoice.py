@@ -23,14 +23,14 @@ async def nope(kraken):
     troll = await bot.inline_query("TrollVoiceBot", f"{(deEmojify(d3vil))}")
     if troll:
         await kraken.delete()
-        hel_ = await troll[0].click(Config.LOGGER_ID)
-        if hel_:
+        d3vl_ = await troll[0].click(Config.LOGGER_ID)
+        if d3vl_:
             await bot.send_file(
                 kraken.chat_id,
-                hel_,
+                d3vl_,
                 caption="",
             )
-        await hel_.delete()
+        await d3vl_.delete()
     else:
     	await eod(kraken, "**Error 404:**  Not Found")
     	
@@ -49,14 +49,14 @@ async def nope(kraken):
     troll = await bot.inline_query("Myinstantsbot", f"{(deEmojify(d3vil))}")
     if troll:
         await kraken.delete()
-        hel_ = await troll[0].click(Config.LOGGER_ID)
-        if hel_:
+        d3vl_ = await troll[0].click(Config.LOGGER_ID)
+        if d3vl_:
             await bot.send_file(
                 kraken.chat_id,
-                hel_,
+                d3vl_,
                 caption="",
             )
-        await hel_.delete()
+        await d3vl_.delete()
     else:
     	await eod(kraken, "**Error 404:**  Not Found")
 

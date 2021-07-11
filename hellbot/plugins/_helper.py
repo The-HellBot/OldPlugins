@@ -28,8 +28,8 @@ async def repo(event):
         await eor(event, msg)
 
 
-@bot.on(d3vil_cmd(pattern="help ?(.*)", outgoing=True))
-@bot.on(sudo_cmd(pattern="help ?(.*)", allow_sudo=True))
+@bot.on(d3vil_cmd(pattern="d3vlp ?(.*)", outgoing=True))
+@bot.on(sudo_cmd(pattern="d3vlp ?(.*)", allow_sudo=True))
 async def yardim(event):
     if event.fwd_from:
         return
@@ -42,7 +42,7 @@ async def yardim(event):
     except:
         pass
     if tgbotusername is not None:
-        results = await event.client.inline_query(tgbotusername, "d3vilbot_help")
+        results = await event.client.inline_query(tgbotusername, "d3vilbot_d3vlp")
         await results[0].click(
             event.chat_id, reply_to=event.reply_to_msg_id, hide_via=True
         )

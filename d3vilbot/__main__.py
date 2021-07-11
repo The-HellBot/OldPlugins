@@ -60,7 +60,7 @@ LOGS.info("Starting Bot Mode !")
 tbot.start()
 LOGS.info("⚡ Your D3vilBot Is Now Working ⚡")
 LOGS.info(
-    "Head to @D3VIL_SUPPORT for Updates. Also join chat group to get help regarding to D3vilBot."
+    "Head to @D3VIL_SUPPORT for Updates. Also join chat group to get d3vlp regarding to D3vilBot."
 )
 
 # that's life...

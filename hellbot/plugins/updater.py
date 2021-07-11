@@ -6,7 +6,7 @@ import urllib3
 from git import Repo
 from git.exc import GitCommandError, InvalidGitRepositoryError, NoSuchPathError
 
-from d3vilbot.helpers import runner
+from d3vilbot.d3vlpers import runner
 from . import *
 
 

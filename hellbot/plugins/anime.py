@@ -81,71 +81,71 @@ async def anilist(event):
 
 @bot.on(d3vil_cmd(pattern="anime(?: |$)(.*)"))
 @bot.on(sudo_cmd(pattern="anime(?: |$)(.*)", allow_sudo=True))
-async def nope(hel_):
-    d3vil = hel_.pattern_match.group(1)
+async def nope(d3vl_):
+    d3vil = d3vl_.pattern_match.group(1)
     if not d3vil:
-        if hel_.is_reply:
-            (await hel_.get_reply_message()).message
+        if d3vl_.is_reply:
+            (await d3vl_.get_reply_message()).message
         else:
-            await eod(hel_, "Sir please give some query to search and download it for you..!"
+            await eod(d3vl_, "Sir please give some query to search and download it for you..!"
             )
             return
 
     troll = await bot.inline_query("AniFluidbot", f".anime {(deEmojify(d3vil))}")
 
     await troll[0].click(
-        hel_.chat_id,
-        reply_to=hel_.reply_to_msg_id,
-        silent=True if hel_.is_reply else False,
+        d3vl_.chat_id,
+        reply_to=d3vl_.reply_to_msg_id,
+        silent=True if d3vl_.is_reply else False,
         hide_via=True,
     )
-    await hel_.delete()
+    await d3vl_.delete()
     
     
 @bot.on(d3vil_cmd(pattern="manga(?: |$)(.*)"))
 @bot.on(sudo_cmd(pattern="manga(?: |$)(.*)", allow_sudo=True))
-async def nope(hel_):
-    d3vil = hel_.pattern_match.group(1)
+async def nope(d3vl_):
+    d3vil = d3vl_.pattern_match.group(1)
     if not d3vil:
-        if hel_.is_reply:
-            (await hel_.get_reply_message()).message
+        if d3vl_.is_reply:
+            (await d3vl_.get_reply_message()).message
         else:
-            await eod(hel_, "Sir please give some query to search and download it for you..!"
+            await eod(d3vl_, "Sir please give some query to search and download it for you..!"
             )
             return
 
     troll = await bot.inline_query("AniFluidbot", f".manga {(deEmojify(d3vil))}")
 
     await troll[0].click(
-        hel_.chat_id,
-        reply_to=hel_.reply_to_msg_id,
-        silent=True if hel_.is_reply else False,
+        d3vl_.chat_id,
+        reply_to=d3vl_.reply_to_msg_id,
+        silent=True if d3vl_.is_reply else False,
         hide_via=True,
     )
-    await hel_.delete()
+    await d3vl_.delete()
     
 
 @bot.on(d3vil_cmd(pattern="character(?: |$)(.*)"))
 @bot.on(sudo_cmd(pattern="character(?: |$)(.*)", allow_sudo=True))
-async def nope(hel_):
-    d3vil = hel_.pattern_match.group(1)
+async def nope(d3vl_):
+    d3vil = d3vl_.pattern_match.group(1)
     if not d3vil:
-        if hel_.is_reply:
-            (await hel_.get_reply_message()).message
+        if d3vl_.is_reply:
+            (await d3vl_.get_reply_message()).message
         else:
-            await eod(hel_, "Sir please give some query to search and download it for you..!"
+            await eod(d3vl_, "Sir please give some query to search and download it for you..!"
             )
             return
 
     troll = await bot.inline_query("AniFluidbot", f".character {(deEmojify(d3vil))}")
 
     await troll[0].click(
-        hel_.chat_id,
-        reply_to=hel_.reply_to_msg_id,
-        silent=True if hel_.is_reply else False,
+        d3vl_.chat_id,
+        reply_to=d3vl_.reply_to_msg_id,
+        silent=True if d3vl_.is_reply else False,
         hide_via=True,
     )
-    await hel_.delete()
+    await d3vl_.delete()
 
 
 CmdHelp("anime").add_command(
