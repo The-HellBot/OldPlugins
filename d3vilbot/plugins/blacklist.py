@@ -100,6 +100,4 @@ CmdHelp("blacklist").add_command(
   "listblacklist", None, "Shows you the list of blacklist words in that specific chat"
 ).add_info(
   "Blacklist Words"
-).add_warning(
-  "✅ Harmless Module."
 ).add()
