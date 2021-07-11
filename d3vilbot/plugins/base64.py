@@ -86,6 +86,4 @@ CmdHelp("base64").add_command(
   "b64 de", "<query>", "Finds the base64 decoding of the given string"
 ).add_info(
   "Base 64 Encode & Decode!"
-).add_warning(
-  "✅ Harmless Module."
 ).add()
