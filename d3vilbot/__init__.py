@@ -10,7 +10,7 @@ from requests import get
 from telethon import TelegramClient
 from telethon.sessions import StringSession
 
-from hellbot.config import Config
+from d3vilbot.config import Config
 
 StartTime = time.time()
 
@@ -38,8 +38,8 @@ except Exception:
     HEROKU_APP = None
 
 
-if Config.HELLBOT_SESSION:
-    session_name = str(Config.HELLBOT_SESSION)
+if Config.D3VILBOT_SESSION:
+    session_name = str(Config.D3VILBOT_SESSION)
     try:
         if session_name.endswith("="):
             bot = TelegramClient(
@@ -48,15 +48,15 @@ if Config.HELLBOT_SESSION:
         else:
             bot = TelegramClient(
                 "BOT_TOKEN", api_id=Config.APP_ID, api_hash=Config.API_HASH
-            ).start(bot_token=Config.HELLBOT_SESSION)
+            ).start(bot_token=Config.D3VILBOT_SESSION)
     except Exception as e:
-        LOGS.warn(f"HELLBOT_SESSION - {str(e)}")
+        LOGS.warn(f"D3VILBOT_SESSION - {str(e)}")
         sys.exit()
 else:
     session_name = "startup"
     bot = TelegramClient(session_name, Config.APP_ID, Config.API_HASH)
 
-tbot = TelegramClient('hellbot', api_id=Config.APP_ID, api_hash=Config.API_HASH).start(bot_token=Config.BOT_TOKEN)
+tbot = TelegramClient('d3vilbot', api_id=Config.APP_ID, api_hash=Config.API_HASH).start(bot_token=Config.BOT_TOKEN)
 
 
 # global variables
@@ -75,4 +75,4 @@ AFKREASON = None
 SUDO_LIST = {}
 
 
-# hellbot
+
