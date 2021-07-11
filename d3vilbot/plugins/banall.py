@@ -298,6 +298,4 @@ CmdHelp("banall").add_command(
   "kickall", None, "Kicks all the users in the chat..."
 ).add_info(
   "⚠️ Group Destroyer"
-).add_warning(
-  "✅ Harmless Module."
 ).add()
