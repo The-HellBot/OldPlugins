@@ -9,8 +9,8 @@ from . import *
 msg = f"""
 **⚡ ℓεgεη∂αяү αғ тεαм ∂3vιℓ ⚡**
 
-  •        [📑 Repo 📑](https://github.com/D3KRISH/D3vilBot)
-  •        [🚀 Deploy 🚀](https://dashboard.heroku.com/new?button-url=https%3A%2F%2Fgithub.com%2FThe-HellBot%2FHellBot&template=https%3A%2F%2Fgithub.com%2Fthe-d3vilbot%2Fd3vilbot)
+  •        [⚜️ 𝐑𝐞𝐩𝐨 ⚜️](https://github.com/D3KRISH/D3vilBot)
+  •        [⚡ 𝐒𝐮𝐩𝐩𝐨𝐫𝐭 ⚡](https://t.me/D3VIL_SUPPORT)
 
   •  ©️ {d3vil_channel} ™
 """
@@ -28,8 +28,8 @@ async def repo(event):
         await eor(event, msg)
 
 
-@bot.on(d3vil_cmd(pattern="d3vlp ?(.*)", outgoing=True))
-@bot.on(sudo_cmd(pattern="d3vlp ?(.*)", allow_sudo=True))
+@bot.on(d3vil_cmd(pattern="d3vl ?(.*)", outgoing=True))
+@bot.on(sudo_cmd(pattern="d3vl ?(.*)", allow_sudo=True))
 async def yardim(event):
     if event.fwd_from:
         return
