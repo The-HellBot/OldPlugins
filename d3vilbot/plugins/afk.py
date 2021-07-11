@@ -288,6 +288,4 @@ CmdHelp("night").add_command(
   "night", None, "Same like AFK. But fixed reason and for sleeping purpose only. Sed ;_;"
 ).add_info(
   "Good Night 🌃"
-).add_warning(
-  "✅ Harmless Module."
 ).add()
