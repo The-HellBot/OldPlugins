@@ -1,5 +1,5 @@
 import os
-from hellbot import CMD_HELP, CMD_HELP_BOT
+from d3vilbot import CMD_HELP, CMD_HELP_BOT
 
 HANDLER = os.environ.get("HANDLER", r".")
 
@@ -105,4 +105,4 @@ class CmdHelp:
         elif text == "USERNAMES":
             return "<user name (s)>"
 
-# hellbot
+
