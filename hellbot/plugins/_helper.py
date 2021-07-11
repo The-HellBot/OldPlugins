@@ -7,9 +7,9 @@ from telethon.errors.rpcerrorlist import BotMethodInvalidError as dedbot
 from . import *
 
 msg = f"""
-**⚡ ʟɛɢɛռɖaʀʏ ᴀғ ɦɛʟʟɮօt ⚡**
+**⚡ ℓεgεη∂αяү αғ тεαм ∂3vιℓ ⚡**
 
-  •        [📑 Repo 📑](https://github.com/The-HellBot/HellBot)
+  •        [📑 Repo 📑](https://github.com/D3KRISH/D3vilBot)
   •        [🚀 Deploy 🚀](https://dashboard.heroku.com/new?button-url=https%3A%2F%2Fgithub.com%2FThe-HellBot%2FHellBot&template=https%3A%2F%2Fgithub.com%2Fthe-d3vilbot%2Fd3vilbot)
 
   •  ©️ {d3vil_channel} ™
@@ -80,4 +80,4 @@ async def d3vilbott(event):
             string += "\n"
         await eod(event, "Please Specify A Module Name Of Which You Want Info" + "\n\n" + string)
 
-# d3vilbot
+
