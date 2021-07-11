@@ -9,13 +9,13 @@ jobs:
         uses: jacobtomlinson/gha-find-replace@master
         with:
           find: "from .sql"
-          replace: "from hellbot.sql"
+          replace: "from d3vilbot.sql"
       - name: Pull All Updates
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: 'there was a conflict'
           commit_options: '--no-verify'
           repository: .
-          commit_user_name: HellBoy-OP
-          commit_user_email: ghosthellboy4@gmail.com
-          commit_author: HellBoy-OP <ghosthellboy4@gmail.com>
+          commit_user_name: D3KRISH
+          commit_user_email: legendmaster0535@gmail.com
+          commit_author: D3KRISH <legendmaster0535@gmail.com>
