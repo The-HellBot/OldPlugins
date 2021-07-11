@@ -17,7 +17,7 @@ async def _(event):
         await edit_or_reply(event, "Reply to media message😒🤐")
         return
     bot = "@asciiart_bot"
-    kraken = await eor(event, "Wait making ASCII...🤓🔥🔥")
+    d3vilkrish = await eor(event, "Wait making ASCII...🤓🔥🔥")
     async with event.client.conversation(bot) as conv:
         try:
             first = await conv.send_message("/start")
@@ -27,9 +27,9 @@ async def _(event):
             last = await conv.get_response()
             await event.client.send_read_acknowledge(conv.chat_id)
         except YouBlockedUserError:
-            await kraken.edit("User Blocked!! Please Unblock @asciiart_bot and try again...")
+            await d3vilkrish.edit("User Blocked!! Please Unblock @asciiart_bot and try again...")
             return
-        await kraken.delete()
+        await d3vilkrish.delete()
         final = await event.client.send_file(
             event.chat_id,
             output_op,
@@ -53,7 +53,7 @@ async def _(event):
         await edit_or_reply(event, "Reply to media message😒🤐")
         return
     bot = "@lines50bot"
-    kraken = await eor(event, "`Processing...`")
+    d3vilkrish = await eor(event, "`Processing...`")
     async with event.client.conversation(bot) as conv:
         try:
             first = await conv.send_message("/start")
@@ -63,9 +63,9 @@ async def _(event):
             last = await conv.get_response()
             await event.client.send_read_acknowledge(conv.chat_id)
         except YouBlockedUserError:
-            await kraken.edit("User Blocked!! Please Unblock @Lines50Bot and try again...")
+            await d3vilkrish.edit("User Blocked!! Please Unblock @Lines50Bot and try again...")
             return
-        await kraken.delete()
+        await d3vilkrish.delete()
         final = await event.client.send_file(
             event.chat_id,
             output_op,

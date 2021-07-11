@@ -111,17 +111,17 @@ async def install(event):
 
 @bot.on(d3vil_cmd(pattern=r"uninstall (?P<shortname>\w+)", outgoing=True))
 @bot.on(sudo_cmd(pattern=r"uninstall (?P<shortname>\w+)", allow_sudo=True))
-async def uninstall(kraken):
-    if kraken.fwd_from:
+async def uninstall(d3vilkrish):
+    if d3vilkrish.fwd_from:
         return
-    shortname = kraken.pattern_match["shortname"]
+    shortname = d3vilkrish.pattern_match["shortname"]
     dir_path =f"./d3vilbot/plugins/{shortname}.py"
     try:
         remove_plugin(shortname)
         os.remove(dir_path)
-        await eod(kraken, f"Uninstalled `{shortname}` successfully")
+        await eod(d3vilkrish, f"Uninstalled `{shortname}` successfully")
     except OSError as e:
-        await kraken.edit("Error: %s : %s" % (dir_path, e.strerror))
+        await d3vilkrish.edit("Error: %s : %s" % (dir_path, e.strerror))
 
 
 @bot.on(d3vil_cmd(pattern=r"unload (?P<shortname>\w+)$"))

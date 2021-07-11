@@ -30,15 +30,15 @@ async def _(event):
     imgs = await bot.download_media(reply.media, path)
     img = cv2.VideoCapture(imgs) 
     tal, semx = img.read()
-    cv2.imwrite("kraken.webp", semx)
+    cv2.imwrite("d3vilkrish.webp", semx)
     text = event.pattern_match.group(1)
-    webp_file = await draw_meme_text("kraken.webp", text)
+    webp_file = await draw_meme_text("d3vilkrish.webp", text)
     await event.client.send_file(
         event.chat_id, webp_file, reply_to=event.reply_to_msg_id
     )
     await event.delete()
     shutil.rmtree(path)
-    os.remove("kraken.webp")
+    os.remove("d3vilkrish.webp")
     os.remove(webp_file)
 
 
@@ -55,43 +55,43 @@ async def sed(d3vilboy):
     imgs = await bot.download_media(reply.media, path)
     img = cv2.VideoCapture(imgs) 
     tal, semx = img.read()
-    cv2.imwrite("kraken.webp", semx)
+    cv2.imwrite("d3vilkrish.webp", semx)
     text = d3vilboy.pattern_match.group(1)
-    photo = await draw_meme("kraken.webp", text)
+    photo = await draw_meme("d3vilkrish.webp", text)
     await d3vilboy.client.send_file(
         d3vilboy.chat_id, photo, reply_to=d3vilboy.reply_to_msg_id
     )
     await d3vilboy.delete()
     shutil.rmtree(path)
-    os.remove("kraken.webp")
+    os.remove("d3vilkrish.webp")
     os.remove(photo)
     
 @bot.on(d3vil_cmd(pattern="doge(?: |$)(.*)", outgoing=True))
 @bot.on(sudo_cmd(pattern="doge(?: |$)(.*)", allow_sudo=True))
-async def nope(kraken):
-    d3vil = kraken.pattern_match.group(1)
+async def nope(d3vilkrish):
+    d3vil = d3vilkrish.pattern_match.group(1)
     if not d3vil:
-        if kraken.is_reply:
-            (await kraken.get_reply_message()).message
+        if d3vilkrish.is_reply:
+            (await d3vilkrish.get_reply_message()).message
         else:
             if Config.ABUSE == "ON":
-                return await eor(kraken, "Abe chumtiye kuch likhne ke liye de")
+                return await eor(d3vilkrish, "Abe chumtiye kuch likhne ke liye de")
             else:
-                return await eor(kraken, "Doge need some text to make sticker.")
+                return await eor(d3vilkrish, "Doge need some text to make sticker.")
 
     troll = await bot.inline_query("DogeStickerBot", f"{(deEmojify(d3vil))}")
     if troll:
-        await kraken.delete()
+        await d3vilkrish.delete()
         d3vl_ = await troll[0].click(Config.LOGGER_ID)
         if d3vl_:
             await bot.send_file(
-                kraken.chat_id,
+                d3vilkrish.chat_id,
                 d3vl_,
                 caption="",
             )
         await d3vl_.delete()
     else:
-     await eod(kraken, "Error 404:  Not Found")
+     await eod(d3vilkrish, "Error 404:  Not Found")
      
     
 CmdHelp("memify").add_command(

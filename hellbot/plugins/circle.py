@@ -20,7 +20,7 @@ async def _(event):
     if reply_message.sender.bot:
         await edit_or_reply(event, "Reply to actual users message.")
         return
-    kraken = await edit_or_reply(event, "Trying to convert...")
+    d3vilkrish = await edit_or_reply(event, "Trying to convert...")
     async with event.client.conversation(chat) as conv:
         try:
             response = conv.wait_event(
@@ -29,18 +29,18 @@ async def _(event):
             await event.client.send_message(chat, reply_message)
             response = await response
         except YouBlockedUserError:
-            await kraken.edit("```Please unblock @TelescopyBot and try again```")
+            await d3vilkrish.edit("```Please unblock @TelescopyBot and try again```")
             return
         if response.text.startswith("Send me square Video"):
-            await kraken.edit(
+            await d3vilkrish.edit(
                 "Currently only square videos are converted into circle video..."
             )
         elif response.text.startswith("File is too big!"):
-            await kraken.edit(
+            await d3vilkrish.edit(
                 "File size more than 8mb. Reply to a square video less than 8mb."
             )
         else:
-            await kraken.delete()
+            await d3vilkrish.delete()
             await event.client.send_file(
                 event.chat_id,
                 response.message.media,

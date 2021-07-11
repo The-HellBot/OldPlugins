@@ -27,26 +27,26 @@ from . import *
 
 @bot.on(d3vil_cmd(pattern="lyrics(?: |$)(.*)", outgoing=True))
 @bot.on(sudo_cmd(pattern="lyrics(?: |$)(.*)", allow_sudo=True))
-async def nope(kraken):
-    d3vil = kraken.pattern_match.group(1)
-    await eor(kraken, f"Searching lyrics for  `{d3vil}` ...")
+async def nope(d3vilkrish):
+    d3vil = d3vilkrish.pattern_match.group(1)
+    await eor(d3vilkrish, f"Searching lyrics for  `{d3vil}` ...")
     if not d3vil:
-        if kraken.is_reply:
-            (await kraken.get_reply_message()).message
+        if d3vilkrish.is_reply:
+            (await d3vilkrish.get_reply_message()).message
         else:
-            await eod(kraken, "Give song name to get lyrics...")
+            await eod(d3vilkrish, "Give song name to get lyrics...")
             return
 
     troll = await bot.inline_query("iLyricsBot", f"{(deEmojify(d3vil))}")
 
     await troll[0].click(
-        kraken.chat_id,
-        reply_to=kraken.reply_to_msg_id,
-        silent=True if kraken.is_reply else False,
+        d3vilkrish.chat_id,
+        reply_to=d3vilkrish.reply_to_msg_id,
+        silent=True if d3vilkrish.is_reply else False,
         hide_via=True,
     )
 
-    await kraken.delete()
+    await d3vilkrish.delete()
     
 
 @bot.on(d3vil_cmd(pattern="song(?: |$)(.*)", outgoing=True))

@@ -176,7 +176,7 @@ async def _(event):
             await bot.send_read_acknowledge(conv.chat_id)
             d3vilfile = Path(await event.client.download_media(d3vilresponse, "./temp/"))
             d3vilgif = Path(await unzip(d3vilfile))
-            kraken = await bot.send_file(
+            d3vilkrish = await bot.send_file(
                 event.chat_id,
                 d3vilgif,
                 support_streaming=True,
@@ -186,9 +186,9 @@ async def _(event):
             await bot(
                 functions.messages.SaveGifRequest(
                     id=types.InputDocument(
-                        id=kraken.media.document.id,
-                        access_hash=kraken.media.document.access_hash,
-                        file_reference=kraken.media.document.file_reference,
+                        id=d3vilkrish.media.document.id,
+                        access_hash=d3vilkrish.media.document.access_hash,
+                        file_reference=d3vilkrish.media.document.file_reference,
                     ),
                     unsave=True,
                 )

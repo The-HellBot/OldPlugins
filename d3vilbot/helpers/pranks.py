@@ -17,12 +17,12 @@ from validators.url import url
 # ifone xxx
 async def iphonex(text):
     r = requests.get(f"https://nekobot.xyz/api/imagegen?type=iphonex&url={text}").json()
-    kraken = r.get("message")
-    d3vilurl = url(kraken)
+    d3vilkrish = r.get("message")
+    d3vilurl = url(d3vilkrish)
     if not d3vilurl:
         return "check syntax once more"
     with open("temp.png", "wb") as f:
-        f.write(requests.get(kraken).content)
+        f.write(requests.get(d3vilkrish).content)
     img = Image.open("temp.png").convert("RGB")
     img.save("temp.jpg", "jpeg")
     return "temp.jpg"
@@ -33,12 +33,12 @@ async def baguette(text):
     r = requests.get(
         f"https://nekobot.xyz/api/imagegen?type=baguette&url={text}"
     ).json()
-    kraken = r.get("message")
-    d3vilurl = url(kraken)
+    d3vilkrish = r.get("message")
+    d3vilurl = url(d3vilkrish)
     if not d3vilurl:
         return "check syntax once more"
     with open("temp.png", "wb") as f:
-        f.write(requests.get(kraken).content)
+        f.write(requests.get(d3vilkrish).content)
     img = Image.open("temp.png").convert("RGB")
     img.save("temp.jpg", "jpeg")
     return "temp.jpg"
@@ -47,12 +47,12 @@ async def baguette(text):
 # 3 threats to society
 async def threats(text):
     r = requests.get(f"https://nekobot.xyz/api/imagegen?type=threats&url={text}").json()
-    kraken = r.get("message")
-    d3vilurl = url(kraken)
+    d3vilkrish = r.get("message")
+    d3vilurl = url(d3vilkrish)
     if not d3vilurl:
         return "check syntax once more"
     with open("temp.png", "wb") as f:
-        f.write(requests.get(kraken).content)
+        f.write(requests.get(d3vilkrish).content)
     img = Image.open("temp.png")
     if img.mode != "RGB":
         img = img.convert("RGB")
@@ -63,12 +63,12 @@ async def threats(text):
 # r u lolicon?
 async def lolice(text):
     r = requests.get(f"https://nekobot.xyz/api/imagegen?type=lolice&url={text}").json()
-    kraken = r.get("message")
-    d3vilurl = url(kraken)
+    d3vilkrish = r.get("message")
+    d3vilurl = url(d3vilkrish)
     if not d3vilurl:
         return "check syntax once more"
     with open("temp.png", "wb") as f:
-        f.write(requests.get(kraken).content)
+        f.write(requests.get(d3vilkrish).content)
     img = Image.open("temp.png")
     if img.mode != "RGB":
         img = img.convert("RGB")
@@ -79,12 +79,12 @@ async def lolice(text):
 # this shit is trash
 async def trash(text):
     r = requests.get(f"https://nekobot.xyz/api/imagegen?type=trash&url={text}").json()
-    kraken = r.get("message")
-    d3vilurl = url(kraken)
+    d3vilkrish = r.get("message")
+    d3vilurl = url(d3vilkrish)
     if not d3vilurl:
         return "check syntax once more"
     with open("temp.png", "wb") as f:
-        f.write(requests.get(kraken).content)
+        f.write(requests.get(d3vilkrish).content)
     img = Image.open("temp.png")
     if img.mode != "RGB":
         img = img.convert("RGB")
@@ -95,12 +95,12 @@ async def trash(text):
 # OwO
 async def awooify(text):
     r = requests.get(f"https://nekobot.xyz/api/imagegen?type=awooify&url={text}").json()
-    kraken = r.get("message")
-    d3vilurl = url(kraken)
+    d3vilkrish = r.get("message")
+    d3vilurl = url(d3vilkrish)
     if not d3vilurl:
         return "check syntax once more"
     with open("temp.png", "wb") as f:
-        f.write(requests.get(kraken).content)
+        f.write(requests.get(d3vilkrish).content)
     img = Image.open("temp.png")
     if img.mode != "RGB":
         img = img.convert("RGB")
@@ -113,12 +113,12 @@ async def trap(text1, text2, text3):
     r = requests.get(
         f"https://nekobot.xyz/api/imagegen?type=trap&name={text1}&author={text2}&image={text3}"
     ).json()
-    kraken = r.get("message")
-    d3vilurl = url(kraken)
+    d3vilkrish = r.get("message")
+    d3vilurl = url(d3vilkrish)
     if not d3vilurl:
         return "check syntax once more"
     with open("temp.png", "wb") as f:
-        f.write(requests.get(kraken).content)
+        f.write(requests.get(d3vilkrish).content)
     img = Image.open("temp.png")
     if img.mode != "RGB":
         img = img.convert("RGB")
@@ -131,12 +131,12 @@ async def phcomment(text1, text2, text3):
     r = requests.get(
         f"https://nekobot.xyz/api/imagegen?type=phcomment&image={text1}&text={text2}&username={text3}"
     ).json()
-    kraken = r.get("message")
-    d3vilurl = url(kraken)
+    d3vilkrish = r.get("message")
+    d3vilurl = url(d3vilkrish)
     if not d3vilurl:
         return "check syntax once more"
     with open("temp.png", "wb") as f:
-        f.write(requests.get(kraken).content)
+        f.write(requests.get(d3vilkrish).content)
     img = Image.open("temp.png")
     if img.mode != "RGB":
         img = img.convert("RGB")

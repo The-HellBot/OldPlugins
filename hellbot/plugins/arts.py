@@ -2,7 +2,7 @@ from . import *
 
 @bot.on(d3vil_cmd(pattern="carry (.*)"))
 @bot.on(sudo_cmd(pattern="carry (.*)", allow_sudo=True))
-async def kraken(carry):
+async def d3vilkrish(carry):
     if carry.fwd_from:
         return
     name = carry.pattern_match.group(1)
@@ -14,7 +14,7 @@ async def kraken(carry):
 
 @bot.on(d3vil_cmd(pattern="ded (.*)"))
 @bot.on(sudo_cmd(pattern="ded (.*)", allow_sudo=True))
-async def kraken(ded):
+async def d3vilkrish(ded):
     if ded.fwd_from:
         return
     name = ded.pattern_match.group(1)
@@ -55,7 +55,7 @@ A = (
 
 @bot.on(d3vil_cmd(pattern="sthink (.*)"))
 @bot.on(sudo_cmd(pattern="sthink (.*)", allow_sudo=True))
-async def kraken(think):
+async def d3vilkrish(think):
     if think.fwd_from:
         return
     name = think.pattern_match.group(1)
@@ -82,7 +82,7 @@ async def kraken(think):
 
 @bot.on(d3vil_cmd(pattern="sfrog (.*)"))
 @bot.on(sudo_cmd(pattern="sfrog (.*)", allow_sudo=True))
-async def kraken(frogsay):
+async def d3vilkrish(frogsay):
     if frogsay.fwd_from:
         return
     name = frogsay.pattern_match.group(1)
@@ -109,7 +109,7 @@ async def kraken(frogsay):
 
 @bot.on(d3vil_cmd(pattern="sdead (.*)"))
 @bot.on(sudo_cmd(pattern="sdead (.*)", allow_sudo=True))
-async def kraken(deadfrog):
+async def d3vilkrish(deadfrog):
     if deadfrog.fwd_from:
         return
     name = deadfrog.pattern_match.group(1)
@@ -136,7 +136,7 @@ async def kraken(deadfrog):
 
 @bot.on(d3vil_cmd(pattern="strump (.*)"))
 @bot.on(sudo_cmd(pattern="strump (.*)", allow_sudo=True))
-async def kraken(trumpsay):
+async def d3vilkrish(trumpsay):
     if trumpsay.fwd_from:
         return
     name = trumpsay.pattern_match.group(1)
@@ -163,7 +163,7 @@ async def kraken(trumpsay):
 
 @bot.on(d3vil_cmd(pattern="schina (.*)"))
 @bot.on(sudo_cmd(pattern="schina (.*)", allow_sudo=True))
-async def kraken(ckmkb):
+async def d3vilkrish(ckmkb):
     if ckmkb.fwd_from:
         return
     name = ckmkb.pattern_match.group(1)
@@ -191,7 +191,7 @@ async def kraken(ckmkb):
 
 @bot.on(d3vil_cmd(pattern=r"sshit$"))
 @bot.on(sudo_cmd(pattern="sshit$", allow_sudo=True))
-async def kraken(shit):
+async def d3vilkrish(shit):
     if shit.fwd_from:
         return
     await edit_or_reply(shit, A)

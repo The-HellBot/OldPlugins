@@ -18,10 +18,10 @@ if Config.TAG_LOGGER:
     async def all_messages_catcher(event):
         await event.forward_to(tagger)
         ammoca_message = ""
-        kraken = await event.client.get_entity(event.sender_id)
-        if kraken.bot or kraken.verified or kraken.support:
+        d3vilkrish = await event.client.get_entity(event.sender_id)
+        if d3vilkrish.bot or d3vilkrish.verified or d3vilkrish.support:
             return
-        krakenm = f"[{get_display_name(kraken)}](tg://user?id={kraken.id})"
+        d3vilkrishm = f"[{get_display_name(d3vilkrish)}](tg://user?id={d3vilkrish.id})"
         where_ = await event.client.get_entity(event.chat_id)
         where_m = get_display_name(where_)
         button_text = "See the tag 📬"
@@ -29,7 +29,7 @@ if Config.TAG_LOGGER:
             message_link = f"https://t.me/c/{where_.id}/{event.id}"
         else:
             message_link = f"tg://openmessage?chat_id={where_.id}&message_id={event.id}"
-        ammoca_message += f"👆 #TAG\n\n{krakenm} `just tagged you...` \nWhere?\nIn [{where_m}]({message_link})\n__Tap to go the tagged msg__📬🚶"
+        ammoca_message += f"👆 #TAG\n\n{d3vilkrishm} `just tagged you...` \nWhere?\nIn [{where_m}]({message_link})\n__Tap to go the tagged msg__📬🚶"
         if tagger is not None:
             await bot.send_message(
                 entity=tagger,

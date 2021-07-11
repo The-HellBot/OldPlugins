@@ -74,21 +74,21 @@ async def set_group_photo(gpic):
             photo = await gpic.client.download_file(replymsg.media.document)
         else:
             await eor(gpic, INVALID_MEDIA)
-    kraken = None
+    d3vilkrish = None
     if photo:
         try:
             await gpic.client(
                 EditPhotoRequest(gpic.chat_id, await gpic.client.upload_file(photo))
             )
             await eor(gpic, CHAT_PP_CHANGED)
-            kraken = True
+            d3vilkrish = True
         except PhotoCropSizeSmallError:
             await eor(gpic, PP_TOO_SMOL)
         except ImageProcessFailedError:
             await eor(gpic, PP_ERROR)
         except Exception as e:
             await eor(gpic, f"**Error : **`{str(e)}`")
-        if kraken:
+        if d3vilkrish:
             await gpic.client.send_message(
                 lg_id,
                 "#GROUPPIC\n"

@@ -3,23 +3,23 @@ from . import *
 
 @bot.on(d3vil_cmd(pattern=r"tweet(?: |$)(.*)"))
 @bot.on(sudo_cmd(pattern="tweet(?: |$)(.*)", allow_sudo=True))
-async def nope(kraken):
-    d3vil = kraken.pattern_match.group(1)
-    okvai = await eor(kraken, "Trying to tweet for you...")
+async def nope(d3vilkrish):
+    d3vil = d3vilkrish.pattern_match.group(1)
+    okvai = await eor(d3vilkrish, "Trying to tweet for you...")
     if not d3vil:
-        if kraken.is_reply:
-            (await kraken.get_reply_message()).message
+        if d3vilkrish.is_reply:
+            (await d3vilkrish.get_reply_message()).message
         else:
-            await eod(kraken, "I need some text to make a tweet🚶")
+            await eod(d3vilkrish, "I need some text to make a tweet🚶")
             return
     tweeter = await bot.inline_query("TwitterStatusBot", f"{(deEmojify(d3vil))}")
     await tweeter[0].click(
-        kraken.chat_id,
-        reply_to=kraken.reply_to_msg_id,
-        silent=True if kraken.is_reply else False,
+        d3vilkrish.chat_id,
+        reply_to=d3vilkrish.reply_to_msg_id,
+        silent=True if d3vilkrish.is_reply else False,
         hide_via=True,
     )
-    await kraken.delete()
+    await d3vilkrish.delete()
 
 
 @bot.on(d3vil_cmd(pattern=r"trump(?: |$)(.*)"))
