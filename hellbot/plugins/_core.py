@@ -27,7 +27,7 @@ async def kk(event):
     o = stdout.decode()
     _o = o.split("\n")
     o = "\n".join(_o)
-    OUTPUT = f"List of Plugins in bot :- \n\n{o}\n\n<><><><><><><><><><><><><><><><><><><><><><><><>\nHELP:- If you want to know the commands for a plugin, do :- \n.plinfo <plugin name> without the < > brackets. \nJoin {d3vil_grp} for d3vlp."
+    OUTPUT = f"List of Plugins in bot :- \n\n{o}\n\n<><><><><><><><><><><><><><><><><><><><><><><><>\nHELP:- If you want to know the commands for a plugin, do :- \n.plinfo <plugin name> without the < > brackets. \nJoin {d3vil_grp} for query."
     if len(OUTPUT) > 69:
         with io.BytesIO(str.encode(OUTPUT)) as out_file:
             out_file.name = "cmd_list.text"
@@ -51,7 +51,7 @@ async def send(event):
     message_id = event.message.id
     thumb = d3vil_logo
     input_str = event.pattern_match.group(1)
-    omk = f"**• Plugin name ≈** `{input_str}`\n**• Uploaded by ≈** {d3vil_mention}\n\n⚡ **[ʟɛɢɛռɖaʀʏ ᴀғ ɦɛʟʟɮօt]({chnl_link})** ⚡"
+    omk = f"**• 𝔓𝔩𝔲𝔤𝔦𝔫 𝔫𝔞𝔪𝔢 ☞** `{input_str}`\n**• 𝔘𝔭𝔩𝔬𝔞𝔡𝔢𝔡 𝔟𝔶 ☞** {d3vil_mention}\n\n⚡ **[✪ℓεgεη∂αяү αғ тεαм ∂3vιℓ✪]({chnl_link})** ⚡"
     the_plugin_file = "./d3vilbot/plugins/{}.py".format(input_str)
     if os.path.exists(the_plugin_file):
         lauda = await event.client.send_file(
@@ -100,7 +100,7 @@ async def install(event):
                             a = "__Installing...__"
                             b = 1
                         await eor(event, a)
-                    return await eor(event, f"✅ **Installed module** :- `{shortname}` \n✨ BY :- {d3vil_mention}\n\n{string}\n\n        ⚡ **[ʟɛɢɛռɖaʀʏ ᴀғ ɦɛʟʟɮօt]({chnl_link})** ⚡", link_preview=False)
+                    return await eor(event, f"✔️**ℑ𝔫𝔰𝔱𝔞𝔩𝔩𝔢𝔡 𝔪𝔬𝔡𝔲𝔩𝔢** :- `{shortname}` \n✨ 𝔅𝔜 :- {d3vil_mention}\n\n{string}\n\n        ⚡ **[ℓεgεη∂αяү αғ тεαм ∂3vιℓ]({chnl_link})** ⚡", link_preview=False)
                 return await eor(event, f"Installed module `{os.path.basename(downloaded_file_name)}`")
             else:
                 os.remove(downloaded_file_name)
@@ -171,8 +171,6 @@ CmdHelp("core").add_command(
   "send", "<file name>", "Sends the given file from your userbot server, if any.", "send alive"
 ).add_command(
   "cmds", None, "Gives out the list of modules in HellBot."
-).add_warning(
-  "❌ Install External Plugin On Your Own Risk. We won't d3vlp if anything goes wrong after installing a plugin."
 ).add()
 
-# d3vilbot
+
