@@ -100,8 +100,4 @@ CmdHelp("bot").add_command(
     "schd", "<secs> - <message>", "Sends your message in given secs", "schd 10 - Hello"
 ).add_command(
     "dm", "<username or user id> <message>", "Sends a DM to given username with required msg"
-).add_info(
-    "Haa vai? Kya hua?"
-).add_warning(
-    "✅ Harmless Module."
 ).add()
