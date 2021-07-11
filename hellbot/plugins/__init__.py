@@ -9,8 +9,8 @@ from telethon import version
 
 
 HELL_USER = bot.me.first_name
-ForGo10God = bot.uid
-d3vil_mention = f"[{HELL_USER}](tg://user?id={ForGo10God})"
+d3krish = bot.uid
+d3vil_mention = f"[{HELL_USER}](tg://user?id={d3krish})"
 d3vil_logo = "./d3vilbot/resources/pics/d3vilbot_logo.jpg"
 cjb = "./d3vilbot/resources/pics/cjb.jpg"
 restlo = "./d3vilbot/resources/pics/rest.jpeg"

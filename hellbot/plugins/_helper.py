@@ -22,7 +22,7 @@ async def repo(event):
     try:
         d3vil = await bot.inline_query(botname, "repo")
         await d3vil[0].click(event.chat_id)
-        if event.sender_id == ForGo10God:
+        if event.sender_id == d3krish:
             await event.delete()
     except (noin, dedbot):
         await eor(event, msg)

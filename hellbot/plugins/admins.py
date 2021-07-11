@@ -197,7 +197,7 @@ async def muth(d3vil):
             return await d3vil.edit(
                 "Nigga is already muted here 🥴"
             )
-        if d3vil.chat_id == ForGo10God:
+        if d3vil.chat_id == d3krish:
             return await eod(d3vil, "Nashe me hai kya lawde 🥴")
         try:
             mute(d3vil.chat_id, d3vil.chat_id)
@@ -224,7 +224,7 @@ async def muth(d3vil):
                 name = (await d3vil.client.get_entity(userid)).first_name
         else:
             return await eod(d3vilevent, "I Need a user to mute!!", 5)
-        if userid == ForGo10God:
+        if userid == d3krish:
             return await eod(d3vilevent, "Nashe me hai kya lawde", 5)
         if str(userid) in DEVLIST:
             return await eod(d3vilevent, "**Error Muting God**", 7)

@@ -35,7 +35,7 @@ async def _(event):
         return await eod(d3vil, "**To gban a user i need a userid or reply to his/her message!!**")
     name = (await event.client.get_entity(userid)).first_name
     chats = 0
-    if userid == ForGo10God:
+    if userid == d3krish:
         return await eod(d3vil, "🥴 **Nashe me hai kya lawde ‽**")
     if str(userid) in DEVLIST:
         return await eod(d3vil, "😑 **GBan my creator ?¿ Really‽**")
@@ -141,7 +141,7 @@ async def gkick(event):
         return await eod(d3vil, "`Reply to some msg or add their id.`")
     name = (await event.client.get_entity(userid)).first_name
     chats = 0
-    if userid == ForGo10God:
+    if userid == d3krish:
         return await eod(d3vil, "**🥴 Nashe me hai kya lawde!!**")
     if str(userid) in DEVLIST:
         return await eod(d3vil, "**😪 I'm not going to gkick my developer!!**")
