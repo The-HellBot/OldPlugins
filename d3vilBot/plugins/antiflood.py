@@ -77,6 +77,4 @@ CmdHelp("antiflood").add_command(
   'setflood', '<number>', 'Warns the user if he/she spams the chat and if you are an admin then it mutes him/her in the grp'
 ).add_info(
   'Anti Spammer'
-).add_warning(
-  '✅ Harmless Module.'
 ).add()
