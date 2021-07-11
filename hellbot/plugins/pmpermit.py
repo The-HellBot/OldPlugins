@@ -6,7 +6,7 @@ from telethon import events, functions
 from telethon.tl.functions.users import GetFullUserRequest
 
 from . import *
-from hellbot.sql import pmpermit_sql as pm_sql
+from d3vilbot.sql import pmpermit_sql as pm_sql
 
 
 WARN_PIC = Config.PMPERMIT_PIC or "https://telegra.ph/file/58df4d86400922aa32acd.jpg"
@@ -18,10 +18,10 @@ HELL_ZERO = "Go get some sleep retard. \n\n**Blocked !!**"
 HELL_FIRST = (
     "**🔥 Hêllẞø† Prîvã†é Sêçürïty Prø†öçõl 🔥**\n\nThis is to inform you that "
     "{} is currently unavailable.\nThis is an automated message.\n\n"
-    "{}\n\n**Please Choose Why You Are Here!!**".format(hell_mention, CSTM_PMP)
+    "{}\n\n**Please Choose Why You Are Here!!**".format(d3vil_mention, CSTM_PMP)
 )
 
-@bot.on(hell_cmd(pattern="block$"))
+@bot.on(d3vil_cmd(pattern="block$"))
 async def approve_p_m(event):
     if event.fwd_from:
         return
@@ -77,7 +77,7 @@ if PM_ON_OFF != "DISABLE":
             if not event.chat_id in PM_WARNS:
                 pm_sql.approve(event.chat_id, "outgoing")
                 
-    @bot.on(hell_cmd(pattern="(a|approve|allow)$"))
+    @bot.on(d3vil_cmd(pattern="(a|approve|allow)$"))
     async def approve(event):
         if event.fwd_from:
             return
@@ -118,7 +118,7 @@ if PM_ON_OFF != "DISABLE":
                 await event.edit('User Already Approved !')
                 await event.delete()
 
-    @bot.on(hell_cmd(pattern="(da|disapprove|disallow)$"))
+    @bot.on(d3vil_cmd(pattern="(da|disapprove|disallow)$"))
     async def dapprove(event):
         if event.fwd_from:
             return
@@ -161,7 +161,7 @@ if PM_ON_OFF != "DISABLE":
                 await event.delete()    
                 
                 
-    @bot.on(hell_cmd(pattern="listapproved$"))
+    @bot.on(d3vil_cmd(pattern="listapproved$"))
     async def approve_p_m(event):
         if event.fwd_from:
             return

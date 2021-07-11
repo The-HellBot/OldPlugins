@@ -4,7 +4,7 @@ import asyncio
 from . import *
 
 
-@bot.on(hell_cmd(pattern=r"unpack", outgoing=True))
+@bot.on(d3vil_cmd(pattern=r"unpack", outgoing=True))
 @bot.on(sudo_cmd(pattern=r"unpack"))
 async def _(event):
     b = await event.client.download_media(await event.get_reply_message())
@@ -20,7 +20,7 @@ async def _(event):
     os.remove(b)
 
 
-@bot.on(hell_cmd(pattern=r"pack ?(.*)", outgoing=True))
+@bot.on(d3vil_cmd(pattern=r"pack ?(.*)", outgoing=True))
 @bot.on(sudo_cmd(pattern=r"pack ?(.*)", allow_sudo=True))
 async def _(event):
     a = await event.get_reply_message()

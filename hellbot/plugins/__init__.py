@@ -1,23 +1,23 @@
 import datetime
-from hellbot import *
-from hellbot.config import Config
-from hellbot.helpers import *
-from hellbot.utils import *
-from hellbot.random_strings import *
-from hellbot.version import __hell__
+from d3vilbot import *
+from d3vilbot.config import Config
+from d3vilbot.helpers import *
+from d3vilbot.utils import *
+from d3vilbot.random_strings import *
+from d3vilbot.version import __d3vil__
 from telethon import version
 
 
 HELL_USER = bot.me.first_name
 ForGo10God = bot.uid
-hell_mention = f"[{HELL_USER}](tg://user?id={ForGo10God})"
-hell_logo = "./hellbot/resources/pics/hellbot_logo.jpg"
-cjb = "./hellbot/resources/pics/cjb.jpg"
-restlo = "./hellbot/resources/pics/rest.jpeg"
-shuru = "./hellbot/resources/pics/shuru.jpg"
+d3vil_mention = f"[{HELL_USER}](tg://user?id={ForGo10God})"
+d3vil_logo = "./d3vilbot/resources/pics/d3vilbot_logo.jpg"
+cjb = "./d3vilbot/resources/pics/cjb.jpg"
+restlo = "./d3vilbot/resources/pics/rest.jpeg"
+shuru = "./d3vilbot/resources/pics/shuru.jpg"
 hl = Config.HANDLER
 shl = Config.SUDO_HANDLER
-hell_ver = __hell__
+d3vil_ver = __d3vil__
 tel_ver = version.__version__
 
 async def get_user_id(ids):
@@ -48,10 +48,10 @@ if "@" in my_channel:
 if "@" in my_group:
     my_group = my_group.replace("@", "")
 
-chnl_link = "https://t.me/its_hellbot"
-hell_channel = f"[†hê Hêllẞø†]({chnl_link})"
+chnl_link = "https://t.me/its_d3vilbot"
+d3vil_channel = f"[†hê Hêllẞø†]({chnl_link})"
 grp_link = "https://t.me/HellBot_Chat"
-hell_grp = f"[Hêllẞø† Group]({grp_link})"
+d3vil_grp = f"[Hêllẞø† Group]({grp_link})"
 
 WELCOME_FORMAT = """**Use these fomats in your welcome note to make them attractive.**
   {mention} :  To mention the user
@@ -70,4 +70,4 @@ WELCOME_FORMAT = """**Use these fomats in your welcome note to make them attract
 """
 # will add more soon
 
-# hellbot
+# d3vilbot

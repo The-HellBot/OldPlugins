@@ -16,10 +16,10 @@ from telethon import events
 from telethon.tl.functions.channels import GetParticipantRequest
 from telethon.tl.types import ChannelParticipantAdmin, ChannelParticipantCreator
 
-from hellbot import *
-from hellbot.config import Config
-from hellbot.helpers import *
-from hellbot.utils import *
+from d3vilbot import *
+from d3vilbot.config import Config
+from d3vilbot.helpers import *
+from d3vilbot.utils import *
 
 async def reply_id(event):
     reply_to_id = None
@@ -112,4 +112,4 @@ def time_formatter(milliseconds: int) -> str:
     return tmp[:-2]
 
 
-# hellbot
+# d3vilbot

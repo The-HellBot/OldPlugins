@@ -14,7 +14,7 @@ from telethon.tl.types import DocumentAttributeVideo
 
 from . import *
 
-@bot.on(hell_cmd(pattern=r"webup ?(.*)", outgoing=True))
+@bot.on(d3vil_cmd(pattern=r"webup ?(.*)", outgoing=True))
 @bot.on(sudo_cmd(pattern=r"webup ?(.*)", allow_sudo=True))
 async def labstack(event):
     if event.fwd_from:
@@ -333,7 +333,7 @@ async def uploadas(uas_event):
         await uas_event.edit("404: File Not Found")
 
 
-@bot.on(hell_cmd(pattern="download(?: |$)(.*)", outgoing=True))
+@bot.on(d3vil_cmd(pattern="download(?: |$)(.*)", outgoing=True))
 @bot.on(sudo_cmd(pattern="download(?: |$)(.*)", allow_sudo=True))
 async def _(event):
     if event.fwd_from:
@@ -360,7 +360,7 @@ async def _(event):
             end = datetime.datetime.now()
             ms = (end - start).seconds
             await mone.edit(
-                f"**  •  Downloaded in {ms} seconds.**\n**  •  Downloaded to :- ** `{downloaded_file_name}`\n**  •  Downloaded by :-** {hell_mention}"
+                f"**  •  Downloaded in {ms} seconds.**\n**  •  Downloaded to :- ** `{downloaded_file_name}`\n**  •  Downloaded by :-** {d3vil_mention}"
             )
     elif input_str:
         start = datetime.datetime.now()

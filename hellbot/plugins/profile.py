@@ -24,7 +24,7 @@ ONLINE_TAG = "[ • ONLINE • ]"
 PROFILE_IMAGE = "https://telegra.ph/file/9f0638dbfa028162a8682.jpg"
 # ===============================================================
 
-@bot.on(hell_cmd(pattern="offline$", outgoing=True)) 
+@bot.on(d3vil_cmd(pattern="offline$", outgoing=True)) 
 async def _(event):
     if event.fwd_from:
         return
@@ -66,7 +66,7 @@ async def _(event):
         await eod(event, str(e))
 
 
-@bot.on(hell_cmd(pattern="online$", outgoing=True))
+@bot.on(d3vil_cmd(pattern="online$", outgoing=True))
 async def _(event):
     if event.fwd_from:
         return
@@ -106,7 +106,7 @@ async def _(event):
     except Exception as e:
         await eod(event, str(e))
 
-@bot.on(hell_cmd(pattern="pbio (.*)"))
+@bot.on(d3vil_cmd(pattern="pbio (.*)"))
 async def _(event):
     if event.fwd_from:
         return
@@ -120,7 +120,7 @@ async def _(event):
         await event.edit(str(e))
 
 
-@bot.on(hell_cmd(pattern="pname (.*)"))
+@bot.on(d3vil_cmd(pattern="pname (.*)"))
 async def _(event):
     if event.fwd_from:
         return
@@ -140,7 +140,7 @@ async def _(event):
         await event.edit(str(e))
 
 
-@bot.on(hell_cmd(pattern="ppic"))
+@bot.on(d3vil_cmd(pattern="ppic"))
 async def _(event):
     if event.fwd_from:
         return
@@ -175,7 +175,7 @@ async def _(event):
         logger.warn(str(e))
 
 
-@bot.on(hell_cmd(outgoing=True, pattern="username (.*)"))
+@bot.on(d3vil_cmd(outgoing=True, pattern="username (.*)"))
 async def update_username(username):
     newusername = username.pattern_match.group(1)
     try:
@@ -185,7 +185,7 @@ async def update_username(username):
         await eod(username, USERNAME_TAKEN)
 
 
-@bot.on(hell_cmd(outgoing=True, pattern="count$"))
+@bot.on(d3vil_cmd(outgoing=True, pattern="count$"))
 async def count(event):
     u = 0
     g = 0
@@ -221,7 +221,7 @@ async def count(event):
     await event.edit(result)
 
 
-@bot.on(hell_cmd(outgoing=True, pattern=r"delpfp"))
+@bot.on(d3vil_cmd(outgoing=True, pattern=r"delpfp"))
 async def remove_profilepic(delpfp):
     group = delpfp.text[8:]
     if group == "all":
@@ -247,7 +247,7 @@ async def remove_profilepic(delpfp):
     await eod(delpfp, f"🗑️ **Successfully deleted**  `{len(input_photos)}`  **profile picture(s).**")
 
 
-@bot.on(hell_cmd(pattern="myusernames$"))
+@bot.on(d3vil_cmd(pattern="myusernames$"))
 async def _(event):
     if event.fwd_from:
         return

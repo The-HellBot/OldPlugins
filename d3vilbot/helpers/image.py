@@ -47,4 +47,4 @@ async def solarize(imagefile, endname):
     inverted_image.save(endname)
 
 
-# hellbot
+# d3vilbot

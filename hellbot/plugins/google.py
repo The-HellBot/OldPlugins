@@ -21,7 +21,7 @@ def progress(current, total):
     )
 
 
-@bot.on(hell_cmd(pattern="wikipedia (.*)"))
+@bot.on(d3vil_cmd(pattern="wikipedia (.*)"))
 @bot.on(sudo_cmd(pattern="wikipedia (.*)", allow_sudo=True))
 async def _(event):
     if event.fwd_from:
@@ -38,13 +38,13 @@ async def _(event):
     )
 
 
-@bot.on(hell_cmd(pattern="watch (.*)"))
+@bot.on(d3vil_cmd(pattern="watch (.*)"))
 @bot.on(sudo_cmd(pattern="watch (.*)", allow_sudo=True))
 async def _(event):
     if event.fwd_from:
         return
     query = event.pattern_match.group(1)
-    hell = await eor(event, "Finding Sites...")
+    d3vil = await eor(event, "Finding Sites...")
     streams = get_stream_data(query)
     title = streams["title"]
     thumb_link = streams["movie_thumb"]
@@ -88,13 +88,13 @@ async def _(event):
     await event.delete()
 
 
-@bot.on(hell_cmd(pattern="google (.*)", outgoing=True))
+@bot.on(d3vil_cmd(pattern="google (.*)", outgoing=True))
 @bot.on(sudo_cmd(pattern="google (.*)", allow_sudo=True))
 async def google(event):
     input_str = event.pattern_match.group(1)
     if not input_str:
         return await eod(event, "`Give something to search..`")
-    hell = await eor(event, "Searching...")
+    d3vil = await eor(event, "Searching...")
     gos = GoogleSearch()
     try:
         got = await gos.async_search(f"{input_str}", cache=False)
@@ -112,17 +112,17 @@ async def google(event):
         see.append(res[i : i + 4095])
     for j in see:
         await bot.send_message(event.chat_id, j, link_preview=False)
-    await hell.delete()
+    await d3vil.delete()
     see.clear()
 
 
-@bot.on(hell_cmd(pattern="img (.*)", outgoing=True))
+@bot.on(d3vil_cmd(pattern="img (.*)", outgoing=True))
 @bot.on(sudo_cmd(pattern="img (.*)", allow_sudo=True))
 async def img(event):
     sim = event.pattern_match.group(1)
     if not sim:
         return await eod(event, "`Give something to search...`")
-    hell = await eor(event, f"Searching for  `{sim}`...")
+    d3vil = await eor(event, f"Searching for  `{sim}`...")
     if "-" in sim:
         try:
             lim = int(sim.split(";")[1])
@@ -142,10 +142,10 @@ async def img(event):
     gotit = letsgo[0][sim]
     await event.client.send_file(event.chat_id, gotit, caption=sim, album=True)
     rmtree(f"./DOWNLOADS/{sim}/")
-    await hell.delete()
+    await d3vil.delete()
 
 
-@bot.on(hell_cmd(pattern="reverse"))
+@bot.on(d3vil_cmd(pattern="reverse"))
 @bot.on(sudo_cmd(pattern="reverse", allow_sudo=True))
 async def _(event):
     if event.fwd_from:
@@ -154,7 +154,7 @@ async def _(event):
     BASE_URL = "http://www.google.com"
     OUTPUT_STR = "Reply to an image to do Google Reverse Search"
     if event.reply_to_msg_id:
-        hell = await eor(event, "Pre Processing Media")
+        d3vil = await eor(event, "Pre Processing Media")
         previous_message = await event.get_reply_message()
         previous_message_text = previous_message.message
         if previous_message.media:
@@ -181,7 +181,7 @@ async def _(event):
             request_url = SEARCH_URL.format(BASE_URL, previous_message_text)
             google_rs_response = requests.get(request_url, allow_redirects=False)
             the_location = google_rs_response.headers.get("Location")
-        await hell.edit("Found Google Result. Processing results...")
+        await d3vil.edit("Found Google Result. Processing results...")
         headers = {
             "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:58.0) Gecko/20100101 Firefox/58.0"
         }
@@ -202,10 +202,10 @@ async def _(event):
 More Info: Open this <a href="{the_location}">Link</a> in {ms} seconds""".format(
             **locals()
         )
-    await hell.edit(OUTPUT_STR, parse_mode="HTML", link_preview=False)
+    await d3vil.edit(OUTPUT_STR, parse_mode="HTML", link_preview=False)
 
 
-@bot.on(hell_cmd(pattern="gps ?(.*)"))
+@bot.on(d3vil_cmd(pattern="gps ?(.*)"))
 @bot.on(sudo_cmd(pattern="gps ?(.*)", allow_sudo=True))
 async def gps(event):
     if event.fwd_from:
@@ -219,7 +219,7 @@ async def gps(event):
         
     await edit_or_reply(event, "Finding😁")
 
-    geolocator = Nominatim(user_agent="hellbot")
+    geolocator = Nominatim(user_agent="d3vilbot")
     geoloc = geolocator.geocode(input_str)
 
     if geoloc:

@@ -17,7 +17,7 @@ NO_PM_LOG_USERS = []
 lg_id = Config.PM_LOG_ID
 
 
-@bot.on(hell_cmd(pattern=r"save(?: |$)([\s\S]*)", outgoing=True))
+@bot.on(d3vil_cmd(pattern=r"save(?: |$)([\s\S]*)", outgoing=True))
 async def log(log_text):
     if lg_id is not None:
         if log_text.reply_to_msg_id:
@@ -54,7 +54,7 @@ async def monito_p_m_s(event):
                 print(e)
 
 
-@bot.on(hell_cmd(pattern="elog ?(.*)"))
+@bot.on(d3vil_cmd(pattern="elog ?(.*)"))
 async def set_no_log_p_m(event):
     if Config.PM_LOG_ID is not None:
         event.pattern_match.group(1)
@@ -67,7 +67,7 @@ async def set_no_log_p_m(event):
                 await event.delete()
 
 
-@bot.on(hell_cmd(pattern="nlog ?(.*)"))
+@bot.on(d3vil_cmd(pattern="nlog ?(.*)"))
 async def set_no_log_p_m(event):
     if Config.PM_LOG_ID is not None:
         event.pattern_match.group(1)

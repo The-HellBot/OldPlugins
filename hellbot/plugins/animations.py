@@ -3,7 +3,7 @@ from collections import deque
 
 from . import *
 
-@bot.on(hell_cmd(pattern=r"boxs$", outgoing=True))
+@bot.on(d3vil_cmd(pattern=r"boxs$", outgoing=True))
 @bot.on(sudo_cmd(pattern=r"boxs$", allow_sudo=True))
 async def _(event):
     if event.fwd_from:
@@ -16,7 +16,7 @@ async def _(event):
         deq.rotate(1)
 
 
-@bot.on(hell_cmd(pattern=r"rain$", outgoing=True))
+@bot.on(d3vil_cmd(pattern=r"rain$", outgoing=True))
 @bot.on(sudo_cmd(pattern=r"rain$", allow_sudo=True))
 async def _(event):
     if event.fwd_from:
@@ -29,7 +29,7 @@ async def _(event):
         deq.rotate(1)
 
 
-@bot.on(hell_cmd(pattern=r"deploy$", outgoing=True))
+@bot.on(d3vil_cmd(pattern=r"deploy$", outgoing=True))
 @bot.on(sudo_cmd(pattern=r"deploy$", allow_sudo=True))
 async def _(event):
     if event.fwd_from:
@@ -39,8 +39,8 @@ async def _(event):
     event = await eor(event, "`Deploying...`")
     animation_chars = [
         "**Heroku Connecting To Latest [Github Build](The-HellBot/HellBot)**",
-        f"**Build started by user** {hell_mention}",
-        f"**Deploy** `535a74f0` **by user** **{hell_mention}**",
+        f"**Build started by user** {d3vil_mention}",
+        f"**Deploy** `535a74f0` **by user** **{d3vil_mention}**",
         "**Restarting Heroku Server...**",
         "**State changed from up to starting**",
         "**Stopping all processes with SIGTERM**",
@@ -56,7 +56,7 @@ async def _(event):
         await event.edit(animation_chars[i % 12])
 
 
-@bot.on(hell_cmd(pattern=r"dump$", outgoing=True))
+@bot.on(d3vil_cmd(pattern=r"dump$", outgoing=True))
 @bot.on(sudo_cmd(pattern=r"dump$", allow_sudo=True))
 async def _(message):
     if event.fwd_from:
@@ -99,7 +99,7 @@ async def _(message):
                 return
 
 
-@bot.on(hell_cmd(pattern=r"fleaveme$", outgoing=True))
+@bot.on(d3vil_cmd(pattern=r"fleaveme$", outgoing=True))
 @bot.on(sudo_cmd(pattern=r"fleaveme$", allow_sudo=True))
 async def _(event):
     if event.fwd_from:
@@ -125,7 +125,7 @@ async def _(event):
         await event.edit(animation_chars[i % 10])
 
 
-@bot.on(hell_cmd(pattern=r"loveu$", outgoing=True))
+@bot.on(d3vil_cmd(pattern=r"loveu$", outgoing=True))
 @bot.on(sudo_cmd(pattern=r"loveu$", allow_sudo=True))
 async def _(event):
     if event.fwd_from:
@@ -175,7 +175,7 @@ async def _(event):
         await event.edit(animation_chars[i % 35])
 
 
-@bot.on(hell_cmd(pattern=r"plane$", outgoing=True))
+@bot.on(d3vil_cmd(pattern=r"plane$", outgoing=True))
 @bot.on(sudo_cmd(pattern=r"plane$", allow_sudo=True))
 async def _(event):
     if event.fwd_from:
@@ -198,7 +198,7 @@ async def _(event):
     await asyncio.sleep(3)
 
 
-@bot.on(hell_cmd(pattern=r"police$", outgoing=True))
+@bot.on(d3vil_cmd(pattern=r"police$", outgoing=True))
 @bot.on(sudo_cmd(pattern=r"police$", allow_sudo=True))
 async def _(event):
     if event.fwd_from:
@@ -223,7 +223,7 @@ async def _(event):
         await asyncio.sleep(animation_interval)
         await event.edit(animation_chars[i % 12])
         
-@bot.on(hell_cmd(pattern=f"hack$", outgoing=True))
+@bot.on(d3vil_cmd(pattern=f"hack$", outgoing=True))
 @bot.on(sudo_cmd(pattern=f"hack$", allow_sudo=True))
 async def _(event):
     if event.fwd_from:
@@ -252,7 +252,7 @@ async def _(event):
         await asyncio.sleep(animation_interval)
         await event.edit(animation_chars[i % 15])
 
-@bot.on(hell_cmd(pattern=r"jio$", outgoing=True))
+@bot.on(d3vil_cmd(pattern=r"jio$", outgoing=True))
 @bot.on(sudo_cmd(pattern=r"jio$", allow_sudo=True))
 async def _(event):
     if event.fwd_from:
@@ -286,7 +286,7 @@ async def _(event):
         await event.edit(animation_chars[i % 19])
 
 
-@bot.on(hell_cmd(pattern=r"solarsystem$", outgoing=True))
+@bot.on(d3vil_cmd(pattern=r"solarsystem$", outgoing=True))
 @bot.on(sudo_cmd(pattern=r"solarsystem$", allow_sudo=True))
 async def _(event):
     if event.fwd_from:
@@ -309,7 +309,7 @@ async def _(event):
         await event.edit(animation_chars[i % 8])
         
         
-@bot.on(hell_cmd(pattern="degi$"))
+@bot.on(d3vil_cmd(pattern="degi$"))
 @bot.on(sudo_cmd(pattern="degi$", allow_sudo=True))
 async def _(event):
     if event.fwd_from:
@@ -334,7 +334,7 @@ async def _(event):
     await event.edit("Wo DeGi TuM eKbAr MaNg KaR tOh DeKhO😄")
 
 
-@bot.on(hell_cmd(pattern=f"nehi$", outgoing=True))
+@bot.on(d3vil_cmd(pattern=f"nehi$", outgoing=True))
 @bot.on(sudo_cmd(pattern=f"nehi$", allow_sudo=True))
 async def _(event):
     if event.fwd_from:
@@ -346,7 +346,7 @@ async def _(event):
     await asyncio.sleep(999)
 
 
-@bot.on(hell_cmd(pattern="hnd (.*)"))
+@bot.on(d3vil_cmd(pattern="hnd (.*)"))
 @bot.on(sudo_cmd(pattern="hnd (.*)", allow_sudo=True))
 async def _(event):
     name = event.pattern_match.group(1)
@@ -368,7 +368,7 @@ async def _(event):
         await event.edit(animation_chars[i % 6])
 
 
-@bot.on(hell_cmd(pattern="phub$", outgoing=True))
+@bot.on(d3vil_cmd(pattern="phub$", outgoing=True))
 @bot.on(sudo_cmd(pattern="phub$", allow_sudo=True))
 async def _(event):
 
@@ -400,7 +400,7 @@ async def _(event):
         await event.edit(animation_chars[i % 10])
 
 
-@bot.on(hell_cmd(pattern=r"amore$", outgoing=True))
+@bot.on(d3vil_cmd(pattern=r"amore$", outgoing=True))
 @bot.on(sudo_cmd(pattern=r"amore$", allow_sudo=True))
 async def _(event):
 
@@ -431,7 +431,7 @@ async def _(event):
         await event.edit(animation_chars[i % 10])
 
 
-@bot.on(hell_cmd(pattern=r"sexy$", outgoing=True))
+@bot.on(d3vil_cmd(pattern=r"sexy$", outgoing=True))
 @bot.on(sudo_cmd(pattern=r"sexy$", allow_sudo=True))
 async def _(event):
 
@@ -460,11 +460,11 @@ async def _(event):
 
         await event.edit(animation_chars[i % 10])
         
-@bot.on(hell_cmd(pattern="istar$", outgoing=True))
+@bot.on(d3vil_cmd(pattern="istar$", outgoing=True))
 @bot.on(sudo_cmd(pattern="istar$", allow_sudo=True))
-async def ammastar(hellstar):
+async def ammastar(d3vilstar):
   
-    if hellstar.fwd_from:
+    if d3vilstar.fwd_from:
       
         return
       
@@ -472,7 +472,7 @@ async def ammastar(hellstar):
     
     animation_ttl = range(0, 11)
     
-    await eor(hellstar, "I am A Star")
+    await eor(d3vilstar, "I am A Star")
     
     animation_chars = [
         "I Party like a rockstar",
@@ -486,10 +486,10 @@ async def ammastar(hellstar):
       
         await asyncio.sleep(animation_interval)
         
-        await hellstar.edit(animation_chars[i % 11])
+        await d3vilstar.edit(animation_chars[i % 11])
     
         
-@bot.on(hell_cmd(pattern=r"lmoon", outgoing=True))
+@bot.on(d3vil_cmd(pattern=r"lmoon", outgoing=True))
 @bot.on(sudo_cmd(pattern=r"lmoon", allow_sudo=True))
 async def test(event):
     if event.fwd_from:
@@ -499,7 +499,7 @@ async def test(event):
     )
 
 
-@bot.on(hell_cmd(pattern=r"city", outgoing=True))
+@bot.on(d3vil_cmd(pattern=r"city", outgoing=True))
 @bot.on(sudo_cmd(pattern=r"city", allow_sudo=True))
 async def test(event):
     if event.fwd_from:
@@ -517,7 +517,7 @@ async def test(event):
     )
 
 
-@bot.on(hell_cmd(pattern=r"hii", outgoing=True))
+@bot.on(d3vil_cmd(pattern=r"hii", outgoing=True))
 @bot.on(sudo_cmd(pattern=r"hii", allow_sudo=True))
 async def hi(event):
     if event.fwd_from:
@@ -525,7 +525,7 @@ async def hi(event):
     await eor(event, "🌺✨✨🌺✨🌺🌺🌺\n🌺✨✨🌺✨✨🌺✨\n🌺🌺🌺🌺✨✨🌺✨\n🌺✨✨🌺✨✨🌺✨\n🌺✨✨🌺✨🌺🌺🌺\n☁☁☁☁☁☁☁☁")
 
 
-@bot.on(hell_cmd(pattern=r"cheer", outgoing=True))
+@bot.on(d3vil_cmd(pattern=r"cheer", outgoing=True))
 @bot.on(sudo_cmd(pattern=r"cheer", allow_sudo=True))
 async def cheer(event):
     if event.fwd_from:
@@ -535,14 +535,14 @@ async def cheer(event):
     )
 
 
-@bot.on(hell_cmd(pattern=r"getwell", outgoing=True))
+@bot.on(d3vil_cmd(pattern=r"getwell", outgoing=True))
 @bot.on(sudo_cmd(pattern=r"getwell", allow_sudo=True))
 async def getwell(event):
     if event.fwd_from:
         return
     await eor(event, "🌹🌹🌹🌹🌹🌹🌹🌹 \n🌹😷😢😓😷😢💨🌹\n🌹💝💉🍵💊💐💝🌹\n🌹 GetBetter Soon! 🌹\n🌹🌹🌹🌹🌹🌹🌹🌹")
 
-@bot.on(hell_cmd(pattern="switch$", outgoing=True))
+@bot.on(d3vil_cmd(pattern="switch$", outgoing=True))
 @bot.on(sudo_cmd(pattern="switch$", allow_sudo=True))
 async def _(event):
 
@@ -581,7 +581,7 @@ async def _(event):
         await event.edit(animation_chars[i % 11])
 
 
-@bot.on(hell_cmd(pattern=r"sprinkle", outgoing=True))
+@bot.on(d3vil_cmd(pattern=r"sprinkle", outgoing=True))
 @bot.on(sudo_cmd(pattern=r"sprinkle", allow_sudo=True))
 async def sprinkle(event):
     if event.fwd_from:
@@ -591,7 +591,7 @@ async def sprinkle(event):
     )
     
 
-@bot.on(hell_cmd(pattern=r"f", outgoing=True))
+@bot.on(d3vil_cmd(pattern=r"f", outgoing=True))
 @bot.on(sudo_cmd(pattern=r"f", allow_sudo=True))
 async def payf(event):
     if event.fwd_from:
@@ -614,7 +614,7 @@ async def payf(event):
     await eor(event, pay)
 
 
-@bot.on(hell_cmd(outgoing=True, pattern="kiler( (.*)|$)"))
+@bot.on(d3vil_cmd(outgoing=True, pattern="kiler( (.*)|$)"))
 @bot.on(sudo_cmd(pattern="kiler( (.*)|$)", allow_sudo=True))
 async def _(event):
     if event.fwd_from:
@@ -624,23 +624,23 @@ async def _(event):
         name = "die"
     animation_interval = 0.7
     animation_ttl = range(8)
-    event = await eor(event, f"**Ready Commando **__{hell_mention}....")
+    event = await eor(event, f"**Ready Commando **__{d3vil_mention}....")
     animation_chars = [
         "Ｆｉｉｉｉｉｒｅ",
-        f"__**Commando **__{hell_mention}          \n\n_/﹋\_\n (҂`_´)\n <,︻╦╤─ ҉ - \n _/﹋\_\n",
-        f"__**Commando **__{hell_mention}          \n\n_/﹋\_\n (҂`_´)\n  <,︻╦╤─ ҉ - -\n _/﹋\_\n",
-        f"__**Commando **__{hell_mention}          \n\n_/﹋\_\n (҂`_´)\n <,︻╦╤─ ҉ - - -\n _/﹋\_\n",
-        f"__**Commando **__{hell_mention}          \n\n_/﹋\_\n (҂`_´)\n<,︻╦╤─ ҉ - -\n _/﹋\_\n",
-        f"__**Commando **__{hell_mention}          \n\n_/﹋\_\n (҂`_´)\n <,︻╦╤─ ҉ - \n _/﹋\_\n",
-        f"__**Commando **__{hell_mention}         \n\n_/﹋\_\n (҂`_´)\n  <,︻╦╤─ ҉ - -\n _/﹋\_\n",
-        f"__**Commando **__{hell_mention}          \n\n_/﹋\_\n (҂`_´)\n <,︻╦╤─ ҉ - - - {name}\n _/﹋\_\n",
+        f"__**Commando **__{d3vil_mention}          \n\n_/﹋\_\n (҂`_´)\n <,︻╦╤─ ҉ - \n _/﹋\_\n",
+        f"__**Commando **__{d3vil_mention}          \n\n_/﹋\_\n (҂`_´)\n  <,︻╦╤─ ҉ - -\n _/﹋\_\n",
+        f"__**Commando **__{d3vil_mention}          \n\n_/﹋\_\n (҂`_´)\n <,︻╦╤─ ҉ - - -\n _/﹋\_\n",
+        f"__**Commando **__{d3vil_mention}          \n\n_/﹋\_\n (҂`_´)\n<,︻╦╤─ ҉ - -\n _/﹋\_\n",
+        f"__**Commando **__{d3vil_mention}          \n\n_/﹋\_\n (҂`_´)\n <,︻╦╤─ ҉ - \n _/﹋\_\n",
+        f"__**Commando **__{d3vil_mention}         \n\n_/﹋\_\n (҂`_´)\n  <,︻╦╤─ ҉ - -\n _/﹋\_\n",
+        f"__**Commando **__{d3vil_mention}          \n\n_/﹋\_\n (҂`_´)\n <,︻╦╤─ ҉ - - - {name}\n _/﹋\_\n",
     ]
     for i in animation_ttl:
         await asyncio.sleep(animation_interval)
         await event.edit(animation_chars[i % 8])
 
 
-@bot.on(hell_cmd(pattern="eye$"))
+@bot.on(d3vil_cmd(pattern="eye$"))
 @bot.on(sudo_cmd(pattern="eye$", allow_sudo=True))
 async def _(event):
     if event.fwd_from:
@@ -667,7 +667,7 @@ async def _(event):
     await event.delete()
 
 
-@bot.on(hell_cmd(pattern="thinking$"))
+@bot.on(d3vil_cmd(pattern="thinking$"))
 @bot.on(sudo_cmd(pattern="thinking$", allow_sudo=True))
 async def _(event):
     if event.fwd_from:
@@ -718,7 +718,7 @@ async def _(event):
         await event.edit(animation_chars[i % 36])
 
 
-@bot.on(hell_cmd(pattern=f"snake$", outgoing=True))
+@bot.on(d3vil_cmd(pattern=f"snake$", outgoing=True))
 @bot.on(sudo_cmd(pattern="snake$", allow_sudo=True))
 async def _(event):
     if event.fwd_from:
@@ -760,7 +760,7 @@ async def _(event):
         await event.edit(animation_chars[i % 27])
 
 
-@bot.on(hell_cmd(pattern=f"human$", outgoing=True))
+@bot.on(d3vil_cmd(pattern=f"human$", outgoing=True))
 @bot.on(sudo_cmd(pattern="human$", allow_sudo=True))
 async def _(event):
     if event.fwd_from:
@@ -791,7 +791,7 @@ async def _(event):
         await event.edit(animation_chars[i % 16])
 
 
-@bot.on(hell_cmd(pattern=f"mc$", outgoing=True))
+@bot.on(d3vil_cmd(pattern=f"mc$", outgoing=True))
 @bot.on(sudo_cmd(pattern="mc$", allow_sudo=True))
 async def _(event):
     if event.fwd_from:
@@ -834,7 +834,7 @@ async def _(event):
         await event.edit(animation_chars[i % 28])
 
 
-@bot.on(hell_cmd(pattern="virus$"))
+@bot.on(d3vil_cmd(pattern="virus$"))
 @bot.on(sudo_cmd(pattern="virus$", allow_sudo=True))
 async def _(event):
     if event.fwd_from:
@@ -879,7 +879,7 @@ async def _(event):
         await event.edit(animation_chars[i % 30])
 
 
-@bot.on(hell_cmd(pattern=r"repe$", outgoing=True))
+@bot.on(d3vil_cmd(pattern=r"repe$", outgoing=True))
 @bot.on(sudo_cmd(pattern="repe$", allow_sudo=True))
 async def _(event):
     if event.fwd_from:
@@ -924,7 +924,7 @@ async def _(event):
         await event.edit(animation_chars[i % 30])
 
 
-@bot.on(hell_cmd(pattern=f"nikal$", outgoing=True))
+@bot.on(d3vil_cmd(pattern=f"nikal$", outgoing=True))
 @bot.on(sudo_cmd(pattern="nikal$", allow_sudo=True))
 async def _(event):
     if event.fwd_from:
@@ -945,7 +945,7 @@ async def _(event):
         await event.edit(animation_chars[i % 6])
 
 
-@bot.on(hell_cmd(pattern=f"music$", outgoing=True))
+@bot.on(d3vil_cmd(pattern=f"music$", outgoing=True))
 @bot.on(sudo_cmd(pattern="music$", allow_sudo=True))
 async def _(event):
     if event.fwd_from:
@@ -954,24 +954,24 @@ async def _(event):
     animation_ttl = range(11)
     event = await eor(event, "starting player...")
     animation_chars = [
-        "⬤⬤⬤ 81% ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀`✖️`\n\n⠀⠀⠀⠀⠀[Music Player](t.me/its_hellbot)\n\n⠀⠀⠀⠀**Now Playing:shape of u**\n\n**00:00** ▱▱▱▱▱▱▱▱▱▱ **00:10**\n\n⠀⠀⠀⠀⠀`🔂` `⏮️` `⏪️` `▶️` `⏩️` `⏭️`\n\n**⠀Next Song:** __Alan Walker - Alone.__\n\n⠀⠀⠀⠀**⠀Device: I Fone XXX**",
-        "⬤⬤⬤ 81% ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀`✖️`\n\n⠀⠀⠀⠀⠀[Music Player](t.me/its_hellbot)\n\n⠀⠀⠀⠀**Now Playing:shape of u**\n\n**00:01** ▰▱▱▱▱▱▱▱▱▱ **00:10**\n\n⠀⠀⠀⠀⠀`🔂` `⏮️` `⏪️` `⏸️` `⏩️` `⏭️`\n\n**⠀Next Song:** __Alan Walker - Alone.__\n\n⠀⠀⠀⠀**⠀Device: Ifone XXX**",
-        "⬤⬤⬤ 81% ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀`✖️`\n\n⠀⠀⠀⠀⠀[Music Player](t.me/its_hellbot)\n\n⠀⠀⠀⠀**Now Playing:shape of u**\n\n**00:02** ▰▰▱▱▱▱▱▱▱▱ **00:10**\n\n⠀⠀⠀⠀⠀`🔂` `⏮️` `⏪️` `⏸️` `⏩️` `⏭️`\n\n**⠀Next Song:** __Alan Walker - Alone.__\n\n⠀⠀⠀⠀**⠀Device: Ifone XXX**",
-        "⬤⬤⬤ 81% ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀`✖️`\n\n⠀⠀⠀⠀⠀[Music Player](t.me/its_hellbot)\n\n⠀⠀⠀⠀**Now Playing:shape of u**\n\n**00:03** ▰▰▰▱▱▱▱▱▱▱ **00:10**\n\n⠀⠀⠀⠀⠀`🔂` `⏮️` `⏪️` `⏸️` `⏩️` `⏭️`\n\n**⠀Next Song:** __Alan Walker - Alone.__\n\n⠀⠀⠀⠀**⠀Device: Ifone XXX**",
-        "⬤⬤◯ 80% ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀`✖️`\n\n⠀⠀⠀⠀⠀[Music Player](t.me/its_hellbot)\n\n⠀⠀⠀⠀**Now Playing:shape of u**\n\n**00:04** ▰▰▰▰▱▱▱▱▱▱ **00:10**\n\n⠀⠀⠀⠀⠀`🔂` `⏮️` `⏪️` `⏸️` `⏩️` `⏭️`\n\n**⠀Next Song:** __Alan Walker - Alone.__\n\n⠀⠀⠀⠀**⠀Device: Ifone XXX**",
-        "⬤⬤◯ 80% ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀`✖️`\n\n⠀⠀⠀⠀⠀[Music Player](t.me/its_hellbot)\n\n⠀⠀⠀⠀**Now Playing:shape of u**\n\n**00:05** ▰▰▰▰▱▱▱▱▱▱ **00:10**\n\n⠀⠀⠀⠀⠀`🔂` `⏮️` `⏪️` `⏸️` `⏩️` `⏭️`\n\n**⠀Next Song:** __Alan Walker - Alone.__\n\n⠀⠀⠀⠀**⠀Device: Ifone XXX**",
-        "⬤⬤◯ 80% ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀`✖️`\n\n⠀⠀⠀⠀⠀[Music Player](t.me/its_hellbot)\n\n⠀⠀⠀⠀**Now Playing:shape of u**\n\n**00:06** ▰▰▰▰▰▰▱▱▱▱ **00:10**\n\n⠀⠀⠀⠀⠀`🔂` `⏮️` `⏪️` `⏸️` `⏩️` `⏭️`\n\n**⠀Next Song:** __Alan Walker - Alone.__\n\n⠀⠀⠀⠀**⠀Device: Ifone XXX**",
-        "⬤⬤◯ 80% ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀`✖️`\n\n⠀⠀⠀⠀⠀[Music Player](t.me/its_hellbot)\n\n⠀⠀⠀⠀**Now Playing:shape of u**\n\n**00:07** ▰▰▰▰▰▰▰▱▱▱ **00:10**\n\n⠀⠀⠀⠀⠀`🔂` `⏮️` `⏪️` `⏸️` `⏩️` `⏭️`\n\n**⠀Next Song:** __Alan Walker - Alone.__\n\n⠀⠀⠀⠀**⠀Device: Ifone XXX**",
-        "⬤⬤◯ 80% ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀`✖️`\n\n⠀⠀⠀⠀⠀[Music Player](t.me/its_hellbot)\n\n⠀⠀⠀⠀**Now Playing:shape of u**\n\n**00:08** ▰▰▰▰▰▰▰▰▱▱ **00:10**\n\n⠀⠀⠀⠀⠀`🔂` `⏮️` `⏪️` `⏸️` `⏩️` `⏭️`\n\n**⠀Next Song:** __Alan Walker - Alone.__\n\n⠀⠀⠀⠀**⠀Device: Ifone XXX**",
-        "⬤⬤◯ 80% ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀`✖️`\n\n⠀⠀⠀⠀⠀[Music Player](t.me/its_hellbot)\n\n⠀⠀⠀⠀**Now Playing:shape of u**\n\n**00:09** ▰▰▰▰▰▰▰▰▰▱ **00:10**\n\n⠀⠀⠀⠀⠀`🔂` `⏮️` `⏪️` `⏸️` `⏩️` `⏭️`\n\n**⠀Next Song:** __Alan Walker - Alone.__\n\n⠀⠀⠀⠀**⠀Device: Ifone XXX**",
-        "⬤⬤◯ 80% ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀`✖️`\n\n⠀⠀⠀⠀⠀[Music Player](t.me/its_hellbot)\n\n⠀⠀⠀⠀**Now Playing:shape of u**\n\n**00:10** ▰▰▰▰▰▰▰▰▰▰ **00:10**\n\n⠀⠀⠀⠀⠀`🔂` `⏮️` `⏪️` `⏺️` `⏩️` `⏭️`\n\n**⠀Next Song:** __Alan Walker - Alone.__\n\n⠀⠀⠀⠀**⠀Device: Ifone XXX**",
+        "⬤⬤⬤ 81% ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀`✖️`\n\n⠀⠀⠀⠀⠀[Music Player](t.me/its_d3vilbot)\n\n⠀⠀⠀⠀**Now Playing:shape of u**\n\n**00:00** ▱▱▱▱▱▱▱▱▱▱ **00:10**\n\n⠀⠀⠀⠀⠀`🔂` `⏮️` `⏪️` `▶️` `⏩️` `⏭️`\n\n**⠀Next Song:** __Alan Walker - Alone.__\n\n⠀⠀⠀⠀**⠀Device: I Fone XXX**",
+        "⬤⬤⬤ 81% ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀`✖️`\n\n⠀⠀⠀⠀⠀[Music Player](t.me/its_d3vilbot)\n\n⠀⠀⠀⠀**Now Playing:shape of u**\n\n**00:01** ▰▱▱▱▱▱▱▱▱▱ **00:10**\n\n⠀⠀⠀⠀⠀`🔂` `⏮️` `⏪️` `⏸️` `⏩️` `⏭️`\n\n**⠀Next Song:** __Alan Walker - Alone.__\n\n⠀⠀⠀⠀**⠀Device: Ifone XXX**",
+        "⬤⬤⬤ 81% ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀`✖️`\n\n⠀⠀⠀⠀⠀[Music Player](t.me/its_d3vilbot)\n\n⠀⠀⠀⠀**Now Playing:shape of u**\n\n**00:02** ▰▰▱▱▱▱▱▱▱▱ **00:10**\n\n⠀⠀⠀⠀⠀`🔂` `⏮️` `⏪️` `⏸️` `⏩️` `⏭️`\n\n**⠀Next Song:** __Alan Walker - Alone.__\n\n⠀⠀⠀⠀**⠀Device: Ifone XXX**",
+        "⬤⬤⬤ 81% ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀`✖️`\n\n⠀⠀⠀⠀⠀[Music Player](t.me/its_d3vilbot)\n\n⠀⠀⠀⠀**Now Playing:shape of u**\n\n**00:03** ▰▰▰▱▱▱▱▱▱▱ **00:10**\n\n⠀⠀⠀⠀⠀`🔂` `⏮️` `⏪️` `⏸️` `⏩️` `⏭️`\n\n**⠀Next Song:** __Alan Walker - Alone.__\n\n⠀⠀⠀⠀**⠀Device: Ifone XXX**",
+        "⬤⬤◯ 80% ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀`✖️`\n\n⠀⠀⠀⠀⠀[Music Player](t.me/its_d3vilbot)\n\n⠀⠀⠀⠀**Now Playing:shape of u**\n\n**00:04** ▰▰▰▰▱▱▱▱▱▱ **00:10**\n\n⠀⠀⠀⠀⠀`🔂` `⏮️` `⏪️` `⏸️` `⏩️` `⏭️`\n\n**⠀Next Song:** __Alan Walker - Alone.__\n\n⠀⠀⠀⠀**⠀Device: Ifone XXX**",
+        "⬤⬤◯ 80% ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀`✖️`\n\n⠀⠀⠀⠀⠀[Music Player](t.me/its_d3vilbot)\n\n⠀⠀⠀⠀**Now Playing:shape of u**\n\n**00:05** ▰▰▰▰▱▱▱▱▱▱ **00:10**\n\n⠀⠀⠀⠀⠀`🔂` `⏮️` `⏪️` `⏸️` `⏩️` `⏭️`\n\n**⠀Next Song:** __Alan Walker - Alone.__\n\n⠀⠀⠀⠀**⠀Device: Ifone XXX**",
+        "⬤⬤◯ 80% ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀`✖️`\n\n⠀⠀⠀⠀⠀[Music Player](t.me/its_d3vilbot)\n\n⠀⠀⠀⠀**Now Playing:shape of u**\n\n**00:06** ▰▰▰▰▰▰▱▱▱▱ **00:10**\n\n⠀⠀⠀⠀⠀`🔂` `⏮️` `⏪️` `⏸️` `⏩️` `⏭️`\n\n**⠀Next Song:** __Alan Walker - Alone.__\n\n⠀⠀⠀⠀**⠀Device: Ifone XXX**",
+        "⬤⬤◯ 80% ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀`✖️`\n\n⠀⠀⠀⠀⠀[Music Player](t.me/its_d3vilbot)\n\n⠀⠀⠀⠀**Now Playing:shape of u**\n\n**00:07** ▰▰▰▰▰▰▰▱▱▱ **00:10**\n\n⠀⠀⠀⠀⠀`🔂` `⏮️` `⏪️` `⏸️` `⏩️` `⏭️`\n\n**⠀Next Song:** __Alan Walker - Alone.__\n\n⠀⠀⠀⠀**⠀Device: Ifone XXX**",
+        "⬤⬤◯ 80% ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀`✖️`\n\n⠀⠀⠀⠀⠀[Music Player](t.me/its_d3vilbot)\n\n⠀⠀⠀⠀**Now Playing:shape of u**\n\n**00:08** ▰▰▰▰▰▰▰▰▱▱ **00:10**\n\n⠀⠀⠀⠀⠀`🔂` `⏮️` `⏪️` `⏸️` `⏩️` `⏭️`\n\n**⠀Next Song:** __Alan Walker - Alone.__\n\n⠀⠀⠀⠀**⠀Device: Ifone XXX**",
+        "⬤⬤◯ 80% ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀`✖️`\n\n⠀⠀⠀⠀⠀[Music Player](t.me/its_d3vilbot)\n\n⠀⠀⠀⠀**Now Playing:shape of u**\n\n**00:09** ▰▰▰▰▰▰▰▰▰▱ **00:10**\n\n⠀⠀⠀⠀⠀`🔂` `⏮️` `⏪️` `⏸️` `⏩️` `⏭️`\n\n**⠀Next Song:** __Alan Walker - Alone.__\n\n⠀⠀⠀⠀**⠀Device: Ifone XXX**",
+        "⬤⬤◯ 80% ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀`✖️`\n\n⠀⠀⠀⠀⠀[Music Player](t.me/its_d3vilbot)\n\n⠀⠀⠀⠀**Now Playing:shape of u**\n\n**00:10** ▰▰▰▰▰▰▰▰▰▰ **00:10**\n\n⠀⠀⠀⠀⠀`🔂` `⏮️` `⏪️` `⏺️` `⏩️` `⏭️`\n\n**⠀Next Song:** __Alan Walker - Alone.__\n\n⠀⠀⠀⠀**⠀Device: Ifone XXX**",
     ]
     for i in animation_ttl:
         await asyncio.sleep(animation_interval)
         await event.edit(animation_chars[i % 11])
 
 
-@bot.on(hell_cmd(pattern=f"squ$", outgoing=True))
+@bot.on(d3vil_cmd(pattern=f"squ$", outgoing=True))
 @bot.on(sudo_cmd(pattern="squ$", allow_sudo=True))
 async def _(event):
     if event.fwd_from:

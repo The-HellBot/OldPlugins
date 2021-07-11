@@ -3,7 +3,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, scoped_session
 
-from hellbot.config import Config
+from d3vilbot.config import Config
 
 
 def start() -> scoped_session:

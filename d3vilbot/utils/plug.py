@@ -16,16 +16,16 @@ from telethon import events
 from telethon.tl.functions.channels import GetParticipantRequest
 from telethon.tl.types import ChannelParticipantAdmin, ChannelParticipantCreator
 
-from hellbot import *
-from hellbot.helpers import *
-from hellbot.config import *
-from hellbot.utils import *
+from d3vilbot import *
+from d3vilbot.helpers import *
+from d3vilbot.config import *
+from d3vilbot.utils import *
 
 
 # ENV
 ENV = bool(os.environ.get("ENV", False))
 if ENV:
-    from hellbot.config import Config
+    from d3vilbot.config import Config
 else:
     if os.path.exists("Config.py"):
         from Config import Development as Config
@@ -36,19 +36,19 @@ def load_module(shortname):
     if shortname.startswith("__"):
         pass
     elif shortname.endswith("_"):
-        import hellbot.utils
+        import d3vilbot.utils
 
-        path = Path(f"hellbot/plugins/{shortname}.py")
-        name = "hellbot.plugins.{}".format(shortname)
+        path = Path(f"d3vilbot/plugins/{shortname}.py")
+        name = "d3vilbot.plugins.{}".format(shortname)
         spec = importlib.util.spec_from_file_location(name, path)
         mod = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(mod)
         LOGS.info("HellBot - Successfully imported " + shortname)
     else:
-        import hellbot.utils
+        import d3vilbot.utils
 
-        path = Path(f"hellbot/plugins/{shortname}.py")
-        name = "hellbot.plugins.{}".format(shortname)
+        path = Path(f"d3vilbot/plugins/{shortname}.py")
+        name = "d3vilbot.plugins.{}".format(shortname)
         spec = importlib.util.spec_from_file_location(name, path)
         mod = importlib.util.module_from_spec(spec)
         mod.bot = bot
@@ -56,24 +56,24 @@ def load_module(shortname):
         mod.command = command
         mod.logger = logging.getLogger(shortname)
         # support for uniborg
-        sys.modules["uniborg.util"] = hellbot.utils
+        sys.modules["uniborg.util"] = d3vilbot.utils
         mod.Config = Config
         mod.borg = bot
-        mod.hellbot = bot
+        mod.d3vilbot = bot
         mod.edit_or_reply = edit_or_reply
         mod.eor = edit_or_reply
-        mod.delete_hell = delete_hell
-        mod.eod = delete_hell
+        mod.delete_d3vil = delete_d3vil
+        mod.eod = delete_d3vil
         mod.Var = Config
-        mod.admin_cmd = hell_cmd
+        mod.admin_cmd = d3vil_cmd
         # support for other userbots
-        sys.modules["userbot.utils"] = hellbot.utils
-        sys.modules["userbot"] = hellbot
+        sys.modules["userbot.utils"] = d3vilbot.utils
+        sys.modules["userbot"] = d3vilbot
         # support for paperplaneextended
-        sys.modules["userbot.events"] = hellbot
+        sys.modules["userbot.events"] = d3vilbot
         spec.loader.exec_module(mod)
         # for imports
-        sys.modules["hellbot.plugins." + shortname] = mod
+        sys.modules["d3vilbot.plugins." + shortname] = mod
         LOGS.info("⚡ Hêllẞø† ⚡ - Successfully Imported " + shortname)
 
 
@@ -86,7 +86,7 @@ def remove_plugin(shortname):
             del LOAD_PLUG[shortname]
 
         except BaseException:
-            name = f"hellbot.plugins.{shortname}"
+            name = f"d3vilbot.plugins.{shortname}"
 
             for i in reversed(range(len(bot._event_builders))):
                 ev, cb = bot._event_builders[i]
@@ -95,4 +95,4 @@ def remove_plugin(shortname):
     except BaseException:
         raise ValueError
 
-# hellbot
+# d3vilbot

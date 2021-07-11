@@ -9,7 +9,7 @@ from . import *
 
 lg_id = Config.LOGGER_ID
 
-@bot.on(hell_cmd(pattern="exec(?: |$|\n)(.*)", command="exec"))
+@bot.on(d3vil_cmd(pattern="exec(?: |$|\n)(.*)", command="exec"))
 @bot.on(sudo_cmd(pattern="exec(?: |$|\n)(.*)", command="exec", allow_sudo=True))
 async def _(event):
     if event.fwd_from:
@@ -17,17 +17,17 @@ async def _(event):
     cmd = "".join(event.text.split(maxsplit=1)[1:])
     if not cmd:
         return await eod(event, "`What should i execute?..`")
-    hellevent = await eor(event, "`Executing.....`")
-    process = await asyncio.create_subprocess_shell(
+    d3vilevent = await eor(event, "`Executing.....`")
+    process = await asyncio.create_subprocess_sd3vil(
         cmd, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
     )
     stdout, stderr = await process.communicate()
     result = str(stdout.decode().strip()) + str(stderr.decode().strip())
-    helluser = await event.client.get_me()
-    if helluser.username:
-        curruser = helluser.username
+    d3viluser = await event.client.get_me()
+    if d3viluser.username:
+        curruser = d3viluser.username
     else:
-        curruser = "hellbot"
+        curruser = "d3vilbot"
     uid = os.geteuid()
     if uid == 0:
         cresult = f"`{curruser}:~#` `{cmd}`\n`{result}`"
@@ -40,7 +40,7 @@ async def _(event):
     )
 
 
-@bot.on(hell_cmd(pattern="eval(?: |$|\n)(.*)", command="eval"))
+@bot.on(d3vil_cmd(pattern="eval(?: |$|\n)(.*)", command="eval"))
 @bot.on(sudo_cmd(pattern="eval(?: |$|\n)(.*)", command="eval", allow_sudo=True))
 async def _(event):
     if event.fwd_from:
@@ -48,7 +48,7 @@ async def _(event):
     cmd = "".join(event.text.split(maxsplit=1)[1:])
     if not cmd:
         return await eod(event, "`What should i run ?..`")
-    hellevent = await eor(event, "`Running ...`")
+    d3vilevent = await eor(event, "`Running ...`")
     old_stderr = sys.stderr
     old_stdout = sys.stdout
     redirected_output = sys.stdout = io.StringIO()
@@ -72,7 +72,7 @@ async def _(event):
     else:
         evaluation = "Success"
     final_output = f"•  Eval : \n`{cmd}` \n\n•  Result : \n`{evaluation}` \n"
-    await eor(hellevent, "**Eval Command Executed. Check out LOGGER for result.**")
+    await eor(d3vilevent, "**Eval Command Executed. Check out LOGGER for result.**")
     await event.client.send_message(
         lg_id,
         f"#EVAL \n\nEval command was executed sucessfully. \n\n{final_output}",
@@ -92,7 +92,7 @@ async def aexec(code, smessatatus):
     )
 
 
-@bot.on(hell_cmd(pattern="bash ?(.*)", outgoing=True))
+@bot.on(d3vil_cmd(pattern="bash ?(.*)", outgoing=True))
 @bot.on(sudo_cmd(pattern="bash ?(.*)", allow_sudo=True))
 async def _(event):
     if event.fwd_from:
@@ -103,7 +103,7 @@ async def _(event):
     if event.reply_to_msg_id:
         reply_to_id = event.reply_to_msg_id
     time.time() + PROCESS_RUN_TIME
-    process = await asyncio.create_subprocess_shell(
+    process = await asyncio.create_subprocess_sd3vil(
         cmd, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
     )
     stdout, stderr = await process.communicate()

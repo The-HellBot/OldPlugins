@@ -9,7 +9,7 @@ from gtts import gTTS
 from . import *
 
 
-@bot.on(hell_cmd(pattern="trt ?(.*)"))
+@bot.on(d3vil_cmd(pattern="trt ?(.*)"))
 @bot.on(sudo_cmd(pattern="trt ?(.*)", allow_sudo=True))
 async def _(event):
     if event.fwd_from:
@@ -44,15 +44,15 @@ async def _(event):
     except Exception as exc:
         await edit_or_reply(event, str(exc))
 
-@bot.on(hell_cmd(pattern=r"trc", outgoing=True))
+@bot.on(d3vil_cmd(pattern=r"trc", outgoing=True))
 @bot.on(sudo_cmd(pattern=r"trc", allow_sudo=True))
-async def _(hell):
-    if hell.fwd_from:
+async def _(d3vil):
+    if d3vil.fwd_from:
         return
-    await edit_or_reply(hell, "**All The Language Codes Can Be Found** \n ⚡ [Here](https://telegra.ph/SfMæisér--𐌷𐌴ࠋࠋ𐌱𐍈𐌸-𐌾𐌰𐍀𐌾-06-04) ⚡", link_preview=False)
+    await edit_or_reply(d3vil, "**All The Language Codes Can Be Found** \n ⚡ [Here](https://telegra.ph/SfMæisér--𐌷𐌴ࠋࠋ𐌱𐍈𐌸-𐌾𐌰𐍀𐌾-06-04) ⚡", link_preview=False)
 
 
-@bot.on(hell_cmd(pattern="voice (.*)"))
+@bot.on(d3vil_cmd(pattern="voice (.*)"))
 @bot.on(sudo_cmd(pattern="voice (.*)", allow_sudo=True))
 async def _(event):
     if event.fwd_from:
@@ -119,7 +119,7 @@ async def _(event):
 CmdHelp("google_asst").add_command(
   "voice", "<reply to a msg> <lang code>", "Sends the replied msg content in audio format."
 ).add_command(
-    "trt", "<lang code> <reply to msg>", "Translates the replied message to desired language code. Type '.trc' to get all the language codes", f"trt en - hello | {hl}trt en <reply to msg>"
+    "trt", "<lang code> <reply to msg>", "Translates the replied message to desired language code. Type '.trc' to get all the language codes", f"trt en - d3vilo | {hl}trt en <reply to msg>"
 ).add_command(
   "trc", None, "Gets all the possible language codes for google translate module"
 ).add_info(

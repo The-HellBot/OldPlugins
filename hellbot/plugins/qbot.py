@@ -5,7 +5,7 @@ from telethon.errors.rpcerrorlist import YouBlockedUserError
 from . import *
 
 
-@bot.on(hell_cmd(pattern=r"(qbot|ss) ?(.*)", outgoing=True))
+@bot.on(d3vil_cmd(pattern=r"(qbot|ss) ?(.*)", outgoing=True))
 @bot.on(sudo_cmd(pattern=r"(qbot|ss) ?(.*)", allow_sudo=True))
 async def _(event):
     if event.fwd_from:
@@ -14,7 +14,7 @@ async def _(event):
         await eod(event, "```Reply to any user's message.```")
         return
     reply_message = await event.get_reply_message()
-    hell = event.pattern_match.group(1)
+    d3vil = event.pattern_match.group(1)
     chat = "@QuotLyBot"
     reply_message.sender
     if reply_message.sender.bot:
@@ -26,7 +26,7 @@ async def _(event):
             response = conv.wait_event(
                 events.NewMessage(incoming=True, from_users=1031952739)
             )
-            first = await conv.send_message(f"/qcolor {hell}")
+            first = await conv.send_message(f"/qcolor {d3vil}")
             ok = await conv.get_response()
             await asyncio.sleep(2)
             second = await bot.forward_messages(chat, reply_message)

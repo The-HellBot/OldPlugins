@@ -1,6 +1,6 @@
 from telethon import events
 
-from hellbot.sql.welcome_sql import get_current_welcome, add_welcome, rm_welcome, update_welcome
+from d3vilbot.sql.welcome_sql import get_current_welcome, add_welcome, rm_welcome, update_welcome
 from . import *
 
 lg_id = Config.LOGGER_ID
@@ -65,7 +65,7 @@ async def _(event):  # sourcery no-metrics
         update_welcome(event.chat_id, current_message.id)
 
 
-@bot.on(hell_cmd(pattern="savewelcome(?: |$)(.*)"))
+@bot.on(d3vil_cmd(pattern="savewelcome(?: |$)(.*)"))
 @bot.on(sudo_cmd(pattern="savewelcome(?: |$)(.*)", allow_sudo=True))
 async def save_welcome(event):
     msg = await event.get_reply_message()
@@ -95,7 +95,7 @@ async def save_welcome(event):
     await eod(event, "Error while setting welcome in this group")
 
 
-@bot.on(hell_cmd(pattern="cleanwelcome$"))
+@bot.on(d3vil_cmd(pattern="cleanwelcome$"))
 @bot.on(sudo_cmd(pattern="cleanwelcome$", allow_sudo=True))
 async def del_welcome(event):
     if rm_welcome(event.chat_id) is True:
@@ -104,7 +104,7 @@ async def del_welcome(event):
         await eod(event, "To delete a welcome note you need to save one first.", 7)
 
 
-@bot.on(hell_cmd(pattern="showwelcome$"))
+@bot.on(d3vil_cmd(pattern="showwelcome$"))
 @bot.on(sudo_cmd(pattern="showwelcome$", allow_sudo=True))
 async def getwelcome(event):
     cws = get_current_welcome(event.chat_id)
@@ -125,7 +125,7 @@ async def getwelcome(event):
         await event.reply(cws.reply)
 
 
-@bot.on(hell_cmd(pattern="welcome_note$"))
+@bot.on(d3vil_cmd(pattern="welcome_note$"))
 @bot.on(sudo_cmd(pattern="welcome_note$", allow_sudo=True))
 async def note(event):
     await eor(event, WELCOME_FORMAT)

@@ -12,12 +12,12 @@ from PIL import Image, ImageDraw, ImageEnhance, ImageFont, ImageOps
 from . import *
 
 
-path = "./hellmify/"
+path = "./d3vilmify/"
 if not os.path.isdir(path):
     os.makedirs(path)
 
 
-@bot.on(hell_cmd(pattern="mmf ?(.*)", outgoing=True))
+@bot.on(d3vil_cmd(pattern="mmf ?(.*)", outgoing=True))
 @bot.on(sudo_cmd(pattern="mmf ?(.*)", allow_sudo=True))
 async def _(event):
     if event.fwd_from:
@@ -42,35 +42,35 @@ async def _(event):
     os.remove(webp_file)
 
 
-@bot.on(hell_cmd(pattern="mms ?(.*)", outgoing=True))
+@bot.on(d3vil_cmd(pattern="mms ?(.*)", outgoing=True))
 @bot.on(sudo_cmd(pattern="mms ?(.*)", allow_sudo=True))
-async def sed(hellboy):
-    if hellboy.fwd_from:
+async def sed(d3vilboy):
+    if d3vilboy.fwd_from:
         return
-    if not hellboy.reply_to_msg_id:
-        await eod(hellboy, "You need to reply to an image with .mms` 'text on top' ; 'text on bottom'")
+    if not d3vilboy.reply_to_msg_id:
+        await eod(d3vilboy, "You need to reply to an image with .mms` 'text on top' ; 'text on bottom'")
         return
-    await eor(hellboy, "🤪 **Memifying...**")
-    reply = await hellboy.get_reply_message()
+    await eor(d3vilboy, "🤪 **Memifying...**")
+    reply = await d3vilboy.get_reply_message()
     imgs = await bot.download_media(reply.media, path)
     img = cv2.VideoCapture(imgs) 
     tal, semx = img.read()
     cv2.imwrite("kraken.webp", semx)
-    text = hellboy.pattern_match.group(1)
+    text = d3vilboy.pattern_match.group(1)
     photo = await draw_meme("kraken.webp", text)
-    await hellboy.client.send_file(
-        hellboy.chat_id, photo, reply_to=hellboy.reply_to_msg_id
+    await d3vilboy.client.send_file(
+        d3vilboy.chat_id, photo, reply_to=d3vilboy.reply_to_msg_id
     )
-    await hellboy.delete()
+    await d3vilboy.delete()
     shutil.rmtree(path)
     os.remove("kraken.webp")
     os.remove(photo)
     
-@bot.on(hell_cmd(pattern="doge(?: |$)(.*)", outgoing=True))
+@bot.on(d3vil_cmd(pattern="doge(?: |$)(.*)", outgoing=True))
 @bot.on(sudo_cmd(pattern="doge(?: |$)(.*)", allow_sudo=True))
 async def nope(kraken):
-    hell = kraken.pattern_match.group(1)
-    if not hell:
+    d3vil = kraken.pattern_match.group(1)
+    if not d3vil:
         if kraken.is_reply:
             (await kraken.get_reply_message()).message
         else:
@@ -79,7 +79,7 @@ async def nope(kraken):
             else:
                 return await eor(kraken, "Doge need some text to make sticker.")
 
-    troll = await bot.inline_query("DogeStickerBot", f"{(deEmojify(hell))}")
+    troll = await bot.inline_query("DogeStickerBot", f"{(deEmojify(d3vil))}")
     if troll:
         await kraken.delete()
         hel_ = await troll[0].click(Config.LOGGER_ID)
@@ -95,9 +95,9 @@ async def nope(kraken):
      
     
 CmdHelp("memify").add_command(
-  "mmf", "<reply to a img/stcr/gif> <upper text> ; <lower text>", "Memifies the replied image/gif/sticker with your text and sends output in sticker format.", "mmf <reply to a img/stcr/gif> hii ; hello"
+  "mmf", "<reply to a img/stcr/gif> <upper text> ; <lower text>", "Memifies the replied image/gif/sticker with your text and sends output in sticker format.", "mmf <reply to a img/stcr/gif> hii ; d3vilo"
 ).add_command(
-  "mms", "<reply to a img/stcr/gif> <upper text> ; <lower text>", "Memifies the replied image/gif/sticker with your text and sends output in image format.", "mms <reply to a img/stcr/gif> hii ; hello"
+  "mms", "<reply to a img/stcr/gif> <upper text> ; <lower text>", "Memifies the replied image/gif/sticker with your text and sends output in image format.", "mms <reply to a img/stcr/gif> hii ; d3vilo"
 ).add_command(
   "doge", "<text>", "Makes A Sticker of Doge with given text."
 ).add_info(

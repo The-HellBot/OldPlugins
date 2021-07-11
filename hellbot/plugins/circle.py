@@ -3,7 +3,7 @@ from telethon.errors.rpcerrorlist import YouBlockedUserError
 
 from . import *
 
-@bot.on(hell_cmd(pattern="circle ?(.*)"))
+@bot.on(d3vil_cmd(pattern="circle ?(.*)"))
 @bot.on(sudo_cmd(pattern="circle ?(.*)", allow_sudo=True))
 async def _(event):
     if event.fwd_from:

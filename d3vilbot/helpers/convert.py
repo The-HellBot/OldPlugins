@@ -51,4 +51,4 @@ def deEmojify(inputString: str) -> str:
     return re.sub(EMOJI_PATTERN, "", inputString)
 
 
-# hellbot
+# d3vilbot

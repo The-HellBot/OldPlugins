@@ -19,7 +19,7 @@ def dogbin(magnets):
     return urls
 
 
-@bot.on(hell_cmd(pattern=r"tsearch ?(.*)"))
+@bot.on(d3vil_cmd(pattern=r"tsearch ?(.*)"))
 @bot.on(sudo_cmd(pattern=r"tsearch ?(.*)", allow_sudo=True))
 async def tor_search(event):
     if event.fwd_from:
@@ -28,7 +28,7 @@ async def tor_search(event):
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.121 Safari/537.36"
     }
     search_str = event.pattern_match.group(1)
-    hell = await eor(event, f"Searching for  `{search_str}` .....")
+    d3vil = await eor(event, f"Searching for  `{search_str}` .....")
     if " " in search_str:
         search_str = search_str.replace(" ", "+")
         print(search_str)
@@ -62,7 +62,7 @@ async def tor_search(event):
             break
         counter += 1
     if not urls:
-        await eod(hell, "Either the Keyword was restricted or not found..", 7)
+        await eod(d3vil, "Either the Keyword was restricted or not found..", 7)
         return
     for url in urls:
         res = requests.get(url, headers)
@@ -89,16 +89,16 @@ async def tor_search(event):
             + "\n\n"
         )
         counter += 1
-    await hell.edit(msg, link_preview=False)
+    await d3vil.edit(msg, link_preview=False)
 
 
-@bot.on(hell_cmd(pattern=r"movie (torrentz2\.eu|idop\.se) (.*)"))
+@bot.on(d3vil_cmd(pattern=r"movie (torrentz2\.eu|idop\.se) (.*)"))
 @bot.on(sudo_cmd(pattern=r"movie (torrentz2\.eu|idop\.se) (.*)", allow_sudo=True))
 async def _(event):
     if event.fwd_from:
         return
     start = datetime.datetime.now()
-    hell = await eor(event, "Processing ...")
+    d3vil = await eor(event, "Processing ...")
     input_type = event.pattern_match.group(1)
     input_str = event.pattern_match.group(2)
     search_results = []
@@ -131,7 +131,7 @@ async def _(event):
         i += 1
     end = datetime.datetime.now()
     ms = (end - start).seconds
-    await hell.edit(
+    await d3vil.edit(
         f"Scrapped {input_type} for {input_str} in {ms} seconds. Obtained Results: \n {output_str}",
         link_preview=False,
         parse_mode="html",

@@ -3,7 +3,7 @@ import requests
 from . import *
 
 
-@bot.on(hell_cmd(pattern="ytube (.*)", outgoing=True))
+@bot.on(d3vil_cmd(pattern="ytube (.*)", outgoing=True))
 @bot.on(sudo_cmd(pattern="ytube (.*)", allow_sudo=True))
 async def _(event):
     if event.fwd_from:
@@ -24,7 +24,7 @@ async def _(event):
         await eod(event, "Something went wrong. Please try again later.")
 
 
-@bot.on(hell_cmd(pattern="ddg (.*)", outgoing=True))
+@bot.on(d3vil_cmd(pattern="ddg (.*)", outgoing=True))
 @bot.on(sudo_cmd(pattern="ddg (.*)", allow_sudo=True))
 async def _(event):
     if event.fwd_from:
@@ -45,7 +45,7 @@ async def _(event):
         await eod(event, "Something went wrong. Please try again later.")
 
 
-@bot.on(hell_cmd(pattern="altn (.*)", outgoing=True))
+@bot.on(d3vil_cmd(pattern="altn (.*)", outgoing=True))
 @bot.on(sudo_cmd(pattern="altn (.*)", allow_sudo=True))
 async def _(event):
     if event.fwd_from:
@@ -64,7 +64,7 @@ async def _(event):
         await eod(event, "Something went wrong. Please try again later.")
 
 
-@bot.on(hell_cmd(pattern="var (.*)", outgoing=True))
+@bot.on(d3vil_cmd(pattern="var (.*)", outgoing=True))
 @bot.on(sudo_cmd(pattern="var (.*)", allow_sudo=True))
 async def _(event):
     if event.fwd_from:
@@ -85,7 +85,7 @@ async def _(event):
         await eod(event, "Something went wrong. Please try again later.")
 
 
-@bot.on(hell_cmd(pattern="lmlog (.*)", outgoing=True))
+@bot.on(d3vil_cmd(pattern="lmlog (.*)", outgoing=True))
 @bot.on(sudo_cmd(pattern="lmlog (.*)", allow_sudo=True))
 async def _(event):
     if event.fwd_from:
@@ -104,7 +104,7 @@ async def _(event):
         await eod(event, "Something went wrong. Please try again later.")
 
 
-@bot.on(hell_cmd(pattern="hacc (.*)", outgoing=True))
+@bot.on(d3vil_cmd(pattern="hacc (.*)", outgoing=True))
 @bot.on(sudo_cmd(pattern="hacc (.*)", allow_sudo=True))
 async def _(event):
     if event.fwd_from:
@@ -123,7 +123,7 @@ async def _(event):
         await eod(event, "Something went wrong. Please try again later.")
 
 
-@bot.on(hell_cmd(pattern="lmkp (.*)", outgoing=True))
+@bot.on(d3vil_cmd(pattern="lmkp (.*)", outgoing=True))
 @bot.on(sudo_cmd(pattern="lmkp (.*)", allow_sudo=True))
 async def _(event):
     if event.fwd_from:
@@ -142,7 +142,7 @@ async def _(event):
         await eod(event, "Something went wrong. Please try again later.")
 
 
-@bot.on(hell_cmd(pattern="gem (.*)", outgoing=True))
+@bot.on(d3vil_cmd(pattern="gem (.*)", outgoing=True))
 @bot.on(sudo_cmd(pattern="gem (.*)", allow_sudo=True))
 async def _(event):
     if event.fwd_from:
@@ -161,7 +161,7 @@ async def _(event):
         await eod(event, "Something went wrong. Please try again later.")
 
 
-@bot.on(hell_cmd(pattern="rchiv (.*)", outgoing=True))
+@bot.on(d3vil_cmd(pattern="rchiv (.*)", outgoing=True))
 @bot.on(sudo_cmd(pattern="rchiv (.*)", allow_sudo=True))
 async def _(event):
     if event.fwd_from:

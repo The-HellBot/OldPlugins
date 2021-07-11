@@ -7,14 +7,14 @@ from telethon.tl.types import Channel, Chat, User
 from . import *
 
 
-@bot.on(hell_cmd(pattern="stats$"))
+@bot.on(d3vil_cmd(pattern="stats$"))
 @bot.on(sudo_cmd(pattern="stats$", allow_sudo=True))
 async def stats(
     event: NewMessage.Event,
 ) -> None:  # pylint: disable = R0912, R0914, R0915
     if event.fwd_from:
         return
-    hell = await edit_or_reply(event, "`Collecting stats...`")
+    d3vil = await edit_or_reply(event, "`Collecting stats...`")
     start_time = time.time()
     private_chats = 0
     bots = 0
@@ -80,9 +80,9 @@ async def stats(
     response += f"🔱 **Unread Mentions:** {unread_mentions} \n\n"
     response += f"☣️   __It Took:__ {stop_time:.02f}s \n"
     response += (
-        f"📌 **From The DataBase Of** :- {hell_channel}"
+        f"📌 **From The DataBase Of** :- {d3vil_channel}"
     )
-    await hell.edit(response)
+    await d3vil.edit(response)
 
 
 def make_mention(user):

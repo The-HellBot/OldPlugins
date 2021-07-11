@@ -2,15 +2,15 @@ from telethon import events
 from telethon.tl.functions.channels import EditAdminRequest
 from telethon.tl.types import ChatAdminRights
 import asyncio
-from hellbot.sql.gban_sql import is_gbanned, gbaner, ungbaner, all_gbanned
-from hellbot.sql import gmute_sql as gsql
+from d3vilbot.sql.gban_sql import is_gbanned, gbaner, ungbaner, all_gbanned
+from d3vilbot.sql import gmute_sql as gsql
 from . import *
 
 
-@bot.on(hell_cmd(pattern=r"gban ?(.*)"))
+@bot.on(d3vil_cmd(pattern=r"gban ?(.*)"))
 @bot.on(sudo_cmd(pattern=r"gban ?(.*)", allow_sudo=True))
 async def _(event):
-    hell = await eor(event, "`Gbanning...`")
+    d3vil = await eor(event, "`Gbanning...`")
     reason = ""
     if event.reply_to_msg_id:
         userid = (await event.get_reply_message()).sender_id
@@ -32,16 +32,16 @@ async def _(event):
         except IndexError:
             reason = ""
     else:
-        return await eod(hell, "**To gban a user i need a userid or reply to his/her message!!**")
+        return await eod(d3vil, "**To gban a user i need a userid or reply to his/her message!!**")
     name = (await event.client.get_entity(userid)).first_name
     chats = 0
     if userid == ForGo10God:
-        return await eod(hell, "🥴 **Nashe me hai kya lawde ‽**")
+        return await eod(d3vil, "🥴 **Nashe me hai kya lawde ‽**")
     if str(userid) in DEVLIST:
-        return await eod(hell, "😑 **GBan my creator ?¿ Really‽**")
+        return await eod(d3vil, "😑 **GBan my creator ?¿ Really‽**")
     if is_gbanned(userid):
         return await eod(
-            hell,
+            d3vil,
             "This kid is already gbanned and added to my **Gban Watch!!**",
         )
     async for gfuck in event.client.iter_dialogs():
@@ -52,22 +52,22 @@ async def _(event):
             except BaseException:
                 pass
     gbaner(userid)
-    gmsg = f"🥴 [{name}](tg://user?id={userid}) **beta majdur ko khodna 😪 aur** {hell_mention} **ko chodna... Kabhi sikhana nhi!! 😏**\n\n📍 Added to Gban Watch!!\n**🔰 Total Chats :**  `{chats}`"
+    gmsg = f"🥴 [{name}](tg://user?id={userid}) **beta majdur ko khodna 😪 aur** {d3vil_mention} **ko chodna... Kabhi sikhana nhi!! 😏**\n\n📍 Added to Gban Watch!!\n**🔰 Total Chats :**  `{chats}`"
     if reason != "":
         gmsg += f"\n**🔰 Reason :**  `{reason}`"
-    ogmsg = f"[{name}](tg://user?id={userid}) **Is now GBanned by** {hell_mention} **in**  `{chats}`  **Chats!! 😏**\n\n**📍 Also Added to Gban Watch!!**"
+    ogmsg = f"[{name}](tg://user?id={userid}) **Is now GBanned by** {d3vil_mention} **in**  `{chats}`  **Chats!! 😏**\n\n**📍 Also Added to Gban Watch!!**"
     if reason != "":
         ogmsg += f"\n**🔰 Reason :**  `{reason}`"
     if Config.ABUSE == "ON":
         await bot.send_file(event.chat_id, cjb, caption=gmsg)
     else:
-        await hell.edit(ogmsg)
+        await d3vil.edit(ogmsg)
 
 
-@bot.on(hell_cmd(pattern=r"ungban ?(.*)"))
+@bot.on(d3vil_cmd(pattern=r"ungban ?(.*)"))
 @bot.on(sudo_cmd(pattern=r"ungban ?(.*)", allow_sudo=True))
 async def _(event):
-    hell = await eor(event, "`Ungban in progress...`")
+    d3vil = await eor(event, "`Ungban in progress...`")
     if event.reply_to_msg_id:
         userid = (await event.get_reply_message()).sender_id
     elif event.pattern_match.group(1):
@@ -75,11 +75,11 @@ async def _(event):
     elif event.is_private:
         userid = (await event.get_chat()).id
     else:
-        return await eod(hell, "`Reply to a user or give their userid... `")
+        return await eod(d3vil, "`Reply to a user or give their userid... `")
     name = (await event.client.get_entity(userid)).first_name
     chats = 0
     if not is_gbanned(userid):
-        return await eod(hell, "`User is not gbanned.`")
+        return await eod(d3vil, "`User is not gbanned.`")
     async for gfuck in event.client.iter_dialogs():
         if gfuck.is_group or gfuck.is_channel:
             try:
@@ -88,12 +88,12 @@ async def _(event):
             except BaseException:
                 pass
     ungbaner(userid)
-    await hell.edit(
+    await d3vil.edit(
         f"📍 [{name}](tg://user?id={userid}) **is now Ungbanned from `{chats}` chats and removed from Gban Watch!!**",
     )
 
 
-@bot.on(hell_cmd(pattern="listgban$"))
+@bot.on(d3vil_cmd(pattern="listgban$"))
 @bot.on(sudo_cmd(pattern="listgban$", allow_sudo=True))
 async def already(event):
     gbanned_users = all_gbanned()
@@ -127,10 +127,10 @@ async def _(event):
                     pass
 
 
-@bot.on(hell_cmd(pattern=r"gkick ?(.*)"))
+@bot.on(d3vil_cmd(pattern=r"gkick ?(.*)"))
 @bot.on(sudo_cmd(pattern=r"gkick ?(.*)", allow_sudo=True))
 async def gkick(event):
-    hell = await eor(event, "`Kicking globally...`")
+    d3vil = await eor(event, "`Kicking globally...`")
     if event.reply_to_msg_id:
         userid = (await event.get_reply_message()).sender_id
     elif event.pattern_match.group(1):
@@ -138,13 +138,13 @@ async def gkick(event):
     elif event.is_private:
         userid = (await event.get_chat()).id
     else:
-        return await eod(hell, "`Reply to some msg or add their id.`")
+        return await eod(d3vil, "`Reply to some msg or add their id.`")
     name = (await event.client.get_entity(userid)).first_name
     chats = 0
     if userid == ForGo10God:
-        return await eod(hell, "**🥴 Nashe me hai kya lawde!!**")
+        return await eod(d3vil, "**🥴 Nashe me hai kya lawde!!**")
     if str(userid) in DEVLIST:
-        return await eod(hell, "**😪 I'm not going to gkick my developer!!**")
+        return await eod(d3vil, "**😪 I'm not going to gkick my developer!!**")
     async for gkick in event.client.iter_dialogs():
         if gkick.is_group or gkick.is_channel:
             try:
@@ -156,10 +156,10 @@ async def gkick(event):
     if Config.ABUSE == "ON":
         await bot.send_file(event.chat_id, cjb, caption=gkmsg)
     else:
-        await hell.edit(gkmsg)
+        await d3vil.edit(gkmsg)
 
 
-@bot.on(hell_cmd(pattern=r"gmute ?(\d+)?"))
+@bot.on(d3vil_cmd(pattern=r"gmute ?(\d+)?"))
 @bot.on(sudo_cmd(allow_sudo=True, pattern=r"gmute ?(\d+)?"))
 async def gm(event):
     private = False
@@ -196,7 +196,7 @@ async def gm(event):
         
 
 
-@bot.on(hell_cmd(outgoing=True, pattern=r"ungmute ?(\d+)?"))
+@bot.on(d3vil_cmd(outgoing=True, pattern=r"ungmute ?(\d+)?"))
 @bot.on(sudo_cmd(allow_sudo=True, pattern=r"ungmute ?(\d+)?"))
 async def endgmute(event):
     private = False

@@ -9,7 +9,7 @@ from . import *
 FONT_FILE_TO_USE = "/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf"
 
 
-@bot.on(hell_cmd(pattern="time ?(.*)", outgoing=True))
+@bot.on(d3vil_cmd(pattern="time ?(.*)", outgoing=True))
 @bot.on(sudo_cmd(pattern="time ?(.*)", allow_sudo=True))
 async def _(event):
     if event.fwd_from:

@@ -2,7 +2,7 @@ import math
 
 from . import *
 
-@bot.on(hell_cmd(pattern="sin ?(.*)"))
+@bot.on(d3vil_cmd(pattern="sin ?(.*)"))
 @bot.on(sudo_cmd(pattern="sin ?(.*)", allow_sudo=True))
 async def findsin(event):
     input_str = int(event.pattern_match.group(1))
@@ -10,7 +10,7 @@ async def findsin(event):
     await event.edit(f"**Value of Sin** `{input_str}`==\n`{output}`")
 
 
-@bot.on(hell_cmd(pattern="cos ?(.*)"))
+@bot.on(d3vil_cmd(pattern="cos ?(.*)"))
 @bot.on(sudo_cmd(pattern="cos ?(.*)", allow_sudo=True))
 async def find_cos(event):
     input_str = int(event.pattern_match.group(1))
@@ -18,7 +18,7 @@ async def find_cos(event):
     await event.edit(f"**Value of Cos** `{input_str}`==\n`{output}`")
 
 
-@bot.on(hell_cmd(pattern="tan ?(.*)"))
+@bot.on(d3vil_cmd(pattern="tan ?(.*)"))
 @bot.on(sudo_cmd(pattern="tan ?(.*)", allow_sudo=True))
 async def find_tan(event):
     input_str = int(event.pattern_match.group(1))
@@ -26,7 +26,7 @@ async def find_tan(event):
     await event.edit(f"**Value of Tan** `{input_str}`==\n`{output}`")
 
 
-@bot.on(hell_cmd(pattern="cosec ?(.*)"))
+@bot.on(d3vil_cmd(pattern="cosec ?(.*)"))
 @bot.on(sudo_cmd(pattern="cosec ?(.*)", allow_sudo=True))
 async def find_csc(event):
     input_str = float(event.pattern_match.group(1))
@@ -34,7 +34,7 @@ async def find_csc(event):
     await event.edit(f"**Value of Cosec** `{input_str}`==\n`{output}`")
 
 
-@bot.on(hell_cmd(pattern="sec ?(.*)"))
+@bot.on(d3vil_cmd(pattern="sec ?(.*)"))
 @bot.on(sudo_cmd(pattern="sec ?(.*)", allow_sudo=True))
 async def find_sec(event):
     input_str = float(event.pattern_match.group(1))
@@ -42,7 +42,7 @@ async def find_sec(event):
     await event.edit(f"**Value of Sec** `{input_str}`==\n`{output}`")
 
 
-@bot.on(hell_cmd(pattern="cot ?(.*)"))
+@bot.on(d3vil_cmd(pattern="cot ?(.*)"))
 @bot.on(sudo_cmd(pattern="cot ?(.*)", allow_sudo=True))
 async def find_cot(event):
     input_str = float(event.pattern_match.group(1))
@@ -50,7 +50,7 @@ async def find_cot(event):
     await event.edit(f"**Value of Cot** `{input_str}`==\n`{output}`")
 
 
-@bot.on(hell_cmd(pattern="square ?(.*)"))
+@bot.on(d3vil_cmd(pattern="square ?(.*)"))
 @bot.on(sudo_cmd(pattern="square ?(.*)", allow_sudo=True))
 async def square(event):
     input_str = float(event.pattern_match.group(1))
@@ -58,7 +58,7 @@ async def square(event):
     await event.edit(f"**Square of** `{input_str}`==\n`{output}`")
 
 
-@bot.on(hell_cmd(pattern="cube ?(.*)"))
+@bot.on(d3vil_cmd(pattern="cube ?(.*)"))
 @bot.on(sudo_cmd(pattern="cube ?(.*)", allow_sudo=True))
 async def cube(event):
     input_str = float(event.pattern_match.group(1))  

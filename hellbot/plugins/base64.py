@@ -5,7 +5,7 @@ import base64
 
 from . import *
 
-@bot.on(hell_cmd(pattern="hash (.*)", outgoing=True))
+@bot.on(d3vil_cmd(pattern="hash (.*)", outgoing=True))
 @bot.on(sudo_cmd(pattern="hash (.*)", allow_sudo=True))
 @errors_handler
 async def gethash(hash_q):
@@ -54,7 +54,7 @@ async def gethash(hash_q):
         await event.delete()
 
 
-@bot.on(hell_cmd(pattern="b64 (en|de) (.*)", outgoing=True))
+@bot.on(d3vil_cmd(pattern="b64 (en|de) (.*)", outgoing=True))
 @bot.on(sudo_cmd(pattern="b64 (en|de) (.*)", allow_sudo=True))
 @errors_handler
 async def endecrypt(query):

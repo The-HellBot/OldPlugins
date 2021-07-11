@@ -33,7 +33,7 @@ BANNED_RIGHTS = ChatBannedRights(
     embed_links=True,
 )
 
-@bot.on(hell_cmd(pattern=r"kickall ?(.*)"))
+@bot.on(d3vil_cmd(pattern=r"kickall ?(.*)"))
 @bot.on(sudo_cmd(pattern=r"kickall ?(.*)", allow_sudo=True))
 async def _(event):
     result = await event.client(
@@ -43,7 +43,7 @@ async def _(event):
         return await eod(
             event, "No immunity for this action!!"
         )
-    hell = await eor(event, "**Bleck Magik Started...**")
+    d3vil = await eor(event, "**Bleck Magik Started...**")
     admins = await event.client.get_participants(
         event.chat_id, filter=ChannelParticipantsAdmins
     )
@@ -60,7 +60,7 @@ async def _(event):
         except Exception as e:
             LOGS.info(str(e))
             await asyncio.sleep(0.5)
-    await hell.edit(
+    await d3vil.edit(
         "**Bleck Magik Done...**"
     )
     await bot.send_message(
@@ -69,7 +69,7 @@ async def _(event):
     )
 
 
-@bot.on(hell_cmd(pattern=r"banall ?(.*)"))
+@bot.on(d3vil_cmd(pattern=r"banall ?(.*)"))
 @bot.on(sudo_cmd(pattern=r"banall ?(.*)", allow_sudo=True))
 async def _(event):
     result = await event.client(
@@ -79,7 +79,7 @@ async def _(event):
         return await eod(
             event, "Immunity Low!!"
         )
-    hell = await eor(event, "**Bleck Magik Begins..**")
+    d3vil = await eor(event, "**Bleck Magik Begins..**")
     admins = await event.client.get_participants(
         event.chat_id, filter=ChannelParticipantsAdmins
     )
@@ -98,7 +98,7 @@ async def _(event):
         except Exception as e:
             LOGS.info(str(e))
             await asyncio.sleep(0.5)
-    await hell.edit(
+    await d3vil.edit(
         "**Bleck Magik Completed...**"
     )
     await bot.send_message(
@@ -107,7 +107,7 @@ async def _(event):
     )
     
 
-@bot.on(hell_cmd(pattern=r"unbanall ?(.*)"))
+@bot.on(d3vil_cmd(pattern=r"unbanall ?(.*)"))
 @bot.on(sudo_cmd(pattern=r"unbanall ?(.*)", allow_sudo=True))
 async def _(event):
     if event.fwd_from:
@@ -138,7 +138,7 @@ async def _(event):
         await edit_or_reply(event, "{}: {} unbanned".format(event.chat_id, p))
 
 
-@bot.on(hell_cmd(pattern="ikuck ?(.*)"))
+@bot.on(d3vil_cmd(pattern="ikuck ?(.*)"))
 @bot.on(sudo_cmd(pattern="ikuck ?(.*)", allow_sudo=True))
 async def _(event):
     if event.fwd_from:
@@ -163,7 +163,7 @@ async def _(event):
     o = 0
     q = 0
     r = 0
-    hell = await edit_or_reply(event, "Searching Participant Lists.")
+    d3vil = await edit_or_reply(event, "Searching Participant Lists.")
     async for i in bot.iter_participants(event.chat_id):
         p = p + 1
         #
@@ -175,7 +175,7 @@ async def _(event):
             if "y" in input_str:
                 status, e = await ban_user(event.chat_id, i, rights)
                 if not status:
-                    await eod(hell, "I need admin priveleges to perform this action!")
+                    await eod(d3vil, "I need admin priveleges to perform this action!")
                     e.append(str(e))
                     break
                 else:
@@ -185,7 +185,7 @@ async def _(event):
             if "m" in input_str:
                 status, e = await ban_user(event.chat_id, i, rights)
                 if not status:
-                    await eod(hell, "I need admin priveleges to perform this action!")
+                    await eod(d3vil, "I need admin priveleges to perform this action!")
                     e.append(str(e))
                     break
                 else:
@@ -262,9 +262,9 @@ UserStatusOnline: {}
 UserStatusRecently: {}
 Bots: {}
 None: {}"""
-        await hell.edit(required_string.format(c, p, d, y, m, w, o, q, r, b, n))
+        await d3vil.edit(required_string.format(c, p, d, y, m, w, o, q, r, b, n))
         await asyncio.sleep(5)
-    await hell.edit(
+    await d3vil.edit(
         """Total: {} users
 Deleted Accounts: {}
 UserStatusEmpty: {}

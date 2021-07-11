@@ -16,9 +16,9 @@ from telethon import events
 from telethon.tl.functions.channels import GetParticipantRequest
 from telethon.tl.types import ChannelParticipantAdmin, ChannelParticipantCreator
 
-from hellbot import *
-from hellbot.helpers import *
-from hellbot.config import Config
+from d3vilbot import *
+from d3vilbot.helpers import *
+from d3vilbot.config import Config
 
 
 # either edit or reply that msg
@@ -94,13 +94,13 @@ async def edit_or_reply(
 
 
 # delete timeout
-async def delete_hell(event, text, time=None, parse_mode=None, link_preview=None):
+async def delete_d3vil(event, text, time=None, parse_mode=None, link_preview=None):
     parse_mode = parse_mode or "md"
     link_preview = link_preview or False
     time = time or 10
     if event.sender_id in Config.SUDO_USERS:
         reply_to = await event.get_reply_message()
-        hellevent = (
+        d3vilevent = (
             await reply_to.reply(text, link_preview=link_preview, parse_mode=parse_mode)
             if reply_to
             else await event.reply(
@@ -108,10 +108,10 @@ async def delete_hell(event, text, time=None, parse_mode=None, link_preview=None
             )
         )
     else:
-        hellevent = await event.edit(
+        d3vilevent = await event.edit(
             text, link_preview=link_preview, parse_mode=parse_mode
         )
     await asyncio.sleep(time)
-    return await hellevent.delete()
+    return await d3vilevent.delete()
 
-# hellbot
+# d3vilbot

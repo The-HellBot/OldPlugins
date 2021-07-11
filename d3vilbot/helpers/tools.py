@@ -3,8 +3,8 @@ import re
 
 from telethon import events
 
-from hellbot import bot
-from hellbot.config import Config
+from d3vilbot import bot
+from d3vilbot.config import Config
 
 
 # forward check
@@ -90,4 +90,4 @@ def no_grp():
     return decorator
 
 
-# hellbot
+# d3vilbot

@@ -6,7 +6,7 @@ from selenium import webdriver
 
 from . import *
 
-@bot.on(hell_cmd(pattern="(webshot|screenshot) (.*)", outgoing=True))
+@bot.on(d3vil_cmd(pattern="(webshot|screenshot) (.*)", outgoing=True))
 @bot.on(sudo_cmd(pattern="(webshot|screenshot) (.*)", allow_sudo=True))
 async def _(event):
     if event.fwd_from:
@@ -14,7 +14,7 @@ async def _(event):
     if Config.GOOGLE_CHROME_BIN is None:
         await eod(event, "need to install Google Chrome. Module Stopping.")
         return
-    hell = await eor(event, "Processing ...weit")
+    d3vil = await eor(event, "Processing ...weit")
     start = datetime.datetime.now()
     try:
         chrome_options = webdriver.ChromeOptions()
@@ -24,22 +24,22 @@ async def _(event):
         chrome_options.add_argument("--no-sandbox")
         chrome_options.add_argument("--disable-dev-shm-usage")
         chrome_options.binary_location = Config.GOOGLE_CHROME_BIN
-        await hell.edit("Starting Google Chrome BIN")
+        await d3vil.edit("Starting Google Chrome BIN")
         driver = webdriver.Chrome(chrome_options=chrome_options)
         input_str = event.pattern_match.group(1)
         driver.get(input_str)
-        await hell.edit("Calculating Page Dimensions")
+        await d3vil.edit("Calculating Page Dimensions")
         height = driver.execute_script(
             "return Math.max(document.body.scrollHeight, document.body.offsetHeight, document.documentElement.clientHeight, document.documentElement.scrollHeight, document.documentElement.offsetHeight);"
         )
         width = driver.execute_script(
             "return Math.max(document.body.scrollWidth, document.body.offsetWidth, document.documentElement.clientWidth, document.documentElement.scrollWidth, document.documentElement.offsetWidth);"
         )
-        await hell.edit("Painting web-page")
+        await d3vil.edit("Painting web-page")
         driver.set_window_size(width + 100, height + 100)
         im_png = driver.get_screenshot_as_png()
         driver.close()
-        await hell.edit("Stopping Google Chrome BIN")
+        await d3vil.edit("Stopping Google Chrome BIN")
         message_id = event.message.id
         if event.reply_to_msg_id:
             message_id = event.reply_to_msg_id
@@ -56,12 +56,12 @@ async def _(event):
             )
         end = datetime.datetime.now()
         ms = (end - start).seconds
-        await hell.edit(f"Completed screencapture Process in {ms} seconds")
+        await d3vil.edit(f"Completed screencapture Process in {ms} seconds")
     except Exception:
-        await eod(hell, traceback.format_exc())
+        await eod(d3vil, traceback.format_exc())
 
 CmdHelp("capture").add_command(
-        "screenshot", "<link>", "Gives out the web screenshot of given link via Google Crome Bin in .png format", ".screenshot https://github.com/hellboy-op/hellbot"
+        "screenshot", "<link>", "Gives out the web screenshot of given link via Google Crome Bin in .png format", ".screenshot https://github.com/d3vilboy-op/d3vilbot"
 ).add_command(
 	"webshot", "<link>", f"Same as  {hl}screenshot."
 ).add_info(

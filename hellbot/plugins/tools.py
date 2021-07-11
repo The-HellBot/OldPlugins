@@ -17,7 +17,7 @@ from telethon.errors.rpcerrorlist import YouBlockedUserError
 from . import *
 
 
-@bot.on(hell_cmd(pattern="scan ?(.*)"))
+@bot.on(d3vil_cmd(pattern="scan ?(.*)"))
 @bot.on(sudo_cmd(pattern="scan ?(.*)", allow_sudo=True))
 async def _(event):
     if event.fwd_from:
@@ -33,7 +33,7 @@ async def _(event):
     if reply_message.sender.bot:
         await eod(event, "Reply to actual users message.")
         return
-    hellevent = await eor(event, " `Scanning This media..... wait👀`")
+    d3vilevent = await eor(event, " `Scanning This media..... wait👀`")
     async with event.client.conversation(chat) as conv:
         try:
             response = conv.wait_event(
@@ -42,24 +42,24 @@ async def _(event):
             await event.client.forward_messages(chat, reply_message)
             response = await response
         except YouBlockedUserError:
-            await eod(hellevent, "`Please unblock `@DrWebBot `and try again`")
+            await eod(d3vilevent, "`Please unblock `@DrWebBot `and try again`")
             return
         if response.text.startswith("Forward"):
-            await eod(hellevent,
+            await eod(d3vilevent,
                 "Can you kindly disable your forward privacy settings for good?"
             )
         else:
             if response.text.startswith("Select"):
-                await eod(hellevent,
+                await eod(d3vilevent,
                     "`Please go to` @DrWebBot `and select your language.`"
                 )
             else:
-                await hellevent.edit(
+                await d3vilevent.edit(
                     f"**Antivirus scan was completed. I got the final results.**\n\n {response.message.message}"
                 )
 
 
-@bot.on(hell_cmd(pattern=r"decode$", outgoing=True))
+@bot.on(d3vil_cmd(pattern=r"decode$", outgoing=True))
 @bot.on(sudo_cmd(pattern=r"decode$", allow_sudo=True))
 async def parseqr(qr_e):
     if not os.path.isdir(Config.TEMP_DIR):
@@ -96,12 +96,12 @@ async def parseqr(qr_e):
         os.remove(downloaded_file_name)
 
 
-@bot.on(hell_cmd(pattern="barcode ?(.*)"))
+@bot.on(d3vil_cmd(pattern="barcode ?(.*)"))
 @bot.on(sudo_cmd(pattern="barcode ?(.*)", allow_sudo=True))
 async def _(event):
     if event.fwd_from:
         return
-    hellevent = await eor(event, "...")
+    d3vilevent = await eor(event, "...")
     start = datetime.datetime.now()
     input_str = event.pattern_match.group(1)
     message = f"SYNTAX: `{hl}barcode <long text to include>`"
@@ -139,16 +139,16 @@ async def _(event):
         )
         os.remove(filename)
     except Exception as e:
-        await hellevent.edit(str(e))
+        await d3vilevent.edit(str(e))
         return
     end = datetime.datetime.now()
     ms = (end - start).seconds
-    await hellevent.edit("Created BarCode in {} seconds🤓".format(ms))
+    await d3vilevent.edit("Created BarCode in {} seconds🤓".format(ms))
     await asyncio.sleep(5)
-    await hellevent.delete()
+    await d3vilevent.delete()
 
 
-@bot.on(hell_cmd(pattern=r"makeqr(?: |$)([\s\S]*)", outgoing=True))
+@bot.on(d3vil_cmd(pattern=r"makeqr(?: |$)([\s\S]*)", outgoing=True))
 @bot.on(sudo_cmd(pattern=r"makeqr(?: |$)([\s\S]*)", allow_sudo=True))
 async def make_qr(makeqr):
     input_str = makeqr.pattern_match.group(1)
@@ -187,14 +187,14 @@ async def make_qr(makeqr):
     await makeqr.delete()
 
 
-@bot.on(hell_cmd(pattern="cal (.*)"))
+@bot.on(d3vil_cmd(pattern="cal (.*)"))
 @bot.on(sudo_cmd(pattern="cal (.*)", allow_sudo=True))
 async def _(event):
     if event.fwd_from:
         return
     start = datetime.datetime.now()
     input_str = event.pattern_match.group(1)
-    hell = await eor(event, "Processing...")
+    d3vil = await eor(event, "Processing...")
     input_sgra = input_str.split(".")
     if len(input_sgra) == 3:
         yyyy = input_sgra[0]
@@ -211,14 +211,14 @@ async def _(event):
             a = json.dumps(current_date_detail_arraays, sort_keys=True, indent=4)
         else:
             a = response_content["error"]
-        await hell.edit(str(a))
+        await d3vil.edit(str(a))
     else:
-        await eod(hell, f"SYNTAX: {hl}calendar YYYY.MM.DD")
+        await eod(d3vil, f"SYNTAX: {hl}calendar YYYY.MM.DD")
     end = datetime.datetime.now()
     (end - start).seconds
 
 
-@bot.on(hell_cmd(pattern="currency (.*)"))
+@bot.on(d3vil_cmd(pattern="currency (.*)"))
 @bot.on(sudo_cmd(pattern="currency (.*)", allow_sudo=True))
 async def _(event):
     if event.fwd_from:
@@ -255,7 +255,7 @@ async def _(event):
         )
 
 
-@bot.on(hell_cmd(pattern="currencies$"))
+@bot.on(d3vil_cmd(pattern="currencies$"))
 @bot.on(sudo_cmd(pattern="currencies$", allow_sudo=True))
 async def currencylist(ups):
     if ups.fwd_from:
@@ -269,7 +269,7 @@ async def currencylist(ups):
     await eor(ups, f"**List of some currencies:**\n{hmm}\n")
 
 
-@bot.on(hell_cmd(pattern="ifsc (.*)"))
+@bot.on(d3vil_cmd(pattern="ifsc (.*)"))
 @bot.on(sudo_cmd(pattern="ifsc (.*)", allow_sudo=True))
 async def _(event):
     if event.fwd_from:
@@ -286,7 +286,7 @@ async def _(event):
         await eor(event, "`{}`: {}".format(input_str, r.text))
 
 
-@bot.on(hell_cmd(pattern="color (.*)"))
+@bot.on(d3vil_cmd(pattern="color (.*)"))
 @bot.on(sudo_cmd(pattern="color (.*)", allow_sudo=True))
 async def _(event):
     if event.fwd_from:
@@ -305,16 +305,16 @@ async def _(event):
             return False
         else:
             im = Image.new(mode="RGB", size=(1280, 720), color=usercolor)
-            im.save("hell.png", "PNG")
+            im.save("d3vil.png", "PNG")
             input_str = input_str.replace("#", "#COLOR_")
             await event.client.send_file(
                 event.chat_id,
-                "hell.png",
+                "d3vil.png",
                 force_document=False,
                 caption=input_str,
                 reply_to=message_id,
             )
-            os.remove("hell.png")
+            os.remove("d3vil.png")
             await event.delete()
     else:
         await eod(
@@ -322,12 +322,12 @@ async def _(event):
         )
 
 
-@bot.on(hell_cmd(pattern="xkcd ?(.*)"))
+@bot.on(d3vil_cmd(pattern="xkcd ?(.*)"))
 @bot.on(sudo_cmd(pattern="xkcd ?(.*)", allow_sudo=True))
 async def _(event):
     if event.fwd_from:
         return
-    hellevent = await eor(event, "`processiong...`")
+    d3vilevent = await eor(event, "`processiong...`")
     input_str = event.pattern_match.group(1)
     xkcd_id = None
     if input_str:
@@ -364,11 +364,11 @@ Month: {}
 Year: {}""".format(
             img, input_str, xkcd_link, safe_title, alt, day, month, year
         )
-        await hellevent.edit(output_str, link_preview=True)
+        await d3vilevent.edit(output_str, link_preview=True)
     else:
-        await eod(hellevent, "xkcd n.{} not found!".format(xkcd_id))
+        await eod(d3vilevent, "xkcd n.{} not found!".format(xkcd_id))
 
-@bot.on(hell_cmd(pattern="dns (.*)", outgoing=True))
+@bot.on(d3vil_cmd(pattern="dns (.*)", outgoing=True))
 @bot.on(sudo_cmd(pattern="dns (.*)", allow_sudo=True))
 async def _(event):
     if event.fwd_from:
@@ -382,7 +382,7 @@ async def _(event):
         await eod(event, "i can't seem to find [this link]({}) on the internet".format(input_str, link_preview=False))
 
 
-@bot.on(hell_cmd(pattern="url (.*)", outgoing=True))
+@bot.on(d3vil_cmd(pattern="url (.*)", outgoing=True))
 @bot.on(sudo_cmd(pattern="url (.*)", allow_sudo=True))
 async def _(event):
     if event.fwd_from:
@@ -396,7 +396,7 @@ async def _(event):
         await eod(event, "something is wrong. please try again later.")
 
 
-@bot.on(hell_cmd(pattern="unshort (.*)", outgoing=True))
+@bot.on(d3vil_cmd(pattern="unshort (.*)", outgoing=True))
 @bot.on(sudo_cmd(pattern="unshort (.*)", allow_sudo=True))
 async def _(event):
     if event.fwd_from:

@@ -52,7 +52,7 @@ async def _(event):
                 os.remove(downloaded_file_name)
                 await eor(event, 
                    "✓ **File uploaded to [telegraph](https://telegra.ph{})** \n✓ **Time Taken :-** `{}` secs \n✓ **By :- {}**".format(
-                        media_urls[0], (ms + ms_two), hell_mention,
+                        media_urls[0], (ms + ms_two), d3vil_mention,
                     ),
                     link_preview=True,
                 )
@@ -79,9 +79,9 @@ async def _(event):
             response = telegraph.create_page(title_of_page, html_content=page_content)
             end = datetime.datetime.now()
             ms = (end - start).seconds
-            hellboy = f"https://telegra.ph/{response['path']}"
+            d3vilboy = f"https://telegra.ph/{response['path']}"
             await edit_or_reply(event, 
-                  f"✓ **Pasted to** [telegraph]({hellboy}) \n✓ **Time Taken :-** `{ms}` secs\n✓** By :**  {hell_mention}", link_preview=True)
+                  f"✓ **Pasted to** [telegraph]({d3vilboy}) \n✓ **Time Taken :-** `{ms}` secs\n✓** By :**  {d3vil_mention}", link_preview=True)
     else:
         await eod(event, 
             "Reply to a message to get a permanent telegra.ph link."

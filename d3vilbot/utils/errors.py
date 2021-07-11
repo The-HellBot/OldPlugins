@@ -16,9 +16,9 @@ from telethon import events
 from telethon.tl.functions.channels import GetParticipantRequest
 from telethon.tl.types import ChannelParticipantAdmin, ChannelParticipantCreator
 
-from hellbot import *
-from hellbot.helpers import *
-from hellbot.config import Config
+from d3vilbot import *
+from d3vilbot.helpers import *
+from d3vilbot.config import Config
 
 
 # this shit handles errors
@@ -63,7 +63,7 @@ def errors_handler(func):
 
             ftext += "\n\n\nLast 5 commits:\n"
 
-            process = await asyncio.create_subprocess_shell(
+            process = await asyncio.create_subprocess_sd3vil(
                 command,
                 stdout=asyncio.subprocess.PIPE,
                 stderr=asyncio.subprocess.PIPE)
@@ -75,4 +75,4 @@ def errors_handler(func):
 
     return wrapper
 
-# hellbot
+# d3vilbot

@@ -53,53 +53,53 @@ def user_full_name(user):
     return full_name
 
 
-@bot.on(hell_cmd(pattern=r"inviteall ?(.*)"))
+@bot.on(d3vil_cmd(pattern=r"inviteall ?(.*)"))
 @bot.on(sudo_cmd(pattern=r"inviteall ?(.*)", allow_sudo=True))
 async def get_users(event):
     sender = await event.get_sender()
     me = await event.client.get_me()
     if not sender.id == me.id:
-        hell = await eor(event, "`processing...`")
+        d3vil = await eor(event, "`processing...`")
     else:
-        hell = await eor(event, "`processing...`")
+        d3vil = await eor(event, "`processing...`")
     he_ll = event.pattern_match.group(1)
     if he_ll == "@HellBot_Chat":
-        return await hell.edit("Restricted to invite users from there.")
-    elif he_ll == "@hellbot_chat":
-        return await hell.edit("Restricted to invite users from there.")
+        return await d3vil.edit("Restricted to invite users from there.")
+    elif he_ll == "@d3vilbot_chat":
+        return await d3vil.edit("Restricted to invite users from there.")
     elif he_ll == "@HELLBOT_CHAT":
-        return await hell.edit("Restricted to invite users from there.")
+        return await d3vil.edit("Restricted to invite users from there.")
     kraken = await get_chatinfo(event)
     chat = await event.get_chat()
     if event.is_private:
-        return await hell.edit("`Sorry, Cant add users here`")
+        return await d3vil.edit("`Sorry, Cant add users here`")
     s = 0
     f = 0
     error = "None"
 
-    await hell.edit("**INVITING USERS !!**")
+    await d3vil.edit("**INVITING USERS !!**")
     async for user in event.client.iter_participants(kraken.full_chat.id):
         try:
             if error.startswith("Too"):
-                return await hell.edit(
+                return await d3vil.edit(
                     f"**INVITING FINISHED !**\n\n**Error :** \n`{error}`\n\n**Invited :**  `{s}` users. \n**Failed to Invite :** `{f}` users."
                 )
             await event.client(
                 functions.channels.InviteToChannelRequest(channel=chat, users=[user.id])
             )
             s = s + 1
-            await hell.edit(
+            await d3vil.edit(
                 f"**INVITING USERS.. **\n\n**Invited :**  `{s}` users \n**Failed to Invite :**  `{f}` users.\n\n**×Error :**  `{error}`"
             )
         except Exception as e:
             error = str(e)
             f = f + 1
-    return await hell.edit(
+    return await d3vil.edit(
         f"**INVITING FINISHED** \n\n**Invited :**  `{s}` users \n**Failed :**  `{f}` users."
     )
 
 
-@bot.on(hell_cmd(pattern=r"add ?(.*)"))
+@bot.on(d3vil_cmd(pattern=r"add ?(.*)"))
 @bot.on(sudo_cmd(pattern=r"add ?(.*)", allow_sudo=True))
 async def _(event):
     if event.fwd_from:

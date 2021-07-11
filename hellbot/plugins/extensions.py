@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 
 from . import *
 
-@bot.on(hell_cmd(pattern="fext (.*)"))
+@bot.on(d3vil_cmd(pattern="fext (.*)"))
 @bot.on(sudo_cmd(pattern="fext (.*)", allow_sudo=True))
 async def _(event):
     if event.fwd_from:

@@ -4,7 +4,7 @@ import traceback
 from . import *
 
 
-@bot.on(hell_cmd(pattern="calc (.*)"))
+@bot.on(d3vil_cmd(pattern="calc (.*)"))
 @bot.on(sudo_cmd(pattern="calc (.*)", allow_sudo=True))
 async def _(car):
     if car.fwd_from:

@@ -9,7 +9,7 @@ heroku_api = "https://api.heroku.com"
 sudousers = os.environ.get("SUDO_USERS", None)
 
 
-@bot.on(hell_cmd(pattern="sudo"))
+@bot.on(d3vil_cmd(pattern="sudo"))
 async def sudo(event):
     sudo = "True" if Config.SUDO_USERS else "False"
     users = os.environ.get("SUDO_USERS", None)
@@ -19,7 +19,7 @@ async def sudo(event):
         await eod(event, f"📍 **Sudo :**  `Disabled`", 7)
 
 
-@bot.on(hell_cmd(pattern="addsudo(?: |$)"))
+@bot.on(d3vil_cmd(pattern="addsudo(?: |$)"))
 async def add(event):
     ok = await eor(event, "**🚀 Adding Sudo User...**")
     bot = "SUDO_USERS"
@@ -42,7 +42,7 @@ async def add(event):
     await ok.edit(f"✅** Added**  `{target}`  **in Sudo User.**\n\n __Restarting Heroku to Apply Changes. Wait for a minute.__")
     heroku_Config[bot] = newsudo
 
-@bot.on(hell_cmd(pattern="rmsudo(?: |$)"))
+@bot.on(d3vil_cmd(pattern="rmsudo(?: |$)"))
 async def _(event):
     ok = await eor(event, "**🚫 Removing Sudo User...**")
     bot = "SUDO_USERS"

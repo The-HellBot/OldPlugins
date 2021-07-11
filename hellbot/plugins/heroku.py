@@ -35,51 +35,51 @@ async def restart(event):
         execl(executable, executable, "bash", "HellBot")
 
 
-@bot.on(hell_cmd(pattern="restart$"))
+@bot.on(d3vil_cmd(pattern="restart$"))
 @bot.on(sudo_cmd(pattern="restart$", allow_sudo=True))
-async def re(hell):
-    if hell.fwd_from:
+async def re(d3vil):
+    if d3vil.fwd_from:
         return
-    event = await eor(hell, "Restarting Dynos ...")
+    event = await eor(d3vil, "Restarting Dynos ...")
     if HEROKU_API_KEY:
         await restart(event)
     else:
         await event.edit("Please Set Your `HEROKU_API_KEY` to restart Hêllẞø†")
 
 
-@bot.on(hell_cmd(pattern="shutdown$"))
+@bot.on(d3vil_cmd(pattern="shutdown$"))
 @bot.on(sudo_cmd(pattern="shutdown$", allow_sudo=True))
-async def down(hell):
-    if hell.fwd_from:
+async def down(d3vil):
+    if d3vil.fwd_from:
         return
-    await eor(hell, "**[ ! ]** Turning off Hêllẞø† Dynos... Manually turn me on later ಠ_ಠ")
+    await eor(d3vil, "**[ ! ]** Turning off Hêllẞø† Dynos... Manually turn me on later ಠ_ಠ")
     if HEROKU_APP is not None:
         HEROKU_APP.process_formation()["worker"].scale(0)
     else:
         sys.exit(0)
 
 
-@bot.on(hell_cmd(pattern="(set|get|del) var(?: |$)(.*)(?: |$)([\s\S]*)", outgoing=True))
+@bot.on(d3vil_cmd(pattern="(set|get|del) var(?: |$)(.*)(?: |$)([\s\S]*)", outgoing=True))
 @bot.on(sudo_cmd(pattern="(set|get|del) var(?: |$)(.*)(?: |$)([\s\S]*)", allow_sudo=True))
-async def variable(hell):
-    if hell.fwd_from:
+async def variable(d3vil):
+    if d3vil.fwd_from:
         return
     if Config.HEROKU_APP_NAME is not None:
         app = Heroku.app(Config.HEROKU_APP_NAME)
     else:
-        return await eor(hell, "`[HEROKU]:" "\nPlease setup your` **HEROKU_APP_NAME**")
-    exe = hell.pattern_match.group(1)
+        return await eor(d3vil, "`[HEROKU]:" "\nPlease setup your` **HEROKU_APP_NAME**")
+    exe = d3vil.pattern_match.group(1)
     heroku_var = app.config()
     if exe == "get":
-        event = await eor(hell, "Getting Variable Info...")
+        event = await eor(d3vil, "Getting Variable Info...")
         await asyncio.sleep(1.5)
         cap = "Logger me chala jaa bsdk."
         capn = "Saved in LOGGER_ID !!"
         try:
-            variable = hell.pattern_match.group(2).split()[0]
+            variable = d3vil.pattern_match.group(2).split()[0]
             if variable in ("HELLBOT_SESSION", "BOT_TOKEN", "HEROKU_API_KEY"):
                 if Config.ABUSE == "ON":
-                    await bot.send_file(hell.chat_id, cjb, caption=cap)
+                    await bot.send_file(d3vil.chat_id, cjb, caption=cap)
                     await event.delete()
                     await bot.send_message(lg_id, f"#HEROKU_VAR \n\n`{heroku_var[variable]}`")
                     return
@@ -102,10 +102,10 @@ async def variable(hell):
             with open("configs.json", "r") as fp:
                 result = fp.read()
                 if len(result) >= 4096:
-                    await hell.client.send_file(
-                        hell.chat_id,
+                    await d3vil.client.send_file(
+                        d3vil.chat_id,
                         "configs.json",
-                        reply_to=hell.id,
+                        reply_to=d3vil.id,
                         caption="`Output too large, sending it as a file`",
                     )
                 else:
@@ -118,15 +118,15 @@ async def variable(hell):
             os.remove("configs.json")
             return
     elif exe == "set":
-        event = await eor(hell, "Setting Heroku Variable...")
-        variable = hell.pattern_match.group(2)
+        event = await eor(d3vil, "Setting Heroku Variable...")
+        variable = d3vil.pattern_match.group(2)
         if not variable:
             return await event.edit(f"`{hl}set var <Var Name> <Value>`")
-        value = hell.pattern_match.group(3)
+        value = d3vil.pattern_match.group(3)
         if not value:
             variable = variable.split()[0]
             try:
-                value = hell.pattern_match.group(2).split()[1]
+                value = d3vil.pattern_match.group(2).split()[1]
             except IndexError:
                 return await event.edit(f"`{hl}set var <Var Name> <Value>`")
         await asyncio.sleep(1.5)
@@ -140,9 +140,9 @@ async def variable(hell):
             )
         heroku_var[variable] = value
     elif exe == "del":
-        event = await eor(hell, "Getting info to delete Variable")
+        event = await eor(d3vil, "Getting info to delete Variable")
         try:
-            variable = hell.pattern_match.group(2).split()[0]
+            variable = d3vil.pattern_match.group(2).split()[0]
         except IndexError:
             return await event.edit("`Please specify ConfigVars you want to delete`")
         await asyncio.sleep(1.5)
@@ -153,12 +153,12 @@ async def variable(hell):
             return await event.edit(f"`{variable}`  **does not exists**")
 
 
-@bot.on(hell_cmd(pattern="usage(?: |$)", outgoing=True))
+@bot.on(d3vil_cmd(pattern="usage(?: |$)", outgoing=True))
 @bot.on(sudo_cmd(pattern="usage(?: |$)", allow_sudo=True))
-async def dyno_usage(hell):
-    if hell.fwd_from:
+async def dyno_usage(d3vil):
+    if d3vil.fwd_from:
         return
-    event = await edit_or_reply(hell, "`Processing...`")
+    event = await edit_or_reply(d3vil, "`Processing...`")
     useragent = (
         "Mozilla/5.0 (Linux; Android 10; SM-G975F) "
         "AppleWebKit/537.36 (KHTML, like Gecko) "
@@ -211,48 +211,48 @@ async def dyno_usage(hell):
         " ➠ __Dyno hours remaining this month__ :\n"
         f"     ★  `{hours}`**h**  `{minutes}`**m**  "
         f"**|**  `{percentage}`**%**"
-        f"\n\n**Owner :** {hell_mention}"
+        f"\n\n**Owner :** {d3vil_mention}"
     )
 
 
-@bot.on(hell_cmd(pattern="logs$"))
+@bot.on(d3vil_cmd(pattern="logs$"))
 @bot.on(sudo_cmd(pattern="logs$", allow_sudo=True))
 async def _(dyno):
     if (HEROKU_APP_NAME is None) or (HEROKU_API_KEY is None):
-        return await eor(dyno, f"Make Sure Your HEROKU_APP_NAME & HEROKU_API_KEY are filled correct. Visit {hell_grp} for help.", link_preview=False)
+        return await eor(dyno, f"Make Sure Your HEROKU_APP_NAME & HEROKU_API_KEY are filled correct. Visit {d3vil_grp} for help.", link_preview=False)
     try:
         Heroku = heroku3.from_key(HEROKU_API_KEY)
         app = Heroku.app(HEROKU_APP_NAME)
     except BaseException:
-        return await dyno.reply(f"Make Sure Your Heroku AppName & API Key are filled correct. Visit {hell_grp} for help.", link_preview=False)
+        return await dyno.reply(f"Make Sure Your Heroku AppName & API Key are filled correct. Visit {d3vil_grp} for help.", link_preview=False)
     event = await eor(dyno, "Downloading Logs...")
-    with open("hellbot-logs.txt", "w") as log:
+    with open("d3vilbot-logs.txt", "w") as log:
         log.write(app.get_log())
     await bot.send_file(
         dyno.chat_id,
-        "hellbot-logs.txt",
+        "d3vilbot-logs.txt",
         reply_to=dyno.id,
-        caption=f"**🗒️ Heroku Logs of 💯 lines. 🗒️**\n\n🌟 **Bot Of :**  {hell_mention}"
+        caption=f"**🗒️ Heroku Logs of 💯 lines. 🗒️**\n\n🌟 **Bot Of :**  {d3vil_mention}"
     )
     await event.edit("Heroku Logs..")
     await asyncio.sleep(5)
     await event.delete()
-    return os.remove("hellbot-logs.txt")
+    return os.remove("d3vilbot-logs.txt")
     
-  # hell_data = app.get_log()
+  # d3vil_data = app.get_log()
   # await eor(
-  #     dyno, hell_data, deflink=True, linktext=f"**🗒️ Heroku Logs of 💯 lines. 🗒️**\n\n🌟 **Bot Of :**  {hell_mention}\n\n🚀** Pasted**  "
+  #     dyno, d3vil_data, deflink=True, linktext=f"**🗒️ Heroku Logs of 💯 lines. 🗒️**\n\n🌟 **Bot Of :**  {d3vil_mention}\n\n🚀** Pasted**  "
   # )
 """
     key = (
-        requests.post("https://nekobin.com/api/documents", json={"content": hell_data})
+        requests.post("https://nekobin.com/api/documents", json={"content": d3vil_data})
         .json()
         .get("result")
         .get("key")
     )
-    hell_url = f"https://nekobin.com/{key}"
+    d3vil_url = f"https://nekobin.com/{key}"
     url_raw = f"https://nekobin.com/raw/{key}"
-    foutput = f"**🗒️ Heroku Logs of 💯 lines. 🗒️** \n\n📍 [Nekobin]({hell_url}) & [Raw]({url_raw}) 📍\n\n🌟 **Bot Of :**  {hell_mention}"
+    foutput = f"**🗒️ Heroku Logs of 💯 lines. 🗒️** \n\n📍 [Nekobin]({d3vil_url}) & [Raw]({url_raw}) 📍\n\n🌟 **Bot Of :**  {d3vil_mention}"
 """
     
 

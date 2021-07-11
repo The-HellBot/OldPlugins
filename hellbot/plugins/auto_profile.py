@@ -11,11 +11,11 @@ DEFAULTUSERBIO = Config.BIO_MSG
 DEL_TIME_OUT = 60
 
 
-@bot.on(hell_cmd(pattern="autoname"))
+@bot.on(d3vil_cmd(pattern="autoname"))
 async def _(event):
     if event.fwd_from:
         return
-    hell = await edit_or_reply(event, "`Starting AutoName Please Wait`")
+    d3vil = await edit_or_reply(event, "`Starting AutoName Please Wait`")
     if event.fwd_from:
         return
     while True:
@@ -33,11 +33,11 @@ async def _(event):
             logger.warning(str(e))
             await asyncio.sleep(ex.seconds)
         await asyncio.sleep(DEL_TIME_OUT)
-        await hell.edit(f"Auto Name has been started my Master")
+        await d3vil.edit(f"Auto Name has been started my Master")
         await bot.send_message(Config.LOGGER_ID, "#AUTONAME \n\nAutoname Started!!")
 
 
-@bot.on(hell_cmd(pattern="autobio"))  # pylint:disable=E0602
+@bot.on(d3vil_cmd(pattern="autobio"))  # pylint:disable=E0602
 async def _(event):
     if event.fwd_from:
         return
@@ -67,7 +67,7 @@ async def _(event):
         await bot.send_message(Config.LOGGER_ID, "#AUTOBIO \n\nAutoBio Started!!")
 
 
-@bot.on(hell_cmd(pattern="reserved", outgoing=True))
+@bot.on(d3vil_cmd(pattern="reserved", outgoing=True))
 @bot.on(sudo_cmd(pattern="reserved", allow_sudo=True))
 async def mine(event):
     if event.fwd_from:

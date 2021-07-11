@@ -25,7 +25,7 @@ from youtube_dl.utils import (
 from . import *
 
 
-@bot.on(hell_cmd(pattern="yt(a|v) (.*)"))
+@bot.on(d3vil_cmd(pattern="yt(a|v) (.*)"))
 @bot.on(sudo_cmd(pattern="yt(a|v) (.*)", allow_sudo=True))
 async def download_video(v_url):
     if v_url.fwd_from:
@@ -156,7 +156,7 @@ async def download_video(v_url):
         await v_url.delete()
 
 
-@bot.on(hell_cmd(pattern="ytlink ?(.*)"))
+@bot.on(d3vil_cmd(pattern="ytlink ?(.*)"))
 @bot.on(sudo_cmd(pattern="ytlink ?(.*)", allow_sudo=True))
 async def hmm(ytwala):
     query = ytwala.pattern_match.group(1)

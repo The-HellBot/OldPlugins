@@ -6,7 +6,7 @@ import urllib3
 from git import Repo
 from git.exc import GitCommandError, InvalidGitRepositoryError, NoSuchPathError
 
-from hellbot.helpers import runner
+from d3vilbot.helpers import runner
 from . import *
 
 
@@ -59,7 +59,7 @@ async def print_changelogs(event, ac_br, changelog):
             event.chat_id,
             "output.txt",
             reply_to=event.id,
-            thumb=hell_logo,
+            thumb=d3vil_logo,
         )
         os.remove("output.txt")
     else:
@@ -74,7 +74,7 @@ async def print_changelogs(event, ac_br, changelog):
 async def update_requirements():
     reqs = str(requirements_path)
     try:
-        process = await asyncio.create_subprocess_shell(
+        process = await asyncio.create_subprocess_sd3vil(
             " ".join([sys.executable, "-m", "pip", "install", "-r", reqs]),
             stdout=asyncio.subprocess.PIPE,
             stderr=asyncio.subprocess.PIPE,
@@ -94,12 +94,12 @@ async def update(event, repo, ups_rem, ac_br):
     await event.edit(
         "✅ Successfully updated Hêllẞø†!\n\nBot is restarting please wait for a minute."
     )
-    args = [sys.executable, "-m", "hellbot"]
+    args = [sys.executable, "-m", "d3vilbot"]
     os.execle(sys.executable, *args, os.environ)
     return
 
 
-@bot.on(hell_cmd(outgoing=True, pattern=r"update(| now)$"))
+@bot.on(d3vil_cmd(outgoing=True, pattern=r"update(| now)$"))
 @bot.on(sudo_cmd(pattern="update(| now)$", allow_sudo=True))
 async def upstream(event):
     conf = event.pattern_match.group(1).strip()
@@ -151,8 +151,8 @@ async def upstream(event):
     if changelog == "" and not force_update:
         await event.edit(
             "\n**😎 Hêllẞø† is UP-TO-DATE.**"
-            f"\n\n**Version :**  {hell_ver}"
-            f"\n**Owner :**  {hell_mention}"
+            f"\n\n**Version :**  {d3vil_ver}"
+            f"\n**Owner :**  {d3vil_mention}"
             f"\n**Git Branch :**  {UPSTREAM_REPO_BRANCH}\n"
         )
         return repo.__del__()
@@ -216,21 +216,21 @@ async def deploy(event, repo, ups_rem, ac_br, txt):
             )
             await asyncio.sleep(5)
             return await event.delete()
-        await event.edit(f"**Your Hêllẞø† Is UpToDate**\n\n**Version :**  __{hell_ver}__\n**Oɯɳҽɾ :**  {hell_mention}")
+        await event.edit(f"**Your Hêllẞø† Is UpToDate**\n\n**Version :**  __{d3vil_ver}__\n**Oɯɳҽɾ :**  {d3vil_mention}")
     else:
         await event.edit("**Please set up**  `HEROKU_API_KEY`  **from heroku to update!**")
     return
 
 
-@bot.on(hell_cmd(outgoing=True, pattern=r"update build$"))
+@bot.on(d3vil_cmd(outgoing=True, pattern=r"update build$"))
 @bot.on(sudo_cmd(pattern="update build$", allow_sudo=True))
 async def upstream(event):
     event = await edit_or_reply(event, "`Hard-Update In Progress... \nPlease wait until docker build is finished...`")
     off_repo = "https://github.com/The-HellBot/HellBot"
     os.chdir("/app")
-    git_hell = f"rm -rf .git"
+    git_d3vil = f"rm -rf .git"
     try:
-        await runner.runcmd(git_hell)
+        await runner.runcmd(git_d3vil)
     except BaseException:
         pass
     try:

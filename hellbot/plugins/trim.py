@@ -5,7 +5,7 @@ import datetime
 
 from . import *
 
-FF_MPEG_DOWN_LOAD_MEDIA_PATH = "./trim/hellbot.media.ffmpeg"
+FF_MPEG_DOWN_LOAD_MEDIA_PATH = "./trim/d3vilbot.media.ffmpeg"
 
 async def reply_id(event):
     reply_to_id = None
@@ -37,7 +37,7 @@ def media_type(message):
     return media
     
 
-@bot.on(hell_cmd(pattern="tsave$"))
+@bot.on(d3vil_cmd(pattern="tsave$"))
 @bot.on(sudo_cmd(pattern="tsave$", allow_sudo=True))
 async def ff_mpeg_trim_cmd(event):
     if event.fwd_from:
@@ -49,22 +49,22 @@ async def ff_mpeg_trim_cmd(event):
             media = media_type(reply_message)
             if media not in ["Video", "Audio", "Voice", "Round Video", "Gif"]:
                 return await eod(event, "`Only media files are supported`")
-            hellevent = await eor(event, "`Saving the file...`")
+            d3vilevent = await eor(event, "`Saving the file...`")
             try:
                 c_time = time.time()
                 downloaded_file_name = await event.client.download_media(
                     reply_message,
                     FF_MPEG_DOWN_LOAD_MEDIA_PATH,
                     progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
-                        progress(d, t, hellevent, c_time, "trying to download")
+                        progress(d, t, d3vilevent, c_time, "trying to download")
                     ),
                 )
             except Exception as e:
-                await hellevent.edit(str(e))
+                await d3vilevent.edit(str(e))
             else:
                 end = datetime.datetime.now()
                 ms = (end - start).seconds
-                await hellevent.edit(
+                await d3vilevent.edit(
                     f"Saved file to `{downloaded_file_name}` in `{ms}` seconds."
                 )
         else:
@@ -77,7 +77,7 @@ async def ff_mpeg_trim_cmd(event):
         )
 
 
-@bot.on(hell_cmd(pattern="vtrim"))
+@bot.on(d3vil_cmd(pattern="vtrim"))
 @bot.on(sudo_cmd(pattern="vtrim", allow_sudo=True))
 async def ff_mpeg_trim_cmd(event):
     if event.fwd_from:
@@ -89,7 +89,7 @@ async def ff_mpeg_trim_cmd(event):
         )
         return
     reply_to_id = await reply_id(event)
-    hellevent = await eor(event, "`Triming the media......`")
+    d3vilevent = await eor(event, "`Triming the media......`")
     current_message_text = event.raw_text
     cmt = current_message_text.split(" ")
     start = datetime.datetime.now()
@@ -104,7 +104,7 @@ async def ff_mpeg_trim_cmd(event):
         )
         if o is None:
             return await eod(
-                hellevent, f"**Error : **`Can't complete the process`"
+                d3vilevent, f"**Error : **`Can't complete the process`"
             )
         try:
             c_time = time.time()
@@ -117,12 +117,12 @@ async def ff_mpeg_trim_cmd(event):
                 allow_cache=False,
                 reply_to=reply_to_id,
                 progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
-                    progress(d, t, hellevent, c_time, "trying to upload")
+                    progress(d, t, d3vilevent, c_time, "trying to upload")
                 ),
             )
             os.remove(o)
         except Exception as e:
-            return await eod(hellevent, f"**Error : **`{e}`")
+            return await eod(d3vilevent, f"**Error : **`{e}`")
     elif len(cmt) == 2:
         # output should be image
         cmd, start_time = cmt
@@ -131,7 +131,7 @@ async def ff_mpeg_trim_cmd(event):
         )
         if o is None:
             return await eod(
-                hellevent, f"**Error : **`Can't complete the process`"
+                d3vilevent, f"**Error : **`Can't complete the process`"
             )
         try:
             c_time = time.time()
@@ -144,21 +144,21 @@ async def ff_mpeg_trim_cmd(event):
                 allow_cache=False,
                 reply_to=event.message.id,
                 progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
-                    progress(d, t, hellevent, c_time, "trying to upload")
+                    progress(d, t, d3vilevent, c_time, "trying to upload")
                 ),
             )
             os.remove(o)
         except Exception as e:
-            return await eod(hellevent, f"**Error : **`{e}`")
+            return await eod(d3vilevent, f"**Error : **`{e}`")
     else:
-        await eod(hellevent, "RTFM")
+        await eod(d3vilevent, "RTFM")
         return
     end = datetime.datetime.now()
     ms = (end - start).seconds
-    await eod(hellevent, f"`Completed Process in {ms} seconds`", 3)
+    await eod(d3vilevent, f"`Completed Process in {ms} seconds`", 3)
 
 
-@bot.on(hell_cmd(pattern="atrim"))
+@bot.on(d3vil_cmd(pattern="atrim"))
 @bot.on(sudo_cmd(pattern="atrim", allow_sudo=True))
 async def ff_mpeg_trim_cmd(event):
     if event.fwd_from:
@@ -170,7 +170,7 @@ async def ff_mpeg_trim_cmd(event):
         )
         return
     reply_to_id = await reply_id(event)
-    hellevent = await eor(event, "`Triming the media.....`")
+    d3vilevent = await eor(event, "`Triming the media.....`")
     current_message_text = event.raw_text
     cmt = current_message_text.split(" ")
     start = datetime.datetime.now()
@@ -189,7 +189,7 @@ async def ff_mpeg_trim_cmd(event):
         )
         if o is None:
             return await eod(
-                hellevent, f"**Error : **`Can't complete the process`"
+                d3vilevent, f"**Error : **`Can't complete the process`"
             )
         try:
             c_time = time.time()
@@ -202,21 +202,21 @@ async def ff_mpeg_trim_cmd(event):
                 allow_cache=False,
                 reply_to=reply_to_id,
                 progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
-                    progress(d, t, hellevent, c_time, "trying to upload")
+                    progress(d, t, d3vilevent, c_time, "trying to upload")
                 ),
             )
             os.remove(o)
         except Exception as e:
-            return await eod(hellevent, f"**Error : **`{e}`")
+            return await eod(d3vilevent, f"**Error : **`{e}`")
     else:
-        await eod(hellevent, "RTFM")
+        await eod(d3vilevent, "RTFM")
         return
     end = datetime.datetime.now()
     ms = (end - start).seconds
-    await eod(hellevent, f"`Completed Process in {ms} seconds`", 3)
+    await eod(d3vilevent, f"`Completed Process in {ms} seconds`", 3)
 
 
-@bot.on(hell_cmd(pattern="tclear$"))
+@bot.on(d3vil_cmd(pattern="tclear$"))
 @bot.on(sudo_cmd(pattern="tclear$", allow_sudo=True))
 async def ff_mpeg_trim_cmd(event):
     if event.fwd_from:

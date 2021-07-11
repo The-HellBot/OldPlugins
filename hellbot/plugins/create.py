@@ -4,7 +4,7 @@ from telethon.tl.types import MessageEntityMentionName
 from . import *
 
 
-@bot.on(hell_cmd(pattern="create (b|g|c) (.*)"))  # pylint:disable=E0602
+@bot.on(d3vil_cmd(pattern="create (b|g|c) (.*)"))  # pylint:disable=E0602
 @bot.on(sudo_cmd(pattern="create (b|g|c) (.*)", allow_sudo=True))
 async def _(event):
     if event.fwd_from:
@@ -66,7 +66,7 @@ async def _(event):
     else:
         await event.edit(f"Read `{hl}plinfo create` to know how to use me")
 
-@bot.on(hell_cmd(pattern="link(?: |$)(.*)", outgoing=True))
+@bot.on(d3vil_cmd(pattern="link(?: |$)(.*)", outgoing=True))
 @bot.on(sudo_cmd(pattern="link(?: |$)(.*)", allow_sudo=True))
 async def permalink(mention):
     if mention.fwd_from:

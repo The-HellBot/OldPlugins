@@ -10,7 +10,7 @@ from . import *
 SUDO_WALA = Config.SUDO_USERS
 lg_id = Config.LOGGER_ID
 
-@bot.on(hell_cmd(pattern="spam (.*)"))
+@bot.on(d3vil_cmd(pattern="spam (.*)"))
 @bot.on(sudo_cmd(pattern="spam (.*)", allow_sudo=True))
 async def spammer(e):
     if not e.text[0].isalpha() and e.text[0] not in ("/", "#", "@", "!"):
@@ -24,22 +24,22 @@ async def spammer(e):
         )
 
 
-@bot.on(hell_cmd(pattern="bigspam"))
+@bot.on(d3vil_cmd(pattern="bigspam"))
 @bot.on(sudo_cmd(pattern="bigspam", allow_sudo=True))
-async def bigspam(hell):
-    if not hell.text[0].isalpha() and hell.text[0] not in ("/", "#", "@", "!"):
-        hell_msg = hell.text
-        hellbot_count = int(hell_msg[9:13])
-        hell_spam = str(hell.text[13:])
-        for i in range(1, hellbot_count):
-            await hell.respond(hell_spam)
-        await hell.delete()
-        await hell.client.send_message(
-                lg_id, f"#BIGSPAM \n\nBigspammed  `{hell_count}`  messages !!"
+async def bigspam(d3vil):
+    if not d3vil.text[0].isalpha() and d3vil.text[0] not in ("/", "#", "@", "!"):
+        d3vil_msg = d3vil.text
+        d3vilbot_count = int(d3vil_msg[9:13])
+        d3vil_spam = str(d3vil.text[13:])
+        for i in range(1, d3vilbot_count):
+            await d3vil.respond(d3vil_spam)
+        await d3vil.delete()
+        await d3vil.client.send_message(
+                lg_id, f"#BIGSPAM \n\nBigspammed  `{d3vil_count}`  messages !!"
         )
 
 
-@bot.on(hell_cmd("dspam (.*)"))
+@bot.on(d3vil_cmd("dspam (.*)"))
 @bot.on(sudo_cmd(pattern="dspam (.*)", allow_sudo=True))
 async def spammer(e):
     if e.fwd_from:
@@ -54,7 +54,7 @@ async def spammer(e):
         await asyncio.sleep(spamDelay)
 
 
-@bot.on(hell_cmd(pattern="mspam (.*)"))
+@bot.on(d3vil_cmd(pattern="mspam (.*)"))
 @bot.on(sudo_cmd(pattern="mspam (.*)", allow_sudo=True))
 async def tiny_pic_spam(e):
     sender = await e.get_sender()
@@ -89,7 +89,7 @@ CmdHelp("spam").add_command(
 ).add_command(
   "dspam", "<delay> <spam count> <text>", "Sends the text 'X' number of times in 'Y' seconds of delay", ".dspam 5 100 Hello"
 ).add_command(
-  "bigspam", "<count> <text>", "Sends the text 'X' number of times. This what hellbot iz known for. The Best BigSpam Ever", ".bigspam 5000 Hello"
+  "bigspam", "<count> <text>", "Sends the text 'X' number of times. This what d3vilbot iz known for. The Best BigSpam Ever", ".bigspam 5000 Hello"
 ).add_info(
   "Spammers Commands"
 ).add_warning(

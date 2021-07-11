@@ -3,17 +3,17 @@ import datetime
 
 from . import *
 
-@bot.on(hell_cmd(pattern="ping$"))
+@bot.on(d3vil_cmd(pattern="ping$"))
 @bot.on(sudo_cmd(pattern="ping$", allow_sudo=True))
-async def pong(hell):
-    if hell.fwd_from:
+async def pong(d3vil):
+    if d3vil.fwd_from:
         return
     start = datetime.datetime.now()
-    event = await eor(hell, "`·.·★ ℘ıŋɠ ★·.·´")
+    event = await eor(d3vil, "`·.·★ ℘ıŋɠ ★·.·´")
     end = datetime.datetime.now()
     ms = (end - start).microseconds / 1000
     await event.edit(
-        f"╰•★★  ℘ơŋɠ ★★•╯\n\n    ⚘  `{ms}`\n    ⚘  __**Oɯɳҽɾ**__ **:**  {hell_mention}"
+        f"╰•★★  ℘ơŋɠ ★★•╯\n\n    ⚘  `{ms}`\n    ⚘  __**Oɯɳҽɾ**__ **:**  {d3vil_mention}"
     )
 
 
@@ -23,4 +23,4 @@ CmdHelp("ping").add_command(
   "✅ Harmless Module"
 ).add()
 
-# hellbot
+# d3vilbot
