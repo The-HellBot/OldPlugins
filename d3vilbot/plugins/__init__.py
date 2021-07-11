@@ -41,17 +41,17 @@ else:
 
 START_TIME = datetime.datetime.now()
 uptime = f"{str(datetime.datetime.now() - START_TIME).split('.')[0]}"
-my_channel = Config.MY_CHANNEL or "Its_HellBot"
-my_group = Config.MY_GROUP or "HellBot_Chat"
+my_channel = Config.MY_CHANNEL or "D3VIL_SUPPORT"
+my_group = Config.MY_GROUP or "D3VIL_BOT_SUPPORT"
 if "@" in my_channel:
     my_channel = my_channel.replace("@", "")
 if "@" in my_group:
     my_group = my_group.replace("@", "")
 
-chnl_link = "https://t.me/its_d3vilbot"
-d3vil_channel = f"[†hê Hêllẞø†]({chnl_link})"
-grp_link = "https://t.me/HellBot_Chat"
-d3vil_grp = f"[Hêllẞø† Group]({grp_link})"
+chnl_link = "https://t.me/D3VIL_SUPPORT"
+d3vil_channel = f"[тнε ∂3vιℓ вσт υρ∂αтεs]({chnl_link})"
+grp_link = "https://t.me/D3VIL_BOT_SUPPORT"
+d3vil_grp = f"[тнε ∂3vιℓ вσт cнαт]({grp_link})"
 
 WELCOME_FORMAT = """**Use these fomats in your welcome note to make them attractive.**
   {mention} :  To mention the user
@@ -70,4 +70,4 @@ WELCOME_FORMAT = """**Use these fomats in your welcome note to make them attract
 """
 # will add more soon
 
-# d3vilbot
+
