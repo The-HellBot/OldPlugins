@@ -52,7 +52,9 @@ async def re(hell):
 async def down(hell):
     if hell.fwd_from:
         return
-    await eor(hell, "**[ ! ]** Turning off Hêllẞø† Dynos... Manually turn me on later ಠ_ಠ")
+    event = await eor(hell, "`Turing Off Heroku Dynos...`")
+    await asyncio.sleep(2)
+    await event.edit("**[ ⚠️ ]** \n**Hêllẞø† Dynos is now turned off. Manually turn it on to start again.**")
     if HEROKU_APP is not None:
         HEROKU_APP.process_formation()["worker"].scale(0)
     else:
