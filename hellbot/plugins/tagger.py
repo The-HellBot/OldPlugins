@@ -53,3 +53,12 @@ async def _(event):
         mentions += f" \n [{x.first_name}](tg://user?id={x.id})"
     await event.reply(mentions)
     await event.delete()
+
+
+CmdHelp("tagger").add_command(
+  "tagall", "<text>", "Tags recent 100 users in the group."
+).add_info(
+  "Tagger."
+).add_warning(
+  "✅ Harmless Module."
+).add()
