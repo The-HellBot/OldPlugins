@@ -102,7 +102,7 @@ async def _(event):
             )
         result = f"<b>📍 Pasted To <a href={response['url']}>Here</a></b>"
         if response["raw"] != "":
-            result += f"\n<b>Raw link: <a href={response['raw']}>Raw</a></b>"
+            result += f"\n<b>📃 Raw link: <a href={response['raw']}>Raw</a></b>"
         await evnt.edit(result, link_preview=False, parse_mode="html")
     except Exception as e:
         await eod(evnt, f"**ERROR !!**\n\n`{str(e)}`")
