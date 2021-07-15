@@ -228,36 +228,9 @@ async def _(dyno):
     except BaseException:
         return await dyno.reply(f"Make Sure Your Heroku AppName & API Key are filled correct. Visit {hell_grp} for help.", link_preview=False)
     event = await eor(dyno, "Downloading Logs...")
-    with open("hellbot-logs.txt", "w") as log:
-        log.write(app.get_log())
-    await bot.send_file(
-        dyno.chat_id,
-        "hellbot-logs.txt",
-        reply_to=dyno.id,
-        caption=f"**🗒️ Heroku Logs of 💯 lines. 🗒️**\n\n🌟 **Bot Of :**  {hell_mention}"
-    )
-    await event.edit("Heroku Logs..")
-    await asyncio.sleep(5)
-    await event.delete()
-    return os.remove("hellbot-logs.txt")
+    hell_data = app.get_log()
+    await event.edit(hell_data, deflink=True, linktext=f"**🗒️ Heroku Logs of 💯 lines. 🗒️**\n\n🌟 **Bot Of :**  {hell_mention}\n\n🚀** Pasted**  ")
     
-  # hell_data = app.get_log()
-  # await eor(
-  #     dyno, hell_data, deflink=True, linktext=f"**🗒️ Heroku Logs of 💯 lines. 🗒️**\n\n🌟 **Bot Of :**  {hell_mention}\n\n🚀** Pasted**  "
-  # )
-"""
-    key = (
-        requests.post("https://nekobin.com/api/documents", json={"content": hell_data})
-        .json()
-        .get("result")
-        .get("key")
-    )
-    hell_url = f"https://nekobin.com/{key}"
-    url_raw = f"https://nekobin.com/raw/{key}"
-    foutput = f"**🗒️ Heroku Logs of 💯 lines. 🗒️** \n\n📍 [Nekobin]({hell_url}) & [Raw]({url_raw}) 📍\n\n🌟 **Bot Of :**  {hell_mention}"
-"""
-    
-
 
 def prettyjson(obj, indent=2, maxlinelength=80):
     """Renders JSON content with indentation and line splits/concatenations to fit maxlinelength.
