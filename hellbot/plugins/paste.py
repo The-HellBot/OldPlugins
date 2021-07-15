@@ -1,4 +1,5 @@
 import logging
+import json
 import os
 import datetime
 
@@ -11,6 +12,39 @@ from . import *
 logging.basicConfig(
     format="[%(levelname) 5s/%(asctime)s] %(name)s: %(message)s", level=logging.WARNING
 )
+
+headers = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.104 Safari/537.36",
+    "content-type": "application/json",
+}
+
+async def pasty(message, extension=None):
+    siteurl = "https://pasty.lus.pm/api/v1/pastes"
+    data = {"content": message}
+    try:
+        response = requests.post(url=siteurl, data=json.dumps(data), headers=headers)
+    except Exception as e:
+        return {"error": str(e)}
+    if response.ok:
+        response = response.json()
+        purl = (
+            f"https://pasty.lus.pm/{response['id']}.{extension}"
+            if extension
+            else f"https://pasty.lus.pm/{response['id']}.txt"
+        )
+        try:
+            await bot.send_message(
+                Config.LOGGER_ID,
+                f"#PASTE \n\n**Open Paste From** [here]({purl}). \n**Delete that paste by using this token** `{response['deletionToken']}`",
+            )
+        except Exception as e:
+            LOGS.info(str(e))
+        return {
+            "url": purl,
+            "raw": f"https://pasty.lus.pm/{response['id']}/raw",
+            "bin": "Pasty",
+        }
+    return {"error": "Unable to reach pasty.lus.pm"}
 
 
 def progress(current, total):
@@ -27,45 +61,49 @@ DOGBIN_URL = "https://del.dog/"
 async def _(event):
     if event.fwd_from:
         return
-    start = datetime.datetime.now()
-    if not os.path.isdir(Config.TMP_DOWNLOAD_DIRECTORY):
-        os.makedirs(Config.TMP_DOWNLOAD_DIRECTORY)
-    input_str = event.pattern_match.group(1)
-    message = f"**SYNTAX:** `{hl}paste <long text to include>`"
+    evnt = await eor(event, "`Pasting ....`")
+    input_str = event.pattern_match.group(2)
+    reply = await event.get_reply_message()
+    ext = re.findall(r"-\w+", input_str)
+    try:
+        extension = ext[0].replace("-", "")
+        input_str = input_str.replace(ext[0], "").strip()
+    except IndexError:
+        extension = None
+    text_to_print = ""
     if input_str:
-        message = input_str
-    elif event.reply_to_msg_id:
-        previous_message = await event.get_reply_message()
-        if previous_message.media:
-            downloaded_file_name = await bot.download_media(
-                previous_message,
-                Config.TMP_DOWNLOAD_DIRECTORY,
-                progress_callback=progress,
-            )
-            m_list = None
-            with open(downloaded_file_name, "rb") as fd:
-                m_list = fd.readlines()
-            message = ""
-            for m in m_list:
-                message += m.decode("UTF-8") + "\r\n"
-            os.remove(downloaded_file_name)
+        text_to_print = input_str
+    if text_to_print == "" and reply.media:
+        mediatype = media_type(reply)
+        if mediatype == "Document":
+            d_file_name = await event.client.download_media(reply, Config.TEMP_DIR)
+            if extension is None:
+                extension = get_extension(reply.document)
+            with open(d_file_name, "r") as f:
+                text_to_print = f.read()
+    if text_to_print == "":
+        if reply.text:
+            text_to_print = reply.raw_text
         else:
-            message = previous_message.message
-    else:
-        message = f"**SYNTAX:** `{hl}paste <long text to include>`"
-    url = "https://del.dog/documents"
-    r = requests.post(url, data=message.encode("UTF-8")).json()
-    url = f"https://del.dog/{r['key']}"
-    end = datetime.datetime.now()
-    ms = (end - start).seconds
-    if r["isUrl"]:
-        nurl = f"https://del.dog/v/{r['key']}"
-        await eor(event, "**📍 Pasted to Dogbin :** [HERE]({}) **in**  `{} seconds` .\n\n**Go to Original URL:** [link]({})".format(
-                url, ms, nurl
+            return await eod(
+                evnt,
+                "`Reply to a file or msg or give a text to paste...`",
             )
-        )
-    else:
-        await eor(event, "**📍 Pasted to Dogbin :** [HERE]({}) **in**  `{} seconds` .".format(url, ms))
+    if extension and extension.startswith("."):
+        extension = extension[1:]
+    try:
+        response = await pasty(text_to_print, extension)
+        if "error" in response:
+            return await eod(
+                evnt,
+                f"**Error While Pasting Text !!**",
+            )
+        result = f"<b>📍 Pasted To <a href={response['url']}>Here</a></b>"
+        if response["raw"] != "":
+            result += f"\n<b>Raw link: <a href={response['raw']}>Raw</a></b>"
+        await evnt.edit(result, link_preview=False, parse_mode="html")
+    except Exception as e:
+        await eod(evnt, f"**ERROR !!**\n\n`{str(e)}`")
 
 
 @bot.on(hell_cmd(pattern="getpaste(?: |$)(.*)", outgoing=True))
