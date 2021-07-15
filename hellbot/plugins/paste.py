@@ -9,7 +9,6 @@ from requests import exceptions, get
 from telethon import events
 from telethon.utils import get_extension
 
-
 from . import *
 
 logging.basicConfig(
@@ -65,7 +64,7 @@ async def _(event):
     if event.fwd_from:
         return
     evnt = await eor(event, "`Pasting ....`")
-    input_str = event.pattern_match.group(2)
+    input_str = event.pattern_match.group(1)
     reply = await event.get_reply_message()
     ext = re.findall(r"-\w+", input_str)
     try:
