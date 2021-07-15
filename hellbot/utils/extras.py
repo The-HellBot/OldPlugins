@@ -54,23 +54,9 @@ async def edit_or_reply(
             text = re.sub(rf"\{i}", "", text)
     if aslink or deflink:
         linktext = linktext or "Message was to big so pasted to bin"
-        try:
-            key = (
-                requests.post(
-                    "https://nekobin.com/api/documents", json={"content": text}
-                )
-                .json()
-                .get("result")
-                .get("key")
-            )
-            text = linktext + f" [here](https://nekobin.com/{key})"
-        except Exception:
-            text = re.sub(r"•", ">>", text)
-            kresult = requests.post(
-                "https://del.dog/documents", data=text.encode("UTF-8")
-            ).json()
-            text = linktext + f" [here](https://del.dog/{kresult['key']})"
-        if event.sender_id in Config.SUDO_USERS:
+        response = await pasty(text)
+        text = linktext + f" [here]({response})"
+        if event.sender_id in sudo_users:
             if reply_to:
                 return await reply_to.reply(text, link_preview=link_preview)
             return await event.reply(text, link_preview=link_preview)
