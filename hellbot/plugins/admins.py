@@ -116,6 +116,7 @@ async def promote(promt):
         ban_users=True,
         delete_messages=True,
         pin_messages=True,
+        manage_call=True,
     )
     hellevent = await eor(promt, "`Promoting User...`")
     user, rank = await get_user_from_event(promt)
@@ -162,6 +163,7 @@ async def demote(dmod):
         ban_users=None,
         delete_messages=None,
         pin_messages=None,
+        manage_call=None,
     )
     try:
         await dmod.client(EditAdminRequest(dmod.chat_id, user.id, newrights, rank))
