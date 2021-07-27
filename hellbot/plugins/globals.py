@@ -320,7 +320,7 @@ async def gm(event):
     if event.fwd_from:
         return
     elif event.is_private:
-        hel_ = await eor(event, "`Trying to gmute user...`")
+        await eor(event, "`Trying to gmute user...`")
         await asyncio.sleep(2)
         private = True
     reply = await event.get_reply_message()
@@ -331,26 +331,26 @@ async def gm(event):
     elif private is True:
         userid = event.chat_id
     else:
-        return await hel_.edit("Need a user to gmute. Reply or give userid to gmute them..")
+        return await eod(event, "Need a user to gmute. Reply or give userid to gmute them..")
     event.chat_id
     await event.get_chat()
     if gsql.is_gmuted(userid, "gmute"):
-        return await eod(hel_, "This kid is already Gmuted.")
+        return await eod(event, "This kid is already Gmuted.")
     try:
         if str(userid) in DEVLIST:
-            return await eod(hel_, "**Sorry I'm not going to gmute them..**")
+            return await eod(event, "**Sorry I'm not going to gmute them..**")
     except:
         pass
     try:
         gsql.gmute(userid, "gmute")
     except Exception as e:
-        await eod(hel_, "Error occured!\nError is " + str(e))
+        await eod(event, "Error occured!\nError is " + str(e))
     else:
         if Config.ABUSE == "ON":
             await bot.send_file(event.chat_id, shhh, caption="**Chup Madarcod... Bilkul Chup 🤫**")
-            await hel_.delete()
+            await event.delete()
         else:
-            await eor(hel_, "🤫 Shhh... **Don't speak Now !!**")
+            await eor(event, "🤫 Shhh... **Don't speak Now !!**")
         
 
 
@@ -361,7 +361,7 @@ async def endgmute(event):
     if event.fwd_from:
         return
     elif event.is_private:
-        hel_ = await eor(event, "`Trying to ungmute !!`")
+        await eor(event, "`Trying to ungmute !!`")
         await asyncio.sleep(2)
         private = True
     reply = await event.get_reply_message()
@@ -372,16 +372,16 @@ async def endgmute(event):
     elif private is True:
         userid = event.chat_id
     else:
-        return await eod(hel_,"Please reply to a user or add their into the command to ungmute them.")
+        return await eod(event,"Please reply to a user or add their into the command to ungmute them.")
     event.chat_id
     if not gsql.is_gmuted(userid, "gmute"):
-        return await eod(hel_, "I don't remember I gmuted him...")
+        return await eod(event, "I don't remember I gmuted him...")
     try:
         gsql.ungmute(userid, "gmute")
     except Exception as e:
-        await eod(hel_, "Error occured!\nError is " + str(e))
+        await eod(event, "Error occured!\nError is " + str(e))
     else:
-        await eor(hel_, "Ok!! Speak")
+        await eor(event, "Ok!! Speak")
 
 
 @command(incoming=True)
