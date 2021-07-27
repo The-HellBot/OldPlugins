@@ -7,6 +7,12 @@ from telethon.tl.functions.phone import InviteToGroupCallRequest
 from . import *
 
 
+async def getvc(event):
+    chat_ = await event.client(GetFullChannelRequest(event.chat_id))
+    _chat = await event.client(GetGroupCallRequest(chat_.full_chat.call))
+    return _chat.call
+
+
 @bot.on(hell_cmd(pattern="startvc$"))
 @bot.on(sudo_cmd(pattern="startvc$", allow_sudo=True))
 async def _(event):
