@@ -12,6 +12,10 @@ async def getvc(event):
     _chat = await event.client(GetGroupCallRequest(chat_.full_chat.call))
     return _chat.call
 
+def all_users(a, b):
+    for c in range(0, len(a), b):
+        yield a[c : c + b]
+
 
 @bot.on(hell_cmd(pattern="startvc$"))
 @bot.on(sudo_cmd(pattern="startvc$", allow_sudo=True))
@@ -42,7 +46,7 @@ async def _(event):
     async for j in event.client.iter_participants(event.chat_id):
         if not j.bot:
             users.append(j.id)
-    hel_ = list(user_list(users, 6))
+    hel_ = list(all_users(users, 6))
     for k in hel_:
         try:
             await bot(InviteToGroupCallRequest(call=await getvc(event), users=k))
