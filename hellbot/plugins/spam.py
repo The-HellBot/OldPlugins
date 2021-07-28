@@ -54,6 +54,20 @@ async def spammer(e):
         await asyncio.sleep(spamDelay)
 
 
+@bot.on(hell_cmd(pattern="uspam ?(.*)"))
+@bot.on(sudo_cmd(pattern="uspam ?(.*)", allow_sudo=True))
+async def _(event):
+    reply_msg = await event.get_reply_message()
+    hell = event.pattern_match.group(1)
+    if reply_msg:
+        input_str = reply_msg
+    else:
+        input_str = hell
+    x = 0
+    while x < 69:
+        await bot.send_message(event.chat_id, input_str)
+
+
 @bot.on(hell_cmd(pattern="mspam (.*)"))
 @bot.on(sudo_cmd(pattern="mspam (.*)", allow_sudo=True))
 async def tiny_pic_spam(e):
@@ -88,6 +102,8 @@ CmdHelp("spam").add_command(
   "mspam", "<reply to media> <number>", "Sends the replied media (gif/ video/ sticker/ pic) 'X' number of times", ".mspam 100 <reply to media>"
 ).add_command(
   "dspam", "<delay> <spam count> <text>", "Sends the text 'X' number of times in 'Y' seconds of delay", ".dspam 5 100 Hello"
+).add_command(
+  "uspam", "<reply to a msg> or <text>", "Spams the message unlimited times until you get floodwait error."
 ).add_command(
   "bigspam", "<count> <text>", "Sends the text 'X' number of times. This what hellbot iz known for. The Best BigSpam Ever", ".bigspam 5000 Hello"
 ).add_info(
