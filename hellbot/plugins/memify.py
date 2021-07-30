@@ -6,6 +6,7 @@ import shutil
 import re
 import textwrap
 import lottie
+import asyncio
 
 from PIL import Image, ImageDraw, ImageEnhance, ImageFont, ImageOps
 
