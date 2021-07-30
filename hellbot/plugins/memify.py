@@ -20,51 +20,88 @@ if not os.path.isdir(path):
 @bot.on(hell_cmd(pattern="mmf ?(.*)", outgoing=True))
 @bot.on(sudo_cmd(pattern="mmf ?(.*)", allow_sudo=True))
 async def _(event):
-    if event.fwd_from:
+    _reply = await event.get_reply_message()
+    msg = event.pattern_match.group(1)
+    if not (_reply and (_reply.media)):
+        hel_ = await eod(event, "`Can't memify this 🥴`")
         return
-    if not event.reply_to_msg_id:
-        await eod(event, "You need to reply to an image with .mmf` 'text on top' ; 'text on bottom'")
-        return
-    await eor(event, "🤪 **Memifying...**")
-    reply = await event.get_reply_message()
-    imgs = await bot.download_media(reply.media, path)
-    img = cv2.VideoCapture(imgs) 
-    tal, semx = img.read()
-    cv2.imwrite("kraken.webp", semx)
-    text = event.pattern_match.group(1)
-    webp_file = await draw_meme_text("kraken.webp", text)
-    await event.client.send_file(
-        event.chat_id, webp_file, reply_to=event.reply_to_msg_id
+    hell = await _reply.download_media()
+    if hell.endswith((".tgs")):
+        hel_ = await eor(event, "**Memifying 🌚🌝**")
+        cmd = ["lottie_convert.py", hell, "pic.png"]
+        file = "pic.png"
+        process = await asyncio.create_subprocess_exec(
+            *cmd, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
+        )
+        stdout, stderr = await process.communicate()
+        stderr.decode().strip()
+        stdout.decode().strip()
+    elif hell.endswith((".webp", ".png")):
+        hel_ = await eor(event, "**Memifying 🌚🌝**")
+        pics = Image.open(hell)
+        pics.save("pic.png", format="PNG", optimize=True)
+        file = "pic.png"
+    else:
+        hel_ = await eor(event, "**Memifying 🌚🌝**")
+        img = cv2.VideoCapture(hell)
+        tal, semx = img.read()
+        cv2.imwrite("pic.png", semx)
+        file = "pic.png"
+    output = await draw_meme_text(file, msg)
+    await bot.send_file(
+        event.chat_id, output, force_document=False, reply_to=event.reply_to_msg_id
     )
-    await event.delete()
-    shutil.rmtree(path)
-    os.remove("kraken.webp")
-    os.remove(webp_file)
+    await hel_.delete()
+    try:
+        os.remove(hell)
+        os.remove(file)
+        os.remove(output)
+    except BaseException:
+        pass
 
 
 @bot.on(hell_cmd(pattern="mms ?(.*)", outgoing=True))
 @bot.on(sudo_cmd(pattern="mms ?(.*)", allow_sudo=True))
-async def sed(hellboy):
-    if hellboy.fwd_from:
+async def _(event):
+    _reply = await event.get_reply_message()
+    msg = event.pattern_match.group(1)
+    if not (_reply and (_reply.media)):
+        hel_ = await eod(event, "`Can't memify this 🥴`")
         return
-    if not hellboy.reply_to_msg_id:
-        await eod(hellboy, "You need to reply to an image with .mms` 'text on top' ; 'text on bottom'")
-        return
-    await eor(hellboy, "🤪 **Memifying...**")
-    reply = await hellboy.get_reply_message()
-    imgs = await bot.download_media(reply.media, path)
-    img = cv2.VideoCapture(imgs) 
-    tal, semx = img.read()
-    cv2.imwrite("kraken.webp", semx)
-    text = hellboy.pattern_match.group(1)
-    photo = await draw_meme("kraken.webp", text)
-    await hellboy.client.send_file(
-        hellboy.chat_id, photo, reply_to=hellboy.reply_to_msg_id
+    hell = await _reply.download_media()
+    if hell.endswith((".tgs")):
+        hel_ = await eor(event, "**Memifying 🌚🌝**")
+        cmd = ["lottie_convert.py", hell, "pic.png"]
+        file = "pic.png"
+        process = await asyncio.create_subprocess_exec(
+            *cmd, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
+        )
+        stdout, stderr = await process.communicate()
+        stderr.decode().strip()
+        stdout.decode().strip()
+    elif hell.endswith((".webp", ".png")):
+        hel_ = await eor(event, "**Memifying 🌚🌝**")
+        pic = Image.open(hell)
+        pic.save("pic.png", format="PNG", optimize=True)
+        file = "pic.png"
+    else:
+        hel_ = await eor(event, "**Memifying 🌚🌝**")
+        img = cv2.VideoCapture(hell)
+        tal, semx = img.read()
+        cv2.imwrite("pic.png", semx)
+        file = "pic.png"
+    output = await draw_meme(file, msg)
+    await bot.send_file(
+        event.chat_id, output, force_document=False, reply_to=event.reply_to_msg_id
     )
-    await hellboy.delete()
-    shutil.rmtree(path)
-    os.remove("kraken.webp")
-    os.remove(photo)
+    await hel_.delete()
+    try:
+        os.remove(hell)
+        os.remove(file)
+    except BaseException:
+        pass
+    os.remove(pic)
+
     
 @bot.on(hell_cmd(pattern="doge(?: |$)(.*)", outgoing=True))
 @bot.on(sudo_cmd(pattern="doge(?: |$)(.*)", allow_sudo=True))
