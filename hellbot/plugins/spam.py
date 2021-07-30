@@ -72,6 +72,7 @@ async def _(event):
     while x < 69:
         await bot.send_message(event.chat_id, input_str)
 
+
 # Special Break Spam Module For HellBot Made By Chirag Bhargava.
 # Team HellBot
 @bot.on(hell_cmd(pattern="bspam ?(.*)"))
@@ -80,7 +81,11 @@ async def spammer(e):
     if not e.text[0].isalpha() and e.text[0] not in ("/", "#", "@", "!"):
         message = e.text
         counter = int(message[7:11])
-        spam_message = str(e.text[12:])
+        reply_msg = await event.get_reply_message()
+        if reply_msg:
+            spam_message = reply_msg
+        else:
+            spam_message = str(e.text[12:])
         rd = int(counter % 100)
         tot = int((counter - rd )/100)
         a = 30
