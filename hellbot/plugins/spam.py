@@ -30,7 +30,7 @@ async def bigspam(hell):
     if not hell.text[0].isalpha() and hell.text[0] not in ("/", "#", "@", "!"):
         hell_msg = hell.text
         hellbot_count = int(hell_msg[9:13])
-        reply_msg = await event.get_reply_message()
+        reply_msg = await hell.get_reply_message()
         if reply_msg:
             hell_spam = reply_msg
         else:
@@ -81,7 +81,7 @@ async def spammer(e):
     if not e.text[0].isalpha() and e.text[0] not in ("/", "#", "@", "!"):
         message = e.text
         counter = int(message[7:11])
-        reply_msg = await event.get_reply_message()
+        reply_msg = await e.get_reply_message()
         if reply_msg:
             spam_message = reply_msg
         else:
