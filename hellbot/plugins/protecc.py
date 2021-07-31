@@ -15,8 +15,8 @@ def progress(current, total):
         )
     )
 
-@bot.on(hell_cmd(pattern=r"pt"))
-@bot.on(sudo_cmd(pattern=r"pt", allow_sudo=True))
+@bot.on(hell_cmd(pattern="pt$"))
+@bot.on(sudo_cmd(pattern="pt$", allow_sudo=True))
 async def _(event):
     if event.fwd_from:
         return
