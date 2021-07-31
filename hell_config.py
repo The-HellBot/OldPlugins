@@ -95,6 +95,7 @@ class Config(object):
     TMP_DOWNLOAD_DIRECTORY = os.environ.get("TMP_DOWNLOAD_DIRECTORY", "./DOWNLOADS/")
     TZ = os.environ.get("TZ", "Asia/Kolkata")
     UPSTREAM_REPO = os.environ.get("UPSTREAM_REPO", "https://github.com/The-HellBot/HellBot")
+    WAIFU_CATCHER = os.environ.get("WAIFU_CATCHER", None)
     WEATHER_API = os.environ.get("WEATHER_API", None)
     YOUR_NAME = os.environ.get("YOUR_NAME", None)
     YOUTUBE_API_KEY = os.environ.get("YOUTUBE_API_KEY", None)
