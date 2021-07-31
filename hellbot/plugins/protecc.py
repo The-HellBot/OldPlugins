@@ -8,8 +8,6 @@ from bs4 import BeautifulSoup
 
 from . import *
 
-DELETE_TIMEOUT = 0
-
 def progress(current, total):
     logger.info(
         "Downloaded {} of {}\nCompleted {}".format(
@@ -18,10 +16,11 @@ def progress(current, total):
     )
 
 @bot.on(hell_cmd(pattern=r"pt"))
+@bot.on(sudo_cmd(pattern=r"pt", allow_sudo=True))
 async def _(event):
     if event.fwd_from:
         return
-    start = datetime.datetime.now()
+    hell = await eor(event, "Hmm..")
     BASE_URL = "http://images.google.com"
     if event.reply_to_msg_id:
         previous_message = await event.get_reply_message()
@@ -64,12 +63,9 @@ async def _(event):
 
         img_size_div = soup.find(id="jHnbRc")
         img_size = img_size_div.find_all("div")
-        end = datetime.datetime.now()
-        ms = (end - start).seconds
         OUTPUT_STR = """/protecc {prs_text}""".format(
             **locals())
-    await event.delete()
-    await event.reply(OUTPUT_STR, parse_mode="HTML", link_preview=False)
+    await hell.edit(OUTPUT_STR, parse_mode="HTML", link_preview=False)
 
 CmdHelp("protecc").add_command(
   "pt", "<reply>", "Auto Protecc the waifu."
