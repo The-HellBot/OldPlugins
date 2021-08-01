@@ -30,7 +30,11 @@ async def bigspam(hell):
     if not hell.text[0].isalpha() and hell.text[0] not in ("/", "#", "@", "!"):
         hell_msg = hell.text
         hellbot_count = int(hell_msg[9:13])
-        hell_spam = str(hell.text[13:])
+        reply_msg = await hell.get_reply_message()
+        if reply_msg:
+            hell_spam = reply_msg
+        else:
+            hell_spam = str(hell.text[13:])
         for i in range(1, hellbot_count):
             await hell.respond(hell_spam)
         await hell.delete()
@@ -52,6 +56,49 @@ async def spammer(e):
     for _ in range(counter):
         await e.respond(spam_message)
         await asyncio.sleep(spamDelay)
+
+
+@bot.on(hell_cmd(pattern="uspam ?(.*)"))
+@bot.on(sudo_cmd(pattern="uspam ?(.*)", allow_sudo=True))
+async def _(event):
+    reply_msg = await event.get_reply_message()
+    hell = event.pattern_match.group(1)
+    if reply_msg:
+        input_str = reply_msg
+    else:
+        input_str = hell
+    await bot.send_message(lg_id, f"#UNLIMITED_SPAM \n\nStarted Unlimited Spam. Will spam till floodwait. Do `{hl}restart` to stop.")
+    x = 0
+    while x < 69:
+        await bot.send_message(event.chat_id, input_str)
+
+
+# Special Break Spam Module For HellBot Made By Chirag Bhargava.
+# Team HellBot
+@bot.on(hell_cmd(pattern="bspam ?(.*)"))
+@bot.on(sudo_cmd(pattern="bspam ?(.*)", allow_sudo=True))
+async def spammer(e):
+    if not e.text[0].isalpha() and e.text[0] not in ("/", "#", "@", "!"):
+        message = e.text
+        counter = int(message[7:11])
+        reply_msg = await e.get_reply_message()
+        if reply_msg:
+            spam_message = reply_msg
+        else:
+            spam_message = str(e.text[12:])
+        rd = int(counter % 100)
+        tot = int((counter - rd )/100)
+        a = 30
+        for q in range(tot):
+            for p in range(100):
+                await asyncio.wait([e.respond(spam_message)])
+            a = a + 2
+            await asyncio.sleep(a)
+
+        await e.delete()
+        await e.client.send_message(
+            lg_id, f"#BREAK_SPAM \n\nSpammed  {counter}  messages!!"
+        )
 
 
 @bot.on(hell_cmd(pattern="mspam (.*)"))
@@ -83,13 +130,17 @@ async def tiny_pic_spam(e):
 
 
 CmdHelp("spam").add_command(
-  "spam", "<number> <text>", "Sends the text 'X' number of times.", ".spam 99 Hello"
+  "spam", "<number> <text>", "Sends the text 'X' number of times.", "spam 99 Hello"
 ).add_command(
-  "mspam", "<reply to media> <number>", "Sends the replied media (gif/ video/ sticker/ pic) 'X' number of times", ".mspam 100 <reply to media>"
+  "mspam", "<reply to media> <number>", "Sends the replied media (gif/ video/ sticker/ pic) 'X' number of times", "mspam 100 <reply to media>"
 ).add_command(
-  "dspam", "<delay> <spam count> <text>", "Sends the text 'X' number of times in 'Y' seconds of delay", ".dspam 5 100 Hello"
+  "dspam", "<delay> <spam count> <text>", "Sends the text 'X' number of times in 'Y' seconds of delay", "dspam 5 100 Hello"
 ).add_command(
-  "bigspam", "<count> <text>", "Sends the text 'X' number of times. This what hellbot iz known for. The Best BigSpam Ever", ".bigspam 5000 Hello"
+  "uspam", "<reply to a msg> or <text>", "Spams the message unlimited times until you get floodwait error.", "uspam Hello"
+).add_command(
+  "bspam", "<count> <text or reply>", "Spams the message X times without floodwait. Breaks the spam count to avoid floodwait.", "bspam 9999 Hello"
+).add_command(
+  "bigspam", "<count> <text>", "Sends the text 'X' number of times. This what hellbot iz known for. The Best BigSpam Ever", "bigspam 5000 Hello"
 ).add_info(
   "Spammers Commands"
 ).add_warning(

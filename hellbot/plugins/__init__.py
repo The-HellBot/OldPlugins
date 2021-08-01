@@ -15,6 +15,7 @@ hell_logo = "./hellbot/resources/pics/hellbot_logo.jpg"
 cjb = "./hellbot/resources/pics/cjb.jpg"
 restlo = "./hellbot/resources/pics/rest.jpeg"
 shuru = "./hellbot/resources/pics/shuru.jpg"
+shhh = "./hellbot/resources/pics/chup_madarchod.jpeg"
 hl = Config.HANDLER
 shl = Config.SUDO_HANDLER
 hell_ver = __hell__
