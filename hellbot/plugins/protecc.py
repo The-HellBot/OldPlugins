@@ -77,13 +77,6 @@ async def reverse(event):
         return
     if Config.WAIFU_CATCHER != "TRUE":
         return
-    if Config.EXCLUDE_WAIFU:
-        exclude = Config.EXCLUDE_WAIFU.split(" ")
-        for n in range(len(exclude)):
-            exclude[n] = exclude[n].strip()
-    if Config.EXCLUDE_WAIFU and event.chat_id in exclude:
-        await bot.send_message(event.chat_id, "Group excluded from AutoWaifu.")
-        return
 
     dl = await bot.download_media(event.media, "resources/")
     file = {"encoded_image": (dl, open(dl, "rb"))}
@@ -108,7 +101,10 @@ async def reverse(event):
             return
     except:
         pass
-    await bot.send_message(event.chat_id, f"/protecc@loli_harem_bot {text}")
+    if Config.EXCLUDE_WAIFU and event.chat_id in Config.EXCLUDE_WAIFU:
+        await bot.send_message(event.chat_id, f"Group Excluded From AutoWaifu.")
+    else:
+        await bot.send_message(event.chat_id, f"/protecc@loli_harem_bot {text}")
     await sleep(2)
     os.remove(dl)
 
