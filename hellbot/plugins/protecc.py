@@ -11,7 +11,6 @@ from hellbot.sql.waifu_sql import in_grp, add_grp, rm_grp, get_all_grp
 from . import *
 
 qt = "A qt waifu appeared!"
-chat_ = event.chat_id
 all_grp = get_all_grp()
 
 def progress(current, total):
@@ -80,7 +79,8 @@ async def _(event):
         return
     if Config.WAIFU_CATCHER != "TRUE":
         return
-    if chat_ not in all_grp:
+    chat_id = event.chat_id
+    if chat_id not in all_grp:
         return
 
     dl = await bot.download_media(event.media, "resources/")
