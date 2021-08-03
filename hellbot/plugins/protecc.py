@@ -111,8 +111,8 @@ async def _(event):
     os.remove(dl)
 
 
-@bot.on(hell_cmd(pattern="addwaifu ?(.*)"))
-@bot.on(sudo_cmd(pattern="addwaifu ?(.*)", allow_sudo=True))
+@bot.on(hell_cmd(pattern="adwaifu ?(.*)"))
+@bot.on(sudo_cmd(pattern="adwaifu ?(.*)", allow_sudo=True))
 async def _(event):
     if event.fwd_from:
         return
