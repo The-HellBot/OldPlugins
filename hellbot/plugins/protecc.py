@@ -123,11 +123,11 @@ async def _(event):
         return
     if not event.is_group:
         return await eod(event, "`Well... This works in groups only !!`"
-    chat_id = event.chat_id
-    if not in_grp(chat_id):
-        add_grp(chat_id)
+ #   chat_id = event.chat_id
+    if not in_grp(chat_):
+        add_grp(chat_)
         await eod(event, "`Added to Autowaifu Database !!`")
-    elif in_grp(chat_id):
+    elif in_grp(chat_):
         await eor(event, "`This group is already in Autowaifu database!`")
 
 
