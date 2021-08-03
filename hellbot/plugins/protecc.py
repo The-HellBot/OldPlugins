@@ -79,7 +79,7 @@ async def reverse(event):
         return
     if Config.WAIFU_CATCHER != "TRUE":
         return
-    if Config.EXCLUDE_FED and event.chat_id == exclude:
+    if Config.EXCLUDE_WAIFU and event.chat_id == exclude:
         return
     dl = await bot.download_media(event.media, "resources/")
     file = {"encoded_image": (dl, open(dl, "rb"))}
