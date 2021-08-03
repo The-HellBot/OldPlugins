@@ -7,9 +7,12 @@ import requests
 from asyncio import sleep
 from bs4 import BeautifulSoup
 
+from hellbot.sql.waifu_sql import in_grp, add_grp, rm_grp, get_all_grp
 from . import *
 
 qt = "A qt waifu appeared!"
+chat_ = event.chat_id
+all_grp = get_all_grp()
 
 def progress(current, total):
     logger.info(
@@ -68,7 +71,7 @@ async def _(event):
 
 
 @bot.on(events.NewMessage(incoming=True))
-async def reverse(event):
+async def _(event):
     if not event.media:
         return
     if not qt in event.text:
@@ -76,6 +79,8 @@ async def reverse(event):
     if not event.sender_id == 792028928:
         return
     if Config.WAIFU_CATCHER != "TRUE":
+        return
+    if chat_ not in all_grp:
         return
 
     dl = await bot.download_media(event.media, "resources/")
@@ -106,8 +111,55 @@ async def reverse(event):
     os.remove(dl)
 
 
+@bot.on(hell_cmd(pattern="addwaifu ?(.*)"))
+@bot.on(sudo_cmd(pattern="addwaifu ?(.*)", allow_sudo=True))
+async def _(event):
+    if event.fwd_from:
+        return
+    if (
+        "addsudo" in event.raw_text.lower()
+        or "addblacklist" in event.raw_text.lower()
+    ):
+        return
+    if not event.is_group:
+        return await eod(event, "`Well... This works in groups only !!`"
+    chat_id = event.chat_id
+    if not in_grp(chat_id):
+        add_grp(chat_id)
+        await eod(event, "`Added to Autowaifu Database !!`")
+    elif in_grp(chat_id):
+        await eor(event, "`This group is already in Autowaifu database!`")
+
+
+@bot.on(hell_cmd(pattern="rmwaifu ?(.*)"))
+@bot.on(sudo_cmd(pattern="rmwaifu ?(.*)", allow_sudo=True))
+async def _(event):
+    if event.fwd_from:
+        return
+    chat_id = event.pattern_match.group(1)
+    if chat_id == "all":
+        await eor(event, "Removing all Autowaifu groups...")
+        channels = get_all_grp()
+        for channel in channels:
+            rm_grp(channel.chat_id)
+        await eod(event, "Removed  All Groups From Autowaifu.")
+        return
+    if in_grp(chat_id):
+        rm_grp(chat_id)
+        await eod(event, "Removed this group from AutoWaifu database.")
+    elif in_grp(event.chat_id):
+        rm_grp(event.chat_id)
+        await eod(event, "Removed this group from AutoWaifu database.")
+    elif not in_grp(event.chat_id):
+        await eor(event, "I can't find this group in Autowaifu Database. \n\n**Are you sure Autowaifu is enableenabled**")
+
+
 CmdHelp("protecc").add_command(
   "pt", "<reply>", "Auto Protecc the waifu."
+).add_command(
+  "addwaifu", None, "Adds the current group to AutoWaifu Database. Need to setup WAIFU_CATCHER var with value TRUE."
+).add_command(
+  "rmwaifu", None, "Removes the group from AutoWaifu Database."
 ).add_info(
   "Waifu Protecc."
 ).add_warning(
