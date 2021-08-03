@@ -11,6 +11,8 @@ from . import *
 
 qt = "A qt waifu appeared!"
 
+exclude = Config.EXCLUDE_WAIFU.split(" ")
+
 def progress(current, total):
     logger.info(
         "Downloaded {} of {}\nCompleted {}".format(
@@ -76,6 +78,8 @@ async def reverse(event):
     if not event.sender_id == 792028928:
         return
     if Config.WAIFU_CATCHER != "TRUE":
+        return
+    if Config.EXCLUDE_FED and event.chat_id == exclude:
         return
     dl = await bot.download_media(event.media, "resources/")
     file = {"encoded_image": (dl, open(dl, "rb"))}
