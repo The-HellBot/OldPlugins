@@ -77,10 +77,9 @@ async def reverse(event):
         return
     if Config.WAIFU_CATCHER != "TRUE":
         return
-    if Config.EXCLUDE_WAIFU:
-        exclude = Config.EXCLUDE_WAIFU.split(" ")
-    if event.chat_id in exclude:
-        return
+    if Config.EXCLUDE_WAIFU and event.chat_id == Config.EXCLUDE_WAIFU:
+        return await bot.send_message(event.chat_id, "Group excluded from AutoWaifu.")
+
     dl = await bot.download_media(event.media, "resources/")
     file = {"encoded_image": (dl, open(dl, "rb"))}
     grs = requests.post(
