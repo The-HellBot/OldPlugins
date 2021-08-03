@@ -119,6 +119,7 @@ async def _(event):
     if (
         "addsudo" in event.raw_text.lower()
         or "addblacklist" in event.raw_text.lower()
+        or "add" in event.raw_text.lower()
     ):
         return
     if not event.is_group:
