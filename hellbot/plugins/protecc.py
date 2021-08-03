@@ -101,10 +101,7 @@ async def reverse(event):
             return
     except:
         pass
-    if Config.EXCLUDE_WAIFU and event.chat_id in Config.EXCLUDE_WAIFU:
-        await bot.send_message(event.chat_id, f"Group Excluded From AutoWaifu.")
-    else:
-        await bot.send_message(event.chat_id, f"/protecc@loli_harem_bot {text}")
+    await bot.send_message(event.chat_id, f"/protecc@loli_harem_bot {text}")
     await sleep(2)
     os.remove(dl)
 
