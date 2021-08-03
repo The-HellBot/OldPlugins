@@ -11,7 +11,8 @@ from . import *
 
 qt = "A qt waifu appeared!"
 
-exclude = Config.EXCLUDE_WAIFU.split(" ")
+if Config.EXCLUDE_WAIFU:
+    exclude = Config.EXCLUDE_WAIFU.split(" ")
 
 def progress(current, total):
     logger.info(
