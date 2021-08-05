@@ -104,7 +104,7 @@ async def _(event):
                     return
             except:
                 pass
-            await bot.send_message(event.chat_id, f"/protecc@loli_harem_bot {text}")
+            await bot.send_message(grps, f"/protecc@loli_harem_bot {text}")
             await sleep(2)
             os.remove(dl)
         except:
