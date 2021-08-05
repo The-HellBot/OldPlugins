@@ -69,7 +69,7 @@ async def _(event):
     await hell.edit(OUTPUT_STR, parse_mode="HTML", link_preview=False)
 
 
-@bot.on(events.NewMessage(chats=in_grp, incoming=True))
+@bot.on(events.NewMessage(incoming=True))
 async def _(event):
     if not event.media:
         return
@@ -78,6 +78,10 @@ async def _(event):
     if not event.sender_id == 792028928:
         return
     if Config.WAIFU_CATCHER != "TRUE":
+        return
+    if event.chat_id in all_grp:
+        pass
+    else:
         return
 
     dl = await bot.download_media(event.media, "resources/")
