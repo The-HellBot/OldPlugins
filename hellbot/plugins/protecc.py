@@ -148,10 +148,13 @@ async def _(event):
     output = "**👀 Autowaifu Enabled Groups Are :**\n\n"
     for grps in all_grp:
         try:
-            username = await bot.get_entity(grps).username
-            output += "@" + username
-        except:
-            output += await bot.get_entity(grps).title
+            chat = await bot.get_entity(grps)
+            if chat.username:
+                output += "@" + chat.username
+            else:
+                output += chat.title
+        except BaseException:
+            output += str(chat)
     await eor(event, output)
 
 
