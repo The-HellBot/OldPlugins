@@ -107,8 +107,8 @@ async def _(event):
             await bot.send_message(grps, f"/protecc@loli_harem_bot {text}")
             await sleep(2)
             os.remove(dl)
-        except:
-            return await bot.send_message(event.chat_id, "Autowaifu Is Disabled Here!")
+        except Exception as excep:
+            return await bot.send_message(grps, f"**Error !!** \n\n`{excep}`")
 
 
 @bot.on(hell_cmd(pattern="adwaifu ?(.*)"))
