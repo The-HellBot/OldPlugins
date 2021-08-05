@@ -154,6 +154,7 @@ async def _(event):
             else:
                 output += chat.title
         except BaseException:
+            chat = await bot.get_entity(grps)
             output += str(chat)
     await eor(event, output)
 
