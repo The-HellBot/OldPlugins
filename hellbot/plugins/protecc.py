@@ -146,7 +146,7 @@ async def _(event):
     output = "**👀 Autowaifu Enabled Groups Are :**\n\n"
     for grps in all_grp:
         try:
-            chat = await bot.get_entity(grps)
+            chat = await bot.get_entity(int(grps))
             if chat.username:
                 output += "@" + chat.username
             else:
