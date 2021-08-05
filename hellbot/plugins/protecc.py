@@ -143,16 +143,14 @@ async def _(event):
 @bot.on(sudo_cmd(pattern="listwaifu$", allow_sudo=True))
 async def _(event):
     all_grp = get_all_grp()
+    if len(all_grp) == 0:
+        return await eod(event, "No AutoWaifu Enabled Groups !")
     output = "**👀 Autowaifu Enabled Groups Are :**\n\n"
     for grps in all_grp:
         try:
-            chat = await bot.get_entity(int(grps))
-            if chat.username:
-                output += "@" + chat.username
-            else:
-                output += chat.title
+            output += "@" + (await bot.get_entity(int(grps)).username)
         except:
-            pass
+            output += (await bot.get_entity(int(grps)).title)
     await eor(event, output)
 
 
