@@ -82,8 +82,6 @@ async def _(event):
     if len(all_grp) == 0:
         return
     for grps in all_grp:
-        id_ = grps.chat_id
-    if event.chat_id == id_:
         try:
             dl = await bot.download_media(event.media, "resources/")
             file = {"encoded_image": (dl, open(dl, "rb"))}
@@ -108,10 +106,13 @@ async def _(event):
                     return
             except:
                 pass
-            hell = await bot.send_message(event.chat_id, f"/protecc@loli_harem_bot {text}")
-            await sleep(2)
-            await hell.delete
-            os.remove(dl)
+            if grps.chat_id == event.chat_id:
+                hell = await bot.send_message(event.chat_id, f"/protecc@loli_harem_bot {text}")
+                await sleep(2)
+                await hell.delete
+                os.remove(dl)
+            else:
+                os.remove(dl)
         except:
             return
  
@@ -150,15 +151,7 @@ async def _(event):
         return await eod(event, "No AutoWaifu Enabled Groups !")
     output = "**👀 Autowaifu Enabled Groups Are :**\n\n"
     for grps in all_grp:
-        try:
-            chat = await bot.get_entity(grps)
-            if chat.username:
-                output += "@" + chat.username
-            else:
-                output += chat.title
-        except BaseException:
-            chat = await bot.get_entity(grps)
-            output += str(chat)
+        output += grps
     await eor(event, output)
 
 
