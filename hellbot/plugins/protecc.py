@@ -7,11 +7,10 @@ import requests
 from asyncio import sleep
 from bs4 import BeautifulSoup
 
-from hellbot.sql.waifu_sql import in_grp, add_grp, rm_grp, get_all_grp
+from hellbot.sql.waifu_sql import is_harem, add_grp, rm_grp, get_all_grp
 from . import *
 
 qt = "A qt waifu appeared!"
-all_grp = get_all_grp()
 
 def progress(current, total):
     logger.info(
@@ -79,6 +78,9 @@ async def _(event):
         return
     if Config.WAIFU_CATCHER != "TRUE":
         return
+    all_grp = get_all_grp()
+    if len(all_grp) == 0:
+        return
     for grps in all_grp:
         try:
             dl = await bot.download_media(event.media, "resources/")
@@ -104,49 +106,37 @@ async def _(event):
                     return
             except:
                 pass
-            await bot.send_message(grps, f"/protecc@loli_harem_bot {text}")
+            await bot.send_message(int(grps.chat_id), f"/protecc@loli_harem_bot {text}")
             await sleep(2)
             os.remove(dl)
         except Exception as excep:
-            return await bot.send_message(grps, f"**Error !!** \n\n`{excep}`")
+            return await bot.send_message(int(grps.chat_id), f"**Error !!** \n\n`{excep}`")
 
 
 @bot.on(hell_cmd(pattern="adwaifu ?(.*)"))
 @bot.on(sudo_cmd(pattern="adwaifu ?(.*)", allow_sudo=True))
 async def _(event):
-    if event.fwd_from:
-        return
     if not event.is_group:
-        return await eod(event, "`Well... This works in groups only !!`")
-    chat_id = event.chat_id
-    if not in_grp(chat_id):
-        add_grp(chat_id)
-        await eod(event, "`Added to Autowaifu Database !!`")
-    elif in_grp(chat_id):
-        await eor(event, "`This group is already in Autowaifu database!`")
+        await eod(event, "Autowaifu works in Groups Only !!")
+        return
+    if is_harem(str(event.chat_id)):
+        await eod(event, "This Chat is Has Already In AutoWaifu Database !!")
+        return
+    add_grp(str(event.chat_id))
+    await eod(event, f"**Added Chat** {event.chat.title} **With Id** `{event.chat_id}` **To Autowaifu Database.**")
 
 
 @bot.on(hell_cmd(pattern="rmwaifu ?(.*)"))
 @bot.on(sudo_cmd(pattern="rmwaifu ?(.*)", allow_sudo=True))
 async def _(event):
-    if event.fwd_from:
+    if not event.is_group:
+        await eod(event, "Autowaifu works in groups only !!")
         return
-    chat_id = event.pattern_match.group(1)
-    if chat_id == "all":
-        await eor(event, "Removing all Autowaifu groups...")
-        channels = get_all_grp()
-        for channel in channels:
-            rm_grp(channel.chat_id)
-        await eod(event, "Removed  All Groups From Autowaifu.")
+    if not is_harem(str(event.chat_id)):
+        await eod(event, "Autowaifu was already disabled here.")
         return
-    if in_grp(chat_id):
-        rm_grp(chat_id)
-        await eod(event, "Removed this group from AutoWaifu database.")
-    elif in_grp(event.chat_id):
-        rm_grp(event.chat_id)
-        await eod(event, "Removed this group from AutoWaifu database.")
-    elif not in_grp(event.chat_id):
-        await eor(event, "I can't find this group in Autowaifu Database. \n\n**Are you sure Autowaifu is enableenabled**")
+    rm_grp(str(event.chat_id))
+    await eod(event, f"**Removed Chat** {event.chat.title} **With Id** `{event.chat_id}` **From AutoWaifu Database.**")
 
 
 CmdHelp("protecc").add_command(
