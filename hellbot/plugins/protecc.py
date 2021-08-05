@@ -106,11 +106,11 @@ async def _(event):
                     return
             except:
                 pass
-            await bot.send_message(int(grps.chat_id), f"/protecc@loli_harem_bot {text}")
+            await bot.send_message(int(event.chat_id), f"/protecc@loli_harem_bot {text}")
             await sleep(2)
             os.remove(dl)
         except Exception as excep:
-            return await bot.send_message(int(grps.chat_id), f"**Error !!** \n\n`{excep}`")
+            return await bot.send_message(int(event.chat_id), f"**Error !!** \n\n`{excep}`")
 
 
 @bot.on(hell_cmd(pattern="adwaifu ?(.*)"))
@@ -151,8 +151,8 @@ async def _(event):
                 output += "@" + chat.username
             else:
                 output += chat.title
-        except BaseException:
-            output += str(chat)
+        except:
+            pass
     await eor(event, output)
 
 
