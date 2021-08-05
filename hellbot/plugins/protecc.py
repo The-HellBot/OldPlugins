@@ -106,13 +106,11 @@ async def _(event):
                     return
             except:
                 pass
-            if grps.chat_id == event.chat_id:
+            if int(grps.chat_id) == event.chat_id:
                 hell = await bot.send_message(event.chat_id, f"/protecc@loli_harem_bot {text}")
                 await sleep(2)
                 await hell.delete
-                os.remove(dl)
-            else:
-                os.remove(dl)
+            os.remove(dl)
         except:
             return
  
