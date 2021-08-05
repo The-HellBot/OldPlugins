@@ -149,7 +149,7 @@ async def _(event):
         return await eod(event, "No AutoWaifu Enabled Groups !")
     output = "**👀 Autowaifu Enabled Groups Are :**\n\n"
     for grps in all_grp:
-        output += grps
+        output += str(grps)
     await eor(event, output)
 
 
