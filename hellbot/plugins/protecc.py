@@ -82,6 +82,8 @@ async def _(event):
     if len(all_grp) == 0:
         return
     for grps in all_grp:
+        id_ = grps.chat_id
+    if event.chat_id == id_:
         try:
             dl = await bot.download_media(event.media, "resources/")
             file = {"encoded_image": (dl, open(dl, "rb"))}
@@ -106,12 +108,11 @@ async def _(event):
                     return
             except:
                 pass
-            await bot.send_message(int(event.chat_id), f"/protecc@loli_harem_bot {text}")
+            hell = await bot.send_message(event.chat_id, f"/protecc@loli_harem_bot {text}")
             await sleep(2)
+            await hell.delete
             os.remove(dl)
-        except Exception as excep:
-            return await bot.send_message(int(event.chat_id), f"**Error !!** \n\n`{excep}`")
-
+ 
 
 @bot.on(hell_cmd(pattern="adwaifu ?(.*)"))
 @bot.on(sudo_cmd(pattern="adwaifu ?(.*)", allow_sudo=True))
