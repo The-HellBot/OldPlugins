@@ -112,6 +112,8 @@ async def _(event):
             await sleep(2)
             await hell.delete
             os.remove(dl)
+        except:
+            return
  
 
 @bot.on(hell_cmd(pattern="adwaifu ?(.*)"))
