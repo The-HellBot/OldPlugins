@@ -1,41 +1,41 @@
-from sqlalchemy import Column, String
-from . import SESSION, BASE
+from sqlalchemy import Boolean, Column, Integer, String, UnicodeText
+from . import BASE, SESSION
 
 
-class harem(BASE):
-    __tablename__ = "channels"
+class Harem(BASE):
+    __tablename__ = "harem"
     chat_id = Column(String(14), primary_key=True)
 
     def __init__(self, chat_id):
         self.chat_id = chat_id
 
 
-harem.__table__.create(checkfirst=True)
+Harem.__table__.create(checkfirst=True)
 
 
-def in_grp(chat_id):
-    try:
-        return SESSION.query(harem).filter(harem.chat_id == str(chat_id)).one()
-    except BaseException:
-        return None
-    finally:
-        SESSION.close()
-
-
-def add_grp(chat_id):
-    adder = harem(str(chat_id))
-    SESSION.add(adder)
+def add_grp(chat_id: str):
+    waifu = Harem(str(chat_id))
+    SESSION.add(waifu)
     SESSION.commit()
 
 
-def rm_grp(chat_id):
-    rem = SESSION.query(harem).get(str(chat_id))
-    if rem:
-        SESSION.delete(rem)
+def rm_grp(chat_id: str):
+    waifu = SESSION.query(Harem).get(str(chat_id))
+    if waifu:
+        SESSION.delete(waifu)
         SESSION.commit()
 
 
 def get_all_grp():
-    rem = SESSION.query(harem).all()
+    waifu = SESSION.query(Harem).all()
     SESSION.close()
-    return rem
+    return waifu
+
+
+def is_harem(chat_id: str):
+    try:
+        waifu = SESSION.query(Harem).get(str(chat_id))
+        if waifu:
+            return str(waifu.chat_id)
+    finally:
+        SESSION.close()
