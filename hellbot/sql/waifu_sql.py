@@ -5,22 +5,24 @@ from . import BASE, SESSION
 class Harem(BASE):
     __tablename__ = "harem"
     chat_id = Column(String(14), primary_key=True)
+    keyword = Column(UnicodeText, primary_key=True, nullable=False)
 
-    def __init__(self, chat_id):
+    def __init__(self, chat_id, keyword):
         self.chat_id = chat_id
+        self.keyword = keyword
 
 
 Harem.__table__.create(checkfirst=True)
 
 
-def add_grp(chat_id: str):
-    waifu = Harem(str(chat_id))
+def add_grp(chat_id: str, keyword: str):
+    waifu = Harem(str(chat_id), str(keyword))
     SESSION.add(waifu)
     SESSION.commit()
 
 
-def rm_grp(chat_id: str):
-    waifu = SESSION.query(Harem).get(str(chat_id))
+def rm_grp(chat_id: str, keyword: str):
+    waifu = SESSION.query(Harem).get(str(chat_id), str(keyword))
     if waifu:
         SESSION.delete(waifu)
         SESSION.commit()
