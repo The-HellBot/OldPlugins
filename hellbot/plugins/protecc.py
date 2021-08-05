@@ -139,12 +139,31 @@ async def _(event):
     await eod(event, f"**Removed Chat** {event.chat.title} **With Id** `{event.chat_id}` **From AutoWaifu Database.**")
 
 
+@bot.on(hell_cmd(pattern="listwaifu$"))
+@bot.on(sudo_cmd(pattern="listwaifu$", allow_sudo=True))
+async def _(event):
+    all_grp = get_all_grp()
+    output = "**👀 Autowaifu Enabled Groups Are :**\n\n"
+    for grps in all_grp:
+        try:
+            chat = await bot.get_entity(grps)
+            if chat.username:
+                output += "@" + chat.username
+            else:
+                output += chat.title
+        except BaseException:
+            output += str(chat)
+    await eor(event, output)
+
+
 CmdHelp("protecc").add_command(
   "pt", "<reply>", "Auto Protecc the waifu."
 ).add_command(
-  "addwaifu", None, "Adds the current group to AutoWaifu Database. Need to setup WAIFU_CATCHER var with value TRUE."
+  "adwaifu", None, "Adds the current group to AutoWaifu Database. Need to setup WAIFU_CATCHER var with value TRUE."
 ).add_command(
   "rmwaifu", None, "Removes the group from AutoWaifu Database."
+).add_command(
+  "listwaifu", None, "Gives the list of all Autowaifu Enabled Groups."
 ).add_info(
   "Waifu Protecc."
 ).add_warning(
