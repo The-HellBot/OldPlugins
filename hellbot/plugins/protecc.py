@@ -148,8 +148,6 @@ CmdHelp("protecc").add_command(
   "adwaifu", None, "Adds the current group to AutoWaifu Database. Need to setup WAIFU_CATCHER var with value TRUE."
 ).add_command(
   "rmwaifu", None, "Removes the group from AutoWaifu Database."
-).add_command(
-  "listwaifu", None, "Gives the list of all Autowaifu Enabled Groups."
 ).add_info(
   "Waifu Protecc."
 ).add_warning(
