@@ -79,49 +79,42 @@ async def _(event):
         return
     if Config.WAIFU_CATCHER != "TRUE":
         return
-    if event.chat_id in all_grp:
-        pass
-    else:
-        return
-
-    dl = await bot.download_media(event.media, "resources/")
-    file = {"encoded_image": (dl, open(dl, "rb"))}
-    grs = requests.post(
-        "https://www.google.com/searchbyimage/upload", files=file, allow_redirects=False
-    )
-    loc = grs.headers.get("Location")
-    response = requests.get(
-        loc,
-        headers={
-            "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:58.0) Gecko/20100101 Firefox/58.0"
-        },
-    )
-    qtt = BeautifulSoup(response.text, "html.parser")
-    div = qtt.find_all("div", {"class": "r5a77d"})[0]
-    alls = div.find("a")
-    text = alls.text
-    try:
-        if "cg" in text:
-            return
-        if "fictional character" in text:
-            return
-    except:
-        pass
-    await bot.send_message(event.chat_id, f"/protecc@loli_harem_bot {text}")
-    await sleep(2)
-    os.remove(dl)
+    for grps in all_grp:
+        try:
+            dl = await bot.download_media(event.media, "resources/")
+            file = {"encoded_image": (dl, open(dl, "rb"))}
+            grs = requests.post(
+                "https://www.google.com/searchbyimage/upload", files=file, allow_redirects=False
+            )
+            loc = grs.headers.get("Location")
+            response = requests.get(
+                loc,
+                headers={
+                    "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:58.0) Gecko/20100101 Firefox/58.0"
+                },
+            )
+            qtt = BeautifulSoup(response.text, "html.parser")
+            div = qtt.find_all("div", {"class": "r5a77d"})[0]
+            alls = div.find("a")
+            text = alls.text
+            try:
+                if "cg" in text:
+                    return
+                if "fictional character" in text:
+                    return
+            except:
+                pass
+            await bot.send_message(event.chat_id, f"/protecc@loli_harem_bot {text}")
+            await sleep(2)
+            os.remove(dl)
+        except:
+            return await bot.send_message(event.chat_id, "Autowaifu Is Disabled Here!")
 
 
 @bot.on(hell_cmd(pattern="adwaifu ?(.*)"))
 @bot.on(sudo_cmd(pattern="adwaifu ?(.*)", allow_sudo=True))
 async def _(event):
     if event.fwd_from:
-        return
-    if (
-        "addsudo" in event.raw_text.lower()
-        or "addblacklist" in event.raw_text.lower()
-        or "add" in event.raw_text.lower()
-    ):
         return
     if not event.is_group:
         return await eod(event, "`Well... This works in groups only !!`")
