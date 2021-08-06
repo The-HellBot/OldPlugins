@@ -589,29 +589,6 @@ async def sprinkle(event):
     await eor(event, 
         "✨.•*¨*.¸.•*¨*.¸¸.•*¨*• ƸӜƷ\n🌸🌺🌸🌺🌸🌺🌸🌺\n Sprinkled with love❤\n🌷🌻🌷🌻🌷🌻🌷🌻\n ¨*.¸.•*¨*. ¸.•*¨*.¸¸.•*¨`*•.✨\n🌹🍀🌹🍀🌹🍀🌹🍀"
     )
-    
-
-@bot.on(hell_cmd(pattern=r"f", outgoing=True))
-@bot.on(sudo_cmd(pattern=r"f", allow_sudo=True))
-async def payf(event):
-    if event.fwd_from:
-        return
-    paytext = event.pattern_match.group(1)
-    pay = "{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}".format(
-        paytext * 8,
-        paytext * 8,
-        paytext * 2,
-        paytext * 2,
-        paytext * 2,
-        paytext * 6,
-        paytext * 6,
-        paytext * 2,
-        paytext * 2,
-        paytext * 2,
-        paytext * 2,
-        paytext * 2,
-    )
-    await eor(event, pay)
 
 
 @bot.on(hell_cmd(outgoing=True, pattern="kiler( (.*)|$)"))
@@ -1108,10 +1085,6 @@ CmdHelp("animations").add_command(
   "switch", None, "Click on the switch to reveal the price✨"
 ).add_command(
   "thanos", None, "A poem on Thanos... Maybe🤐"
-).add_command(
-  "tp", None, "Use and see"
-).add_command(
-  "f", "<text>", "Prints the given text in 'F' format"
 ).add_command(
   "wahack", None, "Whatsapp Hack animation"
 ).add_info(
