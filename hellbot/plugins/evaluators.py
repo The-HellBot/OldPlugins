@@ -33,11 +33,8 @@ async def _(event):
         cresult = f"`{curruser}:~#` `{cmd}`\n`{result}`"
     else:
         cresult = f"`{curruser}:~$` `{cmd}`\n`{result}`"
-    await eor(event, "**Terminal Command Was Executed Successfully. Check LOGGER for Output.**")
-    await event.client.send_message(
-        lg_id,
-        f"#EXEC \n\nTerminal command was executed sucessfully.\n\n**Command :**  `{cmd}`\n**Result :** \n{cresult}",
-    )
+    await eor(event, "**Command :**  `{cmd}`\n**Result :** \n{cresult}")
+
 
 
 @bot.on(hell_cmd(pattern="eval(?: |$|\n)(.*)", command="eval"))
@@ -72,11 +69,11 @@ async def _(event):
     else:
         evaluation = "Success"
     final_output = f"•  Eval : \n`{cmd}` \n\n•  Result : \n`{evaluation}` \n"
-    await eor(hellevent, "**Eval Command Executed. Check out LOGGER for result.**")
-    await event.client.send_message(
-        lg_id,
-        f"#EVAL \n\nEval command was executed sucessfully. \n\n{final_output}",
-    )
+    if cmd in ("BOT_TOKEN.session", "config.env", "HELLBOT_SESSION", "phone", "bot.session"):
+        await eor(hellevent, "Output Can Be Dangerous for privacy. Executed this Eval Command in Logger Group.")
+        await bot.send_message(lg_id, f"#EVAL \n\n{final_output}")
+    else:
+        await eor(hellevent, f"{final_output}")
 
 
 async def aexec(code, smessatatus):
