@@ -64,6 +64,7 @@ async def _(e):
 @bot.on(hell_cmd(pattern=r"hflirt$", outgoing=True))
 @bot.on(sudo_cmd(pattern=r"hflirt$", allow_sudo=True))
 async def _(e):
+    txt = random.choice(HFLIRT)
     await eor(e, txt.format(hell_mention))
 
 @bot.on(hell_cmd(pattern=r"eflirt$", outgoing=True))
