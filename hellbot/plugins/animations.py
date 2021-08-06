@@ -999,6 +999,43 @@ async def _(event):
     await asyncio.sleep(6)
 
 
+@bot.on(hell_cmd(pattern=r"padmin ?(.*)", outgoing=True))
+@bot.on(sudo_cmd(pattern=r"padmin ?(.*)", allow_sudo=True))
+async def _(event):
+    if event.fwd_from:
+        return
+    animation_interval = 1
+    animation_ttl = range(0, 20)
+    event = await eor(event, "padmin")
+    animation_chars = [
+        "**Promoting User As Admin...**",
+        "**Enabling All Permissions To User...**",
+        "**(1) Send Messages: ☑️**",
+        "**(1) Send Messages: ✅**",
+        "**(2) Send Media: ☑️**",
+        "**(2) Send Media: ✅**",
+        "**(3) Send Stickers & GIFs: ☑️**",
+        "**(3) Send Stickers & GIFs: ✅**",
+        "**(4) Send Polls: ☑️**",
+        "**(4) Send Polls: ✅**",
+        "**(5) Embed Links: ☑️**",
+        "**(5) Embed Links: ✅**",
+        "**(6) Add Users: ☑️**",
+        "**(6) Add Users: ✅**",
+        "**(7) Pin Messages: ☑️**",
+        "**(7) Pin Messages: ✅**",
+        "**(8) Change Chat Info: ☑️**",
+        "**(8) Change Chat Info: ✅**",
+        "**(9) Manage Voice Chat: ☑️**",
+        "**(9) Manage Voice Chat: ✅**",
+        "**Permission Granted Successfully**",
+        "**pRoMooTeD SuCcEsSfUlLy**",
+    ]
+    for i in animation_ttl:
+        await asyncio.sleep(animation_interval)
+        await event.edit(animation_chars[i % 20])
+
+
 CmdHelp("animations").add_command(
   'boxs', None, 'Use and see'
 ).add_command(
@@ -1048,9 +1085,7 @@ CmdHelp("animations").add_command(
 ).add_command(
   'hack', None, 'Im a hacker bitch'
 ).add_command(
-  'hnd', '<your text>', 'A handy animation with the text,'
-).add_command(
-  'owner', None, 'Use and see'
+  'hnd', '<your text>', 'A handy animation with the text'
 ).add_command(
   'padmin', None, 'Prank promote a user'
 ).add_command(
