@@ -69,7 +69,7 @@ async def _(event):
     else:
         evaluation = "Success"
     final_output = f"•  Eval : \n`{cmd}` \n\n•  Result : \n`{evaluation}` \n"
-    await eor(hellevent, final_output, deflink=True, linktext="**Eval Command Executed !!** \n\n**Result Pasted To** \n          ")
+    await eor(hellevent, final_output, deflink=True, linktext="**Eval Command Executed !!** \n\n__See Result__ : ")
 
 
 async def aexec(code, smessatatus):
@@ -136,7 +136,7 @@ CmdHelp("evaluators").add_command(
 ).add_command(
   "bash", "<query>", "Bash your codes on linux and gives the output in current chat"
 ).add_info(
-  "Evaluating Modules. (Most Secure of all Bots)"
+  "Evaluating Modules."
 ).add_warning(
   "🚫 Don't Execute Commands Unknowingly."
 ).add()
