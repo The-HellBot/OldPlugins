@@ -69,7 +69,7 @@ async def _(event):
     else:
         evaluation = "Success"
     final_output = f"•  Eval : \n`{cmd}` \n\n•  Result : \n`{evaluation}` \n"
-    await eor(hellevent, final_output, aslink=True, linktext="Eval Pasted")
+    await eor(hellevent, final_output, deflink=True, linktext="Eval Pasted")
 
 
 async def aexec(code, smessatatus):
