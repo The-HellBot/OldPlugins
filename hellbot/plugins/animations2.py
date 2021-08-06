@@ -135,18 +135,18 @@ async def _(event):
         return
     animation_interval = 3
     animation_ttl = range(18)
-    event = await eor(event, "Calling Pavel Durov (ceo of telegram)......")
+    event = await eor(event, "Calling Narendra Modi ......")
     animation_chars = [
         "`Connecting To Raj Bhawan`",
         "`Call Connected.`",
         "`Secretary: Hello This is Raj Bhawan. Who is this?`",
-        f"`Me: Hello this is` `{DEFAULTUSER}` .Please connect me to Prime Minister",
+        f"`Me: Hello this is` `{hell_mention}` .Please connect me to Prime Minister",
         "`User Authorised.`",
         "`Calling`  `At +9189*#*#*#56`",
         "`Private  Call Connected...`",
         "`Me: Hello Sir, How are you!!`",
         "`Prime Minister: May I Know Who Is This?`",
-        f"`Me: Yes sur, itz me` `{DEFAULTUSER}`",
+        f"`Me: Yes sur, itz me` `{hell_mention}`",
         "`Prime Minister: OMG!!! Long time no see, Wassup Brother...\nI'm fine btw... how are you?`",
         "`Me: I good too sar.`",
         "`Prime Minister: Ok! I'll call you later.. I'm busy a bit...`",
@@ -191,11 +191,8 @@ async def _(event):
                 "(￣ー￣) Mar gaya\n Madarchod\nLalalalalalala",
                 "**Target killed successfully nacho bc(°̥̥̥̥̥̥̥̥•̀.̫•́°̥̥̥̥̥̥̥)**",
             ]
-
             for i in animation_ttl:
-
                 await asyncio.sleep(animation_interval)
-
                 await event.edit(animation_chars[i % 11])
     else:
         await event.edit("No User is Defined\nAre u dumb\n\nreply to a user.")
