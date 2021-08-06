@@ -69,11 +69,7 @@ async def _(event):
     else:
         evaluation = "Success"
     final_output = f"•  Eval : \n`{cmd}` \n\n•  Result : \n`{evaluation}` \n"
-    if cmd in ("BOT_TOKEN.session", "config.env", "HELLBOT_SESSION", "phone", "bot.session"):
-        await eor(hellevent, "Output Can Be Dangerous for privacy. Executed this Eval Command in Logger Group.")
-        await bot.send_message(lg_id, f"#EVAL \n\n{final_output}")
-    else:
-        await eor(hellevent, f"{final_output}")
+    await eor(hellevent, final_output, aslink=True, linktext="Eval Pasted")
 
 
 async def aexec(code, smessatatus):
