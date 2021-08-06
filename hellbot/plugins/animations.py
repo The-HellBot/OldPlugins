@@ -223,8 +223,8 @@ async def _(event):
         await asyncio.sleep(animation_interval)
         await event.edit(animation_chars[i % 12])
         
-@bot.on(hell_cmd(pattern=f"hack$", outgoing=True))
-@bot.on(sudo_cmd(pattern=f"hack$", allow_sudo=True))
+@bot.on(hell_cmd(pattern=f"wahack$", outgoing=True))
+@bot.on(sudo_cmd(pattern=f"wahack$", allow_sudo=True))
 async def _(event):
     if event.fwd_from:
         return
