@@ -1,5 +1,6 @@
 from .convert import *
 from .exceptions import *
+from .formats import *
 from .google import *
 from .image import *
 from .jwatch import *
