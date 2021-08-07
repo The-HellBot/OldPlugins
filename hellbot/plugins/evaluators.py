@@ -33,7 +33,7 @@ async def _(event):
         cresult = f"`{curruser}:~#` `{cmd}`\n`{result}`"
     else:
         cresult = f"`{curruser}:~$` `{cmd}`\n`{result}`"
-    await eor(event, "**Command :**  `{cmd}`\n**Result :** \n{cresult}")
+    await eor(event, f"**Command :**  `{cmd}`\n**Result :** \n{cresult}")
 
 
 
