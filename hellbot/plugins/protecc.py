@@ -76,8 +76,6 @@ async def _(event):
         return
     if not event.sender_id == 792028928:
         return
-    if Config.WAIFU_CATCHER != "TRUE":
-        return
     all_grp = get_all_grp()
     if len(all_grp) == 0:
         return
