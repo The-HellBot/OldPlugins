@@ -52,7 +52,6 @@ alive_txt = """
 
 **Telethon :**  `{}`
 **Hêllẞø†  :**  **{}**
-**Uptime   :**  `{}`
 **Abuse    :**  **{}**
 **Sudo      :**  **{}**
 """
@@ -151,7 +150,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
             ]
 
         elif event.query.user_id == bot.uid and query == "alive":
-            he_ll = alive_txt.format(Config.ALIVE_MSG, tel_ver, hell_ver, uptime, abuse_m, is_sudo)
+            he_ll = alive_txt.format(Config.ALIVE_MSG, tel_ver, hell_ver, abuse_m, is_sudo)
             alv_btn = [
                 [Button.url(f"{HELL_USER}", f"tg://openmessage?user_id={ForGo10God}")],
                 [Button.url("My Channel", f"https://t.me/{my_channel}"), 
