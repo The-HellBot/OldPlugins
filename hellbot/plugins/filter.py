@@ -1,6 +1,6 @@
 import asyncio
 import re
-from telethon import events, utils
+from telethon import events, utils as ut
 from telethon.tl import types
 from . import *
 from hellbot.sql.filter_sql import get_filter, add_filter, remove_filter, get_all_filters, remove_all_filters
@@ -69,10 +69,10 @@ async def on_snip_save(event):
         if msg.media:
             media = None
             if isinstance(msg.media, types.MessageMediaPhoto):
-                media = utils.get_input_photo(msg.media.photo)
+                media = ut.get_input_photo(msg.media.photo)
                 snip['type'] = TYPE_PHOTO
             elif isinstance(msg.media, types.MessageMediaDocument):
-                media = utils.get_input_document(msg.media.document)
+                media = ut.get_input_document(msg.media.document)
                 snip['type'] = TYPE_DOCUMENT
             if media:
                 snip['id'] = media.id

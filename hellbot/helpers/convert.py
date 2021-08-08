@@ -1,13 +1,15 @@
 import os
+import asyncio
 import re
 import requests
+import time
+import lottie
 
 import PIL.ImageOps
 from PIL import Image
-
+    
 # convertions are done here...
-
-
+#
 # make a image
 def convert_toimage(image):
     img = Image.open(image)
@@ -16,7 +18,6 @@ def convert_toimage(image):
     img.save("./temp/temp.jpg", "jpeg")
     os.remove(image)
     return "./temp/temp.jpg"
-
 
 # make a sticker
 async def convert_tosticker(image):

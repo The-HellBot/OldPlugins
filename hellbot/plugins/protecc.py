@@ -7,6 +7,7 @@ import requests
 from asyncio import sleep
 from bs4 import BeautifulSoup
 
+from hellbot.sql.waifu_sql import is_harem, add_grp, rm_grp, get_all_grp
 from . import *
 
 qt = "A qt waifu appeared!"
@@ -68,45 +69,83 @@ async def _(event):
 
 
 @bot.on(events.NewMessage(incoming=True))
-async def reverse(event):
+async def _(event):
     if not event.media:
         return
     if not qt in event.text:
         return
     if not event.sender_id == 792028928:
         return
-    if Config.WAIFU_CATCHER != "TRUE":
+    all_grp = get_all_grp()
+    if len(all_grp) == 0:
         return
-    dl = await bot.download_media(event.media, "resources/")
-    file = {"encoded_image": (dl, open(dl, "rb"))}
-    grs = requests.post(
-        "https://www.google.com/searchbyimage/upload", files=file, allow_redirects=False
-    )
-    loc = grs.headers.get("Location")
-    response = requests.get(
-        loc,
-        headers={
-            "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:58.0) Gecko/20100101 Firefox/58.0"
-        },
-    )
-    qtt = BeautifulSoup(response.text, "html.parser")
-    div = qtt.find_all("div", {"class": "r5a77d"})[0]
-    alls = div.find("a")
-    text = alls.text
-    try:
-        if "cg" in text:
+    for grps in all_grp:
+        try:
+            dl = await bot.download_media(event.media, "resources/")
+            file = {"encoded_image": (dl, open(dl, "rb"))}
+            grs = requests.post(
+                "https://www.google.com/searchbyimage/upload", files=file, allow_redirects=False
+            )
+            loc = grs.headers.get("Location")
+            response = requests.get(
+                loc,
+                headers={
+                    "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:58.0) Gecko/20100101 Firefox/58.0"
+                },
+            )
+            qtt = BeautifulSoup(response.text, "html.parser")
+            div = qtt.find_all("div", {"class": "r5a77d"})[0]
+            alls = div.find("a")
+            text = alls.text
+            try:
+                if "cg" in text:
+                    return
+                if "fictional character" in text:
+                    return
+            except:
+                pass
+            if int(grps.chat_id) == event.chat_id:
+                hell = await bot.send_message(event.chat_id, f"/protecc@loli_harem_bot {text}")
+                await sleep(2)
+                await hell.delete()
+            os.remove(dl)
+        except:
             return
-        if "fictional character" in text:
-            return
-    except:
-        pass
-    await bot.send_message(event.chat_id, f"/protecc@loli_harem_bot {text}")
-    await sleep(2)
-    os.remove(dl)
+ 
+
+@bot.on(hell_cmd(pattern="adwaifu ?(.*)"))
+@bot.on(sudo_cmd(pattern="adwaifu ?(.*)", allow_sudo=True))
+async def _(event):
+    if not event.is_group:
+        await eod(event, "Autowaifu works in Groups Only !!")
+        return
+    if is_harem(str(event.chat_id)):
+        await eod(event, "This Chat is Has Already In AutoWaifu Database !!")
+        return
+    add_grp(str(event.chat_id))
+    await eod(event, f"**Added Chat** {event.chat.title} **With Id** `{event.chat_id}` **To Autowaifu Database.**")
+
+
+@bot.on(hell_cmd(pattern="rmwaifu ?(.*)"))
+@bot.on(sudo_cmd(pattern="rmwaifu ?(.*)", allow_sudo=True))
+async def _(event):
+    if not event.is_group:
+        await eod(event, "Autowaifu works in groups only !!")
+        return
+    if not is_harem(str(event.chat_id)):
+        await eod(event, "Autowaifu was already disabled here.")
+        return
+    rm_grp(str(event.chat_id))
+    await eod(event, f"**Removed Chat** {event.chat.title} **With Id** `{event.chat_id}` **From AutoWaifu Database.**")
+
 
 
 CmdHelp("protecc").add_command(
   "pt", "<reply>", "Auto Protecc the waifu."
+).add_command(
+  "adwaifu", None, "Adds the current group to AutoWaifu Database. Need to setup WAIFU_CATCHER var with value TRUE."
+).add_command(
+  "rmwaifu", None, "Removes the group from AutoWaifu Database."
 ).add_info(
   "Waifu Protecc."
 ).add_warning(

@@ -33,11 +33,8 @@ async def _(event):
         cresult = f"`{curruser}:~#` `{cmd}`\n`{result}`"
     else:
         cresult = f"`{curruser}:~$` `{cmd}`\n`{result}`"
-    await eor(event, "**Terminal Command Was Executed Successfully. Check LOGGER for Output.**")
-    await event.client.send_message(
-        lg_id,
-        f"#EXEC \n\nTerminal command was executed sucessfully.\n\n**Command :**  `{cmd}`\n**Result :** \n{cresult}",
-    )
+    await eor(event, f"**Command :**  `{cmd}`\n**Result :** \n{cresult}")
+
 
 
 @bot.on(hell_cmd(pattern="eval(?: |$|\n)(.*)", command="eval"))
@@ -45,38 +42,37 @@ async def _(event):
 async def _(event):
     if event.fwd_from:
         return
-    cmd = "".join(event.text.split(maxsplit=1)[1:])
-    if not cmd:
-        return await eod(event, "`What should i run ?..`")
-    hellevent = await eor(event, "`Running ...`")
-    old_stderr = sys.stderr
-    old_stdout = sys.stdout
-    redirected_output = sys.stdout = io.StringIO()
-    redirected_error = sys.stderr = io.StringIO()
-    stdout, stderr, exc = None, None, None
-    try:
-        await aexec(cmd, event)
-    except Exception:
-        exc = traceback.format_exc()
-    stdout = redirected_output.getvalue()
-    stderr = redirected_error.getvalue()
-    sys.stdout = old_stdout
-    sys.stderr = old_stderr
-    evaluation = ""
-    if exc:
-        evaluation = exc
-    elif stderr:
-        evaluation = stderr
-    elif stdout:
-        evaluation = stdout
+    if Config.USE_EVAL == "TRUE":
+        cmd = "".join(event.text.split(maxsplit=1)[1:])
+        if not cmd:
+            return await eod(event, "`What should i run ?..`")
+        hellevent = await eor(event, "`Running ...`")
+        old_stderr = sys.stderr
+        old_stdout = sys.stdout
+        redirected_output = sys.stdout = io.StringIO()
+        redirected_error = sys.stderr = io.StringIO()
+        stdout, stderr, exc = None, None, None
+        try:
+            await aexec(cmd, event)
+        except Exception:
+            exc = traceback.format_exc()
+        stdout = redirected_output.getvalue()
+        stderr = redirected_error.getvalue()
+        sys.stdout = old_stdout
+        sys.stderr = old_stderr
+        evaluation = ""
+        if exc:
+            evaluation = exc
+        elif stderr:
+            evaluation = stderr
+        elif stdout:
+            evaluation = stdout
+        else:
+            evaluation = "Success"
+        final_output = f"•  Eval : \n`{cmd}` \n\n•  Result : \n`{evaluation}` \n"
+        await eor(hellevent, final_output, deflink=True, linktext="**Eval Command Executed !!** \n\n__See Result__ : ")
     else:
-        evaluation = "Success"
-    final_output = f"•  Eval : \n`{cmd}` \n\n•  Result : \n`{evaluation}` \n"
-    await eor(hellevent, "**Eval Command Executed. Check out LOGGER for result.**")
-    await event.client.send_message(
-        lg_id,
-        f"#EVAL \n\nEval command was executed sucessfully. \n\n{final_output}",
-    )
+        await eod(event, "Eval Is Disbaled !!")
 
 
 async def aexec(code, smessatatus):
@@ -129,11 +125,7 @@ async def _(event):
                 reply_to=reply_to_id,
             )
             await event.delete()
-    await eor(event, "**Check out logger for result..**")
-    await event.client.send_message(
-        lg_id, 
-        f"#BASH \n\n{output}"
-    )
+    await eor(event, output)
     
 
 CmdHelp("evaluators").add_command(
@@ -143,7 +135,7 @@ CmdHelp("evaluators").add_command(
 ).add_command(
   "bash", "<query>", "Bash your codes on linux and gives the output in current chat"
 ).add_info(
-  "Evaluating Modules. (Most Secure of all Bots)"
+  "Evaluating Modules."
 ).add_warning(
   "🚫 Don't Execute Commands Unknowingly."
 ).add()

@@ -22,7 +22,7 @@ hell_emoji = Config.EMOJI_IN_HELP
 hell_pic = Config.PMPERMIT_PIC or "https://telegra.ph/file/58df4d86400922aa32acd.jpg"
 cstm_pmp = Config.CUSTOM_PMPERMIT
 ALV_PIC = Config.ALIVE_PIC
-
+help_pic = Config.HELP_PIC or "https://telegra.ph/file/62b0f29c8887887f259ac.jpg"
 PM_WARNS = {}
 PREV_REPLY_MESSAGE = {}
 
@@ -52,7 +52,6 @@ alive_txt = """
 
 **Telethon :**  `{}`
 **Hêllẞø†  :**  **{}**
-**Uptime   :**  `{}`
 **Abuse    :**  **{}**
 **Sudo      :**  **{}**
 """
@@ -106,12 +105,29 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
             for x in CMD_LIST.values():
                 for y in x:
                     apn.append(y)
-            result = await builder.article(
-                f"Hey! Only use .help please",
-                text=f"🔰 **{hell_mention}**\n\n📜 __No.of Plugins__ : `{len(CMD_HELP)}` \n🗂️ __Commands__ : `{len(apn)}`\n🗒️ __Page__ : 1/{veriler[0]}",
-                buttons=veriler[1],
-                link_preview=False,
-            )
+            help_msg = f"🔰 **{hell_mention}**\n\n📜 __No.of Plugins__ : `{len(CMD_HELP)}` \n🗂️ __Commands__ : `{len(apn)}`\n🗒️ __Page__ : 1/{veriler[0]}"
+            if help_pic and help_pic.endswith((".jpg", ".png")):
+                result = builder.photo(
+                    help_pic,
+                    text=help_msg,
+                    buttons=veriler[1],
+                    link_preview=False,
+                )
+            elif help_pic:
+                result = builder.document(
+                    help_pic,
+                    text=help_msg,
+                    title="HellBot Alive",
+                    buttons=veriler[1],
+                    link_preview=False,
+                )
+            else:
+                result = builder.article(
+                    f"Hey! Only use .help please",
+                    text=help_msg,
+                    buttons=veriler[1],
+                    link_preview=False,
+                )
         elif event.query.user_id == bot.uid and query.startswith("fsub"):
             hunter = event.pattern_match.group(1)
             hell = hunter.split("+")
@@ -134,7 +150,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
             ]
 
         elif event.query.user_id == bot.uid and query == "alive":
-            he_ll = alive_txt.format(Config.ALIVE_MSG, tel_ver, hell_ver, uptime, abuse_m, is_sudo)
+            he_ll = alive_txt.format(Config.ALIVE_MSG, tel_ver, hell_ver, abuse_m, is_sudo)
             alv_btn = [
                 [Button.url(f"{HELL_USER}", f"tg://openmessage?user_id={ForGo10God}")],
                 [Button.url("My Channel", f"https://t.me/{my_channel}"), 
