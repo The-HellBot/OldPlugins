@@ -43,7 +43,8 @@ USER_BOT_WARN_ZERO = "Enough Of Your Flooding In My Master's PM!! \n\n**🚫 Blo
 HELL_FIRST = (
     "**🔥 Hêllẞø† Prîvã†é Sêçürïty Prø†öçõl 🔥**\n\nThis is to inform you that "
     "{} is currently unavailable.\nThis is an automated message.\n\n"
-    "{}\n\n**Please Choose Why You Are Here!!**".format(hell_mention, mssge))
+    "{}\n\n**Please Choose Why You Are Here!!**"
+)
 
 alive_txt = """
 **⚜️ нєℓℓвσт ιѕ σиℓιиє ⚜️**
