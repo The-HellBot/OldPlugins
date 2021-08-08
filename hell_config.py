@@ -59,6 +59,7 @@ class Config(object):
     GROUP_REG_SED_EX_BOT_S = os.environ.get("GROUP_REG_SED_EX_BOT_S", r"(regex|moku|BananaButler_|rgx|l4mR)bot")
     HANDLER = os.environ.get("HANDLER", r"\.")
     HASH_TO_TORRENT_API = os.environ.get("HASH_TO_TORRENT_API", "https://example.com/torrent/{}");
+    HELP_PIC = os.environ.get("HELP_PIC", None)
     HEROKU_API_KEY = os.environ.get("HEROKU_API_KEY", None)
     HEROKU_APP_NAME = os.environ.get("HEROKU_APP_NAME", None)
     INSTANT_BLOCK = os.environ.get("INSTANT_BLOCK", "DISABLE")
