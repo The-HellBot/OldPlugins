@@ -16,8 +16,7 @@ async def anilist(event):
     input_str = event.pattern_match.group(1)
     event = await eor(event, "Searching...")
     result = await callAPI(input_str)
-    msg = await formatJSON(result)
-    img = await formatJSON(title_img)
+    title_img, msg = result[0], result[1]
     try:
         await bot.send_file(event.chat_id, title_img, caption=msg)
         await event.delete()
