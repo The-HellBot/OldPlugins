@@ -156,7 +156,7 @@ CmdHelp("anime").add_command(
 ).add_command(
   "anilist", "<anime name>", "Searches Details of the anime directly from anilist", "anilist attack on titan"
 ).add_command(
-  "fillers", "<anime name>", "Searches for the filler episodes of given Anime.", "filler Naruto"
+  "fillers", "<anime name>", "Searches for the filler episodes of given Anime.", "fillers Naruto"
 ).add_command(
   "aniquote", None, "Gives a random quote from Anime."
 ).add_info(
