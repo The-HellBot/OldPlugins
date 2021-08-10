@@ -2,6 +2,7 @@ import json
 import re
 import requests
 from bs4 import BeautifulSoup
+from .pasters import telegraph_paste
 
 def search_filler(query):
     html = requests.get("https://www.animefillerlist.com/shows").text
@@ -170,7 +171,8 @@ async def formatJSON(outData):
         msg += f"\n**✘ Episode :** `{jsonData['episodes']`}"
         msg += f"\n**✘ Year :** `{jsonData['startDate']['year']}`"
         msg += f"\n**✘ Score :** `{jsonData['averageScore']}`"
-        msg += f"\n**✘ Duration :** `{jsonData['duration']} min/ep`\n\n"
+        msg += f"\n**✘ Duration :** `{jsonData['duration']} min/ep`"
         descr = f"{jsonData['description']}"
-        msg += "__" + re.sub("<br>", "\n", descr) + "__"
+        paste = await telegraph_paste(f"Description For “ {title} ”", descr)
+        msg += f"\n**✘ Description :** [Read Here]({paste})"
         return title_img, msg
