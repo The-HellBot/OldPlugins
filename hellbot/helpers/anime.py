@@ -168,7 +168,7 @@ async def formatJSON(outData):
         for g in jsonData["genres"]:
             msg += "`" + g + "` "
         msg += f"\n**✘ Status :** `{jsonData['status']}`"
-        msg += f"\n**✘ Episode :** `{jsonData['episodes']`}"
+        msg += f"\n**✘ Episode :** `{jsonData['episodes']}`"
         msg += f"\n**✘ Year :** `{jsonData['startDate']['year']}`"
         msg += f"\n**✘ Score :** `{jsonData['averageScore']}`"
         msg += f"\n**✘ Duration :** `{jsonData['duration']} min/ep`"
