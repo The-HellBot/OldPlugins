@@ -1,6 +1,9 @@
 import json
 import re
 import requests
+
+from telethon.errors.rpcerrorlist import ChatSendMediaForbiddenError
+
 from . import *
 
 FILLERS = {}
@@ -11,10 +14,14 @@ async def anilist(event):
     if event.fwd_from:
         return
     input_str = event.pattern_match.group(1)
-    event = await edit_or_reply(event, "Searching...")
+    event = await eor(event, "Searching...")
     result = await callAPI(input_str)
     msg = await formatJSON(result)
-    await event.edit(msg, link_preview=True)
+    try:
+        await bot.send_file(event.chat_id, title_img, caption=msg)
+        await event.delete()
+    except ChatSendMediaForbiddenError:
+        await event.edit(msg, link_preview=True)
 
 
 @bot.on(hell_cmd(pattern="anime(?: |$)(.*)"))
