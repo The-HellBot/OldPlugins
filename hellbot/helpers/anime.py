@@ -153,22 +153,24 @@ async def formatJSON(outData):
         return msg
     else:
         jsonData = jsonData["data"]["Media"]
-        if "bannerImage" in jsonData.keys():
-            msg += f"[🎟️]({jsonData['bannerImage']})"
-        else:
-            msg += "🎟️"
+        idm = jsonData["id"]
+        title_img = f"https://img.anili.st/media/{idm}"
+        #if "bannerImage" in jsonData.keys():
+            #msg += f"[🎟️]({jsonData['bannerImage']})"
+        #else:
+            #msg += "🎟️"
         title = jsonData["title"]["romaji"]
         link = f"https://anilist.co/anime/{jsonData['id']}"
-        msg += f" [{title}]({link})"
-        msg += f"\n\n**✘ Type :** {jsonData['format']}"
+        msg += f"**✘ Anime :** [{title}]({link})"
+        msg += f"\n\n**✘ Type :** `{jsonData['format']}`"
         msg += f"\n**✘ Genres :** "
         for g in jsonData["genres"]:
-            msg += g + " "
-        msg += f"\n**✘ Status :** {jsonData['status']}"
-        msg += f"\n**✘ Episode :** {jsonData['episodes']}"
-        msg += f"\n**✘ Year :** {jsonData['startDate']['year']}"
-        msg += f"\n**✘ Score :** {jsonData['averageScore']}"
-        msg += f"\n**✘ Duration :** {jsonData['duration']} min\n\n"
+            msg += "`" + g + "` "
+        msg += f"\n**✘ Status :** `{jsonData['status']}`"
+        msg += f"\n**✘ Episode :** `{jsonData['episodes']`}"
+        msg += f"\n**✘ Year :** `{jsonData['startDate']['year']}`"
+        msg += f"\n**✘ Score :** `{jsonData['averageScore']}`"
+        msg += f"\n**✘ Duration :** `{jsonData['duration']} min/ep`\n\n"
         descr = f"{jsonData['description']}"
         msg += "__" + re.sub("<br>", "\n", descr) + "__"
-        return msg
+        return title_img, msg
