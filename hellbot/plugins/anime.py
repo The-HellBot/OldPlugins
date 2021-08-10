@@ -141,8 +141,10 @@ async def canon(event):
 @bot.on(hell_cmd(pattern="aniquote$"))
 @bot.on(sudo_cmd(pattern="aniquote$", allow_sudo=True))
 async def quote(event):
-    hell = requests.get("https://animechan.vercel.app/api/random").json()
-    await eor(event, "`"+q["quote"]+"`\n\n—  **"+q["character"]+"** (From __"+q["anime"]+"__)") #dimag ka bhosda hogya bc yha pe (*﹏*;)
+    hell = await eor(event, "(ﾉ◕ヮ◕)ﾉ*.✧")
+    q = requests.get("https://animechan.vercel.app/api/random").json()
+    await asyncio.sleep(1.5)
+    await hell.edit("`"+q["quote"]+"`\n\n—  **"+q["character"]+"** (From __"+q["anime"]+"__)") #dimag ka bhosda hogya bc yha pe (*﹏*;)
 
 
 CmdHelp("anime").add_command(
