@@ -138,6 +138,13 @@ async def canon(event):
     await nub.edit(hellbot)
 
 
+@bot.on(hell_cmd(pattern="aniquote$"))
+@bot.on(sudo_cmd(pattern="aniquote$", allow_sudo=True))
+async def quote(event):
+    hell = requests.get("https://animechan.vercel.app/api/random").json()
+    await eor(event, "`"+q["quote"]+"`\n\n—  **"+q["character"]+"** (From __"+q["anime"]+"__)") #dimag ka bhosda hogya bc yha pe (*﹏*;)
+
+
 CmdHelp("anime").add_command(
   "anime", "<anime name>", "Searches for the given anime and sends the details.", "anime violet evergarden"
 ).add_command(
@@ -148,6 +155,8 @@ CmdHelp("anime").add_command(
   "anilist", "<anime name>", "Searches Details of the anime directly from anilist", "anilist attack on titan"
 ).add_command(
   "fillers", "<anime name>", "Searches for the filler episodes of given Anime.", "filler Naruto"
+).add_command(
+  "aniquote", None, "Gives a random quote from Anime."
 ).add_info(
   "Anime Search"
 ).add_warning(
