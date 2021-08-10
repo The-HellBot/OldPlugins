@@ -38,14 +38,17 @@ async def nope(hel_):
             return
 
     troll = await bot.inline_query("AniFluidbot", f".anime {(deEmojify(hell))}")
-
-    await troll[0].click(
-        hel_.chat_id,
-        reply_to=hel_.reply_to_msg_id,
-        silent=True if hel_.is_reply else False,
-        hide_via=True,
-    )
-    await hel_.delete()
+    if troll:
+        await hel_.delete()
+        kraken = await troll[0].click(Config.LOGGER_ID)
+        if kraken:
+            await bot.send_message(
+                hel_.chat_id,
+                kraken,
+            )
+        await kraken.delete()
+    else:
+    	await eod(hel_, "**Error 404:**  Not Found")
     
     
 @bot.on(hell_cmd(pattern="manga(?: |$)(.*)"))
@@ -59,16 +62,19 @@ async def nope(hel_):
             await eod(hel_, "Sir please give some query to search and download it for you..!"
             )
             return
-
     troll = await bot.inline_query("AniFluidbot", f".manga {(deEmojify(hell))}")
-
-    await troll[0].click(
-        hel_.chat_id,
-        reply_to=hel_.reply_to_msg_id,
-        silent=True if hel_.is_reply else False,
-        hide_via=True,
-    )
-    await hel_.delete()
+    if troll:
+        await hel_.delete()
+        kraken = await troll[0].click(Config.LOGGER_ID)
+        if kraken:
+            await bot.send_message(
+                hel_.chat_id,
+                kraken,
+            )
+        await kraken.delete()
+    else:
+    	await eod(hel_, "**Error 404:**  Not Found")
+    
     
 
 @bot.on(hell_cmd(pattern="character(?: |$)(.*)"))
@@ -82,16 +88,19 @@ async def nope(hel_):
             await eod(hel_, "Sir please give some query to search and download it for you..!"
             )
             return
-
     troll = await bot.inline_query("AniFluidbot", f".character {(deEmojify(hell))}")
-
-    await troll[0].click(
-        hel_.chat_id,
-        reply_to=hel_.reply_to_msg_id,
-        silent=True if hel_.is_reply else False,
-        hide_via=True,
-    )
-    await hel_.delete()
+    if troll:
+        await hel_.delete()
+        kraken = await troll[0].click(Config.LOGGER_ID)
+        if kraken:
+            await bot.send_message(
+                hel_.chat_id,
+                kraken,
+            )
+        await kraken.delete()
+    else:
+    	await eod(hel_, "**Error 404:**  Not Found")
+    
 
 
 @bot.on(hell_cmd(pattern="fillers ?(.*)"))
