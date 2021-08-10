@@ -19,7 +19,7 @@ async def anilist(event):
     hell = await formatJSON(result)
     title_img, msg = hell[0], hell[1]
     try:
-        await bot.send_file(event.chat_id, title_img, caption=msg)
+        await event.edit(title_img, caption=msg)
         await event.delete()
     except ChatSendMediaForbiddenError:
         await event.edit(msg, link_preview=True)
