@@ -3,69 +3,7 @@ import re
 import requests
 from . import *
 
-async def callAPI(search_str):
-    query = """
-    query ($id: Int,$search: String) { 
-      Media (id: $id, type: ANIME,search: $search) { 
-        id
-        title {
-          romaji
-          english
-        }
-        description (asHtml: false)
-        startDate{
-            year
-          }
-          episodes
-          chapters
-          volumes
-          season
-          type
-          format
-          status
-          duration
-          averageScore
-          genres
-          bannerImage
-      }
-    }
-    """
-    variables = {"search": search_str}
-    url = "https://graphql.anilist.co"
-    response = requests.post(url, json={"query": query, "variables": variables})
-    return response.text
-
-
-async def formatJSON(outData):
-    msg = ""
-    jsonData = json.loads(outData)
-    res = list(jsonData.keys())
-    if "errors" in res:
-        msg += f"**Error** : `{jsonData['errors'][0]['message']}`"
-        return msg
-    else:
-        jsonData = jsonData["data"]["Media"]
-        if "bannerImage" in jsonData.keys():
-            msg += f"[〽️]({jsonData['bannerImage']})"
-        else:
-            msg += "〽️"
-        title = jsonData["title"]["romaji"]
-        link = f"https://anilist.co/anime/{jsonData['id']}"
-        msg += f"[{title}]({link})"
-        msg += f"\n\n**Type** : {jsonData['format']}"
-        msg += f"\n**Genres** : "
-        for g in jsonData["genres"]:
-            msg += g + " "
-        msg += f"\n**Status** : {jsonData['status']}"
-        msg += f"\n**Episode** : {jsonData['episodes']}"
-        msg += f"\n**Year** : {jsonData['startDate']['year']}"
-        msg += f"\n**Score** : {jsonData['averageScore']}"
-        msg += f"\n**Duration** : {jsonData['duration']} min\n\n"
-        # https://t.me/catuserbot_support/19496
-        cat = f"{jsonData['description']}"
-        msg += " __" + re.sub("<br>", "\n", cat) + "__"
-        return msg
-
+FILLERS = {}
 
 @bot.on(hell_cmd(pattern="anilist (.*)"))
 @bot.on(sudo_cmd(pattern="anilist (.*)", allow_sudo=True))
@@ -148,6 +86,50 @@ async def nope(hel_):
     await hel_.delete()
 
 
+@bot.on(hell_cmd(pattern="fillers ?(.*)"))
+@bot.on(sudo_cmd(pattern="fillers ?(.*)", allow_sudo=True))
+async def canon(event):
+    hell = event.text[9:]
+    if hell == "":
+        return await eor(event, "`Give anime name to search filler episodes.`")
+    nub = await eor(event, f"Searching Filler Episodes For `{hell}`")
+    hel_ = search_filler(hell)
+    if hel_ == {}:
+        return await nub.edit(f"No filler found for `{hell}`")
+    list_ = list(hel_.keys())
+    if len(list_) == 1:
+        result = parse_filler(hel_.get(list_[0]))
+        msg = ""
+        msg += f"<h2>Fillers for {list_[0]} :</h2>\n\n<b>Manga Canon Episodes :</b>\n"
+        msg += f'<code>{str(result.get("total_ep"))}</code>'
+        msg += "\n\n<b>Mixed/Canon fillers :</b>\n"
+        msg += f'<code>{str(result.get("mixed_ep"))}</code>'
+        msg += "\n\n<b>Fillers :</b>\n"
+        msg += f'<code>{str(result.get("filler_ep"))}</code>'
+        if result.get("ac_ep") is not None:
+            msg += "\n\n<b>Anime Canon episodes :</b>\n"
+            msg += f'<code>{str(result.get("ac_ep"))}</code>'
+        paste = await telegraph_paste(f"📃 Fillers List For “ {list_[0]} ”", msg)
+        await nub.edit(f"**📃 Filler Episode List For [“ {list_[0]} ”]({paste}) !!**")
+        return
+    hellbot = f"**📃 Filler Episode Lists :** \n\n"
+    for i in list_:
+        result = parse_filler(hel_.get(i))
+        msg = ""
+        msg += f"<h2>Fillers for {i} :</h2>\n\n<b>Manga Canon Episodes :</b>\n"
+        msg += f'<code>{str(result.get("total_ep"))}</code>'
+        msg += "\n\n<b>Mixed/Canon fillers :</b>\n"
+        msg += f'<code>{str(result.get("mixed_ep"))}</code>'
+        msg += "\n\n<b>Fillers :</b>\n"
+        msg += f'<code>{str(result.get("filler_ep"))}</code>'
+        if result.get("ac_ep") is not None:
+            msg += "\n\n<b>Anime Canon episodes :</b>\n"
+            msg += f'<code>{str(result.get("ac_ep"))}</code>'
+        paste = await telegraph_paste(f"📃 Fillers List For “ {i} ”", msg)
+        hellbot += f"• [{i}]({paste})\n"
+    await nub.edit(hellbot)
+
+
 CmdHelp("anime").add_command(
   "anime", "<anime name>", "Searches for the given anime and sends the details.", "anime violet evergarden"
 ).add_command(
@@ -156,6 +138,8 @@ CmdHelp("anime").add_command(
   "character", "<character name>", "Searches for the given anime character and sends the details.", "character Mai Sakurajima"
 ).add_command(
   "anilist", "<anime name>", "Searches Details of the anime directly from anilist", "anilist attack on titan"
+).add_command(
+  "fillers", "<anime name>", "Searches for the filler episodes of given Anime.", "filler Naruto"
 ).add_info(
   "Anime Search"
 ).add_warning(
