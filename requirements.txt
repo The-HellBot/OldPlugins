@@ -34,7 +34,7 @@ lottie
 lxml
 lyricsgenius
 nekos.py
-opencv-contrib-python>=4.5.1.48
+opencv-python--headless
 patool
 Pillow
 prettytable
