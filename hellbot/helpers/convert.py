@@ -12,6 +12,7 @@ from typing import Optional
 
 from .. import LOGS
 from ..config import Config
+from ..utils.extras import edit_or_reply as eor
 from .progress import *
 from .runner import runcmd
 
