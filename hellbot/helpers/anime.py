@@ -166,7 +166,7 @@ async def formatJSON(outData):
         msg += f"\n\n**✘ Type :** `{jsonData['format']}`"
         msg += f"\n**✘ Genres :** "
         for g in jsonData["genres"]:
-            msg += "`" + g + "` "
+            msg += "`" + g + "`, "
         msg += f"\n**✘ Status :** `{jsonData['status']}`"
         msg += f"\n**✘ Episode :** `{jsonData['episodes']}`"
         msg += f"\n**✘ Year :** `{jsonData['startDate']['year']}`"
