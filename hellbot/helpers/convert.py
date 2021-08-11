@@ -4,6 +4,7 @@ import re
 import requests
 import time
 import lottie 
+import PIL.ImageOps
 
 from os.path import basename
 from PIL import Image
@@ -16,9 +17,6 @@ from .runner import runcmd
 
 logger = logging.getLogger("[--WARNING--]")
 dwlpath = Config.TMP_DOWNLOAD_DIRECTORY
-
-import PIL.ImageOps
-from PIL import Image
     
 # convertions are done here...
 
