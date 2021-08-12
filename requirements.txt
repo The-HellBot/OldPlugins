@@ -75,3 +75,6 @@ wikipedia
 youtube-search-python
 youtube_dl
 youtube-search
+pymongo
+dnspython
+pymongo[srv]
