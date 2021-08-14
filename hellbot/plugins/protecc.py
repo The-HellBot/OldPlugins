@@ -80,37 +80,39 @@ async def _(event):
     if len(all_grp) == 0:
         return
     for grps in all_grp:
-        try:
-            dl = await bot.download_media(event.media, "resources/")
-            file = {"encoded_image": (dl, open(dl, "rb"))}
-            grs = requests.post(
-                "https://www.google.com/searchbyimage/upload", files=file, allow_redirects=False
-            )
-            loc = grs.headers.get("Location")
-            response = requests.get(
-                loc,
-                headers={
-                    "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:58.0) Gecko/20100101 Firefox/58.0"
-                },
-            )
-            qtt = BeautifulSoup(response.text, "html.parser")
-            div = qtt.find_all("div", {"class": "r5a77d"})[0]
-            alls = div.find("a")
-            text = alls.text
+        if int(grps.chat_id) == event.chat_id:
             try:
-                if "cg" in text:
-                    return
-                if "fictional character" in text:
-                    return
-            except:
-                pass
-            if int(grps.chat_id) == event.chat_id:
+                dl = await bot.download_media(event.media, "resources/")
+                file = {"encoded_image": (dl, open(dl, "rb"))}
+                grs = requests.post(
+                    "https://www.google.com/searchbyimage/upload", files=file, allow_redirects=False
+                )
+                loc = grs.headers.get("Location")
+                response = requests.get(
+                    loc,
+                    headers={
+                        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:58.0) Gecko/20100101 Firefox/58.0"
+                    },
+                )
+                qtt = BeautifulSoup(response.text, "html.parser")
+                div = qtt.find_all("div", {"class": "r5a77d"})[0]
+                alls = div.find("a")
+                text = alls.text
+                try:
+                    if "cg" in text:
+                        return
+                    if "fictional character" in text:
+                        return
+                except:
+                    pass
                 hell = await bot.send_message(event.chat_id, f"/protecc@loli_harem_bot {text}")
                 await sleep(2)
                 await hell.delete()
-            os.remove(dl)
-        except:
-            return
+                os.remove(dl)
+            except:
+                pass
+        else:
+            pass
  
 
 @bot.on(hell_cmd(pattern="adwaifu ?(.*)"))
