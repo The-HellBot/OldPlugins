@@ -1,3 +1,4 @@
+from .anime import *
 from .convert import *
 from .exceptions import *
 from .formats import *
