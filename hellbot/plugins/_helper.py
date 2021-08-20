@@ -2,7 +2,7 @@ import asyncio
 import requests
 from telethon import functions
 from telethon.errors import ChatSendInlineForbiddenError as noin
-from telethon.errors.rpcerrorlist import BotMethodInvalidError as dedbot
+from telethon.errors.rpcerrorlist import BotMethodInvalidError as dedbot, BotInlineDisabledError as noinline, YouBlockedUserError
 
 from . import *
 
@@ -30,23 +30,35 @@ async def repo(event):
 
 @bot.on(hell_cmd(pattern="help ?(.*)", outgoing=True))
 @bot.on(sudo_cmd(pattern="help ?(.*)", allow_sudo=True))
-async def yardim(event):
+async def _(event):
     if event.fwd_from:
         return
     tgbotusername = Config.BOT_USERNAME
-    input_str = event.pattern_match.group(1)
-    try:
-        if not input_str == "":
-            if input_str in CMD_HELP:
-                await eor(event, str(CMD_HELP[args]))
-    except:
-        pass
+    chat = "@Botfather"
     if tgbotusername is not None:
-        results = await event.client.inline_query(tgbotusername, "hellbot_help")
-        await results[0].click(
-            event.chat_id, reply_to=event.reply_to_msg_id, hide_via=True
-        )
-        await event.delete()
+        try:
+            results = await event.client.inline_query(tgbotusername, "hellbot_help")
+            await results[0].click(
+                event.chat_id, reply_to=event.reply_to_msg_id, hide_via=True
+            )
+            await event.delete()
+        except noinline:
+            hell = await eor(event, "**Inline Mode is disabled.** \n__Turning it on, please wait for a minute...__")
+            async with bot.conversation(chat) as conv:
+                try:
+                    first = await conv.send_message("/setinline")
+                    second = await conv.get_response()
+                    third = await conv.send_message(tgbotusername)
+                    fourth = await conv.get_response()
+                    fifth = await conv.send_message(perf)
+                    sixth = await conv.get_response()
+                    await bot.send_read_acknowledge(conv.chat_id)
+                except YouBlockedUserError:
+                    return await hell.edit("Unblock @Botfather first.")
+                await hell.edit(f"**Turned On Inline Mode Successfully.** \n\nDo `{hl}help` again to get the help menu.")
+            await bot.delete_messages(
+                conv.chat_id, [first.id, second.id, third.id, fourth.id, fifth.id, sixth.id]
+            )
     else:
         await eor(event, "**⚠️ ERROR !!** \nPlease Re-Check BOT_TOKEN & BOT_USERNAME on Heroku.")
 
