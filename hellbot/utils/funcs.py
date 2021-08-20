@@ -45,7 +45,7 @@ async def is_admin(client, chat_id, user_id):
     else:
         return False
 
-def in_hell_chat():
+def in_hell_chat(event):
     def decorator(func):
         @functools.wraps(func)
         async def wrapper(event):
