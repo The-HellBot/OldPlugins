@@ -11,6 +11,7 @@ import time
 import traceback
 from pathlib import Path
 from time import gmtime, strftime
+import functools
 
 from telethon import events
 from telethon.tl.functions.channels import GetParticipantRequest
@@ -43,5 +44,19 @@ async def is_admin(client, chat_id, user_id):
         return False
     else:
         return False
+
+def in_hell_chat():
+    def decorator(func):
+        @functools.wraps(func)
+        async def wrapper(event):
+            x = event.chat_id
+            if x == "-1001496036895":
+                await event.reply("Can't use this command here.")
+            else:
+                await func(event)
+
+        return wrapper
+
+    return decorator
 
 # hellbot
