@@ -68,8 +68,8 @@ async def send(event):
         await eod(event, "File not found..... Kek")
 
 
-@bot.on(hell_cmd(pattern="install$"))
-@bot.on(sudo_cmd(pattern="install$", allow_sudo=True))
+@bot.on(hell_cmd(pattern="install ?(.*)"))
+@bot.on(sudo_cmd(pattern="install ?(.*)", allow_sudo=True))
 async def install(event):
     if event.fwd_from:
         return
@@ -90,7 +90,7 @@ async def install(event):
                     for harm in HARMFUL:
                         if harm in rd:
                             os.remove(downloaded_file_name)
-                            return await hell.edit(f"**⚠️ WARNING !!** \n\n__Replied plugin file contains some harmful codes. Please consider checking the file. If you still want to install then use__ `{hl}install -f`.")
+                            return await hell.edit(f"**⚠️ WARNING !!** \n\n__Replied plugin file contains some harmful codes. Please consider checking the file. If you still want to install then use__ `{hl}install -f`. \n\n**Codes Detected :** \n• {harm}")
                 except BaseException:
                     pass
             if "(" not in downloaded_file_name:
