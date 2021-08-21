@@ -72,7 +72,7 @@ async def _(event):
         final_output = f"•  Eval : \n`{cmd}` \n\n•  Result : \n`{evaluation}` \n"
         await eor(hellevent, final_output, deflink=True, linktext="**Eval Command Executed !!** \n\n__See Result__ : ")
     else:
-        await eod(event, "Eval Is Disbaled !!")
+        await eod(event, f"**Eval Is Disbaled !!** \n\n__Do__ `{hl}set var USE_EVAL TRUE` __to enable eval commands.__")
 
 
 async def aexec(code, smessatatus):

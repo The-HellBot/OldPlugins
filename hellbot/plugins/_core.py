@@ -68,22 +68,31 @@ async def send(event):
         await eod(event, "File not found..... Kek")
 
 
-@bot.on(hell_cmd(pattern="install$", outgoing=True))
-@bot.on(sudo_cmd(pattern="install$", allow_sudo=True))
+@bot.on(hell_cmd(pattern="install ?(.*)"))
+@bot.on(sudo_cmd(pattern="install ?(.*)", allow_sudo=True))
 async def install(event):
     if event.fwd_from:
         return
-    a = "__Installing.__"
     b = 1
-    await event.edit(a)
-    if event.fwd_from:
-        return
+    owo = event.text[9:]
+    hell = await eor(event, "__Installing.__")
     if event.reply_to_msg_id:
         try:
             downloaded_file_name = await event.client.download_media(  # pylint:disable=E0602
                 await event.get_reply_message(),
                 "./hellbot/plugins/"  # pylint:disable=E0602
             )
+            if owo != "-f":
+                op = open(downloaded_file_name, "r")
+                rd = op.read()
+                op.close()
+                try:
+                    for harm in HARMFUL:
+                        if harm in rd:
+                            os.remove(downloaded_file_name)
+                            return await hell.edit(f"**⚠️ WARNING !!** \n\n__Replied plugin file contains some harmful codes. Please consider checking the file. If you still want to install then use__ `{hl}install -f`. \n\n**Codes Detected :** \n• {harm}")
+                except BaseException:
+                    pass
             if "(" not in downloaded_file_name:
                 path1 = Path(downloaded_file_name)
                 shortname = path1.stem
@@ -99,15 +108,16 @@ async def install(event):
                         else:
                             a = "__Installing...__"
                             b = 1
-                        await eor(event, a)
-                    return await eor(event, f"✅ **Installed module** :- `{shortname}` \n✨ BY :- {hell_mention}\n\n{string}\n\n        ⚡ **[ʟɛɢɛռɖaʀʏ ᴀғ ɦɛʟʟɮօt]({chnl_link})** ⚡", link_preview=False)
-                return await eor(event, f"Installed module `{os.path.basename(downloaded_file_name)}`")
+                        await hell.edit(a)
+                    return await hell.edit(f"✅ **Installed module** :- `{shortname}` \n✨ BY :- {hell_mention}\n\n{string}\n\n        ⚡ **[ʟɛɢɛռɖaʀʏ ᴀғ ɦɛʟʟɮօt]({chnl_link})** ⚡", link_preview=False)
+                return await hell.edit(f"Installed module `{os.path.basename(downloaded_file_name)}`")
             else:
                 os.remove(downloaded_file_name)
-                return await eod(event, f"**Failed to Install** \n`Error`\nModule already installed or unknown format")
+                return await eod(hell, f"**Failed to Install** \n`Error`\nModule already installed or unknown format")
         except Exception as e: 
-            await eod(event, f"**Failed to Install** \n`Error`\n{str(e)}")
+            await eod(hell, f"**Failed to Install** \n`Error`\n{str(e)}")
             return os.remove(downloaded_file_name)
+
 
 @bot.on(hell_cmd(pattern=r"uninstall (?P<shortname>\w+)", outgoing=True))
 @bot.on(sudo_cmd(pattern=r"uninstall (?P<shortname>\w+)", allow_sudo=True))
@@ -160,7 +170,7 @@ async def load(event):
         )
 
 CmdHelp("core").add_command(
-  "install", "<reply to a .py file>", "Installs the replied python file if suitable to Hêllẞø†'s codes."
+  "install", "<reply to a .py file>", "Installs the replied python file if suitable to Hêllẞø†'s codes.`\n**🚩 Flags :** `-f"
 ).add_command(
   "uninstall", "<plugin name>", "Uninstalls the given plugin from Hêllẞø†. To get that again do .restart", "uninstall alive"
 ).add_command(
