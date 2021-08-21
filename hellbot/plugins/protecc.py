@@ -10,7 +10,8 @@ from bs4 import BeautifulSoup
 from hellbot.sql.waifu_sql import is_harem, add_grp, rm_grp, get_all_grp
 from . import *
 
-qt = "A qt waifu appeared!"
+qt = "Add them to your harem"
+waifu_bots = ["792028928", "1733263647"]
 
 def progress(current, total):
     logger.info(
@@ -74,7 +75,7 @@ async def _(event):
         return
     if not qt in event.text:
         return
-    if not event.sender_id == 792028928:
+    if not event.sender_id in waifu_bots:
         return
     all_grp = get_all_grp()
     if len(all_grp) == 0:
@@ -105,7 +106,7 @@ async def _(event):
                         return
                 except:
                     pass
-                hell = await bot.send_message(event.chat_id, f"/protecc@loli_harem_bot {text}")
+                hell = await bot.send_message(event.chat_id, f"/protecc {text}")
                 await sleep(2)
                 await hell.delete()
                 os.remove(dl)
