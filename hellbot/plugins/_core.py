@@ -170,7 +170,7 @@ async def load(event):
         )
 
 CmdHelp("core").add_command(
-  "install", "<reply to a .py file>", "``Installs the replied python file if suitable to Hêllẞø†'s codes.`` \n**🚩 Flags :** `-f`"
+  "install", "<reply to a .py file>", "Installs the replied python file if suitable to Hêllẞø†'s codes.`\n**🚩 Flags :** `-f"
 ).add_command(
   "uninstall", "<plugin name>", "Uninstalls the given plugin from Hêllẞø†. To get that again do .restart", "uninstall alive"
 ).add_command(
