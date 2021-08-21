@@ -505,7 +505,7 @@ async def rm_deletedacc(show):
             except UserAdminInvalidError:
                 del_a += 1
     if del_u > 0:
-        del_status = f"**Ongoing Zombie Purge!!**\n\n**Zombies Killed :**  `{del_u}`"
+        del_status = f"**Zombies Purged!!**\n\n**Zombies Killed :**  `{del_u}`"
     if del_a > 0:
         del_status = f"**Zombies Killed**  `{del_u}`\n\n`{del_a}`  **Zombies Holds Immunity!!**"
     await edit_or_reply(event, del_status)
