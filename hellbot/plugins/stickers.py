@@ -9,10 +9,14 @@ from os import remove
 
 from PIL import Image, ImageDraw, ImageFont
 from telethon import events
+from telethon.errors import PackShortNameOccupiedError
 from telethon.errors.rpcerrorlist import YouBlockedUserError
+from telethon.tl import functions, types
 from telethon.tl.functions.messages import GetStickerSetRequest
 from telethon.tl.types import DocumentAttributeFilename, DocumentAttributeSticker, InputStickerSetID, MessageMediaPhoto, InputMessagesFilterDocument
+from telethon.utils import get_input_document
 
+from hellbot.sql.gvar_sql import addgvar, gvarstat, delgvar
 from . import *
 
 KANGING_STR = [
@@ -418,6 +422,79 @@ async def _(event):
             else:
                 await event.edit(f"**😉 Done!! Edited sticker emoji**\n\nNew Emoji(s) :- {hell}")
 
+
+@bot.on(hell_cmd(pattern="pkang ?(.*)"))
+@bot.on(sudo_cmd(pattern="pkang ?(.*)", allow_sudo=True))
+async def _(event):
+    hel_ = await eor(event, "`Preparing pack kang...`")
+    rply = await event.get_reply_message()
+    hell = event.text[7:]
+    bot_ = Config.BOT_USERNAME
+    bot_un = bot_.replace("@", "")
+    user = await bot.get_me()
+    un = f"@{user.username}" if user.username else user.first_name
+    un_ = user.username if user.username else ForGo10God
+    if not rply:
+        return await eod(hel_, "`Reply to a stciker to kang that pack.`")
+    if hell == "":
+        pname = f"{un}'s Hêllẞø† Pack"
+    else:
+        pname = hell
+    if rply and rply.media and rply.media.document.mime_type == "image/webp":
+        hell_id = rply.media.document.attributes[1].stickerset.id
+        hell_hash = rply.media.document.attributes[1].stickerset.access_hash
+        got_stcr = await bot(
+            functions.messages.GetStickerSetRequest(
+                stickerset=types.InputStickerSetID(id=hell_id, access_hash=hell_hash)
+            )
+        )
+        stcrs = []
+        for sti in got_stcr.documents:
+            inp = get_input_document(sti)
+            stcrs.append(
+                types.InputStickerSetItem(
+                    document=inp,
+                    emoji=(sti.attributes[1]).alt,
+                )
+            )
+        try:
+            gvarstat("PKANG")
+        except BaseException:
+            addgvar("PKANG", "0")
+        x = gvarstat("PKANG")
+        try:
+            pack = int(x) + 1
+        except BaseException:
+            pack = 1
+        await hel_.edit("`Starting kang process...`")
+        try:
+            create_st = await tbot(
+                functions.stickers.CreateStickerSetRequest(
+                    user_id=ForGo10God,
+                    title=pname,
+                    short_name=f"hell_{un_}_pack{pack}_by_{bot_un}",
+                    stickers=stcrs,
+                )
+            )
+            addgvar("PKANG", str(pack))
+        except PackShortNameOccupiedError:
+            await asyncio.sleep(1)
+            await hel_.edit("`Pack name already occupied... making new pack`")
+            pack += 1
+            create_st = await tbot(
+                functions.stickers.CreateStickerSetRequest(
+                    user_id=ForGo10God,
+                    title=pname,
+                    short_name=f"hell_{un_}_pack{pack}_by_{bot_un}",
+                    stickers=stcrs,
+                )
+            )
+            addgvar("PKANG", str(pack))
+        await hel_.edit(f"⚡** This Sticker Pack iz [kanged](t.me/addstickers/{create_st.set.short_name}) successfully **⚡")
+    else:
+        await hel_.edit("Unsupported File. Please Reply to a sticker only.")
+
+
 @bot.on(hell_cmd(pattern="text (.*)"))
 @bot.on(sudo_cmd(pattern="text (.*)", allow_sudo=True))
 async def sticklet(event):
@@ -512,6 +589,8 @@ CmdHelp("stickers").add_command(
   "text", "<word>", "Sends the written text in sticker format."
 ).add_command(
   "waifu", "<word>", "Waifu writes the word for you."
+).add_command(
+  "pkang", "<reply to a sticker> <pack name>", "Kangs all the stickers in replied pack to your pack. Also supports custom pack name. Just give name after command.", "pkang My kang pack"
 ).add_info(
   "Everything about Sticker."
 ).add_warning(
