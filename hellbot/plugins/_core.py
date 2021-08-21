@@ -68,8 +68,8 @@ async def send(event):
         await eod(event, "File not found..... Kek")
 
 
-@bot.on(hell_cmd(pattern="install ?(.*)"))
-@bot.on(sudo_cmd(pattern="install ?(.*)", allow_sudo=True))
+@bot.on(hell_cmd(pattern="install$"))
+@bot.on(sudo_cmd(pattern="install$", allow_sudo=True))
 async def install(event):
     if event.fwd_from:
         return
