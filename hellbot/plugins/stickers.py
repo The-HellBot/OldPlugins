@@ -37,8 +37,7 @@ hellbot = Config.STICKER_PACKNAME
 @bot.on(sudo_cmd(pattern="kang", allow_sudo=True))
 async def kang(args):
     user = await bot.get_me()
-    if not user.username:
-        user.username = user.first_name
+    un = user.username if user.username else user.first_name
     message = await args.get_reply_message()
     photo = None
     emojibypass = False
@@ -97,11 +96,11 @@ async def kang(args):
                 # pack
                 emoji = splat[1]
 
-        packname = f"{user.username}_Hellbot_{pack}"
+        packname = f"{ForGo10God}_Hellbot_{pack}"
         packnick = (
             f"{hellbot} Vol.{pack}"
             if hellbot
-            else f"@{user.username}'s HellBot Vol.{pack}"
+            else f"@{un}'s HellBot Vol.{pack}"
         )
         cmd = "/newpack"
         file = io.BytesIO()
@@ -133,11 +132,11 @@ async def kang(args):
                 x = await conv.get_response()
                 while "120" in x.text:
                     pack += 1
-                    packname = f"{user.username}_by_{user.username}_{pack}"
+                    packname = f"{ForGo10God}_kang_pack_{pack}"
                     packnick = (
                         f"{hellbot} Vol.{pack}"
                         if hellbot
-                        else f"@{user.username}'s HellBot Vol.{pack}"
+                        else f"@{un}'s Hêllẞø† Vol.{pack}"
                     )
                     await hell.edit(
                         "`Switching to Pack "
@@ -323,12 +322,12 @@ async def get_pack_info(event):
             pack_emojis.append(document_sticker.emoticon)
 
     OUTPUT = (
-        f"🔹 **Sticker Title:** `{get_stickerset.set.title}\n`"
-        f"🔸 **Sticker Short Name:** `{get_stickerset.set.short_name}`\n"
-        f"🔹 **Official:** `{get_stickerset.set.official}`\n"
-        f"🔸 **Archived:** `{get_stickerset.set.archived}`\n"
-        f"🔹 **Stickers In Pack:** `{len(get_stickerset.packs)}`\n"
-        f"🔸 **Emojis In Pack:**\n{' '.join(pack_emojis)}"
+        f"🔹 **Sticker Title :** `{get_stickerset.set.title}\n`"
+        f"🔸 **Sticker Short Name :** `{get_stickerset.set.short_name}`\n"
+        f"🔹 **Official :** `{get_stickerset.set.official}`\n"
+        f"🔸 **Archived :** `{get_stickerset.set.archived}`\n"
+        f"🔹 **Stickers In Pack :** `{len(get_stickerset.packs)}`\n"
+        f"🔸 **Emojis In Pack :**\n{' '.join(pack_emojis)}"
     )
 
     await edit_or_reply(event, OUTPUT)
