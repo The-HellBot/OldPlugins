@@ -10,6 +10,7 @@ from hellbot.sql.gban_sql import is_gbanned, gbaner, ungbaner, all_gbanned
 from hellbot.sql import gmute_sql as gsql
 from . import *
 
+gbpic = Config.BAN_PIC or cjb
 
 async def get_full_user(event):  
     args = event.pattern_match.group(1).split(':', 1)
@@ -211,7 +212,7 @@ async def _(event):
     if reason != "":
         ogmsg += f"\n**🔰 Reason :**  `{reason}`"
     if Config.ABUSE == "ON":
-        await bot.send_file(event.chat_id, cjb, caption=gmsg)
+        await bot.send_file(event.chat_id, gbpic, caption=gmsg)
         await hell.delete()
     else:
         await hell.edit(ogmsg)
@@ -307,7 +308,7 @@ async def gkick(event):
                 pass
     gkmsg = f"🏃 **Globally Kicked** [{name}](tg://user?id={userid})'s butts !! \n\n📝 **Chats :**  `{chats}`"
     if Config.ABUSE == "ON":
-        await bot.send_file(event.chat_id, cjb, caption=gkmsg)
+        await bot.send_file(event.chat_id, gbpic, caption=gkmsg)
         await hell.delete()
     else:
         await hell.edit(gkmsg)
