@@ -10,8 +10,8 @@ from bs4 import BeautifulSoup
 from hellbot.sql.waifu_sql import is_harem, add_grp, rm_grp, get_all_grp
 from . import *
 
-qt = "Add them to your harem"
-waifu_bots = ["792028928", "1733263647"]
+qt = "A qt waifu appeared!"
+qt_ = "A waifu appeared!"
 
 def progress(current, total):
     logger.info(
@@ -75,7 +75,7 @@ async def _(event):
         return
     if not qt in event.text:
         return
-    if not event.sender_id in waifu_bots:
+    if not event.sender_id == "792028928":
         return
     all_grp = get_all_grp()
     if len(all_grp) == 0:
@@ -114,7 +114,54 @@ async def _(event):
                 pass
         else:
             pass
- 
+
+
+@bot.on(events.NewMessage(incoming=True))
+async def _(event):
+    if not event.media:
+        return
+    if not qt_ in event.text:
+        return
+    if not event.sender_id == "1733263647":
+        return
+    all_grp = get_all_grp()
+    if len(all_grp) == 0:
+        return
+    for grps in all_grp:
+        if int(grps.chat_id) == event.chat_id:
+            try:
+                dl = await bot.download_media(event.media, "resources/")
+                file = {"encoded_image": (dl, open(dl, "rb"))}
+                grs = requests.post(
+                    "https://www.google.com/searchbyimage/upload", files=file, allow_redirects=False
+                )
+                loc = grs.headers.get("Location")
+                response = requests.get(
+                    loc,
+                    headers={
+                        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:58.0) Gecko/20100101 Firefox/58.0"
+                    },
+                )
+                qtt = BeautifulSoup(response.text, "html.parser")
+                div = qtt.find_all("div", {"class": "r5a77d"})[0]
+                alls = div.find("a")
+                text = alls.text
+                try:
+                    if "cg" in text:
+                        return
+                    if "fictional character" in text:
+                        return
+                except:
+                    pass
+                hell = await bot.send_message(event.chat_id, f"/protecc {text}")
+                await sleep(2)
+                await hell.delete()
+                os.remove(dl)
+            except:
+                pass
+        else:
+            pass
+
 
 @bot.on(hell_cmd(pattern="adwaifu ?(.*)"))
 @bot.on(sudo_cmd(pattern="adwaifu ?(.*)", allow_sudo=True))
