@@ -9,8 +9,9 @@ neko_category = ['feet', 'yuri', 'trap', 'futanari', 'hololewd', 'lewdkemo', 'so
 @bot.on(hell_cmd(pattern="nekos ?(.*)"))
 @bot.on(sudo_cmd(pattern="nekos ?(.*)", allow_sudo=True))
 async def _(event):
-    x = event.chat_id
-    if x == "-1001496036895":
+    x = await event.get_chat()
+    y = x.id
+    if y == "1496036895":
         return await eor(event, "Can't use this command here.")
     if Config.ABUSE != "ON":
         return await eor(event, "**This command is only for users with heroku variable** `ABUSE` **as** `ON`")
