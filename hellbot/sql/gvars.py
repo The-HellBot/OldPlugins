@@ -15,7 +15,7 @@ class Gvar(BASE):
 Gvar.__table__.create(checkfirst=True)
 
 
-def gvarstatus(variable):
+def gvarstat(variable):
     try:
         return (
             SESSION.query(Gvar)
