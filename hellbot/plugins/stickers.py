@@ -37,7 +37,8 @@ hellbot = Config.STICKER_PACKNAME
 @bot.on(sudo_cmd(pattern="kang", allow_sudo=True))
 async def kang(args):
     user = await bot.get_me()
-    un = user.username if user.username else user.first_name
+    un = f"@{user.username}" if user.username else user.first_name
+    un_ = user.username if user.username else ForGo10God
     message = await args.get_reply_message()
     photo = None
     emojibypass = False
@@ -96,11 +97,11 @@ async def kang(args):
                 # pack
                 emoji = splat[1]
 
-        packname = f"{ForGo10God}_Hellbot_{pack}"
+        packname = f"Hellbot_{un_}_{pack}"
         packnick = (
             f"{hellbot} Vol.{pack}"
             if hellbot
-            else f"@{un}'s HellBot Vol.{pack}"
+            else f"{un}'s Hêllẞø† Vol.{pack}"
         )
         cmd = "/newpack"
         file = io.BytesIO()
@@ -132,11 +133,11 @@ async def kang(args):
                 x = await conv.get_response()
                 while "120" in x.text:
                     pack += 1
-                    packname = f"{ForGo10God}_kang_pack_{pack}"
+                    packname = f"HellBot_{un_}_pack_{pack}"
                     packnick = (
                         f"{hellbot} Vol.{pack}"
                         if hellbot
-                        else f"@{un}'s Hêllẞø† Vol.{pack}"
+                        else f"{un}'s Hêllẞø† Vol.{pack}"
                     )
                     await hell.edit(
                         "`Switching to Pack "
