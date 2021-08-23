@@ -472,7 +472,7 @@ async def _(event):
                 functions.stickers.CreateStickerSetRequest(
                     user_id=ForGo10God,
                     title=pname,
-                    short_name=f"hell_{un_}_pack{pack}_by_{bot_un}",
+                    short_name=f"hell_{un_}_V{pack}_by_{bot_un}",
                     stickers=stcrs,
                 )
             )
@@ -485,7 +485,7 @@ async def _(event):
                 functions.stickers.CreateStickerSetRequest(
                     user_id=ForGo10God,
                     title=pname,
-                    short_name=f"hell_{un_}_pack{pack}_by_{bot_un}",
+                    short_name=f"hell_{un_}_V{pack}_by_{bot_un}",
                     stickers=stcrs,
                 )
             )
