@@ -21,6 +21,9 @@ async def anilist(event):
     try:
         await bot.send_file(event.chat_id, title_img, caption=msg, force_document=True)
         await event.delete()
+        for files in (title_img):
+            if files and os.path.exists(files):
+                os.remove(files)
     except ChatSendMediaForbiddenError:
         await event.edit(msg, link_preview=True)
 
@@ -145,6 +148,27 @@ async def canon(event):
         paste = await telegraph_paste(f"📃 Fillers List For “ {i} ”", msg)
         hellbot += f"• [{i}]({paste})\n"
     await nub.edit(hellbot)
+
+
+@bot.on(hell_cmd(pattern="airing ?(.*)"))
+@bot.on(sudo_cmd(pattern="airing ?(.*)", allow_sudo=True))
+async def _(event):
+    query = event.text[8:]
+    hell = await eor(event, f"__Searching airing details for__ `{query}`")
+    if query == "":
+        return await eod(hell, "Give anime name to seaech airing information.")
+    vars_ = {"search": query}
+    if query.isdigit():
+        vars_ = {"id": int(query), "asHtml": True}
+    result = await get_airing(vars_)
+    if len(result) == 1:
+        return await eor(event, result[0])
+    coverImg, out = result[0]
+    await event.client.send_file(event.chat_id, coverImg, caption=out, force_document=False)
+    await hell.delete()
+    for files in (coverImg):
+        if files and os.path.exists(files):
+            os.remove(files)
 
 
 @bot.on(hell_cmd(pattern="aniquote$"))
