@@ -30,7 +30,7 @@ async def get_movies(movie):
     result = ""
     if "box office" in movie.keys():
         for i in movie["box office"].keys():
-            result += f"\n•  <b>{i}:</b> <code>{movie['box office'][i]}</code>"
+            result += f"\n<b>   • {i}:</b> <code>{movie['box office'][i]}</code>"
     else:
         result = "<code>No Data</code>"
     return result
