@@ -4,6 +4,32 @@ import requests
 from bs4 import BeautifulSoup
 from .pasters import telegraph_paste
 
+
+AIR_QUERY = """
+query ($id: Int, $idMal:Int, $search: String) {
+  Media (id: $id, idMal: $idMal, search: $search, type: ANIME) {
+    id
+    title {
+      romaji
+      english
+    }
+    status
+    countryOfOrigin
+    nextAiringEpisode {
+      timeUntilAiring
+      episode
+    }
+    siteUrl
+    isFavourite
+    mediaListEntry {
+      status
+      id
+    }
+  }
+}
+"""
+
+
 def search_filler(query):
     html = requests.get("https://www.animefillerlist.com/shows").text
     soup = BeautifulSoup(html, "html.parser")
@@ -112,6 +138,7 @@ def parse_filler(filler_id):
         }
         return dict_
 
+
 async def callAPI(search_str):
     query = """
     query ($id: Int,$search: String) { 
@@ -155,11 +182,10 @@ async def formatJSON(outData):
     else:
         jsonData = jsonData["data"]["Media"]
         idm = jsonData["id"]
-        title_img = f"https://img.anili.st/media/{idm}"
-        #if "bannerImage" in jsonData.keys():
-            #msg += f"[🎟️]({jsonData['bannerImage']})"
-        #else:
-            #msg += "🎟️"
+        banner = f"https://img.anili.st/media/{idm}"
+        banner_ = requests.get(banner)
+        open(f"{idm}.jpg", "wb").write(banner_.content)
+        title_img = f"{mid}.jpg"
         title = jsonData["title"]["romaji"]
         link = f"https://anilist.co/anime/{jsonData['id']}"
         msg += f"**✘ Anime :** [{title}]({link})"
@@ -176,3 +202,79 @@ async def formatJSON(outData):
         paste = await telegraph_paste(f"Description For “ {title} ”", descr)
         msg += f"\n**✘ Description :** [Read Here]({paste})"
         return title_img, msg
+
+
+def cflag(country):
+    if country == "JP":
+        return "\U0001F1EF\U0001F1F5"
+    if country == "CN":
+        return "\U0001F1E8\U0001F1F3"
+    if country == "KR":
+        return "\U0001F1F0\U0001F1F7"
+    if country == "TW":
+        return "\U0001F1F9\U0001F1FC"
+
+
+def pos_no(no):
+    ep_ = list(str(no))
+    x = ep_.pop()
+    if ep_ != [] and ep_.pop()=='1':
+        return 'th'
+    th = "st" if x == "1" else "nd" if x == "2" else "rd" if x == "3" else "th"
+    return th
+
+
+def make_it_rw(time_stamp):
+    seconds, milliseconds = divmod(int(time_stamp), 1000)
+    minutes, seconds = divmod(seconds, 60)
+    hours, minutes = divmod(minutes, 60)
+    days, hours = divmod(hours, 24)
+    tmp = (
+        ((str(days) + " Days, ") if days else "")
+        + ((str(hours) + " Hours, ") if hours else "")
+        + ((str(minutes) + " Minutes, ") if minutes else "")
+        + ((str(seconds) + " Seconds, ") if seconds else "")
+        + ((str(milliseconds) + " ms, ") if milliseconds else "")
+    )
+    return tmp[:-2]
+
+
+async def return_json_senpai(query: str, vars_: dict):
+    url = "https://graphql.anilist.co"
+    return requests.post(url, json={"query": query, "variables": vars_}).json()
+
+
+async def get_airing(vars_):
+    result = await return_json_senpai(AIR_QUERY, vars_)
+    error = result.get("errors")
+    if error:
+        error_sts = error[0].get("message")
+        return [f"{error_sts}"]
+    data = result["data"]["Media"]
+    mid = data.get("id")
+    romaji = data["title"]["romaji"]
+    english = data["title"]["english"]
+    status = data.get("status")
+    country = data.get("countryOfOrigin")
+    c_flag = cflag(country)
+    banner = f"https://img.anili.st/media/{mid}"
+    banner_ = requests.get(banner)
+    open(f"{mid}.jpg", "wb").write(banner_.content)
+    coverImg = f"{mid}.jpg"
+    in_ls = False
+    in_ls_id = ""
+    user_data = ""
+    air_on = None
+    if data["nextAiringEpisode"]:
+        nextAir = data["nextAiringEpisode"]["timeUntilAiring"]
+        episode = data["nextAiringEpisode"]["episode"]
+        th = pos_no(episode)
+        air_on = make_it_rw(nextAir*1000)
+    title_ = english or romaji
+    out = f"[{c_flag}] **{title_}**"
+    out += f"\n**✪ ID :** `{mid}`"
+    out += f"\n**✪ Status :** `{status}`\n"
+    if air_on:
+        out += f"\n**✪ Airing Episode** `{episode}{th}` **in** `{air_on}`"
+    site = data["siteUrl"]
+    return [coverImg, out], site, [mid, in_ls, in_ls_id]
