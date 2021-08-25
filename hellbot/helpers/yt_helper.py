@@ -22,3 +22,40 @@ async def song_search(event, query, max_results, details=False):
             thumb = f"{i['thumbnails'][0]}"
             return x, title, views, duration, thumb
     return x
+
+
+song_opts = {
+    "format": "bestaudio",
+    "addmetadata": True,
+    "key": "FFmpegMetadata",
+    "writethumbnail": True,
+    "prefer_ffmpeg": True,
+    "geo_bypass": True,
+    "nocheckcertificate": True,
+    "postprocessors": [
+        {
+            "key": "FFmpegExtractAudio",
+            "preferredcodec": "mp3",
+            "preferredquality": "320",
+        }
+    ],
+    "outtmpl": "%(id)s.mp3",
+    "quiet": True,
+    "logtostderr": False,
+}
+
+
+video_opts = {
+    "format": "best",
+    "addmetadata": True,
+    "key": "FFmpegMetadata",
+    "prefer_ffmpeg": True,
+    "geo_bypass": True,
+    "nocheckcertificate": True,
+    "postprocessors": [
+        {"key": "FFmpegVideoConvertor", "preferedformat": "mp4"}
+    ],
+    "outtmpl": "%(id)s.mp4",
+    "logtostderr": False,
+    "quiet": True,
+}
