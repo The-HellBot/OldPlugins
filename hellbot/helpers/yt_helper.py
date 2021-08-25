@@ -12,10 +12,10 @@ async def song_search(event, query, max_results, details=False):
     x = ""
     for i in results["videos"]:
         x += f"https://www.youtube.com{i['url_suffix']}\n"
-    if details:
-        title = results[0]["title"]
-        views = results[0]["views"]
-        duration = results[0]["duration"]
-        thumb = results[0]["thumbnail"][0]
-        return x, title, views, duration, thumb
+        if details:
+            title = f"{i['title']}"
+            views = f"{i['views']}"
+            duration = f"{i['duration']}"
+            thumb = f"{i['thumbnail'][0]}"
+            return x, title, views, duration, thumb
     return x
