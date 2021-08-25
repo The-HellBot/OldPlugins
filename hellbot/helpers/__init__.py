@@ -4,7 +4,7 @@ from .exceptions import *
 from .formats import *
 from .google import *
 from .image import *
-from .jwatch import *
+from .movies import *
 from .mediatype import *
 from .mmf import *
 from .pasters import *
