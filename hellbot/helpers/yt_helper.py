@@ -16,6 +16,6 @@ async def song_search(event, query, max_results, details=False):
             title = f"{i['title']}"
             views = f"{i['views']}"
             duration = f"{i['duration']}"
-            thumb = f"{i['thumbnail'][0]}"
+            thumb = f"{i['thumbnails'][0]}"
             return x, title, views, duration, thumb
     return x
