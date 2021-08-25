@@ -1,6 +1,32 @@
+import aiohttp
 from PyDictionary import PyDictionary
 
 from . import *
+
+
+class AioHttp:
+    @staticmethod
+    async def get_json(link):
+        async with aiohttp.ClientSession() as session:
+            async with session.get(link) as resp:
+                return await resp.json()
+
+
+@bot.on(hell_cmd(pattern="ud ?(.*)"))
+@bot.on(sudo_cmd(pattern="ud ?(.*)", allow_sudo=True))
+async def _(event):
+    word = event.text[4:]
+    try:
+        response = await AioHttp().get_json(
+            f"http://api.urbandictionary.com/v0/define?term={word}",
+        )
+        word = response["list"][0]["word"]
+        definition = response["list"][0]["definition"]
+        example = response["list"][0]["example"]
+        result = f"**Text : {word}**\n**Meaning :**\n`{definition}`\n\n**Example :**\n`{example}`"
+        await eor(event, result)
+    except Exception as e:
+        await eod(event, f"**Error !!** \n\n`{e}`")
 
 
 @bot.on(admin_cmd(pattern="meaning (.*)"))
