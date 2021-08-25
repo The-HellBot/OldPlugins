@@ -192,8 +192,6 @@ CmdHelp("google").add_command(
   "gps", "<place>", "Gives the location of the given place/city/state."
 ).add_command(
   "wikipedia", "<query>", "Searches for the query on Wikipedia."
-).add_command(
-  "watch", "<query>", "Searches for all the available sites for watching that movie or series."
 ).add_info(
   "Google Search."
 ).add_warning(
