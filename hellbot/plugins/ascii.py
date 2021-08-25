@@ -28,7 +28,7 @@ async def _(event):
             return
     await event.client.send_file(event.chat_id, file=output_op, caption=f"ASCII art By :- {hell_mention}", force_document=False)
     await kraken.delete()  
-    await bot.delete_messages(
+    await event.client.delete_messages(
         conv.chat_id, [first.id, response.id, second.id, output_op.id]
     )
 
@@ -56,14 +56,9 @@ async def _(event):
         except YouBlockedUserError:
             await kraken.edit("User Blocked!! Please Unblock @Lines50Bot and try again...")
             return
-        await kraken.delete()
-        final = await bot.send_file(
-            event.chat_id,
-            output_op,
-        )
-        await final.edit(
-            f"Lines By :- {hell_mention}")
-    await bot.delete_messages(
+    await event.client.send_file(event.chat_id, file=output_op, caption=f"Lines By :- {hell_mention}", force_document=False)
+    await kraken.delete()
+    await event.client.delete_messages(
         conv.chat_id, [first.id, response.id, second.id, output_op.id]
     )
 
