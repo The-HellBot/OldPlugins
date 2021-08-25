@@ -26,12 +26,7 @@ async def _(event):
         except YouBlockedUserError:
             await kraken.edit("User Blocked!! Please Unblock @asciiart_bot and try again...")
             return
-        await bot.send_file(
-            event.chat_id,
-            file=output_op,
-            caption=f"ASCII art By :- {hell_mention}",
-            force_document=False,
-        )
+    await event.client.send_file(event.chat_id, file=output_op, caption=f"ASCII art By :- {hell_mention}", force_document=False)
     await kraken.delete()  
     await bot.delete_messages(
         conv.chat_id, [first.id, response.id, second.id, output_op.id]
