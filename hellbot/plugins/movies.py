@@ -172,7 +172,7 @@ async def _(event):
 CmdHelp("movies").add_command(
   "imdb", "<movie name>", "Searches for given movie on IMDb database and returns the details.", "imdb The Shawshank Redemption"
 ).add_command(
-  "watch", "<movie name>", "#Soon", "watch Godfather"
+  "watch", "<movie name>", "Searches for all the available sites for watching that movie or series", "watch Godfather"
 ).add_info(
   "All about movies."
 ).add_warning(
