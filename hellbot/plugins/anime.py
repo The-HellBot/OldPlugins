@@ -21,9 +21,8 @@ async def anilist(event):
     try:
         await event.client.send_file(event.chat_id, title_img, caption=msg, force_document=True)
         await event.delete()
-        for files in (title_img):
-            if files and os.path.exists(files):
-                os.remove(files)
+        if os.path.exists(title_img):
+            os.remove(title_img)
     except ChatSendMediaForbiddenError:
         await event.edit(msg, link_preview=True)
 
@@ -166,9 +165,8 @@ async def _(event):
     coverImg, out = result[0]
     await event.client.send_file(event.chat_id, coverImg, caption=out, force_document=False)
     await hell.delete()
-    for files in (coverImg):
-        if files and os.path.exists(files):
-            os.remove(files)
+    if os.path.exists(coverImg):
+        os.remove(coverImg)
 
 
 @bot.on(hell_cmd(pattern="aniquote$"))
