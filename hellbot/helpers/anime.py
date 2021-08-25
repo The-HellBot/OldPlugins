@@ -185,7 +185,7 @@ async def formatJSON(outData):
         banner = f"https://img.anili.st/media/{idm}"
         banner_ = requests.get(banner)
         open(f"{idm}.jpg", "wb").write(banner_.content)
-        title_img = f"{mid}.jpg"
+        title_img = f"{idm}.jpg"
         title = jsonData["title"]["romaji"]
         link = f"https://anilist.co/anime/{jsonData['id']}"
         msg += f"**✘ Anime :** [{title}]({link})"
