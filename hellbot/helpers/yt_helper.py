@@ -3,7 +3,10 @@ import os
 
 from youtube_search import YoutubeSearch
 
+from hellbot.utils.extras import delete_hell as eod
 
+
+# Gets yt link of given query.
 async def song_search(event, query, max_results, details=False):
     try:
         results = json.loads(YoutubeSearch(query, max_results=max_results).to_json())
