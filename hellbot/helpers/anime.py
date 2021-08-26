@@ -6,6 +6,8 @@ from .pasters import telegraph_paste
 from hellbot.plugins import hell_channel
 
 
+ANIME_DB = {}
+
 # Template for anime queries
 ANIME_TEMPLATE = """{name}
 ➖➖➖➖🆔➖➖➖➖
