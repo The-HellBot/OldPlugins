@@ -7,6 +7,8 @@ from hellbot.plugins import hell_channel
 
 
 ANIME_DB = {}
+FILLERS = {}
+
 
 # Template for anime queries
 ANIME_TEMPLATE = """{name}
