@@ -3,7 +3,6 @@ import re
 import requests
 from bs4 import BeautifulSoup
 from .pasters import telegraph_paste
-from hellbot.plugins import hell_channel
 
 
 ANIME_DB = {}
@@ -26,7 +25,7 @@ ANIME_TEMPLATE = """{name}
 
 {additional}
 
-    **<\>** {chnl}
+        **<\>** {chnl}
 """
 
 # Basically gives data of searched anime based on anilist pages.
@@ -269,7 +268,7 @@ async def get_anilist(qdb, page):
         return [f"No results Found"]
     data = result["data"]["Page"]["media"][0]
     # pylint: disable=possibly-unused-variable
-    chnl = hell_channel
+    chnl = "[†hê Hêllẞø†](https://t.me/Its_Hellbot)"
     idm = data.get("id")
     idmal = data.get("idMal")
     romaji = data["title"]["romaji"]
