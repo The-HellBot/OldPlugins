@@ -7,7 +7,8 @@ from .pasters import telegraph_paste
 
 ANIME_DB = {}
 MANGA_DB = {}
-FILLERS = {}
+CHARC_DB = {}
+FILLERS_ = {}
 
 
 # Template for anime queries
@@ -472,7 +473,7 @@ async def get_manga(qdb, page):
 
 # parse character details.
 async def get_character(query, page):
-    var = {"search": CHAR_DB[query], "page": int(page)}
+    var = {"search": CHARC_DB[query], "page": int(page)}
     result = await return_json_senpai(CHARACTER_QUERY, var)
     if len(result['data']['Page']['characters'])==0:
         return [f"No results Found"]
