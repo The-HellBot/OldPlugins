@@ -3,8 +3,87 @@ import re
 import requests
 from bs4 import BeautifulSoup
 from .pasters import telegraph_paste
+from hellbot.plugins import hell_channel
 
 
+# Template for anime queries
+ANIME_TEMPLATE = """{name}
+➖➖➖➖🆔➖➖➖➖
+**» ID :** `{idm}`
+**» MAL ID :** `{idmal}`
+➖➖➖➖🆔➖➖➖➖
+**✘ SOURCE :**  `{source}`
+**✘ TYPE :**  `{formats}`{avscd}{dura}
+**✘ ADULT RATED :**  `{adult}`
+{status_air}{gnrs_}{tags_}
+**✘ TRAILER :** {trailer_link}
+**✘ WEBSITE :** [{english}]({url})
+**✘ SYNOPSIS :** [Description]({paste})
+
+{additional}
+
+    **<\>** {chnl}
+"""
+
+# Basically gives data of searched anime based on anilist pages.
+PAGE_QUERY = """
+query ($search: String, $page: Int) {
+  Page (perPage: 1, page: $page) {
+    pageInfo {
+      total
+    }
+    media (search: $search, type: ANIME) {
+      id
+      idMal
+      title {
+        romaji
+        english
+        native
+      }
+      format
+      status
+      episodes
+      duration
+      countryOfOrigin
+      description (asHtml: false)
+      source (version: 2)
+      trailer {
+        id
+        site
+      }
+      genres
+      tags {
+        name
+      }
+      averageScore
+      relations {
+        edges {
+          node {
+            title {
+              romaji
+              english
+            }
+          }
+          relationType
+          }
+        }
+      nextAiringEpisode {
+        timeUntilAiring
+        episode
+      }
+      isAdult
+      mediaListEntry {
+        status
+        score
+        id
+      }
+      siteUrl
+    }
+  }
+}
+"""
+
+# Airing Query from anilist
 AIR_QUERY = """
 query ($id: Int, $idMal:Int, $search: String) {
   Media (id: $id, idMal: $idMal, search: $search, type: ANIME) {
@@ -29,7 +108,7 @@ query ($id: Int, $idMal:Int, $search: String) {
 }
 """
 
-
+# searches for fillers episodes
 def search_filler(query):
     html = requests.get("https://www.animefillerlist.com/shows").text
     soup = BeautifulSoup(html, "html.parser")
@@ -48,7 +127,7 @@ def search_filler(query):
             ret[keys[i]] = index[keys[i]]
     return ret
 
-
+# parse the searched filler episodes
 def parse_filler(filler_id):
     url = "https://www.animefillerlist.com/shows/" + filler_id
     html = requests.get(url).text
@@ -138,72 +217,7 @@ def parse_filler(filler_id):
         }
         return dict_
 
-
-async def callAPI(search_str):
-    query = """
-    query ($id: Int,$search: String) { 
-      Media (id: $id, type: ANIME,search: $search) { 
-        id
-        title {
-          romaji
-          english
-        }
-        description (asHtml: false)
-        startDate{
-            year
-          }
-          episodes
-          chapters
-          volumes
-          season
-          type
-          format
-          status
-          duration
-          averageScore
-          genres
-          bannerImage
-      }
-    }
-    """
-    variables = {"search": search_str}
-    url = "https://graphql.anilist.co"
-    response = requests.post(url, json={"query": query, "variables": variables})
-    return response.text
-
-
-async def formatJSON(outData):
-    msg = ""
-    jsonData = json.loads(outData)
-    res = list(jsonData.keys())
-    if "errors" in res:
-        msg += f"**Error :** `{jsonData['errors'][0]['message']}`"
-        return msg
-    else:
-        jsonData = jsonData["data"]["Media"]
-        idm = jsonData["id"]
-        banner = f"https://img.anili.st/media/{idm}"
-        banner_ = requests.get(banner)
-        open(f"{idm}.jpg", "wb").write(banner_.content)
-        title_img = f"{idm}.jpg"
-        title = jsonData["title"]["romaji"]
-        link = f"https://anilist.co/anime/{jsonData['id']}"
-        msg += f"**✘ Anime :** [{title}]({link})"
-        msg += f"\n\n**✘ Type :** `{jsonData['format']}`"
-        msg += f"\n**✘ Genres :** "
-        for g in jsonData["genres"]:
-            msg += "`" + g + "`, "
-        msg += f"\n**✘ Status :** `{jsonData['status']}`"
-        msg += f"\n**✘ Episode :** `{jsonData['episodes']}`"
-        msg += f"\n**✘ Year :** `{jsonData['startDate']['year']}`"
-        msg += f"\n**✘ Score :** `{jsonData['averageScore']}`"
-        msg += f"\n**✘ Duration :** `{jsonData['duration']} min/ep`"
-        descr = f"{jsonData['description']}"
-        paste = await telegraph_paste(f"Description For “ {title} ”", descr)
-        msg += f"\n**✘ Description :** [Read Here]({paste})"
-        return title_img, msg
-
-
+# Gets country of origin
 def cflag(country):
     if country == "JP":
         return "\U0001F1EF\U0001F1F5"
@@ -214,7 +228,7 @@ def cflag(country):
     if country == "TW":
         return "\U0001F1F9\U0001F1FC"
 
-
+# Position format for airing
 def pos_no(no):
     ep_ = list(str(no))
     x = ep_.pop()
@@ -223,7 +237,7 @@ def pos_no(no):
     th = "st" if x == "1" else "nd" if x == "2" else "rd" if x == "3" else "th"
     return th
 
-
+# time stamp for airing
 def make_it_rw(time_stamp):
     seconds, milliseconds = divmod(int(time_stamp), 1000)
     minutes, seconds = divmod(seconds, 60)
@@ -238,12 +252,110 @@ def make_it_rw(time_stamp):
     )
     return tmp[:-2]
 
-
+# returns data in json
 async def return_json_senpai(query: str, vars_: dict):
     url = "https://graphql.anilist.co"
     return requests.post(url, json={"query": query, "variables": vars_}).json()
 
+# gets anime details from anilist
+async def get_anilist(qdb, page):
+    vars_ = {"search": ANIME_DB[qdb], "page": page}
+    result = await return_json_senpai(PAGE_QUERY, vars_)
+    if len(result['data']['Page']['media'])==0:
+        return [f"No results Found"]
+    data = result["data"]["Page"]["media"][0]
+    # pylint: disable=possibly-unused-variable
+    chnl = hell_channel
+    idm = data.get("id")
+    idmal = data.get("idMal")
+    romaji = data["title"]["romaji"]
+    english = data["title"]["english"]
+    native = data["title"]["native"]
+    formats = data.get("format")
+    status = data.get("status")
+    episodes = data.get("episodes")
+    duration = data.get("duration")
+    country = data.get("countryOfOrigin")
+    c_flag = cflag(country)
+    source = data.get("source")
+    prqlsql = data.get("relations").get("edges")
+    adult = data.get("isAdult")
+    trailer_link = "N/A"
+    gnrs = ", ".join(data['genres'])
+    gnrs_ = ""
+    if len(gnrs)!=0:
+        gnrs_ = f"\n**✘ GENRES :**  `{gnrs}`"
+    score = data['averageScore']
+    avscd = f"\n**✘ SCORE :**  `{score}%` 🌟" if score is not None else ""
+    tags = []
+    for i in data['tags']:
+        tags.append(i["name"])
+    tags_ = f"\n**✘ TAGS :** `{', '.join(tags[:5])}`" if tags != [] else ""
+    in_ls = False
+    in_ls_id = ""
+    if data["title"]["english"] is not None:
+        name = f"« {c_flag} » **{english}** (`{native}`)"
+    else:
+        name = f"« {c_flag} » **{romaji}** (`{native}`)"
+    prql, sql = "", ""
+    for i in prqlsql:
+        if i["relationType"] == "PREQUEL":
+            pname = (
+                i["node"]["title"]["english"]
+                if i["node"]["title"]["english"] is not None
+                else i["node"]["title"]["romaji"]
+            )
+            prql += f"**• PREQUEL :** `{pname}`\n"
+            break
+    for i in prqlsql:
+        if i["relationType"] == "SEQUEL":
+            sname = (
+                i["node"]["title"]["english"]
+                if i["node"]["title"]["english"] is not None
+                else i["node"]["title"]["romaji"]
+            )
+            sql += f"**• SEQUEL :** `{sname}`\n"
+            break
+    additional = f"{prql}{sql}"
+    additional.replace("-", "")
+    dura = (
+        f"\n**✘ DURATION :** `{duration} min/ep`"
+        if duration is not None
+        else ""
+    )
+    air_on = None
+    if data["nextAiringEpisode"]:
+        nextAir = data["nextAiringEpisode"]["timeUntilAiring"]
+        air_on = make_it_rw(nextAir*1000)
+        eps = data["nextAiringEpisode"]["episode"]
+        th = pos_no(str(eps))
+        air_on += f" | {eps}{th} eps"
+    if air_on  is None:
+        eps_ = f"` | `{episodes} eps" if episodes is not None else ""
+        status_air = f"**✘ STATUS :** `{status}{eps_}`"
+    else:
+        status_air = f"**✘ STATUS :** `{status}`\n**✘ NEXT AIRING :** `{air_on}`"
+    if data["trailer"] and data["trailer"]["site"] == "youtube":
+        trailer_link = f"[YouTube](https://youtu.be/{data['trailer']['id']})"
+    url = data.get("siteUrl")
+    banner = f"https://img.anili.st/media/{idm}"
+    banner_ = requests.get(banner)
+    open(f"{idm}.jpg", "wb").write(banner_.content)
+    title_img = f"{idm}.jpg"
+    logo = "https://telegra.ph/file/2c546060b20dfd7c1ff2d.jpg"
+    descr = ""
+    descr += f"<img src='{banner}'/> \n"
+    descr += data["description"]
+    descr += f"\n\n<img src='{logo}' />"
+    paste = await telegraph_paste(f"Description For “ {english} ”", descr)
+    total = result["data"]["Page"]["pageInfo"]["total"]
+    try:
+        finals_ = ANIME_TEMPLATE.format(**locals())
+    except KeyError as kys:
+        return [f"{kys}"]
+    return title_img, [finals_], [idm, in_ls, in_ls_id, str(adult)]
 
+# finally formats all the data and gives airing info
 async def get_airing(vars_):
     result = await return_json_senpai(AIR_QUERY, vars_)
     error = result.get("errors")
