@@ -51,30 +51,27 @@ async def _(event):
         os.remove(pic)
     
 
-@bot.on(hell_cmd(pattern="character(?: |$)(.*)"))
-@bot.on(sudo_cmd(pattern="character(?: |$)(.*)", allow_sudo=True))
-async def nope(hel_):
-    hell = hel_.pattern_match.group(1)
-    if not hell:
-        if hel_.is_reply:
-            (await hel_.get_reply_message()).message
-        else:
-            await eod(hel_, "Sir please give some query to search and download it for you..!"
-            )
-            return
-    troll = await bot.inline_query("AniFluidbot", f".character {(deEmojify(hell))}")
-    if troll:
-        await hel_.delete()
-        kraken = await troll[0].click(Config.LOGGER_ID)
-        if kraken:
-            await bot.send_message(
-                hel_.chat_id,
-                kraken,
-            )
-        await kraken.delete()
-    else:
-    	await eod(hel_, "**Error 404:**  Not Found")
-    
+@bot.on(hell_cmd(pattern="character ?(.*)"))
+@bot.on(sudo_cmd(pattern="character ?(.*)", allow_sudo=True))
+async def _(event):
+    query = event.text[11:]
+    if query == "":
+        return await eor(event, "Give character name to get details.")
+    hell = await eor(event, f"__Searching for__ `{query}`")
+    qdb = rand_key()
+    CHARC_DB[qdb]=query
+    result = await get_character(qdb, 1)
+    if len(result) == 1:
+        return await hell.edit(result[0])
+    img = result[0]
+    cap_text = result[1][0]
+    try:
+        await event.client.send_file(event.chat_id, file=img, caption=cap_text)
+        await hell.delete()
+    except ChatSendMediaForbiddenError:
+        await hell.delete(cap_text)
+    if os.path.exists(img):
+        os.remove(img)
 
 
 @bot.on(hell_cmd(pattern="fillers ?(.*)"))
