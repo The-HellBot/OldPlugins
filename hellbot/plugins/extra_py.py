@@ -5,6 +5,7 @@ from telethon.tl.types import InputMessagesFilterDocument
 
 from . import *
 
+
 @bot.on(hell_cmd(pattern="extdl$", outgoing=True))
 @bot.on(sudo_cmd(pattern="extdl$", allow_sudo=True))
 async def install(event):
@@ -74,6 +75,39 @@ async def install(event):
                     os.path.basename(downloaded_file_name)
                 ),
             )
+
+
+if Config.PLUGIN_CHANNEL:
+    async def extdl():
+        docs = await bot.get_messages(
+            Config.PLUGIN_CHANNEL, None, filter=InputMessagesFilterDocument
+        )
+        total = int(docs.total)
+        for module in range(total):
+            plug_ = docs[module].id
+            plug_name = docs[module].file.name
+            if os.path.exists(f"hellbot/plugins/{plug_name}"):
+                return
+            downloaded_file_name = await bot.download_media(
+                await bot.get_messages(Config.PLUGIN_CHANNEL, ids=plug_),
+                "hellbot/plugins/",
+            )
+            path1 = Path(downloaded_file_name)
+            shortname = path1.stem
+            loop = True
+            while loop:
+                try:
+                    load_module(shortname.replace(".py", ""))
+                    break
+                except Exception as e:
+                    await bot.send_message(Config.LOGGER_ID, f"Failed to install `{shortname}` \n\n`{e}`")
+            if BOTLOG:
+                await bot.send_message(Config.LOGGER_ID,
+                    f"**Installed** `{os.path.basename(downloaded_file_name)}` **successfully.**",
+                )
+
+    bot.loop.create_task(install())
+
 
 CmdHelp("extra_py").add_command(
   "extdl", None, "Installs all plugins from the channal which id is in PLUGIN_CHANNEL Configiable"
