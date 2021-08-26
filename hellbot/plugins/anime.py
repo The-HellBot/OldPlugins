@@ -6,53 +6,26 @@ from telethon.errors.rpcerrorlist import ChatSendMediaForbiddenError
 
 from . import *
 
-FILLERS = {}
 
-@bot.on(hell_cmd(pattern="anilist (.*)"))
-@bot.on(sudo_cmd(pattern="anilist (.*)", allow_sudo=True))
-async def anilist(event):
-    if event.fwd_from:
-        return
-    input_str = event.pattern_match.group(1)
-    event = await eor(event, "Searching...")
-    result = await callAPI(input_str)
-    hell = await formatJSON(result)
-    title_img, msg = hell[0], hell[1]
-    try:
-        await event.client.send_file(event.chat_id, title_img, caption=msg, force_document=True)
-        await event.delete()
-        if os.path.exists(title_img):
-            os.remove(title_img)
-    except ChatSendMediaForbiddenError:
-        await event.edit(msg, link_preview=True)
+@bot.on(hell_cmd(pattern="anime ?(.*)"))
+@bot.on(sudo_cmd(pattern="anime ?(.*)", allow_sudo=True))
+async def _(event):
+    query = event.text[6:]
+    if query == "":
+        return await eor(event, "Please give anime name to search on Anilist.")
+    hell = await eor(event, f"__Searching for__ `{query}` __on Anilist.__")
+    qdb = rand_key()
+    ANIME_DB[qdb] = query
+    result = await get_anilist(qdb, 1)
+    if len(result) == 1:
+        return await hell.edit(result[0])
+    pic, msg = result[0], result[1][0]
+    await event.client.send_file(event.chat_id, file=pic, caption=msg, force_document=False)
+    await hell.delete()
+    if os.path.exists(pic)
+        os.remove(pic)
 
 
-@bot.on(hell_cmd(pattern="anime(?: |$)(.*)"))
-@bot.on(sudo_cmd(pattern="anime(?: |$)(.*)", allow_sudo=True))
-async def nope(hel_):
-    hell = hel_.pattern_match.group(1)
-    if not hell:
-        if hel_.is_reply:
-            (await hel_.get_reply_message()).message
-        else:
-            await eod(hel_, "Sir please give some query to search and download it for you..!"
-            )
-            return
-
-    troll = await bot.inline_query("AniFluidbot", f".anime {(deEmojify(hell))}")
-    if troll:
-        await hel_.delete()
-        kraken = await troll[0].click(Config.LOGGER_ID)
-        if kraken:
-            await bot.send_message(
-                hel_.chat_id,
-                kraken,
-            )
-        await kraken.delete()
-    else:
-    	await eod(hel_, "**Error 404:**  Not Found")
-    
-    
 @bot.on(hell_cmd(pattern="manga(?: |$)(.*)"))
 @bot.on(sudo_cmd(pattern="manga(?: |$)(.*)", allow_sudo=True))
 async def nope(hel_):
