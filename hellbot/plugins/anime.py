@@ -29,30 +29,26 @@ async def _(event):
         os.remove(pic)
 
 
-@bot.on(hell_cmd(pattern="manga(?: |$)(.*)"))
-@bot.on(sudo_cmd(pattern="manga(?: |$)(.*)", allow_sudo=True))
-async def nope(hel_):
-    hell = hel_.pattern_match.group(1)
-    if not hell:
-        if hel_.is_reply:
-            (await hel_.get_reply_message()).message
-        else:
-            await eod(hel_, "Sir please give some query to search and download it for you..!"
-            )
-            return
-    troll = await bot.inline_query("AniFluidbot", f".manga {(deEmojify(hell))}")
-    if troll:
-        await hel_.delete()
-        kraken = await troll[0].click(Config.LOGGER_ID)
-        if kraken:
-            await bot.send_message(
-                hel_.chat_id,
-                kraken,
-            )
-        await kraken.delete()
-    else:
-    	await eod(hel_, "**Error 404:**  Not Found")
-    
+@bot.on(hell_cmd(pattern="manga ?(.*)"))
+@bot.on(sudo_cmd(pattern="manga ?(.*)", allow_sudo=True))
+async def _(event):
+    query = event.text[7:]
+    if query == "":
+        await eor(event, "Please give manga name to search..")
+    hell = await eor(event, f"__Searching for__ `{query}` ...")
+    qdb = rand_key()
+    MANGA_DB[qdb] = query
+    result = await get_manga(qdb, 1)
+    if len(result) == 1:
+        return await hell.edit(result[0])
+    pic, finals_ = result[0], result[1][0]
+    try:
+        await event.client.send_file(event.chat_id, file=pic, caption=finals_)
+        await hell.delete()
+    except ChatSendMediaForbiddenError:
+        await hell.edit(finals_)
+    if os.path.exists(pic):
+        os.remove(pic)
     
 
 @bot.on(hell_cmd(pattern="character(?: |$)(.*)"))
