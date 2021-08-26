@@ -106,7 +106,7 @@ if Config.PLUGIN_CHANNEL:
                     f"**Installed** `{os.path.basename(downloaded_file_name)}` **successfully.**",
                 )
 
-    bot.loop.create_task(install())
+    bot.loop.create_task(extdl())
 
 
 CmdHelp("extra_py").add_command(
