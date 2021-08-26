@@ -6,6 +6,7 @@ from .pasters import telegraph_paste
 
 
 ANIME_DB = {}
+MANGA_DB = {}
 FILLERS = {}
 
 
@@ -81,6 +82,40 @@ query ($search: String, $page: Int) {
         id
       }
       siteUrl
+    }
+  }
+}
+"""
+
+# returns manga details in json
+MANGA_QUERY = """
+query ($search: String, $page: Int) {
+  Page (perPage: 1, page: $page) {
+    pageInfo {
+      total
+    }
+    media (search: $search, type: MANGA) {
+      id
+      title {
+        romaji
+        english
+        native
+      }
+      format
+      countryOfOrigin
+      source (version: 2)
+      status
+      description(asHtml: true)
+      chapters
+      mediaListEntry {
+        status
+        score
+        id
+      }
+      volumes
+      averageScore
+      siteUrl
+      isAdult
     }
   }
 }
@@ -357,6 +392,60 @@ async def get_anilist(qdb, page):
     except KeyError as kys:
         return [f"{kys}"]
     return title_img, [finals_], [idm, in_ls, in_ls_id, str(adult)]
+
+# parse manga details
+async def get_manga(qdb, page):
+    vars_ = {"search": MANGA_DB[qdb], "asHtml": True, "page": page}
+    result = await return_json_senpai(MANGA_QUERY, vars_)
+    if len(result['data']['Page']['media'])==0:
+        return [f"No results Found"]
+    data = result["data"]["Page"]["media"][0]
+    # Data of all fields in returned json
+    # pylint: disable=possibly-unused-variable
+    idm = data.get("id")
+    romaji = data["title"]["romaji"]
+    english = data["title"]["english"]
+    native = data["title"]["native"]
+    status = data.get("status")
+    synopsis = data.get("description")
+    volumes = data.get("volumes")
+    chapters = data.get("chapters")
+    score = data.get("averageScore")
+    url = data.get("siteUrl")
+    format_ = data.get("format")
+    country = data.get("countryOfOrigin")
+    source = data.get("source")
+    c_flag = cflag(country)
+    adult = data.get("isAdult")
+    in_ls = False
+    in_ls_id = ""
+    name = f"""« {c_flag} » {romaji}
+     **‹ {english} ›** 
+      `{native}` """
+    if english  is None:
+        name = f"""« {c_flag} » **{romaji}**
+        {native}"""
+    banner = f"https://img.anili.st/media/{idm}"
+    logo = "https://telegra.ph/file/2c546060b20dfd7c1ff2d.jpg"
+    descr = ""
+    descr += f"<img src='{banner}'/> \n"
+    descr += synopsis
+    descr += f"\n\n<img src='{logo}' />"
+    paste = await telegraph_paste(f"Description For “ {romaji} ”", descr)
+    finals_ = f"{name}\n\n"
+    finals_ += f"**✘ ID :** `{idm}`\n"
+    finals_ += f"**✘ STATUS :** `{status}`\n"
+    finals_ += f"**✘ VOLUMES :** `{volumes}`\n"
+    finals_ += f"**✘ CHAPTERS :** `{chapters}`\n"
+    finals_ += f"**✘ SCORE :** `{score}`\n"
+    finals_ += f"**✘ FORMAT :** `{format_}`\n"
+    finals_ += f"**✘ SOURCE :** `{source}`\n"
+    finals_ += f"**✘ DESCRIPTION :** [Synopsis]({paste})\n\n"
+    finals_ += f"\n       **<\>** [†hê Hêllẞø†](https://t.me/its_hellbot)"
+    banner_ = requests.get(banner)
+    open(f"{idm}.jpg", "wb").write(banner_.content)
+    pic = f"{idm}.jpg"
+    return pic, [finals_, result["data"]["Page"]["pageInfo"]["total"], url], [idm, in_ls, in_ls_id, str(adult)]
 
 # finally formats all the data and gives airing info
 async def get_airing(vars_):
