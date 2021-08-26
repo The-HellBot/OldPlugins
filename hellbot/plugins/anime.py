@@ -161,7 +161,7 @@ async def _(event):
         vars_ = {"id": int(query), "asHtml": True}
     result = await get_airing(vars_)
     if len(result) == 1:
-        return await eor(event, result[0])
+        return await hell.edit(result[0])
     coverImg, out = result[0]
     await event.client.send_file(event.chat_id, coverImg, caption=out, force_document=False)
     await hell.delete()
