@@ -10,7 +10,7 @@ from . import *
 @bot.on(hell_cmd(pattern="anime ?(.*)"))
 @bot.on(sudo_cmd(pattern="anime ?(.*)", allow_sudo=True))
 async def _(event):
-    query = event.text[6:]
+    query = event.text[7:]
     if query == "":
         return await eor(event, "Please give anime name to search on Anilist.")
     hell = await eor(event, f"__Searching for__ `{query}` __on Anilist.__")
@@ -20,8 +20,11 @@ async def _(event):
     if len(result) == 1:
         return await hell.edit(result[0])
     pic, msg = result[0], result[1][0]
-    await event.client.send_file(event.chat_id, file=pic, caption=msg, force_document=False)
-    await hell.delete()
+    try:
+        await event.client.send_file(event.chat_id, file=pic, caption=msg, force_document=False)
+        await hell.delete()
+    except ChatSendMediaForbiddenError:
+        await hell.edit(msg)
     if os.path.exists(pic):
         os.remove(pic)
 
@@ -136,8 +139,11 @@ async def _(event):
     if len(result) == 1:
         return await hell.edit(result[0])
     coverImg, out = result[0]
-    await event.client.send_file(event.chat_id, coverImg, caption=out, force_document=False)
-    await hell.delete()
+    try:
+        await event.client.send_file(event.chat_id, coverImg, caption=out, force_document=False)
+        await hell.delete()
+    except ChatSendMediaForbiddenError:
+        await hell.edit(out)
     if os.path.exists(coverImg):
         os.remove(coverImg)
 
@@ -152,19 +158,17 @@ async def quote(event):
 
 
 CmdHelp("anime").add_command(
-  "anime", "<anime name>", "Searches for the given anime and sends the details.", "anime violet evergarden"
+  "anime", "<anime name>", "Searches for the given anime and sends the details.", "anime Darling in the franxx"
 ).add_command(
   "manga", "<manga name>", "Searches for the given manga and sends the details.", "manga Jujutsu kaisen"
 ).add_command(
   "character", "<character name>", "Searches for the given anime character and sends the details.", "character Mai Sakurajima"
 ).add_command(
-  "anilist", "<anime name>", "Searches Details of the anime directly from anilist", "anilist attack on titan"
-).add_command(
   "fillers", "<anime name>", "Searches for the filler episodes of given Anime.", "fillers Naruto"
 ).add_command(
   "aniquote", None, "Gives a random quote from Anime."
 ).add_info(
-  "Anime Search"
+  "Anime Module based on Anilist API."
 ).add_warning(
   "✅ Harmless Module."
 ).add()
