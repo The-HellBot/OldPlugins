@@ -22,7 +22,7 @@ async def _(event):
     pic, msg = result[0], result[1][0]
     await event.client.send_file(event.chat_id, file=pic, caption=msg, force_document=False)
     await hell.delete()
-    if os.path.exists(pic)
+    if os.path.exists(pic):
         os.remove(pic)
 
 
