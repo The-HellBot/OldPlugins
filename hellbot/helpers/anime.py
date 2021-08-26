@@ -121,6 +121,29 @@ query ($search: String, $page: Int) {
 }
 """
 
+# returns character data in json
+CHARACTER_QUERY = """
+query ($id: Int, $search: String, $page: Int) {
+  Page (perPage: 1, page: $page) {
+    pageInfo{
+      total
+    }
+    characters (id: $id, search: $search) {
+      id
+      name {
+        full
+        native
+      }
+      image {
+        large
+      }
+      description(asHtml: true)
+      siteUrl
+      }
+    }
+  }
+"""
+
 # Airing Query from anilist
 AIR_QUERY = """
 query ($id: Int, $idMal:Int, $search: String) {
@@ -446,6 +469,39 @@ async def get_manga(qdb, page):
     open(f"{idm}.jpg", "wb").write(banner_.content)
     pic = f"{idm}.jpg"
     return pic, [finals_, result["data"]["Page"]["pageInfo"]["total"], url], [idm, in_ls, in_ls_id, str(adult)]
+
+# parse character details.
+async def get_character(query, page):
+    var = {"search": CHAR_DB[query], "page": int(page)}
+    result = await return_json_senpai(CHARACTER_QUERY, var)
+    if len(result['data']['Page']['characters'])==0:
+        return [f"No results Found"]
+    data = result["data"]["Page"]["characters"][0]
+    # Character Data
+    id_ = data["id"]
+    name = data["name"]["full"]
+    native = data["name"]["native"]
+    img = data["image"]["large"]
+    site_url = data["siteUrl"]
+    desc = data["description"]
+    logo = "https://telegra.ph/file/2c546060b20dfd7c1ff2d.jpg"
+    descr = ""
+    descr += f"<img src='{img}'/> \n"
+    descr += desc
+    descr += f"\n\n<img src='{logo}' />"
+    paste = await telegraph_paste(f"More Info For “ {name} ”", descr)
+    cap_text = f"""
+**✘ CHARACTER :** `{name}` 
+        ‹ `{native}` ›
+**✘ ID :** `{id_}`
+**✘ WEBSITE :** [{name}]({site_url})
+**✘ DETAILS :** [More Info...]({paste})
+
+
+        **<\>** [†hê Hêllẞø†](https://t.me/its_hellbot)
+"""
+    total = result["data"]["Page"]["pageInfo"]["total"]
+    return img, [cap_text, total], [id_]
 
 # finally formats all the data and gives airing info
 async def get_airing(vars_):
