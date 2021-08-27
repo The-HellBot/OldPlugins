@@ -37,9 +37,10 @@ async def set_not_afk(event):
             + total_afk_time
             + "`", file=hellpic
         )
-        hell = await media_type(hellpic)
-        if hell == "Gif":
+        try:
             await unsave_gif(event, hellpic)
+        except:
+            pass
         try:
             await event.client.send_message(  # pylint:disable=E0602
                 Config.LOGGER_ID,  # pylint:disable=E0602
@@ -92,9 +93,10 @@ async def on_afk(event):
             + f"\n**💬 Reason :** {reason}"
             )
         msg = await event.reply(message_to_reply, file=hellpic)
-        x = await media_type(hellpic)
-        if x == "Gif":
+        try:
             await unsave_gif(event, hellpic)
+        except:
+            pass
         await asyncio.sleep(2)
         if event.chat_id in last_afk_message:  # pylint:disable=E0602
             await last_afk_message[event.chat_id].delete()  # pylint:disable=E0602
@@ -119,7 +121,11 @@ async def _(event):
     afk_end = {}
     start_1 = datetime.datetime.now()
     afk_start = start_1.replace(microsecond=0)
-    reason = event.text[5:] or "Not Mentioned."
+    owo = event.text[5:]
+    if owo == "":
+        reason = "Not Mentioned."
+    else:
+        reason = owo
     hellpic = await event.client.download_media(krakenop)
     if not USER_AFK:  # pylint:disable=E0602
         last_seen_status = await bot(  # pylint:disable=E0602
@@ -131,9 +137,10 @@ async def _(event):
         await bot.send_message(
             event.chat_id, f"**I'm going afk🚶** \n\n**Because :** {reason}", file=hellpic
         )
-        xx = await media_type(hellpic)
-        if xx == "Gif":
+        try:
             await unsave_gif(event, hellpic)
+        except:
+            pass
         await asyncio.sleep(0.001)
         await event.delete()
         try:
@@ -141,9 +148,10 @@ async def _(event):
                 Config.LOGGER_ID,
                 f"#AFKTRUE \nAFK mode = **True**\nReason  `{reason}`",file=hellpic
                 )
-            xxx = await media_type(hellpic)
-            if xxx == "Gif":
+            try:
                 await unsave_gif(event, hellpic)
+            except:
+                pass
         except Exception as e:  # pylint:disable=C0103,W0703
             logger.warn(str(e))  # pylint:disable=E06
 
