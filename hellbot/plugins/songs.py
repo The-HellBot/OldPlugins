@@ -25,7 +25,7 @@ async def nope(kraken):
 @bot.on(hell_cmd(pattern="lsong ?(.*)"))
 @bot.on(sudo_cmd(pattern="lsong ?(.*)", allow_sudo=True))
 async def _(event):
-    hell_ = event.text[4:]
+    hell_ = event.text[6:]
     if hell_ == "":
         return await eor(event, "Give a song name to search")
     hell = await eor(event, f"Searching song `{hell_}`")
