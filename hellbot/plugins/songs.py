@@ -15,7 +15,8 @@ async def nope(kraken):
     troll = await bot.inline_query("iLyricsBot", f"{(deEmojify(hell))}")
     owo = await troll[0].click(Config.LOGGER_ID, clear_draft=True)
     await asyncio.sleep(5)
-    await uwu.edit(owo)
+    await bot.send_message(kraken.chat_id, owo)
+    await uwu.delete()
     await owo.delete()
 
 
