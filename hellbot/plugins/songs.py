@@ -15,14 +15,9 @@ async def nope(kraken):
     troll = await bot.inline_query("iLyricsBot", f"{(deEmojify(hell))}")
     if troll:
         owo = await troll[0].click(Config.LOGGER_ID)
-        if owo:
-            await asyncio.sleep(6)
-            await bot.send_message(
-                kraken.chat_id,
-                owo,
-            )
+        hmm = await owo.get_edit()
+        await uwu.edit(hmm.message)
         await owo.delete()
-        await uwu.delete()
     else:
         await uwu.edit("**ERROR 404 :** __NOT FOUND__")
 
