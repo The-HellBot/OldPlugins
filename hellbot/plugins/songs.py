@@ -13,9 +13,11 @@ async def nope(kraken):
             await eod(uwu, "Give song name to get lyrics...")
             return
     troll = await bot.inline_query("iLyricsBot", f"{(deEmojify(hell))}")
-    owo = await troll[0].click(Config.LOGGER_ID, clear_draft=True)
-    await asyncio.sleep(5)
-    await bot.send_message(kraken.chat_id, owo)
+    owo = await troll[0].click(Config.LOGGER_ID)
+    await asyncio.sleep(3)
+    owo_id = owo.id
+    lyri = await bot.get_messages(entity=Config.LOGGER_ID, ids=owo_id)
+    await bot.send_message(kraken.chat_id, lyri)
     await uwu.delete()
     await owo.delete()
 
