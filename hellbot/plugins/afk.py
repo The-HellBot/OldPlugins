@@ -38,7 +38,7 @@ async def set_not_afk(event):
             + "`", file=hellpic
         )
         try:
-            await unsave_gif(event, hellpic)
+            await unsave_gif(event, hellbot)
         except:
             pass
         try:
@@ -94,7 +94,7 @@ async def on_afk(event):
             )
         msg = await event.reply(message_to_reply, file=hellpic)
         try:
-            await unsave_gif(event, hellpic)
+            await unsave_gif(event, msg)
         except:
             pass
         await asyncio.sleep(2)
@@ -134,22 +134,22 @@ async def _(event):
         if isinstance(last_seen_status.rules, types.PrivacyValueAllowAll):
             afk_time = datetime.datetime.now()  # pylint:disable=E0602
         USER_AFK = f"yes: {reason} {hellpic}"  # pylint:disable=E0602
-        await bot.send_message(
+        x = await bot.send_message(
             event.chat_id, f"**I'm going afk🚶** \n\n**Because :** {reason}", file=hellpic
         )
         try:
-            await unsave_gif(event, hellpic)
+            await unsave_gif(event, x)
         except:
             pass
         await asyncio.sleep(0.001)
         await event.delete()
         try:
-            await bot.send_message(
+            xy = await bot.send_message(
                 Config.LOGGER_ID,
                 f"#AFKTRUE \nAFK mode = **True**\nReason  `{reason}`",file=hellpic
                 )
             try:
-                await unsave_gif(event, hellpic)
+                await unsave_gif(event, xy)
             except:
                 pass
         except Exception as e:  # pylint:disable=C0103,W0703
