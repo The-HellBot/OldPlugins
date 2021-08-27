@@ -1,9 +1,10 @@
+import asyncio
 from . import *
 
 @bot.on(hell_cmd(pattern="lyrics(?: |$)(.*)", outgoing=True))
 @bot.on(sudo_cmd(pattern="lyrics(?: |$)(.*)", allow_sudo=True))
 async def nope(kraken):
-    hell = kraken.pattern_match.group(1)
+    hell = kraken.text[8:]
     uwu = await eor(kraken, f"Searching lyrics for  `{hell}` ...")
     if not hell:
         if kraken.is_reply:
@@ -15,8 +16,9 @@ async def nope(kraken):
     if troll:
         owo = await troll[0].click(Config.LOGGER_ID)
         if owo:
+            await asyncio.sleep(6)
             await bot.send_message(
-                event.chat_id,
+                kraken.chat_id,
                 owo,
             )
         await owo.delete()
