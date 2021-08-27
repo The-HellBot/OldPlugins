@@ -13,13 +13,10 @@ async def nope(kraken):
             await eod(uwu, "Give song name to get lyrics...")
             return
     troll = await bot.inline_query("iLyricsBot", f"{(deEmojify(hell))}")
-    if troll:
-        owo = await troll[0].click(Config.LOGGER_ID)
-        hmm = await owo.get_edit()
-        await uwu.edit(hmm.message)
-        await owo.delete()
-    else:
-        await uwu.edit("**ERROR 404 :** __NOT FOUND__")
+    owo = await troll[0].click(Config.LOGGER_ID, clear_draft=True)
+    await asyncio.sleep(5)
+    await uwu.edit(owo)
+    await owo.delete()
 
 
 @bot.on(hell_cmd(pattern="lsong ?(.*)"))
