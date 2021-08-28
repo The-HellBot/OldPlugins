@@ -1,8 +1,8 @@
 from . import *
 
 
-@bot.on(hell_cmd(pattern=r"tweet(?: |$)(.*)"))
-@bot.on(sudo_cmd(pattern="tweet(?: |$)(.*)", allow_sudo=True))
+@bot.on(hell_cmd(pattern=r"tweet ?(.*)"))
+@bot.on(sudo_cmd(pattern="tweet ?(.*)", allow_sudo=True))
 async def nope(kraken):
     hell = kraken.text[7:]
     okvai = await eor(kraken, "Trying to tweet for you...")
@@ -10,16 +10,13 @@ async def nope(kraken):
         if kraken.is_reply:
             (await kraken.get_reply_message()).message
         else:
-            await eod(kraken, "I need some text to make a tweet🚶")
+            await eod(okvai, "I need some text to make a tweet🚶")
             return
     tweeter = await bot.inline_query("TwitterStatusBot", f"{(deEmojify(hell))}")
-    await tweeter[0].click(
-        kraken.chat_id,
-        reply_to=kraken.reply_to_msg_id,
-        silent=True if kraken.is_reply else False,
-        hide_via=True,
-    )
-    await kraken.delete()
+    owo = await tweeter[0].click(Config.LOGGER_ID)
+    await bot.send_message(event.chat_id, owo)
+    await okvai.delete()
+    await owo.delete()
 
 
 @bot.on(hell_cmd(pattern=r"trump(?: |$)(.*)"))
