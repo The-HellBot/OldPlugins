@@ -14,7 +14,7 @@ async def nope(kraken):
             return
     tweeter = await bot.inline_query("TwitterStatusBot", f"{(deEmojify(hell))}")
     owo = await tweeter[0].click(Config.LOGGER_ID)
-    await bot.send_message(event.chat_id, owo)
+    await bot.send_message(kraken.chat_id, owo)
     await okvai.delete()
     await owo.delete()
 
