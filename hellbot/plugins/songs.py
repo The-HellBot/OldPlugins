@@ -1,4 +1,7 @@
 import asyncio
+
+from telethon.errors.rpcerrorlist import YouBlockedUserError
+
 from . import *
 
 @bot.on(hell_cmd(pattern="lyrics(?: |$)(.*)", outgoing=True))
@@ -44,12 +47,43 @@ async def _(event):
         await hell.edit("**ERROR 404 :** __NOT FOUND__")
 
 
+@bot.on(hell_cmd(pattern="wsong ?(.*)"))
+async def _(event):
+    if not event.reply_to_msg_id:
+        return await eor(event, "Reply to a mp3 file.")
+    rply = await event.get_reply_message()
+    chat = "@auddbot"
+    hell = await eor(event, "Trying to identify song...")
+    async with event.client.conversation(chat) as conv:
+        try:
+            first = await conv.send_message("/start")
+            second = await conv.get_response()
+            third = await conv.send_message(rply)
+            fourth = await conv.get_response()
+            if not fourth.text.startswith("Audio received"):
+                await hell.edit(
+                    "Error identifying audio."
+                )
+                await event.client.delete_messages(conv.chat_id, [first.id, second.id, third.id, fourth.id])
+                return
+            await hell.edit("Processed...")
+            fifth = await conv.get_response()
+            await event.client.send_read_acknowledge(conv.chat_id)
+        except YouBlockedUserError:
+            return await hell.edit("Please unblock @auddbot and try again")
+    audio = f"**Song Name : **{fifth.text.splitlines()[0]}\n\n**Details : **__{result.text.splitlines()[2]}__"
+    await hell.edit(audio)
+    await event.client.delete_messages(conv.chat_id, [first.id, second.id, third.id, fourth.id, fifth.id])
+
+
 CmdHelp("songs").add_command(
   "song", "<song name>", "Downloads the song from YouTube."
 ).add_command(
   "vsong", "<song name>", "Downloads the Video Song from YouTube."
 ).add_command(
   "lsong", "<song name>", "Sends the searched song in current chat.", "lsong Alone"
+).add_command(
+  "wsong", "<reply to a song file>", "Searches for the details of replied mp3 song file and uploads it's details."
 ).add_command(
   "lyrics", "<song name>", "Gives the lyrics of that song.."
 ).add_info(
