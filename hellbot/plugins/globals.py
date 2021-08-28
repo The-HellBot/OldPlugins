@@ -255,8 +255,11 @@ async def already(event):
     if len(gbanned_users) > 0:
         for user in gbanned_users:
             hell = user.chat_id
-            tity = await event.client.get_entity(hell)
-            name = tity.first_name
+            try:
+                tity = await event.client.get_entity(int(hell))
+                name = tity.first_name
+            except ValueError:
+                name = "User"
             GBANNED_LIST += f"📍 [{name}](tg://user?id={hell})\n"
     else:
         GBANNED_LIST = "No Gbanned Users!!"
