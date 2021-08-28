@@ -250,20 +250,22 @@ async def _(event):
 @bot.on(hell_cmd(pattern="listgban$"))
 @bot.on(sudo_cmd(pattern="listgban$", allow_sudo=True))
 async def already(event):
+    hmm = await eor(event, "`Fetching Gbanned users...`")
     gbanned_users = all_gbanned()
     GBANNED_LIST = "**Gbanned Users :**\n"
     if len(gbanned_users) > 0:
         for user in gbanned_users:
-            hell = user.chat_id
+            hel = user.chat_id
+            hell = int(hel)
             try:
-                tity = await event.client.get_entity(int(hell))
+                tity = await event.client.get_entity(hell)
                 name = tity.first_name
             except ValueError:
                 name = "User"
-            GBANNED_LIST += f"📍 [{name}](tg://user?id={hell})\n"
+            GBANNED_LIST += f"📍 [{name}](tg://user?id={hell}) (`{hell}`)\n"
     else:
         GBANNED_LIST = "No Gbanned Users!!"
-    await edit_or_reply(event, GBANNED_LIST)
+    await hmm.edit(GBANNED_LIST)
 
 
 @bot.on(events.ChatAction)
