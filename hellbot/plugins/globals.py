@@ -254,7 +254,10 @@ async def already(event):
     GBANNED_LIST = "**Gbanned Users :**\n"
     if len(gbanned_users) > 0:
         for user in gbanned_users:
-            GBANNED_LIST += f"📍 [{user.chat_id}](tg://user?id={user.chat_id})\n"
+            hell = user.chat_id
+            tity = await bot.get_entity(int(hell))
+            name = tity.first_name
+            GBANNED_LIST += f"📍 [{name}](tg://user?id={hell})\n"
     else:
         GBANNED_LIST = "No Gbanned Users!!"
     await edit_or_reply(event, GBANNED_LIST)
