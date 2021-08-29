@@ -139,7 +139,7 @@ async def unsave_gif(event, hgif):
         LOGS.info(e)
 
 
-async def unsave_stcr(event, hstcr):
+async def unsave_stcr(hstcr):
     try:
         await bot(
             functions.messages.SaveRecentStickerRequest(
