@@ -17,7 +17,8 @@ async def nope(kraken):
     stcr = await bot.send_message(kraken.chat_id, owo)
     await okvai.delete()
     await owo.delete()
-    await unsave_stcr(kraken, stcr)
+    await unsave_stcr(stcr)
+    await unsave_stcr(owo)
 
 
 
