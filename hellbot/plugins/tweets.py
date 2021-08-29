@@ -14,9 +14,11 @@ async def nope(kraken):
             return
     tweeter = await bot.inline_query("TwitterStatusBot", f"{(deEmojify(hell))}")
     owo = await tweeter[0].click(Config.LOGGER_ID)
-    await bot.send_message(kraken.chat_id, owo)
+    stcr = await bot.send_message(kraken.chat_id, owo)
     await okvai.delete()
     await owo.delete()
+    await unsave_stcr(kraken, stcr)
+
 
 
 @bot.on(hell_cmd(pattern=r"trump(?: |$)(.*)"))
