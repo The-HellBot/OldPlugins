@@ -139,4 +139,16 @@ async def unsave_gif(event, hgif):
         LOGS.info(e)
 
 
+async def unsave_stcr(event, hstcr):
+    try:
+        await bot(
+            functions.messages.SaveRecentStickerRequest(
+                id=get_input_document(hstcr),
+                unsave=True,
+            )
+        )
+    except Exception as e:
+        LOGS.info(e)
+
+
 # hellbot
