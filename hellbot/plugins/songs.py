@@ -1,8 +1,133 @@
 import asyncio
+import time
 
+from telethon.tl.types import DocumentAttributeAudio
+from youtube_dl import YoutubeDL
+from youtube_dl.utils import (
+    ContentTooShortError,
+    DownloadError,
+    ExtractorError,
+    GeoRestrictedError,
+    MaxDownloadsReached,
+    PostProcessingError,
+    UnavailableVideoError,
+    XAttrMetadataError,
+)
 from telethon.errors.rpcerrorlist import YouBlockedUserError
 
 from . import *
+
+
+@bot.on(hell_cmd(pattern="song ?(.*)"))
+@bot.on(sudo_cmd(pattern="song ?(.*)", allow_sudo=True))
+async def _(event):
+    query = event.text[6:]
+    max_results = 1
+    if query == "":
+        return await eod(event, "__Please give a song name to search.__")
+    hell = await eor(event, f"__Searching for__ `{query}`")
+    hel_ = await song_search(event, query, max_results, details=True)
+    x, title, views, duration, thumb = hel_[0], hel_[1], hel_[2], hel_[3], hel_[4]
+    thumb_name = f'thumb{ForGo10God}.jpg'
+    thumbnail = requests.get(thumb, allow_redirects=True)
+    open(thumb_name, 'wb').write(thumbnail.content)
+    url = x.replace("\n", "")
+    try:
+        await hell.edit("**Fetching Song**")
+        with YoutubeDL(song_opts) as somg:
+            hell_data = somg.extract_info(url)
+    except DownloadError as DE:
+        return await eod(hell, f"`{str(DE)}`")
+    except ContentTooShortError:
+        return await eod(hell, "`The download content was too short.`")
+    except GeoRestrictedError:
+        return await eod(hell, "`Video is not available from your geographic location due to geographic restrictions imposed by a website.`")
+    except MaxDownloadsReached:
+        return await eod(hell, "`Max-downloads limit has been reached.`")
+    except PostProcessingError:
+        return await eod(hell, "`There was an error during post processing.`")
+    except UnavailableVideoError:
+        return await eod(hell, "`Media is not available in the requested format.`")
+    except XAttrMetadataError as XAME:
+        return await eod(hell, f"`{XAME.code}: {XAME.msg}\n{XAME.reason}`")
+    except ExtractorError:
+        return await eod(hell, "`There was an error during info extraction.`")
+    except Exception as e:
+        return await eod(hell, f"{str(type(e)): {str(e)}}")
+    c_time = time.time()
+    await hell.edit(f"**🎶 Preparing to upload song 🎶 :** \n\n{hell_data['title']} \n**By :** {hell_data['uploader']}")
+    await event.client.send_file(
+        event.chat_id,
+        f"{hell_data['id']}.mp3",
+        supports_streaming=True,
+        caption=f"**✘ Song -** `{title}` \n**✘ Views -** `{views}` \n**✘ Duration -** `{duration}` \n\n**✘ By :** {hell_mention}",
+        thumb=thumb_name,
+        attributes=[
+            DocumentAttributeAudio(
+                duration=int(hell_data["duration"]),
+                title=str(hell_data["title"]),
+                performer=perf,
+            )
+        ],
+        progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
+            progress(d, t, event, c_time, "Uploading..", f"{hell_data['title']}.mp3")
+        ),
+    )
+    await hell.delete()
+    os.remove(f"{hell_data['id']}.mp3")
+
+
+@bot.on(hell_cmd(pattern="vsong ?(.*)"))
+@bot.on(sudo_cmd(pattern="vsong ?(.*)", allow_sudo=True))
+async def _(event):
+    query = event.text[7:]
+    max_results = 1
+    if query == "":
+        return await eod(event, "__Please give a song name to search.__")
+    hell = await eor(event, f"__Searching for__ `{query}`")
+    hel_ = await song_search(event, query, max_results, details=True)
+    x, title, views, duration, thumb = hel_[0], hel_[1], hel_[2], hel_[3], hel_[4]
+    thumb_name = f'thumb{ForGo10God}.jpg'
+    thumbnail = requests.get(thumb, allow_redirects=True)
+    open(thumb_name, 'wb').write(thumbnail.content)
+    url = x.replace("\n", "")
+    try:
+        await hell.edit("**Fetching Video**")
+        with YoutubeDL(video_opts) as somg:
+            hell_data = somg.extract_info(url)
+    except DownloadError as DE:
+        return await eod(hell, f"`{str(DE)}`")
+    except ContentTooShortError:
+        return await eod(hell, "`The download content was too short.`")
+    except GeoRestrictedError:
+        return await eod(hell, "`Video is not available from your geographic location due to geographic restrictions imposed by a website.`")
+    except MaxDownloadsReached:
+        return await eod(hell, "`Max-downloads limit has been reached.`")
+    except PostProcessingError:
+        return await eod(hell, "`There was an error during post processing.`")
+    except UnavailableVideoError:
+        return await eod(hell, "`Media is not available in the requested format.`")
+    except XAttrMetadataError as XAME:
+        return await eod(hell, f"`{XAME.code}: {XAME.msg}\n{XAME.reason}`")
+    except ExtractorError:
+        return await eod(hell, "`There was an error during info extraction.`")
+    except Exception as e:
+        return await eod(hell, f"{str(type(e)): {str(e)}}")
+    c_time = time.time()
+    await hell.edit(f"**📺 Preparing to upload video 📺 :** \n\n{hell_data['title']}\n**By :** {hell_data['uploader']}")
+    await event.client.send_file(
+        event.chat_id,
+        f"{hell_data['id']}.mp4",
+        supports_streaming=True,
+        caption=f"**✘ Video :** `{title}` \n\n**✘ By :** {hell_mention}",
+        thumb=thumb_name,
+        progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
+            progress(d, t, event, c_time, "Uploading..", f"{hell_data['title']}.mp4")
+        ),
+    )
+    await hell.delete()
+    os.remove(f"{hell_data['id']}.mp4")
+
 
 @bot.on(hell_cmd(pattern="lyrics(?: |$)(.*)", outgoing=True))
 @bot.on(sudo_cmd(pattern="lyrics(?: |$)(.*)", allow_sudo=True))
