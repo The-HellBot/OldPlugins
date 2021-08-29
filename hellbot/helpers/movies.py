@@ -1,6 +1,54 @@
+import os
+from imdb import IMDb
 from justwatch import JustWatch
 
 
+#======== IMDB Part =========#
+imdb = IMDb()
+moviepath = os.path.join(os.getcwd(), "temp", "moviethumb.jpg")
+
+# Get all casts
+async def get_casts(cast, movie):
+    _cast = ""
+    if cast in list(movie.keys()):
+        i = 0
+        for j in movie[cast]:
+            if i < 1:
+                _cast += str(j)
+            elif i < 5:
+                _cast += ", " + str(j)
+            else:
+                break
+            i += 1
+    else:
+        _cast += "No Data"
+    return _cast
+
+
+# Get all movies
+async def get_movies(movie):
+    result = ""
+    if "box office" in movie.keys():
+        for i in movie["box office"].keys():
+            result += f"\n<b>   • {i}:</b> <code>{movie['box office'][i]}</code>"
+    else:
+        result = "<code>No Data</code>"
+    return result
+
+
+mov_titles = [
+    "long imdb title",
+    "long imdb canonical title",
+    "smart long imdb canonical title",
+    "smart canonical title",
+    "canonical title",
+    "localized title",
+]
+
+#======== IMDB ENDS ==========#
+
+#======== JUST WATCH PART ==========#
+# Get streaming sites details
 def get_stream_data(query):
     stream_data = {}
     try:
@@ -45,13 +93,13 @@ def get_stream_data(query):
     stream_data["score"] = scoring
     return stream_data
 
-
+# Pretty format for google play movies
 def pretty(name):
     if name == "play":
         name = "Google Play Movies"
     return name[0].upper() + name[1:]
 
-
+# Stream providers name.
 def get_provider(url):
     url = url.replace("https://www.", "")
     url = url.replace("https://", "")
@@ -59,3 +107,5 @@ def get_provider(url):
     url = url.replace("http://", "")
     url = url.split(".")[0]
     return url
+
+#=========== JUST WATCH ENDS =============#

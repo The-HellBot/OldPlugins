@@ -4,7 +4,7 @@ from .exceptions import *
 from .formats import *
 from .google import *
 from .image import *
-from .jwatch import *
+from .movies import *
 from .mediatype import *
 from .mmf import *
 from .pasters import *
@@ -14,3 +14,4 @@ from .runner import *
 from .tools import *
 from .tweets import *
 from .vids import *
+from .yt_helper import *

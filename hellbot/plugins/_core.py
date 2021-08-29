@@ -119,19 +119,20 @@ async def install(event):
             return os.remove(downloaded_file_name)
 
 
-@bot.on(hell_cmd(pattern=r"uninstall (?P<shortname>\w+)", outgoing=True))
-@bot.on(sudo_cmd(pattern=r"uninstall (?P<shortname>\w+)", allow_sudo=True))
-async def uninstall(kraken):
-    if kraken.fwd_from:
-        return
-    shortname = kraken.pattern_match["shortname"]
+@bot.on(hell_cmd(pattern=r"uninstall ?(.*)"))
+@bot.on(sudo_cmd(pattern=r"uninstall ?(.*)", allow_sudo=True))
+async def uninstall(event):
+    shortname = event.text[11:]
+    if ".py" in shortname:
+        shortname = shortname.replace(".py", "")
+    hell = await eor(event, f"__Trying to uninstall plugin__ `{shortname}` ...")
     dir_path =f"./hellbot/plugins/{shortname}.py"
     try:
         remove_plugin(shortname)
         os.remove(dir_path)
-        await eod(kraken, f"Uninstalled `{shortname}` successfully")
+        await eod(hell, f"**Uninstalled plugin** `{shortname}` **successfully.**")
     except OSError as e:
-        await kraken.edit("Error: %s : %s" % (dir_path, e.strerror))
+        await eod(hell, f"**Error !!** \n\n`{dir_path}` : __{e.strerror}__")
 
 
 @bot.on(hell_cmd(pattern=r"unload (?P<shortname>\w+)$"))

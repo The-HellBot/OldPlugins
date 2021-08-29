@@ -1,8 +1,5 @@
 from telethon.tl.functions.channels import GetFullChannelRequest
-from telethon.tl.functions.phone import CreateGroupCallRequest
-from telethon.tl.functions.phone import DiscardGroupCallRequest
-from telethon.tl.functions.phone import GetGroupCallRequest
-from telethon.tl.functions.phone import InviteToGroupCallRequest
+from telethon.tl.functions.phone import CreateGroupCallRequest, DiscardGroupCallRequest, GetGroupCallRequest, InviteToGroupCallRequest
 
 from . import *
 
@@ -24,7 +21,7 @@ async def _(event):
         await event.client(CreateGroupCallRequest(event.chat_id))
         await eor(event, "**🔊 Voice Chat Started Successfully**")
     except Exception as e:
-        await eor(event, f"`{str(e)}`")
+        await eod(event, f"`{str(e)}`")
 
 
 @bot.on(hell_cmd(pattern="endvc$"))
@@ -34,7 +31,7 @@ async def _(event):
         await bot(DiscardGroupCallRequest(await getvc(event)))
         await eor(event, "**📍 Voice Chat Ended Successfully !!**")
     except Exception as e:
-        await eor(event, f"`{str(e)}`")
+        await eod(event, f"`{str(e)}`")
 
 
 @bot.on(hell_cmd(pattern="vcinvite$"))

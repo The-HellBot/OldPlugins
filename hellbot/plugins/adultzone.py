@@ -19,20 +19,20 @@ async def _(event):
     if owo in neko_category:
         hell = await eor(event, f"`Searching {owo} ...`")
         link = nekos.img(owo)
-        try:
-            await bot.send_file(event.chat_id, link, force_document=False)
-            await hell.delete()
-        except Exception as e:
-            await hell.edit(f"**ERROR !!**\n\n`{e}`")
+        x = await bot.send_file(event.chat_id, link, force_document=False)
+        await hell.delete()
+        if link.endswith((".gif")):
+            await unsave_gif(event, x)
+
     elif owo == "":
         hell = await eor(event, "`Searching randoms...`")
         uwu = random.choice(neko_category)
         link = nekos.img(uwu)
-        try:
-            await bot.send_file(event.chat_id, link, force_document=False)
-            await hell.delete()
-        except Exception as e:
-            await hell.edit(f"**ERROR !!**\n\n`{e}`")
+        x = await bot.send_file(event.chat_id, link, force_document=False)
+        await hell.delete()
+        if link.endswith((".gif")):
+            await unsave_gif(event, x)
+
     else:
         await eor(event, f"**Unmatched argument.** \n\n__Get all the required queries for nekos here__ -> **[Nekos Queries](http://telegra.ph/Nekos-Queries-08-20)**")
 

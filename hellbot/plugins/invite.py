@@ -6,6 +6,7 @@ from telethon.errors import (
 from telethon.tl import functions
 from telethon.tl.functions.channels import GetFullChannelRequest
 from telethon.tl.functions.messages import GetFullChatRequest
+from telethon.tl.functions.channels import InviteToChannelRequest
 
 from . import *
 
@@ -25,10 +26,10 @@ async def get_chatinfo(event):
         else:
             chat = event.chat_id
     try:
-        chat_info = await event.client(GetFullChatRequest(chat))
+        chat_info = await bot(GetFullChatRequest(chat))
     except:
         try:
-            chat_info = await event.client(GetFullChannelRequest(chat))
+            chat_info = await bot(GetFullChannelRequest(chat))
         except ChannelInvalidError:
             await event.reply("`Invalid channel/group`")
             return None
@@ -56,19 +57,13 @@ def user_full_name(user):
 @bot.on(hell_cmd(pattern=r"inviteall ?(.*)"))
 @bot.on(sudo_cmd(pattern=r"inviteall ?(.*)", allow_sudo=True))
 async def get_users(event):
-    sender = await event.get_sender()
-    me = await event.client.get_me()
-    if not sender.id == me.id:
-        hell = await eor(event, "`processing...`")
-    else:
-        hell = await eor(event, "`processing...`")
-    he_ll = event.pattern_match.group(1)
-    if he_ll == "@HellBot_Chat":
-        return await hell.edit("Restricted to invite users from there.")
-    elif he_ll == "@hellbot_chat":
-        return await hell.edit("Restricted to invite users from there.")
-    elif he_ll == "@HELLBOT_CHAT":
-        return await hell.edit("Restricted to invite users from there.")
+    hel_ = event.text[11:]
+    hell_chat = hel_.lower()
+    hell = await eor(event, f"__Inviting members from__ {hel_}")
+    if hell_chat == "@hellbot_chat":
+        await hell.edit("You can't Invite Members from My support group.")
+        await bot.send_message(-1001496036895, "Sorry for inviting members from here.")
+        return
     kraken = await get_chatinfo(event)
     chat = await event.get_chat()
     if event.is_private:
@@ -76,16 +71,11 @@ async def get_users(event):
     s = 0
     f = 0
     error = "None"
-
     await hell.edit("**INVITING USERS !!**")
-    async for user in event.client.iter_participants(kraken.full_chat.id):
+    async for user in bot.iter_participants(kraken.full_chat.id):
         try:
-            if error.startswith("Too"):
-                return await hell.edit(
-                    f"**INVITING FINISHED !**\n\n**Error :** \n`{error}`\n\n**Invited :**  `{s}` users. \n**Failed to Invite :** `{f}` users."
-                )
-            await event.client(
-                functions.channels.InviteToChannelRequest(channel=chat, users=[user.id])
+            await bot(
+                InviteToChannelRequest(channel=chat, users=[user.id])
             )
             s = s + 1
             await hell.edit(

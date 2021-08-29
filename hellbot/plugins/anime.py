@@ -6,101 +6,72 @@ from telethon.errors.rpcerrorlist import ChatSendMediaForbiddenError
 
 from . import *
 
-FILLERS = {}
 
-@bot.on(hell_cmd(pattern="anilist (.*)"))
-@bot.on(sudo_cmd(pattern="anilist (.*)", allow_sudo=True))
-async def anilist(event):
-    if event.fwd_from:
-        return
-    input_str = event.pattern_match.group(1)
-    event = await eor(event, "Searching...")
-    result = await callAPI(input_str)
-    hell = await formatJSON(result)
-    title_img, msg = hell[0], hell[1]
+@bot.on(hell_cmd(pattern="anime ?(.*)"))
+@bot.on(sudo_cmd(pattern="anime ?(.*)", allow_sudo=True))
+async def _(event):
+    query = event.text[7:]
+    if query == "":
+        return await eor(event, "Please give anime name to search on Anilist.")
+    hell = await eor(event, f"__Searching for__ `{query}` __on Anilist.__")
+    qdb = rand_key()
+    ANIME_DB[qdb] = query
+    result = await get_anilist(qdb, 1)
+    if len(result) == 1:
+        return await hell.edit(result[0])
+    pic, msg = result[0], result[1][0]
     try:
-        await bot.send_file(event.chat_id, title_img, caption=msg, force_document=True)
-        await event.delete()
+        await event.client.send_file(event.chat_id, file=pic, caption=msg, force_document=False)
+        await hell.delete()
     except ChatSendMediaForbiddenError:
-        await event.edit(msg, link_preview=True)
+        await hell.edit(msg)
+    if os.path.exists(pic):
+        os.remove(pic)
 
 
-@bot.on(hell_cmd(pattern="anime(?: |$)(.*)"))
-@bot.on(sudo_cmd(pattern="anime(?: |$)(.*)", allow_sudo=True))
-async def nope(hel_):
-    hell = hel_.pattern_match.group(1)
-    if not hell:
-        if hel_.is_reply:
-            (await hel_.get_reply_message()).message
-        else:
-            await eod(hel_, "Sir please give some query to search and download it for you..!"
-            )
-            return
-
-    troll = await bot.inline_query("AniFluidbot", f".anime {(deEmojify(hell))}")
-    if troll:
-        await hel_.delete()
-        kraken = await troll[0].click(Config.LOGGER_ID)
-        if kraken:
-            await bot.send_message(
-                hel_.chat_id,
-                kraken,
-            )
-        await kraken.delete()
-    else:
-    	await eod(hel_, "**Error 404:**  Not Found")
-    
-    
-@bot.on(hell_cmd(pattern="manga(?: |$)(.*)"))
-@bot.on(sudo_cmd(pattern="manga(?: |$)(.*)", allow_sudo=True))
-async def nope(hel_):
-    hell = hel_.pattern_match.group(1)
-    if not hell:
-        if hel_.is_reply:
-            (await hel_.get_reply_message()).message
-        else:
-            await eod(hel_, "Sir please give some query to search and download it for you..!"
-            )
-            return
-    troll = await bot.inline_query("AniFluidbot", f".manga {(deEmojify(hell))}")
-    if troll:
-        await hel_.delete()
-        kraken = await troll[0].click(Config.LOGGER_ID)
-        if kraken:
-            await bot.send_message(
-                hel_.chat_id,
-                kraken,
-            )
-        await kraken.delete()
-    else:
-    	await eod(hel_, "**Error 404:**  Not Found")
-    
+@bot.on(hell_cmd(pattern="manga ?(.*)"))
+@bot.on(sudo_cmd(pattern="manga ?(.*)", allow_sudo=True))
+async def _(event):
+    query = event.text[7:]
+    if query == "":
+        await eor(event, "Please give manga name to search..")
+    hell = await eor(event, f"__Searching for__ `{query}` ...")
+    qdb = rand_key()
+    MANGA_DB[qdb] = query
+    result = await get_manga(qdb, 1)
+    if len(result) == 1:
+        return await hell.edit(result[0])
+    pic, finals_ = result[0], result[1][0]
+    try:
+        await event.client.send_file(event.chat_id, file=pic, caption=finals_)
+        await hell.delete()
+    except ChatSendMediaForbiddenError:
+        await hell.edit(finals_)
+    if os.path.exists(pic):
+        os.remove(pic)
     
 
-@bot.on(hell_cmd(pattern="character(?: |$)(.*)"))
-@bot.on(sudo_cmd(pattern="character(?: |$)(.*)", allow_sudo=True))
-async def nope(hel_):
-    hell = hel_.pattern_match.group(1)
-    if not hell:
-        if hel_.is_reply:
-            (await hel_.get_reply_message()).message
-        else:
-            await eod(hel_, "Sir please give some query to search and download it for you..!"
-            )
-            return
-    troll = await bot.inline_query("AniFluidbot", f".character {(deEmojify(hell))}")
-    if troll:
-        await hel_.delete()
-        kraken = await troll[0].click(Config.LOGGER_ID)
-        if kraken:
-            await bot.send_message(
-                hel_.chat_id,
-                kraken,
-            )
-        await kraken.delete()
-    else:
-    	await eod(hel_, "**Error 404:**  Not Found")
-    
+@bot.on(hell_cmd(pattern="character ?(.*)"))
+@bot.on(sudo_cmd(pattern="character ?(.*)", allow_sudo=True))
+async def _(event):
+    query = event.text[11:]
+    if query == "":
+        return await eor(event, "Give character name to get details.")
+    hell = await eor(event, f"__Searching for__ `{query}`")
+    qdb = rand_key()
+    CHARC_DB[qdb]=query
+    result = await get_character(qdb, 1)
+    if len(result) == 1:
+        return await hell.edit(result[0])
+    img = result[0]
+    cap_text = result[1][0]
+    try:
+        await event.client.send_file(event.chat_id, file=img, caption=cap_text)
+        await hell.delete()
+    except ChatSendMediaForbiddenError:
+        await hell.delete(cap_text)
+    if os.path.exists(img):
+        os.remove(img)
 
 
 @bot.on(hell_cmd(pattern="fillers ?(.*)"))
@@ -147,6 +118,29 @@ async def canon(event):
     await nub.edit(hellbot)
 
 
+@bot.on(hell_cmd(pattern="airing ?(.*)"))
+@bot.on(sudo_cmd(pattern="airing ?(.*)", allow_sudo=True))
+async def _(event):
+    query = event.text[8:]
+    hell = await eor(event, f"__Searching airing details for__ `{query}`")
+    if query == "":
+        return await eod(hell, "Give anime name to seaech airing information.")
+    vars_ = {"search": query}
+    if query.isdigit():
+        vars_ = {"id": int(query), "asHtml": True}
+    result = await get_airing(vars_)
+    if len(result) == 1:
+        return await hell.edit(result[0])
+    coverImg, out = result[0]
+    try:
+        await event.client.send_file(event.chat_id, coverImg, caption=out, force_document=False)
+        await hell.delete()
+    except ChatSendMediaForbiddenError:
+        await hell.edit(out)
+    if os.path.exists(coverImg):
+        os.remove(coverImg)
+
+
 @bot.on(hell_cmd(pattern="aniquote$"))
 @bot.on(sudo_cmd(pattern="aniquote$", allow_sudo=True))
 async def quote(event):
@@ -157,19 +151,17 @@ async def quote(event):
 
 
 CmdHelp("anime").add_command(
-  "anime", "<anime name>", "Searches for the given anime and sends the details.", "anime violet evergarden"
+  "anime", "<anime name>", "Searches for the given anime and sends the details.", "anime Darling in the franxx"
 ).add_command(
   "manga", "<manga name>", "Searches for the given manga and sends the details.", "manga Jujutsu kaisen"
 ).add_command(
   "character", "<character name>", "Searches for the given anime character and sends the details.", "character Mai Sakurajima"
 ).add_command(
-  "anilist", "<anime name>", "Searches Details of the anime directly from anilist", "anilist attack on titan"
-).add_command(
   "fillers", "<anime name>", "Searches for the filler episodes of given Anime.", "fillers Naruto"
 ).add_command(
   "aniquote", None, "Gives a random quote from Anime."
 ).add_info(
-  "Anime Search"
+  "Anime Module based on Anilist API."
 ).add_warning(
   "✅ Harmless Module."
 ).add()

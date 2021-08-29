@@ -5,6 +5,7 @@ from telethon.tl.types import InputMessagesFilterDocument
 
 from . import *
 
+
 @bot.on(hell_cmd(pattern="extdl$", outgoing=True))
 @bot.on(sudo_cmd(pattern="extdl$", allow_sudo=True))
 async def install(event):
@@ -74,6 +75,7 @@ async def install(event):
                     os.path.basename(downloaded_file_name)
                 ),
             )
+
 
 CmdHelp("extra_py").add_command(
   "extdl", None, "Installs all plugins from the channal which id is in PLUGIN_CHANNEL Configiable"

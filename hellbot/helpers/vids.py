@@ -1,9 +1,5 @@
 import asyncio
 import os
-try:
-    pass
-except:
-    os.system("pip install colour")
 import re
 import requests
 import time
@@ -12,9 +8,13 @@ import zipfile
 from bs4 import BeautifulSoup
 import PIL.ImageOps
 from PIL import Image
-from telethon.errors.rpcerrorlist import YouBlockedUserError
 from validators.url import url
 
+from telethon.errors.rpcerrorlist import YouBlockedUserError
+from telethon.tl import functions
+from telethon.utils import get_input_document
+
+from hellbot import LOGS, bot
 
 # generate thumbnail from audio...
 async def thumb_from_audio(audio_path, output):
@@ -124,6 +124,31 @@ async def make_gif(event, file):
             return await unzip(hellfile)
         except YouBlockedUserError:
             return "Unblock @tgstogifbot"
+
+
+# Unsaves the gif from gif keyboard
+async def unsave_gif(event, hgif):
+    try:
+        await bot(
+            functions.messages.SaveGifRequest(
+                id=get_input_document(hgif),
+                unsave=True,
+            )
+        )
+    except Exception as e:
+        LOGS.info(e)
+
+
+async def unsave_stcr(hstcr):
+    try:
+        await bot(
+            functions.messages.SaveRecentStickerRequest(
+                id=get_input_document(hstcr),
+                unsave=True,
+            )
+        )
+    except Exception as e:
+        LOGS.info(e)
 
 
 # hellbot
