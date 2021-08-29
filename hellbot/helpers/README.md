@@ -1,1 +1,1 @@
-# Some of the important def(s) are imported from here.
+# All important functions are imported from here.
