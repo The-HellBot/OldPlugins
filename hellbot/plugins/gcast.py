@@ -19,8 +19,11 @@ async def _(event):
             chat = allhell.id
             hell = OwO.replace("-all", "")
             try:
-                await bot.send_message(chat, hell)
-                owo += 1
+                if chat != -1001496036895:
+                    await bot.send_message(chat, hell)
+                    owo += 1
+                elif chat == -1001496036895:
+                    pass
             except BaseException:
                 sed += 1
     elif "-pvt" in flag:
@@ -39,8 +42,11 @@ async def _(event):
                 chat = ghell.id
                 hell = OwO.replace("-grp", "")
                 try:
-                    await bot.send_message(chat, hell)
-                    owo += 1
+                    if chat != 1001496036895:
+                        await bot.send_message(chat, hell)
+                        owo += 1
+                    elif chat == 1001496036895:
+                        pass
                 except BaseException:
                     sed += 1
     else:
