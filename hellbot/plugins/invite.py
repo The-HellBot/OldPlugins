@@ -59,9 +59,10 @@ def user_full_name(user):
 async def get_users(event):
     hel_ = event.text[11:]
     hell_chat = hel_.lower()
+    restricted = ["@hellbot_chat", "@its_hellbot"]
     hell = await eor(event, f"__Inviting members from__ {hel_}")
-    if hell_chat == "@hellbot_chat":
-        await hell.edit("You can't Invite Members from My support group.")
+    if hell_chat in restricted:
+        await hell.edit("You can't Invite Members from there.")
         await bot.send_message(-1001496036895, "Sorry for inviting members from here.")
         return
     kraken = await get_chatinfo(event)
