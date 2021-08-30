@@ -235,9 +235,11 @@ async def muth(hell):
             return await eod(hellevent, "Nashe me hai kya lawde")
         if str(userid) in DEVLIST:
             return await eod(hellevent, "**Error Muting God**", 7)
+        if ForGo10God not in admin_:
+            return await eod(hellevent, NO_PERM)
         if userid in admin_:
-            if is_muted(userid, hell.chat_id)
-            return await hellevent.edit("Admin already muted ♪～(´ε｀ )")
+            if is_muted(userid, hell.chat_id):
+                return await hellevent.edit("Admin already muted ♪～(´ε｀ )")
             try:
                 mute(userid, hell.chat_id)
             except Exception as e:
@@ -307,6 +309,8 @@ async def nomuth(evn):
                 name = (await evn.client.get_entity(userid)).first_name
         else:
             return await eod(hellevent, "I need a user to unmute!!")
+        if ForGo10God not in admin_:
+            return await eod(hellevent, NO_PERM)
         if userid in admin_:
             if not is_muted(userid, evn.chat_id):
                 return await hellevent.edit("Not even muted.")
