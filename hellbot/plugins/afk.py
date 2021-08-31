@@ -148,7 +148,7 @@ async def _(event):
             try:
                 xy = await bot.send_message(
                     Config.LOGGER_ID,
-                    f"#AFKTRUE \nAFK mode = **True**\nReason: `Not Mentioned`",file=hellpic
+                    f"#AFKTRUE \n**AFK mode** = `True`\n**Reason:** `Not Mentioned`",file=hellpic
                     )
                 try:
                     await unsave_gif(event, xy)
