@@ -7,44 +7,44 @@
 
 import os
 from telethon.tl.types import ChatBannedRights
-
+from hellbot.sql.gvar_sql import gvarstat
 
 class Config(object):
     LOGGER = True
-    ABUSE = os.environ.get("ABUSE", None)
-    ALIVE_MSG = os.environ.get("ALIVE_MSG", "⚡ ʟɛɢɛռɖaʀʏ ᴀғ ɦɛʟʟɮօt ⚡")
-    ALIVE_PIC = os.environ.get("ALIVE_PIC", "https://telegra.ph/file/f62e50245639f24fd955b.jpg")
+    ABUSE = gvarstat("ABUSE") or os.environ.get("ABUSE", None)
+    ALIVE_MSG = gvarstat("ALIVE_MSG") or os.environ.get("ALIVE_MSG", "⚡ ʟɛɢɛռɖaʀʏ ᴀғ ɦɛʟʟɮօt ⚡")
+    ALIVE_PIC = gvarstat("ALIVE_PIC") or os.environ.get("ALIVE_PIC", "https://telegra.ph/file/f62e50245639f24fd955b.jpg")
     ANTI_FLOOD_WARN_MODE = ChatBannedRights(
         until_date=None,
         view_messages=None,
         send_messages=True
     )
-    API_HASH = os.environ.get("API_HASH", None)
-    APP_ID = os.environ.get("APP_ID", None)
+    API_HASH = gvarstat("API_HASH") or os.environ.get("API_HASH", None)
+    APP_ID = gvarstat("APP_ID") or os.environ.get("APP_ID", None)
     AUTH_TOKEN_DATA = os.environ.get("AUTH_TOKEN_DATA", None)
     if AUTH_TOKEN_DATA != None:
         os.makedirs(TMP_DOWNLOAD_DIRECTORY)
         t_file = open(TMP_DOWNLOAD_DIRECTORY+"auth_token.txt","w")
         t_file.write(AUTH_TOKEN_DATA)
         t_file.close()
-    BAN_PIC = os.environ.get("BAN_PIC", None)
-    BAN_TEXT = os.environ.get("BAN_TEXT", None)
-    BIO_MSG = os.environ.get("BIO_MSG", "ʟɛɢɛռɖaʀʏ ᴀғ ɦɛʟʟɮօt")
+    BAN_PIC = gvarstat("BAN_PIC") or os.environ.get("BAN_PIC", None)
+    BAN_TEXT = gvarstat("BAN_TEXT") or os.environ.get("BAN_TEXT", None)
+    BIO_MSG = gvarstat("BIO_MSG") or os.environ.get("BIO_MSG", "ʟɛɢɛռɖaʀʏ ᴀғ ɦɛʟʟɮօt")
     BL_CHAT = set(int(x) for x in os.environ.get("BL_CHAT", "").split())
-    BOT_HANDLER = os.environ.get("BOT_HANDLER", "\/")
-    BOT_TOKEN = os.environ.get("BOT_TOKEN", None)
-    BOT_USERNAME = os.environ.get("BOT_USERNAME", None)
-    BUTTONS_IN_HELP = int(os.environ.get("BUTTONS_IN_HELP", 7))
+    BOT_HANDLER = gvarstat("BOT_HANDLER") or os.environ.get("BOT_HANDLER", "\/")
+    BOT_TOKEN = gvarstat("BOT_TOKEN") or os.environ.get("BOT_TOKEN", None)
+    BOT_USERNAME = gvarstat("BOT_USERNAME") or os.environ.get("BOT_USERNAME", None)
+    BUTTONS_IN_HELP = gvarstat("BUTTONS_IN_HELP") or int(os.environ.get("BUTTONS_IN_HELP", 7))
     CHATS_TO_MONITOR_FOR_ANTI_FLOOD = []
     CHROME_BIN = os.environ.get("CHROME_BIN", "/app/.apt/usr/bin/google-chrome")
     CHROME_DRIVER = os.environ.get("CHROME_DRIVER", "/app/.chromedriver/bin/chromedriver")
-    CUSTOM_PMPERMIT = os.environ.get("CUSTOM_PMPERMIT", None)
+    CUSTOM_PMPERMIT = gvarstat("CUSTOM_PMPERMIT") or os.environ.get("CUSTOM_PMPERMIT", None)
     DB_URI = os.environ.get("DATABASE_URL", None)
     DUAL_LOG = os.environ.get("DUAL_LOG", None)
-    EMOJI_IN_HELP = os.environ.get("EMOJI_IN_HELP", "🔸")
-    EXTRA = os.environ.get("EXTRA", None)
-    EXTRA_REPO = os.environ.get("EXTRA_REPO", None)
-    FBAN_LOG_GROUP = os.environ.get("FBAN_LOG_GROUP", None)
+    EMOJI_IN_HELP = gvarstat("EMOJI_IN_HELP") or os.environ.get("EMOJI_IN_HELP", "🔸")
+    EXTRA = gvarstat("EXTRA") or os.environ.get("EXTRA", None)
+    EXTRA_REPO = gvarstat("EXTRA_REPO") or os.environ.get("EXTRA_REPO", None)
+    FBAN_LOG_GROUP = gvarstat("FBAN_LOG_GROUP") or os.environ.get("FBAN_LOG_GROUP", None)
     if FBAN_LOG_GROUP:
         FBAN_LOG_GROUP = int(FBAN_LOG_GROUP)
     G_DRIVE_CLIENT_ID = os.environ.get("G_DRIVE_CLIENT_ID", None)
@@ -58,49 +58,49 @@ class Config(object):
     GITHUB_ACCESS_TOKEN = os.environ.get("GITHUB_ACCESS_TOKEN", None)
     GOOGLE_CHROME_BIN = os.environ.get("GOOGLE_CHROME_BIN", "/app/.apt/usr/bin/google-chrome")
     GROUP_REG_SED_EX_BOT_S = os.environ.get("GROUP_REG_SED_EX_BOT_S", r"(regex|moku|BananaButler_|rgx|l4mR)bot")
-    HANDLER = os.environ.get("HANDLER", r"\.")
+    HANDLER = gvarstat("HANDLER") or os.environ.get("HANDLER", r"\.")
     HASH_TO_TORRENT_API = os.environ.get("HASH_TO_TORRENT_API", "https://example.com/torrent/{}");
-    HELP_PIC = os.environ.get("HELP_PIC", None)
+    HELP_PIC = gvarstat("HELP_PIC") or os.environ.get("HELP_PIC", None)
     HEROKU_API_KEY = os.environ.get("HEROKU_API_KEY", None)
     HEROKU_APP_NAME = os.environ.get("HEROKU_APP_NAME", None)
-    INSTANT_BLOCK = os.environ.get("INSTANT_BLOCK", "DISABLE")
+    INSTANT_BLOCK = gvarstat("INSTANT_BLOCK") or os.environ.get("INSTANT_BLOCK", "DISABLE")
     LOCATION = os.environ.get("LOCATION", None)
-    LOGGER_ID = os.environ.get("LOGGER_ID", None)
+    LOGGER_ID = gvarstat("LOGGER_ID") or os.environ.get("LOGGER_ID", None)
     if LOGGER_ID:
         LOGGER_ID = int(LOGGER_ID)
     LYDIA_API = os.environ.get("LYDIA_API", None)
     MAX_ANTI_FLOOD_MESSAGES = 10
     MAX_MESSAGE_SIZE_LIMIT = 4095
-    MAX_SPAM = int(os.environ.get("MAX_SPAM", 3))
+    MAX_SPAM = gvarstat("MAX_SPAM") or int(os.environ.get("MAX_SPAM", 3))
     MONGO_URI = os.environ.get("MONGO_URI", None)
-    MY_CHANNEL = os.environ.get("YOUR_CHANNEL", "Its_HellBot")
-    MY_GROUP = os.environ.get("YOUR_GROUP", "HellBot_Chat")
-    OCR_API = os.environ.get("OCR_API", None)
-    PLUGIN_CHANNEL = os.environ.get("PLUGIN_CHANNEL", None)
+    MY_CHANNEL = gvarstat("YOUR_CHANNEL") or os.environ.get("YOUR_CHANNEL", "Its_HellBot")
+    MY_GROUP = gvarstat("YOUR_GROUP") or os.environ.get("YOUR_GROUP", "HellBot_Chat")
+    OCR_API = gvarstat("OCR_API") or os.environ.get("OCR_API", None)
+    PLUGIN_CHANNEL = gvarstat("PLUGIN_CHANNEL") or os.environ.get("PLUGIN_CHANNEL", None)
     if PLUGIN_CHANNEL:
         PLUGIN_CHANNEL = int(PLUGIN_CHANNEL)
-    PM_LOG_ID = os.environ.get("PM_LOG_ID", None)
+    PM_LOG_ID = gvarstat("PM_LOG_ID") or os.environ.get("PM_LOG_ID", None)
     if PM_LOG_ID:
         PM_LOG_ID = int(PM_LOG_ID)
-    PM_PERMIT = os.environ.get("PM_PERMIT", "ENABLE")
-    PMPERMIT_PIC = os.environ.get("PMPERMIT_PIC", "https://telegra.ph/file/73e95f4325159336766c0.jpg")
-    REMOVE_BG_API = os.environ.get("REMOVE_BG_API", None)
+    PM_PERMIT = gvarstat("PM_PERMIT") or os.environ.get("PM_PERMIT", "ENABLE")
+    PMPERMIT_PIC = gvarstat("PMPERMIT_PIC") or os.environ.get("PMPERMIT_PIC", "https://telegra.ph/file/73e95f4325159336766c0.jpg")
+    REMOVE_BG_API = gvarstat("REMOVE_BG_API") or os.environ.get("REMOVE_BG_API", None)
     SCREEN_SHOT_LAYER_ACCESS_KEY = os.environ.get("SCREEN_SHOT_LAYER_ACCESS_KEY", None)
-    STICKER_PACKNAME = os.environ.get("STICKER_PACKNAME", None)
-    HELLBOT_SESSION = os.environ.get("HELLBOT_SESSION", None)
-    SUDO_HANDLER = os.environ.get("SUDO_HANDLER", r"\.")
+    STICKER_PACKNAME = gvarstat("STICKER_PACKNAME") or os.environ.get("STICKER_PACKNAME", None)
+    HELLBOT_SESSION = gvarstat("HELLBOT_SESSION") or os.environ.get("HELLBOT_SESSION", None)
+    SUDO_HANDLER = gvarstat("SUDO_HANDLER") or os.environ.get("SUDO_HANDLER", r"\.")
     SUDO_USERS = set(int(x) for x in os.environ.get("SUDO_USERS", "").split())
-    TAG_LOGGER = os.environ.get("TAG_LOGGER", None)
+    TAG_LOGGER = gvarstat("TAG_LOGGER") or os.environ.get("TAG_LOGGER", None)
     if TAG_LOGGER: 
         TAG_LOGGER = int(TAG_LOGGER)
     TELEGRAPH_SHORT_NAME = os.environ.get("TELEGRAPH_SHORT_NAME", "HellBot")
     TEMP_DIR = os.environ.get("TEMP_DIR", None)
     TMP_DOWNLOAD_DIRECTORY = os.environ.get("TMP_DOWNLOAD_DIRECTORY", "./DOWNLOADS/")
-    TZ = os.environ.get("TZ", "Asia/Kolkata")
+    TZ = gvarstat("TZ") or os.environ.get("TZ", "Asia/Kolkata")
     UPSTREAM_REPO = os.environ.get("UPSTREAM_REPO", "https://github.com/The-HellBot/HellBot")
-    USE_EVAL = os.environ.get("USE_EVAL", None)
-    WEATHER_API = os.environ.get("WEATHER_API", None)
-    YOUR_NAME = os.environ.get("YOUR_NAME", None)
+    USE_EVAL = gvarstat("USE_EVAL") or os.environ.get("USE_EVAL", None)
+    WEATHER_API = gvarstat("WEATHER_API") or os.environ.get("WEATHER_API", None)
+    YOUR_NAME = gvarstat("YOUR_NAME") or os.environ.get("YOUR_NAME", None)
     YOUTUBE_API_KEY = os.environ.get("YOUTUBE_API_KEY", None)
 
 
