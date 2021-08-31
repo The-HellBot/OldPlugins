@@ -49,6 +49,16 @@ async def re(hell):
         await event.edit(f"`{e}`")
 
 
+@bot.on(hell_cmd(pattern="reload$"))
+@bot.on(sudo_cmd(pattern="reload$", allow_sudo=True))
+async def rel(event):
+    hell = await eor(event, "Reploading Hêllẞø†... Wait for few seconds...")
+    try:
+        await runcmd("bash reload.sh")
+    except Exception as e:
+        await hell.edit(f"**ERROR !!** \n\n`{e}`")
+
+
 @bot.on(hell_cmd(pattern="shutdown$"))
 @bot.on(sudo_cmd(pattern="shutdown$", allow_sudo=True))
 async def down(hell):
@@ -304,6 +314,8 @@ def prettyjson(obj, indent=2, maxlinelength=80):
 
 CmdHelp("power").add_command(
   "restart", None, "Restarts your userbot. Redtarting Bot may result in better functioning of bot when its laggy"
+).add_command(
+  "reload", None, "Reloads the bot DB and SQL variables without deleting any external plugins if installed."
 ).add_command(
   "shutdown", None, "Turns off Hêllẞø†. Userbot will stop working unless you manually turn it on."
 ).add_command(
