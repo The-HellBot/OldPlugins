@@ -42,10 +42,10 @@ async def _(event):
                 chat = ghell.id
                 hell = OwO.replace("-grp", "")
                 try:
-                    if chat != 1001496036895:
+                    if chat != -1001496036895:
                         await bot.send_message(chat, hell)
                         owo += 1
-                    elif chat == 1001496036895:
+                    elif chat == -1001496036895:
                         pass
                 except BaseException:
                     sed += 1
