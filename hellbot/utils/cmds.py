@@ -1,8 +1,8 @@
 import os
 from hellbot import CMD_HELP, CMD_HELP_BOT
+from hellbot.config import Config
 
-HANDLER = os.environ.get("HANDLER", r".")
-
+HANDLER = Config.HANDLER
 
 # Made this class for help menu
 class CmdHelp:
