@@ -79,7 +79,7 @@ async def sett(event):
     hel_ = event.pattern_match.group(1)
     var_ = hel_.split(" ")[0].upper()
     val_ = hel_.split(" ")[1:]
-    valu = " ".join (val_)
+    valu = " ".join(val_)
     hell = await eor(event, f"**Setting variable** `{var_}` **as** `{valu}`")
     if var_ == "":
         return await hell.edit(f"**Invalid Syntax !!** \n\nTry: `{hl}svar VARIABLE_NAME variable_value`")
