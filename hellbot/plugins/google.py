@@ -26,7 +26,7 @@ async def _(event):
     if event.fwd_from:
         return
     hel_ = event.text[11:]
-    hell = await eor(event, "__Searching for__ `{hel_}` __on wikipedia...__")
+    hell = await eor(event, f"__Searching for__ `{hel_}` __on wikipedia...__")
     results = wikipedia.search(hel_)
     result = ""
     for s in results:
