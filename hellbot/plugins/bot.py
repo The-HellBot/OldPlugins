@@ -106,7 +106,7 @@ CmdHelp("bot").add_command(
 ).add_command(
     "config", None, "😒"
 ).add_command(
-    "vars", Nond, "Gets the list of all available sql variables."
+    "vars", None, "Gets the list of all available sql variables."
 ).add_command(
     "kickme", None, "Kicks Yourself from the group."
 ).add_command(
