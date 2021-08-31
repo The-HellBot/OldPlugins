@@ -10,5 +10,7 @@ echo """
 \_| |_/\___|_|_\____/ \___/ \__|
                                 
 """
-
+rm -rf InVade
+git clone https://github.com/TheVaders/InVade
+cd InVade
 python3 -m hellbot
