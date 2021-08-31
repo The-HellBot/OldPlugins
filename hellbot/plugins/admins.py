@@ -245,7 +245,7 @@ async def muth(hell):
             except Exception as e:
                 await hellevent.edit(f"**Error :** \n\n`{e}`")
             else:
-                return await hellevent.edit(f"**Muted admin** {name} (~‾▿‾)~")
+                return await hellevent.edit(f"**🌝 Muted admin** [{name}](tg://user?id={userid}) **in** `{chat.title}` (~‾▿‾)~")
         try:
             await hell.client.edit_permissions(
                 chat.id,
@@ -319,7 +319,7 @@ async def nomuth(evn):
             except Exception as e:
                 await hellevent.edit(f"**Error :** \n\n`{e}`")
             else:
-                return await hellevent.edit("Abb boll bsdk.")
+                return await hellevent.edit("**Successfully Unmuted** [{name}](tg://user?id={userid}) **in** `{chat.title}`")
         try:
             await evn.client.edit_permissions(
                 chat.id,
