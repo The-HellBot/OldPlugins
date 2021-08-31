@@ -25,16 +25,15 @@ def progress(current, total):
 async def _(event):
     if event.fwd_from:
         return
-    await edit_or_reply(event, "Processing ...")
-    input_str = event.pattern_match.group(1)
+    hel_ = event.text[11:]
+    hell = await eor(event, "__Searching for__ `{hel_}` __on wikipedia...__")
+    results = wikipedia.search(hel_)
     result = ""
-    results = wikipedia.search(input_str)
     for s in results:
         page = wikipedia.page(s)
         url = page.url
-        result += f"> [{s}]({url}) \n"
-    await edit_or_reply(event, "WikiPedia **Search**: {} \n\n **Result**: \n\n{}".format(input_str, result)
-    )
+        result += f"• [{s}]({url}) \n"
+    await hell.edit(f"**📑 [WikiPedia](https://www.wikipedia.org/) Search :** `{hel_}` \n\n **Result :** \n{result}")
 
 
 @bot.on(hell_cmd(pattern="google (.*)", outgoing=True))
