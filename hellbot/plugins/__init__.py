@@ -17,8 +17,8 @@ cjb = "./hellbot/resources/pics/cjb.jpg"
 restlo = "./hellbot/resources/pics/rest.jpeg"
 shuru = "./hellbot/resources/pics/shuru.jpg"
 shhh = "./hellbot/resources/pics/chup_madarchod.jpeg"
-hl = gvarstat("HANDLER") or Config.HANDLER
-shl = gvarstat("SUDO_HANDLER") or Config.SUDO_HANDLER
+hl = Config.HANDLER
+shl = Config.SUDO_HANDLER
 hell_ver = __hell__
 tel_ver = version.__version__
 
@@ -29,13 +29,13 @@ async def get_user_id(ids):
         userid = (await bot.get_entity(ids)).id
     return userid
 
-sudos = gvarstat("SUDO_USERS") or Config.SUDO_USERS
+sudos = Config.SUDO_USERS
 if sudos:
     is_sudo = "True"
 else:
     is_sudo = "False"
 
-abus = gvarstat("ABUSE") or Config.ABUSE
+abus = Config.ABUSE
 if abus == "ON":
     abuse_m = "Enabled"
 else:
@@ -43,8 +43,8 @@ else:
 
 START_TIME = datetime.datetime.now()
 uptime = f"{str(datetime.datetime.now() - START_TIME).split('.')[0]}"
-my_channel = gvarstat("MY_CHANNEL") or Config.MY_CHANNEL or "Its_HellBot"
-my_group = gvarstat("MY_GROUP") or Config.MY_GROUP or "HellBot_Chat"
+my_channel = Config.MY_CHANNEL or "Its_HellBot"
+my_group = Config.MY_GROUP or "HellBot_Chat"
 if "@" in my_channel:
     my_channel = my_channel.replace("@", "")
 if "@" in my_group:
