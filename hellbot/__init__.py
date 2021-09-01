@@ -37,7 +37,7 @@ else:
 
 
 try:
-    bot = TelegramClient(
+    Hell = TelegramClient(
         session=session,
         api_id=Config.APP_ID,
         api_hash=Config.API_HASH,
@@ -50,7 +50,7 @@ except Exception as e:
     sys.exit()
 
 
-tbot = TelegramClient(
+HellBot = TelegramClient(
     session="Hell-TBot",
     api_id=Config.APP_ID,
     api_hash=Config.API_HASH,
@@ -59,6 +59,9 @@ tbot = TelegramClient(
     connection_retries=None,
 ).start(bot_token=Config.BOT_TOKEN)
 
+
+bot = Hell
+tbot = HellBot
 
 try:
     if Config.HEROKU_API_KEY is not None or Config.HEROKU_APP_NAME is not None:
