@@ -37,7 +37,7 @@ else:
 
 
 try:
-    ForGo10 = TelegramClient(
+    bot = TelegramClient(
         session=session,
         api_id=Config.APP_ID,
         api_hash=Config.API_HASH,
@@ -50,7 +50,7 @@ except Exception as e:
     sys.exit()
 
 
-ForGo10.tbot = TelegramClient(
+tbot = TelegramClient(
     session="Hell-TBot",
     api_id=Config.APP_ID,
     api_hash=Config.API_HASH,
@@ -58,10 +58,6 @@ ForGo10.tbot = TelegramClient(
     auto_reconnect=True,
     connection_retries=None,
 ).start(bot_token=Config.BOT_TOKEN)
-
-
-bot = ForGo10
-tbot = ForGo10.tbot
 
 
 try:
