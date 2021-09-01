@@ -43,8 +43,7 @@ if abus == "ON":
 else:
     abuse_m ="Disabled"
 
-START_TIME = time.time()
-uptime = f"{str(time.time() - START_TIME).split('.')[0]}"
+
 my_channel = Config.MY_CHANNEL or "Its_HellBot"
 my_group = Config.MY_GROUP or "HellBot_Chat"
 if "@" in my_channel:
