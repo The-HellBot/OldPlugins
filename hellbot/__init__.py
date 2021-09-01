@@ -1,3 +1,4 @@
+import heroku3
 import os
 import sys
 import time
@@ -61,6 +62,17 @@ ForGo10.tbot = TelegramClient(
 
 bot = ForGo10
 tbot = ForGo10.tbot
+
+
+try:
+    if Config.HEROKU_API_KEY is not None or Config.HEROKU_APP_NAME is not None:
+        HEROKU_APP = heroku3.from_key(Config.HEROKU_API_KEY).apps()[
+            Config.HEROKU_APP_NAME
+        ]
+    else:
+        HEROKU_APP = None
+except Exception:
+    HEROKU_APP = None
 
 
 # global variables
