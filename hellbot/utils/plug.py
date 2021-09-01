@@ -59,7 +59,7 @@ def load_module(shortname):
         mod.command = command
         mod.logger = logging.getLogger(shortname)
         # support for uniborg
-        sys.modules["uniborg.util"] = hellbot.plugins
+        sys.modules["uniborg.util"] = hellbot.utils
         mod.Config = Config
         mod.borg = Hell
         mod.hellbot = Hell
@@ -71,10 +71,10 @@ def load_module(shortname):
         mod.admin_cmd = hell_cmd
         mod.hell_cmd = hell_cmd
         # support for other userbots
-        sys.modules["userbot.utils"] = hellbot.plugins
-        sys.modules["userbot"] = hellbot.plugins
+        sys.modules["userbot.utils"] = hellbot.utils
+        sys.modules["userbot"] = hellbot
         # support for paperplaneextended
-        sys.modules["userbot.events"] = hellbot.plugins
+        sys.modules["userbot.events"] = hellbot
         spec.loader.exec_module(mod)
         # for imports
         sys.modules["hellbot.plugins." + shortname] = mod
