@@ -64,5 +64,4 @@ wikipedia
 youtube-search
 youtube-search-python
 youtube_dl
-pytelegrambotapi
 
