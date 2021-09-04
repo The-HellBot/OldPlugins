@@ -35,7 +35,7 @@ async def restart(event):
         app.restart()
     else:
         await eor(event, f"✅ **Restarted Hêllẞø†** \n**Type** `{hl}ping` **after 1 minute to check if I am working !**")
-        await runcmd("bash start.sh")
+        await bot.disconnect()
 
 
 @bot.on(hell_cmd(pattern="restart$"))
@@ -45,9 +45,7 @@ async def re(hell):
         return
     event = await eor(hell, "Restarting Hêllẞø† ...")
     try:
-       # await restart(event)
-        await event.edit(f"✅ **Restarted Hêllẞø†** \n**Type** `{hl}ping` **after 1 minute to check if I am working !**")
-        await bot.disconnect()
+        await restart(event)
     except CancelledError:
         pass
     except Exception as e:
@@ -88,7 +86,7 @@ async def sett(event):
     elif valu == "":
         return await hell.edit(f"**Invalid Syntax !!** \n\nTry: `{hl}svar VARIABLE_NAME variable_value`")
     if var_ not in config_list:
-        return await hell.edit(f"__There isn't any variable named__ `{var_}`. Check spelling or ask in {hell_grp}")
+        return await hell.edit(f"__There isn't any variable named__ `{var_}`. __Check spelling or get full list by__ `{hl}vars`")
     try:
         addgvar(var_, valu)
     except Exception as e:
@@ -104,7 +102,7 @@ async def gett(event):
     if var_ == "":
         return await hell.edit(f"**Invalid Syntax !!** \n\nTry: `{hl}gvar VARIABLE_NAME`")
     if var_ not in config_list:
-        return await hell.edit(f"__There isn't any variable named__ `{var_}`. Check spelling or ask in {hell_grp}")
+        return await hell.edit(f"__There isn't any variable named__ `{var_}`. __Check spelling or get full list by `{hl}vars`")
     try:
         sql_v = gvarstat(var_)
         os_v = os.environ.get(var_)
@@ -121,7 +119,7 @@ async def dell(event):
     if var_ == "":
         return await hell.edit(f"**Invalid Syntax !!** \n\nTry: `{hl}dvar VARIABLE_NAME`")
     if var_ not in config_list:
-        return await hell.edit(f"__There isn't any variable named__ `{var_}`. Check spelling or ask in {hell_grp}")
+        return await hell.edit(f"__There isn't any variable named__ `{var_}`. Check spelling or get full list by `{hl}vars`")
     try:
         delgvar(var_)
     #    os.environ.pop(var_)
