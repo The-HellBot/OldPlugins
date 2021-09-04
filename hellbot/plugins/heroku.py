@@ -46,6 +46,7 @@ async def re(hell):
     event = await eor(hell, "Restarting Hêllẞø† ...")
     try:
        # await restart(event)
+        await event.edit(f"✅ **Restarted Hêllẞø†** \n**Type** `{hl}ping` **after 1 minute to check if I am working !**")
         await bot.disconnect()
     except CancelledError:
         pass
