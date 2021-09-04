@@ -12,9 +12,10 @@ from . import *
 @bot.on(sudo_cmd(pattern="mev(?: |$)(.*)", allow_sudo=True))
 async def nope(kraken):
     hell = kraken.pattern_match.group(1)
+    rply = await kraken.get_reply_message()
     if not hell:
         if kraken.is_reply:
-            (await kraken.get_reply_message()).message
+            rply.message
         else:
             await edit_or_reply(kraken, "`Sir please give some query to search and download it for you..!`"
             )
@@ -29,6 +30,7 @@ async def nope(kraken):
                 kraken.chat_id,
                 hel_,
                 caption="",
+                reply_to=rply,
             )
         await hel_.delete()
     else:
@@ -38,9 +40,10 @@ async def nope(kraken):
 @bot.on(sudo_cmd(pattern="meev(?: |$)(.*)", allow_sudo=True))
 async def nope(kraken):
     hell = kraken.pattern_match.group(1)
+    rply = await event.get_reply_message()
     if not hell:
         if kraken.is_reply:
-            (await kraken.get_reply_message()).message
+            rply.message
         else:
             await edit_or_reply(kraken, "`Sir please give some query to search and download it for you..!`"
             )
@@ -55,6 +58,7 @@ async def nope(kraken):
                 kraken.chat_id,
                 hel_,
                 caption="",
+                reply_to=rply,
             )
         await hel_.delete()
     else:
