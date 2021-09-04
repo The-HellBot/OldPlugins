@@ -57,10 +57,8 @@ async def re(hell):
 @bot.on(sudo_cmd(pattern="reload$", allow_sudo=True))
 async def rel(event):
     await eor(event, "Reloading Hêllẞø†... Wait for few seconds...")
-    executable = sys.executable.replace(" ", "\\ ")
-    args = [executable, "-m", "hellbot"]
-    os.execle(executable, *args, os.environ)
-    os._exit(143)
+    await reload_hellbot()
+
 
 @bot.on(hell_cmd(pattern="shutdown$"))
 @bot.on(sudo_cmd(pattern="shutdown$", allow_sudo=True))
