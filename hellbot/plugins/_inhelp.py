@@ -4,6 +4,7 @@ import asyncio
 import html
 import os
 import re
+import random
 import sys
 
 from telethon import Button, custom, events, functions
@@ -15,13 +16,13 @@ from telethon.tl.functions.channels import GetParticipantRequest
 from telethon.tl.functions.channels import JoinChannelRequest
 from telethon.tl.functions.messages import ExportChatInviteRequest
 
+from hellbot.sql.gvar_sql import gvarstat
 from . import *
 
 hell_row = Config.BUTTONS_IN_HELP
 hell_emoji = Config.EMOJI_IN_HELP
 hell_pic = Config.PMPERMIT_PIC or "https://telegra.ph/file/58df4d86400922aa32acd.jpg"
 cstm_pmp = Config.CUSTOM_PMPERMIT
-ALV_PIC = Config.ALIVE_PIC
 help_pic = Config.HELP_PIC or "https://telegra.ph/file/62b0f29c8887887f259ac.jpg"
 PM_WARNS = {}
 PREV_REPLY_MESSAGE = {}
@@ -156,6 +157,17 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
                 [Button.url("My Channel", f"https://t.me/{my_channel}"), 
                 Button.url("My Group", f"https://t.me/{my_group}")],
             ]
+            a = gvarstat("ALIVE_PIC")
+            if a is not None:
+                b = a.split(" ")
+                c = ["https://telegra.ph/file/ea9e11f7c9db21c1b8d5e.mp4"]
+                if len(b) >= 1:
+                    for d in b:
+                        c.append(d)
+                PIC = random.choice(c)
+            else:
+                PIC = "https://telegra.ph/file/ea9e11f7c9db21c1b8d5e.mp4"
+            ALV_PIC = PIC
             if ALV_PIC and ALV_PIC.endswith((".jpg", ".png")):
                 result = builder.photo(
                     ALV_PIC,
