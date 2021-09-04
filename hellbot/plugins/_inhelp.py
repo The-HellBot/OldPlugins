@@ -46,15 +46,13 @@ HELL_FIRST = (
     "{}\n\n**Please Choose Why You Are Here!!**"
 )
 
-alive_txt = """
-**⚜️ нєℓℓвσт ιѕ σиℓιиє ⚜️**
-{}
-**🏅 𝙱𝚘𝚝 𝚂𝚝𝚊𝚝𝚞𝚜 🏅**
-
-**Telethon :**  `{}`
-**Hêllẞø†  :**  **{}**
-**Abuse    :**  **{}**
-**Sudo      :**  **{}**
+alive_txt = """{}\n\n
+<b><i>🏅 𝙱𝚘𝚝 𝚂𝚝𝚊𝚝𝚞𝚜 🏅</b></i>
+<b>Telethon ≈</b>  <i>{}</i>
+<b>Hêllẞø† ≈</b>  <i>{}</i>
+<b>Uptime ≈</b>  <i>{}</i>
+<b>Abuse ≈</b>  <i>{}</i>
+<b>Sudo ≈</b>  <i>{}</i>
 """
 
 def button(page, modules):
@@ -151,7 +149,8 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
             ]
 
         elif event.query.user_id == bot.uid and query == "alive":
-            he_ll = alive_txt.format(Config.ALIVE_MSG, tel_ver, hell_ver, abuse_m, is_sudo)
+            uptime = await get_time((time.time() - StartTime))
+            he_ll = alive_txt.format(Config.ALIVE_MSG, tel_ver, hell_ver, uptime, abuse_m, is_sudo)
             alv_btn = [
                 [Button.url(f"{HELL_USER}", f"tg://openmessage?user_id={ForGo10God}")],
                 [Button.url("My Channel", f"https://t.me/{my_channel}"), 
