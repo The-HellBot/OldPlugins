@@ -416,7 +416,7 @@ async def endgmute(event):
     except Exception as e:
         await eod(event, "Error occured!\nError is " + str(e))
     else:
-        await eor(event, "**Unmuted [{name}](tg://user?id={userid}) Globally !!**")
+        await eor(event, f"**Unmuted [{name}](tg://user?id={userid}) Globally !!**")
 
 
 @command(incoming=True)
