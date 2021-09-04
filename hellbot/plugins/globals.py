@@ -326,7 +326,7 @@ async def gkick(event):
             try:
                 await bot.kick_participant(gkick.id, userid)
                 chats += 1
-                await hell.edit("**Kicking globally...** \n**Chats :** __{chats}__")
+                await hell.edit(f"**Kicking globally...** \n**Chats :** __{chats}__")
             except BaseException:
                 pass
     a = gvarstat("BAN_PIC")
@@ -425,7 +425,7 @@ async def watcher(event):
         await event.delete()
 
 
-CmdHelp("global").add_command(
+CmdHelp("globals").add_command(
   "gban", "<reply>/<userid>", "Globally Bans the mentioned user in 'X' chats you are admin with ban permission."
 ).add_command(
   "ungban", "<reply>/<userid>", "Globally Unbans the user in 'X' chats you are admin!"
