@@ -7,6 +7,7 @@ import urllib3
 import sys
 from os import execl
 from time import sleep
+from asyncio.exceptions import CancelledError
 
 from hellbot.sql.gvar_sql import addgvar, delgvar, gvarstat
 from . import *
@@ -44,20 +45,22 @@ async def re(hell):
         return
     event = await eor(hell, "Restarting Hêllẞø† ...")
     try:
-        await restart(event)
+       # await restart(event)
+        await bot.disconnect()
+    except CancelledError:
+        pass
     except Exception as e:
-        await event.edit(f"`{e}`")
+        LOGS.info(e)
 
 
 @bot.on(hell_cmd(pattern="reload$"))
 @bot.on(sudo_cmd(pattern="reload$", allow_sudo=True))
 async def rel(event):
-    hell = await eor(event, "Reploading Hêllẞø†... Wait for few seconds...")
-    try:
-        await runcmd("bash reload.sh")
-    except Exception as e:
-        await hell.edit(f"**ERROR !!** \n\n`{e}`")
-
+    await eor(event, "Reloading Hêllẞø†... Wait for few seconds...")
+    executable = sys.executable.replace(" ", "\\ ")
+    args = [executable, "-m", "hellbot"]
+    os.execle(executable, *args, os.environ)
+    os._exit(143)
 
 @bot.on(hell_cmd(pattern="shutdown$"))
 @bot.on(sudo_cmd(pattern="shutdown$", allow_sudo=True))
