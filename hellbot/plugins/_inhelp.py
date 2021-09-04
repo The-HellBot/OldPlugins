@@ -174,6 +174,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
                     text=he_ll,
                     buttons=alv_btn,
                     link_preview=False,
+                    parse_mode="HTML",
                 )
             elif ALV_PIC:
                 result = builder.document(
@@ -182,6 +183,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
                     title="HellBot Alive",
                     buttons=alv_btn,
                     link_preview=False,
+                    parse_mode="HTML",
                 )
             else:
                 result = builder.article(
@@ -189,6 +191,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
                     title="HellBot Alive",
                     buttons=alv_btn,
                     link_preview=False,
+                    parse_mode="HTML",
                 )
 
         elif event.query.user_id == bot.uid and query == "pm_warn":
