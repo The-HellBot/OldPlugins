@@ -47,7 +47,7 @@ HELL_FIRST = (
     "{}\n\n**Please Choose Why You Are Here!!**"
 )
 
-alive_txt = """{}\n\n
+alive_txt = """{}\n
 <b><i>🏅 𝙱𝚘𝚝 𝚂𝚝𝚊𝚝𝚞𝚜 🏅</b></i>
 <b>Telethon ≈</b>  <i>{}</i>
 <b>Hêllẞø† ≈</b>  <i>{}</i>
