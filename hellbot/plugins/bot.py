@@ -20,6 +20,7 @@ async def leave(e):
         else:
             await eod(e, "**Iz this even a grp?😑**")
 
+
 @bot.on(hell_cmd(pattern=r"dc"))
 @bot.on(sudo_cmd(pattern=r"dc", allow_sudo=True))
 async def _(event):
@@ -38,6 +39,16 @@ async def _(event):
     result = result.stringify()
     logger.info(result)
     await eor("Config Saved In You Heroku Logs.")
+
+
+@bot.on(hell_cmd(pattern="vars"))
+@bot.on(sudo_cmd(pattern="vars", allow_sudo=True))
+async def lst(event):
+    hell = await eor(event, "Getting configs list...")
+    x = "**List of all available configs are :** \n\n"
+    for i in config_list:
+        x += "`" + i + "`\n"
+    await hell.edit(x)
 
 
 @bot.on(hell_cmd(pattern="schd ?(.*)", outgoing=True))
@@ -94,6 +105,8 @@ CmdHelp("bot").add_command(
     "dc", None, "Gets the DataCenter Number"
 ).add_command(
     "config", None, "😒"
+).add_command(
+    "vars", None, "Gets the list of all available sql variables."
 ).add_command(
     "kickme", None, "Kicks Yourself from the group."
 ).add_command(

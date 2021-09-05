@@ -1,4 +1,6 @@
 import asyncio
+import random
+
 from telethon import events
 from telethon.tl.functions.channels import EditAdminRequest
 from telethon.tl.types import ChatAdminRights, ChannelParticipantsAdmins, ChatBannedRights, MessageEntityMentionName, MessageMediaPhoto
@@ -7,10 +9,10 @@ from telethon.tl.functions.channels import EditAdminRequest, EditBannedRequest, 
 from telethon.tl.functions.messages import UpdatePinnedMessageRequest
 
 from hellbot.sql.gban_sql import is_gbanned, gbaner, ungbaner, all_gbanned
+from hellbot.sql.gvar_sql import gvarstat
 from hellbot.sql import gmute_sql as gsql
 from . import *
 
-gbpic = Config.BAN_PIC or cjb
 
 async def get_full_user(event):  
     args = event.pattern_match.group(1).split(':', 1)
@@ -165,6 +167,7 @@ async def _(hellevent):
 async def _(event):
     hell = await eor(event, "`Gbanning...`")
     reason = ""
+    reply = await event.get_reply_message()
     if event.reply_to_msg_id:
         userid = (await event.get_reply_message()).sender_id
         try:
@@ -202,9 +205,19 @@ async def _(event):
             try:
                 await event.client.edit_permissions(gfuck.id, userid, view_messages=False)
                 chats += 1
+                await hell.edit(f"**Gbanning...** \n**Chats :** __{chats}__")
             except BaseException:
                 pass
     gbaner(userid)
+    a = gvarstat("BAN_PIC")
+    if a is not None:
+        b = a.split(" ")
+        c = [cjb]
+        for d in b:
+            c.append(d)
+        gbpic = random.choice(c)
+    else:
+        gbpic = cjb
     gmsg = f"🥴 [{name}](tg://user?id={userid}) **beta majdur ko khodna 😪 aur** {hell_mention} **ko chodna... Kabhi sikhana nhi!! 😏**\n\n📍 Added to Gban Watch!!\n**🔰 Total Chats :**  `{chats}`"
     if reason != "":
         gmsg += f"\n**🔰 Reason :**  `{reason}`"
@@ -239,6 +252,7 @@ async def _(event):
             try:
                 await event.client.edit_permissions(gfuck.id, userid, view_messages=True)
                 chats += 1
+                await hell.edit(f"**Ungban in progress...** \n**Chats :** __{chats}__")
             except BaseException:
                 pass
     ungbaner(userid)
@@ -292,6 +306,7 @@ async def _(event):
 @bot.on(sudo_cmd(pattern=r"gkick ?(.*)", allow_sudo=True))
 async def gkick(event):
     hell = await eor(event, "`Kicking globally...`")
+    reply = await event.get_reply_message()
     if event.reply_to_msg_id:
         userid = (await event.get_reply_message()).sender_id
     elif event.pattern_match.group(1):
@@ -311,11 +326,21 @@ async def gkick(event):
             try:
                 await bot.kick_participant(gkick.id, userid)
                 chats += 1
+                await hell.edit(f"**Kicking globally...** \n**Chats :** __{chats}__")
             except BaseException:
                 pass
+    a = gvarstat("BAN_PIC")
+    if a is not None:
+        b = a.split(" ")
+        c = [cjb]
+        for d in b:
+            c.append(d)
+        gbpic = random.choice(c)
+    else:
+        gbpic = cjb
     gkmsg = f"🏃 **Globally Kicked** [{name}](tg://user?id={userid})'s butts !! \n\n📝 **Chats :**  `{chats}`"
     if Config.ABUSE == "ON":
-        await bot.send_file(event.chat_id, gbpic, caption=gkmsg)
+        await bot.send_file(event.chat_id, gbpic, caption=gkmsg, reply_to=reply)
         await hell.delete()
     else:
         await hell.edit(gkmsg)
@@ -340,6 +365,7 @@ async def gm(event):
         userid = event.chat_id
     else:
         return await eod(event, "Need a user to gmute. Reply or give userid to gmute them..")
+    name = (await event.client.get_entity(userid)).first_name
     event.chat_id
     await event.get_chat()
     if gsql.is_gmuted(userid, "gmute"):
@@ -355,10 +381,10 @@ async def gm(event):
         await eod(event, "Error occured!\nError is " + str(e))
     else:
         if Config.ABUSE == "ON":
-            await bot.send_file(event.chat_id, shhh, caption="**Chup Madarcod... Bilkul Chup 🤫**")
+            await bot.send_file(event.chat_id, shhh, caption=f"**(~‾▿‾)~ Chup [Madarchod](tg://user?id={userid}) ....**", reply_to=reply)
             await event.delete()
         else:
-            await eor(event, "🤫 Shhh... **Don't speak Now !!**")
+            await eor(event, "**Globally Muted [{name}](tg://user?id={userid}) !!**\n\n__Kid struggling to speak__ ♪～(´ε｀ )")
         
 
 
@@ -381,6 +407,7 @@ async def endgmute(event):
         userid = event.chat_id
     else:
         return await eod(event,"Please reply to a user or add their into the command to ungmute them.")
+    name = (await event.client.get_entity(userid)).first_name
     event.chat_id
     if not gsql.is_gmuted(userid, "gmute"):
         return await eod(event, "I don't remember I gmuted him...")
@@ -389,7 +416,7 @@ async def endgmute(event):
     except Exception as e:
         await eod(event, "Error occured!\nError is " + str(e))
     else:
-        await eor(event, "Ok!! Speak")
+        await eor(event, f"**Unmuted [{name}](tg://user?id={userid}) Globally !!**")
 
 
 @command(incoming=True)
@@ -398,7 +425,7 @@ async def watcher(event):
         await event.delete()
 
 
-CmdHelp("global").add_command(
+CmdHelp("globals").add_command(
   "gban", "<reply>/<userid>", "Globally Bans the mentioned user in 'X' chats you are admin with ban permission."
 ).add_command(
   "ungban", "<reply>/<userid>", "Globally Unbans the user in 'X' chats you are admin!"

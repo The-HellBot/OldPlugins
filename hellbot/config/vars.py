@@ -2,12 +2,11 @@
 
 import os
 
-ENV = bool(os.environ.get("ENV", False))
 
-if ENV:
-    from hell_config import Config
+if os.path.exists("config.py"):
+    from config import Development as Config
 else:
-    if os.path.exists("config.py"):
-        from config import Development as Config
+    from .hell_config import Config
+
 
 # hellbot

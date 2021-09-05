@@ -4,6 +4,7 @@ import asyncio
 import html
 import os
 import re
+import random
 import sys
 
 from telethon import Button, custom, events, functions
@@ -15,13 +16,13 @@ from telethon.tl.functions.channels import GetParticipantRequest
 from telethon.tl.functions.channels import JoinChannelRequest
 from telethon.tl.functions.messages import ExportChatInviteRequest
 
+from hellbot.sql.gvar_sql import gvarstat
 from . import *
 
 hell_row = Config.BUTTONS_IN_HELP
 hell_emoji = Config.EMOJI_IN_HELP
 hell_pic = Config.PMPERMIT_PIC or "https://telegra.ph/file/58df4d86400922aa32acd.jpg"
 cstm_pmp = Config.CUSTOM_PMPERMIT
-ALV_PIC = Config.ALIVE_PIC
 help_pic = Config.HELP_PIC or "https://telegra.ph/file/62b0f29c8887887f259ac.jpg"
 PM_WARNS = {}
 PREV_REPLY_MESSAGE = {}
@@ -46,15 +47,13 @@ HELL_FIRST = (
     "{}\n\n**Please Choose Why You Are Here!!**"
 )
 
-alive_txt = """
-**⚜️ нєℓℓвσт ιѕ σиℓιиє ⚜️**
-{}
-**🏅 𝙱𝚘𝚝 𝚂𝚝𝚊𝚝𝚞𝚜 🏅**
-
-**Telethon :**  `{}`
-**Hêllẞø†  :**  **{}**
-**Abuse    :**  **{}**
-**Sudo      :**  **{}**
+alive_txt = """{}\n
+<b><i>🏅 𝙱𝚘𝚝 𝚂𝚝𝚊𝚝𝚞𝚜 🏅</b></i>
+<b>Telethon ≈</b>  <i>{}</i>
+<b>Hêllẞø† ≈</b>  <i>{}</i>
+<b>Uptime ≈</b>  <i>{}</i>
+<b>Abuse ≈</b>  <i>{}</i>
+<b>Sudo ≈</b>  <i>{}</i>
 """
 
 def button(page, modules):
@@ -151,18 +150,32 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
             ]
 
         elif event.query.user_id == bot.uid and query == "alive":
-            he_ll = alive_txt.format(Config.ALIVE_MSG, tel_ver, hell_ver, abuse_m, is_sudo)
+            uptime = await get_time((time.time() - StartTime))
+            alv_msg = gvarstat("ALIVE_MSG") or "»»» <b>нєℓℓвσт ιѕ σиℓιиє</b> «««"
+            he_ll = alive_txt.format(alv_msg, tel_ver, hell_ver, uptime, abuse_m, is_sudo)
             alv_btn = [
                 [Button.url(f"{HELL_USER}", f"tg://openmessage?user_id={ForGo10God}")],
                 [Button.url("My Channel", f"https://t.me/{my_channel}"), 
                 Button.url("My Group", f"https://t.me/{my_group}")],
             ]
+            a = gvarstat("ALIVE_PIC")
+            if a is not None:
+                b = a.split(" ")
+                c = ["https://telegra.ph/file/ea9e11f7c9db21c1b8d5e.mp4"]
+                if len(b) >= 1:
+                    for d in b:
+                        c.append(d)
+                PIC = random.choice(c)
+            else:
+                PIC = "https://telegra.ph/file/ea9e11f7c9db21c1b8d5e.mp4"
+            ALV_PIC = PIC
             if ALV_PIC and ALV_PIC.endswith((".jpg", ".png")):
                 result = builder.photo(
                     ALV_PIC,
                     text=he_ll,
                     buttons=alv_btn,
                     link_preview=False,
+                    parse_mode="HTML",
                 )
             elif ALV_PIC:
                 result = builder.document(
@@ -171,6 +184,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
                     title="HellBot Alive",
                     buttons=alv_btn,
                     link_preview=False,
+                    parse_mode="HTML",
                 )
             else:
                 result = builder.article(
@@ -178,6 +192,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
                     title="HellBot Alive",
                     buttons=alv_btn,
                     link_preview=False,
+                    parse_mode="HTML",
                 )
 
         elif event.query.user_id == bot.uid and query == "pm_warn":

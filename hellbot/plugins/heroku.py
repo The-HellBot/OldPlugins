@@ -7,7 +7,9 @@ import urllib3
 import sys
 from os import execl
 from time import sleep
+from asyncio.exceptions import CancelledError
 
+from hellbot.sql.gvar_sql import addgvar, delgvar, gvarstat
 from . import *
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -16,7 +18,7 @@ Heroku = heroku3.from_key(Config.HEROKU_API_KEY)
 heroku_api = "https://api.heroku.com"
 HEROKU_APP_NAME = Config.HEROKU_APP_NAME
 HEROKU_API_KEY = Config.HEROKU_API_KEY
-lg_id = Config.LOGGER_ID
+lg_id = os.environ.get("LOGGER_ID")
 
 
 
@@ -32,7 +34,8 @@ async def restart(event):
         app = Heroku.apps()[HEROKU_APP_NAME]
         app.restart()
     else:
-        execl(executable, executable, "bash", "HellBot")
+        await eor(event, f"✅ **Restarted Hêllẞø†** \n**Type** `{hl}ping` **after 1 minute to check if I am working !**")
+        await bot.disconnect()
 
 
 @bot.on(hell_cmd(pattern="restart$"))
@@ -40,11 +43,20 @@ async def restart(event):
 async def re(hell):
     if hell.fwd_from:
         return
-    event = await eor(hell, "Restarting Dynos ...")
-    if HEROKU_API_KEY:
+    event = await eor(hell, "Restarting Hêllẞø† ...")
+    try:
         await restart(event)
-    else:
-        await event.edit("Please Set Your `HEROKU_API_KEY` to restart Hêllẞø†")
+    except CancelledError:
+        pass
+    except Exception as e:
+        LOGS.info(e)
+
+
+@bot.on(hell_cmd(pattern="reload$"))
+@bot.on(sudo_cmd(pattern="reload$", allow_sudo=True))
+async def rel(event):
+    await eor(event, "Reloading Hêllẞø†... Wait for few seconds...")
+    await reload_hellbot()
 
 
 @bot.on(hell_cmd(pattern="shutdown$"))
@@ -52,13 +64,68 @@ async def re(hell):
 async def down(hell):
     if hell.fwd_from:
         return
-    event = await eor(hell, "`Turing Off Heroku Dynos...`")
+    event = await eor(hell, "`Turing Off Hêllẞø†...`")
     await asyncio.sleep(2)
-    await event.edit("**[ ⚠️ ]** \n**Hêllẞø† Dynos is now turned off. Manually turn it on to start again.**")
+    await event.edit("**[ ⚠️ ]** \n**Hêllẞø† is now turned off. Manually turn it on to start again.**")
     if HEROKU_APP is not None:
         HEROKU_APP.process_formation()["worker"].scale(0)
     else:
         sys.exit(0)
+
+
+@bot.on(hell_cmd(pattern="svar ?(.*)"))
+@bot.on(sudo_cmd(pattern="svar ?(.*)", allow_sudo=True))
+async def sett(event):
+    hel_ = event.pattern_match.group(1)
+    var_ = hel_.split(" ")[0].upper()
+    val_ = hel_.split(" ")[1:]
+    valu = " ".join(val_)
+    hell = await eor(event, f"**Setting variable** `{var_}` **as** `{valu}`")
+    if var_ == "":
+        return await hell.edit(f"**Invalid Syntax !!** \n\nTry: `{hl}svar VARIABLE_NAME variable_value`")
+    elif valu == "":
+        return await hell.edit(f"**Invalid Syntax !!** \n\nTry: `{hl}svar VARIABLE_NAME variable_value`")
+    if var_ not in config_list:
+        return await hell.edit(f"__There isn't any variable named__ `{var_}`. __Check spelling or get full list by__ `{hl}vars`")
+    try:
+        addgvar(var_, valu)
+    except Exception as e:
+        return await hell.edit(f"**ERROR !!** \n\n`{e}`")
+    await hell.edit(f"**Variable** `{var_}` **successfully added with value** `{valu}`")
+
+
+@bot.on(hell_cmd(pattern="gvar ?(.*)"))
+@bot.on(sudo_cmd(pattern="gvar ?(.*)", allow_sudo=True))
+async def gett(event):
+    var_ = event.pattern_match.group(1).upper()
+    hell = await eor(event, f"**Getting variable** `{var_}`")
+    if var_ == "":
+        return await hell.edit(f"**Invalid Syntax !!** \n\nTry: `{hl}gvar VARIABLE_NAME`")
+    if var_ not in config_list:
+        return await hell.edit(f"__There isn't any variable named__ `{var_}`. __Check spelling or get full list by `{hl}vars`")
+    try:
+        sql_v = gvarstat(var_)
+        os_v = os.environ.get(var_)
+    except Exception as e:
+        return await hell.edit(f"**ERROR !!** \n\n`{e}`")
+    await hell.edit(f"**OS VARIABLE:** `{var_}`\n**OS VALUE :** `{os_v}`\n------------------\n**SQL VARIABLE:** `{var_}`\n**SQL VALUE :** `{sql_v}`\n")
+
+
+@bot.on(hell_cmd(pattern="dvar ?(.*)"))
+@bot.on(sudo_cmd(pattern="dvar ?(.*)", allow_sudo=True))
+async def dell(event):
+    var_ = event.pattern_match.group(1).upper()
+    hell = await eor(event, f"**Deleting Variable** `{var_}`")
+    if var_ == "":
+        return await hell.edit(f"**Invalid Syntax !!** \n\nTry: `{hl}dvar VARIABLE_NAME`")
+    if var_ not in config_list:
+        return await hell.edit(f"__There isn't any variable named__ `{var_}`. Check spelling or get full list by `{hl}vars`")
+    try:
+        delgvar(var_)
+    #    os.environ.pop(var_)
+    except Exception as e:
+        return await hell.edit(f"**ERROR !!** \n\n`{e}`")
+    await hell.edit(f"**Deleted Variable** `{var_}`")
 
 
 @bot.on(hell_cmd(pattern="(set|get|del) var(?: |$)(.*)(?: |$)([\s\S]*)", outgoing=True))
@@ -248,7 +315,15 @@ def prettyjson(obj, indent=2, maxlinelength=80):
 CmdHelp("power").add_command(
   "restart", None, "Restarts your userbot. Redtarting Bot may result in better functioning of bot when its laggy"
 ).add_command(
-  "shutdown", None, "Turns off Dynos of Userbot. Userbot will stop working unless you manually turn it on from heroku"
+  "reload", None, "Reloads the bot DB and SQL variables without deleting any external plugins if installed."
+).add_command(
+  "shutdown", None, "Turns off Hêllẞø†. Userbot will stop working unless you manually turn it on."
+).add_command(
+  "svar", "<variable name> <variable value>", "Sets the variable to SQL variables without restarting the bot.", "svar ALIVE_PIC https://telegra.ph/file/57bfe195c88c5c127a653.jpg"
+).add_command(
+  "gvar", "<variable name>", "Gets the info of mentioned variable from both SQL & OS.", "gvar ALIVE_PIC"
+).add_command(
+  "dvar", "<variable name>", "Deletes the mentioned variable from SQL variables without restarting the bot.", "dvar ALIVE_PIC"
 ).add_info(
   "Power Switch For Bot"
 ).add_warning(

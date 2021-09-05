@@ -6,7 +6,7 @@ from telethon.errors.rpcerrorlist import UserAdminInvalidError, UserIdInvalidErr
 from telethon.tl.functions.channels import EditAdminRequest, EditBannedRequest, EditPhotoRequest
 from telethon.tl.functions.messages import UpdatePinnedMessageRequest
 from telethon.tl.functions.users import GetFullUserRequest
-from telethon.tl.types import ChatAdminRights, ChatBannedRights, MessageEntityMentionName, MessageMediaPhoto
+from telethon.tl.types import ChatAdminRights, ChatBannedRights, ChannelParticipantsAdmins, MessageEntityMentionName, MessageMediaPhoto
 
 from . import *
 from hellbot.sql.mute_sql import is_muted, mute, unmute
@@ -178,6 +178,7 @@ async def demote(dmod):
         f"CHAT: {dmod.chat.title}(`{dmod.chat_id}`)",
     )
 
+
 @command(incoming=True)
 async def watcher(event):
     if is_muted(event.sender_id, event.chat_id):
@@ -207,10 +208,14 @@ async def muth(hell):
             await eor(hell, f"**Error **\n`{str(e)}`")
         else:
             await eor(hell, "**Chup Reh Lawde 🥴\n`**｀-´)⊃━☆ﾟ.*･｡ﾟ **`")
-    else:
+    elif hell.is_group:
         hellevent = await eor(hell, "`Muting...`")
         input_str = hell.pattern_match.group(1)
         chat = await hell.get_chat()
+        admin_ = []
+        async for admins in bot.iter_participants(chat, filter=ChannelParticipantsAdmins):
+            x = admins.id
+            admin_.append(x)
         if hell.reply_to_msg_id:
             userid = (await hell.get_reply_message()).sender_id
             name = (await hell.client.get_entity(userid)).first_name
@@ -225,11 +230,22 @@ async def muth(hell):
                 userid = (await hell.client.get_entity(input_str)).id
                 name = (await hell.client.get_entity(userid)).first_name
         else:
-            return await eod(hellevent, "I Need a user to mute!!", 5)
+            return await eod(hellevent, "I Need a user to mute!!")
         if userid == ForGo10God:
-            return await eod(hellevent, "Nashe me hai kya lawde", 5)
+            return await eod(hellevent, "Nashe me hai kya lawde")
         if str(userid) in DEVLIST:
             return await eod(hellevent, "**Error Muting God**", 7)
+        if ForGo10God not in admin_:
+            return await eod(hellevent, NO_PERM)
+        if userid in admin_:
+            if is_muted(userid, hell.chat_id):
+                return await hellevent.edit("Admin already muted ♪～(´ε｀ )")
+            try:
+                mute(userid, hell.chat_id)
+            except Exception as e:
+                await hellevent.edit(f"**Error :** \n\n`{e}`")
+            else:
+                return await hellevent.edit(f"**🌝 Muted admin** [{name}](tg://user?id={userid}) **in** `{chat.title}` (~‾▿‾)~")
         try:
             await hell.client.edit_permissions(
                 chat.id,
@@ -249,8 +265,8 @@ async def muth(hell):
             f"\nUSER:  [{name}](tg://user?id={userid})\n"
             f"CHAT:  {chat.title}",
         )
-        
-        
+
+
 @bot.on(hell_cmd(pattern=r"unmute ?(.*)"))
 @bot.on(sudo_cmd(pattern=r"unmute ?(.*)", allow_sudo=True))
 async def nomuth(evn):
@@ -270,10 +286,14 @@ async def nomuth(evn):
             await eor(evn,
                 "Abb boll bsdk."
             )
-    else:
+    elif evn.is_group:
         hellevent = await eor(evn, "`Unmuting...`")
         input_str = evn.pattern_match.group(1)
         chat = await evn.get_chat()
+        admin_ = []
+        async for admins in bot.iter_participants(chat, filter=ChannelParticipantsAdmins):
+            x = admins.id
+            admin_.append(x)
         if evn.reply_to_msg_id:
             userid = (await evn.get_reply_message()).sender_id
             name = (await evn.client.get_entity(userid)).first_name
@@ -288,7 +308,18 @@ async def nomuth(evn):
                 userid = (await evn.client.get_entity(input_str)).id
                 name = (await evn.client.get_entity(userid)).first_name
         else:
-            return await eod(hellevent, "I need a user to unmute!!", 3)
+            return await eod(hellevent, "I need a user to unmute!!")
+        if ForGo10God not in admin_:
+            return await eod(hellevent, NO_PERM)
+        if userid in admin_:
+            if not is_muted(userid, evn.chat_id):
+                return await hellevent.edit("Not even muted.")
+            try:
+                unmute(userid, evn.chat_id)
+            except Exception as e:
+                await hellevent.edit(f"**Error :** \n\n`{e}`")
+            else:
+                return await hellevent.edit("**Successfully Unmuted** [{name}](tg://user?id={userid}) **in** `{chat.title}`")
         try:
             await evn.client.edit_permissions(
                 chat.id,
@@ -599,9 +630,9 @@ CmdHelp("admins").add_command(
 ).add_command(
   "unban", "<username/reply>", "Removes the ban from the person in the chat."
 ).add_command(
-  "mute", "<reply>/<userid or username>", "Mutes the person in the group. Works on non-admins only"
+  "mute", "<reply>/<userid or username>", "Mutes mentioned user in current PM/Group. Mutes non-admins by restricting their rights and mutes admins by deleting their new messages."
 ).add_command(
-  "unmute", "<reply>/<userid or username>", "Unmutes the person muted in that group."
+  "unmute", "<reply>/<userid or username>", "Unmutes the person muted in that PM/Group."
 ).add_command(
   "pin", "<reply> or .pin loud", "Pins the replied message in Group"
 ).add_command(

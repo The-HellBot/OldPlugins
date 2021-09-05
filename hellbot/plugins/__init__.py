@@ -1,10 +1,13 @@
 import datetime
+import time
+
 from hellbot import *
 from hellbot.config import Config
 from hellbot.helpers import *
 from hellbot.utils import *
 from hellbot.random_strings import *
 from hellbot.version import __hell__
+from hellbot.sql.gvar_sql import gvarstat
 from telethon import version
 
 
@@ -40,8 +43,7 @@ if abus == "ON":
 else:
     abuse_m ="Disabled"
 
-START_TIME = datetime.datetime.now()
-uptime = f"{str(datetime.datetime.now() - START_TIME).split('.')[0]}"
+
 my_channel = Config.MY_CHANNEL or "Its_HellBot"
 my_group = Config.MY_GROUP or "HellBot_Chat"
 if "@" in my_channel:

@@ -8,7 +8,6 @@
 import os
 from telethon.tl.types import ChatBannedRights
 
-
 class Config(object):
     LOGGER = True
     ABUSE = os.environ.get("ABUSE", None)
@@ -110,6 +109,3 @@ class Production(Config):
 
 class Development(Config):
     LOGGER = True
-
-
-# hellbot

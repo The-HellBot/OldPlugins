@@ -2,7 +2,8 @@ import asyncio
 import os
 from shutil import rmtree
 import datetime
-import wikipedia
+from wikipedia import summary
+from wikipedia.exceptions import DisambiguationError, PageError
 import requests
 from bs4 import BeautifulSoup
 from search_engine_parser import GoogleSearch
@@ -20,20 +21,40 @@ def progress(current, total):
     )
 
 
-@bot.on(hell_cmd(pattern="wikipedia (.*)"))
-@bot.on(sudo_cmd(pattern="wikipedia (.*)", allow_sudo=True))
+@bot.on(hell_cmd(pattern="wiki ?(.*)"))
+@bot.on(sudo_cmd(pattern="wiki ?(.*)", allow_sudo=True))
 async def _(event):
-    if event.fwd_from:
-        return
-    await edit_or_reply(event, "Processing ...")
-    input_str = event.pattern_match.group(1)
-    result = ""
-    results = wikipedia.search(input_str)
-    for s in results:
-        page = wikipedia.page(s)
-        url = page.url
-        result += f"> [{s}]({url}) \n"
-    await edit_or_reply(event, "WikiPedia **Search**: {} \n\n **Result**: \n\n{}".format(input_str, result)
+    match = event.text[6:]
+    result = None
+    try:
+        result = summary(match, auto_suggest=False)
+    except DisambiguationError as error:
+        error = str(error).split("\n")
+        result = "".join(
+            f"`{i}`\n" if lineno > 1 else f"**{i}**\n"
+            for lineno, i in enumerate(error, start=1)
+        )
+        return await eor(event, f"**DISAMBIGUATED PAGE !!.**\n\n{result}")
+    except PageError:
+        pass
+    if not result:
+        try:
+            result = summary(match, auto_suggest=True)
+        except DisambiguationError as error:
+            error = str(error).split("\n")
+            result = "".join(
+                f"`{i}`\n" if lineno > 1 else f"**{i}**\n"
+                for lineno, i in enumerate(error, start=1)
+            )
+            return await eor(
+                event, f"**DISAMBIGUATED PAGE !!**\n\n{result}"
+            )
+        except PageError:
+            return await eod(
+                event, f"**Sorry i Can't find any results for **`{match}`"
+            )
+    await eor(
+        event, "**Search :**\n`" + match + "`\n\n**Result:**\n" + f"__{result}__"
     )
 
 
@@ -191,7 +212,7 @@ CmdHelp("google").add_command(
 ).add_command(
   "gps", "<place>", "Gives the location of the given place/city/state."
 ).add_command(
-  "wikipedia", "<query>", "Searches for the query on Wikipedia."
+  "wiki", "<query>", "Searches for the query on Wikipedia."
 ).add_info(
   "Google Search."
 ).add_warning(

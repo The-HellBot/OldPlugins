@@ -6,17 +6,17 @@ from . import *
 
 Heroku = heroku3.from_key(Config.HEROKU_API_KEY)
 heroku_api = "https://api.heroku.com"
-sudousers = os.environ.get("SUDO_USERS", None)
+sudousers = Config.SUDO_USERS
 
 
 @bot.on(hell_cmd(pattern="sudo"))
 async def sudo(event):
     sudo = "True" if Config.SUDO_USERS else "False"
-    users = os.environ.get("SUDO_USERS", None)
+    users = sudousers
     if sudo == "True":
-        await eod(event, f"📍 **Sudo :**  `Enabled`\n\n📝 **Sudo users :**  `{users}`", 10)
+        await eor(event, f"📍 **Sudo :**  `Enabled`\n\n📝 **Sudo users :**  `{users}`")
     else:
-        await eod(event, f"📍 **Sudo :**  `Disabled`", 7)
+        await eod(event, f"📍 **Sudo :**  `Disabled`")
 
 
 @bot.on(hell_cmd(pattern="addsudo(?: |$)"))

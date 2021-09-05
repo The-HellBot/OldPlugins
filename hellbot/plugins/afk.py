@@ -6,6 +6,8 @@ from telethon.tl import functions, types
 
 from . import *
 
+####### THAT'S HOW A MESSED-UP CODE LOOKS LIKE #######
+
 global USER_AFK  # pylint:disable=E0602
 global afk_time  # pylint:disable=E0602
 global last_afk_message  # pylint:disable=E0602
@@ -88,10 +90,13 @@ async def on_afk(event):
         return False
     if USER_AFK and not (await event.get_sender()).bot:
         msg = None
-        message_to_reply = (
-            f"**I'm currently AFK!** \n\n**⏰ AFK Since :**  `{total_afk_time}`\n"
-            + f"\n**💬 Reason :** {reason}"
-            )
+        if reason == "":
+            message_to_reply = f"**I'm currently AFK!** \n\n**⏰ AFK Since :**  `{total_afk_time}`"
+        else:
+            message_to_reply = (
+                f"**I'm currently AFK!** \n\n**⏰ AFK Since :**  `{total_afk_time}`\n"
+                + f"\n**💬 Reason :** {reason}"
+                )
         msg = await event.reply(message_to_reply, file=hellpic)
         try:
             await unsave_gif(event, msg)
@@ -103,7 +108,7 @@ async def on_afk(event):
         last_afk_message[event.chat_id] = msg  # pylint:disable=E0602
 
 
-@bot.on(hell_cmd(pattern=r"afk (.*)", outgoing=True))  # pylint:disable=E0602
+@bot.on(hell_cmd(pattern=r"afk ?(.*)"))
 async def _(event):
     if event.fwd_from:
         return
@@ -122,10 +127,7 @@ async def _(event):
     start_1 = datetime.datetime.now()
     afk_start = start_1.replace(microsecond=0)
     owo = event.text[5:]
-    if owo == "":
-        reason = "Not Mentioned."
-    else:
-        reason = owo
+    reason = owo
     hellpic = await event.client.download_media(krakenop)
     if not USER_AFK:  # pylint:disable=E0602
         last_seen_status = await bot(  # pylint:disable=E0602
@@ -133,27 +135,49 @@ async def _(event):
         )
         if isinstance(last_seen_status.rules, types.PrivacyValueAllowAll):
             afk_time = datetime.datetime.now()  # pylint:disable=E0602
-        USER_AFK = f"yes: {reason} {hellpic}"  # pylint:disable=E0602
-        x = await bot.send_message(
-            event.chat_id, f"**I'm going afk🚶** \n\n**Because :** {reason}", file=hellpic
-        )
-        try:
-            await unsave_gif(event, x)
-        except:
-            pass
-        await asyncio.sleep(0.001)
-        await event.delete()
-        try:
-            xy = await bot.send_message(
-                Config.LOGGER_ID,
-                f"#AFKTRUE \nAFK mode = **True**\nReason  `{reason}`",file=hellpic
-                )
+        if owo == "":
+            USER_AFK = f"yes: not-mentiond {hellpic}"  # pylint:disable=E0602
+            x = await bot.send_message(
+                event.chat_id, f"**I'm going afk🚶**", file=hellpic)
             try:
-                await unsave_gif(event, xy)
+                await unsave_gif(event, x)
             except:
                 pass
-        except Exception as e:  # pylint:disable=C0103,W0703
-            logger.warn(str(e))  # pylint:disable=E06
+            await asyncio.sleep(0.001)
+            await event.delete()
+            try:
+                xy = await bot.send_message(
+                    Config.LOGGER_ID,
+                    f"#AFKTRUE \n**AFK mode** = `True`\n**Reason:** `Not Mentioned`",file=hellpic
+                    )
+                try:
+                    await unsave_gif(event, xy)
+                except:
+                    pass
+            except Exception as e:  # pylint:disable=C0103,W0703
+                logger.warn(str(e))  # pylint:disable=E06
+        else:
+            USER_AFK = f"yes: {reason} {hellpic}"  # pylint:disable=E0602
+            x = await bot.send_message(
+                event.chat_id, f"**I'm going afk🚶**\n\n**Because :** `{reason}`", file=hellpic)
+            try:
+                await unsave_gif(event, x)
+            except:
+                pass
+            await asyncio.sleep(0.001)
+            await event.delete()
+            try:
+                xy = await bot.send_message(
+                    Config.LOGGER_ID,
+                    f"#AFKTRUE \n**AFK mode** = `True`\n**Reason:** `{reason}`",file=hellpic
+                    )
+                try:
+                    await unsave_gif(event, xy)
+                except:
+                    pass
+            except Exception as e:  # pylint:disable=C0103,W0703
+                logger.warn(str(e))  # pylint:disable=E06
+
 
 CmdHelp("afk").add_command(
   'afk', '<reply to media>/<reason>', 'Marks you AFK with reason also shows afk time. Media also supported.\nUse # in message to chat without breaking AFK mode.', "afk <reason>`\n📍 **Exception :** `Use # in a msg to stay in afk mode while chatting."

@@ -1,55 +1,76 @@
-from telethon import events
-from telethon.events import NewMessage
-from telethon.tl.custom import Dialog
-from telethon.tl.types import Channel, Chat, User
+import datetime
+import random
+import time
+
 from telethon.errors import ChatSendInlineForbiddenError as noin
 from telethon.errors.rpcerrorlist import BotMethodInvalidError as dedbot
 
+from hellbot.sql.gvar_sql import gvarstat
 from . import *
 
 #-------------------------------------------------------------------------------
 
-hell_pic = Config.ALIVE_PIC or "https://telegra.ph/file/ea9e11f7c9db21c1b8d5e.mp4"
-alive_c = f"__**🔥🔥ɦɛʟʟɮօt ɨs օռʟɨռɛ🔥🔥**__\n\n"
-alive_c += f"__↼ Øwñêr ⇀__ : 『 {hell_mention} 』\n\n"
-alive_c += f"•♦• Telethon     :  `{tel_ver}` \n"
-alive_c += f"•♦• Hêllẞø†       :  __**{hell_ver}**__\n"
-alive_c += f"•♦• Sudo            :  `{is_sudo}`\n"
-alive_c += f"•♦• Channel      :  {hell_channel}\n"
+ALIVE_TEMP = """
+<b><i>🔥🔥ɦɛʟʟɮօt ɨs օռʟɨռɛ🔥🔥</b></i>
 
+<i><b>↼ Øwñêr ⇀</i></b> : 『 <a href='tg://user?id={}'>{}</a> 』
+╭──────────────
+┣─ <b>» Telethon ~</b> <i>{}</i>
+┣─ <b>» Hêllẞø† ~</b> <i>{}</i>
+┣─ <b>» Sudo ~</b> <i>{}</i>
+┣─ <b>» Uptime ~</b> <i>{}</i>
+┣─ <b>» Ping ~</b> <i>{}</i>
+╰──────────────
+<b><i>»»» <a href='https://t.me/its_hellbot'>[ †hê Hêllẞø† ]</a> «««</i></b>
+"""
 #-------------------------------------------------------------------------------
 
 @bot.on(hell_cmd(outgoing=True, pattern="alive$"))
 @bot.on(sudo_cmd(pattern="alive$", allow_sudo=True))
-async def up(hell):
-    if hell.fwd_from:
-        return
-    await hell.get_chat()
-    await hell.delete()
-    await bot.send_file(hell.chat_id, hell_pic, caption=alive_c)
+async def up(event):
+    start = datetime.datetime.now()
+    hell = await eor(event, "`Building Alive....`")
+    uptime = await get_time((time.time() - StartTime))
+    a = gvarstat("ALIVE_PIC")
+    if a is not None:
+        b = a.split(" ")
+        c = ["https://telegra.ph/file/ea9e11f7c9db21c1b8d5e.mp4"]
+        if len(b) >= 1:
+            for d in b:
+                c.append(d)
+        PIC = random.choice(c)
+    else:
+        PIC = "https://telegra.ph/file/ea9e11f7c9db21c1b8d5e.mp4"
+    hell_pic = PIC
+    end = datetime.datetime.now()
+    ling = (end - start).microseconds / 1000
+    omk = ALIVE_TEMP.format(ForGo10God, HELL_USER, tel_ver, hell_ver, is_sudo, uptime, ling)
+    await event.client.send_file(event.chat_id, file=hell_pic, caption=omk, parse_mode="HTML")
     await hell.delete()
 
-msg = f"""
-**⚡ нєℓℓвσт ιѕ σиℓιиє ⚡**
-{Config.ALIVE_MSG}
-**🏅 𝙱𝚘𝚝 𝚂𝚝𝚊𝚝𝚞𝚜 🏅**
-**Telethon :**  `{tel_ver}`
-**Hêllẞø†  :**  **{hell_ver}**
-**Abuse    :**  **{abuse_m}**
-**Sudo      :**  **{is_sudo}**
+
+msg = """{}\n
+<b><i>🏅 𝙱𝚘𝚝 𝚂𝚝𝚊𝚝𝚞𝚜 🏅</b></i>
+<b>Telethon ≈</b>  <i>{}</i>
+<b>Hêllẞø† ≈</b>  <i>{}</i>
+<b>Uptime ≈</b>  <i>{}</i>
+<b>Abuse ≈</b>  <i>{}</i>
+<b>Sudo ≈</b>  <i>{}</i>
 """
 botname = Config.BOT_USERNAME
 
 @bot.on(hell_cmd(pattern="hell$"))
 @bot.on(sudo_cmd(pattern="hell$", allow_sudo=True))
 async def hell_a(event):
+    uptime = await get_time((time.time() - StartTime))
+    am = gvarstat("ALIVE_MSG") or "<b>»» нєℓℓвσт ιѕ σиℓιиє ««</b>"
     try:
-        hell = await bot.inline_query(botname, "alive")
+        hell = await event.client.inline_query(botname, "alive")
         await hell[0].click(event.chat_id)
         if event.sender_id == ForGo10God:
             await event.delete()
     except (noin, dedbot):
-        await eor(event, msg)
+        await eor(event, msg.format(am, tel_ver, hell_ver, uptime, abuse_m, is_sudo), parse_mode="HTML")
 
 
 CmdHelp("alive").add_command(
