@@ -187,6 +187,35 @@ async def nope(kraken):
     else:
      await eod(kraken, "Error 404:  Not Found")
 
+
+@bot.on(hell_cmd(pattern="gogl(?: |$)(.*)", outgoing=True))
+@bot.on(sudo_cmd(pattern="gogl(?: |$)(.*)", allow_sudo=True))
+async def nope(kraken):
+    hell = kraken.pattern_match.group(1)
+    if not hell:
+        if kraken.is_reply:
+            (await kraken.get_reply_message()).message
+        else:
+            if Config.ABUSE == "ON":
+                return await eor(kraken, "Abe chumtiye kuch likhne ke liye de")
+            else:
+                return await eor(kraken, "Need some text...")
+
+    troll = await bot.inline_query("stickerizerbot", f"#12{(deEmojify(hell))}")
+    if troll:
+        await kraken.delete()
+        hel_ = await troll[0].click(Config.LOGGER_ID)
+        if hel_:
+            await bot.send_file(
+                kraken.chat_id,
+                hel_,
+                caption="",
+            )
+        await hel_.delete()
+    else:
+     await eod(kraken, "Error 404:  Not Found")
+
+
     
 CmdHelp("memify").add_command(
   "mmf", "<reply to a img/stcr/gif> <upper text> ; <lower text>", "Memifies the replied image/gif/sticker with your text and sends output in sticker format.", "mmf <reply to a img/stcr/gif> hii ; hello"
@@ -194,6 +223,8 @@ CmdHelp("memify").add_command(
   "mms", "<reply to a img/stcr/gif> <upper text> ; <lower text>", "Memifies the replied image/gif/sticker with your text and sends output in image format.", "mms <reply to a img/stcr/gif> hii ; hello"
 ).add_command(
   "doge", "<text>", "Makes A Sticker of Doge with given text.", "doge Hello"
+).add_command(
+  "gogl", "<text>", "Makes google search sticker.", "gogl Hello"
 ).add_command(
   "gg", "<text>", "Makes google search sticker.", "gg Hello"
 ).add_command(
