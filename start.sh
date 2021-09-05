@@ -11,6 +11,6 @@ echo """
                                 
 """
 rm -rf InVade
-git clone -b beta https://github.com/TheVaders/InVade
+git clone https://github.com/TheVaders/InVade
 cd InVade
 python3 -m hellbot
