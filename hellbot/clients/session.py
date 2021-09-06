@@ -2,43 +2,7 @@ from telethon import TelegramClient
 from telethon.network.connection.tcpabridged import ConnectionTcpAbridged
 from telethon.sessions import StringSession
 
-from hellbot import LOGS
 from hellbot.config import Config
-
-
-if not Config.API_HASH:
-    LOGS.warning("Please fill var API HASH to continue.")
-    quit(1)
-
-
-if not Config.APP_ID:
-    LOGS.warning("Please fill var APP ID to continue.")
-    quit(1)
-
-
-if not Config.BOT_TOKEN:
-    LOGS.warning("Please fill var BOT TOKEN to continue.")
-    quit(1)
-
-
-if not Config.BOT_USERNAME:
-    LOGS.warning("Please fill var BOT USERNAME to continue.")
-    quit(1)
-
-
-if not Config.DB_URI:    
-    LOGS.warning("Please fill var DATABASE URL to continue.")
-    quit(1)
-
-
-if not Config.HELLBOT_SESSION:
-    LOGS.warning("Please fill var HELLBOT SESSION to continue.")
-    quit(1)
-
-
-if not Config.LOGGER_ID:
-    LOGS.warning("Please fill var LOGGER ID to continue.")
-    quit(1)
 
 
 if Config.HELLBOT_SESSION:
