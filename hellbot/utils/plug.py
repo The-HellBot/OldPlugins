@@ -81,6 +81,58 @@ def load_module(shortname):
         LOGS.info("⚡ Hêllẞø† ⚡ - Successfully Imported " + shortname)
 
 
+# Load Addons
+def extra(shortname):
+    if shortname.startswith("__"):
+        pass
+    elif shortname.endswith("_"):
+        import userbot.utils
+
+        path = Path(f"Extra/{shortname}.py")
+        name = "Extra.{}".format(shortname)
+        spec = importlib.util.spec_from_file_location(name, path)
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        LOGS.info("Successfully imported " + shortname)
+    else:
+        import userbot.utils
+
+        path = Path(f"Extra/{shortname}.py")
+        name = "Extra.{}".format(shortname)
+        spec = importlib.util.spec_from_file_location(name, path)
+        mod = importlib.util.module_from_spec(spec)
+        mod.bot = Hell
+        mod.HellBot = HellBot
+        mod.tbot = HellBot
+        mod.Hell = Hell
+        mod.tgbot = bot.tgbot
+        mod.command = command
+        mod.logger = logging.getLogger(shortname)
+        # support for uniborg
+        sys.modules["uniborg.util"] = hellbot.utils
+        mod.Config = Config
+        mod.borg = Hell
+        mod.hellbot = Hell
+        mod.edit_or_reply = edit_or_reply
+        mod.eor = edit_or_reply
+        mod.delete_hell = delete_hell
+        mod.eod = delete_hell
+        mod.Var = Config
+        mod.admin_cmd = hell_cmd
+        mod.hell_cmd = hell_cmd
+        # support for other userbots
+        sys.modules["userbot.utils"] = hellbot.utils
+        sys.modules["userbot"] = hellbot
+        # support for paperplaneextended
+        sys.modules["userbot.events"] = hellbot
+        # support for paperplaneextended
+        sys.modules["userbot.mainfiles.events"] = hellbot.utils
+        spec.loader.exec_module(mod)
+        # for imports
+        sys.modules["Extra." + shortname] = mod
+        LOGS.info("⚡ Hêllẞø† Addons⚡ imported " + shortname)
+
+
 # remove plugins
 def remove_plugin(shortname):
     try:
