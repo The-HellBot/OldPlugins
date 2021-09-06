@@ -138,17 +138,15 @@ def hellbot_cmd(
                 LOGS.error("Message was deleted or cant be found")
             except BaseException as e:
                 LOGS.exception(e)
-
         from hellbot import tbot
+        if edited is True:
+            tbot.add_event_handler(func, events.MessageEdited(**kwargs))
+        else:
+            tbot.add_event_handler(func, events.NewMessage(**kwargs))
 
-            if edited is True:
-                tbot.add_event_handler(func, events.MessageEdited(**kwargs))
-            else:
-                tbot.add_event_handler(func, events.NewMessage(**kwargs))
+        return wrapper
 
-            return wrapper
-
-        return decorator
+    return decorator
 
 
 # admin cmd or normal user cmd
