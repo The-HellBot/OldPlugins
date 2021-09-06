@@ -19,9 +19,9 @@ bot = Hell = H2 = H3 = H4 = H5
 # let's get the bot ready
 async def h1(bot_token):
     try:
-        await bot.start(bot_token)
-        bot.me = await bot.get_me()
-        bot.uid = telethon.utils.get_peer_id(bot.me)
+        await Hell.start(bot_token)
+        bot.me = await Hell.get_me()
+        bot.uid = telethon.utils.get_peer_id(Hell.me)
     except Exception as e:
         LOGS.error(f"HELLBOT_SESSION - {str(e)}")
         sys.exit()
