@@ -7,15 +7,15 @@ import telethon.utils
 from telethon import TelegramClient
 from telethon.tl.functions.channels import InviteToChannelRequest, JoinChannelRequest
 
-from hellbot import LOGS, bot, tbot
-from hellbot.clients.session import H2, H3, H4, H5
+from hellbot import LOGS, tbot
+from hellbot.clients.session import Hell, H2, H3, H4, H5
 from hellbot.config import Config
 from hellbot.utils import load_module
 from hellbot.version import __hell__ as hellver
 hl = Config.HANDLER
 HELL_PIC = Config.ALIVE_PIC or "https://telegra.ph/file/ea9e11f7c9db21c1b8d5e.mp4"
 
-bot = bot, H2, H3, H4, H5
+bot = Hell, H2, H3, H4, H5
 # let's get the bot ready
 async def h1(bot_token):
     try:
@@ -87,7 +87,7 @@ def hells():
 if len(sys.argv) not in (1, 3, 4):
     bot.disconnect()
 else:
-    bot.tgbot = None
+    Hell.tgbot = None
     try:
         if Config.BOT_USERNAME is not None:
             LOGS.info("Checking Telegram Bot Username...")
@@ -149,10 +149,10 @@ async def hell_is_on():
         pass
 
 # Why not come here and chat??
-#    try:
-#        await bot(JoinChannelRequest("@HellBot_Chat"))
-#    except BaseException:
-#        pass
+    try:
+        await bot(JoinChannelRequest("@HellBot_Chat"))
+    except BaseException:
+        pass
 
 
 bot.loop.create_task(hell_is_on())
@@ -160,7 +160,7 @@ bot.loop.create_task(hell_is_on())
 if len(sys.argv) not in (1, 3, 4):
     bot.disconnect()
 else:
-    bot.tgbot = None
+    Hell.tgbot = None
     bot.run_until_disconnected()
 
 # hellbot
