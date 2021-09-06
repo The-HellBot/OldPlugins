@@ -1,27 +1,169 @@
-import asyncio
 import datetime
-import importlib
 import inspect
-import logging
-import math
 import os
 import re
 import sys
-import time
-import traceback
+
 from pathlib import Path
-from time import gmtime, strftime
 
 from telethon import events
 from telethon.tl.functions.channels import GetParticipantRequest
 from telethon.tl.types import ChannelParticipantAdmin, ChannelParticipantCreator
 
-from hellbot import *
-from hellbot.helpers import *
+from hellbot import LOGS, bot
+from hellbot.clients import H2, H3, H4, H5
 from hellbot.config import Config
+from hellbot.helpers import *
+
+sudo_users = list(Config.SUDO_USERS)
+
+
+def hell_cmd(**args):
+    args["func"] = lambda e: e.via_bot_id is None
+    stack = inspect.stack()
+    previous_stack_frame = stack[1]
+    file_test = Path(previous_stack_frame.filename)
+    file_test = file_test.stem.replace(".py", "")
+    allow_sudo = args.get('allow_sudo', True)
+    pattern = args.get('pattern', None)
+    group_only = args.get('group_only', False)
+    pm_only = args.get('pm_only', False)
+    chnnl_only = args.get('chnnl_only', False)
+    disable_errors = args.get('disable_errors', False)
+    if pattern is not None:
+        if pattern.startswith(r"\#"):
+            args["pattern"] = re.compile(pattern)
+        elif pattern.startswith(r"^"):
+            args["pattern"] = re.compile(pattern)
+            cmd = pattern.replace("$", "").replace("^", "").replace("\\", "")
+            try:
+                CMD_LIST[file_test].append(cmd)
+                SUDO_LIST[file_test].append(cmd)
+            except BaseException:
+                CMD_LIST.update({file_test: [cmd]})
+                SUDO_LIST.update({file_test: [cmd]})
+
+        else:
+            if len(Config.HANDLER) == 2:
+                hellreg = "^" + Config.HANDLER
+                reg = Config.HANDLER[1]
+            elif len(Config.HANDLER) == 1:
+                hellreg = "^\\" + Config.HANDLER
+                reg = Config.HANDLER
+            args["pattern"] = re.compile(hellreg + pattern)
+            if command is not None:
+                cmd = reg + command
+            else:
+                cmd = (
+                    (reg + pattern).replace("$", "").replace("\\", "").replace("^", "")
+                )
+            try:
+                CMD_LIST[file_test].append(cmd)
+            except BaseException:
+                CMD_LIST.update({file_test: [cmd]})
+
+            if len(Config.SUDO_HANDLER) == 2:
+                hellreg = "^" + Config.SUDO_HANDLER
+                reg = Config.SUDO_HANDLER[1]
+            elif len(Config.SUDO_HANDLER) == 1:
+                hellreg = "^\\" + Config.SUDO_HANDLER
+                reg = Config.SUDO_HANDLER
+            args["pattern"] = re.compile(hellreg + pattern)
+            if command is not None:
+                cmd = reg + command
+            else:
+                cmd = (
+                    (reg + pattern).replace("$", "").replace("\\", "").replace("^", "")
+                )
+            try:
+                SUDO_LIST[file_test].append(cmd)
+            except BaseException:
+                SUDO_LIST.update({file_test: [cmd]})
+
+    args['outgoing'] = True
+
+    if allow_sudo:
+        args["from_users"] = list(Config.SUDO_USERS)
+        args["incoming"] = True
+        del args["allow_sudo"]
+    elif "incoming" in args and not args["incoming"]:
+        args["outgoing"] = True
+
+    if "chnnl_only" in args:
+        del args['chnnl_only']
+    if "group_only" in args:
+        del args['group_only']
+    if "disable_errors" in args:
+        del args['disable_errors']
+    if "pm_only" in args:
+        del args['pm_only']
+    def decorator(func):
+        async def wrapper(check):
+            if check.fwd_from:
+                return
+            if group_only and not check.is_group:
+                await check.respond("`I don't think this is a group.`")
+                return
+            if chnnl_only and not check.is_channel:
+                await check.respond("This is a channel only command!")
+                return
+            if pm_only and not check.is_private:
+                await check.respond("`This command works in PM only.`")
+                return
+            if check.via_bot_id:
+                return
+            try:
+                await func(check)
+            except events.StopPropagation:
+                raise events.StopPropagation
+            except KeyboardInterrupt:
+                pass
+            except BaseException as e:
+                LOGS.exception(str(e))
+                if not disable_errors:
+                    TZ = pytz.timezone(Config.TZ)
+                    datetime_tz = datetime.now(TZ)
+                    text = "ERROR - REPORT\n\n"
+                    text += datetime_tz.strftime("Date : %Y-%m-%d \nTime : %H:%M:%S")
+                    text += "\nGroup ID: " + str(check.chat_id)
+                    text += "\nSender ID: " + str(check.sender_id)
+                    text += "\n\nEvent Trigger:\n"
+                    text += str(check.text)
+                    text += "\n\nTraceback info:\n"
+                    text += str(format_exc())
+                    text += "\n\nError text:\n"
+                    text += str(sys.exc_info()[1])
+                    file = open("error.log", "w+")
+                    file.write(text)
+                    file.close()
+                    try:
+                        await check.client.send_file(
+                                Config.LOGGER_ID,
+                                "error.log",
+                                caption="**ERROR LOGS !!** \n\nPlease Firward this to @HellBot_Chats if you think it's an error.",
+                            )
+                    except:
+                        await check.client.send_file(
+                                bot.uid,
+                                "error.log",
+                                caption="**ERROR LOGS !!** \n\nPlease Firward this to @HellBot_Chats if you think it's an error.",
+                            )
+                    os.remove("error.log")
+        bot.add_event_handler(wrapper, events.NewMessage(**args))
+        if H2:
+            H2.add_event_handler(wrapper, events.NewMessage(**args))
+        if H3:
+            H3.add_event_handler(wrapper, events.NewMessage(**args))
+        if H4:
+            H4.add_event_handler(wrapper, events.NewMessage(**args))
+        if H5:
+            H5.add_event_handler(wrapper, events.NewMessage(**args))
+        return wrapper
+    return decorator
+
 
 # admin cmd or normal user cmd
-def hell_cmd(pattern=None, command=None, **args):
+def admin_cmd(pattern=None, command=None, **args):
     args["func"] = lambda e: e.via_bot_id is None
     stack = inspect.stack()
     previous_stack_frame = stack[1]
