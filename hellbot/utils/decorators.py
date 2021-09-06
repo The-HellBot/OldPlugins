@@ -24,8 +24,7 @@ class REGEX:
 REGEX_ = REGEX()
 
 
-def hell_cmd(
-    TelegramClient,
+async def hell_cmd(
     pattern: str or tuple = None,
     allow_sudo: bool = True,
     edited: bool = True,
@@ -117,8 +116,7 @@ def hell_cmd(
         return decorator
 
 
-def hellbot_cmd(
-    TelegramClient,
+async def hellbot_cmd(
     edited: bool = False,
     **kwargs,
 ) -> callable:
