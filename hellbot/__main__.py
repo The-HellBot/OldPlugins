@@ -86,13 +86,11 @@ def hells():
 if len(sys.argv) not in (1, 3, 4):
     bot.disconnect()
 else:
-    Hell.tgbot = None
+    bot.tgbot = None
     try:
         if Config.BOT_USERNAME is not None:
             LOGS.info("Checking Telegram Bot Username...")
-            bot.tgbot = TelegramClient(
-                "BOT_TOKEN", api_id=Config.APP_ID, api_hash=Config.API_HASH
-            ).start(bot_token=Config.BOT_TOKEN)
+            bot.tgbot = tbot
             LOGS.info("Checking Completed. Proceeding to next step...")
             LOGS.info("🔰 Starting HellBot 🔰")
             bot.loop.run_until_complete(h1(Config.BOT_USERNAME))
@@ -159,7 +157,7 @@ bot.loop.create_task(hell_is_on())
 if len(sys.argv) not in (1, 3, 4):
     bot.disconnect()
 else:
-    Hell.tgbot = None
+    bot.tgbot = None
     bot.run_until_disconnected()
 
 # hellbot
