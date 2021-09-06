@@ -17,6 +17,7 @@ from telethon.tl.functions.channels import GetParticipantRequest
 from telethon.tl.types import ChannelParticipantAdmin, ChannelParticipantCreator
 
 from hellbot import *
+from hellbot.clients import *
 from hellbot.helpers import *
 from hellbot.config import *
 from hellbot.utils import *
@@ -52,6 +53,11 @@ def load_module(shortname):
         spec = importlib.util.spec_from_file_location(name, path)
         mod = importlib.util.module_from_spec(spec)
         mod.bot = Hell
+        mod.H1 = Hell
+        mod.H2 = H2
+        mod.H3 = H3
+        mod.H4 = H4
+        mod.H5 = H5
         mod.HellBot = HellBot
         mod.tbot = HellBot
         mod.Hell = Hell
