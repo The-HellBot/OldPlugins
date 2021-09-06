@@ -6,160 +6,149 @@ import sys
 
 from pathlib import Path
 
-from telethon import events
-from telethon.tl.functions.channels import GetParticipantRequest
-from telethon.tl.types import ChannelParticipantAdmin, ChannelParticipantCreator
+from telethon import TelegramClient, events
+from telethon.errors import MessageIdInvalidError, MessageNotModifiedError
 
-from hellbot import LOGS, bot
+from hellbot import LOGS, bot, tbot
 from hellbot.clients import H2, H3, H4, H5
 from hellbot.config import Config
 from hellbot.helpers import *
 
 sudo_users = list(Config.SUDO_USERS)
 
+class REGEX:
+    def __init__(self):
+        self.regex = ""
+        self.regex1 = ""
+        self.regex2 = ""
+REGEX_ = REGEX()
 
-def hell_cmd(**args):
-    args["func"] = lambda e: e.via_bot_id is None
+
+def hell_cmd(
+    TelegramClient,
+    pattern: str or tuple = None,
+    allow_sudo: bool = True,
+    edited: bool = True,
+    forward_=False,
+    **kwargs,
+) -> callable:
+    kwargs["func"] = kwargs.get("func", lambda e: e.via_bot_id is None)
+    kwargs.setdefault("forwards", forward_)
+    if Config.BL_CHAT is not None:
+        kwargs["blacklist_chats"] = True
+        kwargs["chats"] = list(Config.BL_CHAT)
     stack = inspect.stack()
     previous_stack_frame = stack[1]
     file_test = Path(previous_stack_frame.filename)
     file_test = file_test.stem.replace(".py", "")
-    allow_sudo = args.get('allow_sudo', True)
-    pattern = args.get('pattern', None)
-    group_only = args.get('group_only', False)
-    pm_only = args.get('pm_only', False)
-    chnnl_only = args.get('chnnl_only', False)
-    disable_errors = args.get('disable_errors', False)
     if pattern is not None:
-        if pattern.startswith(r"\#"):
-            args["pattern"] = re.compile(pattern)
-        elif pattern.startswith(r"^"):
-            args["pattern"] = re.compile(pattern)
-            cmd = pattern.replace("$", "").replace("^", "").replace("\\", "")
-            try:
-                CMD_LIST[file_test].append(cmd)
-                SUDO_LIST[file_test].append(cmd)
-            except BaseException:
-                CMD_LIST.update({file_test: [cmd]})
-                SUDO_LIST.update({file_test: [cmd]})
-
+        if (
+            pattern.startswith(r"\#")
+            or not pattern.startswith(r"\#")
+            and pattern.startswith(r"^")
+        ):
+            REGEX_.regex1 = REGEX_.regex2 = re.compile(pattern)
         else:
-            if len(Config.HANDLER) == 2:
-                hellreg = "^" + Config.HANDLER
-                reg = Config.HANDLER[1]
-            elif len(Config.HANDLER) == 1:
-                hellreg = "^\\" + Config.HANDLER
-                reg = Config.HANDLER
-            args["pattern"] = re.compile(hellreg + pattern)
-            if command is not None:
-                cmd = reg + command
-            else:
-                cmd = (
-                    (reg + pattern).replace("$", "").replace("\\", "").replace("^", "")
+            reg1 = "\\" + Config.HANDLER
+            reg2 = "\\" + Config.SUDO_HANDLER
+            REGEX_.regex1 = re.compile(reg1 + pattern)
+            REGEX_.regex2 = re.compile(reg2 + pattern)
+
+        def decorator(func):
+            from hellbot import bot
+
+            if not func.__doc__ is None:
+                CMD_HELP[command[0]].append((func.__doc__).strip())
+            if pattern is not None:
+                if edited:
+                    bot.add_event_handler(
+                        wrapper,
+                        MessageEdited(pattern=REGEX_.regex1, outgoing=True, **kwargs),
+                    )
+                bot.add_event_handler(
+                    wrapper,
+                    NewMessage(pattern=REGEX_.regex1, outgoing=True, **kwargs),
                 )
-            try:
-                CMD_LIST[file_test].append(cmd)
-            except BaseException:
-                CMD_LIST.update({file_test: [cmd]})
-
-            if len(Config.SUDO_HANDLER) == 2:
-                hellreg = "^" + Config.SUDO_HANDLER
-                reg = Config.SUDO_HANDLER[1]
-            elif len(Config.SUDO_HANDLER) == 1:
-                hellreg = "^\\" + Config.SUDO_HANDLER
-                reg = Config.SUDO_HANDLER
-            args["pattern"] = re.compile(hellreg + pattern)
-            if command is not None:
-                cmd = reg + command
+                if allow_sudo:
+                    if edited:
+                        bot.add_event_handler(
+                            wrapper,
+                            MessageEdited(
+                                pattern=REGEX_.regex2,
+                                from_users=list(Config.SUDO_USERS),
+                                **kwargs,
+                            ),
+                        )
+                    bot.add_event_handler(
+                        wrapper,
+                        NewMessage(
+                            pattern=REGEX_.regex2,
+                            from_users=list(Config.SUDO_USERS),
+                            **kwargs,
+                        ),
+                    )
             else:
-                cmd = (
-                    (reg + pattern).replace("$", "").replace("\\", "").replace("^", "")
-                )
-            try:
-                SUDO_LIST[file_test].append(cmd)
-            except BaseException:
-                SUDO_LIST.update({file_test: [cmd]})
+                if file_test in CMD_LIST and func in CMD_LIST[file_test]:
+                    return None
+                try:
+                    CMD_LIST[file_test].append(func)
+                except BaseException:
+                    CMD_LIST.update({file_test: [func]})
+                if edited:
+                    bot.add_event_handler(func, events.MessageEdited(**kwargs))
+                bot.add_event_handler(func, events.NewMessage(**kwargs))
+                if H2:
+                    if edited:
+                        H2.add_event_handler(func, events.NewMessage(**kwargs))
+                    H2.add_event_handler(func, events.NewMessage(**kwargs))
+                if H3:
+                    if edited:
+                        H3.add_event_handler(func, events.NewMessage(**kwargs))
+                    H3.add_event_handler(func, events.NewMessage(**kwargs))
+                if H4:
+                    if edited:
+                        H4.add_event_handler(func, events.NewMessage(**kwargs))
+                    H4.add_event_handler(func, events.NewMessage(**kwargs))
+                if H5:
+                    if edited:
+                        H5.add_event_handler(func, events.NewMessage(**kwargs))
+                    H5.add_event_handler(func, events.NewMessage(**kwargs))
 
-    args['outgoing'] = True
+        return decorator
 
-    if allow_sudo:
-        args["from_users"] = list(Config.SUDO_USERS)
-        args["incoming"] = True
-        del args["allow_sudo"]
-    elif "incoming" in args and not args["incoming"]:
-        args["outgoing"] = True
 
-    if "chnnl_only" in args:
-        del args['chnnl_only']
-    if "group_only" in args:
-        del args['group_only']
-    if "disable_errors" in args:
-        del args['disable_errors']
-    if "pm_only" in args:
-        del args['pm_only']
+def hellbot_cmd(
+    TelegramClient,
+    edited: bool = False,
+    **kwargs,
+) -> callable:
+    kwargs["func"] = kwargs.get("func", lambda e: e.via_bot_id is None)
+
     def decorator(func):
         async def wrapper(check):
-            if check.fwd_from:
-                return
-            if group_only and not check.is_group:
-                await check.respond("`I don't think this is a group.`")
-                return
-            if chnnl_only and not check.is_channel:
-                await check.respond("This is a channel only command!")
-                return
-            if pm_only and not check.is_private:
-                await check.respond("`This command works in PM only.`")
-                return
-            if check.via_bot_id:
-                return
             try:
                 await func(check)
             except events.StopPropagation:
                 raise events.StopPropagation
             except KeyboardInterrupt:
                 pass
+            except MessageNotModifiedError:
+                LOGS.error("Message was same as previous message")
+            except MessageIdInvalidError:
+                LOGS.error("Message was deleted or cant be found")
             except BaseException as e:
-                LOGS.exception(str(e))
-                if not disable_errors:
-                    TZ = pytz.timezone(Config.TZ)
-                    datetime_tz = datetime.now(TZ)
-                    text = "ERROR - REPORT\n\n"
-                    text += datetime_tz.strftime("Date : %Y-%m-%d \nTime : %H:%M:%S")
-                    text += "\nGroup ID: " + str(check.chat_id)
-                    text += "\nSender ID: " + str(check.sender_id)
-                    text += "\n\nEvent Trigger:\n"
-                    text += str(check.text)
-                    text += "\n\nTraceback info:\n"
-                    text += str(format_exc())
-                    text += "\n\nError text:\n"
-                    text += str(sys.exc_info()[1])
-                    file = open("error.log", "w+")
-                    file.write(text)
-                    file.close()
-                    try:
-                        await check.client.send_file(
-                                Config.LOGGER_ID,
-                                "error.log",
-                                caption="**ERROR LOGS !!** \n\nPlease Firward this to @HellBot_Chats if you think it's an error.",
-                            )
-                    except:
-                        await check.client.send_file(
-                                bot.uid,
-                                "error.log",
-                                caption="**ERROR LOGS !!** \n\nPlease Firward this to @HellBot_Chats if you think it's an error.",
-                            )
-                    os.remove("error.log")
-        bot.add_event_handler(wrapper, events.NewMessage(**args))
-        if H2:
-            H2.add_event_handler(wrapper, events.NewMessage(**args))
-        if H3:
-            H3.add_event_handler(wrapper, events.NewMessage(**args))
-        if H4:
-            H4.add_event_handler(wrapper, events.NewMessage(**args))
-        if H5:
-            H5.add_event_handler(wrapper, events.NewMessage(**args))
-        return wrapper
-    return decorator
+                LOGS.exception(e)
+
+        from hellbot import tbot
+
+            if edited is True:
+                tbot.add_event_handler(func, events.MessageEdited(**kwargs))
+            else:
+                tbot.add_event_handler(func, events.NewMessage(**kwargs))
+
+            return wrapper
+
+        return decorator
 
 
 # admin cmd or normal user cmd
