@@ -3,9 +3,7 @@ from hellbot.config import Config
 
 
 async def clients_list(Config, Hell, H2=None, H3=None, H4=None, H5=None):
-    user_ids = []
-    if Config.SUDO_USERS:
-        user_ids.append(list(Config.SUDO_USERS))
+    user_ids = list(Config.SUDO_USERS) or ''
     main_id = await Hell.get_me()
     user_ids.append(main_id.id)
     if H2 is not None:
