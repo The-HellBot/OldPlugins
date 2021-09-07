@@ -9,7 +9,7 @@ from hellbot.sql.gvar_sql import gvarstat
 from . import *
 
 
-hellbot_cmd = bot.on = H2.on = H3.on = H4.on = H5.on
+hellbot_cmd = bot = H2 = H3 = H4 = H5
 
 #-------------------------------------------------------------------------------
 
@@ -28,7 +28,7 @@ ALIVE_TEMP = """
 """
 #-------------------------------------------------------------------------------
 
-@hellbot_cmd(hell_cmd(pattern="alive$", allow_sudo=True))
+@hellbot_cmd.on(hell_cmd(pattern="alive$", allow_sudo=True))
 #@H2.on(hell_cmd(pattern="alive$"))
 async def up(event):
     start = datetime.datetime.now()
