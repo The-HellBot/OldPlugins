@@ -53,10 +53,6 @@ def load_module(shortname):
         spec = importlib.util.spec_from_file_location(name, path)
         mod = importlib.util.module_from_spec(spec)
         mod.bot = Hell
-        mod.bot = H2
-        mod.bot = H3
-        mod.bot = H4
-        mod.bot = H5
         mod.H1 = Hell
         mod.H2 = H2
         mod.H3 = H3
