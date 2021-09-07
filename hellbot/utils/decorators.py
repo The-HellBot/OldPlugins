@@ -15,7 +15,7 @@ from hellbot.clients import H2, H3, H4, H5
 from hellbot.config import Config
 from hellbot.helpers import *
 
-bot.me = await bot.get_me()
+bot.me = bot.get_me()
 bot.uid = telethon.utils.get_peer_id(bot.me)
 sudo_users = []
 sudo_users.append(list(Config.SUDO_USERS))
