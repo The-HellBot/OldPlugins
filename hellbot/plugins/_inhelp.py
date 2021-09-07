@@ -257,6 +257,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
 
     @tgbot.on(callbackquery.CallbackQuery(data=compile(b"pmclick")))
     async def on_pm_click(event):
+        auth = await clients_list(Config)
         if event.query.user_id in auth:
             reply_pop_up_alert = "This is for Other Users..."
             await event.answer(reply_pop_up_alert, cache_time=0, alert=True)
@@ -267,6 +268,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
 
     @tgbot.on(callbackquery.CallbackQuery(data=compile(b"req")))
     async def on_pm_click(event):
+        auth = await clients_list(Config)
         if event.query.user_id in auth:
             reply_pop_up_alert = "This is for other users!"
             await event.answer(reply_pop_up_alert, cache_time=0, alert=True)
@@ -285,7 +287,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
 
     @tgbot.on(callbackquery.CallbackQuery(data=compile(b"chat")))
     async def on_pm_click(event):
-        event.query.user_id
+        auth = await clients_list(Config)
         if event.query.user_id in auth:
             reply_pop_up_alert = "This is for other users!"
             await event.answer(reply_pop_up_alert, cache_time=0, alert=True)
@@ -304,6 +306,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
 
     @tgbot.on(callbackquery.CallbackQuery(data=compile(b"heheboi")))
     async def on_pm_click(event):
+        auth = await clients_list(Config)
         if event.query.user_id in auth:
             reply_pop_up_alert = "This is for other users!"
             await event.answer(reply_pop_up_alert, cache_time=0, alert=True)
@@ -326,6 +329,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
 
     @tgbot.on(callbackquery.CallbackQuery(data=compile(b"unmute")))
     async def on_pm_click(event):
+        auth = await clients_list(Config)
         hunter = (event.data_match.group(1)).decode("UTF-8")
         hell = hunter.split("+")
         if not event.sender_id == int(hell[0]):
@@ -344,6 +348,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
 
     @tgbot.on(callbackquery.CallbackQuery(data=compile(b"reopen")))
     async def reopn(event):
+            auth = await clients_list(Config)
             if event.query.user_id in auth:
                 current_page_number=0
                 simp = button(current_page_number, CMD_HELP)
@@ -364,6 +369,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
 
     @tgbot.on(callbackquery.CallbackQuery(data=compile(b"close")))
     async def on_plug_in_callback_query_handler(event):
+        auth = await clients_list(Config)
         if event.query.user_id in auth:
             veriler = custom.Button.inline(f"{hell_emoji} Re-Open Menu {hell_emoji}", data="reopen")
             await event.edit(f"**⚜️ Hêllẞø† Mêñû Prõvîdêr ìs ñôw Çlösëd ⚜️**\n\n**Bot Of :**  {hell_mention}\n\n        [©️ Hêllẞø† ™️]({chnl_link})", buttons=veriler, link_preview=False)
@@ -374,6 +380,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
 
     @tgbot.on(callbackquery.CallbackQuery(data=compile(b"page\((.+?)\)")))
     async def page(event):
+        auth = await clients_list(Config)
         page = int(event.data_match.group(1).decode("UTF-8"))
         veriler = button(page, CMD_HELP)
         apn = []
@@ -398,6 +405,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
         callbackquery.CallbackQuery(data=compile(b"Information\[(\d*)\]\((.*)\)"))
     )
     async def Information(event):
+        auth = await clients_list(Config)
         page = int(event.data_match.group(1).decode("UTF-8"))
         commands = event.data_match.group(2).decode("UTF-8")
         try:
@@ -432,6 +440,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
         callbackquery.CallbackQuery(data=compile(b"commands\[(.*)\[(\d*)\]\]\((.*)\)"))
     )
     async def commands(event):
+        auth = await clients_list(Config)
         cmd = event.data_match.group(1).decode("UTF-8")
         page = int(event.data_match.group(2).decode("UTF-8"))
         commands = event.data_match.group(3).decode("UTF-8")
