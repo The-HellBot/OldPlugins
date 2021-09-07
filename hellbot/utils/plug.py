@@ -33,7 +33,7 @@ else:
 
 
 # load plugins
-def load_module(shortname):
+def load_module(shortname, client):
     if shortname.startswith("__"):
         pass
     elif shortname.endswith("_"):
@@ -52,7 +52,7 @@ def load_module(shortname):
         name = "hellbot.plugins.{}".format(shortname)
         spec = importlib.util.spec_from_file_location(name, path)
         mod = importlib.util.module_from_spec(spec)
-        mod.bot = Hell
+        mod.bot = client
         mod.H1 = Hell
         mod.H2 = H2
         mod.H3 = H3
@@ -67,8 +67,9 @@ def load_module(shortname):
         # support for uniborg
         sys.modules["uniborg.util"] = hellbot.utils
         mod.Config = Config
-        mod.borg = Hell
-        mod.hellbot = Hell
+        mod.borg = client
+        mod.hellbot = client
+        mod.hellbot_cmd = client
         mod.edit_or_reply = edit_or_reply
         mod.eor = edit_or_reply
         mod.delete_hell = delete_hell
