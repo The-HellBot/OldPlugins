@@ -25,7 +25,7 @@ ALIVE_TEMP = """
 """
 #-------------------------------------------------------------------------------
 
-@Hell.on(hell_cmd(pattern="alive$", allow_sudo=True))
+@bot.on(hell_cmd(pattern="alive$", allow_sudo=True))
 @H2.on(hell_cmd(pattern="alive$"))
 @H3.on(hell_cmd(pattern="alive$"))
 @H4.on(hell_cmd(pattern="alive$"))
