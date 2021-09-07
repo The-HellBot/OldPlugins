@@ -14,8 +14,9 @@ from hellbot.clients import H2, H3, H4, H5
 from hellbot.config import Config
 from hellbot.helpers import *
 
-sudo_users = list(Config.SUDO_USERS)
-
+sudo_users = []
+sudo_users.append(list(Config.SUDO_USERS))
+owner_and_sudo = sudo_users.append(await bot.get_me())
 
 # admin cmd or normal user cmd
 def hell_cmd(pattern=None, command=None, **args):
@@ -60,7 +61,7 @@ def hell_cmd(pattern=None, command=None, **args):
     # decides that other users can use it or not
     # hellbot outgoing
     if allow_sudo:
-        args["from_users"] = list(Config.SUDO_USERS)
+        args["from_users"] = owner_and_sudo
         # Mutually exclusive with outgoing (can only set one of either).
         args["incoming"] = True
         del args["allow_sudo"]
