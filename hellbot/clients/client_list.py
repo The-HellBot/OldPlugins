@@ -1,4 +1,4 @@
-from hellbot.clients import Hell, H2, H3, H4, H5
+from .session import Hell, H2, H3, H4, H5
 from hellbot.config import Config
 
 
