@@ -16,139 +16,9 @@ from hellbot.helpers import *
 
 sudo_users = list(Config.SUDO_USERS)
 
-class REGEX:
-    def __init__(self):
-        self.regex = ""
-        self.regex1 = ""
-        self.regex2 = ""
-REGEX_ = REGEX()
-
-
-async def hell_cmd(
-    pattern: str or tuple = None,
-    allow_sudo: bool = True,
-    edited: bool = True,
-    forward_=False,
-    **kwargs,
-) -> callable:
-    kwargs["func"] = kwargs.get("func", lambda e: e.via_bot_id is None)
-    kwargs.setdefault("forwards", forward_)
-    if Config.BL_CHAT is not None:
-        kwargs["blacklist_chats"] = True
-        kwargs["chats"] = list(Config.BL_CHAT)
-    stack = inspect.stack()
-    previous_stack_frame = stack[1]
-    file_test = Path(previous_stack_frame.filename)
-    file_test = file_test.stem.replace(".py", "")
-    if pattern is not None:
-        if (
-            pattern.startswith(r"\#")
-            or not pattern.startswith(r"\#")
-            and pattern.startswith(r"^")
-        ):
-            REGEX_.regex1 = REGEX_.regex2 = re.compile(pattern)
-        else:
-            reg1 = "\\" + Config.HANDLER
-            reg2 = "\\" + Config.SUDO_HANDLER
-            REGEX_.regex1 = re.compile(reg1 + pattern)
-            REGEX_.regex2 = re.compile(reg2 + pattern)
-
-        def decorator(func):
-            from hellbot import bot
-
-            if not func.__doc__ is None:
-                CMD_HELP[command[0]].append((func.__doc__).strip())
-            if pattern is not None:
-                if edited:
-                    bot.add_event_handler(
-                        wrapper,
-                        MessageEdited(pattern=REGEX_.regex1, outgoing=True, **kwargs),
-                    )
-                bot.add_event_handler(
-                    wrapper,
-                    NewMessage(pattern=REGEX_.regex1, outgoing=True, **kwargs),
-                )
-                if allow_sudo:
-                    if edited:
-                        bot.add_event_handler(
-                            wrapper,
-                            MessageEdited(
-                                pattern=REGEX_.regex2,
-                                from_users=list(Config.SUDO_USERS),
-                                **kwargs,
-                            ),
-                        )
-                    bot.add_event_handler(
-                        wrapper,
-                        NewMessage(
-                            pattern=REGEX_.regex2,
-                            from_users=list(Config.SUDO_USERS),
-                            **kwargs,
-                        ),
-                    )
-            else:
-                if file_test in CMD_LIST and func in CMD_LIST[file_test]:
-                    return None
-                try:
-                    CMD_LIST[file_test].append(func)
-                except BaseException:
-                    CMD_LIST.update({file_test: [func]})
-                if edited:
-                    bot.add_event_handler(func, events.MessageEdited(**kwargs))
-                bot.add_event_handler(func, events.NewMessage(**kwargs))
-                if H2:
-                    if edited:
-                        H2.add_event_handler(func, events.NewMessage(**kwargs))
-                    H2.add_event_handler(func, events.NewMessage(**kwargs))
-                if H3:
-                    if edited:
-                        H3.add_event_handler(func, events.NewMessage(**kwargs))
-                    H3.add_event_handler(func, events.NewMessage(**kwargs))
-                if H4:
-                    if edited:
-                        H4.add_event_handler(func, events.NewMessage(**kwargs))
-                    H4.add_event_handler(func, events.NewMessage(**kwargs))
-                if H5:
-                    if edited:
-                        H5.add_event_handler(func, events.NewMessage(**kwargs))
-                    H5.add_event_handler(func, events.NewMessage(**kwargs))
-
-        return decorator
-
-
-async def hellbot_cmd(
-    edited: bool = False,
-    **kwargs,
-) -> callable:
-    kwargs["func"] = kwargs.get("func", lambda e: e.via_bot_id is None)
-
-    def decorator(func):
-        async def wrapper(check):
-            try:
-                await func(check)
-            except events.StopPropagation:
-                raise events.StopPropagation
-            except KeyboardInterrupt:
-                pass
-            except MessageNotModifiedError:
-                LOGS.error("Message was same as previous message")
-            except MessageIdInvalidError:
-                LOGS.error("Message was deleted or cant be found")
-            except BaseException as e:
-                LOGS.exception(e)
-        from hellbot import tbot
-        if edited is True:
-            tbot.add_event_handler(func, events.MessageEdited(**kwargs))
-        else:
-            tbot.add_event_handler(func, events.NewMessage(**kwargs))
-
-        return wrapper
-
-    return decorator
-
 
 # admin cmd or normal user cmd
-def admin_cmd(pattern=None, command=None, **args):
+def hell_cmd(pattern=None, command=None, **args):
     args["func"] = lambda e: e.via_bot_id is None
     stack = inspect.stack()
     previous_stack_frame = stack[1]
@@ -212,7 +82,19 @@ def admin_cmd(pattern=None, command=None, **args):
         del args["allow_edited_updates"]
 
     # plugin check for outgoing commands
+    def decorator(func):
+        bot.add_event_handler(func, events.NewMessage(**args))
+        H2.add_event_handler(func, events.NewMessage(**args))
+        H3.add_event_handler(func, events.NewMessage(**args))
+        H4.add_event_handler(func, events.NewMessage(**args))
+        H5.add_event_handler(func, events.NewMessage(**args))
+        try:
+            LOAD_PLUG[file_test].append(func)
+        except Exception:
+            LOAD_PLUG.update({file_test: [func]})
+        return func
 
+    return decorator
     return events.NewMessage(**args)
 
 
