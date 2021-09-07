@@ -8,6 +8,9 @@ from telethon.errors.rpcerrorlist import BotMethodInvalidError as dedbot
 from hellbot.sql.gvar_sql import gvarstat
 from . import *
 
+
+hellbot_cmd = bot.on = H2.on if Config.SESSION_2 = H3.on if Config.SESSION_3 = H4.on if Config.SESSION_4 = H5.on if Config.SESSION_5
+
 #-------------------------------------------------------------------------------
 
 ALIVE_TEMP = """
@@ -25,8 +28,8 @@ ALIVE_TEMP = """
 """
 #-------------------------------------------------------------------------------
 
-@bot.on(hell_cmd(outgoing=True, pattern="alive$", allow_sudo=True))
-@H2.on(hell_cmd(pattern="alive$"))
+@hellbot_cmd(hell_cmd(pattern="alive$", allow_sudo=True))
+#@H2.on(hell_cmd(pattern="alive$"))
 async def up(event):
     start = datetime.datetime.now()
     hell = await eor(event, "`Building Alive....`")
