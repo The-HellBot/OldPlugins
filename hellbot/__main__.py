@@ -115,7 +115,16 @@ for name in files:
     with open(name) as f:
         path1 = Path(f.name)
         shortname = path1.stem
-        load_module(shortname.replace(".py", ""))
+        if Config.HELLBOT_SESSION:
+            load_module(shortname.replace(".py", ""), Hell)
+        if Config.SESSION_2:
+            load_module(shortname.replace(".py", ""), H2)
+        if Config.SESSION_3:
+            load_module(shortname.replace(".py", ""), H3)
+        if Config.SESSION_4:
+            load_module(shortname.replace(".py", ""), H4)
+        if Config.SESSION_5:
+            load_module(shortname.replace(".py", ""), H5)
 
 
 
