@@ -19,3 +19,4 @@ async def clients_list(Config, Hell, H2, H3, H4, H5):
     if H5:
         id5 = await H5.get_me()
         user_ids.append(id5.id)
+    return user_ids
