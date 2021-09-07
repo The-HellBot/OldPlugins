@@ -98,8 +98,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
         builder = event.builder
         result = None
         query = event.text
-        auth = await clients_list(Config)
-        if event.query.user_id in auth and query == "hellbot_help":
+        if event.query.user_id == bot.uid and query == "hellbot_help":
             rev_text = query[::-1]
             veriler = button(0, sorted(CMD_HELP))
             apn = []
@@ -129,7 +128,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
                     buttons=veriler[1],
                     link_preview=False,
                 )
-        elif event.query.user_id in auth and query.startswith("fsub"):
+        elif event.query.user_id == bot.uid and query.startswith("fsub"):
             hunter = event.pattern_match.group(1)
             hell = hunter.split("+")
             user = await bot.get_entity(int(hell[0]))
@@ -150,7 +149,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
                 )
             ]
 
-        elif event.query.user_id in auth and query == "alive":
+        elif event.query.user_id == bot.uid and query == "alive":
             uptime = await get_time((time.time() - StartTime))
             alv_msg = gvarstat("ALIVE_MSG") or "»»» <b>нєℓℓвσт ιѕ σиℓιиє</b> «««"
             he_ll = alive_txt.format(alv_msg, tel_ver, hell_ver, uptime, abuse_m, is_sudo)
@@ -196,7 +195,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
                     parse_mode="HTML",
                 )
 
-        elif event.query.user_id in auth and query == "pm_warn":
+        elif event.query.user_id == bot.uid and query == "pm_warn":
             hel_l = HELL_FIRST.format(hell_mention, mssge)
             result = builder.photo(
                 file=hell_pic,
@@ -211,7 +210,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
                 ],
             )
 
-        elif event.query.user_id in auth and query == "repo":
+        elif event.query.user_id == bot.uid and query == "repo":
             result = builder.article(
                 title="Repository",
                 text=f"**⚡ ʟɛɢɛռɖaʀʏ ᴀғ ɦɛʟʟɮօt ⚡**",
@@ -257,8 +256,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
 
     @tgbot.on(callbackquery.CallbackQuery(data=compile(b"pmclick")))
     async def on_pm_click(event):
-        auth = await clients_list(Config)
-        if event.query.user_id in auth:
+        if event.query.user_id == bot.uid:
             reply_pop_up_alert = "This is for Other Users..."
             await event.answer(reply_pop_up_alert, cache_time=0, alert=True)
         else:
@@ -268,8 +266,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
 
     @tgbot.on(callbackquery.CallbackQuery(data=compile(b"req")))
     async def on_pm_click(event):
-        auth = await clients_list(Config)
-        if event.query.user_id in auth:
+        if event.query.user_id == bot.uid:
             reply_pop_up_alert = "This is for other users!"
             await event.answer(reply_pop_up_alert, cache_time=0, alert=True)
         else:
@@ -287,8 +284,8 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
 
     @tgbot.on(callbackquery.CallbackQuery(data=compile(b"chat")))
     async def on_pm_click(event):
-        auth = await clients_list(Config)
-        if event.query.user_id in auth:
+        event.query.user_id
+        if event.query.user_id == bot.uid:
             reply_pop_up_alert = "This is for other users!"
             await event.answer(reply_pop_up_alert, cache_time=0, alert=True)
         else:
@@ -306,8 +303,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
 
     @tgbot.on(callbackquery.CallbackQuery(data=compile(b"heheboi")))
     async def on_pm_click(event):
-        auth = await clients_list(Config)
-        if event.query.user_id in auth:
+        if event.query.user_id == bot.uid:
             reply_pop_up_alert = "This is for other users!"
             await event.answer(reply_pop_up_alert, cache_time=0, alert=True)
         else:
@@ -329,7 +325,6 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
 
     @tgbot.on(callbackquery.CallbackQuery(data=compile(b"unmute")))
     async def on_pm_click(event):
-        auth = await clients_list(Config)
         hunter = (event.data_match.group(1)).decode("UTF-8")
         hell = hunter.split("+")
         if not event.sender_id == int(hell[0]):
@@ -348,8 +343,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
 
     @tgbot.on(callbackquery.CallbackQuery(data=compile(b"reopen")))
     async def reopn(event):
-            auth = await clients_list(Config)
-            if event.query.user_id in auth:
+            if event.query.user_id == bot.uid or event.query.user_id in Config.SUDO_USERS:
                 current_page_number=0
                 simp = button(current_page_number, CMD_HELP)
                 veriler = button(0, sorted(CMD_HELP))
@@ -369,8 +363,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
 
     @tgbot.on(callbackquery.CallbackQuery(data=compile(b"close")))
     async def on_plug_in_callback_query_handler(event):
-        auth = await clients_list(Config)
-        if event.query.user_id in auth:
+        if event.query.user_id == bot.uid or event.query.user_id in Config.SUDO_USERS:
             veriler = custom.Button.inline(f"{hell_emoji} Re-Open Menu {hell_emoji}", data="reopen")
             await event.edit(f"**⚜️ Hêllẞø† Mêñû Prõvîdêr ìs ñôw Çlösëd ⚜️**\n\n**Bot Of :**  {hell_mention}\n\n        [©️ Hêllẞø† ™️]({chnl_link})", buttons=veriler, link_preview=False)
         else:
@@ -380,14 +373,13 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
 
     @tgbot.on(callbackquery.CallbackQuery(data=compile(b"page\((.+?)\)")))
     async def page(event):
-        auth = await clients_list(Config)
         page = int(event.data_match.group(1).decode("UTF-8"))
         veriler = button(page, CMD_HELP)
         apn = []
         for x in CMD_LIST.values():
             for y in x:
                 apn.append(y)
-        if event.query.user_id in auth:
+        if event.query.user_id == bot.uid or event.query.user_id in Config.SUDO_USERS:
             await event.edit(
                 f"🔰 **{hell_mention}**\n\n📜 __No.of Plugins__ : `{len(CMD_HELP)}`\n🗂️ __Commands__ : `{len(apn)}`\n🗒️ __Page__ : {page + 1}/{veriler[0]}",
                 buttons=veriler[1],
@@ -405,7 +397,6 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
         callbackquery.CallbackQuery(data=compile(b"Information\[(\d*)\]\((.*)\)"))
     )
     async def Information(event):
-        auth = await clients_list(Config)
         page = int(event.data_match.group(1).decode("UTF-8"))
         commands = event.data_match.group(2).decode("UTF-8")
         try:
@@ -422,7 +413,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
 
         buttons = [buttons[i : i + 2] for i in range(0, len(buttons), 2)]
         buttons.append([custom.Button.inline(f"{hell_emoji} Main Menu {hell_emoji}", data=f"page({page})")])
-        if event.query.user_id in auth:
+        if event.query.user_id == bot.uid or event.query.user_id in Config.SUDO_USERS:
             await event.edit(
                 f"**📗 File :**  `{commands}`\n**🔢 Number of commands :**  `{len(CMD_HELP_BOT[commands]['commands'])}`",
                 buttons=buttons,
@@ -440,7 +431,6 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
         callbackquery.CallbackQuery(data=compile(b"commands\[(.*)\[(\d*)\]\]\((.*)\)"))
     )
     async def commands(event):
-        auth = await clients_list(Config)
         cmd = event.data_match.group(1).decode("UTF-8")
         page = int(event.data_match.group(2).decode("UTF-8"))
         commands = event.data_match.group(3).decode("UTF-8")
@@ -462,7 +452,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
         else:
             result += f"**💬 Explanation :**  `{command['usage']}`\n"
             result += f"**⌨️ For Example :**  `{HANDLER[:1]}{command['example']}`\n\n"
-        if event.query.user_id in auth:
+        if event.query.user_id == bot.uid or event.query.user_id in Config.SUDO_USERS:
             await event.edit(
                 result,
                 buttons=[
