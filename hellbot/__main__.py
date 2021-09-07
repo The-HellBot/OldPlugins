@@ -35,7 +35,7 @@ async def hell_client(client):
 # Multi-Client Starter
 def hells():
     failed = 0
-    if H2:
+    if SESSION_2:
         LOGS.info("SESSION_2 detected! Starting 2nd Client.")
         try:
             H2.start()
@@ -44,7 +44,7 @@ def hells():
             LOGS.info("SESSION_2 failed. Please Check Your String session.")
             failed += 1
 
-    if H3:
+    if SESSION_3:
         LOGS.info("SESSION_3 detected! Starting 3rd Client.")
         try:
             H3.start()
@@ -53,7 +53,7 @@ def hells():
             LOGS.info("SESSION_3 failed. Please Check Your String session.")
             failed += 1
 
-    if H4:
+    if SESSION_4:
         LOGS.info("SESSION_4 detected! Starting 4th Client.")
         try:
             H4.start()
@@ -62,7 +62,7 @@ def hells():
             LOGS.info("SESSION_4 failed. Please Check Your String session.")
             failed += 1
 
-    if H5:
+    if SESSION_5:
         LOGS.info("SESSION_5 detected! Starting 5th Client.")
         try:
             H5.start()
@@ -71,13 +71,13 @@ def hells():
             LOGS.info("SESSION_5 failed. Please Check Your String session.")
             failed += 1
 
-    if not H2:
+    if not SESSION_2:
         failed += 1
-    if not H3:
+    if not SESSION_3:
         failed += 1
-    if not H4:
+    if not SESSION_4:
         failed += 1
-    if not H5:
+    if not SESSION_5:
         failed += 1
     return failed
 
