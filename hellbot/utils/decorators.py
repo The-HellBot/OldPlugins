@@ -6,6 +6,7 @@ import sys
 
 from pathlib import Path
 
+import telethon.utils
 from telethon import TelegramClient, events
 from telethon.errors import MessageIdInvalidError, MessageNotModifiedError
 
@@ -14,9 +15,11 @@ from hellbot.clients import H2, H3, H4, H5
 from hellbot.config import Config
 from hellbot.helpers import *
 
+bot.me = await bot.get_me()
+bot.uid = telethon.utils.get_peer_id(bot.me)
 sudo_users = []
 sudo_users.append(list(Config.SUDO_USERS))
-owner_and_sudo = sudo_users.append(await bot.get_me())
+owner_and_sudo = sudo_users.append(bot.uid)
 
 # admin cmd or normal user cmd
 def hell_cmd(pattern=None, command=None, **args):
