@@ -9,7 +9,7 @@ from hellbot.sql.gvar_sql import gvarstat
 from . import *
 
 
-hellbot_cmd = bot.on = H2.on if Config.SESSION_2 = H3.on if Config.SESSION_3 = H4.on if Config.SESSION_4 = H5.on if Config.SESSION_5
+hellbot_cmd = bot.on = H2.on = H3.on = H4.on = H5.on
 
 #-------------------------------------------------------------------------------
 
