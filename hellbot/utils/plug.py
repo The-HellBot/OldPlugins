@@ -53,14 +53,18 @@ def load_module(shortname):
         spec = importlib.util.spec_from_file_location(name, path)
         mod = importlib.util.module_from_spec(spec)
         mod.bot = Hell
+        mod.bot = H2
+        mod.bot = H3
+        mod.bot = H4
+        mod.bot = H5
         mod.H1 = Hell
         mod.H2 = H2
         mod.H3 = H3
         mod.H4 = H4
         mod.H5 = H5
+        mod.Hell = Hell
         mod.HellBot = HellBot
         mod.tbot = HellBot
-        mod.Hell = Hell
         mod.tgbot = bot.tgbot
         mod.command = command
         mod.logger = logging.getLogger(shortname)
@@ -76,6 +80,7 @@ def load_module(shortname):
         mod.Var = Config
         mod.admin_cmd = hell_cmd
         mod.hell_cmd = hell_cmd
+        mod.sudo_cmd = sudo_cmd
         # support for other userbots
         sys.modules["userbot.utils"] = hellbot.utils
         sys.modules["userbot"] = hellbot
