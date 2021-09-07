@@ -82,19 +82,7 @@ def hell_cmd(pattern=None, command=None, **args):
         del args["allow_edited_updates"]
 
     # plugin check for outgoing commands
-    def decorator(func):
-        bot.add_event_handler(func, events.NewMessage(**args))
-        H2.add_event_handler(func, events.NewMessage(**args))
-        H3.add_event_handler(func, events.NewMessage(**args))
-        H4.add_event_handler(func, events.NewMessage(**args))
-        H5.add_event_handler(func, events.NewMessage(**args))
-        try:
-            LOAD_PLUG[file_test].append(func)
-        except Exception:
-            LOAD_PLUG.update({file_test: [func]})
-        return func
-
-    return decorator
+    
     return events.NewMessage(**args)
 
 
