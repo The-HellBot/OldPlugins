@@ -8,7 +8,7 @@ from telethon import TelegramClient
 from telethon.tl.functions.channels import InviteToChannelRequest, JoinChannelRequest
 
 from hellbot import LOGS, bot, tbot
-from hellbot.clients.session import H2, H3, H4, H5
+from hellbot.clients.session import Hell, H2, H3, H4, H5
 from hellbot.config import Config
 from hellbot.utils import load_module
 from hellbot.version import __hell__ as hellver
