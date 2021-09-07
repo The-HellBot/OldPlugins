@@ -25,8 +25,8 @@ ALIVE_TEMP = """
 """
 #-------------------------------------------------------------------------------
 
-@bot.on(hell_cmd(outgoing=True, pattern="alive$"))
-@bot.on(sudo_cmd(pattern="alive$", allow_sudo=True))
+@bot.on(hell_cmd(outgoing=True, pattern="alive$", allow_sudo=True))
+@H2.on(hell_cmd(pattern="alive$"))
 async def up(event):
     start = datetime.datetime.now()
     hell = await eor(event, "`Building Alive....`")
