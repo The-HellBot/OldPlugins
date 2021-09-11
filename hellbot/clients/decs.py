@@ -4,7 +4,8 @@ import re
 from pathlib import Path
 from telethon import events
 
-from .session import bot, H2, H3, H4, H5
+from .session import H2, H3, H4, H5
+from hellbot import *
 from hellbot.config import Config
 
 
