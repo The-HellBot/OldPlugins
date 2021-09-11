@@ -16,16 +16,19 @@ from hellbot.config import Config
 from hellbot.helpers import *
 
 
-def hell_cmd(**args):
+def hell_cmd(
+    pattern: str = None,
+    allow_sudo: bool = True,
+    disable_edited: bool = False,
+    forword=False,
+    command: str = None,
+    **args,
+):
     args["func"] = lambda e: e.via_bot_id is None
     stack = inspect.stack()
     previous_stack_frame = stack[1]
     file_test = Path(previous_stack_frame.filename)
     file_test = file_test.stem.replace(".py", "")
-    disable_edited = args.get("disable_edited", False)
-    pattern = args.get("pattern", None)
-    command = args.get("command", None)
-    allow_sudo = args.get("allow_sudo", True)
 
     if pattern is not None:
         if (
@@ -69,18 +72,18 @@ def hell_cmd(**args):
 
     def decorator(func):
         if not disable_edited:
-            bot.add_event_handler(func, events.MessageEdited(**args))
-        bot.add_event_handler(func, events.NewMessage(**args))
+            bot.add_event_handler(func, events.MessageEdited(pattern=hell_reg, **args))
+        bot.add_event_handler(func, events.NewMessage(pattern=hell_reg, **args))
         if allow_sudo:
             bot.add_event_handler(func, events.NewMessage(pattern=sudo_reg, from_users=list(Config.SUDO_USERS), **args))
         if H2:
-            H2.add_event_handler(func, events.NewMessage(**args))
+            H2.add_event_handler(func, events.NewMessage(pattern=hell_reg, **args))
         if H3:
-            H3.add_event_handler(func, events.NewMessage(**args))
+            H3.add_event_handler(func, events.NewMessage(pattern=hell_reg, **args))
         if H4:
-            H4.add_event_handler(func, events.NewMessage(**args))
+            H4.add_event_handler(func, events.NewMessage(pattern=hell_reg, **args))
         if H5:
-            H5.add_event_handler(func, events.NewMessage(**args))
+            H5.add_event_handler(func, events.NewMessage(pattern=hell_reg, **args))
         try:
             LOAD_PLUG[file_test].append(func)
         except Exception:
