@@ -74,7 +74,7 @@ def load_module(shortname):
         mod.delete_hell = delete_hell
         mod.eod = delete_hell
         mod.Var = Config
-        mod.admin_cmd = hell_cmd
+        mod.admin_cmd = admin_cmd
         mod.hell_cmd = hell_cmd
         mod.sudo_cmd = sudo_cmd
         # support for other userbots
