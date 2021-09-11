@@ -1,4 +1,12 @@
+import inspect
+import re
+
+from pathlib import Path
+from telethon import events
+
 from .session import bot, H2, H3, H4, H5
+from hellbot.config import Config
+
 
 def hell_cmd(
     pattern: str = None,
