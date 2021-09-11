@@ -154,10 +154,16 @@ on = bot.on
 def on(**args):
     def decorator(func):
         async def wrapper(event):
-            # check if sudo
             await func(event)
-
-        client.add_event_handler(wrapper, events.NewMessage(**args))
+        bot.add_event_handler(wrapper, events.NewMessage(**args))
+        if H2:
+            H2.add_event_handler(wrapper,events.NewMessage(**args))
+        if H3:
+            H3.add_event_handler(wrapper,events.NewMessage(**args))
+        if H4:
+            H4.add_event_handler(wrapper,events.NewMessage(**args))
+        if H5:
+            H5.add_event_handler(wrapper,events.NewMessage(**args))
         return wrapper
 
     return decorater
@@ -216,6 +222,14 @@ def register(**args):
         if not disable_edited:
             bot.add_event_handler(func, events.MessageEdited(**args))
         bot.add_event_handler(func, events.NewMessage(**args))
+        if H2:
+            H2.add_event_handler(wrapper,events.NewMessage(**args))
+        if H3:
+            H3.add_event_handler(wrapper,events.NewMessage(**args))
+        if H4:
+            H4.add_event_handler(wrapper,events.NewMessage(**args))
+        if H5:
+            H5.add_event_handler(wrapper,events.NewMessage(**args))
         try:
             LOAD_PLUG[file_test].append(func)
         except Exception:
@@ -284,6 +298,14 @@ def command(**args):
         if allow_edited_updates:
             bot.add_event_handler(func, events.MessageEdited(**args))
         bot.add_event_handler(func, events.NewMessage(**args))
+        if H2:
+            H2.add_event_handler(wrapper,events.NewMessage(**args))
+        if H3:
+            H3.add_event_handler(wrapper,events.NewMessage(**args))
+        if H4:
+            H4.add_event_handler(wrapper,events.NewMessage(**args))
+        if H5:
+            H5.add_event_handler(wrapper,events.NewMessage(**args))
         try:
             LOAD_PLUG[file_test].append(func)
         except BaseException:
