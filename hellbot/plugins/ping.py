@@ -1,5 +1,5 @@
-from hellbot.utils.decorators import on, hell_cmd
+from hellbot.utils.decorators import register
 
-@on(hell_cmd(pattern="ping$"))
+@register(pattern="ping$")
 async def _(event):
     await eor(event, "Pong")
