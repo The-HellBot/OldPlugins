@@ -157,13 +157,13 @@ def on(**args):
             await func(event)
         bot.add_event_handler(wrapper, events.NewMessage(**args))
         if H2:
-            H2.add_event_handler(wrapper,events.NewMessage(**args))
+            H2.add_event_handler(wrapper, events.NewMessage(**args))
         if H3:
-            H3.add_event_handler(wrapper,events.NewMessage(**args))
+            H3.add_event_handler(wrapper, events.NewMessage(**args))
         if H4:
-            H4.add_event_handler(wrapper,events.NewMessage(**args))
+            H4.add_event_handler(wrapper, events.NewMessage(**args))
         if H5:
-            H5.add_event_handler(wrapper,events.NewMessage(**args))
+            H5.add_event_handler(wrapper, events.NewMessage(**args))
         return wrapper
 
     return decorater
@@ -223,13 +223,13 @@ def register(**args):
             bot.add_event_handler(func, events.MessageEdited(**args))
         bot.add_event_handler(func, events.NewMessage(**args))
         if H2:
-            H2.add_event_handler(wrapper,events.NewMessage(**args))
+            H2.add_event_handler(func, events.NewMessage(**args))
         if H3:
-            H3.add_event_handler(wrapper,events.NewMessage(**args))
+            H3.add_event_handler(func, events.NewMessage(**args))
         if H4:
-            H4.add_event_handler(wrapper,events.NewMessage(**args))
+            H4.add_event_handler(func, events.NewMessage(**args))
         if H5:
-            H5.add_event_handler(wrapper,events.NewMessage(**args))
+            H5.add_event_handler(func, events.NewMessage(**args))
         try:
             LOAD_PLUG[file_test].append(func)
         except Exception:
@@ -299,13 +299,13 @@ def command(**args):
             bot.add_event_handler(func, events.MessageEdited(**args))
         bot.add_event_handler(func, events.NewMessage(**args))
         if H2:
-            H2.add_event_handler(wrapper,events.NewMessage(**args))
+            H2.add_event_handler(func, events.NewMessage(**args))
         if H3:
-            H3.add_event_handler(wrapper,events.NewMessage(**args))
+            H3.add_event_handler(func, events.NewMessage(**args))
         if H4:
-            H4.add_event_handler(wrapper,events.NewMessage(**args))
+            H4.add_event_handler(func, events.NewMessage(**args))
         if H5:
-            H5.add_event_handler(wrapper,events.NewMessage(**args))
+            H5.add_event_handler(func, events.NewMessage(**args))
         try:
             LOAD_PLUG[file_test].append(func)
         except BaseException:
