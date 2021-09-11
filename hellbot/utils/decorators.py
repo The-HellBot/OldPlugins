@@ -24,6 +24,7 @@ def hell_cmd(**args):
     file_test = file_test.stem.replace(".py", "")
     disable_edited = args.get("disable_edited", False)
     pattern = args.get("pattern", None)
+    command = args.get("command", None)
     allow_sudo = args.get("allow_sudo", True)
 
     if pattern is not None:
