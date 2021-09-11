@@ -5,7 +5,7 @@ from pathlib import Path
 from telethon import events
 
 from .session import H2, H3, H4, H5
-from hellbot import *
+from hellbot import CMD_LIST, LOAD_PLUG
 from hellbot.config import Config
 
 
