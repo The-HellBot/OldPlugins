@@ -1,3 +1,6 @@
+import telethon.utils
+
+
 @hell_cmd(pattern="ping$")
 async def _(event):
     client.me = await client.get_me()
