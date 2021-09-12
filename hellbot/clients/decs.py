@@ -84,3 +84,18 @@ def hell_cmd(
         return func
 
     return decorator
+
+
+def hell_handler(**args):
+    def decorator(func):
+        bot.add_event_handler(func, events.NewMessage(**args))
+        if H2:
+            H2.add_event_handler(func, events.NewMessage(**args))
+        if H3:
+            H3.add_event_handler(func, events.NewMessage(**args))
+        if H4:
+            H4.add_event_handler(func, events.NewMessage(**args))
+        if H5:
+            H5.add_event_handler(func, events.NewMessage(**args))
+        return func
+    return decorator
