@@ -11,7 +11,7 @@ from telethon.tl.types import InputMessagesFilterDocument
 from . import *
 
 
-@hell_cmd(pattern="cmds$"))
+@hell_cmd(pattern="cmds$")
 async def kk(event):
     reply_to_id = event.message.id
     if event.reply_to_msg_id:
