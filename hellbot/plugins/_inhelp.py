@@ -135,11 +135,11 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
         elif event.query.user_id in auth and query.startswith("fsub"):
             hunter = event.pattern_match.group(1)
             hell = hunter.split("+")
-            user = await bot.get_entity(int(hell[0]))
-            channel = await bot.get_entity(int(hell[1]))
+            user = await event.client.get_entity(int(hell[0]))
+            channel = await event.client.get_entity(int(hell[1]))
             msg = f"**👋 Welcome** [{user.first_name}](tg://user?id={user.id}), \n\n**📍 You need to Join** {channel.title} **to chat in this group.**"
             if not channel.username:
-                link = (await bot(ExportChatInviteRequest(channel))).link
+                link = (await event.client(ExportChatInviteRequest(channel))).link
             else:
                 link = "https://t.me/" + channel.username
             result = [
@@ -289,7 +289,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
             if first_name is not None:
                 first_name = first_name.replace("\u2060", "")
             tosend = f"**👀 Hey {hell_mention} !!** \n\n⚜️ You Got A Request From [{first_name}](tg://user?id={ok}) In PM!!"
-            await bot.send_message(LOG_GP, tosend)
+            await event.client.send_message(LOG_GP, tosend)
 
 
     @tgbot.on(callbackquery.CallbackQuery(data=compile(b"chat")))
@@ -311,7 +311,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
             if first_name is not None:
                 first_name = first_name.replace("\u2060", "")
             tosend = f"**👀 Hey {hell_mention} !!** \n\n⚜️ You Got A PM from  [{first_name}](tg://user?id={ok})  for random chats!!"
-            await bot.send_message(LOG_GP, tosend)
+            await event.client.send_message(LOG_GP, tosend)
 
 
     @tgbot.on(callbackquery.CallbackQuery(data=compile(b"heheboi")))
@@ -326,14 +326,14 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
             await event.edit(
                 f"🥴 **Nikal lawde\nPehli fursat me nikal**"
             )
-            await bot(functions.contacts.BlockRequest(event.query.user_id))
+            await event.client(functions.contacts.BlockRequest(event.query.user_id))
             target = await event.client(GetFullUserRequest(event.query.user_id))
             ok = event.query.user_id
             first_name = html.escape(target.user.first_name)
             if first_name is not None:
                 first_name = first_name.replace("\u2060", "")
             first_name = html.escape(target.user.first_name)
-            await bot.send_message(
+            await event.client.send_message(
                 LOG_GP,
                 f"**Blocked**  [{first_name}](tg://user?id={ok}) \n\nReason:- Spam",
             )
@@ -349,12 +349,12 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
         if not event.sender_id == int(hell[0]):
             return await event.answer("This Ain't For You!!", alert=True)
         try:
-            await bot(GetParticipantRequest(int(hell[1]), int(hell[0])))
+            await event.client(GetParticipantRequest(int(hell[1]), int(hell[0])))
         except UserNotParticipantError:
             return await event.answer(
                 "You need to join the channel first.", alert=True
             )
-        await bot.edit_permissions(
+        await event.client.edit_permissions(
             event.chat_id, int(hell[0]), send_message=True, until_date=None
         )
         await event.edit("Yay! You can chat now !!")
