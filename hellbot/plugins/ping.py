@@ -1,5 +1,7 @@
 import telethon.utils
 
+from . import client_id
+
 
 @hell_cmd(pattern="ping$")
 async def p(event):
