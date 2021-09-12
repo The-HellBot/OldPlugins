@@ -3,8 +3,6 @@ import telethon.utils
 
 @hell_cmd(pattern="ping$")
 async def p(event):
-    client = await event.client.get_me()
-    uid = telethon.utils.get_peer_id(client)
-    ForGo10God = uid
-    HELL_USER = client.first_name
-    await eor(event, f"Pong \n\n{ForGo10God}\n\n{HELL_USER}")
+    x = await client_id(event)
+    ForGo10God, HELL_USER, hell_mention = x[0], x[1], x[2]
+    await eor(event, f"**Pong !!**\n\n{ForGo10God} \n\n{HELL_USER} \n\n{hell_mention}")
