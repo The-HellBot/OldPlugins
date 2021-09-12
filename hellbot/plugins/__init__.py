@@ -13,7 +13,7 @@ from hellbot.sql.gvar_sql import gvarstat
 from telethon import version
 
 
-def client_id(event):
+async def client_id(event):
     client = await event.client.get_me()
     uid = telethon.utils.get_peer_id(client)
     ForGo10God = uid
