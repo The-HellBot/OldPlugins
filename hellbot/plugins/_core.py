@@ -31,7 +31,7 @@ async def kk(event):
     if len(OUTPUT) > 69:
         with io.BytesIO(str.encode(OUTPUT)) as out_file:
             out_file.name = "cmd_list.text"
-            hell_file = await bot.send_file(
+            hell_file = await event.client.send_file(
                 event.chat_id,
                 out_file,
                 force_document=True,
