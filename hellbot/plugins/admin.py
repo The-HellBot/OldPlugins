@@ -377,8 +377,7 @@ async def ban(event):
     )
 
 
-@hell_cmd(pattern="unban(?: |$)(.*)"))
-@sudo_cmd(pattern="unban(?: |$)(.*)", allow_sudo=True))
+@hell_cmd(pattern="unban(?: |$)(.*)")
 @errors_handler
 async def nothanos(event):
     if event.fwd_from:
