@@ -2,8 +2,8 @@ import telethon.utils
 
 
 @hell_cmd(pattern="ping$")
-async def _(event):
-    client = await bot.get_me()
+async def p(event):
+    client = await event.client.get_me()
     uid = telethon.utils.get_peer_id(client)
     ForGo10God = uid
     HELL_USER = client.first_name
