@@ -19,7 +19,7 @@ last_afk_message = {}
 afk_start = {}
 
 
-@bot.on(events.NewMessage(outgoing=True))
+@hell_handler(events.NewMessage(outgoing=True))
 async def set_not_afk(event):
     if event.fwd_from:
         return
@@ -67,7 +67,7 @@ async def set_not_afk(event):
         afk_time = None
 
 
-@bot.on(events.NewMessage(incoming=True, func=lambda e: bool(e.mentioned or e.is_private)))
+@hell_handler(events.NewMessage(incoming=True, func=lambda e: bool(e.mentioned or e.is_private)))
 async def on_afk(event):
     global USER_AFK
     global afk_time
@@ -187,7 +187,7 @@ night_time = None
 last_night_message = {}
 
 
-@bot.on(events.NewMessage(outgoing=True))
+@hell_handler(events.NewMessage(outgoing=True))
 async def set_not_night(event):
     global USER_night 
     global night_time 
@@ -243,7 +243,7 @@ async def _(event):
             logger.warn(str(e))
 
 
-@bot.on(events.NewMessage(incoming=True, func=lambda e: bool(e.mentioned or e.is_private)))
+@hell_handler(events.NewMessage(incoming=True, func=lambda e: bool(e.mentioned or e.is_private)))
 async def on_night(event):
     global USER_night
     global night_time
