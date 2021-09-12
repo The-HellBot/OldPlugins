@@ -1,4 +1,5 @@
 import datetime
+import telethon.utils
 import time
 
 from hellbot import *
@@ -12,9 +13,14 @@ from hellbot.sql.gvar_sql import gvarstat
 from telethon import version
 
 
-HELL_USER = bot.me.first_name
-ForGo10God = bot.uid
-hell_mention = f"[{HELL_USER}](tg://user?id={ForGo10God})"
+def client_id(event):
+    client = await event.client.get_me()
+    uid = telethon.utils.get_peer_id(client)
+    ForGo10God = uid
+    HELL_USER = client.first_name
+    hell_mention = f"[{HELL_USER}](tg://user?id={ForGo10God})"
+    return ForGo10God, HELL_USER, hell_mention
+
 hell_logo = "./hellbot/resources/pics/hellbot_logo.jpg"
 cjb = "./hellbot/resources/pics/cjb.jpg"
 restlo = "./hellbot/resources/pics/rest.jpeg"
