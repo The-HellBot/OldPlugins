@@ -18,23 +18,8 @@ afk_time = None
 last_afk_message = {}
 afk_start = {}
 
-@H1.on(events.NewMessage(outgoing=True))
-try:
-    @H2.on(events.NewMessage(outgoing=True))
-except:
-    pass
-try:
-    @H3.on(events.NewMessage(outgoing=True))
-except:
-    pass
-try:
-    @H4.on(events.NewMessage(outgoing=True))
-except:
-    pass
-try:
-    @H5.on(events.NewMessage(outgoing=True))
-except:
-    pass
+
+@bot.on(events.NewMessage(outgoing=True))
 async def set_not_afk(event):
     if event.fwd_from:
         return
@@ -82,23 +67,7 @@ async def set_not_afk(event):
         afk_time = None
 
 
-@H1.on(events.NewMessage(incoming=True, func=lambda e: bool(e.mentioned or e.is_private)))
-try:
-    @H2.on(events.NewMessage(incoming=True, func=lambda e: bool(e.mentioned or e.is_private)))
-except:
-    pass
-try:
-    @H3.on(events.NewMessage(incoming=True, func=lambda e: bool(e.mentioned or e.is_private)))
-except:
-    pass
-try:
-    @H4.on(events.NewMessage(incoming=True, func=lambda e: bool(e.mentioned or e.is_private)))
-except:
-    pass
-try:
-    @H5.on(events.NewMessage(incoming=True, func=lambda e: bool(e.mentioned or e.is_private)))
-except:
-    pass
+@bot.on(events.NewMessage(incoming=True, func=lambda e: bool(e.mentioned or e.is_private)))
 async def on_afk(event):
     global USER_AFK
     global afk_time
@@ -218,23 +187,7 @@ night_time = None
 last_night_message = {}
 
 
-@H1.on(events.NewMessage(outgoing=True))
-try:
-    @H2.on(events.NewMessage(outgoing=True))
-except:
-    pass
-try:
-    @H3.on(events.NewMessage(outgoing=True))
-except:
-    pass
-try:
-    @H4.on(events.NewMessage(outgoing=True))
-except:
-    pass
-try:
-    @H5.on(events.NewMessage(outgoing=True))
-except:
-    pass
+@bot.on(events.NewMessage(outgoing=True))
 async def set_not_night(event):
     global USER_night 
     global night_time 
@@ -290,23 +243,7 @@ async def _(event):
             logger.warn(str(e))
 
 
-@H1.on(events.NewMessage(incoming=True, func=lambda e: bool(e.mentioned or e.is_private)))
-try:
-    @H2.on(events.NewMessage(incoming=True, func=lambda e: bool(e.mentioned or e.is_private)))
-except:
-    pass
-try:
-    @H3.on(events.NewMessage(incoming=True, func=lambda e: bool(e.mentioned or e.is_private)))
-except:
-    pass
-try:
-    @H4.on(events.NewMessage(incoming=True, func=lambda e: bool(e.mentioned or e.is_private)))
-except:
-    pass
-try:
-    @H5.on(events.NewMessage(incoming=True, func=lambda e: bool(e.mentioned or e.is_private)))
-except:
-    pass
+@bot.on(events.NewMessage(incoming=True, func=lambda e: bool(e.mentioned or e.is_private)))
 async def on_night(event):
     global USER_night
     global night_time
