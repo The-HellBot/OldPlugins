@@ -8,9 +8,9 @@ from . import *
 
 ####### THAT'S HOW A MESSED-UP CODE LOOKS LIKE #######
 
-global USER_AFK  # pylint:disable=E0602
-global afk_time  # pylint:disable=E0602
-global last_afk_message  # pylint:disable=E0602
+global USER_AFK
+global afk_time
+global last_afk_message
 global afk_start
 global afk_end
 USER_AFK = {}
@@ -18,13 +18,17 @@ afk_time = None
 last_afk_message = {}
 afk_start = {}
 
-@hell_cmd(events.NewMessage(outgoing=True))  # pylint:disable=E0602
+@H1.on(events.NewMessage(outgoing=True))
+@H2.on(events.NewMessage(outgoing=True))
+@H3.on(events.NewMessage(outgoing=True))
+@H4.on(events.NewMessage(outgoing=True))
+@H5.on(events.NewMessage(outgoing=True))
 async def set_not_afk(event):
     if event.fwd_from:
         return
-    global USER_AFK  # pylint:disable=E0602
-    global afk_time  # pylint:disable=E0602
-    global last_afk_message  # pylint:disable=E0602
+    global USER_AFK
+    global afk_time
+    global last_afk_message
     global afk_start
     global afk_end
     came_back = datetime.datetime.now()
@@ -32,7 +36,7 @@ async def set_not_afk(event):
     if afk_start != {}:
         total_afk_time = str((afk_end - afk_start))
     current_message = event.message.message
-    if "#" not in current_message and "yes" in USER_AFK:  # pylint:disable=E0602
+    if "#" not in current_message and "yes" in USER_AFK:
         hellbot = await event.client.send_message(
             event.chat_id,
             "__**Back to Virtual World!**__\nNo Longer AFK.\n⏱️ Was afk for: `"
@@ -44,14 +48,14 @@ async def set_not_afk(event):
         except:
             pass
         try:
-            await event.client.send_message(  # pylint:disable=E0602
-                Config.LOGGER_ID,  # pylint:disable=E0602
+            await event.client.send_message(
+                Config.LOGGER_ID,
                 "#AFKFALSE \n\nAFK mode = **False**\n"
                 + "__**Back to Virtual World!**__\nNo Longer afk.\n⏱️ Was afk for: "
                 + total_afk_time
             )
-        except Exception as e:  # pylint:disable=C0103,W0703
-            await event.client.send_message(  # pylint:disable=E0602
+        except Exception as e:
+            await event.client.send_message(
                 event.chat_id,
                 "Please set `LOGGER_ID` "
                 + "for the proper functioning of afk."
@@ -62,21 +66,19 @@ async def set_not_afk(event):
             )
         await asyncio.sleep(5)
         await hellbot.delete()
-        USER_AFK = {}  # pylint:disable=E0602
-        afk_time = None  # pylint:disable=E0602
+        USER_AFK = {}
+        afk_time = None
 
 
-@bot.on(
-    events.NewMessage(  # pylint:disable=E0602
-        incoming=True, func=lambda e: bool(e.mentioned or e.is_private)
-    )
-)
+@H1.on(events.NewMessage(incoming=True, func=lambda e: bool(e.mentioned or e.is_private)))
+@H2.on(events.NewMessage(incoming=True, func=lambda e: bool(e.mentioned or e.is_private)))
+@H3.on(events.NewMessage(incoming=True, func=lambda e: bool(e.mentioned or e.is_private)))
+@H4.on(events.NewMessage(incoming=True, func=lambda e: bool(e.mentioned or e.is_private)))
+@H5.on(events.NewMessage(incoming=True, func=lambda e: bool(e.mentioned or e.is_private)))
 async def on_afk(event):
-    if event.fwd_from:
-        return
-    global USER_AFK  # pylint:disable=E0602
-    global afk_time  # pylint:disable=E0602
-    global last_afk_message  # pylint:disable=E0602
+    global USER_AFK
+    global afk_time
+    global last_afk_message
     global afk_start
     global afk_end
     cum_back = datetime.datetime.now()
@@ -85,8 +87,6 @@ async def on_afk(event):
         total_afk_time = str((afk_end - afk_start))
     current_message_text = event.message.message.lower()
     if "afk" in current_message_text:
-        # userbot's should not reply to other userbot's
-        # https://core.telegram.org/bots/faq#why-doesn-39t-my-bot-see-messages-from-other-bots
         return False
     if USER_AFK and not (await event.get_sender()).bot:
         msg = None
@@ -103,19 +103,17 @@ async def on_afk(event):
         except:
             pass
         await asyncio.sleep(2)
-        if event.chat_id in last_afk_message:  # pylint:disable=E0602
-            await last_afk_message[event.chat_id].delete()  # pylint:disable=E0602
-        last_afk_message[event.chat_id] = msg  # pylint:disable=E0602
+        if event.chat_id in last_afk_message:
+            await last_afk_message[event.chat_id].delete()
+        last_afk_message[event.chat_id] = msg
 
 
-@bot.on(hell_cmd(pattern=r"afk ?(.*)"))
+@hell_cmd(pattern=r"afk ?(.*)")
 async def _(event):
-    if event.fwd_from:
-        return
     krakenop = await event.get_reply_message()
-    global USER_AFK  # pylint:disable=E0602
-    global afk_time  # pylint:disable=E0602
-    global last_afk_message  # pylint:disable=E0602
+    global USER_AFK
+    global afk_time
+    global last_afk_message
     global afk_start
     global afk_end
     global reason
@@ -129,14 +127,14 @@ async def _(event):
     owo = event.text[5:]
     reason = owo
     hellpic = await event.client.download_media(krakenop)
-    if not USER_AFK:  # pylint:disable=E0602
-        last_seen_status = awaitevent.client(  # pylint:disable=E0602
+    if not USER_AFK:
+        last_seen_status = await event.client(
             functions.account.GetPrivacyRequest(types.InputPrivacyKeyStatusTimestamp())
         )
         if isinstance(last_seen_status.rules, types.PrivacyValueAllowAll):
-            afk_time = datetime.datetime.now()  # pylint:disable=E0602
+            afk_time = datetime.datetime.now()
         if owo == "":
-            USER_AFK = f"yes: not-mentiond {hellpic}"  # pylint:disable=E0602
+            USER_AFK = f"yes: not-mentiond {hellpic}"
             x = await event.client.send_message(
                 event.chat_id, f"**I'm going afk🚶**", file=hellpic)
             try:
@@ -154,10 +152,10 @@ async def _(event):
                     await unsave_gif(event, xy)
                 except:
                     pass
-            except Exception as e:  # pylint:disable=C0103,W0703
-                logger.warn(str(e))  # pylint:disable=E06
+            except Exception as e:
+                logger.warn(str(e))
         else:
-            USER_AFK = f"yes: {reason} {hellpic}"  # pylint:disable=E0602
+            USER_AFK = f"yes: {reason} {hellpic}"
             x = await event.client.send_message(
                 event.chat_id, f"**I'm going afk🚶**\n\n**Because :** `{reason}`", file=hellpic)
             try:
@@ -175,8 +173,8 @@ async def _(event):
                     await unsave_gif(event, xy)
                 except:
                     pass
-            except Exception as e:  # pylint:disable=C0103,W0703
-                logger.warn(str(e))  # pylint:disable=E06
+            except Exception as e:
+                logger.warn(str(e))
 
 
 CmdHelp("afk").add_command(
@@ -196,7 +194,11 @@ night_time = None
 last_night_message = {}
 
 
-@bot.on(events.NewMessage(outgoing=True))
+@H1.on(events.NewMessage(outgoing=True))
+@H2.on(events.NewMessage(outgoing=True))
+@H3.on(events.NewMessage(outgoing=True))
+@H4.on(events.NewMessage(outgoing=True))
+@H5.on(events.NewMessage(outgoing=True))
 async def set_not_night(event):
     global USER_night 
     global night_time 
@@ -221,10 +223,8 @@ async def set_not_night(event):
         night_time = None
 
 
-@bot.on(hell_cmd(pattern=r"night ?(.*)"))
+@hell_cmd(pattern=r"night ?(.*)")
 async def _(event):
-    if event.fwd_from:
-        return
     global USER_night
     global night_time
     global last_night_message
@@ -234,7 +234,7 @@ async def _(event):
     last_night_message = {}
     reason = event.pattern_match.group(1)
     if not USER_night:
-        last_seen_status = awaitevent.client(
+        last_seen_status = await event.client(
             functions.account.GetPrivacyRequest(types.InputPrivacyKeyStatusTimestamp())
         )
         if isinstance(last_seen_status.rules, types.PrivacyValueAllowAll):
@@ -254,22 +254,18 @@ async def _(event):
             logger.warn(str(e))
 
 
-@bot.on(
-    events.NewMessage(
-        incoming=True, func=lambda e: bool(e.mentioned or e.is_private)
-    )
-)
+@H1.on(events.NewMessage(incoming=True, func=lambda e: bool(e.mentioned or e.is_private)))
+@H2.on(events.NewMessage(incoming=True, func=lambda e: bool(e.mentioned or e.is_private)))
+@H3.on(events.NewMessage(incoming=True, func=lambda e: bool(e.mentioned or e.is_private)))
+@H4.on(events.NewMessage(incoming=True, func=lambda e: bool(e.mentioned or e.is_private)))
+@H5.on(events.NewMessage(incoming=True, func=lambda e: bool(e.mentioned or e.is_private)))
 async def on_night(event):
-    if event.fwd_from:
-        return
     global USER_night
     global night_time
     global last_night_message
     night_since = "**a while ago**"
     current_message_text = event.message.message.lower()
     if "night" in current_message_text:
-        # userbot's should not reply to other userbot's
-        # https://core.telegram.org/bots/faq#why-doesn-39t-my-bot-see-messages-from-other-bots
         return False
     if USER_night and not (await event.get_sender()).bot:
         if night_time:
