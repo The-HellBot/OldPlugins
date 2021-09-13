@@ -20,7 +20,7 @@ async def _(event):
         await event.edit(animation_chars[i % 18])
 
 
-@hell_cmd(pattern="^Yo$")
+@hell_cmd(pattern="yo$")
 async def Ooo(e):
     t = "yo"
     for j in range(15):
