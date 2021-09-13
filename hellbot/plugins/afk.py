@@ -17,7 +17,7 @@ last_afk_message = {}
 afk_start = {}
 
 
-@client.on(events.NewMessage(outgoing=True))
+@H1.on(events.NewMessage(outgoing=True))
 async def set_not_afk(event):
     global afk_time
     global last_afk_message
@@ -65,7 +65,7 @@ async def set_not_afk(event):
         afk_time = None
 
 
-@client.on(events.NewMessage(incoming=True, func=lambda e: bool(e.mentioned or e.is_private)))
+@H1.on(events.NewMessage(incoming=True, func=lambda e: bool(e.mentioned or e.is_private)))
 async def on_afk(event):
     global afk_time
     global last_afk_message
