@@ -114,7 +114,8 @@ async def _(event):
 
 @hell_cmd(pattern="call$")
 async def _(event):
-    hell_mention = await client_id(event)[2]
+    xyz = await client_id(event)
+    hell_mention = xyz[2]
     animation_interval = 3
     animation_ttl = range(18)
     event = await eor(event, "Calling Narendra Modi ......")
@@ -295,6 +296,7 @@ async def _(event):
     await event.edit("🔥🔥🔥")
     await asyncio.sleep(0.3)
     await event.edit("EVERyBOdy iZ GangSTur UNtIL I ArRivE 🔥🔥🔥")
+
 
 @hell_cmd(pattern=f"bigoof$")
 async def _(event):
