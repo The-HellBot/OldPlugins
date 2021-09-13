@@ -278,7 +278,7 @@ async def _(event):
         await event.edit(animation_chars[i % 8])
 
 
-@hell_cmd(pattern="degi$"))
+@hell_cmd(pattern="degi$")
 async def _(event):
     event = await eor(event, "degi")
     await event.edit("WO")
@@ -309,7 +309,7 @@ async def _(event):
     await asyncio.sleep(999)
 
 
-@hell_cmd(pattern="hnd (.*)"))
+@hell_cmd(pattern="hnd (.*)")
 async def _(event):
     name = event.pattern_match.group(1)
     animation_interval = 0.5
@@ -672,7 +672,7 @@ async def _(event):
         await event.edit(animation_chars[i % 28])
 
 
-@hell_cmd(pattern="virus$"))
+@hell_cmd(pattern="virus$")
 async def _(event):
     animation_interval = 1
     animation_ttl = range(30)
