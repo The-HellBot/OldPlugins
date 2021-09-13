@@ -200,7 +200,8 @@ async def _(event):
     for i in animation_ttl:
         await asyncio.sleep(animation_interval)
         await event.edit(animation_chars[i % 12])
-        
+   
+     
 @hell_cmd(pattern=f"wahack$")
 async def _(event):
     animation_interval = 0.3
@@ -226,6 +227,7 @@ async def _(event):
     for i in animation_ttl:
         await asyncio.sleep(animation_interval)
         await event.edit(animation_chars[i % 15])
+
 
 @hell_cmd(pattern="jio$")
 async def _(event):
@@ -440,6 +442,7 @@ async def cheer(event):
 async def getwell(event):
     await eor(event, "🌹🌹🌹🌹🌹🌹🌹🌹 \n🌹😷😢😓😷😢💨🌹\n🌹💝💉🍵💊💐💝🌹\n🌹 GetBetter Soon! 🌹\n🌹🌹🌹🌹🌹🌹🌹🌹")
 
+
 @hell_cmd(pattern="switch$")
 async def _(event):
     animation_interval = 0.5
@@ -473,7 +476,8 @@ async def sprinkle(event):
 @hell_cmd(pattern="kiler( (.*)|$)")
 async def _(event):
     name = event.pattern_match.group(1)
-    hell_mention = await client_id(event)[2]
+    xyz = await client_id(event)
+    hell_mention = xyz[2]
     if not name:
         name = "die"
     animation_interval = 0.7
@@ -880,7 +884,8 @@ async def _(event):
 
 @hell_cmd(pattern=r"hack$")
 async def _(event):
-    hell_mention = await client_id(event)[2]
+    xyz = await client_id(event)
+    hell_mention = xyz[2]
     animation_interval = 2
     animation_ttl = range(0, 12)
     event = await eor(event, "hack")
