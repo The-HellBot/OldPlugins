@@ -21,7 +21,7 @@ dwlpath = Config.TMP_DOWNLOAD_DIRECTORY
 # convertions are done here...
 
 # make a image
-async def convert_to_image(event, bot):
+async def convert_to_image(event, client):
     hell = await event.get_reply_message()
     if not (
             hell.gif
@@ -38,7 +38,7 @@ async def convert_to_image(event, bot):
     else:
         try:
             c_time = time.time()
-            downloaded_file_name = await bot.download_media(
+            downloaded_file_name = await event.client.download_media(
                 hell.media,
                 dwlpath,
                 progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
