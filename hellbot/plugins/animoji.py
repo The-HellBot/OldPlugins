@@ -40,7 +40,7 @@ async def _(event):
 
 
 @hell_cmd(pattern="nothappy$")
-async def _(event)
+async def _(event):
     event = await eor(event, "nathappy")
     deq = deque(list("😁☹️😁☹️😁☹️😁"))
     for _ in range(48):
@@ -261,6 +261,7 @@ async def _(event):
     for i in animation_ttl:
         await asyncio.sleep(animation_interval)
         await event.edit(animation_chars[i % 4])
+
 
 @hell_cmd(pattern="fnl$")
 async def _(event):
