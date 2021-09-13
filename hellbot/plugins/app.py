@@ -7,7 +7,8 @@ from . import *
 async def apk(event):
     app_name = event.pattern_match.group(1)
     event = await eor(event, "Searching...")
-    HELL_USER = await client_id(event)[1]
+    xyz = await client_id(event)
+    HELL_USER = xyz[1]
     try:
         remove_space = app_name.split(" ")
         final_name = "+".join(remove_space)
