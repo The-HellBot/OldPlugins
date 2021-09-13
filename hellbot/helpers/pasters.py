@@ -10,7 +10,7 @@ headers = {
     "content-type": "application/json",
 }
 
-async def pasty(message, extension=None):
+async def pasty(event, message, extension=None):
     siteurl = "https://pasty.lus.pm/api/v1/pastes"
     data = {"content": message}
     try:
@@ -25,7 +25,7 @@ async def pasty(message, extension=None):
             else f"https://pasty.lus.pm/{response['id']}.txt"
         )
         try:
-            await bot.send_message(
+            await event.client.send_message(
                 Config.LOGGER_ID,
                 f"#PASTE \n\n**Open Paste From** [here]({purl}). \n**Delete that paste by using this token** `{response['deletionToken']}`",
             )
