@@ -66,34 +66,19 @@ def hell_cmd(
             bot.add_event_handler(func, events.MessageEdited(**args, outgoing=True, pattern=hell_reg))
         bot.add_event_handler(func, events.NewMessage(**args, outgoing=True, pattern=hell_reg))
         if allow_sudo:
-            bot.add_event_handler(func, events.NewMessage(**args, from_users=list(Config.SUDO_USERS), incoming=True, pattern=sudo_reg))
+            bot.add_event_handler(func, events.NewMessage(**args, from_users=list(Config.SUDO_USERS), pattern=sudo_reg))
         if H2:
-            H2.add_event_handler(func, events.NewMessage(pattern=hell_reg, **args, outgoing=True))
+            H2.add_event_handler(func, events.NewMessage(**args, outgoing=True, pattern=hell_reg))
         if H3:
-            H3.add_event_handler(func, events.NewMessage(pattern=hell_reg, **args, outgoing=True))
+            H3.add_event_handler(func, events.NewMessage(**args, outgoing=True, pattern=hell_reg))
         if H4:
-            H4.add_event_handler(func, events.NewMessage(pattern=hell_reg, **args, outgoing=True))
+            H4.add_event_handler(func, events.NewMessage(**args, outgoing=True, pattern=hell_reg))
         if H5:
-            H5.add_event_handler(func, events.NewMessage(pattern=hell_reg, **args, outgoing=True))
+            H5.add_event_handler(func, events.NewMessage(**args, outgoing=True, pattern=hell_reg))
         try:
             LOAD_PLUG[file_test].append(func)
         except Exception:
             LOAD_PLUG.update({file_test: [func]})
         return func
 
-    return decorator
-
-
-def hell_handler(**args):
-    def decorator(func):
-        bot.add_event_handler(func, events.NewMessage(**args))
-        if H2:
-            H2.add_event_handler(func, events.NewMessage(**args))
-        if H3:
-            H3.add_event_handler(func, events.NewMessage(**args))
-        if H4:
-            H4.add_event_handler(func, events.NewMessage(**args))
-        if H5:
-            H5.add_event_handler(func, events.NewMessage(**args))
-        return func
     return decorator
