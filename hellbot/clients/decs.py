@@ -55,9 +55,6 @@ def hell_cmd(
     if "disable_edited" in args:
         del args["disable_edited"]
 
-    elif "incoming" in args and not args["incoming"]:
-        args["outgoing"] = True
-
     args["blacklist_chats"] = True
     black_list_chats = list(Config.BL_CHAT)
     if len(black_list_chats) > 0:
@@ -65,18 +62,18 @@ def hell_cmd(
 
     def decorator(func):
         if not disable_edited:
-            bot.add_event_handler(func, events.MessageEdited(**args))
-        bot.add_event_handler(func, events.NewMessage(**args))
+            bot.add_event_handler(func, events.MessageEdited(pattern=hell_reg, **args, outgoing=True))
+        bot.add_event_handler(func, events.NewMessage(pattern=hell_reg, **args, outgoing=True))
         if allow_sudo:
-            bot.add_event_handler(func, events.NewMessage(from_users=list(Config.SUDO_USERS), **args))
+            bot.add_event_handler(func, events.NewMessage(pattern=sudo_reg, from_users=list(Config.SUDO_USERS), **args, incoming=True))
         if H2:
-            H2.add_event_handler(func, events.NewMessage(**args))
+            H2.add_event_handler(func, events.NewMessage(pattern=hell_reg, **args, outgoing=True))
         if H3:
-            H3.add_event_handler(func, events.NewMessage(**args))
+            H3.add_event_handler(func, events.NewMessage(pattern=hell_reg, **args, outgoing=True))
         if H4:
-            H4.add_event_handler(func, events.NewMessage(**args))
+            H4.add_event_handler(func, events.NewMessage(pattern=hell_reg, **args, outgoing=True))
         if H5:
-            H5.add_event_handler(func, events.NewMessage(**args))
+            H5.add_event_handler(func, events.NewMessage(pattern=hell_reg, **args, outgoing=True))
         try:
             LOAD_PLUG[file_test].append(func)
         except Exception:
