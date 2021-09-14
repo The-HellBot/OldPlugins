@@ -35,7 +35,6 @@ def hell_cmd(
             sudo_ = "\\" + Config.SUDO_HANDLER
             hell_reg = re.compile(hell_ + pattern)
             sudo_reg = re.compile(sudo_ + pattern)
-            args["pattern"] = hell_reg
             if command is not None:
                 cmd1 = hell_ + command
                 cmd2 = sudo_ + command
@@ -62,10 +61,10 @@ def hell_cmd(
 
     def decorator(func):
         if not disable_edited:
-            bot.add_event_handler(func, events.MessageEdited(pattern=hell_reg, **args, outgoing=True))
-        bot.add_event_handler(func, events.NewMessage(pattern=hell_reg, **args, outgoing=True))
+            bot.add_event_handler(func, events.MessageEdited(**args, outgoing=True))
+        bot.add_event_handler(func, events.NewMessage(**args, outgoing=True))
         if allow_sudo:
-            bot.add_event_handler(func, events.NewMessage(pattern=sudo_reg, from_users=list(Config.SUDO_USERS), **args, incoming=True))
+            bot.add_event_handler(func, events.NewMessage(**args, pattern=sudo_reg, from_users=list(Config.SUDO_USERS), incoming=True))
         if H2:
             H2.add_event_handler(func, events.NewMessage(pattern=hell_reg, **args, outgoing=True))
         if H3:
