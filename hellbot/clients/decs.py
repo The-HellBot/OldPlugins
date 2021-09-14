@@ -61,10 +61,10 @@ def hell_cmd(
 
     def decorator(func):
         if not disable_edited:
-            bot.add_event_handler(func, events.MessageEdited(**args, outgoing=True))
-        bot.add_event_handler(func, events.NewMessage(**args, outgoing=True))
+            bot.add_event_handler(func, events.MessageEdited(**args, outgoing=True, pattern=hell_reg))
+        bot.add_event_handler(func, events.NewMessage(**args, outgoing=True, pattern=hell_reg))
         if allow_sudo:
-            bot.add_event_handler(func, events.NewMessage(**args, pattern=sudo_reg, from_users=list(Config.SUDO_USERS), incoming=True))
+            bot.add_event_handler(func, events.NewMessage(**args, from_users=list(Config.SUDO_USERS), incoming=True, pattern=sudo_reg))
         if H2:
             H2.add_event_handler(func, events.NewMessage(pattern=hell_reg, **args, outgoing=True))
         if H3:
