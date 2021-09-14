@@ -24,6 +24,8 @@ def hell_cmd(
     file_test = file_test.stem.replace(".py", "")
 
     if pattern is not None:
+        global hell_reg
+        global sudo_reg
         if (
             pattern.startswith(r"\#")
             or not pattern.startswith(r"\#")
