@@ -66,7 +66,7 @@ def hell_cmd(
             bot.add_event_handler(func, events.MessageEdited(**args, outgoing=True, pattern=hell_reg))
         bot.add_event_handler(func, events.NewMessage(**args, outgoing=True, pattern=hell_reg))
         if allow_sudo:
-            bot.add_event_handler(func, events.NewMessage(**args, incoming=True, from_users=list(Config.SUDO_USERS), pattern=sudo_reg))
+            bot.add_event_handler(func, events.NewMessage(**args, from_users=list(Config.SUDO_USERS), pattern=sudo_reg))
         if H2:
             H2.add_event_handler(func, events.NewMessage(**args, outgoing=True, pattern=hell_reg))
         if H3:
