@@ -46,9 +46,7 @@ async def set_not_afk(event):
         try:
             await event.client.send_message(
                 Config.LOGGER_ID,
-                "#AFKFALSE \n\nAFK mode = **False**\n"
-                + "__**Back to Virtual World!**__\nNo Longer afk.\n⏱️ Was afk for: "
-                + total_afk_time
+                "#AFKFALSE \n\n**AFK mode** = `False`\n**AFK Timer :** `{total_afk_time}`"
             )
         except Exception as e:
             await event.client.send_message(
@@ -197,9 +195,7 @@ if H2:
             try:
                 await event.client.send_message(
                     Config.LOGGER_ID,
-                    "#AFKFALSE \n\nAFK mode = **False**\n"
-                    + "__**Back to Virtual World!**__\nNo Longer afk.\n⏱️ Was afk for: "
-                    + total_afk_time
+                    "#AFKFALSE \n\n**AFK mode** = `False`\n**AFK Timer :** `{total_afk_time}`"
                 )
             except Exception as e:
                 await event.client.send_message(
@@ -348,9 +344,7 @@ if H3:
             try:
                 await event.client.send_message(
                     Config.LOGGER_ID,
-                    "#AFKFALSE \n\nAFK mode = **False**\n"
-                    + "__**Back to Virtual World!**__\nNo Longer afk.\n⏱️ Was afk for: "
-                    + total_afk_time
+                    "#AFKFALSE \n\n**AFK mode** = `False`\n**AFK Timer :** `{total_afk_time}`"
                 )
             except Exception as e:
                 await event.client.send_message(
@@ -499,9 +493,7 @@ if H4:
             try:
                 await event.client.send_message(
                     Config.LOGGER_ID,
-                    "#AFKFALSE \n\nAFK mode = **False**\n"
-                    + "__**Back to Virtual World!**__\nNo Longer afk.\n⏱️ Was afk for: "
-                    + total_afk_time
+                    "#AFKFALSE \n\n**AFK mode** = `False`\n**AFK Timer :** `{total_afk_time}`"
                 )
             except Exception as e:
                 await event.client.send_message(
@@ -650,9 +642,7 @@ if H5:
             try:
                 await event.client.send_message(
                     Config.LOGGER_ID,
-                    "#AFKFALSE \n\nAFK mode = **False**\n"
-                    + "__**Back to Virtual World!**__\nNo Longer afk.\n⏱️ Was afk for: "
-                    + total_afk_time
+                    "#AFKFALSE \n\n**AFK mode** = `False`\n**AFK Timer :** `{total_afk_time}`"
                 )
             except Exception as e:
                 await event.client.send_message(
