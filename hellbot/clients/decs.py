@@ -23,6 +23,14 @@ def hell_cmd(
     file_test = Path(previous_stack_frame.filename)
     file_test = file_test.stem.replace(".py", "")
 
+    if "disable_edited" in args:
+        del args["disable_edited"]
+
+    args["blacklist_chats"] = True
+    black_list_chats = list(Config.BL_CHAT)
+    if len(black_list_chats) > 0:
+        args["chats"] = black_list_chats
+
     if pattern is not None:
         global hell_reg
         global sudo_reg
@@ -52,14 +60,6 @@ def hell_cmd(
             except BaseException:
                 CMD_LIST.update({file_test: [cmd1]})
 
-
-    if "disable_edited" in args:
-        del args["disable_edited"]
-
-    args["blacklist_chats"] = True
-    black_list_chats = list(Config.BL_CHAT)
-    if len(black_list_chats) > 0:
-        args["chats"] = black_list_chats
 
     def decorator(func):
         if not disable_edited:
