@@ -16,7 +16,7 @@ if not os.path.isdir("./temp"):
     os.makedirs("./temp")
 
 
-@hell_cmd(pattern="stog ?(.*)"))
+@hell_cmd(pattern="stog ?(.*)")
 async def _(event):
     if not event.reply_to_msg_id:
         return await eod(event, "Reply to animated sticker to make gif.")
