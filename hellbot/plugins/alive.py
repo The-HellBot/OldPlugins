@@ -34,7 +34,7 @@ async def up(event):
     a = gvarstat("ALIVE_PIC")
     if a is not None:
         b = a.split(" ")
-        c = ["https://telegra.ph/file/ea9e11f7c9db21c1b8d5e.mp4"]
+        c = []
         if len(b) >= 1:
             for d in b:
                 c.append(d)
