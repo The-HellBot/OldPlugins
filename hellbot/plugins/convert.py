@@ -20,7 +20,7 @@ if not os.path.isdir("./temp"):
 async def _(event):
     if not event.reply_to_msg_id:
         return await eod(event, "Reply to animated sticker to make gif.")
-    await eor(event, "Converting...")
+    hell = await eor(event, "Converting...")
     if event.pattern_match.group(1):
         quality = event.pattern_match.group(1)
     else:
@@ -28,8 +28,8 @@ async def _(event):
     rply = await event.get_reply_message()
     hell = await event.client.download_media(rply.media)
     gifs = tgs_to_gif(hell, quality)
-    await event.delete()
     await event.client.send_file(event.chat_id, file=gifs, force_document=False)
+    await hell.delete()
 
 
 @hell_cmd(pattern="stoi$")
