@@ -165,7 +165,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
             a = gvarstat("ALIVE_PIC")
             if a is not None:
                 b = a.split(" ")
-                c = ["https://telegra.ph/file/ea9e11f7c9db21c1b8d5e.mp4"]
+                c = []
                 if len(b) >= 1:
                     for d in b:
                         c.append(d)
