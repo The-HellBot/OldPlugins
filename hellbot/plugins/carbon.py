@@ -392,7 +392,7 @@ async def carbon_api(e):
     if pcode[7:]:
         pcode = str(pcode[7:])
     elif textx:
-        pcode = str(textx.message
+        pcode = str(textx.message)
     code = quote_plus(pcode)
     url = CARBON.format(code=code, R=RED, G=GREEN, B=BLUE, O=OPC, lang=CARBONLANG)
     chrome_options = Options()
