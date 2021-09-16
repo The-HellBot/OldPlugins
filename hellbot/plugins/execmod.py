@@ -2,7 +2,9 @@ import asyncio
 import io
 import os
 import time
+import requests
 
+from bs4 import BeautifulSoup
 from asyncio import create_subprocess_exec as asyncrunapp
 from asyncio.subprocess import PIPE as asyncPIPE
 
@@ -13,6 +15,30 @@ if not os.path.isdir("./SAVED"):
 if not os.path.isdir(Config.TMP_DOWNLOAD_DIRECTORY):
     os.makedirs(Config.TMP_DOWNLOAD_DIRECTORY)
 
+
+@hell_cmd(pattern="fext ?(.*)")
+async def _(event):
+    sample_url = "https://www.fileext.com/file-extension/{}.html"
+    input_str = event.pattern_match.group(1).lower()
+    response_api = requests.get(sample_url.format(input_str))
+    status_code = response_api.status_code
+    if status_code == 200:
+        raw_html = response_api.content
+        soup = BeautifulSoup(raw_html, "html.parser")
+        ext_details = soup.find_all("td", {"colspan": "3"})[-1].text
+        await eor(
+            event,
+            "**File Extension :** `{}`\n**Description :** `{}`".format(
+                input_str, ext_details
+            ),
+        )
+    else:
+        await eor(
+            event,
+            "https://www.fileext.com/ responded with {} for query: {}".format(
+                status_code, input_str
+            ),
+        )    
 
 @hell_cmd(pattern="pips(?: |$)(.*)")
 async def pipcheck(pip):
@@ -192,11 +218,13 @@ CmdHelp("execmod").add_command(
 ).add_command(
   "suicide", None, "Suicide"
 ).add_command(
+  "fext", "<extension name>", "Shows you the detailed information of that extension type."
+).add_command(
   "date", None, "Shows current date and time"
 ).add_command(
-  "env", None, "Shows Environment veriables from Heroku"
+  "env", None, "Shows Environment veriables of your HellBot"
 ).add_command(
-  "speed", None, "Shows server speed of your bot"
+  "speed", None, "Shows server speed of your HellBot"
 ).add_info(
   "Exec Modules."
 ).add_warning(
