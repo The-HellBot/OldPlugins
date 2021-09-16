@@ -23,9 +23,9 @@ async def install(event):
             path1 = Path(downloaded_file_name)
             shortname = path1.stem
             load_module(shortname.replace(".py", ""))
-            hell += "__Installed Plugin__ `{}` __successfully.__".format(os.path.basename(downloaded_file_name))
+            hell += "• __Installed Plugin__ `{}` __successfully.__\n".format(os.path.basename(downloaded_file_name))
         else:
-            hell += "__Plugin__ `{}` __has been pre-installed and cannot be installed.__".format(os.path.basename(downloaded_file_name))
+            hell += "• __Plugin__ `{}` __has been pre-installed and cannot be installed.__\n".format(os.path.basename(downloaded_file_name))
     await hell_.edit(hell)
 
 
@@ -46,9 +46,9 @@ async def install(event):
             path1 = Path(downloaded_file_name)
             shortname = path1.stem
             load_module(shortname.replace(".py", ""))
-            hell += "__Installed Plugin__ `{}` __successfully.__".format(os.path.basename(downloaded_file_name))
+            hell += "• __Installed Plugin__ `{}` __successfully.__\n".format(os.path.basename(downloaded_file_name))
         else:
-            hell += "__Plugin__ `{}` __has been pre-installed and cannot be installed.__".format(os.path.basename(downloaded_file_name))
+            hell += "• __Plugin__ `{}` __has been pre-installed and cannot be installed.__\n".format(os.path.basename(downloaded_file_name))
     await hell_.edit(hell)
 
 
