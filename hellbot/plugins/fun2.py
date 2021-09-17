@@ -200,7 +200,7 @@ async def _(event):
     await eor(event, mentions)
 
 
-@hell_cmd(pattern="ftext ?(.*)"))
+@hell_cmd(pattern="ftext ?(.*)")
 async def payf(event):
     input_str = event.pattern_match.group(1)
     if input_str:
@@ -225,19 +225,19 @@ async def payf(event):
     await eor(event, pay)
 
 
-@hell_cmd(pattern="cat$"))
+@hell_cmd(pattern="cat$")
 async def hmm(hell):
     reactcat = nekos.textcat()
     await eor(hell, reactcat)
 
 
-@hell_cmd(pattern="why$"))
+@hell_cmd(pattern="why$")
 async def hmm(hell):
     whyhell = nekos.why()
     await eor(hell, whyhell)
 
 
-@hell_cmd(pattern="fact$"))
+@hell_cmd(pattern="fact$")
 async def hmm(hell):
     facthell = nekos.fact()
     await eor(hell, facthell)
