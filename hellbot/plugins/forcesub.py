@@ -49,8 +49,8 @@ async def _(event):
     except BaseException:
         return await eod(event, "⚠️ **Error !** \n\nChannel ID invalid. Please Recheck It !")
     if not str(hunter).startswith("-100"):
-        hunter = int("-100" + str(hunter))
-    add_fsub(event.chat_id, str(hunter))
+        hunter = int(f"-100{hunter}")
+    add_fsub(event.chat_id, hunter)
     await eor(event, "Implementing **Force Subscribe** In This Channel !!")
 
 
