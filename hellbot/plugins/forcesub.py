@@ -57,7 +57,7 @@ async def _(event):
 @hell_cmd(pattern="rmfsub$")
 async def removef(event):
     if is_fsub(event.chat_id):
-        rem_fsub(event.chat_id)
+        rm_fsub(event.chat_id)
         await eor(event, "Deactivated **Force Subscribe** In This Channel !!")
     else:
         return await eod(event, "I don't think force sub was activated here.")
