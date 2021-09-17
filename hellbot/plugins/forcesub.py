@@ -68,8 +68,9 @@ async def getfsub(event):
     all_chat = is_fsub(event.chat_id)
     if not all_chat:
         return await eod(event, "Force Subscribe Is Disabled Here..")
-    channel = await event.client.get_entity(int(all_chat))
-    await eor(event, f"**ForceSub Enabled ** :\n- {channel.title} `({all_chat})`")
+    a = all_chat.chat_id
+    channel = await event.client.get_entity(a)
+    await eor(event, f"**ForceSub Enabled ** :\n- {channel.title} `({a})`")
 
 
 @hell_cmd(pattern="lsfsub$")
@@ -78,7 +79,10 @@ async def list(event):
     CHANNEL_LIST = "**🚀 Fsub Enabled In :**\n\n"
     if len(channels) > 0:
         for hunter in channels:
-            CHANNEL_LIST += f"[{hunter.title}](https://t.me/ + {hunter.username})\n"
+            a = hunter.chat_id
+            b = await event.client.get_entity(a)
+            c = b.id
+            CHANNEL_LIST += f"{c}\n"
     else:
         CHANNEL_LIST = "No Chat Found With Active Force Subscribe."
     await eor(event, CHANNEL_LIST)
