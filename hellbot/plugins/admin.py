@@ -457,7 +457,7 @@ async def unpin(event):
             if event.is_private:
                 await eod(event, "**Unpinned this message successfully !**")
             else:
-                await eod(event, "**Unpinned [this message](https://t.me/c/{ms_l.id}/{rply}) successfully !!**")
+                await eod(event, f"**Unpinned [this message](https://t.me/c/{ms_l.id}/{rply}) successfully !!**")
                 await event.client.send_message(lg_id, f"#UNPIN \n\n**Chat :** {event.chat.title} (`{event.chat_id}`) \n**Message :** [Here](https://t.me/c/{ms_l.id}/{rply})")
         elif options == "all":
             await event.client.unpin_message(event.chat_id)
