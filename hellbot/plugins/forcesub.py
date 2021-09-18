@@ -1,5 +1,5 @@
 from telethon.events import InlineQuery, callbackquery
-from telethon.tl.custom import Button
+from telethon import Button
 from telethon.errors.rpcerrorlist import UserNotParticipantError
 from telethon.tl.functions.channels import GetParticipantRequest
 from telethon.tl.functions.messages import ExportChatInviteRequest
@@ -8,7 +8,7 @@ from hellbot.sql.fsub_sql import *
 from . import *
 
 
-@H1.on(events.ChatAction())
+@tbot.on(events.ChatAction())
 async def forcesub(event):
     if all_fsub() == None:
         return
@@ -26,8 +26,17 @@ async def forcesub(event):
         await event.client(GetParticipantRequest(int(joinchat), user.id))
     except UserNotParticipantError:
         await event.client.edit_permissions(event.chat_id, user.id, send_messages=False)
-        res = await event.client.inline_query(tgbotusername, f"fsub {user.id}+{joinchat}")
-        await res[0].click(event.chat_id, reply_to=event.action_message.id)
+       # res = await event.client.inline_query(tgbotusername, f"fsub {user.id}+{joinchat}")
+       # await res[0].click(event.chat_id, reply_to=event.action_message.id)
+        channel = await event.client.get_entity(int(joinchat))
+        user = await event.client.get_entity(int(user.id))
+        if not channel.username:
+            channel_link = (await event.client(ExportChatInviteRequest(channel))).link
+        else:
+            channel_link = "https://t.me/" + channel.username
+        msg = f"**👋 Welcome** [{user.first_name}](tg://user?id={user.id}), \n\n**📍 You need to Join** {channel.title} **to chat in this group.**"
+        btns = [Button.url("Channel", url=channel_link), Button.inline("Unmute Me", data=f"unmute_{user.id}")]
+        await event.reply(event.chat_id, capt, buttons=btns)
 
 
 @hell_cmd(pattern="fsub ?(.*)")
