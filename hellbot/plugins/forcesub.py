@@ -8,7 +8,7 @@ from hellbot.sql.fsub_sql import *
 from . import *
 
 
-@tbot.on(events.ChatAction())
+@H1.on(events.ChatAction())
 async def forcesub(event):
     if all_fsub() == None:
         return
@@ -34,9 +34,9 @@ async def forcesub(event):
             channel_link = (await event.client(ExportChatInviteRequest(channel))).link
         else:
             channel_link = "https://t.me/" + channel.username
-        msg = f"**👋 Welcome** [{user.first_name}](tg://user?id={user.id}), \n\n**📍 You need to Join** {channel.title} **to chat in this group.**"
+        capt = f"**👋 Welcome** [{user.first_name}](tg://user?id={user.id}), \n\n**📍 You need to Join** {channel.title} **to chat in this group.**"
         btns = [Button.url("Channel", url=channel_link), Button.inline("Unmute Me", data=f"unmute_{user.id}")]
-        await event.reply(event.chat_id, capt, buttons=btns)
+        await tbot.reply(event.chat_id, capt, buttons=btns)
 
 
 @hell_cmd(pattern="fsub ?(.*)")
