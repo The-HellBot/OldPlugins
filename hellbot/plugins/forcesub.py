@@ -114,7 +114,7 @@ async def _(event):
     if uid == event.sender_id:
         nm = (await event.client(GetFullUserRequest(uid))).user.first_name
         try:
-            await event.client(GetParticipantRequest(joinchat, uid))
+            await event.client(GetParticipantRequest(int(joinchat), uid))
         except UserNotParticipantError:
             return await event.answer("You need to join the channel first.", alert=True)
         try:
