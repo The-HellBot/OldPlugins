@@ -132,31 +132,6 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
                     buttons=veriler[1],
                     link_preview=False,
                 )
-        elif event.query.user_id in auth:
-            f_sub = query.split(" ")
-            fsub = f_sub[0]
-            id_chat = f_sub[1]
-            if fsub == "fsub":
-               # hunter = event.pattern_match.group(1)
-                hell = id_chat.split("+")
-                user = await event.client.get_entity(int(hell[0]))
-                channel = await event.client.get_entity(int(hell[1]))
-                msg = f"**👋 Welcome** [{user.first_name}](tg://user?id={user.id}), \n\n**📍 You need to Join** {channel.title} **to chat in this group.**"
-                if not channel.username:
-                    link = (await event.client(ExportChatInviteRequest(channel))).link
-                else:
-                    link = "https://t.me/" + channel.username
-                result = [
-                    await builder.article(
-                        title="force_sub",
-                        text = msg,
-                        buttons=[
-                            [Button.url(text="Channel", url=link)],
-                            [custom.Button.inline("🔓 Unmute Me", data=unmute)],
-                        ],
-                    )
-                ]
-
         elif event.query.user_id in auth and query == "alive":
             uptime = await get_time((time.time() - StartTime))
             alv_msg = gvarstat("ALIVE_MSG") or "»»» <b>нєℓℓвσт ιѕ σиℓιиє</b> «««"
@@ -341,27 +316,6 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
                 LOG_GP,
                 f"**Blocked**  [{first_name}](tg://user?id={ok}) \n\nReason:- Spam",
             )
-
-
-    @tgbot.on(callbackquery.CallbackQuery(data=compile(b"unmute")))
-    async def on_pm_click(event):
-        cids = await client_id(event)
-        ForGo10God, HELL_USER, hell_mention = cids[0], cids[1], cids[2]
-        auth = await clients_list(Config, Hell, H2, H3, H4, H5)
-        hunter = (event.data_match.group(1)).decode("UTF-8")
-        hell = hunter.split("+")
-        if not event.sender_id == int(hell[0]):
-            return await event.answer("This Ain't For You!!", alert=True)
-        try:
-            await event.client(GetParticipantRequest(int(hell[1]), int(hell[0])))
-        except UserNotParticipantError:
-            return await event.answer(
-                "You need to join the channel first.", alert=True
-            )
-        await event.client.edit_permissions(
-            event.chat_id, int(hell[0]), send_message=True, until_date=None
-        )
-        await event.edit("Yay! You can chat now !!")
 
 
     @tgbot.on(callbackquery.CallbackQuery(data=compile(b"reopen")))
