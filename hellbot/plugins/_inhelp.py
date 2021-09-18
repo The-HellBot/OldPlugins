@@ -94,7 +94,7 @@ def button(page, modules):
 
     modules = CMD_HELP
 if Config.BOT_USERNAME is not None and tgbot is not None:
-    @tgbot.on(InlineQuery)  # pylint:disable=E0602
+    @tgbot.on(InlineQuery)
     async def inline_handler(event):
         cids = await client_id(event)
         ForGo10God, HELL_USER, hell_mention = cids[0], cids[1], cids[2]
@@ -132,26 +132,27 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
                     buttons=veriler[1],
                     link_preview=False,
                 )
-        elif event.query.user_id in auth and query.startswith("fsub"):
-            hunter = event.pattern_match.group(1)
-            hell = hunter.split("+")
-            user = await event.client.get_entity(int(hell[0]))
-            channel = await event.client.get_entity(int(hell[1]))
-            msg = f"**👋 Welcome** [{user.first_name}](tg://user?id={user.id}), \n\n**📍 You need to Join** {channel.title} **to chat in this group.**"
-            if not channel.username:
-                link = (await event.client(ExportChatInviteRequest(channel))).link
-            else:
-                link = "https://t.me/" + channel.username
-            result = [
-                await builder.article(
-                    title="force_sub",
-                    text = msg,
-                    buttons=[
-                        [Button.url(text="Channel", url=link)],
-                        [custom.Button.inline("🔓 Unmute Me", data=unmute)],
-                    ],
-                )
-            ]
+        elif event.query.user_id in auth:
+            if query.startswith("fsub"):
+                hunter = event.pattern_match.group(1)
+                hell = hunter.split("+")
+                user = await event.client.get_entity(int(hell[0]))
+                channel = await event.client.get_entity(int(hell[1]))
+                msg = f"**👋 Welcome** [{user.first_name}](tg://user?id={user.id}), \n\n**📍 You need to Join** {channel.title} **to chat in this group.**"
+                if not channel.username:
+                    link = (await event.client(ExportChatInviteRequest(channel))).link
+                else:
+                    link = "https://t.me/" + channel.username
+                result = [
+                    await builder.article(
+                        title="force_sub",
+                        text = msg,
+                        buttons=[
+                            [Button.url(text="Channel", url=link)],
+                            [custom.Button.inline("🔓 Unmute Me", data=unmute)],
+                        ],
+                    )
+                ]
 
         elif event.query.user_id in auth and query == "alive":
             uptime = await get_time((time.time() - StartTime))
