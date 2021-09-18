@@ -36,7 +36,7 @@ async def forcesub(event):
             channel_link = "https://t.me/" + channel.username
         capt = f"**👋 Welcome** [{user.first_name}](tg://user?id={user.id}), \n\n**📍 You need to Join** {channel.title} **to chat in this group.**"
         btns = [Button.url("Channel", url=channel_link), Button.inline("Unmute Me", data=f"unmute_{user.id}")]
-        await tbot.send_message(event.chat_id, capt, buttons=btns, reply_to=event)
+        await tbot.send_message(event.chat_id, capt, buttons=btns)
 
 
 @hell_cmd(pattern="fsub ?(.*)")
