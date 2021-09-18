@@ -425,24 +425,22 @@ async def pin(event):
     if options.lower() == "loud":
         is_silent = False
     try:
-        await event.client(UpdatePinnedMessageRequest(event.to_id, to_pin, is_silent))
+        await event.client.pin_message(event.to_id, to_pin, notify=is_silent)
     except BadRequestError:
         await eor(event, NO_PERM)
         return
-    hmm = await eor(event, f"📌 **Pinned  [this message](https://t.me/c/{ms_l.id}/{to_pin})  Successfully!**")
-    user = await get_user_from_id(event.sender_id, event)
-    await event.client.send_message(
-        lg_id,
-        "#PIN\n"
-        f"\nADMIN: [{user.first_name}](tg://user?id={user.id})\n"
-        f"CHAT: {event.chat.title}(`{event.chat_id}`)\n"
-        f"LOUD: {not is_silent}",
-    )
-    await sleep(3)
-    try:
-        await hmm.delete()
-    except:
-        pass
+    if not event.is_private:
+        await eod(event, f"📌 **Pinned  [this message](https://t.me/c/{ms_l.id}/{to_pin})  Successfully!**")
+        user = await get_user_from_id(event.sender_id, event)
+        await event.client.send_message(
+            lg_id,
+            "#PIN\n"
+            f"\nADMIN: [{user.first_name}](tg://user?id={user.id})\n"
+            f"CHAT: {event.chat.title}(`{event.chat_id}`)\n"
+            f"LOUD: {not is_silent}",
+        )
+    elif event.is_private:
+        await eod(event, "**📍 Pinned successfully !!**")
 
 
 @hell_cmd(pattern="unpin ?(.*)")
@@ -456,20 +454,22 @@ async def unpin(event):
     try:
         if rply and not options:
             await event.client.unpin_message(event.chat_id, rply)
+            if event.is_private:
+                await eod(event, "**Unpinned this message successfully !**")
+            else:
+                await eod(event, "**Unpinned [this message](https://t.me/c/{ms_l.id}/{rply}) successfully !!**")
+                await event.client.send_message(lg_id, f"#UNPIN \n\n**Chat :** {event.chat.title} (`{event.chat_id}`) \n**Message :** [Here](https://t.me/c/{ms_l.id}/{rply})")
         elif options == "all":
             await event.client.unpin_message(event.chat_id)
+            await eod(event, f"**Unpinned all pinned msgs.**")
+            if not event.is_private:
+                await event.client.send_message(lg_id, f"#UNPIN \n\n**Chat :** {event.chat.title} (`{event.chat_id}`) \n**Messages :** __All__")
         else:
             return await eod(event, f"Reply to a msg to unpin it. Do `{hl}unpin all` to unpin all pinned msgs.")
     except BadRequestError:
         return await eod(event, NO_PERM)
     except Exception as e:
         return await eod(event, f"**ERROR !!** \n\n`{e}`")
-    if options == "all":
-        await eod(event, f"**Unpinned all pinned msgs from** {event.chat.title}")
-        await event.client.send_message(lg_id, f"#UNPIN \n\n**Chat :** {event.chat.title} (`{event.chat_id}`) \n**Messages :** __All__")
-    else:
-        await eod(event, "**Unpinned [this message](https://t.me/c/{ms_l.id}/{rply}) successfully !!**")
-        await event.client.send_message(lg_id, f"#UNPIN \n\n**Chat :** {event.chat.title} (`{event.chat_id}`) \n**Message :** [Here](https://t.me/c/{ms_l.id}/{rply})")
 
 
 @hell_cmd(pattern="kick(?: |$)(.*)")
