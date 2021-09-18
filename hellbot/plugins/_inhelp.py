@@ -135,9 +135,10 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
         elif event.query.user_id in auth:
             f_sub = query.split(" ")
             fsub = f_sub[0]
+            id_chat = f_sub[1]
             if fsub == "fsub":
-                hunter = event.pattern_match.group(1)
-                hell = hunter.split("+")
+               # hunter = event.pattern_match.group(1)
+                hell = id_chat.split("+")
                 user = await event.client.get_entity(int(hell[0]))
                 channel = await event.client.get_entity(int(hell[1]))
                 msg = f"**👋 Welcome** [{user.first_name}](tg://user?id={user.id}), \n\n**📍 You need to Join** {channel.title} **to chat in this group.**"
