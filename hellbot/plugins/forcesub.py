@@ -66,7 +66,7 @@ async def removef(event):
 @hell_cmd(pattern="chfsub")
 async def getfsub(event):
     x = is_fsub(event.chat_id)
-    if not all_chat:
+    if not x:
         return await eod(event, "Force Subscribe Is Disabled Here..")
     a = x.chat_id
     xx = await event.client.get_entity(int(a))
