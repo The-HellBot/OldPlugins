@@ -17,7 +17,7 @@ last_afk_message = {}
 afk_start = {}
 
 
-@hell_cmd(outgoing=True)
+@hell_cmd(allow_sudo=False)
 async def set_not_afk(event):
     global afk_time
     global last_afk_message
