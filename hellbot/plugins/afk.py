@@ -63,7 +63,7 @@ async def set_not_afk(event):
         afk_time = None
 
 
-@H1(events.NewMessage(incoming=True, func=lambda e: bool(e.mentioned or e.is_private)))
+@H1.on(events.NewMessage(incoming=True, func=lambda e: bool(e.mentioned or e.is_private)))
 async def on_afk(event):
     global afk_time
     global last_afk_message
@@ -164,7 +164,7 @@ async def _(event):
             except Exception as e:
                 logger.warn(str(e))
 
-"""
+
 if H2:
     @H2.on(events.NewMessage(outgoing=True))
     async def set_not_afk(event):
@@ -759,7 +759,7 @@ if H5:
                         pass
                 except Exception as e:
                     logger.warn(str(e))
-"""
+
 
 CmdHelp("afk").add_command(
   'afk', '<reply to media>/<reason>', 'Marks you AFK with reason also shows afk time. Media also supported.\nUse # in message to chat without breaking AFK mode.', "afk <reason>`\n📍 **Exception :** `Use # in a msg to stay in afk mode while chatting."
