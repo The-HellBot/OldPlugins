@@ -642,7 +642,9 @@ CmdHelp("admins").add_command(
 ).add_command(
   "unmute", "<reply>/<userid or username>", "Unmutes the person muted in that PM/Group."
 ).add_command(
-  "pin", "<reply> or .pin loud", "Pins the replied message in Group"
+  "pin", "<reply> loud", "Pins the replied message in Group", "pin loud"
+).add_command(
+  "unpin", "<reply> or 'all'", "Unpins the replied message or unpins all pinned messages.", "unpin all/<reply>"
 ).add_command(
   "kick", "<username/reply>", "kick the person off your chat"
 ).add_command(
@@ -650,7 +652,7 @@ CmdHelp("admins").add_command(
 ).add_command(
   "zombies clean", None, "Clears all the zombies in the group."
 ).add_command(
-  "iundlt", None, "display last 5 deleted messages in group."
+  "undlt", None, "display last 5 deleted messages in group."
 ).add_info(
   "Admins Things!"
 ).add_warning(
