@@ -19,7 +19,8 @@ async def forcesub(event):
     user = await event.get_user()
     if user.bot:
         return
-    joinchat = is_fsub(event.chat_id)
+    xyz = is_fsub(event.chat_id)
+    joinchat = xyz.channel
     tgbotusername = Config.BOT_USERNAME
     try:
         await event.client(GetParticipantRequest(int(joinchat), user.id))
