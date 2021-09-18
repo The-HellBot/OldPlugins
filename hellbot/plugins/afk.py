@@ -17,7 +17,7 @@ last_afk_message = {}
 afk_start = {}
 
 
-@hell_cmd(allow_sudo=False)
+@H1.on(events.NewMessage(outgoing=True))
 async def set_not_afk(event):
     global afk_time
     global last_afk_message
@@ -63,7 +63,7 @@ async def set_not_afk(event):
         afk_time = None
 
 
-@hell_cmd(incoming=True, func=lambda e: bool(e.mentioned or e.is_private))
+@H1(events.NewMessage(incoming=True, func=lambda e: bool(e.mentioned or e.is_private)))
 async def on_afk(event):
     global afk_time
     global last_afk_message
@@ -96,7 +96,7 @@ async def on_afk(event):
         last_afk_message[event.chat_id] = msg
 
 
-@hell_cmd(pattern="afk ?(.*)")
+@H1.on(admin_cmd(pattern="afk ?(.*)"))
 async def _(event):
     if event.fwd_from:
         return
