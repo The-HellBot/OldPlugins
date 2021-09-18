@@ -133,7 +133,9 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
                     link_preview=False,
                 )
         elif event.query.user_id in auth:
-            if query.startswith("fsub"):
+            f_sub = query.split(" ")
+            fsub = f_sub[0]
+            if fsub == "fsub":
                 hunter = event.pattern_match.group(1)
                 hell = hunter.split("+")
                 user = await event.client.get_entity(int(hell[0]))
