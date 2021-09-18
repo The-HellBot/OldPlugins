@@ -3,6 +3,7 @@ from telethon import Button
 from telethon.errors.rpcerrorlist import UserNotParticipantError
 from telethon.tl.functions.channels import GetParticipantRequest
 from telethon.tl.functions.messages import ExportChatInviteRequest
+from telethon.tl.functions.users import GetFullUserRequest
 
 from hellbot.sql.fsub_sql import *
 from . import *
