@@ -9,7 +9,7 @@ from hellbot.sql.fsub_sql import *
 from . import *
 
 
-@H1.on(events.ChatAction())
+@hell_handler(events.ChatAction())
 async def forcesub(event):
     if all_fsub() == None:
         return
