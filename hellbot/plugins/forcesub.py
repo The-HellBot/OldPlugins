@@ -36,7 +36,7 @@ async def forcesub(event):
             channel_link = "https://t.me/" + channel.username
         capt = f"**👋 Welcome** [{user.first_name}](tg://user?id={user.id}), \n\n**📍 You need to Join** {channel.title} **to chat in this group.**"
         btns = [Button.url("Channel", url=channel_link), Button.inline("Unmute Me", data=f"unmute_{user.id}")]
-        await tbot.reply(event.chat_id, capt, buttons=btns)
+        await tbot.send_message(event.chat_id, capt, buttons=btns, reply_to=event)
 
 
 @hell_cmd(pattern="fsub ?(.*)")
@@ -103,6 +103,28 @@ async def list(event):
     else:
         CHANNEL_LIST = "No Chat Found With Active Force Subscribe."
     await eor(event, CHANNEL_LIST)
+
+
+@tbot.on(events.callbackquery.CallbackQuery(data=re.compile(b"unmute_(.*)")))
+async def _(event):
+    uid = int(event.data_match.group(1).decode("UTF-8"))
+    fsub = is_fsub(event.chat_id)
+    joinchat = fsub.channel
+    if uid == event.sender_id:
+        nm = (await event.client(GetFullUserRequest(uid))).user.first_name
+        try:
+            await event.client(GetParticipantRequest(joinchat, uid))
+        except UserNotParticipantError:
+            return await event.answer("You need to join the channel first.", alert=True)
+        try:
+            await event.client.edit_permissions(event.chat.id, uid, until_date=None, send_messages=True)
+        except Exception as e:
+            print(str(e))
+            return
+        msg = f"**Hello {nm} !! Welcome to {(await event.get_chat()).title} ✨**"
+        await event.edit(msg)
+    else:
+        await event.answer("You are an old member and can speak freely! This isn't for you!", cache_time=0, alert=True)
 
 
 CmdHelp("forcesub").add_command(
