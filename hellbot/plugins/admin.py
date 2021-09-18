@@ -445,6 +445,33 @@ async def pin(event):
         pass
 
 
+@hell_cmd(pattern="unpin ?(.*)")
+async def unpin(event):
+    chat = await event.get_chat()
+    rply = event.reply_to_msg_id
+    ms_l = await event.client.get_entity(event.chat_id)
+    options = event.pattern_match.group(1)
+    if not rply and options != "all":
+        return await eod(event, f"Reply to a msg to unpin it. Do `{hl}unpin all` to unpin all pinned msgs.")
+    try:
+        if rply and not options:
+            await event.client.unpin_message(event.chat_id, rply)
+        elif options == "all":
+            await event.client.unpin_message(event.chat_id)
+        else:
+            return await eod(event, f"Reply to a msg to unpin it. Do `{hl}unpin all` to unpin all pinned msgs.")
+    except BadRequestError:
+        return await eod(event, NO_PERM)
+    except Exception as e:
+        return await eod(event, f"**ERROR !!** \n\n`{e}`")
+    if options == "all":
+        await eod(event, f"**Unpinned all pinned msgs from** {event.chat.title}")
+        await event.client.send_message(lg_id, f"#UNPIN \n\n**Chat :** {event.chat.title} (`{event.chat_id}`) \n**Messages :** __All__")
+    else:
+        await eod(event, "**Unpinned [this message](https://t.me/c/{ms_l.id}/{rply}) successfully !!**")
+        await event.client.send_message(lg_id, f"#UNPIN \n\n**Chat :** {event.chat.title} (`{event.chat_id}`) \n**Message :** [Here](https://t.me/c/{ms_l.id}/{rply})")
+
+
 @hell_cmd(pattern="kick(?: |$)(.*)")
 @errors_handler
 async def kick(event):
