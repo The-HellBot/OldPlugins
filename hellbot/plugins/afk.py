@@ -14,7 +14,7 @@ global afk_stat
 global afk_end
 afk_time = None
 last_afk_message = {}
-
+afk_stat = None
 
 @H1.on(events.NewMessage(outgoing=True))
 async def set_not_afk(event):
