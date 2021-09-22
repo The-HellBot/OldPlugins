@@ -26,10 +26,8 @@ async def set_not_afk(event):
     came_back = datetime.datetime.now()
     afk_end = came_back.replace(microsecond=0)
     if afk_start != {}:
-        tat = str((afk_end - afk_start))
-        addgvar("AFK_START", tat)
+        total_afk_time = str((afk_end - afk_start))
     current_message = event.message.message
-    total_afk_time = str(gvarstat("AFK_START"))
     if "#" not in current_message and gvarstat("AFK") == "YES":
         hellbot = await event.client.send_message(
             event.chat_id,
@@ -74,9 +72,7 @@ async def on_afk(event):
     cum_back = datetime.datetime.now()
     afk_end = cum_back.replace(microsecond=0)
     if afk_start != {}:
-        tat = str((afk_end - afk_start))
-        addgvar("AFK_START", tat)
-    total_afk_time = str(gvarstat("AFK_START"))
+        total_afk_time = str((afk_end - afk_start))
     current_message_text = event.message.message.lower()
     if "afk" in current_message_text:
         return False
