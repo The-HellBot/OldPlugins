@@ -96,7 +96,7 @@ async def on_afk(event):
         last_afk_message[event.chat_id] = msg
 
 
-@H1.on(admin_cmd(pattern="afk ?(.*)"))
+@H1.on(admin_cmd(pattern=r"afk ?(.*)"))
 async def _(event):
     if event.fwd_from:
         return
