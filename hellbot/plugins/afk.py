@@ -10,23 +10,22 @@ from . import *
 
 global afk_time
 global last_afk_message
-global afk_start
+global afk_stat
 global afk_end
 afk_time = None
 last_afk_message = {}
-afk_start = {}
 
 
 @H1.on(events.NewMessage(outgoing=True))
 async def set_not_afk(event):
     global afk_time
     global last_afk_message
-    global afk_start
+    global afk_stat
     global afk_end
     came_back = datetime.datetime.now()
     afk_end = came_back.replace(microsecond=0)
-    if afk_start != {}:
-        total_afk_time = str((afk_end - afk_start))
+    if afk_stat is not None:
+        total_afk_time = str((afk_end - afk_stat))
     current_message = event.message.message
     if "#" not in current_message and gvarstat("AFK") == "YES":
         hellbot = await event.client.send_message(
@@ -67,12 +66,12 @@ async def set_not_afk(event):
 async def on_afk(event):
     global afk_time
     global last_afk_message
-    global afk_start
+    global afk_stat
     global afk_end
     cum_back = datetime.datetime.now()
     afk_end = cum_back.replace(microsecond=0)
-    if afk_start != {}:
-        total_afk_time = str((afk_end - afk_start))
+    if afk_stat is not None:
+        total_afk_time = str((afk_end - afk_stat))
     current_message_text = event.message.message.lower()
     if "afk" in current_message_text:
         return False
@@ -103,7 +102,7 @@ async def _(event):
     krakenop = await event.get_reply_message()
     global afk_time
     global last_afk_message
-    global afk_start
+    global afk_stat
     global afk_end
     global reason
     global hellpic
@@ -112,6 +111,8 @@ async def _(event):
     afk_end = {}
     start_1 = datetime.datetime.now()
     afk_start = start_1.replace(microsecond=0)
+    addgvar("AFK_START", afk_start)
+    afk_stat = int(gvarstat("AFK_START"))
     owo = event.text[5:]
     reason = owo
     hellpic = await event.client.download_media(krakenop)
