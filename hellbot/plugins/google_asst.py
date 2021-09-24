@@ -88,12 +88,13 @@ async def _(event):
         await event.client.send_file(
             event.chat_id,
             required_file_name,
+            caption=f"**• Voiced :** `{text[0:97]}....` \n**• Language :** `{lan}` \n**• Time Taken :** `{ms} seconds`"
             reply_to=event.message.reply_to_msg_id,
             allow_cache=False,
             voice_note=True,
         )
         os.remove(required_file_name)
-        await hell.edit("**• Voiced :** `{}` \n**• Language :** `{}` \n**• Time Taken :** `{}`".format(text[0:97], lan, ms))
+        await hell.delete()
     except Exception as e:
         await eod(hell, str(e))
 
