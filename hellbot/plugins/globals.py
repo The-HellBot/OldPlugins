@@ -282,7 +282,7 @@ async def _(event):
         await hell.edit(ogmsg)
 
 
-@hell_cmd(pattern="ungban ?(.*)"))
+@hell_cmd(pattern="ungban ?(.*)")
 async def _(event):
     hell = await eor(event, "`Ungban in progress...`")
     if event.reply_to_msg_id:
