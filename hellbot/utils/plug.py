@@ -63,6 +63,7 @@ def load_module(shortname):
         mod.tbot = HellBot
         mod.tgbot = bot.tgbot
         mod.command = command
+        mod.CmdHelp = CmdHelp
         mod.logger = logging.getLogger(shortname)
         # support for uniborg
         sys.modules["uniborg.util"] = hellbot.utils
