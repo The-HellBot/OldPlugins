@@ -388,7 +388,7 @@ async def _(event):
                     pass
             else:
                 gban_watcher += f"Reported to @admins"
-        await event.reply(gban_watcher)
+            await event.reply(gban_watcher)
 
 if H2:
     @H2.on(events.ChatAction)
@@ -410,7 +410,7 @@ if H2:
                         pass
                 else:
                     gban_watcher += f"Reported to @admins"
-            await event.reply(gban_watcher)
+                await event.reply(gban_watcher)
 
 if H3:
     @H3.on(events.ChatAction)
@@ -432,7 +432,7 @@ if H3:
                         pass
                 else:
                     gban_watcher += f"Reported to @admins"
-            await event.reply(gban_watcher)
+                await event.reply(gban_watcher)
 
 if H4:
     @H4.on(events.ChatAction)
@@ -454,7 +454,7 @@ if H4:
                         pass
                 else:
                     gban_watcher += f"Reported to @admins"
-            await event.reply(gban_watcher)
+                await event.reply(gban_watcher)
 
 if H5:
     @H5.on(events.ChatAction)
@@ -476,7 +476,7 @@ if H5:
                         pass
                 else:
                     gban_watcher += f"Reported to @admins"
-            await event.reply(gban_watcher)
+                await event.reply(gban_watcher)
 
 
 @hell_cmd(pattern="gkick ?(.*)")
