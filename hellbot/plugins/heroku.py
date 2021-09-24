@@ -127,7 +127,6 @@ async def variable(hell):
     heroku_var = app.config()
     if exe == "get":
         event = await eor(hell, "Getting Variable Info...")
-        await asyncio.sleep(1.5)
         cap = "Logger me chala jaa bsdk."
         capn = "Saved in LOGGER_ID !!"
         try:
@@ -188,7 +187,6 @@ async def variable(hell):
                 value = hell.pattern_match.group(2).split()[1]
             except IndexError:
                 return await event.edit(f"`{hl}set var <Var Name> <Value>`")
-        await asyncio.sleep(1.5)
         if variable in config_list:
             return await event.edit(f"This is a SQL based variable. Do `{hl}svar {variable} {value}` to set this.")
         if variable in heroku_var:
@@ -207,7 +205,6 @@ async def variable(hell):
         except IndexError:
             return await event.edit("`Please specify ConfigVars you want to delete`")
         variable = xvar.upper()
-        await asyncio.sleep(1.5)
         if variable in config_list:
             return await event.edit(f"This is a SQL based variable. Do `{hl}dvar {variable}` to delete it.")
         if variable in heroku_var:
@@ -258,7 +255,6 @@ async def dyno_usage(hell):
     AppMinutes = math.floor(AppQuotaUsed % 60)
     cid = await client_id(event)
     hell_mention = cid[2]
-    await asyncio.sleep(1.5)
 
     return await event.edit(
         "⚡ **Dyno Usage** ⚡:\n\n"
