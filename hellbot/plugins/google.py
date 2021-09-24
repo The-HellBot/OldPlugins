@@ -79,7 +79,7 @@ async def google(event):
 
 »» <b>Results :</b>
 {output}"""
-    paste = await telegraph_paste(f"Google Search Query “ {input_str} ”")
+    paste = await telegraph_paste(f"Google Search Query “ {input_str} ”", res)
     await hell.edit(f"**Google Search For** `{input_str}` \n[📌 See Results Here.](paste)")
 
 
