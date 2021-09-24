@@ -88,7 +88,7 @@ async def _(event):
         await event.client.send_file(
             event.chat_id,
             required_file_name,
-            caption=f"**• Voiced :** `{text[0:97]}....` \n**• Language :** `{lan}` \n**• Time Taken :** `{ms} seconds`"
+            caption=f"**• Voiced :** `{text[0:97]}....` \n**• Language :** `{lan}` \n**• Time Taken :** `{ms} seconds`",
             reply_to=event.message.reply_to_msg_id,
             allow_cache=False,
             voice_note=True,
