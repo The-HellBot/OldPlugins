@@ -27,13 +27,13 @@ async def _(hellevent):
               await eod(hellevent, "Please unblock @Sangmatainfo_bot")
               return
           if response1.text.startswith("Name History"):
-              await hell.edit("response1.text")
+              await hell.edit(response1.text)
               await hellevent.client.delete_messages(conv.chat_id, [first.id, response1.id, response2.id, response3.id])
           elif response2.text.startswith("Name History"):
-              await hell.edit("response2.text")
+              await hell.edit(response2.text)
               await hellevent.client.delete_messages(conv.chat_id, [first.id, response1.id, response2.id, response3.id])
           elif response3.text.startswith("Name History"):
-              await hell.edit("response3.text")
+              await hell.edit(response3.text)
               await hellevent.client.delete_messages(conv.chat_id, [first.id, response1.id, response2.id, response3.id])
           else: 
               await hell.edit("No Records Found !")
@@ -61,13 +61,13 @@ async def _(hellevent):
               await eod(hellevent, "Please unblock @Sangmatainfo_bot")
               return
           if response1.text.startswith("Username History"):
-              await hell.edit("response1.text")
+              await hell.edit(response1.text)
               await hellevent.client.delete_messages(conv.chat_id, [first.id, response1.id, response2.id, response3.id])
           elif response2.text.startswith("Username History"):
-              await hell.edit("response2.text")
+              await hell.edit(response2.text)
               await hellevent.client.delete_messages(conv.chat_id, [first.id, response1.id, response2.id, response3.id])
           elif response3.text.startswith("Username History"):
-              await hell.edit("response3.text")
+              await hell.edit(response3.text)
               await hellevent.client.delete_messages(conv.chat_id, [first.id, response1.id, response2.id, response3.id])
           else: 
               await hell.edit("No Records Found !")
