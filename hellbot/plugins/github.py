@@ -101,7 +101,7 @@ async def _(event):
         location = b["location"]
         bio = b["bio"]
         created_at = b["created_at"]
-        await bot.send_file(
+        await event.client.send_file(
             event.chat_id,
             caption="""Name: [{}]({})
 Type: {}
