@@ -131,7 +131,8 @@ async def variable(hell):
         cap = "Logger me chala jaa bsdk."
         capn = "Saved in LOGGER_ID !!"
         try:
-            variable = hell.pattern_match.group(2).split()[0]
+            xvar = hell.pattern_match.group(2).split()[0]
+            variable = xvar.upper()
             if variable in config_list:
                 return await event.edit(f"This is a SQL based variable. Do `{hl}gvar {variable}` to get variable info.")
             if variable in ("HELLBOT_SESSION", "BOT_TOKEN", "HEROKU_API_KEY"):
@@ -176,9 +177,10 @@ async def variable(hell):
             return
     elif exe == "set":
         event = await eor(hell, "Setting Heroku Variable...")
-        variable = hell.pattern_match.group(2)
-        if not variable:
+        xvar = hell.pattern_match.group(2)
+        if not xvar:
             return await event.edit(f"`{hl}set var <Var Name> <Value>`")
+        variable = xvar.upper()
         value = hell.pattern_match.group(3)
         if not value:
             variable = variable.split()[0]
@@ -201,9 +203,10 @@ async def variable(hell):
     elif exe == "del":
         event = await eor(hell, "Getting info to delete Variable")
         try:
-            variable = hell.pattern_match.group(2).split()[0]
+            xvar = hell.pattern_match.group(2).split()[0]
         except IndexError:
             return await event.edit("`Please specify ConfigVars you want to delete`")
+        variable = xvar.upper()
         await asyncio.sleep(1.5)
         if variable in config_list:
             return await event.edit(f"This is a SQL based variable. Do `{hl}dvar {variable}` to delete it.")
