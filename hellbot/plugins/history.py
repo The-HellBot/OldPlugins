@@ -53,7 +53,7 @@ async def _(hellevent):
     await eor(hellevent, "Checking...")
     async with hellevent.client.conversation(chat) as conv:
           try:     
-              first = await conv.send_message(f"/search_id {victim}"
+              first = await conv.send_message(f"/search_id {victim}")
               response1 = await conv.get_response() 
               response2 = await conv.get_response()
               response3 = await conv.get_response()
