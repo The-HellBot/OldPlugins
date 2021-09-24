@@ -74,7 +74,7 @@ async def google(event):
         text = got["titles"][i]
         url = got["links"][i]
         des = got["descriptions"][i]
-        output += f"•×• <a href='{url}'>{text}</a>\n≈ <code>{des}</code>\n\n"
+        output += f"<a href='{url}'>• {text}</a>\n≈ <code>{des}</code>\n\n"
     res = f"""<h3><b><i>Google Search Query :</b></i> <u>{input_str}</u></h3>
 
 »» <b>Results :</b>
