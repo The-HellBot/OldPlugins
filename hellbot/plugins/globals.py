@@ -12,18 +12,6 @@ from hellbot.sql.gvar_sql import gvarstat
 from hellbot.sql import gmute_sql as gsql
 from . import *
 
-clients = 0
-if H1:
-    clients += 1
-if H2:
-    clients += 1
-if H3:
-    clients += 1
-if H4:
-    clients += 1
-if H5:
-    clients += 1
-
 
 async def get_full_user(event):  
     args = event.pattern_match.group(1).split(':', 1)
@@ -173,7 +161,7 @@ async def _(event):
 
 @hell_cmd(pattern="gban ?(.*)")
 async def _(event):
-    hell = await eor(event, f"`Gbanning from {clients} Clients...`")
+    hell = await eor(event, f"`Gbanning ...`")
     reason = ""
     cid = await client_id(event)
     ForGo10God, HELL_USER, hell_mention = cid[0], cid[1], cid[2]
@@ -210,54 +198,13 @@ async def _(event):
             hell,
             "This kid is already gbanned and added to my **Gban Watch!!**",
         )
-    if H1:
-        async for gfuck1 in H1.iter_dialogs():
-            if gfuck1.is_group or gfuck1.is_channel:
-                try:
-                    await event.client.edit_permissions(gfuck1.id, userid, view_messages=False)
-                    chats +=1
-                except BaseException:
-                    pass
-
-    if H2:
-        await hell.edit(f"**Gbanned from Client 1 !!** \n**Total Chats :** __{chats}__ \n\nImplementing Gban in Client 2...")
-        async for gfuck2 in H2.iter_dialogs():
-            if gfuck2.is_group or gfuck2.is_channel:
-                try:
-                    await H2.edit_permissions(gfuck2.id, userid, view_messages=False)
-                    chats +=1
-                except BaseException:
-                    pass
-
-    if H3:
-        await hell.edit(f"**Gbanned!!** \n**Total Chats :** __{chats}__ \n\nImplementing Gban in Client 3...")
-        async for gfuck3 in H3.iter_dialogs():
-            if gfuck3.is_group or gfuck3.is_channel:
-                try:
-                    await H3.edit_permissions(gfuck3.id, userid, view_messages=False)
-                    chats +=1
-                except BaseException:
-                    pass
-
-    if H4:
-        await hell.edit(f"**Gbanned!!** \n**Total Chats :** __{chats}__ \n\nImplementing Gban in Client 4...")
-        async for gfuck4 in H4.iter_dialogs():
-            if gfuck4.is_group or gfuck4.is_channel:
-                try:
-                    await H4.edit_permissions(gfuck4.id, userid, view_messages=False)
-                    chats +=1
-                except BaseException:
-                    pass
-
-    if H5:
-        await hell.edit(f"**Gbanned!!** \n**Total Chats :** __{chats}__ \n\nImplementing Gban in Client 5...")
-        async for gfuck5 in H5.iter_dialogs():
-            if gfuck5.is_group or gfuck5.is_channel:
-                try:
-                    await H5.edit_permissions(gfuck5.id, userid, view_messages=False)
-                    chats +=1
-                except BaseException:
-                    pass
+    async for gfuck in event.client.iter_dialogs():
+        if gfuck.is_group or gfuck.is_channel:
+            try:
+                await event.client.edit_permissions(gfuck.id, userid, view_messages=False)
+                chats +=1
+            except BaseException:
+                pass
 
     gbaner(userid)
     a = gvarstat("BAN_PIC")
@@ -299,51 +246,14 @@ async def _(event):
     chats = 0
     if not is_gbanned(userid):
         return await eod(hell, "`User is not gbanned.`")
-    if H1:
-        await hell.edit(f"Ungbaning in client 1... \n**Unbanned in :** `{chats}`")
-        async for gfuck1 in H1.iter_dialogs():
-            if gfuck1.is_group or gfuck1.is_channel:
-                try:
-                    await H1.edit_permissions(gfuck1.id, userid, view_messages=True)
-                    chats += 1
-                except BaseException:
-                    pass
-    if H2:
-        await hell.edit(f"Ungbaning in client 2... \n**Unbanned in :** `{chats}`")
-        async for gfuck2 in H2.iter_dialogs():
-            if gfuck2.is_group or gfuck2.is_channel:
-                try:
-                    await H2.edit_permissions(gfuck2.id, userid, view_messages=True)
-                    chats += 1
-                except BaseException:
-                    pass
-    if H3:
-        await hell.edit(f"Ungbaning in client 3... \n**Unbanned in :** `{chats}`")
-        async for gfuck3 in H3.iter_dialogs():
-            if gfuck3.is_group or gfuck3.is_channel:
-                try:
-                    await H3.edit_permissions(gfuck3.id, userid, view_messages=True)
-                    chats += 1
-                except BaseException:
-                    pass
-    if H4:
-        await hell.edit(f"Ungbaning in client 4... \n**Unbanned in :** `{chats}`")
-        async for gfuck4 in H4.iter_dialogs():
-            if gfuck4.is_group or gfuck4.is_channel:
-                try:
-                    await H4.edit_permissions(gfuck4.id, userid, view_messages=True)
-                    chats += 1
-                except BaseException:
-                    pass
-    if H5:
-        await hell.edit(f"Ungbaning in client 5... \n**Unbanned in :** `{chats}`")
-        async for gfuck5 in H5.iter_dialogs():
-            if gfuck5.is_group or gfuck5.is_channel:
-                try:
-                    await H5.edit_permissions(gfuck5.id, userid, view_messages=True)
-                    chats += 1
-                except BaseException:
-                    pass
+    await hell.edit(f"Ungbaning in client 1... \n**Unbanned in :** `{chats}`")
+    async for gfuck in event.client.iter_dialogs():
+        if gfuck.is_group or gfuck.is_channel:
+            try:
+                await event.client.edit_permissions(gfuck.id, userid, view_messages=True)
+                chats += 1
+            except BaseException:
+                pass
 
     ungbaner(userid)
     await hell.edit(
@@ -485,7 +395,7 @@ if H5:
 async def gkick(event):
     cid = await client_id(event)
     ForGo10God, HELL_USER, hell_mention = cid[0], cid[1], cid[2]
-    hell = await eor(event, f"`Kicking globally from {clients} clients...`")
+    hell = await eor(event, f"`Kicking globally ...`")
     reply = await event.get_reply_message()
     if event.reply_to_msg_id:
         userid = (await event.get_reply_message()).sender_id
@@ -501,51 +411,13 @@ async def gkick(event):
         return await eod(hell, "**🥴 Nashe me hai kya lawde!!**")
     if str(userid) in DEVLIST:
         return await eod(hell, "**😪 I'm not going to gkick my developer!!**")
-    if H1:
-        await hell.edit("**Kicking globally in client 1...**")
-        async for gkick1 in H1.iter_dialogs():
-            if gkick1.is_group or gkick1.is_channel:
-                try:
-                    await H1.kick_participant(gkick1.id, userid)
-                    chats += 1
-                except BaseException:
-                    pass
-    if H2:
-        await hell.edit(f"**Kicking globally in client 2...** \n\n**Chats :** `{chats}`")
-        async for gkick2 in H2.iter_dialogs():
-            if gkick2.is_group or gkick2.is_channel:
-                try:
-                    await H2.kick_participant(gkick2.id, userid)
-                    chats += 1
-                except BaseException:
-                    pass
-    if H3:
-        await hell.edit(f"**Kicking globally in client 3...** \n\n**Chats :** `{chats}`")
-        async for gkick3 in H3.iter_dialogs():
-            if gkick3.is_group or gkick3.is_channel:
-                try:
-                    await H3.kick_participant(gkick3.id, userid)
-                    chats += 1
-                except BaseException:
-                    pass
-    if H4:
-        await hell.edit(f"**Kicking globally in client 4...** \n\n**Chats :** `{chats}`")
-        async for gkick4 in H4.iter_dialogs():
-            if gkick4.is_group or gkick4.is_channel:
-                try:
-                    await H4.kick_participant(gkick4.id, userid)
-                    chats += 1
-                except BaseException:
-                    pass
-    if H5:
-        await hell.edit(f"**Kicking globally in client 5...** \n\n**Chats :** `{chats}`")
-        async for gkick5 in H5.iter_dialogs():
-            if gkick5.is_group or gkick5.is_channel:
-                try:
-                    await H5.kick_participant(gkick5.id, userid)
-                    chats += 1
-                except BaseException:
-                    pass
+    async for gkick in event.client.iter_dialogs():
+        if gkick.is_group or gkick.is_channel:
+            try:
+                await event.client.kick_participant(gkick.id, userid)
+                chats += 1
+            except BaseException:
+                pass
 
     a = gvarstat("BAN_PIC")
     if a is not None:
@@ -556,7 +428,7 @@ async def gkick(event):
         gbpic = random.choice(c)
     else:
         gbpic = cjb
-    gkmsg = f"🏃 **Globally Kicked** [{name}](tg://user?id={userid})'s butts in {clients} clients!! \n\n📝 **Chats :**  `{chats}`"
+    gkmsg = f"🏃 **Globally Kicked** [{name}](tg://user?id={userid})'s butts !! \n\n📝 **Chats :**  `{chats}`"
     if Config.ABUSE == "ON":
         await event.client.send_file(event.chat_id, gbpic, caption=gkmsg, reply_to=reply)
         await hell.delete()
