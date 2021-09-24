@@ -173,8 +173,10 @@ async def _(event):
 
 @hell_cmd(pattern="gban ?(.*)")
 async def _(event):
-    hell = await eor(event, f"`Gbanning from {clients} Clients...")
+    hell = await eor(event, f"`Gbanning from {clients} Clients...`")
     reason = ""
+    cid = await client_id(event)
+    ForGo10God, HELL_USER, hell_mention = cid[0], cid[1], cid[2]
     reply = await event.get_reply_message()
     if event.reply_to_msg_id:
         userid = (await event.get_reply_message()).sender_id
@@ -267,8 +269,6 @@ async def _(event):
         gbpic = random.choice(c)
     else:
         gbpic = cjb
-    cid = await client_id(event)
-    hell_mention = cid[2]
     gmsg = f"🥴 [{name}](tg://user?id={userid}) **beta majdur ko khodna 😪 aur** {hell_mention} **ko chodna... Kabhi sikhana nhi!! 😏**\n\n📍 Added to Gban Watch!!\n**🔰 Total Chats :**  `{chats}`"
     if reason != "":
         gmsg += f"\n**🔰 Reason :**  `{reason}`"
@@ -284,6 +284,8 @@ async def _(event):
 
 @hell_cmd(pattern="ungban ?(.*)")
 async def _(event):
+    cid = await client_id(event)
+    ForGo10God, HELL_USER, hell_mention = cid[0], cid[1], cid[2]
     hell = await eor(event, "`Ungban in progress...`")
     if event.reply_to_msg_id:
         userid = (await event.get_reply_message()).sender_id
@@ -481,6 +483,8 @@ if H5:
 
 @hell_cmd(pattern="gkick ?(.*)")
 async def gkick(event):
+    cid = await client_id(event)
+    ForGo10God, HELL_USER, hell_mention = cid[0], cid[1], cid[2]
     hell = await eor(event, f"`Kicking globally from {clients} clients...`")
     reply = await event.get_reply_message()
     if event.reply_to_msg_id:
@@ -563,6 +567,8 @@ async def gkick(event):
 @hell_cmd(pattern="gmute ?(.*)")
 async def gm(event):
     private = False
+    cid = await client_id(event)
+    ForGo10God, HELL_USER, hell_mention = cid[0], cid[1], cid[2]
     if event.is_private:
         await eor(event, "`Trying to gmute user...`")
         await asyncio.sleep(2)
