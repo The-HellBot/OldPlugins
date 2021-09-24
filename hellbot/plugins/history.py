@@ -50,7 +50,7 @@ async def _(hellevent):
     if reply_message.sender.bot:
        await eod(hellevent, "Need actual users. Not Bots")
        return
-    await eor(hellevent, "Checking...")
+    hell = await eor(hellevent, "Checking...")
     async with hellevent.client.conversation(chat) as conv:
           try:     
               first = await conv.send_message(f"/search_id {victim}")
