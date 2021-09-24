@@ -13,7 +13,7 @@ from hellbot.config import Config
 from hellbot.utils import load_module
 from hellbot.version import __hell__ as hellver
 hl = Config.HANDLER
-HELL_PIC = Config.ALIVE_PIC or "https://telegra.ph/file/ea9e11f7c9db21c1b8d5e.mp4"
+HELL_PIC = "https://telegra.ph/file/ea9e11f7c9db21c1b8d5e.mp4"
 
 # let's get the bot ready
 async def h1(bot_token):
@@ -95,6 +95,7 @@ else:
             LOGS.info("🔰 Starting HellBot 🔰")
             bot.loop.run_until_complete(h1(Config.BOT_USERNAME))
             failed_client = hells()
+            global total
             total = 5 - failed_client
             LOGS.info("🔥 HellBot Startup Completed 🔥")
             LOGS.info(f"» Total Clients = {total} «")
@@ -122,19 +123,21 @@ for name in files:
 LOGS.info("Starting Bot Mode !")
 tbot.start()
 LOGS.info("⚡ Your HellBot Is Now Working ⚡")
-LOGS.info(
-    "Head to @Its_HellBot for Updates. Also join chat group to get help regarding to HellBot."
-)
+LOGS.info("Head to @Its_HellBot for Updates. Also join chat group to get help regarding to HellBot.")
+LOGS.info(f"» Total Clients = {total} «")
 
 # that's life...
 async def hell_is_on():
     try:
-        if Config.LOGGER_ID != 0:
-            await bot.send_file(
-                Config.LOGGER_ID,
-                HELL_PIC,
-                caption=f"#START \n\nDeployed Hêllẞø† Successfully\n\n**Hêllẞø† ~ {hellver}**\n\nType `{hl}ping` or `{hl}alive` to check! \n\nJoin [Hêllẞø† Channel](t.me/Its_HellBot) for Updates & [Hêllẞø† Chat](t.me/hellbot_chat) for any query regarding Hêllẞø†",
-            )
+        x = await bot.get_me()
+        xid = telethon.utils.get_peer_id(x)
+        send_to = Config.LOGGER_ID if Config.LOGGER_ID != 0 else xid
+        await bot.send_file(
+            send_to,
+            HELL_PIC,
+            caption=f"#START \n\n<b>Version :<\b> <code>{hellver}</code> \n<b>Clients :</b> <code>{total}</code> \n\n<b><i>»» <u><a href='https://t.me/Its_HellBot'>†hê Hêllẞø†</a></u> ««</i></b>",
+            parse_mode="HTML",
+        )
     except Exception as e:
         LOGS.info(str(e))
 
