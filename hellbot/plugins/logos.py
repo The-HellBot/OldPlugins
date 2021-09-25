@@ -18,6 +18,8 @@ async def _(event):
     if text == "":
         await eod(hell, "**Give some text to make a logo !!**")
         return
+    cid = await client_id(event)
+    hell_mention = cid[2]
     start = datetime.datetime.now()
     fnt = await get_font_file(event.client, "@HELL_FRONTS")
     if event.reply_to_msg_id:
@@ -27,11 +29,11 @@ async def _(event):
         except:
             pass
     else:
+        await hell.edit("Picked a Logo BG...")
         async for i in event.client.iter_messages("@HELLBOT_LOGOS", filter=InputMessagesFilterPhotos):
             PICS_STR.append(i)
         pic = random.choice(PICS_STR)
         logo_ = await pic.download_media()
-        await hell.edit("Picked a Logo BG...")
     if len(text) <= 8:
         font_size_ = 150
         strik = 10
