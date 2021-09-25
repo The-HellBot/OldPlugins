@@ -104,7 +104,7 @@ async def _(event):
             os.remove(files)
 
 
-@hell_cmd(pattern="ytc$")
+@hell_cmd(pattern="ytc ?(.*)")
 async def _(event):
     hell = await eor(event, "`Making a youthuub comment...`")
     owo = await event.get_reply_message()
@@ -118,18 +118,14 @@ async def _(event):
     first_name = html.escape(senderr.user.first_name)
     if first_name is not None:
         first_name = first_name.replace("\u2060", "")
-    if owo.text is None:
-        comment = 'Give Some Text'
-    else:
-        comment = owo.raw_text
+    xyz = event.text[5:]
+    comment = owo.raw_text or xyz
     doit = f"https://some-random-api.ml/canvas/youtube-comment?avatar={imglink}&username={first_name}&comment={comment}"
     r = requests.get(doit)
     open("ytc.png", "wb").write(r.content)
     lolbruh = "ytc.png"
     await hell.delete()
-    await event.client.send_file(
-        event.chat_id, lolbruh, reply_to=owo
-    )
+    await event.client.send_file(event.chat_id, lolbruh, reply_to=owo)
     for files in (lolbruh, img):
         if files and os.path.exists(files):
             os.remove(files)
