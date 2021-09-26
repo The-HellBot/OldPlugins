@@ -12,7 +12,7 @@ from . import *
 @hell_cmd(pattern="insta ?(.*)")
 async def _(event):
     bot = "@instasavegrambot"
-    cid = await client.id(event)
+    cid = await client_id(event)
     hell_mention = cid[2]
     input_str = event.pattern_match.group(1)
     if "www.instagram.com" not in input_str:
