@@ -155,7 +155,7 @@ async def _(event):
     if not unlocker:
         return await eod(hell, f"**🤐 Invalid unlock type:** {text} \nDo `{hl}ltype` to get all unlock types.")
     await event.client(EditChatDefaultBannedRightsRequest(event.chat_id, unlocker))
-    await event.client.send_file(event.chat_id, shuru, caption=f"**{hell_mention} unlocked** `{what}`")
+    await event.client.send_file(event.chat_id, shuru, caption=f"**{hell_mention} unlocked** `{text}`")
     await hell.delete()
 
 
