@@ -1,204 +1,167 @@
 from telethon.tl.functions.messages import EditChatDefaultBannedRightsRequest
 from telethon.tl.types import ChatBannedRights
 
-from . import *
+
+def lock(event):
+    if event == "all":
+        rights = ChatBannedRights(
+            until_date=None,
+            send_messages=True,
+            invite_users=True,
+            pin_messages=True,
+            change_info=True,
+        )
+    if event == "msg":
+        rights = ChatBannedRights(
+            until_date=None,
+            send_messages=True,
+        )
+    if event == "media":
+        rights = ChatBannedRights(
+            until_date=None,
+            send_media=True,
+        )
+    if event == "sticker":
+        rights = ChatBannedRights(
+            until_date=None,
+            send_stickers=True,
+        )
+    if event == "gif":
+        rights = ChatBannedRights(
+            until_date=None,
+            send_gifs=True,
+        )
+    if event == "game":
+        rights = ChatBannedRights(
+            until_date=None,
+            send_games=True,
+        )
+    if event == "inline":
+        rights = ChatBannedRights(
+            until_date=None,
+            send_inline=True,
+        )
+    if event == "poll":
+        rights = ChatBannedRights(
+            until_date=None,
+            send_polls=True,
+        )
+    if event == "invite":
+        rights = ChatBannedRights(
+            until_date=None,
+            invite_users=True,
+        )
+    if event == "pin":
+        rights = ChatBannedRights(
+            until_date=None,
+            pin_messages=True,
+        )
+    if event == "info":
+        rights = ChatBannedRights(
+            until_date=None,
+            change_info=True,
+        )
+    return rights
+
+
+def unlock(event):
+    if event == "all":
+        rights = ChatBannedRights(
+            until_date=None,
+            send_messages=False,
+            invite_users=False,
+            pin_messages=False,
+            change_info=False,
+        )
+    if event == "msg":
+        rights = ChatBannedRights(
+            until_date=None,
+            send_messages=False,
+        )
+    if event == "media":
+        rights = ChatBannedRights(
+            until_date=None,
+            send_media=False,
+        )
+    if event == "sticker":
+        rights = ChatBannedRights(
+            until_date=None,
+            send_stickers=False,
+        )
+    if event == "gif":
+        rights = ChatBannedRights(
+            until_date=None,
+            send_gifs=False,
+        )
+    if event == "game":
+        rights = ChatBannedRights(
+            until_date=None,
+            send_games=False,
+        )
+    if event == "inline":
+        rights = ChatBannedRights(
+            until_date=None,
+            send_inline=False,
+        )
+    if event == "poll":
+        rights = ChatBannedRights(
+            until_date=None,
+            send_polls=False,
+        )
+    if event == "invite":
+        rights = ChatBannedRights(
+            until_date=None,
+            invite_users=False,
+        )
+    if event == "pin":
+        rights = ChatBannedRights(
+            until_date=None,
+            pin_messages=False,
+        )
+    if event == "info":
+        rights = ChatBannedRights(
+            until_date=None,
+            change_info=False,
+        )
+    return rights
 
 
 @hell_cmd(pattern="lock ?(.*)")
-@errors_handler
-async def locks(event):
-    input_str = event.pattern_match.group(1).lower()
-    hell = await eor(event, f"Trying to lock `{input_str}`")
+async def _(event):
+    text = event.text[6:]
     cid = await client_id(event)
     hell_mention = cid[2]
-    peer_id = event.chat_id
-    msg = None
-    media = None
-    sticker = None
-    gif = None
-    gamee = None
-    ainline = None
-    gpoll = None
-    adduser = None
-    cpin = None
-    changeinfo = None
-    if input_str == "msg":
-        msg = True
-        what = "messages"
-    elif input_str == "media":
-        media = True
-        what = "media"
-    elif input_str == "sticker":
-        sticker = True
-        what = "stickers"
-    elif input_str == "gif":
-        gif = True
-        what = "GIFs"
-    elif input_str == "game":
-        gamee = True
-        what = "games"
-    elif input_str == "inline":
-        ainline = True
-        what = "inline bots"
-    elif input_str == "poll":
-        gpoll = True
-        what = "polls"
-    elif input_str == "invite":
-        adduser = True
-        what = "invites"
-    elif input_str == "pin":
-        cpin = True
-        what = "pins"
-    elif input_str == "info":
-        changeinfo = True
-        what = "chat info"
-    elif input_str == "all":
-        msg = True
-        media = True
-        sticker = True
-        gif = True
-        gamee = True
-        ainline = True
-        gpoll = True
-        adduser = True
-        cpin = True
-        changeinfo = True
-        what = "everything"
-    else:
-        if not input_str:
-            await eod(hell, "`Need something to lock sur!!`🚶")
-            return
-        else:
-            await eod(hell, f"**🤐 Invalid lock type:** {input_str} \nDo `{hl}ltype` to get all lock types.")
-            return
-
-    lock_rights = ChatBannedRights(
-        until_date=None,
-        send_messages=msg,
-        send_media=media,
-        send_stickers=sticker,
-        send_gifs=gif,
-        send_games=gamee,
-        send_inline=ainline,
-        send_polls=gpoll,
-        invite_users=adduser,
-        pin_messages=cpin,
-        change_info=changeinfo,
-    )
+    hell = await eor(event, f"Trying to lock `{text}`")
+    if text == "":
+        return await eod(hell, "Need something to lock...")
+    locker = lock(text)
+    if not locker:
+        return await eod(hell, f"**🤐 Invalid lock type:** {text} \nDo `{hl}ltype` to get all lock types.")
     try:
-        await event.client(
-            EditChatDefaultBannedRightsRequest(peer=peer_id, banned_rights=lock_rights)
-        )
+        await event.client(EditChatDefaultBannedRightsRequest(event.chat_id, locker))
+        await event.client.send_file(event.chat_id, restlo, caption=f"{hell_mention} Locked `{text}` \n__Cause its Rest Time !!__")
         await hell.delete()
-        await event.client.send_file(
-            event.chat_id,
-            restlo,
-            caption=f"{hell_mention} Locked `{what}` \n__Cause its Rest Time !!__",
-            )
-    except BaseException as e:
-        await eod(event, f"`Do I have proper rights for that ??`\n**Error:** {str(e)}")
-        return
+    except:
+        await hell.edit(f"Either I'm not admin here or `{text}` is already locked.")
 
 
 @hell_cmd(pattern="unlock ?(.*)")
-@errors_handler
-async def rem_locks(event):
-    input_str = event.pattern_match.group(1).lower()
-    hell = await eor(event, f"Trying to unlock `{input_str}`")
+async def _(event):
+    text = event.text[8:]
     cid = await client_id(event)
     hell_mention = cid[2]
-    peer_id = event.chat_id
-    msg = None
-    media = None
-    sticker = None
-    gif = None
-    gamee = None
-    ainline = None
-    gpoll = None
-    adduser = None
-    cpin = None
-    changeinfo = None
-    if input_str == "msg":
-        msg = False
-        what = "messages"
-    elif input_str == "media":
-        media = False
-        what = "media"
-    elif input_str == "sticker":
-        sticker = False
-        what = "stickers"
-    elif input_str == "gif":
-        gif = False
-        what = "GIFs"
-    elif input_str == "game":
-        gamee = False
-        what = "games"
-    elif input_str == "inline":
-        ainline = False
-        what = "inline bots"
-    elif input_str == "poll":
-        gpoll = False
-        what = "polls"
-    elif input_str == "invite":
-        adduser = False
-        what = "invites"
-    elif input_str == "pin":
-        cpin = False
-        what = "pins"
-    elif input_str == "info":
-        changeinfo = False
-        what = "chat info"
-    elif input_str == "all":
-        msg = False
-        media = False
-        sticker = False
-        gif = False
-        gamee = False
-        ainline = False
-        gpoll = False
-        adduser = False
-        cpin = False
-        changeinfo = False
-        what = "everything"
-    else:
-        if not input_str:
-            await eod(hell, "`I need something to unlock sur!!`🚶")
-            return
-        else:
-            await eod(hell, f"**🤐 Invalid unlock type:** {input_str} \nDo `{hl}ltype` to get all lock/unlock types.")
-            return
-
-    unlock_rights = ChatBannedRights(
-        until_date=None,
-        send_messages=msg,
-        send_media=media,
-        send_stickers=sticker,
-        send_gifs=gif,
-        send_games=gamee,
-        send_inline=ainline,
-        send_polls=gpoll,
-        invite_users=adduser,
-        pin_messages=cpin,
-        change_info=changeinfo,
-    )
+    hell = await eor(event, f"Trying to unlock `{text}`")
+    if text == "":
+        return await eod(hell, "Need something to unlock...")
+    unlocker = unlock(text)
+    if not unlocker:
+        return await eod(hell, f"**🤐 Invalid unlock type:** {text} \nDo `{hl}ltype` to get all unlock types.")
     try:
-        await event.client(
-            EditChatDefaultBannedRightsRequest(
-                peer=peer_id, banned_rights=unlock_rights
-            )
-        )
-        if Config.ABUSE == "ON":
-            await hell.delete()
-            await event.client.send_file(
-                event.chat_id,
-                shuru,
-                caption=f"**{hell_mention} unlocked** `{what}`",
-            )
-        else:
-            await eor(event, f"{hell_mention} Unlocked `{what}` \n__Now Start Chit Chat !!__")
-    except BaseException as e:
-        await eod(event, f"`Do I have proper rights for that ??`\n**Error:** {str(e)}")
-        return
+        await event.client(EditChatDefaultBannedRightsRequest(event.chat_id, unlocker))
+        await event.client.send_file(event.chat_id, shuru, caption=f"**{hell_mention} unlocked** `{what}`")
+        await hell.delete()
+    except:
+        await hell.edit(f"Either I'm not admin here or `{text}` is already unlocked.")
 
 
 @hell_cmd(pattern="ltype$")
