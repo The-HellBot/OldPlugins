@@ -1,6 +1,7 @@
 from telethon.tl.functions.messages import EditChatDefaultBannedRightsRequest
 from telethon.tl.types import ChatBannedRights
 
+from . import *
 
 def lock(event):
     if event == "all":
@@ -137,12 +138,9 @@ async def _(event):
     locker = lock(text)
     if not locker:
         return await eod(hell, f"**🤐 Invalid lock type:** {text} \nDo `{hl}ltype` to get all lock types.")
-    try:
-        await event.client(EditChatDefaultBannedRightsRequest(event.chat_id, locker))
-        await event.client.send_file(event.chat_id, restlo, caption=f"{hell_mention} Locked `{text}` \n__Cause its Rest Time !!__")
-        await hell.delete()
-    except:
-        await hell.edit(f"Either I'm not admin here or `{text}` is already locked.")
+    await event.client(EditChatDefaultBannedRightsRequest(event.chat_id, locker))
+    await event.client.send_file(event.chat_id, restlo, caption=f"{hell_mention} Locked `{text}` \n__Cause its Rest Time !!__")
+    await hell.delete()
 
 
 @hell_cmd(pattern="unlock ?(.*)")
@@ -156,12 +154,9 @@ async def _(event):
     unlocker = unlock(text)
     if not unlocker:
         return await eod(hell, f"**🤐 Invalid unlock type:** {text} \nDo `{hl}ltype` to get all unlock types.")
-    try:
-        await event.client(EditChatDefaultBannedRightsRequest(event.chat_id, unlocker))
-        await event.client.send_file(event.chat_id, shuru, caption=f"**{hell_mention} unlocked** `{what}`")
-        await hell.delete()
-    except:
-        await hell.edit(f"Either I'm not admin here or `{text}` is already unlocked.")
+    await event.client(EditChatDefaultBannedRightsRequest(event.chat_id, unlocker))
+    await event.client.send_file(event.chat_id, shuru, caption=f"**{hell_mention} unlocked** `{what}`")
+    await hell.delete()
 
 
 @hell_cmd(pattern="ltype$")
