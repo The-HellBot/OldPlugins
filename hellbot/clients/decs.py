@@ -84,19 +84,21 @@ def hell_cmd(
     return decorator
 
 
-def hell_handler(**args):
-    def decorator(func):
-        async def wrapper(event):
-            await func(event)
-        bot.add_event_handler(wrapper, **args)
+def hell_handler(
+    events,
+    **args,
+):
+    args["func"] = lambda e: e.via_bot_id is None
+    def decorator(wrapper):
+        bot.add_event_handler(wrapper, events(**args, incoming=True))
         if H2:
-            H2.add_event_handler(wrapper, **args)
+            H2.add_event_handler(wrapper, events(**args, incoming=True))
         if H3:
-            H3.add_event_handler(wrapper, **args)
+            H3.add_event_handler(wrapper, events(**args, incoming=True))
         if H4:
-            H4.add_event_handler(wrapper, **args)
+            H4.add_event_handler(wrapper, events(**args, incoming=True))
         if H5:
-            H5.add_event_handler(wrapper, **args)
+            H5.add_event_handler(wrapper, events(**args, incoming=True))
         return wrapper
 
     return decorater
