@@ -38,11 +38,11 @@ async def monito_p_m_s(event):
         return
     sender = await event.get_sender()
     x = await event.client.get_entity(sender.id)
+    if x.bot:
+        return
     cid = await client_id(event)
     ForGo10God = cid[0]
     if lg_id:
-        if x.bot:
-            return
         chat = await event.get_chat()
         if chat.id not in NO_PM_LOG_USERS and chat.id != ForGo10God:
             try:
