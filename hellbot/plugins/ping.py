@@ -5,9 +5,9 @@ import time
 from . import *
 
 ping_txt = """<b><i><u>╰•★★  ℘ơŋɠ ★★•╯</b></i></u>
-    ⚘  <b>ʂ℘ɛɛɖ :</b> <code>{ms}</code>
-    ⚘  <b>ų℘ɬıɱɛ :</b> <code>{uptime}</code>
-    ⚘  <b>ơῳŋɛཞ :</b> {hell_mention}"""
+    ⚘  <b>ʂ℘ɛɛɖ :</b> <code>{}</code>
+    ⚘  <b>ų℘ɬıɱɛ :</b> <code>{}</code>
+    ⚘  <b>ơῳŋɛཞ :</b> {}"""
 
 @hell_cmd(pattern="ping$")
 async def pong(hell):
