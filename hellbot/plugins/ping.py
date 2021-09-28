@@ -6,9 +6,9 @@ from . import *
 
 ping_txt = """<b><i>╰•★★  ℘ơŋɠ ★★•╯</b></i>
 
-    ⚘  <b>ʂ℘ɛɛɖ :</b> <code>{}</code>
-    ⚘  <b>ų℘ɬıɱɛ :</b> <code>{}</code>
-    ⚘  <b>ơῳŋɛཞ :</b> {}"""
+    ⚘  <i>ʂ℘ɛɛɖ :</i> <code>{}</code>
+    ⚘  <i>ų℘ɬıɱɛ :</i> <code>{}</code>
+    ⚘  <i>ơῳŋɛཞ :</i> {}"""
 
 @hell_cmd(pattern="ping$")
 async def pong(hell):
