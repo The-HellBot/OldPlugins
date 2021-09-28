@@ -2,6 +2,7 @@ import logging
 import os
 import sys
 
+from telethon.events import NewMessage
 from . import *
 
 logging.basicConfig(
@@ -29,7 +30,7 @@ async def log(log_text):
         await eod(log_text, "`This feature requires Logging to be enabled!`")
 
 
-@hell_cmd(incoming=True, func=lambda e: e.is_private)
+@hell_cmd.on(NewMessage(incoming=True, func=lambda e: e.is_private))
 async def monito_p_m_s(event):
     if lg_id is None:
         return
