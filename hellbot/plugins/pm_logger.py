@@ -34,6 +34,8 @@ async def log(log_text):
 async def monito_p_m_s(event):
     if lg_id is None:
         return
+    if event.is_group:
+        return
     sender = await event.get_sender()
     x = await event.client.get_entity(sender.id)
     cid = await client_id(event)
