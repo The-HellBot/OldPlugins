@@ -101,4 +101,4 @@ def hell_handler(
             H5.add_event_handler(wrapper, events(**args, incoming=True))
         return wrapper
 
-    return decorater
+    return decorator
