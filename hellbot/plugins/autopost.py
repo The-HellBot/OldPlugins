@@ -38,7 +38,7 @@ async def _(event):
     await eor(event, f"**📍 Stopped AutoPosting From** `{hel_}`")
 
 
-@H1.on(events.NewMessage())
+@hell_handler()
 async def _(event):
     chat_id = str(event.chat_id).replace("-100", "")
     channels_set  = get_all_post(chat_id)
