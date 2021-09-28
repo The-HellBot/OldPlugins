@@ -96,7 +96,7 @@ async def gett(event):
         return await hell.edit(f"__There isn't any variable named__ `{var_}`. __Check spelling or get full list by `{hl}vars`")
     try:
         sql_v = gvarstat(var_)
-        os_v = os.environ.get(var_)
+        os_v = os.environ.get(var_) or "None"
     except Exception as e:
         return await hell.edit(f"**ERROR !!** \n\n`{e}`")
     await hell.edit(f"**OS VARIABLE:** `{var_}`\n**OS VALUE :** `{os_v}`\n------------------\n**SQL VARIABLE:** `{var_}`\n**SQL VALUE :** `{sql_v}`\n")
