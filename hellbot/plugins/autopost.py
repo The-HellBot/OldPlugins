@@ -16,7 +16,7 @@ async def _(event):
     hel_ = event.text[10:]
     cli_ = ForGo10God
     checker = gvarstat(f"AUTOPOST_{str(cli_)}")
-    if not hel_:
+    if hel_ == "":
         return await eod(hell, f"Give correct command for working of autopost. \n`{hl}autopost channel_id`")
     if str(hel_).startswith("-100"):
         kk = str(hel_).replace("-100", "")
@@ -29,7 +29,7 @@ async def _(event):
             return await hell.edit("This channel is already in this client's autopost database.")
         else:
             addgvar(f"AUTOPOST_{str(cli_)}", "True")
-            return await hell.edit("Added this channel to this client's autopost database.")
+            return await hell.edit(f"**📍 Started AutoPosting from** `{hel_}` for `{cli_}`")
     add_post(kk, event.chat_id)
     addgvar(f"AUTOPOST_{str(cli_)}", "True")
     await hell.edit(f"**📍 Started AutoPosting from** `{hel_}` for `{cli_}`")
@@ -42,11 +42,11 @@ async def _(event):
     hell = await eor(event, "Removing autopost...")
     cid = await client_id(event)
     ForGo10God = cid[0]
-    hel_ = event.text[10:]
+    hel_ = event.text[12:]
     cli_ = ForGo10God
     checker = gvarstat(f"AUTOPOST_{str(cli_)}")
-    if not hel_:
-        return await eod(hell, f"Give correct command for removing autopost. \n`{hl}autopost channel_id your_userid`")
+    if hel_ == "":
+        return await eod(hell, f"Give correct command for removing autopost. \n`{hl}autopost channel_id`")
     if str(hel_).startswith("-100"):
         kk = str(hel_).replace("-100", "")
     else:
