@@ -4,7 +4,8 @@ import time
 
 from . import *
 
-ping_txt = """<b><i><u>╰•★★  ℘ơŋɠ ★★•╯</b></i></u>
+ping_txt = """<b><i>╰•★★  ℘ơŋɠ ★★•╯</b></i>
+
     ⚘  <b>ʂ℘ɛɛɖ :</b> <code>{}</code>
     ⚘  <b>ų℘ɬıɱɛ :</b> <code>{}</code>
     ⚘  <b>ơῳŋɛཞ :</b> {}"""
@@ -15,7 +16,7 @@ async def pong(hell):
     event = await eor(hell, "`·.·★ ℘ıŋɠ ★·.·´")
     cid = await client_id(event)
     ForGo10God, HELL_USER = cid[0], cid[1]
-    hell_mention = f"<a href='{ForGo10God}'>{HELL_USER}</a>"
+    hell_mention = f"<a href='tg://user?id={ForGo10God}'>{HELL_USER}</a>"
     uptime = await get_time((time.time() - StartTime))
     end = datetime.datetime.now()
     ms = (end - start).microseconds / 1000
