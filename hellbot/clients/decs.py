@@ -88,15 +88,15 @@ def hell_handler(**args):
     def decorator(func):
         async def wrapper(event):
             await func(event)
-        bot.add_event_handler(wrapper, events.NewMessage(**args))
+        bot.add_event_handler(wrapper, (**args))
         if H2:
-            H2.add_event_handler(wrapper, events.NewMessage(**args))
+            H2.add_event_handler(wrapper, (**args))
         if H3:
-            H3.add_event_handler(wrapper, events.NewMessage(**args))
+            H3.add_event_handler(wrapper, (**args))
         if H4:
-            H4.add_event_handler(wrapper, events.NewMessage(**args))
+            H4.add_event_handler(wrapper, (**args))
         if H5:
-            H5.add_event_handler(wrapper, events.NewMessage(**args))
+            H5.add_event_handler(wrapper, (**args))
         return wrapper
 
     return decorater
