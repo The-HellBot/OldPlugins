@@ -36,10 +36,6 @@ async def monito_p_m_s(event):
         return
     if event.is_group:
         return
-    sender = await event.get_sender()
-    x = await event.client.get_entity(sender.id)
-    if x.bot:
-        return
     cid = await client_id(event)
     ForGo10God = cid[0]
     if lg_id:
