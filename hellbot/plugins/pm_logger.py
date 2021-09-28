@@ -40,8 +40,8 @@ async def monito_p_m_s(event):
         chat = await event.get_chat()
         if chat.id not in NO_PM_LOG_USERS and chat.id != ForGo10God:
             try:
-                e = await event.client.get_entity(int(Config.PM_LOG_ID))
-                fwd_message = await event.client.forward_messages(e, event.message, silent=True)
+                #e = await event.client.get_entity(int(Config.PM_LOG_ID))
+                fwd_message = await event.client.forward_messages(lg_id, event.message, silent=True)
             except Exception as e:
                 # logger.warn(str(e))
                 exc_type, exc_obj, exc_tb = sys.exc_info()
