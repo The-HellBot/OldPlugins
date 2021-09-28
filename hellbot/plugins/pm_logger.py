@@ -34,17 +34,16 @@ async def log(log_text):
 async def monito_p_m_s(event):
     if lg_id is None:
         return
-    if event.is_group:
-        return
     cid = await client_id(event)
     ForGo10God = cid[0]
-    if lg_id:
+    if not sender.bot:
         chat = await event.get_chat()
-        if chat.id not in NO_PM_LOG_USERS and chat.id != ForGo10God:
-            try:
-                fwd_message = await event.client.forward_messages(lg_id, event.message, silent=True)
-            except Exception as e:
-                print(e)
+        if lg_id is not None:
+            if chat.id not in NO_PM_LOG_USERS and chat.id != ForGo10God:
+                try:
+                    await event.client.forward_messages(lg_id, event.message, silent=True)
+                except Exception as e:
+                    print(e)
 
 
 @hell_cmd(pattern="elog ?(.*)")
