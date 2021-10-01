@@ -20,7 +20,7 @@ async def _(event):
             await hell.edit("Please unblock @QuotLyBot and try again!!")
             return
         await hell.delete()
-        await event.client.forward_messages(event.chat_id, fourth)
+        await event.client.send_message(event.chat_id, fourth, reply_to=reply_message)
     await event.client.delete_messages(
         conv.chat_id, [first.id, second.id, third.id, fourth.id]
     )
