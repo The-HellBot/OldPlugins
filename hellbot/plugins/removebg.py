@@ -10,7 +10,11 @@ from . import *
 async def _(event):
     if Config.REMOVE_BG_API is None:
         return await eod(event, "You need to set  `REMOVE_BG_API`  for this module to work...")
-    input_str = event.text[6:]
+    txt = event.text[6:]
+    try:
+        input_str = txt.replace("-s", "")
+    except:
+        input_str = txt
     flag = event.text[-2:]
     cid = await client_id(event)
     hell_memtion = cid[2]
