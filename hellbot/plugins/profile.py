@@ -201,7 +201,7 @@ async def count(event):
     result += f"<b><i>📺 Channels :</b></i>  <code>{bc}</code>\n"
     result += f"<b><i>👾 Bots :</b></i>  <code>{b}</code>"
 
-    await hell.edit(result)
+    await hell.edit(result, parse_mode="HTML")
 
 
 @hell_cmd(pattern="delpfp$")
