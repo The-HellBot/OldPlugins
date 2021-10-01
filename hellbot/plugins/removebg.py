@@ -61,6 +61,7 @@ async def _(event):
             force_document=False,
             reply_to=reply_message,
         )
+    file = remove_bg_image
     await event.client.send_file(
         event.chat_id,
         file,
