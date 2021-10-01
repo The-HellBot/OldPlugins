@@ -36,9 +36,11 @@ async def _(event):
             return
         await hell.delete()
         await event.client.send_message(event.chat_id, fourth, reply_to=reply_message)
-    await event.client.delete_messages(
-        conv.chat_id, [first.id, second.id, fourth.id, third]
-    )
+    q_d = []
+    async for qdel in event.client.iter_messages(chat, min_id=first.id):
+        q_d.append(first.id)
+        q_d.append(qdel)
+        await event.client.delete_messages(conv.chat_id, q_d)
 
 CmdHelp("qbot").add_command(
   "ss", "<reply to msg> '<bg colour>' <number of msgs>", "Makes the sticker of the replied text, sticker, pic till next given count msgs.", "ss 'black' 05 <reply to a msg>"
