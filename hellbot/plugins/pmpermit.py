@@ -73,7 +73,7 @@ if PM_ON_OFF != "DISABLE":
             if not event.chat_id in PM_WARNS:
                 pm_sql.approve(event.chat_id, "outgoing")
 
-    @hell_cmd(pattern="(a|approve|allow)$"))
+    @hell_cmd(pattern="(a|approve|allow)$")
     async def approve(event):
         if event.is_private:
             replied_user = await event.client(GetFullUserRequest(await event.get_input_chat()))
