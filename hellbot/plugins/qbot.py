@@ -42,6 +42,7 @@ async def _(event):
         q_d.append(qdel)
         await event.client.delete_messages(conv.chat_id, q_d)
 
+
 CmdHelp("qbot").add_command(
   "ss", "<reply to msg> '<bg colour>' <number of msgs>", "Makes the sticker of the replied text, sticker, pic till next given count msgs.", "ss 'black' 05 <reply to a msg>"
 ).add_info(
