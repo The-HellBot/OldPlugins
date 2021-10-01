@@ -46,7 +46,6 @@ async def _(event):
     else:
         await eod(hell, f"`{response.content.decode('UTF-8')}`")
         return
-    file = remove_bg_image
     if flag and flag == "-s":
         file = tosticker(remove_bg_image, filename="HellBot.webp")
         await event.client.send_file(
@@ -55,6 +54,7 @@ async def _(event):
             reply_to=reply_message,
         )
     else:
+        file = remove_bg_image
         await event.client.send_file(
             event.chat_id,
             file,
