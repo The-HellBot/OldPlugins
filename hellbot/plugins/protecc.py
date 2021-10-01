@@ -66,7 +66,7 @@ async def _(event):
     await hell.edit(OUTPUT_STR, parse_mode="HTML", link_preview=False)
 
 
-@hell_handler(incoming=True)
+@hell_handler()
 async def _(event):
     if not event.media:
         return
