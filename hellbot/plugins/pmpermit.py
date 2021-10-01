@@ -162,7 +162,7 @@ if PM_ON_OFF != "DISABLE":
         else:
             await eor(event, APPROVED_PMs)
 
-    @hell_handler(incoming=True)
+    @hell_handler()
     async def on_new_private_message(event):
         if not event.is_private:
             return
@@ -229,7 +229,7 @@ if PM_ON_OFF != "DISABLE":
 
 NEEDIT = Config.INSTANT_BLOCK
 if NEEDIT == "ENABLE":
-    @hell_handler(incoming=True)
+    @hell_handler()
     async def on_new_private_message(event):
         chat_id = event.chat_id
         sender = await event.client.get_entity(chat_id)
