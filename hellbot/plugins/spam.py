@@ -46,7 +46,7 @@ async def spammer(event):
     for i in range(counter):
         await event.client.send_message(event.chat_id, spam_message)
         await asyncio.sleep(spamDelay)
-    await event.client.send_message(lg_id, f"#DELAYSPAM \n\nSpammed `{hell_count}`  messages with delay of `{spamDelay}` seconds!!")
+    await event.client.send_message(lg_id, f"#DELAYSPAM \n\nSpammed `{counter}`  messages with delay of `{spamDelay}` seconds!!")
 
 @hell_cmd(pattern="uspam ?(.*)")
 async def _(event):
@@ -100,6 +100,7 @@ async def tiny_pic_spam(event):
             await event.client.send_file(event.chat_id, message)
     except:
         return await event.reply(f"**Error**\nUsage `{hl}mspam <count> reply to a sticker/gif/photo/video`")
+    await event.delete()
 
 
 CmdHelp("spam").add_command(
