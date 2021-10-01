@@ -37,7 +37,7 @@ async def _(event):
         await hell.delete()
         await event.client.send_message(event.chat_id, fourth, reply_to=reply_message)
     await event.client.delete_messages(
-        conv.chat_id, [first.id, second.id, third.id, fourth.id]
+        conv.chat_id, [first.id, second.id, fourth.id, third]
     )
 
 CmdHelp("qbot").add_command(
