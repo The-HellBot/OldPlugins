@@ -52,7 +52,7 @@ async def _(event):
         await event.client.send_file(
             event.chat_id,
             file,
-            reply_to=message_id,
+            reply_to=reply_message,
         )
     else:
         await event.client.send_file(
