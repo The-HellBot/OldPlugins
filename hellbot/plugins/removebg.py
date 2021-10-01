@@ -40,7 +40,7 @@ async def _(event):
         with open("HellBot.png", "wb") as removed_bg_file:
             removed_bg_file.write(response.content)
     else:
-        await eod(hellevent, f"`{response.content.decode('UTF-8')}`")
+        await eod(hell, f"`{response.content.decode('UTF-8')}`")
         return
     file = remove_bg_image
     if flag and flag == "-s":
