@@ -14,11 +14,6 @@ PREV_REPLY_MESSAGE = {}
 PM_ON_OFF = Config.PM_PERMIT
 CSTM_PMP = Config.CUSTOM_PMPERMIT or "**You Have Trespassed To My Master's PM!\nThis Is Illegal And Regarded As Crime.**"
 HELL_ZERO = "Go get some sleep retard. \n\n**Blocked !!**"
-HELL_FIRST = (
-    "**🔥 Hêllẞø† Prîvã†é Sêçürïty Prø†öçõl 🔥**\n\nThis is to inform you that "
-    "{} is currently unavailable.\nThis is an automated message.\n\n"
-    "{}\n\n**Please Choose Why You Are Here!!**".format(hell_mention, CSTM_PMP)
-)
 
 
 @hell_cmd(pattern="block$")
@@ -172,7 +167,8 @@ if PM_ON_OFF != "DISABLE":
         if not event.is_private:
             return
         cid = await client_id(event)
-        ForGo10God = cid[0]
+        ForGo10God, hell_mention = cid[0], cid[2]
+        HELL_FIRST = "**🔥 Hêllẞø† Prîvã†é Sêçürïty Prø†öçõl 🔥**\n\nThis is to inform you that {} is currently unavailable.\nThis is an automated message.\n\n{}\n\n**Please Choose Why You Are Here!!**".format(hell_mention, CSTM_PMP)
         if event.sender_id == ForGo10God:
             return
         if str(event.sender_id) in DEVLIST:
