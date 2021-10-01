@@ -50,31 +50,31 @@ async def _(e):
 
 @hell_cmd(pattern="shayri$")
 async def _(e):
-    _, _, hell_mention = await client_id(event)
+    _, _, hell_mention = await client_id(e)
     txt = random.choice(SHAYRI)
     await eor(e, txt.format(hell_mention))
 
 @hell_cmd(pattern="hflirt$")
 async def _(e):
-    _, _, hell_mention = await client_id(event)
+    _, _, hell_mention = await client_id(e)
     txt = random.choice(HFLIRT)
     await eor(e, txt.format(hell_mention))
 
 @hell_cmd(pattern="eflirt$")
 async def _(e):
-    _, _, hell_mention = await client_id(event)
+    _, _, hell_mention = await client_id(e)
     txt = random.choice(EFLIRT)
     await eor(e, txt.format(hell_mention))
 
 @hell_cmd(pattern="attitude$")
 async def _(e):
-    _, _, hell_mention = await client_id(event)
+    _, _, hell_mention = await client_id(e)
     txt = random.choice(ATTITUDE)
     await eor(e, txt.format(hell_mention))
 
 @hell_cmd(pattern="gbye$")
 async def _(e):
-    _, _, hell_mention = await client_id(event)
+    _, _, hell_mention = await client_id(e)
     txt = random.choice(GBYE)
     await eor(e, txt.format(hell_mention))
 
