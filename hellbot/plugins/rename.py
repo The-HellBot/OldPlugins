@@ -62,12 +62,10 @@ async def _(event):
         else:
             await eod(hell, "Error Occurred\n {}".format(input_str))
     else:
-        await eod(hell, f"Syntax `{hl}rename file.name` as reply to a Telegram media")
-
+        await eod(hell, f"**Syntax Wrong !!** \n\n• `{hl}rename new file name` as reply to a Telegram file")
 
 @hell_cmd(pattern="rnupload ?(.*)")
 async def _(event):
-    thumb = gvarstat("RENAME_THUMB")
     input_str = event.text[10:]
     hell = await eor(event, f"Renaming to `{input_str}`")
     if not os.path.isdir(Config.TMP_DOWNLOAD_DIRECTORY):
@@ -85,10 +83,15 @@ async def _(event):
         ms_one = (end - start).seconds
         if os.path.exists(downloaded_file_name):
             time.time()
+            thumb = None
+            if os.path.exists(thumb_image_path):
+                thumb = thumb_image_path
+            else:
+                thumb = get_video_thumb(downloaded_file_name, thumb_image_path)
             await event.client.send_file(
                 event.chat_id,
                 downloaded_file_name,
-                force_document=False,
+                force_document=True,
                 supports_streaming=False,
                 allow_cache=False,
                 reply_to=event.message.id,
@@ -104,8 +107,7 @@ async def _(event):
         else:
             await eod(event, "File Not Found {}".format(input_str))
     else:
-        await hell.edit("Syntax // `{}rnupload file.name` as reply to a Telegram media".format(hl))
-
+        await hell.edit(f"**Syntax Wrong !!** \n\n• `{hl}rnupload new file name`")
 
 @hell_cmd(pattern="rnsupload (.*)")
 async def _(event):
@@ -184,20 +186,7 @@ async def _(event):
         else:
             await eod(hell, "File Not Found {}".format(input_str))
     else:
-        await hell.edit(
-            "Syntax // {}rnsupload file.name as reply to a Telegram media".format(hl)
-        )
-
-@hell_cmd(pattern="rnthumb ?(.*)")
-async def _(event):
-    thumb = event.text[9:]
-    if thumb == "":
-        return await eod(event, "Give a telegraph link of image to set as rename thumbnail.")
-    hell = await eor(event, "Setting as rename thumbnail...")
-    if gvarstat("RENAME_THUMB"):
-        delgvar("RENAME_THUMB")
-    addgvar("RENAME_THUMB", thumb)
-    await hell.edit(f"Rename Thumbnail successfully added as `{thumb}`", link_preview=False)
+        await hell.edit(f"**Syntax Wrong !!** \n\n• `{hl}rnsupload new file name` as reply to a Telegram file")
 
 
 CmdHelp("rename").add_command(
@@ -206,8 +195,6 @@ CmdHelp("rename").add_command(
   "rnupload", "<reply to media> <new name>", "Renames the replied media and directly uploads it to the chat"
 ).add_command(
   "rnsupload", "<reply to media> <new name>", "Renames the replied media and directly upload in streamable format."
-).add_command(
-  "rnthumb", "<telegraph link>", "Sets the given image as thumbnail of renamed files."
 ).add_info(
   "Rename Yiur Files."
 ).add_warning(
