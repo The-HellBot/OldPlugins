@@ -33,7 +33,7 @@ async def _(e):
     txt = random.choice(TIPS)
     await eor(e, txt)
 
-@hell_cmd(pattern="qt$"))
+@hell_cmd(pattern="qt$")
 async def _(e):
     txt = random.choice(QT)
     await eor(e, txt)
