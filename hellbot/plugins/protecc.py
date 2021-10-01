@@ -72,7 +72,7 @@ async def _(event):
         return
     if not qt in event.text:
         return
-    if not str(event.sender_id) not in qt_bots:
+    if str(event.sender_id) not in qt_bots:
         return
     all_grp = get_all_grp()
     if len(all_grp) == 0:
