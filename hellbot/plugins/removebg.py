@@ -25,7 +25,7 @@ async def _(event):
             return
         else:
             await hell.edit("`Removing background of this media`")
-            file_name = convert_toimage(file_name)
+            file_name = toimage(file_name)
             response = ReTrieveFile(file_name)
             os.remove(file_name)
     elif input_str:
@@ -103,6 +103,16 @@ def tosticker(response, filename=None):
     image.save(filename, "webp")
     os.remove(response)
     return filename
+
+def toimage(image, filename=None):
+    filename = filename or os.path.join("./temp/", "temp.jpg")
+    img = Image.open(image)
+    if img.mode != "RGB":
+        img = img.convert("RGB")
+    img.save(filename, "jpeg")
+    os.remove(image)
+    return filename
+
 
 CmdHelp("removebg").add_command(
   "rmbg", "<reply to image/stcr> or <link> <flag>", "`Removes Background of replied image or sticker. Need` REMOVE_BG_API `to be set in Heroku Config Vars.", "rmbg <reply to img> -s"
