@@ -270,18 +270,18 @@ async def dyno_usage(hell):
 
 
 @hell_cmd(pattern="logs$")
-async def _(dyno):
+async def _(event):
     if (HEROKU_APP_NAME is None) or (HEROKU_API_KEY is None):
-        return await eor(dyno, f"Make Sure Your HEROKU_APP_NAME & HEROKU_API_KEY are filled correct. Visit {hell_grp} for help.", link_preview=False)
+        return await eor(event, f"Make Sure Your HEROKU_APP_NAME & HEROKU_API_KEY are filled correct. Visit {hell_grp} for help.", link_preview=False)
     try:
         Heroku = heroku3.from_key(HEROKU_API_KEY)
         app = Heroku.app(HEROKU_APP_NAME)
     except BaseException:
-        return await dyno.reply(f"Make Sure Your Heroku AppName & API Key are filled correct. Visit {hell_grp} for help.", link_preview=False)
+        return await event.reply(f"Make Sure Your Heroku AppName & API Key are filled correct. Visit {hell_grp} for help.", link_preview=False)
     cid = await client_id(event)
     hell_mention = cid[2]
     hell_data = app.get_log()
-    await eor(dyno, hell_data, deflink=True, linktext=f"**🗒️ Heroku Logs of 💯 lines. 🗒️**\n\n🌟 **Bot Of :**  {hell_mention}\n\n🚀** Pasted**  ")
+    await eor(event, hell_data, deflink=True, linktext=f"**🗒️ Heroku Logs of 💯 lines. 🗒️**\n\n🌟 **Bot Of :**  {hell_mention}\n\n🚀** Pasted**  ")
 
 
 def prettyjson(obj, indent=2, maxlinelength=80):
