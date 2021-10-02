@@ -42,10 +42,7 @@ async def add(event):
         target = suu
     elif rply:
         target = await get_user(event)
-    if sudousers:
-        suudo = str(sudousers) + " " + str(target)
-    else:
-        suudo = str(target)
+    suudo = f"{sudousers} {target}"
     newsudo = suudo.replace("{", "")
     newsudo = newsudo.replace("}", "")
     await ok.edit(f"✅** Added**  `{target}`  **in Sudo User.**\n\n __Restarting Heroku to Apply Changes. Wait for a minute.__")
