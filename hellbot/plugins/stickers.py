@@ -356,7 +356,7 @@ async def _(event):
         except YouBlockedUserError:
             await hell.edit("Please unblock @Stickers and try again")
             return
-        await hell.edit(response)
+        await hell.edit(response.message)
 
 
 @hell_cmd(pattern="editst ?(.*)")
@@ -387,7 +387,7 @@ async def _(event):
             except YouBlockedUserError:
                 await hell.edit("Please unblock @Stickers and try again")
                 return
-            await hell.edit(f"{response}")
+            await hell.edit(f"{response.message}")
 
 
 @hell_cmd(pattern="pkang ?(.*)")
