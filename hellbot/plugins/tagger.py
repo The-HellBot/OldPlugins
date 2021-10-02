@@ -12,6 +12,7 @@ if Config.TAG_LOGGER:
     async def all_messages_catcher(event):
         await event.forward_to(tagger)
         ammoca_message = ""
+        __, _, hell_men = await client_id(event)
         kraken = await event.client.get_entity(event.sender_id)
         if kraken.bot or kraken.verified or kraken.support:
             return
@@ -23,13 +24,13 @@ if Config.TAG_LOGGER:
             message_link = f"https://t.me/c/{where_.id}/{event.id}"
         else:
             message_link = f"tg://openmessage?chat_id={where_.id}&message_id={event.id}"
-        ammoca_message += f"👆 #TAG\n\n**• Tag By :** {krakenm} \n**• Chat :** [{where_m}]({message_link})"
+        ammoca_message += f"👆 #TAG\n\n**• Tag By :** {krakenm} \n**• Tag For :** {hell_men} \n**• Chat :** [{where_m}]({message_link})"
         if tagger is not None:
             await tbot.send_message(
                 entity=tagger,
                 message=ammoca_message,
                 link_preview=False,
-                buttons=[[custom.Button.url(button_text, message_link)]],
+                buttons=[[Button.url(button_text, message_link)]],
                 silent=True,
             )
         else:
