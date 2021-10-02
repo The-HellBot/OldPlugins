@@ -10,6 +10,7 @@ headers = {
     "content-type": "application/json",
 }
 
+
 async def pasty(event, message, extension=None):
     siteurl = "https://pasty.lus.pm/api/v1/pastes"
     data = {"content": message}
@@ -37,6 +38,26 @@ async def pasty(event, message, extension=None):
             "bin": "Pasty",
         }
     return {"error": "Unable to reach pasty.lus.pm"}
+
+
+async def space_paste(message, extension=None):
+    site = "https://spaceb.in/api/v1/documents/"
+    if extension is None:
+        extension == "txt"
+    try:
+        response = requests.post(site, data={"content": message, "extension": extension})
+    except Exception as e:
+        return {"error": str(e)}
+    if response.ok:
+        response = response.json()
+        if response["error"] != "" and response["status"] < 400:
+            return {"error": response["error"]}
+        return {
+            "url": f"https://spaceb.in/{response['payload']['id']}",
+            "raw": f"{siteurl}{response['payload']['id']}/raw",
+            "bin": "Spacebin",
+        }
+    return {"error": "Unable to reach spacebin."}
 
 
 async def telegraph_paste(page_title, temxt):
