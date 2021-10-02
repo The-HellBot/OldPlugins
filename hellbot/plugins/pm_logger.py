@@ -13,23 +13,23 @@ lg_id = Config.PM_LOG_ID
 
 
 @hell_cmd(pattern="save ?(.*)")
-async def log(log_text):
+async def log(event):
     if f"{hl}savewelcome" in event.text:
         return
     if lg_id is not None:
-        if log_text.reply_to_msg_id:
-            reply_msg = await log_text.get_reply_message()
+        if event.reply_to_msg_id:
+            reply_msg = await event.get_reply_message()
             await reply_msg.forward_to(lg_id)
-        elif log_text.pattern_match.group(1):
-            user = f"#LOG / Chat ID: {log_text.chat_id}\n\n"
-            textx = user + log_text.pattern_match.group(1)
+        elif event.pattern_match.group(1):
+            user = f"#LOG / Chat ID: {event.chat_id}\n\n"
+            textx = user + event.pattern_match.group(1)
             await event.client.send_message(lg_id, textx)
         else:
-            await eod(log_text, "`What am I supposed to save?`")
+            await eod(event, "`What am I supposed to save?`")
             return
-        await eod(log_text, "`Saved Successfully`")
+        await eod(event, "`Saved Successfully`")
     else:
-        await eod(log_text, "`This feature requires Logging to be enabled!`")
+        await eod(event, "`This feature requires Logging to be enabled!`")
 
 
 @hell_handler(func=lambda e: e.is_private)
