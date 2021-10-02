@@ -14,6 +14,8 @@ lg_id = Config.PM_LOG_ID
 
 @hell_cmd(pattern="save ?(.*)")
 async def log(log_text):
+    if f"{hl}savewelcome" in event.text:
+        return
     if lg_id is not None:
         if log_text.reply_to_msg_id:
             reply_msg = await log_text.get_reply_message()
