@@ -400,7 +400,7 @@ CmdHelp("up_down").add_command(
 ).add_command(
   "upld_as_vnr", "<path>", "Uploads the locally stored file in vs format"
 ).add_command(
-  "upldir", "<path>", "Uploads all the files in directory"
+  "upld_dir", "<path>", "Uploads all the files in directory"
 ).add_command(
   "download", "<link/filename> or reply to media", "Downloads the file to the server"
 ).add_command(
