@@ -398,7 +398,7 @@ CmdHelp("up_down").add_command(
 ).add_command(
   "upld_as_stm", "<path>", "Uploads the locally stored file in streamable format"
 ).add_command(
-  "upld_as_vn", "<path>", "Uploads the locally stored file in vs format"
+  "upld_as_vnr", "<path>", "Uploads the locally stored file in vs format"
 ).add_command(
   "upldir", "<path>", "Uploads all the files in directory"
 ).add_command(
