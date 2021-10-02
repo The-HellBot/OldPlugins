@@ -518,25 +518,25 @@ async def get_font_file(client, channel_id):
 
 
 @hell_cmd(pattern="waifu(?: |$)(.*)")
-async def waifu(animu):
-    text = animu.pattern_match.group(1)
+async def waifu(event):
+    text = event.pattern_match.group(1)
     if not text:
-        if animu.is_reply:
-            text = (await animu.get_reply_message()).message
+        if event.is_reply:
+            text = (await event.get_reply_message()).message
         else:
-            await eod(animu, "Give some text... **PRO !!**")
+            await eod(event, "Give some text... **PRO !!**")
             return
     animus = [1, 3, 7, 9, 13, 22, 34, 35, 36, 37, 43, 44, 45, 52, 53, 55]
     sticcers = await event.client.inline_query(
         "stickerizerbot", f"#{random.choice(animus)}{(deEmojify(text))}"
     )
     await sticcers[0].click(
-        animu.chat_id,
-        reply_to=animu.reply_to_msg_id,
-        silent=True if animu.is_reply else False,
+        event.chat_id,
+        reply_to=event.reply_to_msg_id,
+        silent=True if event.is_reply else False,
         hide_via=True,
     )
-    await animu.delete()
+    await event.delete()
 
 
 CmdHelp("stickers").add_command(
