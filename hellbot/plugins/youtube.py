@@ -24,7 +24,7 @@ from . import *
 
 @hell_cmd(pattern="yt(a|v) (.*)")
 async def download_video(event):
-    url = event.texr[5:]
+    url = event.text[5:]
     type_ = event.text[3:4]
     event = await eor(event, "`Preparing to download...`")
     if type_ == "a":
