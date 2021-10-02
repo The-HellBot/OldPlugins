@@ -7,7 +7,7 @@ from . import *
 
 Heroku = heroku3.from_key(Config.HEROKU_API_KEY)
 heroku_api = "https://api.heroku.com"
-sudousers = Config.SUDO_USERS
+sudousers = Config.SUDO_USERS or ""
 
 
 @hell_cmd(pattern="sudo$")
@@ -39,8 +39,10 @@ async def add(event):
     if event is None:
         return
     if suu != "" and suu.isnumeric():
+        global target
         target = suu
     elif rply:
+        global target
         target = await get_user(event)
     suudo = f"{sudousers} {target}"
     newsudo = suudo.replace("{", "")
