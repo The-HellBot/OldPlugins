@@ -7,7 +7,7 @@ from . import *
 
 Heroku = heroku3.from_key(Config.HEROKU_API_KEY)
 heroku_api = "https://api.heroku.com"
-sudousers = Config.SUDO_USERS or ""
+sudousers = os.environ.get("SUDO_USERS") or ""
 
 
 @hell_cmd(pattern="sudo$")
