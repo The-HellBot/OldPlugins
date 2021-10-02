@@ -30,7 +30,7 @@ if Config.TAG_LOGGER:
                 entity=tagger,
                 message=ammoca_message,
                 link_preview=False,
-                buttons=[[Button.url(button_text, message_link)]],
+                buttons=[[custom.Button.url(button_text, message_link)]],
                 silent=True,
             )
         else:
