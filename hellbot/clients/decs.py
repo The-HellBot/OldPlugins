@@ -68,12 +68,20 @@ def hell_cmd(
         if allow_sudo:
             bot.add_event_handler(func, events.NewMessage(**args, from_users=list(Config.SUDO_USERS), pattern=sudo_reg))
         if H2:
+            if not disable_edited:
+                H2.add_event_handler(func, events.MessageEdited(**args, outgoing=True, pattern=hell_reg))
             H2.add_event_handler(func, events.NewMessage(**args, outgoing=True, pattern=hell_reg))
         if H3:
+            if not disable_edited:
+                H3.add_event_handler(func, events.MessageEdited(**args, outgoing=True, pattern=hell_reg))
             H3.add_event_handler(func, events.NewMessage(**args, outgoing=True, pattern=hell_reg))
         if H4:
+            if not disable_edited:
+                H4.add_event_handler(func, events.MessageEdited(**args, outgoing=True, pattern=hell_reg))
             H4.add_event_handler(func, events.NewMessage(**args, outgoing=True, pattern=hell_reg))
-        if H5:
+         if H5:
+            if not disable_edited:
+                H5.add_event_handler(func, events.MessageEdited(**args, outgoing=True, pattern=hell_reg))
             H5.add_event_handler(func, events.NewMessage(**args, outgoing=True, pattern=hell_reg))
         try:
             LOAD_PLUG[file_test].append(func)
