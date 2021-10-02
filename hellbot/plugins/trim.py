@@ -41,7 +41,7 @@ async def ff_mpeg_trim_cmd(event):
         await eod(event, f"A media file already exists in path. Please remove the media and try again!\n`{hl}tclear`")
 
 
-@hell_cmd(pattern="vtrim")
+@hell_cmd(pattern="vtrim ?(.*)")
 async def ff_mpeg_trim_cmd(event):
     if not os.path.exists(FF_MPEG_DOWN_LOAD_MEDIA_PATH):
         await eod(event,f"A media file needs to be download, and save to the following path:  `{FF_MPEG_DOWN_LOAD_MEDIA_PATH}`")
@@ -70,7 +70,6 @@ async def ff_mpeg_trim_cmd(event):
                 force_document=False,
                 supports_streaming=True,
                 allow_cache=False,
-                reply_to=reply_message,
                 progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
                     progress(d, t, hellevent, c_time, "trying to upload")
                 ),
@@ -95,7 +94,6 @@ async def ff_mpeg_trim_cmd(event):
                 force_document=True,
                 supports_streaming=True,
                 allow_cache=False,
-                reply_to=reply_message,
                 progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
                     progress(d, t, hellevent, c_time, "trying to upload")
                 ),
@@ -111,7 +109,7 @@ async def ff_mpeg_trim_cmd(event):
     await eod(hellevent, f"`Completed Process in {ms} seconds`")
 
 
-@hell_cmd(pattern="atrim$")
+@hell_cmd(pattern="atrim ?(.*)")
 async def ff_mpeg_trim_cmd(event):
     if not os.path.exists(FF_MPEG_DOWN_LOAD_MEDIA_PATH):
         await eod(event, f"A media file needs to be download, and save to the following path:  `{FF_MPEG_DOWN_LOAD_MEDIA_PATH}`")
