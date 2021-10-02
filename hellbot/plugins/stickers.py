@@ -424,12 +424,12 @@ async def _(event):
                     emoji=(sti.attributes[1]).alt,
                 )
             )
-        try:
-            gvarstat("PKANG")
-        except BaseException:
-            addgvar("PKANG", "0")
         x = gvarstat("PKANG")
-        pack = int(x) + 1
+        if x is None:
+            y = addgvar("PKANG", "0")
+            pack = int(y) + 1
+        else:
+            pack = int(x) + 1
         await hel_.edit("`Starting kang process...`")
         try:
             create_st = await tbot(
