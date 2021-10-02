@@ -37,7 +37,7 @@ song_opts = {
         {
             "key": "FFmpegExtractAudio",
             "preferredcodec": "mp3",
-            "preferredquality": "320",
+            "preferredquality": "480",
         }
     ],
     "outtmpl": "%(id)s.mp3",
