@@ -5,19 +5,9 @@ import re
 import time
 
 from telethon.tl.types import DocumentAttributeAudio
-
 from youtube_search import YoutubeSearch
 from youtube_dl import YoutubeDL
-from youtube_dl.utils import (
-    ContentTooShortError,
-    DownloadError,
-    ExtractorError,
-    GeoRestrictedError,
-    MaxDownloadsReached,
-    PostProcessingError,
-    UnavailableVideoError,
-    XAttrMetadataError,
-)
+from youtube_dl.utils import ContentTooShortError, DownloadError, ExtractorError, GeoRestrictedError, MaxDownloadsReached, PostProcessingError, UnavailableVideoError, XAttrMetadataError
 
 from . import *
 
@@ -31,7 +21,7 @@ async def download_video(event):
         opts = song_opts
         video = False
         song = True
-    elif type == "v":
+    elif type_ == "v":
         opts = video_opts
         song = False
         video = True
