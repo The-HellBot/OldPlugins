@@ -38,11 +38,10 @@ async def add(event):
     heroku_Config = app.config()
     if event is None:
         return
+    global target
     if suu != "" and suu.isnumeric():
-        global target
         target = suu
     elif rply:
-        global target
         target = await get_user(event)
     suudo = f"{sudousers} {target}"
     newsudo = suudo.replace("{", "")
