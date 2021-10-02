@@ -38,11 +38,10 @@ async def add(event):
     heroku_Config = app.config()
     if event is None:
         return
-    global target
-    if suu != "" and suu.isnumeric():
-        target = suu
-    elif rply:
-        target = await get_user(event)
+    if suu and not suu.isnumeric():
+        return await ok.edit("Give user ids only.")
+    rply_user = await get_user(event)
+    target = suu if suu else rply_user
     suudo = f"{sudousers} {target}"
     newsudo = suudo.replace("{", "")
     newsudo = newsudo.replace("}", "")
