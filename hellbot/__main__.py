@@ -135,11 +135,7 @@ async def hell_is_on():
         await bot.send_file(
             send_to,
             HELL_PIC,
-
-
-
-            caption=f"#START \n\n<b>Version :<\b> <code>{hellver}</code> \n<b>Clients :</b> <code>{total}</code> \n\n<b><i>»» <u><a href='https://t.me/Its_HellBot'>†hê Hêllẞø†</a></u> ««</i></b>",
-
+            caption=f"#START \n\n<b><i>Version :</b></i> <code>{hellver}</code> \n<b><i>Clients :</b></i> <code>{total}</code> \n\n<b><i>»» <u><a href='https://t.me/Its_HellBot'>†hê Hêllẞø†</a></u> ««</i></b>",
             parse_mode="HTML",
         )
     except Exception as e:
