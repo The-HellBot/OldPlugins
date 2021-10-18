@@ -1,8 +1,12 @@
 import asyncio
-import cv2
+import os
+try:
+    import cv2
+except:
+    os.system("pip install opencv-python--headless")
+    import cv2
 import io
 import lottie
-import os
 import random
 import re
 import shutil
