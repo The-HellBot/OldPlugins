@@ -1,7 +1,7 @@
 # EDIT THIS FILE AND RENAME TO config.py TO MAKE THIS BOT WORKING
 # FILL THESE VALUES ACCORDINGLY.
 
-from hell_config import Config
+from hellbot.config.hell_config import Config
 
 class Development(Config):
   # get these values from my.telegram.org. 
