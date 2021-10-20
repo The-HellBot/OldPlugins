@@ -17,6 +17,7 @@ from telethon.tl.functions.channels import GetParticipantRequest
 from telethon.tl.types import ChannelParticipantAdmin, ChannelParticipantCreator
 
 from hellbot import *
+from hellbot.clients import *
 from hellbot.helpers import *
 from hellbot.config import *
 from hellbot.utils import *
@@ -52,24 +53,32 @@ def load_module(shortname):
         spec = importlib.util.spec_from_file_location(name, path)
         mod = importlib.util.module_from_spec(spec)
         mod.bot = Hell
+        mod.H1 = Hell
+        mod.H2 = H2
+        mod.H3 = H3
+        mod.H4 = H4
+        mod.H5 = H5
+        mod.Hell = Hell
         mod.HellBot = HellBot
         mod.tbot = HellBot
-        mod.Hell = Hell
         mod.tgbot = bot.tgbot
         mod.command = command
+        mod.CmdHelp = CmdHelp
+        mod.client_id = client_id
         mod.logger = logging.getLogger(shortname)
         # support for uniborg
         sys.modules["uniborg.util"] = hellbot.utils
         mod.Config = Config
-        mod.borg = Hell
-        mod.hellbot = Hell
+        mod.borg = bot
+        mod.hellbot = bot
         mod.edit_or_reply = edit_or_reply
         mod.eor = edit_or_reply
         mod.delete_hell = delete_hell
         mod.eod = delete_hell
         mod.Var = Config
-        mod.admin_cmd = hell_cmd
+        mod.admin_cmd = admin_cmd
         mod.hell_cmd = hell_cmd
+        mod.sudo_cmd = sudo_cmd
         # support for other userbots
         sys.modules["userbot.utils"] = hellbot.utils
         sys.modules["userbot"] = hellbot

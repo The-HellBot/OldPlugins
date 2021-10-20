@@ -10,8 +10,8 @@ from bs4 import BeautifulSoup
 from hellbot.sql.waifu_sql import is_harem, add_grp, rm_grp, get_all_grp
 from . import *
 
-qt = "A qt waifu appeared!"
-qt_ = "A waifu appeared!"
+qt = "waifu appeared!"
+qt_bots = ["792028928", "1733263647"]
 
 def progress(current, total):
     logger.info(
@@ -20,18 +20,15 @@ def progress(current, total):
         )
     )
 
-@bot.on(hell_cmd(pattern="pt ?(.*)"))
-@bot.on(sudo_cmd(pattern="pt ?(.*)", allow_sudo=True))
+@hell_cmd(pattern="pt ?(.*)")
 async def _(event):
-    if event.fwd_from:
-        return
     hell = await eor(event, "Hmm..")
     BASE_URL = "http://images.google.com"
     if event.reply_to_msg_id:
         previous_message = await event.get_reply_message()
         previous_message_text = previous_message.message
         if previous_message.media:
-            downloaded_file_name = await bot.download_media(
+            downloaded_file_name = await event.client.download_media(
                 previous_message, Config.TMP_DOWNLOAD_DIRECTORY
             )
             SEARCH_URL = "{}/searchbyimage/upload".format(BASE_URL)
@@ -69,13 +66,13 @@ async def _(event):
     await hell.edit(OUTPUT_STR, parse_mode="HTML", link_preview=False)
 
 
-@bot.on(events.NewMessage(incoming=True))
+@hell_handler()
 async def _(event):
     if not event.media:
         return
     if not qt in event.text:
         return
-    if not event.sender_id == 792028928:
+    if str(event.sender_id) not in qt_bots:
         return
     all_grp = get_all_grp()
     if len(all_grp) == 0:
@@ -83,7 +80,7 @@ async def _(event):
     for grps in all_grp:
         if int(grps.chat_id) == event.chat_id:
             try:
-                dl = await bot.download_media(event.media, "resources/")
+                dl = await event.client.download_media(event.media, "resources/")
                 file = {"encoded_image": (dl, open(dl, "rb"))}
                 grs = requests.post(
                     "https://www.google.com/searchbyimage/upload", files=file, allow_redirects=False
@@ -106,7 +103,7 @@ async def _(event):
                         return
                 except:
                     pass
-                hell = await bot.send_message(event.chat_id, f"/protecc {text}")
+                hell = await event.client.send_message(event.chat_id, f"/protecc {text}")
                 await sleep(2)
                 await hell.delete()
                 os.remove(dl)
@@ -116,68 +113,19 @@ async def _(event):
             pass
 
 
-@bot.on(events.NewMessage(incoming=True))
-async def _(event):
-    if not event.media:
-        return
-    if not qt_ in event.text:
-        return
-    if not event.sender_id == 1733263647:
-        return
-    all_grp = get_all_grp()
-    if len(all_grp) == 0:
-        return
-    for grps in all_grp:
-        if int(grps.chat_id) == event.chat_id:
-            try:
-                dl = await bot.download_media(event.media, "resources/")
-                file = {"encoded_image": (dl, open(dl, "rb"))}
-                grs = requests.post(
-                    "https://www.google.com/searchbyimage/upload", files=file, allow_redirects=False
-                )
-                loc = grs.headers.get("Location")
-                response = requests.get(
-                    loc,
-                    headers={
-                        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:58.0) Gecko/20100101 Firefox/58.0"
-                    },
-                )
-                qtt = BeautifulSoup(response.text, "html.parser")
-                div = qtt.find_all("div", {"class": "r5a77d"})[0]
-                alls = div.find("a")
-                text = alls.text
-                try:
-                    if "cg" in text:
-                        return
-                    if "fictional character" in text:
-                        return
-                except:
-                    pass
-                hell = await bot.send_message(event.chat_id, f"/protecc {text}")
-                await sleep(2)
-                await hell.delete()
-                os.remove(dl)
-            except:
-                pass
-        else:
-            pass
-
-
-@bot.on(hell_cmd(pattern="adwaifu ?(.*)"))
-@bot.on(sudo_cmd(pattern="adwaifu ?(.*)", allow_sudo=True))
+@hell_cmd(pattern="adwaifu ?(.*)")
 async def _(event):
     if not event.is_group:
         await eod(event, "Autowaifu works in Groups Only !!")
         return
     if is_harem(str(event.chat_id)):
-        await eod(event, "This Chat is Has Already In AutoWaifu Database !!")
+        await eod(event, "This Chat is Already In AutoWaifu Database !!")
         return
     add_grp(str(event.chat_id))
     await eod(event, f"**Added Chat** {event.chat.title} **With Id** `{event.chat_id}` **To Autowaifu Database.**")
 
 
-@bot.on(hell_cmd(pattern="rmwaifu ?(.*)"))
-@bot.on(sudo_cmd(pattern="rmwaifu ?(.*)", allow_sudo=True))
+@hell_cmd(pattern="rmwaifu ?(.*)")
 async def _(event):
     if not event.is_group:
         await eod(event, "Autowaifu works in groups only !!")
@@ -189,8 +137,7 @@ async def _(event):
     await eod(event, f"**Removed Chat** {event.chat.title} **With Id** `{event.chat_id}` **From AutoWaifu Database.**")
 
 
-@bot.on(hell_cmd(pattern="aw$"))
-@bot.on(sudo_cmd(pattern="aw$", allow_sudo=True))
+@hell_cmd(pattern="aw$")
 async def _(event):
     hell = await eor(event, "Fetching Autowaifu chats...")
     all_grp = get_all_grp()

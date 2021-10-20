@@ -1,13 +1,16 @@
 from telethon import events
 
 from hellbot.sql.welcome_sql import get_current_welcome, add_welcome, rm_welcome, update_welcome
+from hellbot.sql.gvar_sql import gvarstat, addgvar, delgvar
 from . import *
 
 lg_id = Config.LOGGER_ID
 
-@bot.on(events.ChatAction)
-async def _(event):  # sourcery no-metrics
-    cws = get_current_welcome(event.chat_id)
+
+@H1.on(events.ChatAction)
+async def _(event):
+    ForGo10God, HELL_USER, hell_mention = await client_id(event)
+    cws = get_current_welcome(event.chat_id, ForGo10God)
     if (
         cws
         and (event.user_joined or event.user_added)
@@ -62,13 +65,12 @@ async def _(event):  # sourcery no-metrics
             file=file_media,
             parse_mode="html",
         )
-        update_welcome(event.chat_id, current_message.id)
+        update_welcome(event.chat_id, current_message.id, ForGo10God)
 
-
-@bot.on(hell_cmd(pattern="savewelcome(?: |$)(.*)"))
-@bot.on(sudo_cmd(pattern="savewelcome(?: |$)(.*)", allow_sudo=True))
+@hell_cmd(pattern="savewelcome(?: |$)(.*)")
 async def save_welcome(event):
     msg = await event.get_reply_message()
+    ForGo10God, HELL_USER, hell_mention = await client_id(event)
     string = "".join(event.text.split(maxsplit=1)[1:])
     msg_id = None
     if msg and msg.media and not string:
@@ -87,46 +89,39 @@ async def save_welcome(event):
         rep_msg = await event.get_reply_message()
         string = rep_msg.text
     success = "`Welcome note {} for this chat.`"
-    if add_welcome(event.chat_id, 0, string, msg_id) is True:
+    if add_welcome(event.chat_id, 0, string, msg_id, ForGo10God) is True:
         return await eor(event, success.format("saved"))
     rm_welcome(event.chat_id)
-    if add_welcome(event.chat_id, 0, string, msg_id) is True:
+    if add_welcome(event.chat_id, 0, string, msg_id, ForGo10God) is True:
         return await eor(event, success.format("updated"))
     await eod(event, "Error while setting welcome in this group")
 
-
-@bot.on(hell_cmd(pattern="cleanwelcome$"))
-@bot.on(sudo_cmd(pattern="cleanwelcome$", allow_sudo=True))
+@hell_cmd(pattern="cleanwelcome$")
 async def del_welcome(event):
-    if rm_welcome(event.chat_id) is True:
-        await eod(event, "Welcome Message deleted for this chat", 7)
+    ForGo10God, HELL_USER, hell_mention = await client_id(event)
+    if rm_welcome(event.chat_id, ForGo10God) is True:
+        await eod(event, "Welcome Message deleted for this chat")
     else:
-        await eod(event, "To delete a welcome note you need to save one first.", 7)
+        await eod(event, "To delete a welcome note you need to save one first.")
 
-
-@bot.on(hell_cmd(pattern="showwelcome$"))
-@bot.on(sudo_cmd(pattern="showwelcome$", allow_sudo=True))
+@hell_cmd(pattern="showwelcome$")
 async def getwelcome(event):
-    cws = get_current_welcome(event.chat_id)
+    ForGo10God, HELL_USER, hell_mention = await client_id(event)
+    cws = get_current_welcome(event.chat_id, ForGo10God)
     if not cws:
         return await eod(event, "`No welcome message saved here.`")
     if cws.f_mesg_id:
         msg_o = await event.client.get_messages(
             entity=lg_id, ids=int(cws.f_mesg_id)
         )
-        await eor(
-            event, "Welcome note in this chat is..."
-        )
+        await eor(event, "Welcome note in this chat is...")
         await event.reply(msg_o.message, file=msg_o.media)
     elif cws.reply:
-        await eor(
-            event, "Welcome note in this chat is..."
-        )
+        await eor(event, "Welcome note in this chat is...")
         await event.reply(cws.reply)
 
 
-@bot.on(hell_cmd(pattern="welcome_note$"))
-@bot.on(sudo_cmd(pattern="welcome_note$", allow_sudo=True))
+@hell_cmd(pattern="welcome_note$")
 async def note(event):
     await eor(event, WELCOME_FORMAT)
 

@@ -1,13 +1,46 @@
 from telethon import events
 from telethon.errors.rpcerrorlist import YouBlockedUserError
 from telethon.tl.functions.account import UpdateNotifySettingsRequest
+
 from . import *
 
-@bot.on(hell_cmd(pattern="history ?(.*)"))
-@bot.on(sudo_cmd(pattern="history ?(.*)", allow_sudo=True))
+
+@hell_cmd(pattern="history ?(.*)")
 async def _(hellevent):
-    if hellevent.fwd_from:
-        return 
+    if not hellevent.reply_to_msg_id:
+       await eod(hellevent, "`Please reply to a user to get his history`")
+       return
+    reply_message = await hellevent.get_reply_message() 
+    chat = "Sangmatainfo_bot"
+    victim = reply_message.sender.id
+    if reply_message.sender.bot:
+       await eod(hellevent, "Need actual users. Not Bots")
+       return
+    hell = await eor(hellevent, "Checking...")
+    async with hellevent.client.conversation(chat) as conv:
+          try:     
+              first = await conv.send_message(f"/search_id {victim}")
+              response1 = await conv.get_response()
+              response2 = await conv.get_response() 
+              response3 = await conv.get_response()
+          except YouBlockedUserError: 
+              await eod(hellevent, "Please unblock @Sangmatainfo_bot")
+              return
+          if response1.text.startswith("Name History"):
+              await hell.edit(response1.text)
+              await hellevent.client.delete_messages(conv.chat_id, [first.id, response1.id, response2.id, response3.id])
+          elif response2.text.startswith("Name History"):
+              await hell.edit(response2.text)
+              await hellevent.client.delete_messages(conv.chat_id, [first.id, response1.id, response2.id, response3.id])
+          elif response3.text.startswith("Name History"):
+              await hell.edit(response3.text)
+              await hellevent.client.delete_messages(conv.chat_id, [first.id, response1.id, response2.id, response3.id])
+          else: 
+              await hell.edit("No Records Found !")
+
+
+@hell_cmd(pattern="unh ?(.*)")
+async def _(hellevent):
     if not hellevent.reply_to_msg_id:
        await eod(hellevent, "`Please Reply To A User To Get This Module Work`")
        return
@@ -17,58 +50,27 @@ async def _(hellevent):
     if reply_message.sender.bot:
        await eod(hellevent, "Need actual users. Not Bots")
        return
-    await eor(hellevent, "Checking...")
+    hell = await eor(hellevent, "Checking...")
     async with hellevent.client.conversation(chat) as conv:
           try:     
-              response1 = conv.wait_event(events.NewMessage(incoming=True,from_users=461843263))
-              response2 = conv.wait_event(events.NewMessage(incoming=True,from_users=461843263))
-              response3 = conv.wait_event(events.NewMessage(incoming=True,from_users=461843263))
-              await conv.send_message("/search_id {}".format(victim))
-              response1 = await response1 
-              response2 = await response2 
-              response3 = await response3 
+              first = await conv.send_message(f"/search_id {victim}")
+              response1 = await conv.get_response() 
+              response2 = await conv.get_response()
+              response3 = await conv.get_response()
           except YouBlockedUserError: 
               await eod(hellevent, "Please unblock @Sangmatainfo_bot")
               return
-          if response1.text.startswith("No records found"):
-             await eor(hellevent, "User never changed his Username...")
+          if response1.text.startswith("Username History"):
+              await hell.edit(response1.text)
+              await hellevent.client.delete_messages(conv.chat_id, [first.id, response1.id, response2.id, response3.id])
+          elif response2.text.startswith("Username History"):
+              await hell.edit(response2.text)
+              await hellevent.client.delete_messages(conv.chat_id, [first.id, response1.id, response2.id, response3.id])
+          elif response3.text.startswith("Username History"):
+              await hell.edit(response3.text)
+              await hellevent.client.delete_messages(conv.chat_id, [first.id, response1.id, response2.id, response3.id])
           else: 
-             await hellevent.delete()
-             await hellevent.client.send_message(hellevent.chat_id, response2.message)
-
-
-@bot.on(hell_cmd(pattern="unh ?(.*)"))
-@bot.on(sudo_cmd(pattern="unh ?(.*)", allow_sudo=True))
-async def _(hellevent):
-    if hellevent.fwd_from:
-        return 
-    if not hellevent.reply_to_msg_id:
-       await eod(hellevent, "`Please Reply To A User To Get This Module Work`")
-       return
-    reply_message = await hellevent.get_reply_message() 
-    chat = "Sangmatainfo_bot"
-    victim = reply_message.sender.id
-    if reply_message.sender.bot:
-       await eod(hellevent, "Need actual users. Not Bots")
-       return
-    await eor(hellevent, "Checking...")
-    async with hellevent.client.conversation(chat) as conv:
-          try:     
-              response1 = conv.wait_event(events.NewMessage(incoming=True,from_users=461843263))
-              response2 = conv.wait_event(events.NewMessage(incoming=True,from_users=461843263))
-              response3 = conv.wait_event(events.NewMessage(incoming=True,from_users=461843263))
-              await conv.send_message("/search_id {}".format(victim))
-              response1 = await response1 
-              response2 = await response2 
-              response3 = await response3 
-          except YouBlockedUserError: 
-              await eod(hellevent, "Please unblock @Sangmatainfo_bot")
-              return
-          if response1.text.startswith("No records found"):
-             await eor(hellevent, "User never changed his Username...")
-          else: 
-             await hellevent.delete()
-             await hellevent.client.send_message(hellevent.chat_id, response3.message)
+              await hell.edit("No Records Found !")
 
 
 CmdHelp("history").add_command(

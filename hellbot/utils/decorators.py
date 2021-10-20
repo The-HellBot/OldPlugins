@@ -1,27 +1,23 @@
-import asyncio
 import datetime
-import importlib
 import inspect
-import logging
-import math
 import os
 import re
 import sys
-import time
-import traceback
+
 from pathlib import Path
-from time import gmtime, strftime
 
-from telethon import events
-from telethon.tl.functions.channels import GetParticipantRequest
-from telethon.tl.types import ChannelParticipantAdmin, ChannelParticipantCreator
+import telethon.utils
+from telethon import TelegramClient, events
+from telethon.errors import MessageIdInvalidError, MessageNotModifiedError
 
-from hellbot import *
-from hellbot.helpers import *
+from hellbot import LOGS, bot, tbot
+from hellbot.clients import H2, H3, H4, H5
 from hellbot.config import Config
+from hellbot.helpers import *
+
 
 # admin cmd or normal user cmd
-def hell_cmd(pattern=None, command=None, **args):
+def admin_cmd(pattern=None, command=None, **args):
     args["func"] = lambda e: e.via_bot_id is None
     stack = inspect.stack()
     previous_stack_frame = stack[1]
@@ -85,7 +81,7 @@ def hell_cmd(pattern=None, command=None, **args):
         del args["allow_edited_updates"]
 
     # plugin check for outgoing commands
-
+    
     return events.NewMessage(**args)
 
 
@@ -158,10 +154,16 @@ on = bot.on
 def on(**args):
     def decorator(func):
         async def wrapper(event):
-            # check if sudo
             await func(event)
-
-        client.add_event_handler(wrapper, events.NewMessage(**args))
+        bot.add_event_handler(wrapper, events.NewMessage(**args))
+        if H2:
+            H2.add_event_handler(wrapper, events.NewMessage(**args))
+        if H3:
+            H3.add_event_handler(wrapper, events.NewMessage(**args))
+        if H4:
+            H4.add_event_handler(wrapper, events.NewMessage(**args))
+        if H5:
+            H5.add_event_handler(wrapper, events.NewMessage(**args))
         return wrapper
 
     return decorater
@@ -220,6 +222,14 @@ def register(**args):
         if not disable_edited:
             bot.add_event_handler(func, events.MessageEdited(**args))
         bot.add_event_handler(func, events.NewMessage(**args))
+        if H2:
+            H2.add_event_handler(func, events.NewMessage(**args))
+        if H3:
+            H3.add_event_handler(func, events.NewMessage(**args))
+        if H4:
+            H4.add_event_handler(func, events.NewMessage(**args))
+        if H5:
+            H5.add_event_handler(func, events.NewMessage(**args))
         try:
             LOAD_PLUG[file_test].append(func)
         except Exception:
@@ -288,6 +298,14 @@ def command(**args):
         if allow_edited_updates:
             bot.add_event_handler(func, events.MessageEdited(**args))
         bot.add_event_handler(func, events.NewMessage(**args))
+        if H2:
+            H2.add_event_handler(func, events.NewMessage(**args))
+        if H3:
+            H3.add_event_handler(func, events.NewMessage(**args))
+        if H4:
+            H4.add_event_handler(func, events.NewMessage(**args))
+        if H5:
+            H5.add_event_handler(func, events.NewMessage(**args))
         try:
             LOAD_PLUG[file_test].append(func)
         except BaseException:

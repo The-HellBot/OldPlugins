@@ -1,7 +1,6 @@
 from . import *
 
-@bot.on(hell_cmd(pattern="gcast ?(.*)"))
-@bot.on(sudo_cmd(pattern="gcast ?(.*)", allow_sudo=True))
+@hell_cmd(pattern="gcast ?(.*)")
 async def _(event):
     reply_msg = await event.get_reply_message()
     flag = event.text[-4:]
@@ -15,35 +14,35 @@ async def _(event):
     sed = 0
     owo = 0
     if "-all" in flag:
-        async for allhell in bot.iter_dialogs():
+        async for allhell in event.client.iter_dialogs():
             chat = allhell.id
             hell = OwO.replace("-all", "")
             try:
                 if chat != -1001496036895:
-                    await bot.send_message(chat, hell)
+                    await event.client.send_message(chat, hell)
                     owo += 1
                 elif chat == -1001496036895:
                     pass
             except BaseException:
                 sed += 1
     elif "-pvt" in flag:
-        async for pvthell in bot.iter_dialogs():
+        async for pvthell in event.client.iter_dialogs():
             if pvthell.is_user and not pvthell.entity.bot:
                 chat = pvthell.id
                 hell = OwO.replace("-pvt", "")
                 try:
-                    await bot.send_message(chat, hell)
+                    await event.client.send_message(chat, hell)
                     owo += 1
                 except BaseException:
                     sed += 1
     elif "-grp" in flag:
-        async for ghell in bot.iter_dialogs():
+        async for ghell in event.client.iter_dialogs():
             if ghell.is_group:
                 chat = ghell.id
                 hell = OwO.replace("-grp", "")
                 try:
                     if chat != -1001496036895:
-                        await bot.send_message(chat, hell)
+                        await event.client.send_message(chat, hell)
                         owo += 1
                     elif chat == -1001496036895:
                         pass

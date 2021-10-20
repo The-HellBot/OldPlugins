@@ -3,11 +3,8 @@ from collections import deque
 
 from . import *
 
-@bot.on(hell_cmd(pattern=r"boxs$", outgoing=True))
-@bot.on(sudo_cmd(pattern=r"boxs$", allow_sudo=True))
+@hell_cmd(pattern="boxs$")
 async def _(event):
-    if event.fwd_from:
-        return
     event = await eor(event, "`boxs...`")
     deq = deque(list("🟥🟧🟨🟩🟦🟪🟫⬛⬜"))
     for _ in range(999):
@@ -16,11 +13,8 @@ async def _(event):
         deq.rotate(1)
 
 
-@bot.on(hell_cmd(pattern=r"rain$", outgoing=True))
-@bot.on(sudo_cmd(pattern=r"rain$", allow_sudo=True))
+@hell_cmd(pattern="rain$")
 async def _(event):
-    if event.fwd_from:
-        return
     event = await eor(event, "`Raining.......`")
     deq = deque(list("🌬☁️🌩🌨🌧🌦🌥⛅🌤"))
     for _ in range(48):
@@ -29,11 +23,10 @@ async def _(event):
         deq.rotate(1)
 
 
-@bot.on(hell_cmd(pattern=r"deploy$", outgoing=True))
-@bot.on(sudo_cmd(pattern=r"deploy$", allow_sudo=True))
+@hell_cmd(pattern="deploy$")
 async def _(event):
-    if event.fwd_from:
-        return
+    cid = await client_id(event)
+    hell_mention = cid[2]
     animation_interval = 3
     animation_ttl = range(12)
     event = await eor(event, "`Deploying...`")
@@ -56,11 +49,8 @@ async def _(event):
         await event.edit(animation_chars[i % 12])
 
 
-@bot.on(hell_cmd(pattern=r"dump$", outgoing=True))
-@bot.on(sudo_cmd(pattern=r"dump$", allow_sudo=True))
+@hell_cmd(pattern="dump$")
 async def _(message):
-    if message.fwd_from:
-        return
     try:
         obj = message.pattern_match.group(1)
         if len(obj) != 3:
@@ -99,11 +89,8 @@ async def _(message):
                 return
 
 
-@bot.on(hell_cmd(pattern=r"fleaveme$", outgoing=True))
-@bot.on(sudo_cmd(pattern=r"fleaveme$", allow_sudo=True))
+@hell_cmd(pattern="fleaveme$")
 async def _(event):
-    if event.fwd_from:
-        return
     animation_interval = 1
     animation_ttl = range(10)
     animation_chars = [
@@ -125,11 +112,8 @@ async def _(event):
         await event.edit(animation_chars[i % 10])
 
 
-@bot.on(hell_cmd(pattern=r"loveu$", outgoing=True))
-@bot.on(sudo_cmd(pattern=r"loveu$", allow_sudo=True))
+@hell_cmd(pattern="loveu$")
 async def _(event):
-    if event.fwd_from:
-        return
     animation_interval = 0.5
     animation_ttl = range(70)
     event = await eor(event, "loveu")
@@ -175,11 +159,8 @@ async def _(event):
         await event.edit(animation_chars[i % 35])
 
 
-@bot.on(hell_cmd(pattern=r"plane$", outgoing=True))
-@bot.on(sudo_cmd(pattern=r"plane$", allow_sudo=True))
+@hell_cmd(pattern="plane$")
 async def _(event):
-    if event.fwd_from:
-        return
     event = await eor(event, "Wait for plane...")
     await event.edit("✈-------------")
     await event.edit("-✈------------")
@@ -198,11 +179,8 @@ async def _(event):
     await asyncio.sleep(3)
 
 
-@bot.on(hell_cmd(pattern=r"police$", outgoing=True))
-@bot.on(sudo_cmd(pattern=r"police$", allow_sudo=True))
+@hell_cmd(pattern="police$")
 async def _(event):
-    if event.fwd_from:
-        return
     animation_interval = 0.3
     animation_ttl = range(12)
     event = await eor(event, "Police")
@@ -222,12 +200,10 @@ async def _(event):
     for i in animation_ttl:
         await asyncio.sleep(animation_interval)
         await event.edit(animation_chars[i % 12])
-        
-@bot.on(hell_cmd(pattern=f"wahack$", outgoing=True))
-@bot.on(sudo_cmd(pattern=f"wahack$", allow_sudo=True))
+   
+     
+@hell_cmd(pattern=f"wahack$")
 async def _(event):
-    if event.fwd_from:
-        return
     animation_interval = 0.3
     animation_ttl = range(15)
     event = await eor(event, "`Hacking this kid....`")
@@ -252,11 +228,9 @@ async def _(event):
         await asyncio.sleep(animation_interval)
         await event.edit(animation_chars[i % 15])
 
-@bot.on(hell_cmd(pattern=r"jio$", outgoing=True))
-@bot.on(sudo_cmd(pattern=r"jio$", allow_sudo=True))
+
+@hell_cmd(pattern="jio$")
 async def _(event):
-    if event.fwd_from:
-        return
     animation_interval = 1
     animation_ttl = range(19)
     event = await eor(event, "jio network boosting...")
@@ -286,11 +260,8 @@ async def _(event):
         await event.edit(animation_chars[i % 19])
 
 
-@bot.on(hell_cmd(pattern=r"solarsystem$", outgoing=True))
-@bot.on(sudo_cmd(pattern=r"solarsystem$", allow_sudo=True))
+@hell_cmd(pattern="solarsystem$")
 async def _(event):
-    if event.fwd_from:
-        return
     animation_interval = 0.1
     animation_ttl = range(80)
     event = await eor(event, "solarsystem")
@@ -307,13 +278,10 @@ async def _(event):
     for i in animation_ttl:
         await asyncio.sleep(animation_interval)
         await event.edit(animation_chars[i % 8])
-        
-        
-@bot.on(hell_cmd(pattern="degi$"))
-@bot.on(sudo_cmd(pattern="degi$", allow_sudo=True))
+
+
+@hell_cmd(pattern="degi$")
 async def _(event):
-    if event.fwd_from:
-        return
     event = await eor(event, "degi")
     await event.edit("WO")
     await asyncio.sleep(1.5)
@@ -334,11 +302,8 @@ async def _(event):
     await event.edit("Wo DeGi TuM eKbAr MaNg KaR tOh DeKhO😄")
 
 
-@bot.on(hell_cmd(pattern=f"nehi$", outgoing=True))
-@bot.on(sudo_cmd(pattern=f"nehi$", allow_sudo=True))
+@hell_cmd(pattern="nehi$")
 async def _(event):
-    if event.fwd_from:
-        return
     event = await eor(event, "nehi")
     await event.edit(
         "`Wo PaKkA DeGi Tu ManG KaR ToH DekH\n AuR NaA De To UskI BheN Ko PakaD😚😚`"
@@ -346,12 +311,9 @@ async def _(event):
     await asyncio.sleep(999)
 
 
-@bot.on(hell_cmd(pattern="hnd (.*)"))
-@bot.on(sudo_cmd(pattern="hnd (.*)", allow_sudo=True))
+@hell_cmd(pattern="hnd (.*)")
 async def _(event):
     name = event.pattern_match.group(1)
-    if event.fwd_from:
-        return
     animation_interval = 0.5
     animation_ttl = range(6)
     event = await eor(event, "✌️")
@@ -368,20 +330,11 @@ async def _(event):
         await event.edit(animation_chars[i % 6])
 
 
-@bot.on(hell_cmd(pattern="phub$", outgoing=True))
-@bot.on(sudo_cmd(pattern="phub$", allow_sudo=True))
+@hell_cmd(pattern="phub$")
 async def _(event):
-
-    if event.fwd_from:
-
-        return
-
     animation_interval = 0.5
-
     animation_ttl = range(0, 101)
-
     await eor(event, "phub")
-
     animation_chars = [
         "P_",
         "PO_",
@@ -392,28 +345,16 @@ async def _(event):
         "PORNHUB_",
         "PORNHUB",
     ]
-
     for i in animation_ttl:
-
         await asyncio.sleep(animation_interval)
-
         await event.edit(animation_chars[i % 10])
 
 
-@bot.on(hell_cmd(pattern=r"amore$", outgoing=True))
-@bot.on(sudo_cmd(pattern=r"amore$", allow_sudo=True))
+@hell_cmd(pattern="amore$")
 async def _(event):
-
-    if event.fwd_from:
-
-        return
-
     animation_interval = 0.5
-
     animation_ttl = range(0, 101)
-
     await eor(event, "amore")
-
     animation_chars = [
         "A_",
         "AM_",
@@ -423,28 +364,16 @@ async def _(event):
         "AMORE❤_",
         ".-.",
     ]
-
     for i in animation_ttl:
-
         await asyncio.sleep(animation_interval)
-
         await event.edit(animation_chars[i % 10])
 
 
-@bot.on(hell_cmd(pattern=r"sexy$", outgoing=True))
-@bot.on(sudo_cmd(pattern=r"sexy$", allow_sudo=True))
+@hell_cmd(pattern="sexy$")
 async def _(event):
-
-    if event.fwd_from:
-
-        return
-
     animation_interval = 0.5
-
     animation_ttl = range(0, 101)
-
     await eor(event, "Sexy")
-
     animation_chars = [
         "S_",
         "SE_",
@@ -453,27 +382,16 @@ async def _(event):
         "SEXY👄_",
         "SEXY👄",
     ]
-
     for i in animation_ttl:
-
         await asyncio.sleep(animation_interval)
-
         await event.edit(animation_chars[i % 10])
-        
-@bot.on(hell_cmd(pattern="istar$", outgoing=True))
-@bot.on(sudo_cmd(pattern="istar$", allow_sudo=True))
+
+
+@hell_cmd(pattern="istar$")
 async def ammastar(hellstar):
-  
-    if hellstar.fwd_from:
-      
-        return
-      
     animation_interval = 2
-    
     animation_ttl = range(0, 11)
-    
     await eor(hellstar, "I am A Star")
-    
     animation_chars = [
         "I Party like a rockstar",
         "I Look like a movie star",
@@ -481,29 +399,20 @@ async def ammastar(hellstar):
         "I Fuck like a pornstar",
         "Baby I'm a superstar",
     ]
-    
     for i in animation_ttl:
-      
         await asyncio.sleep(animation_interval)
-        
         await hellstar.edit(animation_chars[i % 11])
-    
-        
-@bot.on(hell_cmd(pattern=r"lmoon", outgoing=True))
-@bot.on(sudo_cmd(pattern=r"lmoon", allow_sudo=True))
+
+
+@hell_cmd(pattern="lmoon$")
 async def test(event):
-    if event.fwd_from:
-        return
     await eor(event, 
         "🌕🌕🌕🌕🌕🌕🌕🌕\n🌕🌕🌖🌔🌖🌔🌕🌕\n🌕🌕🌗🌔🌖🌓🌕🌕\n🌕🌕🌗🌔🌖🌓🌕🌕\n🌕🌕🌖🌓🌗🌔🌕🌕\n🌕🌕🌗🌑🌑🌓🌕🌕\n🌕🌕🌗👀🌑🌓🌕🌕\n🌕🌕🌘👄🌑🌓🌕🌕\n🌕🌕🌗🌑🌑🌒🌕🌕\n🌕🌖🌑🌑🌑🌑🌔🌕\n🌕🌘🌑🌑🌑🌑🌒🌕\n🌖🌑🌑🌑🌑🌑🌑🌔\n🌕🤜🏻🌑🌑🌑🌑🤛🏻🌕\n🌕🌖🌑🌑🌑🌑🌔🌕\n🌘🌑🌑🌑🌑🌑🌑🌒\n🌕🌕🌕🌕🌕🌕🌕🌕"
     )
 
 
-@bot.on(hell_cmd(pattern=r"city", outgoing=True))
-@bot.on(sudo_cmd(pattern=r"city", allow_sudo=True))
+@hell_cmd(pattern="city$")
 async def test(event):
-    if event.fwd_from:
-        return
     await eor(event, 
         """☁☁🌞      ☁           ☁
        ☁  ✈         ☁    🚁    ☁    ☁        ☁          ☁     ☁   ☁
@@ -517,49 +426,28 @@ async def test(event):
     )
 
 
-@bot.on(hell_cmd(pattern=r"hii", outgoing=True))
-@bot.on(sudo_cmd(pattern=r"hii", allow_sudo=True))
+@hell_cmd(pattern="hii$")
 async def hi(event):
-    if event.fwd_from:
-        return
     await eor(event, "🌺✨✨🌺✨🌺🌺🌺\n🌺✨✨🌺✨✨🌺✨\n🌺🌺🌺🌺✨✨🌺✨\n🌺✨✨🌺✨✨🌺✨\n🌺✨✨🌺✨🌺🌺🌺\n☁☁☁☁☁☁☁☁")
 
 
-@bot.on(hell_cmd(pattern=r"cheer", outgoing=True))
-@bot.on(sudo_cmd(pattern=r"cheer", allow_sudo=True))
+@hell_cmd(pattern="cheer$")
 async def cheer(event):
-    if event.fwd_from:
-        return
     await eor(event, 
         "💐💐😉😊💐💐\n☕ Cheer Up  🍵\n🍂 ✨ )) ✨  🍂\n🍂┃ (( * ┣┓ 🍂\n🍂┃*💗 ┣┛ 🍂 \n🍂┗━━┛  🍂🎂 For YOU  🍰\n💐💐😌😚💐💐"
     )
 
 
-@bot.on(hell_cmd(pattern=r"getwell", outgoing=True))
-@bot.on(sudo_cmd(pattern=r"getwell", allow_sudo=True))
+@hell_cmd(pattern="getwell$")
 async def getwell(event):
-    if event.fwd_from:
-        return
     await eor(event, "🌹🌹🌹🌹🌹🌹🌹🌹 \n🌹😷😢😓😷😢💨🌹\n🌹💝💉🍵💊💐💝🌹\n🌹 GetBetter Soon! 🌹\n🌹🌹🌹🌹🌹🌹🌹🌹")
 
-@bot.on(hell_cmd(pattern="switch$", outgoing=True))
-@bot.on(sudo_cmd(pattern="switch$", allow_sudo=True))
+
+@hell_cmd(pattern="switch$")
 async def _(event):
-
-    if event.fwd_from:
-
-        return
-
     animation_interval = 0.5
-
     animation_ttl = range(0, 11)
-
-  #  input_str = event.pattern_match.group(1)
-
-  #  if input_str == "switch":
-
     await eor(event, "Switch")
-
     animation_chars = [
          "⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜[🔲](https://github.com/The-HellBot/HellBot)\n⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜⬜",
          "⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜[🔲](https://github.com/The-HellBot/HellBot)\n⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜⬜\n[👉](https://t.me/ForGo10God)⬜⬜⬜⬜⬜⬜",
@@ -573,30 +461,23 @@ async def _(event):
          "⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬛[👉](https://t.me/ForGo10God)🔲\n⬜⬛⬛⬛⬛⬜⬜\n⬜⬛⬜⬜⬜⬜⬜\n⬛⬛⬜⬜⬜⬜⬜",
          "⬛⬛⬛⬛⬛⬛⬛\n⬛⬛⬛⬛⬛⬛⬛\n⬛⬛⬛⬛⬛⬛⬛\n⬛⬛⬛⬛⬛⬛🔳\n⬛⬛⬛⬛⬛⬛⬛\n⬛⬛⬛⬛⬛⬛⬛\n⬛⬛⬛⬛⬛⬛⬛",
     ]
-
     for i in animation_ttl:
-
         await asyncio.sleep(animation_interval)
-
         await event.edit(animation_chars[i % 11])
 
 
-@bot.on(hell_cmd(pattern=r"sprinkle", outgoing=True))
-@bot.on(sudo_cmd(pattern=r"sprinkle", allow_sudo=True))
+@hell_cmd(pattern="sprinkle")
 async def sprinkle(event):
-    if event.fwd_from:
-        return
     await eor(event, 
         "✨.•*¨*.¸.•*¨*.¸¸.•*¨*• ƸӜƷ\n🌸🌺🌸🌺🌸🌺🌸🌺\n Sprinkled with love❤\n🌷🌻🌷🌻🌷🌻🌷🌻\n ¨*.¸.•*¨*. ¸.•*¨*.¸¸.•*¨`*•.✨\n🌹🍀🌹🍀🌹🍀🌹🍀"
     )
 
 
-@bot.on(hell_cmd(outgoing=True, pattern="kiler( (.*)|$)"))
-@bot.on(sudo_cmd(pattern="kiler( (.*)|$)", allow_sudo=True))
+@hell_cmd(pattern="kiler( (.*)|$)")
 async def _(event):
-    if event.fwd_from:
-        return
     name = event.pattern_match.group(1)
+    xyz = await client_id(event)
+    hell_mention = xyz[2]
     if not name:
         name = "die"
     animation_interval = 0.7
@@ -617,11 +498,8 @@ async def _(event):
         await event.edit(animation_chars[i % 8])
 
 
-@bot.on(hell_cmd(pattern="eye$"))
-@bot.on(sudo_cmd(pattern="eye$", allow_sudo=True))
+@hell_cmd(pattern="eye$")
 async def _(event):
-    if event.fwd_from:
-        return
     animation_interval = 3
     animation_ttl = range(10)
     event = await eor(event, "👁👁")
@@ -644,11 +522,8 @@ async def _(event):
     await event.delete()
 
 
-@bot.on(hell_cmd(pattern="thinking$"))
-@bot.on(sudo_cmd(pattern="thinking$", allow_sudo=True))
+@hell_cmd(pattern="thinking$")
 async def _(event):
-    if event.fwd_from:
-        return
     animation_interval = 0.01
     animation_ttl = range(288)
     event = await eor(event, "thinking..")
@@ -695,11 +570,8 @@ async def _(event):
         await event.edit(animation_chars[i % 36])
 
 
-@bot.on(hell_cmd(pattern=f"snake$", outgoing=True))
-@bot.on(sudo_cmd(pattern="snake$", allow_sudo=True))
+@hell_cmd(pattern="snake$")
 async def _(event):
-    if event.fwd_from:
-        return
     animation_interval = 0.3
     animation_ttl = range(27)
     event = await eor(event, "snake..")
@@ -737,12 +609,8 @@ async def _(event):
         await event.edit(animation_chars[i % 27])
 
 
-@bot.on(hell_cmd(pattern=f"human$", outgoing=True))
-@bot.on(sudo_cmd(pattern="human$", allow_sudo=True))
+@hell_cmd(pattern="human$")
 async def _(event):
-    if event.fwd_from:
-        return
-    animation_interval = 0.5
     animation_ttl = range(16)
     event = await eor(event, "human...")
     animation_chars = [
@@ -768,11 +636,8 @@ async def _(event):
         await event.edit(animation_chars[i % 16])
 
 
-@bot.on(hell_cmd(pattern=f"mc$", outgoing=True))
-@bot.on(sudo_cmd(pattern="mc$", allow_sudo=True))
+@hell_cmd(pattern="mc$")
 async def _(event):
-    if event.fwd_from:
-        return
     animation_interval = 0.3
     animation_ttl = range(28)
     event = await eor(event, "mc..")
@@ -811,11 +676,8 @@ async def _(event):
         await event.edit(animation_chars[i % 28])
 
 
-@bot.on(hell_cmd(pattern="virus$"))
-@bot.on(sudo_cmd(pattern="virus$", allow_sudo=True))
+@hell_cmd(pattern="virus$")
 async def _(event):
-    if event.fwd_from:
-        return
     animation_interval = 1
     animation_ttl = range(30)
     event = await eor(event, "Injecting virus....")
@@ -856,11 +718,8 @@ async def _(event):
         await event.edit(animation_chars[i % 30])
 
 
-@bot.on(hell_cmd(pattern=r"repe$", outgoing=True))
-@bot.on(sudo_cmd(pattern="repe$", allow_sudo=True))
+@hell_cmd(pattern="repe$")
 async def _(event):
-    if event.fwd_from:
-        return
     animation_interval = 0.2
     animation_ttl = range(30)
     event = await eor(event, "repe")
@@ -901,11 +760,8 @@ async def _(event):
         await event.edit(animation_chars[i % 30])
 
 
-@bot.on(hell_cmd(pattern=f"nikal$", outgoing=True))
-@bot.on(sudo_cmd(pattern="nikal$", allow_sudo=True))
+@hell_cmd(pattern="nikal$")
 async def _(event):
-    if event.fwd_from:
-        return
     animation_interval = 0.5
     animation_ttl = range(6)
     event = await eor(event, "nakal")
@@ -922,11 +778,8 @@ async def _(event):
         await event.edit(animation_chars[i % 6])
 
 
-@bot.on(hell_cmd(pattern=f"music$", outgoing=True))
-@bot.on(sudo_cmd(pattern="music$", allow_sudo=True))
+@hell_cmd(pattern="music$")
 async def _(event):
-    if event.fwd_from:
-        return
     animation_interval = 1.5
     animation_ttl = range(11)
     event = await eor(event, "starting player...")
@@ -948,11 +801,8 @@ async def _(event):
         await event.edit(animation_chars[i % 11])
 
 
-@bot.on(hell_cmd(pattern=f"squ$", outgoing=True))
-@bot.on(sudo_cmd(pattern="squ$", allow_sudo=True))
+@hell_cmd(pattern="squ$")
 async def _(event):
-    if event.fwd_from:
-        return
     event = await eor(
         event, "╔═══════════════════╗ \n  \n╚═══════════════════╝"
     )
@@ -999,11 +849,8 @@ async def _(event):
     await asyncio.sleep(6)
 
 
-@bot.on(hell_cmd(pattern=r"padmin ?(.*)", outgoing=True))
-@bot.on(sudo_cmd(pattern=r"padmin ?(.*)", allow_sudo=True))
+@hell_cmd(pattern=r"padmin ?(.*)")
 async def _(event):
-    if event.fwd_from:
-        return
     animation_interval = 1
     animation_ttl = range(0, 20)
     event = await eor(event, "padmin")
@@ -1035,11 +882,10 @@ async def _(event):
         await asyncio.sleep(animation_interval)
         await event.edit(animation_chars[i % 20])
 
-@bot.on(hell_cmd(pattern=r"hack$", outgoing=True))
-@bot.on(sudo_cmd(pattern=r"hack$", allow_sudo=True))
+@hell_cmd(pattern=r"hack$")
 async def _(event):
-    if event.fwd_from:
-        return
+    xyz = await client_id(event)
+    hell_mention = xyz[2]
     animation_interval = 2
     animation_ttl = range(0, 12)
     event = await eor(event, "hack")

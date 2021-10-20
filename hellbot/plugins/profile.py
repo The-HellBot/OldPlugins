@@ -24,16 +24,14 @@ ONLINE_TAG = "[ • ONLINE • ]"
 PROFILE_IMAGE = "https://telegra.ph/file/9f0638dbfa028162a8682.jpg"
 # ===============================================================
 
-@bot.on(hell_cmd(pattern="offline$", outgoing=True)) 
+@hell_cmd(pattern="offline$") 
 async def _(event):
-    if event.fwd_from:
-        return
     user_it = "me"
     user = await event.client.get_entity(user_it)
     if user.first_name.startswith(OFFLINE_TAG):
         await eod(event, "**Already in Offline Mode.**")
         return
-    await eor(event, "**Changing Profile to Offline...**")
+    hell = await eor(event, "**Changing Profile to Offline...**")
     if not os.path.isdir(Config.TMP_DOWNLOAD_DIRECTORY):
         os.makedirs(Config.TMP_DOWNLOAD_DIRECTORY)
     urllib.request.urlretrieve(
@@ -43,33 +41,31 @@ async def _(event):
     if photo:
         file = await event.client.upload_file(photo)
         try:
-            await bot(functions.photos.UploadProfilePhotoRequest(file))
+            await event.client(functions.photos.UploadProfilePhotoRequest(file))
         except Exception as e:
-            await eod(event, str(e))
+            await eod(hell, str(e))
         else:
-            await eod(event, "**Changed profile to OffLine.**")
+            await eod(hell, "**Changed profile to OffLine.**")
     try:
         os.system("rm -fr donottouch.jpg")
     except Exception as e:
-        logger.warn(str(e))
+        LOGS.warn(str(e))
     last_name = ""
     first_name = OFFLINE_TAG
     try:
-        await bot(
+        await event.client(
             functions.account.UpdateProfileRequest(
                 last_name=last_name, first_name=first_name
             )
         )
         result = "**`{} {}`\nI am Offline now.**".format(first_name, last_name)
-        await eod(event, result)
+        await eod(hell, result)
     except Exception as e:
-        await eod(event, str(e))
+        await eod(hell, str(e))
 
 
-@bot.on(hell_cmd(pattern="online$", outgoing=True))
+@hell_cmd(pattern="online$")
 async def _(event):
-    if event.fwd_from:
-        return
     user_it = "me"
     user = await event.client.get_entity(user_it)
     if user.first_name.startswith(OFFLINE_TAG):
@@ -84,108 +80,95 @@ async def _(event):
     if photo:
         file = await event.client.upload_file(photo)
         try:
-            await bot(functions.photos.UploadProfilePhotoRequest(file))
+            await event.client(functions.photos.UploadProfilePhotoRequest(file))
         except Exception as e:
-            await eod(event, str(e))
+            await eod(hell, str(e))
         else:
-            await eod(event, "**Changed profile to Online.**")
+            await eod(hell, "**Changed profile to Online.**")
     try:
         os.system("rm -fr donottouch.jpg")
     except Exception as e:
-        logger.warn(str(e))
+        LOGS.warn(str(e))
     first_name = ONLINE_TAG
     last_name = ""
     try:
-        await bot(
+        await event.client(
             functions.account.UpdateProfileRequest(
                 last_name=last_name, first_name=first_name
             )
         )
         result = "**`{} {}`\nI am Online !**".format(first_name, last_name)
-        await eod(event, result)
+        await eod(hell, result)
     except Exception as e:
-        await eod(event, str(e))
+        await eod(hell, str(e))
 
-@bot.on(hell_cmd(pattern="pbio (.*)"))
+
+@hell_cmd(pattern="pbio ?(.*)")
 async def _(event):
-    if event.fwd_from:
-        return
-    bio = event.pattern_match.group(1)
+    bio = event.text[6:]
     try:
-        await bot(
+        await event.client(
             functions.account.UpdateProfileRequest(about=bio)
         )
-        await eod(event, BIO_SUCCESS)
+        await eor(event, BIO_SUCCESS)
     except Exception as e:
-        await event.edit(str(e))
+        await eor(event, str(e))
 
 
-@bot.on(hell_cmd(pattern="pname (.*)"))
+@hell_cmd(pattern="pname ?(.*)")
 async def _(event):
-    if event.fwd_from:
-        return
-    names = event.pattern_match.group(1)
+    names = event.text[7:]
     first_name = names
     last_name = ""
     if "-" in names:
         first_name, last_name = names.split("-", 1)
     try:
-        await bot(
-            functions.account.UpdateProfileRequest(
-                first_name=first_name, last_name=last_name
-            )
-        )
-        await eod(event, NAME_OK.format(names))
+        await event.client(functions.account.UpdateProfileRequest(first_name=first_name, last_name=last_name))
+        await eor(event, NAME_OK.format(names))
     except Exception as e:
-        await event.edit(str(e))
+        await eor(event, str(e))
 
 
-@bot.on(hell_cmd(pattern="ppic"))
+@hell_cmd(pattern="ppic$")
 async def _(event):
-    if event.fwd_from:
-        return
     reply_message = await event.get_reply_message()
-    await event.edit("Downloading Profile Picture to my local ...")
+    hell = await eor(event, "Downloading Profile Picture to my local ...")
     if not os.path.isdir(Config.TMP_DOWNLOAD_DIRECTORY):
         os.makedirs(Config.TMP_DOWNLOAD_DIRECTORY)
     photo = None
     try:
-        photo = await bot.download_media(
-            reply_message, Config.TMP_DOWNLOAD_DIRECTORY
-        )
+        photo = await event.client.download_media(reply_message, Config.TMP_DOWNLOAD_DIRECTORY)
     except Exception as e:
-        await event.edit(str(e))
+        await hell.edit(str(e))
     else:
         if photo:
-            await event.edit("now, Uploading to @Telegram ...")
-            file = await bot.upload_file(photo)
+            await hell.edit("Uploading profile picture...")
+            file = await event.client.upload_file(photo)
             try:
-                await bot(
-                    functions.photos.UploadProfilePhotoRequest(
-                        file
-                    )
-                )
+                await event.client(functions.photos.UploadProfilePhotoRequest(file))
             except Exception as e:
-                await event.edit(str(e))
+                await hell.edit(str(e))
             else:
-                await eod(event, PP_CHANGED)
+                await eod(hell, PP_CHANGED)
     try:
         os.remove(photo)
     except Exception as e:
-        logger.warn(str(e))
+        LOGS.warn(str(e))
 
 
-@bot.on(hell_cmd(outgoing=True, pattern="username (.*)"))
-async def update_username(username):
-    newusername = username.pattern_match.group(1)
+@hell_cmd(pattern="username ?(.*)")
+async def update_username(event):
+    newusername = event.text[10:]
     try:
-        await username.client(UpdateUsernameRequest(newusername))
-        await eod(username, USERNAME_SUCCESS)
+        await event.client(UpdateUsernameRequest(newusername))
+        await eod(event, USERNAME_SUCCESS)
     except UsernameOccupiedError:
-        await eod(username, USERNAME_TAKEN)
+        await eod(event, USERNAME_TAKEN)
+    except Exception as e:
+        await eod(event, f"**ERROR !!** \n\n`{e}`")
 
 
-@bot.on(hell_cmd(outgoing=True, pattern="count$"))
+@hell_cmd(pattern="count$")
 async def count(event):
     u = 0
     g = 0
@@ -193,8 +176,8 @@ async def count(event):
     bc = 0
     b = 0
     result = ""
-    await event.edit("`Processing..`")
-    dialogs = await bot.get_dialogs(limit=None, ignore_migrated=True)
+    hell = await eor(event, "`Processing..`")
+    dialogs = await event.client.get_dialogs(limit=None, ignore_migrated=True)
     for d in dialogs:
         currrent_entity = d.entity
         if isinstance(currrent_entity, User):
@@ -211,19 +194,19 @@ async def count(event):
                 c += 1
         else:
             print(d)
+    result = "<b><i><u>My Stats Count</b></i></u>\n\n"
+    result += f"<b><i>🙋🏻‍♂️ Users :</b></i> <code>{u}</code>\n"
+    result += f"<b><i>🏙️ Groups :</b></i>  <code>{g}</code>\n"
+    result += f"<b><i>🌇 Super Groups :</b></i>  <code>{c}</code>\n"
+    result += f"<b><i>📺 Channels :</b></i>  <code>{bc}</code>\n"
+    result += f"<b><i>👾 Bots :</b></i>  <code>{b}</code>"
 
-    result += f"**🙋🏻‍♂️ Users :**  `{u}`\n\n"
-    result += f"**🏙️ Groups :**  `{g}`\n\n"
-    result += f"**🌇 Super Groups :**  `{c}`\n\n"
-    result += f"**📺 Channels :**  `{bc}`\n\n"
-    result += f"**👾 Bots :**  `{b}`"
-
-    await event.edit(result)
+    await hell.edit(result, parse_mode="HTML")
 
 
-@bot.on(hell_cmd(outgoing=True, pattern=r"delpfp"))
-async def remove_profilepic(delpfp):
-    group = delpfp.text[8:]
+@hell_cmd(pattern="delpfp$")
+async def remove_profilepic(event):
+    group = event.text[8:]
     if group == "all":
         lim = 0
     elif group.isdigit():
@@ -231,7 +214,7 @@ async def remove_profilepic(delpfp):
     else:
         lim = 1
 
-    pfplist = await delpfp.client(
+    pfplist = await event.client(
         GetUserPhotosRequest(user_id=delpfp.sender_id, offset=0, max_id=0, limit=lim)
     )
     input_photos = []
@@ -243,18 +226,16 @@ async def remove_profilepic(delpfp):
                 file_reference=sep.file_reference,
             )
         )
-    await delpfp.client(DeletePhotosRequest(id=input_photos))
-    await eod(delpfp, f"🗑️ **Successfully deleted**  `{len(input_photos)}`  **profile picture(s).**")
+    await event.client(DeletePhotosRequest(id=input_photos))
+    await eod(event, f"🗑️ **Successfully deleted**  `{len(input_photos)}`  **profile picture(s).**")
 
 
-@bot.on(hell_cmd(pattern="myusernames$"))
+@hell_cmd(pattern="myusernames$")
 async def _(event):
-    if event.fwd_from:
-        return
-    result = await bot(GetAdminedPublicChannelsRequest())
+    result = await event.client(GetAdminedPublicChannelsRequest())
     output_str = ""
     for channel_obj in result.chats:
-        output_str += f"- {channel_obj.title} @{channel_obj.username} \n"
+        output_str += f"• {channel_obj.title} @{channel_obj.username} \n"
     await event.edit(output_str)
 
 
@@ -269,7 +250,7 @@ CmdHelp("profile").add_command(
 ).add_command(
   "ppic", "<reply to image>", "Changes your Telegram profie picture with the one you replied to"
 ).add_command(
-  "pname", "<firstname> or <firstname | lastname>", "Changes Your Telegram account name"
+  "pname", "<firstname> or <firstname - lastname>", "Changes Your Telegram account name"
 ).add_command(
   "username", "<new username>", "Changes your Telegram Account Username"
 ).add_command(

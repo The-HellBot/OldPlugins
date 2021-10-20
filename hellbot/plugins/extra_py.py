@@ -6,75 +6,50 @@ from telethon.tl.types import InputMessagesFilterDocument
 from . import *
 
 
-@bot.on(hell_cmd(pattern="extdl$", outgoing=True))
-@bot.on(sudo_cmd(pattern="extdl$", allow_sudo=True))
+@hell_cmd(pattern="extdl$")
 async def install(event):
-    if event.fwd_from:
-        return
     chat = Config.PLUGIN_CHANNEL
-    documentss = await bot.get_messages(chat, None, filter=InputMessagesFilterDocument)
+    documentss = await event.client.get_messages(chat, None, filter=InputMessagesFilterDocument)
     total = int(documentss.total)
     total_doxx = range(0, total)
-    await event.delete()
+    hell_ = await eor(event, "Installing plugins from Plugin Channel...")
+    hell = "**Installed Plugins :**\n\n"
     for ixo in total_doxx:
         mxo = documentss[ixo].id
         downloaded_file_name = await event.client.download_media(
-            await bot.get_messages(chat, ids=mxo), "hellbot/plugins/"
+            await event.client.get_messages(chat, ids=mxo), "hellbot/plugins/"
         )
         if "(" not in downloaded_file_name:
             path1 = Path(downloaded_file_name)
             shortname = path1.stem
             load_module(shortname.replace(".py", ""))
-            await bot.send_message(
-                event.chat_id,
-                "Installed Plugin `{}` successfully.".format(
-                    os.path.basename(downloaded_file_name)
-                ),
-            )
+            hell += "• __Installed Plugin__ `{}` __successfully.__\n".format(os.path.basename(downloaded_file_name))
         else:
-            await bot.send_message(
-                event.chat_id,
-                "Plugin `{}` has been pre-installed and cannot be installed.".format(
-                    os.path.basename(downloaded_file_name)
-                ),
-            )
+            hell += "• __Plugin__ `{}` __has been pre-installed and cannot be installed.__\n".format(os.path.basename(downloaded_file_name))
+    await hell_.edit(hell)
 
 
-@bot.on(hell_cmd(pattern=r"installall (.*)"))
-@bot.on(sudo_cmd(pattern=r"installall (.*)", allow_sudo=True))
+@hell_cmd(pattern="installall ?(.*)")
 async def install(event):
-    if event.fwd_from:
-        return
     chat = event.pattern_match.group(1)
-    hell = await eor(event, f"Starting To Install Plugins From {chat} !!"
-    )
-    documentss = await bot.get_messages(chat, None, filter=InputMessagesFilterDocument)
+    hell_ = await eor(event, f"Starting To Install Plugins From {chat} !!")
+    hell = f"**Installed Plugins From {chat} :**\n\n"
+    documentss = await event.client.get_messages(chat, None, filter=InputMessagesFilterDocument)
     total = int(documentss.total)
     total_doxx = range(0, total)
     for ixo in total_doxx:
         mxo = documentss[ixo].id
         downloaded_file_name = await event.client.download_media(
-            await bot.get_messages(chat, ids=mxo), "hellbot/plugins/"
+            await event.client.get_messages(chat, ids=mxo), "hellbot/plugins/"
         )
         if "(" not in downloaded_file_name:
             path1 = Path(downloaded_file_name)
             shortname = path1.stem
             load_module(shortname.replace(".py", ""))
-            sed = f"Installing Plugins From {chat}"
-            logger.info(sed)
-            await bot.send_message(
-                event.chat_id,
-                "Installed Plugin `{}` successfully.".format(
-                    os.path.basename(downloaded_file_name)
-                ),
-            )
+            hell += "• __Installed Plugin__ `{}` __successfully.__\n".format(os.path.basename(downloaded_file_name))
         else:
-            await bot.send_message(
-                event.chat_id,
-                "Plugin `{}` has been pre-installed and cannot be installed.".format(
-                    os.path.basename(downloaded_file_name)
-                ),
-            )
+            hell += "• __Plugin__ `{}` __has been pre-installed and cannot be installed.__\n".format(os.path.basename(downloaded_file_name))
+    await hell_.edit(hell)
 
 
 CmdHelp("extra_py").add_command(
@@ -84,5 +59,5 @@ CmdHelp("extra_py").add_command(
 ).add_info(
   "Extra Plugins."
 ).add_warning(
-  "✅ Harmless Module."
+  "Don't Install plugins from Unknown channel."
 ).add()

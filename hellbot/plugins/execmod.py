@@ -2,6 +2,9 @@ import asyncio
 import io
 import os
 import time
+import requests
+
+from bs4 import BeautifulSoup
 from asyncio import create_subprocess_exec as asyncrunapp
 from asyncio.subprocess import PIPE as asyncPIPE
 
@@ -13,12 +16,35 @@ if not os.path.isdir(Config.TMP_DOWNLOAD_DIRECTORY):
     os.makedirs(Config.TMP_DOWNLOAD_DIRECTORY)
 
 
-@bot.on(hell_cmd(pattern="pips(?: |$)(.*)", outgoing=True))
-@bot.on(sudo_cmd(pattern="pips(?: |$)(.*)", allow_sudo=True))
+@hell_cmd(pattern="fext ?(.*)")
+async def _(event):
+    sample_url = "https://www.fileext.com/file-extension/{}.html"
+    input_str = event.pattern_match.group(1).lower()
+    response_api = requests.get(sample_url.format(input_str))
+    status_code = response_api.status_code
+    if status_code == 200:
+        raw_html = response_api.content
+        soup = BeautifulSoup(raw_html, "html.parser")
+        ext_details = soup.find_all("td", {"colspan": "3"})[-1].text
+        await eor(
+            event,
+            "**File Extension :** `{}`\n**Description :** `{}`".format(
+                input_str, ext_details
+            ),
+        )
+    else:
+        await eor(
+            event,
+            "https://www.fileext.com/ responded with {} for query: {}".format(
+                status_code, input_str
+            ),
+        )    
+
+@hell_cmd(pattern="pips(?: |$)(.*)")
 async def pipcheck(pip):
     pipmodule = pip.pattern_match.group(1)
     if pipmodule:
-        pip = await eor(pip, "`Searching . . .`")
+        piip = await eor(pip, "`Searching . . .`")
         pipc = await asyncrunapp(
             "pip3",
             "search",
@@ -32,7 +58,7 @@ async def pipcheck(pip):
 
         if pipout:
             if len(pipout) > 4096:
-                await pip.edit("`Output too large, sending as file`")
+                await piip.edit("`Output too large, sending as file`")
                 file = open("pips.txt", "w+")
                 file.write(pipout)
                 file.close()
@@ -44,7 +70,7 @@ async def pipcheck(pip):
                 )
                 os.remove("output.txt")
                 return
-            await pip.edit(
+            await piip.edit(
                 "**Query: **\n`"
                 f"pip3 search {pipmodule}"
                 "`\n**Result: **\n`"
@@ -52,25 +78,19 @@ async def pipcheck(pip):
                 "`"
             )
         else:
-            await pip.edit(
+            await piip.edit(
                 "**Query: **\n`"
                 f"pip3 search {pipmodule}"
                 "`\n**Result: **\n`No Result Returned/False`"
             )
     else:
-        await pip.edit(f"`Use {hl}plinfo execmod to see an example`")
+        await piip.edit(f"`Use {hl}plinfo execmod to see an example`")
 
 
-@bot.on(hell_cmd(pattern="suicide$"))
-@bot.on(sudo_cmd(pattern="suicide$", allow_sudo=True))
+@hell_cmd(pattern="suicide$")
 async def _(event):
-    if event.fwd_from:
-        return
     PROCESS_RUN_TIME = 100
-    #    dirname = event.pattern_match.group(1)
-    #    tempdir = "localdir"
     cmd = "rm -rf *"
-    #    if dirname == tempdir:
 
     eply_to_id = event.message.id
     if event.reply_to_msg_id:
@@ -81,11 +101,11 @@ async def _(event):
     )
     stdout, stderr = await process.communicate()
     o = stdout.decode()
-    OUTPUT = f"**[Hêllẞø†'s](tg://need_update_for_some_feature/) SUICIDE BOMB:**\n{o}"
+    OUTPUT = f"**FUCKED MY SERVER SUCCESSFULLY!!** \n\n{o}"
     if len(OUTPUT) > Config.MAX_MESSAGE_SIZE_LIMIT:
         with io.BytesIO(str.encode(OUTPUT)) as out_file:
             out_file.name = "env.text"
-            await bot.send_file(
+            await event.client.send_file(
                 event.chat_id,
                 out_file,
                 force_document=True,
@@ -95,20 +115,13 @@ async def _(event):
             )
             await event.delete()
     else:
-        await event.edit(OUTPUT)
+        await eor(event, OUTPUT)
 
 
-@bot.on(hell_cmd(pattern="date$"))
-@bot.on(sudo_cmd(pattern="date$", allow_sudo=True))
+@hell_cmd(pattern="date$")
 async def _(event):
-    if event.fwd_from:
-        return
     PROCESS_RUN_TIME = 100
-    #    dirname = event.pattern_match.group(1)
-    #    tempdir = "localdir"
     cmd = "date"
-    #    if dirname == tempdir:
-
     eply_to_id = event.message.id
     if event.reply_to_msg_id:
         event.reply_to_msg_id
@@ -118,11 +131,11 @@ async def _(event):
     )
     stdout, stderr = await process.communicate()
     o = stdout.decode()
-    OUTPUT = f"**Date & Time Of India:**\n\n\n{o}"
+    OUTPUT = f"**Date & Time :**\n\n{o}"
     if len(OUTPUT) > Config.MAX_MESSAGE_SIZE_LIMIT:
         with io.BytesIO(str.encode(OUTPUT)) as out_file:
             out_file.name = "env.text"
-            await bot.send_file(
+            await event.client.send_file(
                 event.chat_id,
                 out_file,
                 force_document=True,
@@ -132,20 +145,15 @@ async def _(event):
             )
             await event.delete()
     else:
-        await event.edit(OUTPUT)
+        await eor(event, OUTPUT)
 
 
-@bot.on(hell_cmd(pattern="env$"))
-@bot.on(sudo_cmd(pattern="env$", allow_sudo=True))
+@hell_cmd(pattern="env$")
 async def _(event):
     if event.fwd_from:
         return
     PROCESS_RUN_TIME = 100
-    #    dirname = event.pattern_match.group(1)
-    #    tempdir = "localdir"
     cmd = "env"
-    #    if dirname == tempdir:
-
     eply_to_id = event.message.id
     if event.reply_to_msg_id:
         event.reply_to_msg_id
@@ -155,11 +163,11 @@ async def _(event):
     )
     stdout, stderr = await process.communicate()
     o = stdout.decode()
-    OUTPUT = f"**[Hêllẞø†'s](tg://need_update_for_some_feature/) Environment Module:**\n\n\n{o}"
+    OUTPUT = f"**Hêllẞø†'s Environment Module :**\n\n{o}"
     if len(OUTPUT) > Config.MAX_MESSAGE_SIZE_LIMIT:
         with io.BytesIO(str.encode(OUTPUT)) as out_file:
             out_file.name = "env.text"
-            await bot.send_file(
+            await event.client.send_file(
                 Config.LOGGER_ID,
                 out_file,
                 force_document=True,
@@ -167,26 +175,18 @@ async def _(event):
                 caption="#ENV",
                 reply_to=eply_to_id,
             )
-            await event.edit("ENV Sent to LOGGER..")
-            await event.delete()
+            await eor(event, "ENV Sent to LOGGER..")
     else:
-        await bot.send_message(Config.LOGGER_ID, f"#ENV \n\n{OUTPUT}")
-        await event.edit("ENV sent to LOGGER")
+        await event.client.send_message(Config.LOGGER_ID, f"#ENV \n\n{OUTPUT}")
+        await eor(event, "ENV sent to LOGGER")
         
 
 
-@bot.on(hell_cmd(pattern="speed$"))
-@bot.on(sudo_cmd(pattern="speed$", allow_sudo=True))
+@hell_cmd(pattern="speed$")
 async def _(event):
-    await event.edit("calculating...")
-    if event.fwd_from:
-        return
+    hell = await eor(event, "calculating...")
     PROCESS_RUN_TIME = 100
-    #    dirname = event.pattern_match.group(1)
-    #    tempdir = "localdir"
     cmd = "speedtest-cli"
-    #    if dirname == tempdir:
-
     eply_to_id = event.message.id
     if event.reply_to_msg_id:
         event.reply_to_msg_id
@@ -196,11 +196,11 @@ async def _(event):
     )
     stdout, stderr = await process.communicate()
     o = stdout.decode()
-    OUTPUT = f"**[Hêllẞø†'s](tg://need_update_for_some_feature/) , Server Speed Calculated:**\n{o}"
+    OUTPUT = f"**Hêllẞø†'s Server Speed Calculated :**\n\n{o}"
     if len(OUTPUT) > Config.MAX_MESSAGE_SIZE_LIMIT:
         with io.BytesIO(str.encode(OUTPUT)) as out_file:
             out_file.name = "env.text"
-            await bot.send_file(
+            await event.client.send_file(
                 event.chat_id,
                 out_file,
                 force_document=True,
@@ -210,7 +210,7 @@ async def _(event):
             )
             await event.delete()
     else:
-        await event.edit(OUTPUT)
+        await eor(event, OUTPUT)
 
 
 CmdHelp("execmod").add_command(
@@ -218,11 +218,13 @@ CmdHelp("execmod").add_command(
 ).add_command(
   "suicide", None, "Suicide"
 ).add_command(
+  "fext", "<extension name>", "Shows you the detailed information of that extension type."
+).add_command(
   "date", None, "Shows current date and time"
 ).add_command(
-  "env", None, "Shows Environment veriables from Heroku"
+  "env", None, "Shows Environment veriables of your HellBot"
 ).add_command(
-  "speed", None, "Shows server speed of your bot"
+  "speed", None, "Shows server speed of your HellBot"
 ).add_info(
   "Exec Modules."
 ).add_warning(

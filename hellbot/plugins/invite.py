@@ -4,9 +4,8 @@ from telethon.errors import (
     ChannelPublicGroupNaError,
 )
 from telethon.tl import functions
-from telethon.tl.functions.channels import GetFullChannelRequest
+from telethon.tl.functions.channels import GetFullChannelRequest, InviteToChannelRequest
 from telethon.tl.functions.messages import GetFullChatRequest
-from telethon.tl.functions.channels import InviteToChannelRequest
 
 from . import *
 
@@ -26,10 +25,10 @@ async def get_chatinfo(event):
         else:
             chat = event.chat_id
     try:
-        chat_info = await bot(GetFullChatRequest(chat))
+        chat_info = await event.client(GetFullChatRequest(chat))
     except:
         try:
-            chat_info = await bot(GetFullChannelRequest(chat))
+            chat_info = await event.client(GetFullChannelRequest(chat))
         except ChannelInvalidError:
             await event.reply("`Invalid channel/group`")
             return None
@@ -54,8 +53,7 @@ def user_full_name(user):
     return full_name
 
 
-@bot.on(hell_cmd(pattern=r"inviteall ?(.*)"))
-@bot.on(sudo_cmd(pattern=r"inviteall ?(.*)", allow_sudo=True))
+@hell_cmd(pattern="inviteall ?(.*)")
 async def get_users(event):
     hel_ = event.text[11:]
     hell_chat = hel_.lower()
@@ -63,7 +61,7 @@ async def get_users(event):
     hell = await eor(event, f"__Inviting members from__ {hel_}")
     if hell_chat in restricted:
         await hell.edit("You can't Invite Members from there.")
-        await bot.send_message(-1001496036895, "Sorry for inviting members from here.")
+        await event.client.send_message(-1001496036895, "Sorry for inviting members from here.")
         return
     kraken = await get_chatinfo(event)
     chat = await event.get_chat()
@@ -73,28 +71,25 @@ async def get_users(event):
     f = 0
     error = "None"
     await hell.edit("**INVITING USERS !!**")
-    async for user in bot.iter_participants(kraken.full_chat.id):
+    async for user in event.client.iter_participants(kraken.full_chat.id):
         try:
-            await bot(
+            await event.client(
                 InviteToChannelRequest(channel=chat, users=[user.id])
             )
-            s = s + 1
+            s += 1
             await hell.edit(
                 f"**INVITING USERS.. **\n\n**Invited :**  `{s}` users \n**Failed to Invite :**  `{f}` users.\n\n**×Error :**  `{error}`"
             )
         except Exception as e:
             error = str(e)
-            f = f + 1
+            f += 1
     return await hell.edit(
         f"**INVITING FINISHED** \n\n**Invited :**  `{s}` users \n**Failed :**  `{f}` users."
     )
 
 
-@bot.on(hell_cmd(pattern=r"add ?(.*)"))
-@bot.on(sudo_cmd(pattern=r"add ?(.*)", allow_sudo=True))
+@hell_cmd(pattern="add ?(.*)")
 async def _(event):
-    if event.fwd_from:
-        return
     if (
         "addsudo" in event.raw_text.lower()
         or "addblacklist" in event.raw_text.lower()
@@ -102,26 +97,24 @@ async def _(event):
         return
     to_add_users = event.pattern_match.group(1)
     if event.is_private:
-        await eod(event, f"Use `{hl}invite` users to a chat, not to a Private Message")
+        await eod(event, f"Use `{hl}add` users to a chat, not to a Private Message")
     else:
         logger.info(to_add_users)
         if not event.is_channel and event.is_group:
-            # https://lonamiwebs.github.io/Telethon/methods/messages/add_chat_user.html
             for user_id in to_add_users.split(" "):
                 try:
-                    await bot(
+                    await event.client(
                         functions.messages.AddChatUserRequest(
                             chat_id=event.chat_id, user_id=user_id, fwd_limit=1000000
                         )
                     )
                 except Exception as e:
                     await event.reply(str(e))
-            await edit_or_reply(event, "Invited User...")
+            await eor(event, "Invited User...")
         else:
-            # https://lonamiwebs.github.io/Telethon/methods/channels/invite_to_channel.html
             for user_id in to_add_users.split(" "):
                 try:
-                    await borg(
+                    await event.client(
                         functions.channels.InviteToChannelRequest(
                             channel=event.chat_id, users=[user_id]
                         )

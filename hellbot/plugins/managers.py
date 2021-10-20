@@ -2,7 +2,7 @@ import asyncio
 import io
 import os
 import time
-from telethon import events
+
 from . import *
 
 if not os.path.isdir("./SAVED"):
@@ -11,11 +11,8 @@ if not os.path.isdir(Config.TMP_DOWNLOAD_DIRECTORY):
     os.makedirs(Config.TMP_DOWNLOAD_DIRECTORY)
 
 
-@bot.on(hell_cmd(pattern="ls ?(.*)", outgoing=True))
-@bot.on(sudo_cmd(pattern="ls ?(.*)", allow_sudo=True))
+@hell_cmd(pattern="ls ?(.*)")
 async def lst(event):
-    if event.fwd_from:
-        return
     input_str = event.pattern_match.group(1)
     if input_str:
         msg = "📂 **Files in {} :**\n".format(input_str)
@@ -32,7 +29,7 @@ async def lst(event):
         out = "filesList.txt"
         with open(out, "w") as f:
             f.write(f)
-        await bot.send_file(
+        await event.client.send_file(
             event.chat_id,
             out,
             force_document=True,
@@ -40,19 +37,12 @@ async def lst(event):
             caption="`Output is huge. Sending as a file...`",
         )
         await event.delete()
-        
 
-@bot.on(hell_cmd(pattern="ls_local$", outgoing=True))
-@bot.on(sudo_cmd(pattern="ls_local$", allow_sudo=True))
+
+@hell_cmd(pattern="ls_local$")
 async def _(event):
-    if event.fwd_from:
-        return
     PROCESS_RUN_TIME = 100
-    #    dirname = event.pattern_match.group(1)
-    #    tempdir = "localdir"
     cmd = "ls -lh ./DOWNLOADS/"
-    #    if dirname == tempdir:
-
     event.message.id
     if event.reply_to_msg_id:
         reply_to_id = event.reply_to_msg_id
@@ -60,12 +50,12 @@ async def _(event):
     process = await asyncio.create_subprocess_shell(
         cmd, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
     )
-    OUTPUT = f"**Files in [Hêllẞø†]({chnl_link}) DOWNLOADS Folder:**\n"
+    OUTPUT = f"**Files in Hêllẞø† DOWNLOADS Folder:**\n"
     stdout, stderr = await process.communicate()
     if len(stdout) > Config.MAX_MESSAGE_SIZE_LIMIT:
         with io.BytesIO(str.encode(stdout)) as out_file:
             out_file.name = "exec.text"
-            await bot.send_file(
+            await event.client.send_file(
                 event.chat_id,
                 out_file,
                 force_document=True,
@@ -80,14 +70,10 @@ async def _(event):
     await eor(event, f"{OUTPUT}`{stdout.decode()}`")
 
 
-@bot.on(hell_cmd(pattern="ls_root$", outgoing=True))
-@bot.on(sudo_cmd(pattern="ls_root$", allow_sudo=True))
+@hell_cmd(pattern="ls_root$")
 async def _(event):
-    if event.fwd_from:
-        return
     PROCESS_RUN_TIME = 100
     cmd = "ls -lh"
-
     reply_to_id = event.message.id
     if event.reply_to_msg_id:
         reply_to_id = event.reply_to_msg_id
@@ -100,7 +86,7 @@ async def _(event):
     if len(stdout) > Config.MAX_MESSAGE_SIZE_LIMIT:
         with io.BytesIO(str.encode(stdout)) as out_file:
             out_file.name = "exec.text"
-            await bot.send_file(
+            await event.client.send_file(
                 event.chat_id,
                 out_file,
                 force_document=True,
@@ -115,14 +101,10 @@ async def _(event):
     await eor(event, f"{OUTPUT}`{stdout.decode()}`")
 
 
-@bot.on(hell_cmd(pattern="ls_saved$", outgoing=True))
-@bot.on(sudo_cmd(pattern="ls_saved$", allow_sudo=True))
+@hell_cmd(pattern="ls_saved$")
 async def _(event):
-    if event.fwd_from:
-        return
     PROCESS_RUN_TIME = 100
     cmd = "ls ./SAVED/"
-
     reply_to_id = event.message.id
     if event.reply_to_msg_id:
         reply_to_id = event.reply_to_msg_id
@@ -135,7 +117,7 @@ async def _(event):
     if len(stdout) > Config.MAX_MESSAGE_SIZE_LIMIT:
         with io.BytesIO(str.encode(stdout)) as out_file:
             out_file.name = "exec.text"
-            await bot.send_file(
+            await event.client.send_file(
                 event.chat_id,
                 out_file,
                 force_document=True,
@@ -150,11 +132,8 @@ async def _(event):
     await eor(event, f"{OUTPUT}`{stdout.decode()}`")
 
 
-@bot.on(hell_cmd(pattern="rnsaved ?(.*)", outgoing=True))
-@bot.on(sudo_cmd(pattern="rnsaved ?(.*)", allow_sudo=True))
+@hell_cmd(pattern="rnsaved ?(.*)")
 async def _(event):
-    if event.fwd_from:
-        return
     PROCESS_RUN_TIME = 100
     input_str = event.pattern_match.group(1)
     if "|" in input_str:
@@ -174,7 +153,7 @@ async def _(event):
     if len(stdout) > Config.MAX_MESSAGE_SIZE_LIMIT:
         with io.BytesIO(str.encode(stdout)) as out_file:
             out_file.name = "exec.text"
-            await bot.send_file(
+            await event.client.send_file(
                 event.chat_id,
                 out_file,
                 force_document=True,
@@ -189,11 +168,8 @@ async def _(event):
     await eor(event, f"File renamed `{src}` to `{dst}`")
 
 
-@bot.on(hell_cmd(pattern="rnlocal ?(.*)", outgoing=True))
-@bot.on(sudo_cmd(pattern="rnlocal ?(.*)", allow_sudo=True))
+@hell_cmd(pattern="rnlocal ?(.*)")
 async def _(event):
-    if event.fwd_from:
-        return
     PROCESS_RUN_TIME = 100
     input_str = event.pattern_match.group(1)
     if "|" in input_str:
@@ -213,7 +189,7 @@ async def _(event):
     if len(stdout) > Config.MAX_MESSAGE_SIZE_LIMIT:
         with io.BytesIO(str.encode(stdout)) as out_file:
             out_file.name = "exec.text"
-            await bot.send_file(
+            await event.client.send_file(
                 event.chat_id,
                 out_file,
                 force_document=True,
@@ -228,34 +204,26 @@ async def _(event):
     await eor(event, f"File renamed `{src}` to `{dst}`")
 
 
-@bot.on(hell_cmd(pattern="delsave (.*)", outgoing=True))
-@bot.on(sudo_cmd(pattern="delsave (.*)", allow_sudo=True))
+@hell_cmd(pattern="delsave (.*)")
 async def handler(event):
-    if event.fwd_from:
-        return
     input_str = event.pattern_match.group(1)
     pathtofile = f"./SAVED/{input_str}"
 
     if os.path.isfile(pathtofile):
         os.remove(pathtofile)
         await eod(event, "✅ File Deleted 🗑")
-
     else:
         await eod(event, "⛔️File Not Found😬")
 
 
-@bot.on(hell_cmd(pattern="delocal (.*)", outgoing=True))
-@bot.on(sudo_cmd(pattern="delocal (.*)", allow_sudo=True))
+@hell_cmd(pattern="delocal (.*)")
 async def handler(event):
-    if event.fwd_from:
-        return
     input_str = event.pattern_match.group(1)
-    pathtofile = f"./BotHub/{input_str}"
+    pathtofile = f"./DOWNLOADS/{input_str}"
 
     if os.path.isfile(pathtofile):
         os.remove(pathtofile)
         await eod(event, "✅ File Deleted 🗑")
-
     else:
         await eod(event, "⛔️File Not Found😬")
 

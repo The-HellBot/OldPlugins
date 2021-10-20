@@ -4,13 +4,10 @@ import traceback
 from . import *
 
 
-@bot.on(hell_cmd(pattern="calc (.*)"))
-@bot.on(sudo_cmd(pattern="calc (.*)", allow_sudo=True))
+@hell_cmd(pattern="calc (.*)")
 async def _(car):
-    if car.fwd_from:
-        return
     cmd = car.text.split(" ", maxsplit=1)[1]
-    event = await edit_or_reply(car, "Calculating ...")
+    event = await eor(car, "Calculating ...")
     old_stderr = sys.stderr
     old_stdout = sys.stdout
     redirected_output = sys.stdout = io.StringIO()

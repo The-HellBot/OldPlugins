@@ -11,21 +11,17 @@ DEFAULTUSERBIO = Config.BIO_MSG
 DEL_TIME_OUT = 60
 
 
-@bot.on(hell_cmd(pattern="autoname"))
+@hell_cmd(pattern="autoname")
 async def _(event):
-    if event.fwd_from:
-        return
-    hell = await edit_or_reply(event, "`Starting AutoName Please Wait`")
-    if event.fwd_from:
-        return
+    hell = await eor(event, "`Starting AutoName Please Wait`")
     while True:
         HB = time.strftime("%d-%m-%y")
         HE = time.strftime("%H:%M")
         name = f"🕒{HE} ⚡{HELL_USER}⚡ 📅{HB}"
         logger.info(name)
         try:
-            await bot(
-                functions.account.UpdateProfileRequest(  # pylint:disable=E0602
+            await event.client(
+                functions.account.UpdateProfileRequest(
                     first_name=name
                 )
             )
@@ -34,50 +30,38 @@ async def _(event):
             await asyncio.sleep(ex.seconds)
         await asyncio.sleep(DEL_TIME_OUT)
         await hell.edit(f"Auto Name has been started my Master")
-        await bot.send_message(Config.LOGGER_ID, "#AUTONAME \n\nAutoname Started!!")
+        await event.client.send_message(Config.LOGGER_ID, "#AUTONAME \n\nAutoname Started!!")
 
 
-@bot.on(hell_cmd(pattern="autobio"))  # pylint:disable=E0602
+@hell_cmd(pattern="autobio")
 async def _(event):
-    if event.fwd_from:
-        return
-    await event.edit("Starting AutoBio...")
+    hell = await eor(event, "Starting AutoBio...")
     while True:
         DMY = time.strftime("%d.%m.%Y")
         HM = time.strftime("%H:%M:%S")
         bio = f"📅 {DMY} | {DEFAULTUSERBIO} | ⌚️ {HM}"
         logger.info(bio)
         try:
-            await bot(
-                functions.account.UpdateProfileRequest(  # pylint:disable=E0602
+            await event.client(
+                functions.account.UpdateProfileRequest(
                     about=bio
                 )
             )
         except FloodWaitError as ex:
             logger.warning(str(e))
             await asyncio.sleep(ex.seconds)
-        # else:
-        # logger.info(r.stringify())
-        # await bot.send_message(  # pylint:disable=E0602
-        # Config.PRIVATE_GROUP_BOT_API_ID,  # pylint:disable=E0602
-        # "Successfully Changed Profile Bio"
-        # )
         await asyncio.sleep(DEL_TIME_OUT)
-        await event.edit("AutoBio Activated...")
-        await bot.send_message(Config.LOGGER_ID, "#AUTOBIO \n\nAutoBio Started!!")
+        await hell.edit("AutoBio Activated...")
+        await event.client.send_message(Config.LOGGER_ID, "#AUTOBIO \n\nAutoBio Started!!")
 
 
-@bot.on(hell_cmd(pattern="reserved", outgoing=True))
-@bot.on(sudo_cmd(pattern="reserved", allow_sudo=True))
+@hell_cmd(pattern="reserved")
 async def mine(event):
-    if event.fwd_from:
-        return
-    """ For .reserved command, get a list of your reserved usernames. """
-    result = await bot(GetAdminedPublicChannelsRequest())
+    result = await event.client(GetAdminedPublicChannelsRequest())
     output_str = ""
     for channel_obj in result.chats:
         output_str += f"{channel_obj.title}\n@{channel_obj.username}\n\n"
-    await edit_or_reply(event, output_str)
+    await eor(event, output_str)
 
 
 CmdHelp("auto_profile").add_command(

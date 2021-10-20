@@ -1,83 +1,65 @@
 import html
+
 from telethon.tl import functions
 from telethon.tl.functions.users import GetFullUserRequest
 from telethon.tl.types import MessageEntityMentionName
+
 from . import *
 
 
-DEFAULTUSERBIO = Config.BIO_MSG
-BOTLOG_CHATID = Config.LOGGER_ID
-BOTLOG = True
-
-
-@bot.on(admin_cmd(pattern="clone ?(.*)"))
+@hell_cmd(pattern="clone ?(.*)")
 async def _(event):
-    if event.fwd_from:
-        return
     reply_message = await event.get_reply_message()
     replied_user, error_i_a = await get_full_user(event)
+    cid = await client_id(event)
     if replied_user is None:
-        await event.edit(str(error_i_a))
+        await eod(event, str(error_i_a))
         return False
     user_id = replied_user.user.id
-    profile_pic = await event.client.download_profile_photo(
-        user_id, Config.TMP_DOWNLOAD_DIRECTORY
-    )
-    # some people have weird HTML in their names
+    profile_pic = await event.client.download_profile_photo(user_id, Config.TMP_DOWNLOAD_DIRECTORY)
     first_name = html.escape(replied_user.user.first_name)
-    # https://stackoverflow.com/a/5072031/4723940
-    # some Deleted Accounts do not have first_name
     if first_name is not None:
-        # some weird people (like me) have more than 4096 characters in their names
         first_name = first_name.replace("\u2060", "")
     last_name = replied_user.user.last_name
-    # last_name is not Manadatory in @Telegram
     if last_name is not None:
         last_name = html.escape(last_name)
         last_name = last_name.replace("\u2060", "")
     if last_name is None:
         last_name = "⁪⁬⁮⁮⁮⁮ ‌"
-    # inspired by https://telegram.dog/afsaI181
     user_bio = replied_user.about
     if user_bio is not None:
         user_bio = replied_user.about
-    await bot(functions.account.UpdateProfileRequest(first_name=first_name))
-    await bot(functions.account.UpdateProfileRequest(last_name=last_name))
-    await bot(functions.account.UpdateProfileRequest(about=user_bio))
-    pfile = await bot.upload_file(profile_pic)  # pylint:disable=E060
-    await bot(
-        functions.photos.UploadProfilePhotoRequest(pfile)  # pylint:disable=E0602
+    await event.client(functions.account.UpdateProfileRequest(first_name=first_name))
+    await event.client(functions.account.UpdateProfileRequest(last_name=last_name))
+    await event.client(functions.account.UpdateProfileRequest(about=user_bio))
+    pfile = await event.client.upload_file(profile_pic)
+    await event.client(
+        functions.photos.UploadProfilePhotoRequest(pfile)
     )
     await event.delete()
-    await bot.send_message(
+    await event.client.send_message(
         event.chat_id, "😋 **Hello friend!!**", reply_to=reply_message
     )
-    if BOTLOG:
-        await event.client.send_message(
-            BOTLOG_CHATID,
-            f"#CLONE \n\n**Successfully Cloned**  [{first_name}](tg://user?id={user_id })",
-        )
+    await event.client.send_message(
+        Config.LOGGER_ID,
+        f"#CLONE \n\n**Successfully Cloned**  [{first_name}](tg://user?id={user_id })",
+    )
 
 
-@bot.on(admin_cmd(pattern="revert$"))
+@hell_cmd(pattern="revert$")
 async def _(event):
-    if event.fwd_from:
-        return
-    name = Config.YOUR_NAME or "Hêll"
-    bio = f"{DEFAULTUSERBIO}"
+    name = Config.YOUR_NAME or "『 Ӈєℓℓ 』"
+    bio = f"{Config.BIO_MSG}"
     n = 1
-    await bot(
+    await event.client(
         functions.photos.DeletePhotosRequest(
             await event.client.get_profile_photos("me", limit=n)
         )
     )
-    await bot(functions.account.UpdateProfileRequest(about=f"{bio}"))
-    await bot(functions.account.UpdateProfileRequest(first_name=f"{name}"))
-    await event.edit("Successfully reverted back..")
-    if BOTLOG:
-        await event.client.send_message(
-            BOTLOG_CHATID, f"#REVERT \n\n**Revert Successful**"
-        )
+    await event.client(functions.account.UpdateProfileRequest(about=f"{bio}"))
+    await event.client(functions.account.UpdateProfileRequest(first_name=f"{name}"))
+    await eor(event, "Successfully reverted back..")
+    await event.client.send_message(Config.LOGGER_ID, f"#REVERT \n\n**Revert Successful**")
 
 
 async def get_full_user(event):

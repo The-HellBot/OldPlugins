@@ -1,19 +1,13 @@
 import io
 import json
-import logging
 import datetime
 
 import aiohttp
 import requests
-from pytz import country_names as c_n
-from pytz import country_timezones as c_tz
-from pytz import timezone as tz
+from pytz import country_names as c_n, country_timezones as c_tz, timezone as tz
 
 from . import *
 
-logging.basicConfig(
-    format="[%(levelname) 5s/%(asctime)s] %(name)s: %(message)s", level=logging.WARNING
-)
 
 DEFCITY = "Delhi"
 OWM_API = Config.WEATHER_API
@@ -29,18 +23,15 @@ async def get_tz(con):
         return
 
 
-@bot.on(hell_cmd(pattern="climate ?(.*)"))
-@bot.on(sudo_cmd(pattern="climate ?(.*)", allow_sudo=True))
+@hell_cmd(pattern="climate ?(.*)")
 async def get_weather(weather):
     if not OWM_API:
-        await eor(weather, "**Get an API key from** https://openweathermap.org/ **first.**")
-        return
+        return await eod(weather, "**Get an API key from** https://openweathermap.org/ **first.**")
     APPID = OWM_API
     if not weather.pattern_match.group(1):
         CITY = DEFCITY
         if not CITY:
-            await eod(weather, "`Please specify a city or set one as default.`")
-            return
+            return await eod(weather, "`Please specify a city or set one as default.`")
     else:
         CITY = weather.pattern_match.group(1)
 
@@ -68,8 +59,7 @@ async def get_weather(weather):
     result = json.loads(request.text)
 
     if request.status_code != 200:
-        await eod(weather, f"`Invalid country.`")
-        return
+        return await eod(weather, f"`Invalid country.`")
 
     cityname = result["name"]
     curtemp = result["main"]["temp"]
@@ -89,8 +79,6 @@ async def get_weather(weather):
     ctimezone = tz(c_tz[country][0])
     time = datetime.datetime.now(ctimezone).strftime("%A, %I:%M %p")
     fullc_n = c_n[f"{country}"]
-    # dirs = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE",
-    #        "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"]
     dirs = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"]
 
     div = 360 / len(dirs)
@@ -110,7 +98,8 @@ async def get_weather(weather):
     def sun(unix):
         xx = datetime.datetime.fromtimestamp(unix, tz=ctimezone).strftime("%I:%M %p")
         return xx
-
+    cid = await client_id(weather)
+    hell_mention = cid[2]
     await eor(
         weather,
         f"🌡️ **Temperature :** `{celsius(curtemp)}°C | {fahrenheit(curtemp)}°F`\n"
@@ -118,7 +107,7 @@ async def get_weather(weather):
         + f"🌨️ **Min. Temp. :** `{celsius(min_temp)}°C | {fahrenheit(min_temp)}°F`\n"
         + f"☀️ **Max. Temp. :** `{celsius(max_temp)}°C | {fahrenheit(max_temp)}°F`\n"
         + f"🌦️ **Humidity :** `{humidity}%`\n"
-        + f"❕**Pressure :** `{pressure} hPa`\n"
+        + f"❕ **Pressure :** `{pressure} hPa`\n"
         + f"🌬️ **Wind :** `{kmph[0]} kmh | {mph[0]} mph, {findir}`\n"
         + f"☁️ **Cloud :** `{cloud} %`\n"
         + f"🌄 **Sunrise :** `{sun(sunrise)}`\n"
@@ -130,24 +119,17 @@ async def get_weather(weather):
     )
 
 
-@bot.on(hell_cmd(outgoing=True, pattern="setcity(?: |$)(.*)"))
-@bot.on(sudo_cmd(pattern="setcity(?: |$)(.*)", allow_sudo=True))
+@hell_cmd(pattern="setcity(?: |$)(.*)")
 @errors_handler
 async def set_default_city(city):
-    if city.fwd_from:
-        return
     if not OWM_API:
-        await edit_or_reply(
-            city, "`Get an API key from` https://openweathermap.org/ `first.`"
-        )
-        return
+        return await eod(city, "**Get an API key from** https://openweathermap.org/ **first.**")
     global DEFCITY
     APPID = OWM_API
     if not city.pattern_match.group(1):
         CITY = DEFCITY
         if not CITY:
-            await edit_or_reply(city, "`Please specify a city to set it as default.`")
-            return
+            return await eor(city, "`Please specify a city to set it as default.`")
     else:
         CITY = city.pattern_match.group(1)
     timezone_countries = {
@@ -171,38 +153,34 @@ async def set_default_city(city):
     request = requests.get(url)
     result = json.loads(request.text)
     if request.status_code != 200:
-        await city.edit(f"`Invalid country.`")
-        return
+        return await eor(city, f"`Invalid country.`")
     DEFCITY = CITY
     cityname = result["name"]
     country = result["sys"]["country"]
     fullc_n = c_n[f"{country}"]
-    await edit_or_reply(city, f"`Set default city as {cityname}, {fullc_n}.`")
+    await eor(city, f"**Set default city as** `{cityname}, {fullc_n}`")
 
 
-@bot.on(hell_cmd(pattern="wttr ?(.*)"))
-@bot.on(sudo_cmd(pattern="wttr ?(.*)", allow_sudo=True))
+@hell_cmd(pattern="wttr ?(.*)")
 async def _(event):
-    if event.fwd_from:
-        return
     global DEFCITY
     reply_to_id = None
     if event.reply_to_msg_id:
         reply_to_id = event.reply_to_msg_id
     input_str = event.pattern_match.group(1)
+    cid = await client_id(event)
+    hell_mention = cid[2]
     if not input_str:
         input_str = DEFCITY
-    await event.edit("Collecting Weather Reports...")
+    hell = await eor(event, "Collecting Weather Reports...")
     async with aiohttp.ClientSession() as session:
         sample_url = "https://wttr.in/{}.png"
         response_api_zero = await session.get(sample_url.format(input_str))
         response_api = await response_api_zero.read()
         with io.BytesIO(response_api) as out_file:
-            await event.reply(
-                f"**City : **`{input_str}`", file=out_file, reply_to=reply_to_id
-            )
+            await event.client.send_message(f"**City :** `{input_str}` \n**By :** {hell_mention}", file=out_file, reply_to=reply_to_id)
     try:
-        await event.delete()
+        await hell.delete()
     except:
         pass
 

@@ -1,8 +1,7 @@
 from . import *
 
 
-@bot.on(hell_cmd(pattern=r"tweet ?(.*)"))
-@bot.on(sudo_cmd(pattern="tweet ?(.*)", allow_sudo=True))
+@hell_cmd(pattern="tweet ?(.*)")
 async def nope(kraken):
     hell = kraken.text[7:]
     okvai = await eor(kraken, "Trying to tweet for you...")
@@ -12,18 +11,15 @@ async def nope(kraken):
         else:
             await eod(okvai, "I need some text to make a tweet🚶")
             return
-    tweeter = await bot.inline_query("TwitterStatusBot", f"{(deEmojify(hell))}")
+    tweeter = await event.client.inline_query("TwitterStatusBot", f"{(deEmojify(hell))}")
     owo = await tweeter[0].click(Config.LOGGER_ID)
-    stcr = await bot.send_message(kraken.chat_id, owo)
+    stcr = await event.client.send_message(kraken.chat_id, owo)
     await okvai.delete()
     await owo.delete()
     await unsave_stcr(stcr)
     await unsave_stcr(owo)
 
-
-
-@bot.on(hell_cmd(pattern=r"trump(?: |$)(.*)"))
-@bot.on(sudo_cmd(pattern=r"trump(?: |$)(.*)", allow_sudo=True))
+@hell_cmd(pattern="trump ?(.*)")
 async def nekobot(event):
     text = event.text[7:]
     reply_to_id = event.message
@@ -46,8 +42,7 @@ async def nekobot(event):
     await event.delete()
 
 
-@bot.on(hell_cmd(pattern=r"modi(?: |$)(.*)"))
-@bot.on(sudo_cmd(pattern=r"modi(?: |$)(.*)", allow_sudo=True))
+@hell_cmd(pattern="modi ?(.*)")
 async def nekobot(event):
     text = event.text[6:]
     reply_to_id = event.message
@@ -63,15 +58,14 @@ async def nekobot(event):
         else:
             await eod(event, "send your text to modi so he can tweet.")
             return
-    await edit_or_reply(event, "Requesting modi to tweet...")
+    await eor(event, "Requesting modi to tweet...")
     text = deEmojify(text)
     eventfile = await moditweet(text)
     await event.client.send_file(event.chat_id, eventfile, reply_to=reply_to_id)
     await event.delete()
 
 
-@bot.on(hell_cmd(pattern=r"mia(?: |$)(.*)"))
-@bot.on(sudo_cmd(pattern=r"mia(?: |$)(.*)", allow_sudo=True))
+@hell_cmd(pattern="mia ?(.*)")
 async def nekobot(event):
     text = event.text[5:]
     reply_to_id = event.message
@@ -94,8 +88,7 @@ async def nekobot(event):
     await event.delete()
 
 
-@bot.on(hell_cmd(pattern=r"dani(?: |$)(.*)"))
-@bot.on(sudo_cmd(pattern=r"dani(?: |$)(.*)", allow_sudo=True))
+@hell_cmd(pattern="dani ?(.*)")
 async def nekobot(event):
     text = event.text[6:]
     reply_to_id = event.message
@@ -118,8 +111,7 @@ async def nekobot(event):
     await event.delete()
 
 
-@bot.on(hell_cmd(pattern=r"pappu(?: |$)(.*)"))
-@bot.on(sudo_cmd(pattern=r"pappu(?: |$)(.*)", allow_sudo=True))
+@hell_cmd(pattern="pappu ?(.*)")
 async def nekobot(event):
     text = event.text[7:]
     reply_to_id = event.message
@@ -135,15 +127,14 @@ async def nekobot(event):
         else:
             await eod(event, "send your text to pappu so he can tweet.")
             return
-    await edit_or_reply(event, "Requesting pappu to tweet...")
+    await eor(event, "Requesting pappu to tweet...")
     text = deEmojify(text)
     eventfile = await papputweet(text)
     await event.client.send_file(event.chat_id, eventfile, reply_to=reply_to_id)
     await event.delete()
 
 
-@bot.on(hell_cmd(pattern=r"sunny(?: |$)(.*)"))
-@bot.on(sudo_cmd(pattern=r"sunny(?: |$)(.*)", allow_sudo=True))
+@hell_cmd(pattern="sunny ?(.*)")
 async def nekobot(event):
     text = event.text[7:]
     reply_to_id = event.message
@@ -165,9 +156,7 @@ async def nekobot(event):
     await event.client.send_file(event.chat_id, eventfile, reply_to=reply_to_id)
     await event.delete()
 
-
-@bot.on(hell_cmd(pattern=r"johhny(?: |$)(.*)"))
-@bot.on(sudo_cmd(pattern=r"johhny(?: |$)(.*)", allow_sudo=True))
+@hell_cmd(pattern="johhny ?(.*)")
 async def nekobot(event):
     text = event.text[8:]
     reply_to_id = event.message
@@ -183,15 +172,13 @@ async def nekobot(event):
         else:
             await eod(event, "send your text to Johhny so he can tweet.")
             return
-    await edit_or_reply(event, "Requesting johhny to tweet...😆")
+    await eor(event, "Requesting johhny to tweet...😆")
     text = deEmojify(text)
     eventfile = await sinstweet(text)
     await event.client.send_file(event.chat_id, eventfile, reply_to=reply_to_id)
     await event.delete()
 
-
-@bot.on(hell_cmd(pattern=r"gandhi(?: |$)(.*)"))
-@bot.on(sudo_cmd(pattern=r"gandhi(?: |$)(.*)", allow_sudo=True))
+@hell_cmd(pattern="gandhi ?(.*)")
 async def nekobot(event):
     text = event.text[8:]
     reply_to_id = event.message
@@ -207,15 +194,13 @@ async def nekobot(event):
         else:
             await eod(event, "send you text to baapu so he can tweet.")
             return
-    await edit_or_reply(event, "Requesting baapu to tweet...")
+    await eor(event, "Requesting baapu to tweet...")
     text = deEmojify(text)
     eventfile = await taklatweet(text)
     await event.client.send_file(event.chat_id, eventfile, reply_to=reply_to_id)
     await event.delete()  # bancho kitni baar bolu no offence
 
-
-@bot.on(hell_cmd(pattern=r"cmm(?: |$)(.*)"))
-@bot.on(sudo_cmd(pattern=r"cmm(?: |$)(.*)", allow_sudo=True))
+@hell_cmd(pattern="cmm ?(.*)")
 async def nekobot(event):
     text = event.text[5:]
     reply_to_id = event.message
@@ -237,10 +222,7 @@ async def nekobot(event):
     await event.client.send_file(event.chat_id, eventfile, reply_to=reply_to_id)
     await event.delete()
 
-
-
-@bot.on(hell_cmd(pattern=r"kanna(?: |$)(.*)"))
-@bot.on(sudo_cmd(pattern=r"kanna(?: |$)(.*)", allow_sudo=True))
+@hell_cmd(pattern="kanna ?(.*)")
 async def nekobot(event):
     text = event.text[7:]
     reply_to_id = event.message

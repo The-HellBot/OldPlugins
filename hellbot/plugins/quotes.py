@@ -1,82 +1,62 @@
-import random
-from random import choice
 import requests
+
+from random import choice
+
 from . import *
 
 
-@bot.on(hell_cmd(pattern=f"love$", outgoing=True))
-@bot.on(sudo_cmd(pattern=f"love$", allow_sudo=True))
+@hell_cmd(pattern="love$")
 async def love(e):
-    txt = random.choice(LOVESTR)
+    txt = choice(LOVESTR)
     await eor(e, txt)
 
-
-@bot.on(hell_cmd(pattern=f"dhoka$", outgoing=True))
-@bot.on(sudo_cmd(pattern=f"dhoka$", allow_sudo=True))
+@hell_cmd(pattern="dhoka$")
 async def katgya(e):
-    txt = random.choice(DHOKA)
+    txt = choice(DHOKA)
     await eor(e, txt)
 
-
-@bot.on(hell_cmd(pattern=f"metoo$", outgoing=True))
-@bot.on(sudo_cmd(pattern=f"metoo$", allow_sudo=True))
+@hell_cmd(pattern="metoo$")
 async def metoo(e):
-    txt = random.choice(METOOSTR)
+    txt = choice(METOOSTR)
     await eor(e, txt)
 
-
-@bot.on(hell_cmd(pattern=f"gdnoon$", outgoing=True))
-@bot.on(sudo_cmd(pattern=f"gdnoon$", allow_sudo=True))
+@hell_cmd(pattern="gdnoon$")
 async def noon(e):
-    txt = random.choice(GDNOON)
+    txt = choice(GDNOON)
     await eor(e, txt)
 
-
-@bot.on(hell_cmd(pattern=f"chase$", outgoing=True))
-@bot.on(sudo_cmd(pattern=f"chase$", allow_sudo=True))
+@hell_cmd(pattern="chase$")
 async def police(e):
-    txt = random.choice(CHASE_STR)
+    txt = choice(CHASE_STR)
     await eor(e, txt)
 
-@bot.on(hell_cmd(pattern=f"congo$", outgoing=True))
-@bot.on(sudo_cmd(pattern=f"congo$", allow_sudo=True))
+@hell_cmd(pattern="congo$")
 async def Sahih(e):
-    txt = random.choice(CONGRATULATION)
+    txt = choice(CONGRATULATION)
     await eor(e, txt)
 
-
-@bot.on(hell_cmd(pattern=f"qhi$", outgoing=True))
-@bot.on(sudo_cmd(pattern=f"qhi$", allow_sudo=True))
+@hell_cmd(pattern="qhi$")
 async def hoi(e):
-    txt = random.choice(HELLOSTR)
+    txt = choice(HELLOSTR)
     await eor(e, txt)
 
-@bot.on(hell_cmd(pattern=f"gdbye$", outgoing=True))
-@bot.on(sudo_cmd(pattern=f"gdbye$", allow_sudo=True))
+@hell_cmd(pattern="gdbye$")
 async def bhago(e):
-    txt = random.choice(BYESTR)
+    txt = choice(BYESTR)
     await eor(e, txt)
-    
 
-@bot.on(hell_cmd(pattern=f"gdnyt$", outgoing=True))
-@bot.on(sudo_cmd(pattern=f"gdnyt$", allow_sudo=True))
+@hell_cmd(pattern="gdnyt$")
 async def night(e):
-    txt = random.choice(GDNIGHT)
+    txt = choice(GDNIGHT)
     await eor(e, txt)
 
-
-@bot.on(hell_cmd(pattern=f"gdmng$", outgoing=True))
-@bot.on(sudo_cmd(pattern=f"gdmng$", allow_sudo=True))
+@hell_cmd(pattern="gdmng$")
 async def morning(e):
-    txt = random.choice(GDMORNING)
+    txt = choice(GDMORNING)
     await eor(e, txt)
-  
-  
-@bot.on(hell_cmd(pattern="quote ?(.*)", outgoing=True))
-@bot.on(sudo_cmd(pattern="quote ?(.*)", allow_sudo=True))
+
+@hell_cmd(pattern="quote ?(.*)")
 async def quote_search(event):
-    if event.fwd_from:
-        return
     hell = await eor(event, "`Processing...`")
     input_str = event.pattern_match.group(1)
     if not input_str:
@@ -88,7 +68,7 @@ async def quote_search(event):
     else:
         api_url = f"https://quotes.cwprojects.live/search/query={input_str}"
         try:
-            response = random.choice(requests.get(api_url).json())
+            response = choice(requests.get(api_url).json())
         except:
             response = None
     if response is not None:
@@ -98,7 +78,7 @@ async def quote_search(event):
 
 
 CmdHelp("quotes").add_command(
-  "quote", None, "Sends a random mind-blowing quote"
+  "quote", "<input>", "Sends a random mind-blowing quote"
 ).add_command(
   "gdmng", None, "Sends a random Good Morning Quote"
 ).add_command(

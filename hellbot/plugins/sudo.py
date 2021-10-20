@@ -1,15 +1,16 @@
 import os
 import heroku3
+
 from telethon.tl.functions.users import GetFullUserRequest
 
 from . import *
 
 Heroku = heroku3.from_key(Config.HEROKU_API_KEY)
 heroku_api = "https://api.heroku.com"
-sudousers = Config.SUDO_USERS
+sudousers = os.environ.get("SUDO_USERS") or ""
 
 
-@bot.on(hell_cmd(pattern="sudo"))
+@hell_cmd(pattern="sudo$")
 async def sudo(event):
     sudo = "True" if Config.SUDO_USERS else "False"
     users = sudousers
@@ -19,10 +20,16 @@ async def sudo(event):
         await eod(event, f"📍 **Sudo :**  `Disabled`")
 
 
-@bot.on(hell_cmd(pattern="addsudo(?: |$)"))
+@hell_cmd(pattern="addsudo ?(.*)")
 async def add(event):
+    suu = event.text[9:]
+    if f"{hl}add " in event.text:
+        return
     ok = await eor(event, "**🚀 Adding Sudo User...**")
     bot = "SUDO_USERS"
+    rply = await event.get_reply_message()
+    if not suu and not rply:
+        return await ok.edit("Either reply to a user or give user ids to add them to your sudo users list.")
     if Config.HEROKU_APP_NAME is not None:
         app = Heroku.app(Config.HEROKU_APP_NAME)
     else:
@@ -31,21 +38,25 @@ async def add(event):
     heroku_Config = app.config()
     if event is None:
         return
-    try:
+    if suu:
+        target = suu
+    elif rply:
         target = await get_user(event)
-    except Exception:
-        await eod(ok, f"Reply to a user to add them in sudo.")
-    if sudousers:
-        newsudo = f"{sudousers} {target}"
-    else:
-        newsudo = f"{target}"
+    suudo = f"{sudousers} {target}"
+    newsudo = suudo.replace("{", "")
+    newsudo = newsudo.replace("}", "")
     await ok.edit(f"✅** Added**  `{target}`  **in Sudo User.**\n\n __Restarting Heroku to Apply Changes. Wait for a minute.__")
     heroku_Config[bot] = newsudo
 
-@bot.on(hell_cmd(pattern="rmsudo(?: |$)"))
+
+@hell_cmd(pattern="rmsudo ?(.*)")
 async def _(event):
+    suu = event.text[8:]
     ok = await eor(event, "**🚫 Removing Sudo User...**")
     bot = "SUDO_USERS"
+    rply = await event.get_reply_message()
+    if not suu and not rply:
+        return await ok.edit("Either reply to a user or give user ids to remove them from your sudo users list.")
     if Config.HEROKU_APP_NAME is not None:
         app = Heroku.app(Config.HEROKU_APP_NAME)
     else:
@@ -54,11 +65,11 @@ async def _(event):
     heroku_Config = app.config()
     if event is None:
         return
-    try:
+    if suu != "" and suu.isnumeric():
+        target = suu
+    elif rply:
         target = await get_user(event)
-        gett = str(target)
-    except Exception:
-        await eod(ok, f"Reply to a user to remove them from sudo.")
+    gett = str(target)
     if gett in sudousers:
         newsudo = sudousers.replace(gett, "")
         await ok.edit(f"❌** Removed**  `{target}`  from Sudo User.\n\n Restarting Heroku to Apply Changes. Wait for a minute.")

@@ -2,11 +2,8 @@ from telethon.tl.functions.messages import SaveDraftRequest
 
 from . import *
 
-@bot.on(hell_cmd(pattern="chain$"))
-@bot.on(sudo_cmd(pattern="chain$", allow_sudo=True))
+@hell_cmd(pattern="chain$")
 async def _(event):
-    if event.fwd_from:
-        return
     hell = await eor(event, "Counting...")
     count = -1
     message = event.message

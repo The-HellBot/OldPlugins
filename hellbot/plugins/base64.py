@@ -1,18 +1,16 @@
+import base64
+
 from subprocess import PIPE
 from subprocess import run as runapp
 
-import base64
-
 from . import *
 
-@bot.on(hell_cmd(pattern="hash (.*)", outgoing=True))
-@bot.on(sudo_cmd(pattern="hash (.*)", allow_sudo=True))
+
+@hell_cmd(pattern="hash (.*)")
 @errors_handler
-async def gethash(hash_q):
-    if hash_q.fwd_from:
-        return
-    event = await eor(hash_q, "Processing...")
-    hashtxt_ = hash_q.pattern_match.group(1)
+async def gethash(event):
+    event = await eor(event, "Processing...")
+    hashtxt_ = event.pattern_match.group(1)
     hashtxt = open("hashdis.txt", "w+")
     hashtxt.write(hashtxt_)
     hashtxt.close()
@@ -42,40 +40,37 @@ async def gethash(hash_q):
         hashfile = open("hashes.txt", "w+")
         hashfile.write(ans)
         hashfile.close()
-        await hash_q.client.send_file(
-            hash_q.chat_id,
+        await event.client.send_file(
+            event.chat_id,
             "hashes.txt",
-            reply_to=hash_q.id,
+            reply_to=event.id,
             caption="`It's too big, sending a text file instead. `",
         )
         runapp(["rm", "hashes.txt"], stdout=PIPE)
     else:
-        await hash_q.reply(ans)
+        await event.reply(ans)
         await event.delete()
 
 
-@bot.on(hell_cmd(pattern="b64 (en|de) (.*)", outgoing=True))
-@bot.on(sudo_cmd(pattern="b64 (en|de) (.*)", allow_sudo=True))
+@hell_cmd(pattern="b64 (en|de) (.*)")
 @errors_handler
-async def endecrypt(query):
-    if query.fwd_from:
-        return
-    if query.pattern_match.group(1) == "en":
-        lething = str(base64.b64encode(bytes(query.pattern_match.group(2), "utf-8")))[
+async def endecrypt(event):
+    if event.pattern_match.group(1) == "en":
+        lething = str(base64.b64encode(bytes(event.pattern_match.group(2), "utf-8")))[
             2:
         ]
-        await query.reply("**Encoded :** \n\n`" + lething[:-1] + "`")
-        await query.delete()
-    elif query.pattern_match.group(1) == "de":
+        await event.reply("**Encoded :** \n\n`" + lething[:-1] + "`")
+        await event.delete()
+    elif event.pattern_match.group(1) == "de":
         lething = str(
             base64.b64decode(
-                bytes(query.pattern_match.group(2), "utf-8"), validate=True
+                bytes(event.pattern_match.group(2), "utf-8"), validate=True
             )
         )[2:]
-        await query.reply("**Decoded :**\n\n`" + lething[:-1] + "`")
-        await query.delete()
+        await event.reply("**Decoded :**\n\n`" + lething[:-1] + "`")
+        await event.delete()
     else:
-        await eod(query, f"You should check out `{hl}plinfo base64` !!")
+        await eod(event, f"You should check out `{hl}plinfo base64` !!")
 
 
 CmdHelp("base64").add_command(

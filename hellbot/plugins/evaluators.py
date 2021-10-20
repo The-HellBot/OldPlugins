@@ -9,11 +9,8 @@ from . import *
 
 lg_id = Config.LOGGER_ID
 
-@bot.on(hell_cmd(pattern="exec(?: |$|\n)(.*)", command="exec"))
-@bot.on(sudo_cmd(pattern="exec(?: |$|\n)(.*)", command="exec", allow_sudo=True))
+@hell_cmd(pattern="exec(?: |$|\n)(.*)")
 async def _(event):
-    if event.fwd_from:
-        return
     cmd = "".join(event.text.split(maxsplit=1)[1:])
     if not cmd:
         return await eod(event, "`What should i execute?..`")
@@ -27,7 +24,7 @@ async def _(event):
     if helluser.username:
         curruser = helluser.username
     else:
-        curruser = "hellbot"
+        curruser = "@Its_HellBot"
     uid = os.geteuid()
     if uid == 0:
         cresult = f"`{curruser}:~#` `{cmd}`\n`{result}`"
@@ -37,11 +34,8 @@ async def _(event):
 
 
 
-@bot.on(hell_cmd(pattern="eval(?: |$|\n)(.*)", command="eval"))
-@bot.on(sudo_cmd(pattern="eval(?: |$|\n)(.*)", command="eval", allow_sudo=True))
+@hell_cmd(pattern="eval(?: |$|\n)(.*)")
 async def _(event):
-    if event.fwd_from:
-        return
     if Config.USE_EVAL == "TRUE":
         cmd = "".join(event.text.split(maxsplit=1)[1:])
         if not cmd:
@@ -70,7 +64,8 @@ async def _(event):
         else:
             evaluation = "Success"
         final_output = f"•  Eval : \n`{cmd}` \n\n•  Result : \n`{evaluation}` \n"
-        await eor(hellevent, final_output, deflink=True, linktext="**Eval Command Executed !!** \n\n__See Result__ : ")
+        final_output2 = f"**•  Eval :** \n`{cmd}` \n\n**•  Result :** \n`{evaluation}` \n"
+        await eor(hellevent, final_output, deflink=True, linktext=f"{final_output2} \n\n**Also Pasted** ")
     else:
         await eod(event, f"**Eval Is Disbaled !!** \n\n__Do__ `{hl}set var USE_EVAL TRUE` __to enable eval commands.__")
 
@@ -88,11 +83,8 @@ async def aexec(code, smessatatus):
     )
 
 
-@bot.on(hell_cmd(pattern="bash ?(.*)", outgoing=True))
-@bot.on(sudo_cmd(pattern="bash ?(.*)", allow_sudo=True))
+@hell_cmd(pattern="bash ?(.*)")
 async def _(event):
-    if event.fwd_from:
-        return
     PROCESS_RUN_TIME = 100
     cmd = event.pattern_match.group(1)
     reply_to_id = event.message.id
@@ -112,11 +104,11 @@ async def _(event):
     else:
         _o = o.split("\n")
         o = "`\n".join(_o)
-    OUTPUT = f"**QUERY:**\n__Command:__\n`{cmd}` \n__PID:__\n`{process.pid}`\n\n**stderr:** \n`{e}`\n**Output:**\n{o}"
+    OUTPUT = f"**QUERY :**\n__Command:__\n`{cmd}` \n__PID:__\n`{process.pid}`\n\n**stderr:** \n`{e}`\n**Output:**\n{o}"
     if len(OUTPUT) > 4095:
         with io.BytesIO(str.encode(OUTPUT)) as out_file:
-            out_file.name = "exec.text"
-            await bot.send_file(
+            out_file.name = "bashed.text"
+            await event.client.send_file(
                 event.chat_id,
                 out_file,
                 force_document=True,
@@ -129,7 +121,7 @@ async def _(event):
     
 
 CmdHelp("evaluators").add_command(
-  "eval", "<expr>", "Execute python script"
+  "eval", "<expr>", "Execute a python script", "eval print('Hello World.')"
 ).add_command(
   "exec", "<command>", "Execute a Terminal command on HellBot server and shows details"
 ).add_command(

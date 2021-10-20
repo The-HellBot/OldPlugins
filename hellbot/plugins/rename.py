@@ -7,6 +7,7 @@ from hachoir.metadata import extractMetadata
 from hachoir.parser import createParser
 from telethon.tl.types import DocumentAttributeVideo
 
+from hellbot.sql.gvar_sql import addgvar, delgvar, gvarstat
 from . import *
 
 thumb_image_path = Config.TMP_DOWNLOAD_DIRECTORY + "/thumb_image.jpg"
@@ -36,25 +37,21 @@ def get_video_thumb(file, output=None, width=90):
         return output
 
 
-@bot.on(hell_cmd(pattern="rename (.*)", outgoing=True))
-@bot.on(sudo_cmd(pattern="rename (.*)", allow_sudo=True))
+@hell_cmd(pattern="rename ?(.*)")
 async def _(event):
-    if event.fwd_from:
-        return
-    hell = await eor(event, 
-        "Renaming in progress...\nThis might take some time if file is big. 🥴"
-    )
-    input_str = event.pattern_match.group(1)
+    input_str = event.text[8:]
+    if input_str == "":
+        return await eod(event, "Give a new file name..")
+    hell = await eor(event, f"Renaming it to `{input_str}`")
     if not os.path.isdir(Config.TMP_DOWNLOAD_DIRECTORY):
         os.makedirs(Config.TMP_DOWNLOAD_DIRECTORY)
     if event.reply_to_msg_id:
         start = datetime.datetime.now()
         file_name = input_str
         reply_message = await event.get_reply_message()
-        # c_time = time.time()
         to_download_directory = Config.TMP_DOWNLOAD_DIRECTORY
         downloaded_file_name = os.path.join(to_download_directory, file_name)
-        downloaded_file_name = await bot.download_media(
+        downloaded_file_name = await event.client.download_media(
             reply_message, downloaded_file_name
         )
         end = datetime.datetime.now()
@@ -65,21 +62,12 @@ async def _(event):
         else:
             await eod(hell, "Error Occurred\n {}".format(input_str))
     else:
-        await eod(hell, f"Syntax `{hl}rename file.name` as reply to a Telegram media")
+        await eod(hell, f"**Syntax Wrong !!** \n\n• `{hl}rename new file name` as reply to a Telegram file")
 
-
-@bot.on(hell_cmd(pattern="rnupload (.*)", outgoing=True))
-@bot.on(sudo_cmd(pattern="rnupload (.*)", allow_sudo=True))
+@hell_cmd(pattern="rnupload ?(.*)")
 async def _(event):
-    if event.fwd_from:
-        return
-    thumb = None
-    if os.path.exists(thumb_image_path):
-        thumb = thumb_image_path
-    hell = await eor(event, 
-        "Renaming And Uploading File..."
-    )
-    input_str = event.pattern_match.group(1)
+    input_str = event.text[10:]
+    hell = await eor(event, f"Renaming to `{input_str}`")
     if not os.path.isdir(Config.TMP_DOWNLOAD_DIRECTORY):
         os.makedirs(Config.TMP_DOWNLOAD_DIRECTORY)
     if event.reply_to_msg_id:
@@ -88,17 +76,22 @@ async def _(event):
         reply_message = await event.get_reply_message()
         to_download_directory = Config.TMP_DOWNLOAD_DIRECTORY
         downloaded_file_name = os.path.join(to_download_directory, file_name)
-        downloaded_file_name = await bot.download_media(
+        downloaded_file_name = await event.client.download_media(
             reply_message, downloaded_file_name
         )
         end = datetime.datetime.now()
         ms_one = (end - start).seconds
         if os.path.exists(downloaded_file_name):
             time.time()
-            await bot.send_file(
+            thumb = None
+            if os.path.exists(thumb_image_path):
+                thumb = thumb_image_path
+            else:
+                thumb = get_video_thumb(downloaded_file_name, thumb_image_path)
+            await event.client.send_file(
                 event.chat_id,
                 downloaded_file_name,
-                force_document=False,
+                force_document=True,
                 supports_streaming=False,
                 allow_cache=False,
                 reply_to=event.message.id,
@@ -114,18 +107,12 @@ async def _(event):
         else:
             await eod(event, "File Not Found {}".format(input_str))
     else:
-        await hell.edit("Syntax // `{}rnupload file.name` as reply to a Telegram media".format(hl))
+        await hell.edit(f"**Syntax Wrong !!** \n\n• `{hl}rnupload new file name`")
 
-
-@bot.on(hell_cmd(pattern="rnsupload (.*)", outgoing=True))
-@bot.on(sudo_cmd(pattern="rnsupload (.*)", allow_sudo=True))
+@hell_cmd(pattern="rnsupload (.*)")
 async def _(event):
-    if event.fwd_from:
-        return
-    hell = await eor(event, 
-        "Rename & Upload as streamable format is in progress..."
-    )
-    input_str = event.pattern_match.group(1)
+    hell = await eor(event, "Rename & Upload as streamable format is in progress...")
+    input_str = event.text[11:]
     if not os.path.isdir(Config.TMP_DOWNLOAD_DIRECTORY):
         os.makedirs(Config.TMP_DOWNLOAD_DIRECTORY)
     if event.reply_to_msg_id:
@@ -135,7 +122,7 @@ async def _(event):
         time.time()
         to_download_directory = Config.TMP_DOWNLOAD_DIRECTORY
         downloaded_file_name = os.path.join(to_download_directory, file_name)
-        downloaded_file_name = await bot.download_media(
+        downloaded_file_name = await event.client.download_media(
             reply_message, downloaded_file_name
         )
         end_one = datetime.datetime.now()
@@ -168,11 +155,11 @@ async def _(event):
                     height = metadata.get("height")
 
             try:
-                await bot.send_file(
+                await event.client.send_file(
                     event.chat_id,
                     downloaded_file_name,
                     thumb=thumb,
-                    caption="reuploaded by [HellBot](https://t.me/hellbot_official_chat)",
+                    caption="reuploaded by HellBot",
                     force_document=False,
                     allow_cache=False,
                     reply_to=event.message.id,
@@ -199,9 +186,8 @@ async def _(event):
         else:
             await eod(hell, "File Not Found {}".format(input_str))
     else:
-        await hell.edit(
-            "Syntax // .rnsupload file.name as reply to a Telegram media"
-        )
+        await hell.edit(f"**Syntax Wrong !!** \n\n• `{hl}rnsupload new file name` as reply to a Telegram file")
+
 
 CmdHelp("rename").add_command(
   "rename", "<reply to media> <new name>", "Renames the replied media and downloads it to userbot local storage"

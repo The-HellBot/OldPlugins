@@ -4,11 +4,8 @@ from telethon.errors.rpcerrorlist import YouBlockedUserError
 from . import *
 
 
-@bot.on(hell_cmd(pattern="ascii ?(.*)"))
-@bot.on(sudo_cmd(pattern="ascii ?(.*)", allow_sudo=True))
+@hell_cmd(pattern="ascii ?(.*)")
 async def _(event):
-    if event.fwd_from:
-        return
     if not event.reply_to_msg_id:
         return await eor(event, "Reply to any user message.😒🤐")
     reply_message = await event.get_reply_message()
@@ -32,11 +29,8 @@ async def _(event):
         conv.chat_id, [first.id, response.id, second.id, output_op.id]
     )
 
-@bot.on(hell_cmd(pattern="line ?(.*)"))
-@bot.on(sudo_cmd(pattern="line ?(.*)", allow_sudo=True))
+@hell_cmd(pattern="line ?(.*)")
 async def _(event):
-    if event.fwd_from:
-        return
     if not event.reply_to_msg_id:
         await eor(event, "Reply to any user message.😒🤐")
         return

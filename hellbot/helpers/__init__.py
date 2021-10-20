@@ -2,6 +2,7 @@ from .anime import *
 from .convert import *
 from .exceptions import *
 from .formats import *
+from .gdriver import *
 from .google import *
 from .image import *
 from .movies import *

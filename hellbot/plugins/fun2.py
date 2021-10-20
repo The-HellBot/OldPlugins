@@ -13,11 +13,8 @@ BASE_URL = "https://headp.at/pats/{}"
 PAT_IMAGE = "pat.jpg"
 
 
-@bot.on(hell_cmd(pattern="pat ?(.*)", outgoing=True))
-@bot.on(sudo_cmd(pattern="pat ?(.*)", allow_sudo=True))
+@hell_cmd(pattern="pat ?(.*)")
 async def _(event):
-    if event.fwd_from:
-        return
     username = event.pattern_match.group(1)
     if not username and not event.reply_to_msg_id:
         await eod(event, "`Reply to a message or provide username`")
@@ -30,20 +27,17 @@ async def _(event):
     with open(PAT_IMAGE, "wb") as f:
         f.write(requests.get(pat).content)
     if username:
-        await bot.send_file(event.chat_id, PAT_IMAGE, caption=username)
+        await event.client.send_file(event.chat_id, PAT_IMAGE, caption=username, reply_to=event.reply_to_msg_id)
     else:
-        await bot.send_file(event.chat_id, PAT_IMAGE, reply_to=event.reply_to_msg_id)
+        await event.client.send_file(event.chat_id, PAT_IMAGE, reply_to=event.reply_to_msg_id)
     remove(PAT_IMAGE)
 
 
-@bot.on(hell_cmd(pattern="join$", outgoing=True))
-@bot.on(sudo_cmd(pattern="join$", allow_sudo=True))
+@hell_cmd(pattern="join$")
 async def _(event):
-    if event.fwd_from:
-        return
     mentions = "`━━━━━┓ \n┓┓┓┓┓┃\n┓┓┓┓┓┃　ヽ○ノ ⇦ Me When You Joined \n┓┓┓┓┓┃.     /　 \n┓┓┓┓┓┃ ノ) \n┓┓┓┓┓┃\n┓┓┓┓┓┃\n┓┓┓┓┓┃\n┓┓┓┓┓┃\n┓┓┓┓┓┃\n┓┓┓┓┓┃\n┓┓┓┓┓┃\n┓┓┓┓┓┃\n┓┓┓┓┓┃\n┓┓┓┓┓┃\n┓┓┓┓┓┃\n┓┓┓┓┓┃\n┓┓┓┓┓┃\n┓┓┓┓┓┃\n┓┓┓┓┓┃\n┓┓┓┓┓┃`"
     chat = await event.get_input_chat()
-    async for x in borg.iter_participants(chat, filter=ChannelParticipantsAdmins):
+    async for x in event.client.iter_participants(chat, filter=ChannelParticipantsAdmins):
         mentions += f""
     reply_message = None
     if event.reply_to_msg_id:
@@ -53,14 +47,11 @@ async def _(event):
         await eor(event, mentions)
 
 
-@bot.on(hell_cmd(pattern="pay$", outgoing=True))
-@bot.on(sudo_cmd(pattern="pay$", allow_sudo=True))
+@hell_cmd(pattern="pay$")
 async def _(event):
-    if event.fwd_from:
-        return
     mentions = "`█▀▀▀▀▀█░▀▀░░░█░░░░█▀▀▀▀▀█\n█░███░█░█▄░█▀▀░▄▄░█░███░█\n█░▀▀▀░█░▀█▀▀▄▀█▀▀░█░▀▀▀░█\n▀▀▀▀▀▀▀░▀▄▀▄▀▄█▄▀░▀▀▀▀▀▀▀\n█▀█▀▄▄▀░█▄░░░▀▀░▄█░▄▀█▀░▀\n░█▄▀░▄▀▀░░░▄▄▄█░▀▄▄▄▀▄▄▀▄\n░░▀█░▀▀▀▀▀▄█░▄░████ ██▀█▄\n▄▀█░░▄▀█▀█▀░█▄▀░▀█▄██▀░█▄\n░░▀▀▀░▀░█▄▀▀▄▄░▄█▀▀▀█░█▀▀\n█▀▀▀▀▀█░░██▀█░░▄█░▀░█▄░██\n█░███░█░▄▀█▀██▄▄▀▀█▀█▄░▄▄\n█░▀▀▀░█░█░░▀▀▀░█░▀▀▀▀▄█▀░\n▀▀▀▀▀▀▀░▀▀░░▀░▀░░░▀▀░▀▀▀▀`"
     chat = await event.get_input_chat()
-    async for x in borg.iter_participants(chat, filter=ChannelParticipantsAdmins):
+    async for x in event.client.iter_participants(chat, filter=ChannelParticipantsAdmins):
         mentions += f""
     reply_message = None
     if event.reply_to_msg_id:
@@ -68,16 +59,13 @@ async def _(event):
         await reply_message.reply(mentions)
     else:
         await eor(event, mentions)
-  
 
-@bot.on(hell_cmd(pattern="climb$", outgoing=True))
-@bot.on(sudo_cmd(pattern="climb$", allow_sudo=True))
+
+@hell_cmd(pattern="climb$")
 async def _(event):
-    if event.fwd_from:
-        return
     mentions = "`😏/\n/▌ \n/ \\n████\n╬╬\n╬╬\n╬╬\n╬╬\n╬╬\n╬╬\n╬╬\😦\n╬╬/▌\n╬╬/\`"
     chat = await event.get_input_chat()
-    async for x in borg.iter_participants(chat, filter=ChannelParticipantsAdmins):
+    async for x in event.client.iter_participants(chat, filter=ChannelParticipantsAdmins):
         mentions += f""
     reply_message = None
     if event.reply_to_msg_id:
@@ -85,16 +73,13 @@ async def _(event):
         await reply_message.reply(mentions)
     else:
         await eor(event, mentions)
-  
 
-@bot.on(hell_cmd(pattern="aag$", outgoing=True))
-@bot.on(sudo_cmd(pattern="aag$", allow_sudo=True))
+
+@hell_cmd(pattern="aag$")
 async def _(event):
-    if event.fwd_from:
-        return
     mentions = "`😲💨  🔥\n/|\     🔥🔥\n/ \   🔥🔥🔥`"
     chat = await event.get_input_chat()
-    async for x in borg.iter_participants(chat, filter=ChannelParticipantsAdmins):
+    async for x in event.client.iter_participants(chat, filter=ChannelParticipantsAdmins):
         mentions += f""
     reply_message = None
     if event.reply_to_msg_id:
@@ -102,16 +87,13 @@ async def _(event):
         await reply_message.reply(mentions)
     else:
         await eor(event, mentions)
-    
 
-@bot.on(hell_cmd(pattern="push$", outgoing=True))
-@bot.on(sudo_cmd(pattern="push$", allow_sudo=True))
+
+@hell_cmd(pattern="push$")
 async def _(event):
-    if event.fwd_from:
-        return
     mentions = "`.      😎\n          |\👐\n         / \\\n━━━━━┓ ＼＼ \n┓┓┓┓┓┃\n┓┓┓┓┓┃ ヽ😩ノ\n┓┓┓┓┓┃ 　 /　\n┓┓┓┓┓┃  ノ)　 \n┓┓┓┓┓┃\n┓┓┓┓┓┃\n┓┓┓┓┓┃\n┓┓┓┓┓┃\n┓┓┓┓┓┃\n┓┓┓┓┓┃\n┓┓┓┓┓┃\n┓┓┓┓┓┃\n┓┓┓┓┓┃\n┓┓┓┓┓┃\n┓┓┓┓┓┃\n┓┓┓┓┓┃`"
     chat = await event.get_input_chat()
-    async for x in borg.iter_participants(chat, filter=ChannelParticipantsAdmins):
+    async for x in event.client.iter_participants(chat, filter=ChannelParticipantsAdmins):
         mentions += f""
     reply_message = None
     if event.reply_to_msg_id:
@@ -119,16 +101,13 @@ async def _(event):
         await reply_message.reply(mentions)
     else:
         await eor(event, mentions)
-    
 
-@bot.on(hell_cmd(pattern="work$", outgoing=True))
-@bot.on(sudo_cmd(pattern="work$", allow_sudo=True))
+
+@hell_cmd(pattern="work$")
 async def _(event):
-    if event.fwd_from:
-        return
     mentions = "`📔📚           📚\n📓📚📖  😫  📚📚📓\n📕📚📚  📝  📗💻📘\n📖⁣📖📖📖📖📖📖📖📖`"
     chat = await event.get_input_chat()
-    async for x in borg.iter_participants(chat, filter=ChannelParticipantsAdmins):
+    async for x in event.client.iter_participants(chat, filter=ChannelParticipantsAdmins):
         mentions += f""
     reply_message = None
     if event.reply_to_msg_id:
@@ -136,16 +115,13 @@ async def _(event):
         await reply_message.reply(mentions)
     else:
         await eor(event, mentions)
-    
 
-@bot.on(hell_cmd(pattern="suckit$", outgoing=True))
-@bot.on(sudo_cmd(pattern="suckit$", allow_sudo=True))
+
+@hell_cmd(pattern="suckit$")
 async def _(event):
-    if event.fwd_from:
-        return
     mentions = "`......................................... \n \n𝕔𝕠𝕞𝕖 𝕥𝕠 𝕞𝕖, 𝕞𝕪 𝕔𝕙𝕚𝕝𝕕𝕣𝕖𝕟 \n`` \n. . /. ))) . . . . . . . . . (((ヽ \n/. .ノ￣. . . ___. . .￣ Y .\ \n| . (.\, . . . ( ͡° ͜ʖ ͡°). . . ./.) . ) \nヽ.ヽ..ᯢ._.|﹀|._._ノ₄₂₀ // \n. . .\|. 𓀐𓂸Ｙ. . ࿕. . . / \n. . . .|. \. . ᯪ. . .|. . ᯪ. . ﾉ \n. . . . . \ .トー仝ーイ \n. . . . . . . |. ミ土彡 / \n. . . . . . . )\. . .° . ./( \n. . . . . . /. . .\͎̦ ̷̫ ̴́ ̴̢/̴͖. . \ \n. . . . . /. ⁶⁹ . /̴͝Ѽ̔̕☰̴̈́☰☰☰☰D,̰̱ \n. . . . /. / . . / . . .\. \. . \ \n. . . .((. . . .(. . . . .). . . .)) \n. . . .| . . . .). . . . .(|. . . / \n. . . . |. . . /. . . . /. . . ./ \n. . . . |. . ..| . . . ./. . ./. . ... . . 𓁉𓀏𓀃𓁏`"
     chat = await event.get_input_chat()
-    async for x in borg.iter_participants(chat, filter=ChannelParticipantsAdmins):
+    async for x in event.client.iter_participants(chat, filter=ChannelParticipantsAdmins):
         mentions += f""
     reply_message = None
     if event.reply_to_msg_id:
@@ -153,16 +129,13 @@ async def _(event):
         await reply_message.reply(mentions)
     else:
         await eor(event, mentions)
-   
 
-@bot.on(hell_cmd(pattern="ohh$", outgoing=True))
-@bot.on(sudo_cmd(pattern="ohh$", allow_sudo=True))
+
+@hell_cmd(pattern="ohh$")
 async def _(event):
-    if event.fwd_from:
-        return
     mentions = "`´´´´´████████´´\n´´`´███▒▒▒▒███´´´´´\n´´´███▒●▒▒●▒██´´´\n´´´███▒▒👄▒▒██´´\n´´█████▒▒████´´´´´\n´█████▒▒▒▒███´´\n█████▒▒▒▒▒▒███´´´´\n´´▓▓▓▓▓▓▓▓▓▓▓▓▓▒´´\n´´▒▒▒▒▓▓▓▓▓▓▓▓▓▒´´´´´\n´.▒▒▒´´▓▓▓▓▓▓▓▓▒´´´´´\n´.▒▒´´´´▓▓▓▓▓▓▓▒\n..▒▒.´´´´▓▓▓▓▓▓▓▒\n´▒▒▒▒▒▒▒▒▒▒▒▒\n´´´´´´´´´███████´´´´\n´´´´´´´´████████´´´´´´\n´´´´´´´█████████´´´´´\n´´´´´´██████████´´´\n´´´´´´██████████´´\n´´´´´´´█████████´\n´´´´´´´█████████´\n´´´´´´´´████████´´´\n´´´´´´´´´´´▒▒▒▒▒´´´\n´´´´´´´´´´▒▒▒▒▒´´´\n´´´´´´´´´´▒▒▒▒▒´´´\n´´´´´´´´´´▒▒´▒▒´´´\n´´´´´´´´´▒▒´´▒▒´´´\n´´´´´´´´´´▒▒´´´▒▒´´´\n´´´´´´´´´▒▒´´´▒▒´´´\n´´´´´´´´▒▒´´´´´▒▒´´´\n´´´´´´´´▒▒´´´´´´▒▒´´´\n´´´´´´´´███´´´´███´´´\n´´´´´´´´████´´███´´´\n´´´´´´´´█´´███´´████´´´`"
     chat = await event.get_input_chat()
-    async for x in borg.iter_participants(chat, filter=ChannelParticipantsAdmins):
+    async for x in event.client.iter_participants(chat, filter=ChannelParticipantsAdmins):
         mentions += f""
     reply_message = None
     if event.reply_to_msg_id:
@@ -170,13 +143,10 @@ async def _(event):
         await reply_message.reply(mentions)
     else:
         await eor(event, mentions)
-  
 
-@bot.on(hell_cmd(pattern="lovestory$", outgoing=True))
-@bot.on(sudo_cmd(pattern="lovestory$", allow_sudo=True))
+
+@hell_cmd(pattern="lovestory$")
 async def _(event):
-    if event.fwd_from:
-        return
     animation_interval = 3
     animation_ttl = range(0, 103)
     await eor(event, "Starting asf")
@@ -202,12 +172,8 @@ async def _(event):
         await event.edit(animation_chars[i % 103])
 
 
-@bot.on(hell_cmd(pattern="bf$", outgoing=True))
-@bot.on(sudo_cmd(pattern="bf$", allow_sudo=True))
+@hell_cmd(pattern="bf$")
 async def pressf(f):
-    if f.fwd_from:
-        return
-    """Pays respects"""
     args = f.text.split()
     arg = (f.text.split(" ", 1))[1] if len(args) > 1 else None
     if len(args) == 1:
@@ -228,20 +194,14 @@ async def pressf(f):
         await eor(f"`" + out + "`")
 
 
-@bot.on(hell_cmd(pattern="session$", outgoing=True))
-@bot.on(sudo_cmd(pattern="session$", allow_sudo=True))
+@hell_cmd(pattern="session$")
 async def _(event):
-    if event.fwd_from:
-        return
     mentions = "**telethon.errors.rpcerrorlist.AuthKeyDuplicatedError: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by GetMessagesRequest)**"
     await eor(event, mentions)
 
 
-@bot.on(hell_cmd(pattern="ftext ?(.*)"))
-@bot.on(sudo_cmd(pattern="ftext ?(.*)", allow_sudo=True))
+@hell_cmd(pattern="ftext ?(.*)")
 async def payf(event):
-    if event.fwd_from:
-        return
     input_str = event.pattern_match.group(1)
     if input_str:
         paytext = input_str
@@ -262,32 +222,23 @@ async def payf(event):
     else:
         pay = "╭━━━╮\n┃╭━━╯\n┃╰━━╮\n┃╭━━╯\n┃┃\n╰╯\n"
 
-    await event.edit(pay)
+    await eor(event, pay)
 
 
-@bot.on(hell_cmd(pattern="cat$"))
-@bot.on(sudo_cmd(pattern="cat$", allow_sudo=True))
+@hell_cmd(pattern="cat$")
 async def hmm(hell):
-    if hell.fwd_from:
-        return
     reactcat = nekos.textcat()
     await eor(hell, reactcat)
 
 
-@bot.on(hell_cmd(pattern="why$"))
-@bot.on(sudo_cmd(pattern="why$", allow_sudo=True))
+@hell_cmd(pattern="why$")
 async def hmm(hell):
-    if hell.fwd_from:
-        return
     whyhell = nekos.why()
     await eor(hell, whyhell)
 
 
-@bot.on(hell_cmd(pattern="fact$"))
-@bot.on(sudo_cmd(pattern="fact$", allow_sudo=True))
+@hell_cmd(pattern="fact$")
 async def hmm(hell):
-    if hell.fwd_from:
-        return
     facthell = nekos.fact()
     await eor(hell, facthell)
 

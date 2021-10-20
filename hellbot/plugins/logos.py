@@ -1,3 +1,4 @@
+import datetime
 import os
 import random
 import time
@@ -10,20 +11,29 @@ from . import *
 
 PICS_STR = []
 
-@bot.on(hell_cmd(pattern=r"logo ?(.*)"))
-@bot.on(sudo_cmd(pattern=r"logo ?(.*)", allow_sudo=True))
-async def lg1(hellevent):
-    event = await eor(hellevent, "`Processing.....`")
-    fnt = await get_font_file(hellevent.client, "@HELL_FRONTS")
-    if hellevent.reply_to_msg_id:
-        rply = await hellevent.get_reply_message()
-        logo_ = await rply.download_media()
+@hell_cmd(pattern="logo ?(.*)")
+async def _(event):
+    hell = await eor(event, "`Processing.....`")
+    text = event.text[6:]
+    if text == "":
+        await eod(hell, "**Give some text to make a logo !!**")
+        return
+    cid = await client_id(event)
+    hell_mention = cid[2]
+    start = datetime.datetime.now()
+    fnt = await get_font_file(event.client, "@HELL_FRONTS")
+    if event.reply_to_msg_id:
+        rply = await event.get_reply_message()
+        try:
+            logo_ = await rply.download_media()
+        except:
+            pass
     else:
-        async for i in bot.iter_messages("@HELLBOT_LOGOS", filter=InputMessagesFilterPhotos):
-    	    PICS_STR.append(i)
+        await hell.edit("Picked a Logo BG...")
+        async for i in event.client.iter_messages("@HELLBOT_LOGOS", filter=InputMessagesFilterPhotos):
+            PICS_STR.append(i)
         pic = random.choice(PICS_STR)
         logo_ = await pic.download_media()
-    text = hellevent.pattern_match.group(1)
     if len(text) <= 8:
         font_size_ = 150
         strik = 10
@@ -33,9 +43,7 @@ async def lg1(hellevent):
     else:
         font_size_ = 130
         strik = 20
-    if not text:
-        await eod(event, "**Give some text to make a logo !!**")
-        return
+    await hell.edit("Making Logo...")
     img = Image.open(logo_)
     draw = ImageDraw.Draw(img)
     font = ImageFont.truetype(fnt, font_size_)
@@ -55,19 +63,21 @@ async def lg1(hellevent):
         (w_, h_), text, font=font, fill="white", stroke_width=strik, stroke_fill="black"
     )
     file_name = "HellBot.png"
+    end = datetime.datetime.now()
+    ms = (end - start).seconds
     img.save(file_name, "png")
-    await bot.send_file(
-        hellevent.chat_id,
+    await event.client.send_file(
+        event.chat_id,
         file_name,
-        caption=f"**Made By :** {hell_mention}",
+        caption=f"**Made By :** {hell_mention} \n**Time Taken :** `{ms} seconds`",
     )
-    await event.delete()
+    await hell.delete()
     try:
         os.remove(file_name)
         os.remove(fnt)
         os.remove(logo_)
     except:
-    	pass
+        pass
 
 
 async def get_font_file(client, channel_id):

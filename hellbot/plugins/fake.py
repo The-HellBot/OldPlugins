@@ -7,51 +7,46 @@ from telethon.tl.types import ChannelParticipantsAdmins
 
 from . import *
 
-@bot.on(hell_cmd(pattern="picgen"))
-@bot.on(sudo_cmd(pattern="picgen", allow_sudo=True))
+@hell_cmd(pattern="fpic")
 async def _(event):
-    if event.fwd_from:
-        return
+    cid = await client_id(event)
+    hell_mention = cid[2]
     url = "https://thispersondoesnotexist.com/image"
     response = requests.get(url)
-    await eor(event, "`Creating a fake face...`")
+    hell = await eor(event, "`Creating a fake face...`")
     if response.status_code == 200:
       with open("HELLBOT.jpg", 'wb') as f:
         f.write(response.content)
-    
+    else:
+        return await eod(hell, "Failed to create Fake Face! Try again later.")
     captin = f"Fake Image By {hell_mention}"
     fole = "HELLBOT.jpg"
-    await bot.send_file(event.chat_id, fole, caption=captin)
-    await event.delete()
+    await event.client.send_file(event.chat_id, fole, caption=captin, force_document=False)
+    await hell.delete()
     os.system("rm /root/hellbot/HELLBOT.jpg ")
 
 
-@bot.on(hell_cmd(pattern="fake ?(.*)"))
-@bot.on(sudo_cmd(pattern="fake ?(.*)", allow_sudo=True))
+@hell_cmd(pattern="fake ?(.*)")
 async def _(event):
-    if event.fwd_from:
-        return
     await event.delete()
     input_str = event.pattern_match.group(1)
     action = "typing"
     if input_str:
         action = input_str
-    async with borg.action(event.chat_id, action):
-        await asyncio.sleep(86400)  # type for 10 seconds
+    async with event.client.action(event.chat_id, action):
+        await asyncio.sleep(86400)
 
-@bot.on(hell_cmd(pattern="gbam$"))
-@bot.on(sudo_cmd(pattern="gbam$", allow_sudo=True))
+
+@hell_cmd(pattern="gbam$")
 async def gbun(event):
-    if event.fwd_from:
-        return
     gbunVar = event.text
     gbunVar = gbunVar[6:]
     mentions = "`Warning!! User 𝙂𝘽𝘼𝙉𝙉𝙀𝘿 By Admin...\n`"
     no_reason = "**Reason:**  __Madarchod Saala__"
-    await event.edit("** Nikal Lawde❗️⚜️☠️**")
+    hell = await eor(event, "** Nikal Lawde❗️⚜️☠️**")
     asyncio.sleep(3.5)
     chat = await event.get_input_chat()
-    async for x in borg.iter_participants(chat, filter=ChannelParticipantsAdmins):
+    async for x in event.client.iter_participants(chat, filter=ChannelParticipantsAdmins):
         mentions += f""
     reply_message = None
     if event.reply_to_msg_id:
@@ -60,11 +55,8 @@ async def gbun(event):
         firstname = replied_user.user.first_name
         usname = replied_user.user.username
         idd = reply_message.sender_id
-        # make meself invulnerable cuz why not xD
         if idd == 1432756163:
-            await reply_message.reply(
-                "`Wait a second, This is my master!`\n**How dare you threaten to ban my master nigger!**\n\n__Your account has been hacked! Pay 69$ to my master__ [HellBoy](https://t.me/ForGo10God) __to release your account__😏"
-            )
+            await hell.edit("`Wait a second, This is my master!`\n**How dare you threaten to ban my master nigger!**\n\n__Your account has been hacked! Pay 69$ to my master__ [HellBoy](https://t.me/ForGo10God) __to release your account__😏", link_preview=False)
         else:
             jnl = (
                 "`Warning!! `"
@@ -83,11 +75,10 @@ async def gbun(event):
                 jnl += gbunr
             else:
                 jnl += no_reason
-            await reply_message.reply(jnl)
+            await hell.edit(jnl)
     else:
         mention = "`Warning!! User 𝙂𝘽𝘼𝙉𝙉𝙀𝘿 By Admin...\nReason: Not Given `"
-        await event.reply(mention)
-    await event.delete()
+        await hell.edit(mention)
 
 
 CmdHelp("fake").add_command(

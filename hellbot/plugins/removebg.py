@@ -1,65 +1,42 @@
 import os
 import requests
-import PIL.ImageOps
-from PIL import Image, ImageDraw, ImageFont
+
+from PIL import Image
 
 from . import *
 
-TEMP_DIR = os.environ.get("TEMP_DIR", "./temp/")
 
-def convert_toimage(image, filename=None):
-    filename = filename or os.path.join("./temp/", "temp.jpg")
-    img = Image.open(image)
-    if img.mode != "RGB":
-        img = img.convert("RGB")
-    img.save(filename, "jpeg")
-    os.remove(image)
-    return filename
-
-
-def convert_tosticker(response, filename=None):
-    filename = filename or os.path.join("./temp/", "temp.webp")
-    image = Image.open(response)
-    if image.mode != "RGB":
-        image.convert("RGB")
-    image.save(filename, "webp")
-    os.remove(response)
-    return filename
-
-
-@bot.on(hell_cmd(pattern="(rmbg|srmbg) ?(.*)"))
-@bot.on(sudo_cmd(pattern="(rmbg|srmbg) ?(.*)", allow_sudo=True))
-async def remove_background(event):
+@hell_cmd(pattern="rmbg ?(.*)")
+async def _(event):
     if Config.REMOVE_BG_API is None:
-        return await eod(
-            event,
-            "You need to set  `REMOVE_BG_API`  for this module to work..."
-        )
-    cmd = event.pattern_match.group(1)
-    input_str = event.pattern_match.group(2)
-    message_id = await reply_id(event)
-    if event.reply_to_msg_id and not input_str:
+        return await eod(event, "You need to set  `REMOVE_BG_API`  for this module to work...")
+    txt = event.text[6:]
+    try:
+        input_str = txt.replace("-s", "")
+    except:
+        input_str = txt
+    flag = event.text[-2:]
+    cid = await client_id(event)
+    hell_memtion = cid[2]
+    if event.reply_to_msg_id and input_str == "":
         reply_message = await event.get_reply_message()
-        hellevent = await edit_or_reply(event, "`Analysing...`")
-        file_name = os.path.join(TEMP_DIR, "rmbg.png")
+        hell = await eor(event, "`Analysing...`")
+        file_name = "./remove_bg/rmbg.png"
         try:
             await event.client.download_media(reply_message, file_name)
         except Exception as e:
-            await edit_or_reply(hellevent, f"`{str(e)}`")
+            await eod(hell, f"**ERROR !!** \n\n`{str(e)}`")
             return
         else:
-            await hellevent.edit("`Removing Background of this media`")
-            file_name = convert_toimage(file_name)
+            await hell.edit("`Removing background of this media`")
+            file_name = toimage(file_name)
             response = ReTrieveFile(file_name)
             os.remove(file_name)
     elif input_str:
-        hellevent = await edit_or_reply(event, "`Removing Background of this media`")
+        hell = await eor(event, "`Removing Background of this media`")
         response = ReTrieveURL(input_str)
     else:
-        await edit_or_reply(
-            event,
-            "`Reply to any image or sticker with rmbg/srmbg to get background less png file or webp format or provide image link along with command`"
-        )
+        await eod(event, f"Reply to a image/sticker with `{hl}rmbg` or give image link to remove background.")
         return
     contentType = response.headers.get("content-type")
     remove_bg_image = "HellBot.png"
@@ -67,28 +44,33 @@ async def remove_background(event):
         with open("HellBot.png", "wb") as removed_bg_file:
             removed_bg_file.write(response.content)
     else:
-        await edit_or_reply(hellevent, f"`{response.content.decode('UTF-8')}`")
+        await eod(hell, f"`{response.content.decode('UTF-8')}`")
         return
-    if cmd == "srmbg":
-        file = convert_tosticker(remove_bg_image, filename="HellBot.webp")
+    if flag and flag == "-s":
+        file = tosticker(remove_bg_image, filename="HellBot.webp")
         await event.client.send_file(
             event.chat_id,
             file,
-            reply_to=message_id,
+            reply_to=reply_message,
         )
     else:
         file = remove_bg_image
         await event.client.send_file(
             event.chat_id,
             file,
-            force_document=True,
-            reply_to=message_id,
+            force_document=False,
+            reply_to=reply_message,
         )
-    await hellevent.delete()
+    file = remove_bg_image
+    await event.client.send_file(
+        event.chat_id,
+        file,
+        caption=f"**Background removed by** {hell_memtion}",
+        force_document=True,
+        )
+    await hell.delete()
 
 
-# this method will call the API, and return in the appropriate format
-# with the name provided.
 def ReTrieveFile(input_file_name):
     headers = {
         "X-API-Key": Config.REMOVE_BG_API,
@@ -118,12 +100,29 @@ def ReTrieveURL(input_url):
         stream=True,
     )
 
+def tosticker(response, filename=None):
+    filename = filename or os.path.join("./temp/", "temp.webp")
+    image = Image.open(response)
+    if image.mode != "RGB":
+        image.convert("RGB")
+    image.save(filename, "webp")
+    os.remove(response)
+    return filename
+
+def toimage(image, filename=None):
+    filename = filename or os.path.join("./temp/", "temp.jpg")
+    img = Image.open(image)
+    if img.mode != "RGB":
+        img = img.convert("RGB")
+    img.save(filename, "jpeg")
+    os.remove(image)
+    return filename
+
+
 CmdHelp("removebg").add_command(
-  "rmbg", "<reply to image/stcr> or <link>", "`Removes Background of replied image or sticker and sends output as a file. Need` REMOVE_BG_API `to be set in Heroku Config Vars."
-).add_command(
-  "srmbg", "<reply to img/stcr> or <link>", f"Same as {hl}rmbg but sends output as a sticker. Need REMOVE_BG_API to be set in Heroku Config Vars."
+  "rmbg", "<reply to image/stcr> or <link> <flag>", "`Removes Background of replied image or sticker. Need` REMOVE_BG_API `to be set in Heroku Config Vars.", "rmbg <reply to img> -s"
 ).add_info(
-  "Remove Background."
+  "Remove Background. \n**🚩 Flags :** -s = output as sticker"
 ).add_warning(
   "✅ Harmless Module."
 ).add()

@@ -1,7 +1,8 @@
 import asyncio
-from datetime import datetime
 import io
 import os
+
+from datetime import datetime
 from pathlib import Path
 
 from telethon import events, functions, types
@@ -10,14 +11,13 @@ from telethon.tl.types import InputMessagesFilterDocument
 from . import *
 
 
-@bot.on(hell_cmd(pattern=r"cmds"))
-@bot.on(sudo_cmd(pattern=r"cmds", allow_sudo=True))
+@hell_cmd(pattern="cmds$")
 async def kk(event):
-    if event.fwd_from:
-        return
     reply_to_id = event.message.id
     if event.reply_to_msg_id:
         reply_to_id = event.reply_to_msg_id
+    cids = await client_id(event)
+    ForGo10God, HELL_USER, hell_mention = cids[0], cids[1], cids[2]
     cmd = "ls hellbot/plugins"
     thumb = hell_logo
     process = await asyncio.create_subprocess_shell(
@@ -31,7 +31,7 @@ async def kk(event):
     if len(OUTPUT) > 69:
         with io.BytesIO(str.encode(OUTPUT)) as out_file:
             out_file.name = "cmd_list.text"
-            hell_file = await bot.send_file(
+            hell_file = await event.client.send_file(
                 event.chat_id,
                 out_file,
                 force_document=True,
@@ -43,11 +43,10 @@ async def kk(event):
             await event.delete()
 
 
-@bot.on(hell_cmd(pattern=r"send (?P<shortname>\w+)", outgoing=True))
-@bot.on(sudo_cmd(pattern=r"send (?P<shortname>\w+)", allow_sudo=True))
+@hell_cmd(pattern=r"send (?P<shortname>\w+)")
 async def send(event):
-    if event.fwd_from:
-        return
+    cids = await client_id(event)
+    ForGo10God, HELL_USER, hell_mention = cids[0], cids[1], cids[2]
     message_id = event.message.id
     thumb = hell_logo
     input_str = event.pattern_match.group(1)
@@ -68,11 +67,10 @@ async def send(event):
         await eod(event, "File not found..... Kek")
 
 
-@bot.on(hell_cmd(pattern="install ?(.*)"))
-@bot.on(sudo_cmd(pattern="install ?(.*)", allow_sudo=True))
+@hell_cmd(pattern="install ?(.*)")
 async def install(event):
-    if event.fwd_from:
-        return
+    cids = await client_id(event)
+    ForGo10God, HELL_USER, hell_mention = cids[0], cids[1], cids[2]
     b = 1
     owo = event.text[9:]
     hell = await eor(event, "__Installing.__")
@@ -119,8 +117,7 @@ async def install(event):
             return os.remove(downloaded_file_name)
 
 
-@bot.on(hell_cmd(pattern=r"uninstall ?(.*)"))
-@bot.on(sudo_cmd(pattern=r"uninstall ?(.*)", allow_sudo=True))
+@hell_cmd(pattern=r"uninstall ?(.*)")
 async def uninstall(event):
     shortname = event.text[11:]
     if ".py" in shortname:
@@ -135,11 +132,8 @@ async def uninstall(event):
         await eod(hell, f"**Error !!** \n\n`{dir_path}` : __{e.strerror}__")
 
 
-@bot.on(hell_cmd(pattern=r"unload (?P<shortname>\w+)$"))
-@bot.on(sudo_cmd(pattern=r"unload (?P<shortname>\w+)$", allow_sudo=True))
+@hell_cmd(pattern=r"unload (?P<shortname>\w+)$")
 async def unload(event):
-    if event.fwd_from:
-        return
     shortname = event.pattern_match["shortname"]
     try:
         remove_plugin(shortname)
@@ -152,11 +146,8 @@ async def unload(event):
         )
 
 
-@bot.on(hell_cmd(pattern=r"load (?P<shortname>\w+)$"))
-@bot.on(sudo_cmd(pattern=r"load (?P<shortname>\w+)$", allow_sudo=True))
+@hell_cmd(pattern=r"load (?P<shortname>\w+)$")
 async def load(event):
-    if event.fwd_from:
-        return
     shortname = event.pattern_match["shortname"]
     try:
         try:
@@ -185,5 +176,3 @@ CmdHelp("core").add_command(
 ).add_warning(
   "❌ Install External Plugin On Your Own Risk. We won't help if anything goes wrong after installing a plugin."
 ).add()
-
-# hellbot

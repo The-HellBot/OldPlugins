@@ -18,9 +18,10 @@ from telethon.errors.rpcerrorlist import YouBlockedUserError
 from . import *
 
 
-@bot.on(hell_cmd(pattern="song ?(.*)"))
-@bot.on(sudo_cmd(pattern="song ?(.*)", allow_sudo=True))
+@hell_cmd(pattern="song ?(.*)")
 async def _(event):
+    xyz = await client_id(event)
+    ForGo10God, hell_mention = xyz[0], xyz[2]
     query = event.text[6:]
     max_results = 1
     if query == "":
@@ -77,9 +78,10 @@ async def _(event):
     os.remove(f"{hell_data['id']}.mp3")
 
 
-@bot.on(hell_cmd(pattern="vsong ?(.*)"))
-@bot.on(sudo_cmd(pattern="vsong ?(.*)", allow_sudo=True))
+@hell_cmd(pattern="vsong ?(.*)")
 async def _(event):
+    xyz = await client_id(event)
+    ForGo10God, hell_mention = xyz[0], xyz[2]
     query = event.text[7:]
     max_results = 1
     if query == "":
@@ -129,8 +131,7 @@ async def _(event):
     os.remove(f"{hell_data['id']}.mp4")
 
 
-@bot.on(hell_cmd(pattern="lyrics(?: |$)(.*)", outgoing=True))
-@bot.on(sudo_cmd(pattern="lyrics(?: |$)(.*)", allow_sudo=True))
+@hell_cmd(pattern="lyrics(?: |$)(.*)")
 async def nope(kraken):
     hell = kraken.text[8:]
     uwu = await eor(kraken, f"Searching lyrics for  `{hell}` ...")
@@ -140,20 +141,24 @@ async def nope(kraken):
         else:
             await eod(uwu, "Give song name to get lyrics...")
             return
-    troll = await bot.inline_query("iLyricsBot", f"{(deEmojify(hell))}")
-    owo = await troll[0].click(Config.LOGGER_ID)
-    await asyncio.sleep(3)
-    owo_id = owo.id
-    lyri = await bot.get_messages(entity=Config.LOGGER_ID, ids=owo_id)
-    await bot.send_message(kraken.chat_id, lyri)
-    await uwu.delete()
-    await owo.delete()
+    try:
+        troll = await event.client.inline_query("iLyricsBot", f"{(deEmojify(hell))}")
+        owo = await troll[0].click(Config.LOGGER_ID)
+        await asyncio.sleep(3)
+        owo_id = owo.id
+        lyri = await event.client.get_messages(entity=Config.LOGGER_ID, ids=owo_id)
+        await event.client.send_message(kraken.chat_id, lyri)
+        await uwu.delete()
+        await owo.delete()
+    except Exception as e:
+        await uwu.edir(f"**ERROR !!** \n\n`{str(e)}`")
 
 
-@bot.on(hell_cmd(pattern="lsong ?(.*)"))
-@bot.on(sudo_cmd(pattern="lsong ?(.*)", allow_sudo=True))
+@hell_cmd(pattern="lsong ?(.*)")
 async def _(event):
     hell_ = event.text[6:]
+    xyz = await client_id(event)
+    ForGo10God, hell_mention = xyz[0], xyz[2]
     if hell_ == "":
         return await eor(event, "Give a song name to search")
     hell = await eor(event, f"Searching song `{hell_}`")
@@ -161,7 +166,7 @@ async def _(event):
     if somg:
         fak = await somg[0].click(Config.LOGGER_ID)
         if fak:
-            await bot.send_file(
+            await event.client.send_file(
                 event.chat_id,
                 file=fak,
                 caption=f"**Song by :** {hell_mention}",
@@ -172,7 +177,7 @@ async def _(event):
         await hell.edit("**ERROR 404 :** __NOT FOUND__")
 
 
-@bot.on(hell_cmd(pattern="wsong ?(.*)"))
+@hell_cmd(pattern="wsong ?(.*)")
 async def _(event):
     if not event.reply_to_msg_id:
         return await eor(event, "Reply to a mp3 file.")
@@ -196,9 +201,37 @@ async def _(event):
             await event.client.send_read_acknowledge(conv.chat_id)
         except YouBlockedUserError:
             return await hell.edit("Please unblock @auddbot and try again")
-    audio = f"**Song Name : **{fifth.text.splitlines()[0]}\n\n**Details : **__{result.text.splitlines()[2]}__"
+    audio = f"**Song Name : **{fifth.text.splitlines()[0]}\n\n**Details : **__{fifth.text.splitlines()[2]}__"
     await hell.edit(audio)
     await event.client.delete_messages(conv.chat_id, [first.id, second.id, third.id, fourth.id, fifth.id])
+
+
+@hell_cmd(pattern="spotify ?(.*)")
+async def _(event):
+    text = event.text[9:]
+    chat = "@spotifysavebot"
+    if text == "":
+        return await eod(event, "Give something to download from Spotify.")
+    hell = await eor(event, f"**Trying to download** `{text}` **from Spotify...**")
+    async with event.client.conversation(chat) as conv:
+        try:
+            first = await conv.send_message("/start")
+            second = await conv.get_response()
+            somg = await event.client.inline_query("spotifysavebot", f"str: {(deEmojify(text))}")
+            if somg:
+                third = await somg[0].click(chat)
+            else:
+                return await eod(hell, "**ERROR !!** __404 : NOT FOUND__")
+            fourth = await conv.get_response()
+            fifth = await conv.get_response()
+            await event.client.send_read_acknowledge(conv.chat_id)
+        except YouBlockedUserError:
+            return await eod(hell, f"Please unblock {chat} to use Spotify module.")
+        except Exception as e:
+            return await eod(hell, f"**ERROR !!** \n\n{e}")
+        await event.client.send_file(event.chat_id, file=fourth, caption="")
+        await hell.delete()
+        await event.client.delete_messages(conv.chat_id, [first.id, second.id, third.id, fourth.id, fifth.id])
 
 
 CmdHelp("songs").add_command(
@@ -211,6 +244,8 @@ CmdHelp("songs").add_command(
   "wsong", "<reply to a song file>", "Searches for the details of replied mp3 song file and uploads it's details."
 ).add_command(
   "lyrics", "<song name>", "Gives the lyrics of that song.."
+).add_command(
+  "spotify", "<song name>", "Downloads the song from Spotify."
 ).add_info(
   "Songs & Lyrics."
 ).add_warning(

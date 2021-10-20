@@ -2,11 +2,8 @@ import pyfiglet
 
 from . import *
 
-@bot.on(hell_cmd(pattern="figlet ?(.*)", outgoing=True))
-@bot.on(sudo_cmd(pattern="figlet ?(.*)", allow_sudo=True))
+@hell_cmd(pattern="figlet ?(.*)")
 async def figlet(event):
-    if event.fwd_from:
-        return
     CMD_FIG = {
         "slant": "slant",
         "3D": "3-d",

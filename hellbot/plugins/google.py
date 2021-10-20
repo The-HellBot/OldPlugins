@@ -1,15 +1,16 @@
 import asyncio
-import os
-from shutil import rmtree
 import datetime
-from wikipedia import summary
-from wikipedia.exceptions import DisambiguationError, PageError
+import os
 import requests
+
 from bs4 import BeautifulSoup
+from geopy.geocoders import Nominatim
 from search_engine_parser import GoogleSearch
 from search_engine_parser.core.exceptions import NoResultsOrTrafficError as GoglError
-from geopy.geocoders import Nominatim
+from shutil import rmtree
 from telethon.tl import types
+from wikipedia import summary
+from wikipedia.exceptions import DisambiguationError, PageError
 
 from . import *
 
@@ -21,8 +22,7 @@ def progress(current, total):
     )
 
 
-@bot.on(hell_cmd(pattern="wiki ?(.*)"))
-@bot.on(sudo_cmd(pattern="wiki ?(.*)", allow_sudo=True))
+@hell_cmd(pattern="wiki ?(.*)")
 async def _(event):
     match = event.text[6:]
     result = None
@@ -58,8 +58,7 @@ async def _(event):
     )
 
 
-@bot.on(hell_cmd(pattern="google (.*)", outgoing=True))
-@bot.on(sudo_cmd(pattern="google (.*)", allow_sudo=True))
+@hell_cmd(pattern="google ?(.*)")
 async def google(event):
     input_str = event.pattern_match.group(1)
     if not input_str:
@@ -75,25 +74,22 @@ async def google(event):
         text = got["titles"][i]
         url = got["links"][i]
         des = got["descriptions"][i]
-        output += f" 👉🏻  [{text}]({url})\n`{des}`\n\n"
-    res = f"**Google Search Query:**\n`{input_str}`\n\n**Results:**\n{output}"
-    see = []
-    for i in range(0, len(res), 4095):
-        see.append(res[i : i + 4095])
-    for j in see:
-        await bot.send_message(event.chat_id, j, link_preview=False)
-    await hell.delete()
-    see.clear()
+        output += f"<a href='{url}'>• {text}</a>\n≈ <code>{des}</code>\n\n"
+    res = f"""<h3><b><i>Google Search Query :</b></i> <u>{input_str}</u></h3>
+
+»» <b>Results :</b>
+{output}"""
+    paste = await telegraph_paste(f"Google Search Query “ {input_str} ”", res)
+    await hell.edit(f"**Google Search For** `{input_str}` \n[📌 See Results Here]({paste})", link_preview=False)
 
 
-@bot.on(hell_cmd(pattern="img (.*)", outgoing=True))
-@bot.on(sudo_cmd(pattern="img (.*)", allow_sudo=True))
+@hell_cmd(pattern="img ?(.*)")
 async def img(event):
     sim = event.pattern_match.group(1)
     if not sim:
         return await eod(event, "`Give something to search...`")
-    hell = await eor(event, f"Searching for  `{sim}`...")
-    if "-" in sim:
+    hell = await eor(event, f"Searching for `{sim}`...")
+    if ";" in sim:
         try:
             lim = int(sim.split(";")[1])
             sim = sim.split(";")[0]
@@ -115,92 +111,69 @@ async def img(event):
     await hell.delete()
 
 
-@bot.on(hell_cmd(pattern="reverse"))
-@bot.on(sudo_cmd(pattern="reverse", allow_sudo=True))
+@hell_cmd(pattern="reverse ?(.*)")
 async def _(event):
-    if event.fwd_from:
-        return
-    start = datetime.datetime.now()
-    BASE_URL = "http://www.google.com"
-    OUTPUT_STR = "Reply to an image to do Google Reverse Search"
-    if event.reply_to_msg_id:
-        hell = await eor(event, "Pre Processing Media")
-        previous_message = await event.get_reply_message()
-        previous_message_text = previous_message.message
-        if previous_message.media:
-            downloaded_file_name = await bot.download_media(
-                previous_message, Config.TMP_DOWNLOAD_DIRECTORY
-            )
-            SEARCH_URL = "{}/searchbyimage/upload".format(BASE_URL)
-            multipart = {
-                "encoded_image": (
-                    downloaded_file_name,
-                    open(downloaded_file_name, "rb"),
-                ),
-                "image_content": "",
-            }
-            # https://stackoverflow.com/a/28792943/4723940
-            google_rs_response = requests.post(
-                SEARCH_URL, files=multipart, allow_redirects=False
-            )
-            the_location = google_rs_response.headers.get("Location")
-            os.remove(downloaded_file_name)
-        else:
-            previous_message_text = previous_message.message
-            SEARCH_URL = "{}/searchbyimage?image_url={}"
-            request_url = SEARCH_URL.format(BASE_URL, previous_message_text)
-            google_rs_response = requests.get(request_url, allow_redirects=False)
-            the_location = google_rs_response.headers.get("Location")
-        await hell.edit("Found Google Result. Processing results...")
-        headers = {
-            "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:58.0) Gecko/20100101 Firefox/58.0"
-        }
-        response = requests.get(the_location, headers=headers)
-        soup = BeautifulSoup(response.text, "html.parser")
-        # document.getElementsByClassName("r5a77d"): PRS
-        prs_div = soup.find_all("div", {"class": "r5a77d"})[0]
-        prs_anchor_element = prs_div.find("a")
-        prs_url = BASE_URL + prs_anchor_element.get("href")
-        prs_text = prs_anchor_element.text
-        # document.getElementById("jHnbRc")
-        img_size_div = soup.find(id="jHnbRc")
-        img_size = img_size_div.find_all("div")
-        end = datetime.datetime.now()
-        ms = (end - start).seconds
-        OUTPUT_STR = """Possible Related Search : <a href="{prs_url}">{prs_text}</a>
-
-More Info: Open this <a href="{the_location}">Link</a> in {ms} seconds""".format(
-            **locals()
-        )
-    await hell.edit(OUTPUT_STR, parse_mode="HTML", link_preview=False)
+    reply = await event.get_reply_message()
+    if not reply:
+        return await eod(event, "`Reply to an Image or stciker...`")
+    hell = await eor(event, "`Processing...`")
+    dl = await reply.download_media()
+    file = {"encoded_image": (dl, open(dl, "rb"))}
+    grs = requests.post(
+        "https://www.google.com/searchbyimage/upload",
+        files=file,
+        allow_redirects=False,
+    )
+    loc = grs.headers.get("Location")
+    response = requests.get(
+        loc,
+        headers={
+            "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:58.0) Gecko/20100101 Firefox/58.0",
+        },
+    )
+    xx = BeautifulSoup(response.text, "html.parser")
+    div = xx.find_all("div", {"class": "r5a77d"})[0]
+    alls = div.find("a")
+    link = alls["href"]
+    text = alls.text
+    await hell.edit(f"**Possible Results :** [{text}](google.com{link})")
+    img = googleimagesdownload()
+    args = {
+        "keywords": text,
+        "limit": 3,
+        "format": "jpg",
+        "output_directory": "./DOWNLOADS/",
+    }
+    final = img.download(args)
+    ok = final[0][text]
+    await event.client.send_file(
+        event.chat_id,
+        ok,
+        album=True,
+        caption=f"Similar Images Related to {text}",
+    )
+    rmtree(f"./DOWNLOADS/{text}/")
+    os.remove(dl)
 
 
-@bot.on(hell_cmd(pattern="gps ?(.*)"))
-@bot.on(sudo_cmd(pattern="gps ?(.*)", allow_sudo=True))
+@hell_cmd(pattern="gps ?(.*)")
 async def gps(event):
-    if event.fwd_from:
-        return
     reply_to_id = event.message
     if event.reply_to_msg_id:
         reply_to_id = await event.get_reply_message()
     input_str = event.pattern_match.group(1)
     if not input_str:
         return await eod(event, "What should i find? Give me location.🤨")
-        
-    await edit_or_reply(event, "Finding😁")
-
+    hell = await eor(event, "Finding😁")
     geolocator = Nominatim(user_agent="hellbot")
     geoloc = geolocator.geocode(input_str)
-
     if geoloc:
         lon = geoloc.longitude
         lat = geoloc.latitude
-        await reply_to_id.reply(
-            input_str, file=types.InputMediaGeoPoint(types.InputGeoPoint(lat, lon))
-        )
-        await event.delete()
+        await reply_to_id.reply(input_str, file=types.InputMediaGeoPoint(types.InputGeoPoint(lat, lon)))
+        await hell.delete()
     else:
-        await eod(event, "I coudn't find it😫")
+        await eod(hell, "I coudn't find it😫")
 
 
 CmdHelp("google").add_command(

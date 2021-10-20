@@ -1,21 +1,17 @@
 import asyncio
-import os
-import subprocess
 import datetime
 import emoji
+import os
+import subprocess
+
 from googletrans import Translator
 from gtts import gTTS
 
 from . import *
 
 
-@bot.on(hell_cmd(pattern="trt ?(.*)"))
-@bot.on(sudo_cmd(pattern="trt ?(.*)", allow_sudo=True))
+@hell_cmd(pattern="trt ?(.*)")
 async def _(event):
-    if event.fwd_from:
-        return
-    if "trim" in event.raw_text:
-        return
     input_str = event.pattern_match.group(1)
     if event.reply_to_msg_id:
         previous_message = await event.get_reply_message()
@@ -24,11 +20,7 @@ async def _(event):
     elif "-" in input_str:
         lan, text = input_str.split("-")
     else:
-        await eod(
-            event,
-            f"`{hl}trt LanguageCode - message`  or  `{hl}trt LanguageCode as reply to a message.`\n\nTry `{hl}trc` to get all language codes",
-            7,
-        )
+        await eod(event, f"`{hl}trt LanguageCode - message`  or  `{hl}trt LanguageCode as reply to a message.`\n\nTry `{hl}trc` to get all language codes")
         return
     text = emoji.demojize(text.strip())
     lan = lan.strip()
@@ -36,27 +28,19 @@ async def _(event):
     try:
         translated = translator.translate(text, dest=lan)
         after_tr_text = translated.text
-        output_str = """**Translated**\nFrom {} to {}
-{}""".format(
-            translated.src, lan, after_tr_text
-        )
-        await edit_or_reply(event, output_str)
+        output_str = "**Translated From** __{}__ **to** __{}__\n\n`{}`".format(translated.src, lan, after_tr_text)
+        await eor(event, output_str)
     except Exception as exc:
-        await edit_or_reply(event, str(exc))
+        await eor(event, str(exc))
 
-@bot.on(hell_cmd(pattern=r"trc", outgoing=True))
-@bot.on(sudo_cmd(pattern=r"trc", allow_sudo=True))
+@hell_cmd(pattern=r"trc$")
 async def _(hell):
-    if hell.fwd_from:
-        return
-    await edit_or_reply(hell, "**All The Language Codes Can Be Found** \n ⚡ [Here](https://telegra.ph/SfMæisér--𐌷𐌴ࠋࠋ𐌱𐍈𐌸-𐌾𐌰𐍀𐌾-06-04) ⚡", link_preview=False)
+    await eor(hell, "**All The Language Codes Can Be Found** ⚡ [Here](https://telegra.ph/SfMæisér--𐌷𐌴ࠋࠋ𐌱𐍈𐌸-𐌾𐌰𐍀𐌾-06-04) ⚡", link_preview=False)
 
 
-@bot.on(hell_cmd(pattern="voice (.*)"))
-@bot.on(sudo_cmd(pattern="voice (.*)", allow_sudo=True))
+@hell_cmd(pattern="voice ?(.*)")
 async def _(event):
-    if event.fwd_from:
-        return
+    hell = await eor(event, "Preparing Voice....")
     input_str = event.pattern_match.group(1)
     start = datetime.datetime.now()
     if event.reply_to_msg_id:
@@ -66,7 +50,7 @@ async def _(event):
     elif "-" in input_str:
         lan, text = input_str.split("-")
     else:
-        await eod(event, "Invalid Syntax. Module stopping.")
+        await eod(hell, f"Invalid Syntax. Module stopping. Check out `{hl}plinfo google_asst` for help.")
         return
     text = text.strip()
     lan = lan.strip()
@@ -95,26 +79,25 @@ async def _(event):
                 command_to_execute, stderr=subprocess.STDOUT
             )
         except (subprocess.CalledProcessError, NameError, FileNotFoundError) as exc:
-            await event.edit(str(exc))
-            # continue sending required_file_name
+            await hell.edit(str(exc))
         else:
             os.remove(required_file_name)
             required_file_name = required_file_name + ".opus"
         end = datetime.datetime.now()
         ms = (end - start).seconds
-        await borg.send_file(
+        await event.client.send_file(
             event.chat_id,
             required_file_name,
+            caption=f"**• Voiced :** `{text[0:97]}....` \n**• Language :** `{lan}` \n**• Time Taken :** `{ms} seconds`",
             reply_to=event.message.reply_to_msg_id,
             allow_cache=False,
             voice_note=True,
         )
         os.remove(required_file_name)
-        await eor(event, "Processed {} ({}) in {} seconds!".format(text[0:97], lan, ms))
-        await asyncio.sleep(5)
-        await event.delete()
+        await hell.delete()
     except Exception as e:
-        await eod(event, str(e), 10)
+        await eod(hell, str(e))
+
 
 CmdHelp("google_asst").add_command(
   "voice", "<reply to a msg> <lang code>", "Sends the replied msg content in audio format."

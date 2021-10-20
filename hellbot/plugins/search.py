@@ -3,11 +3,8 @@ import requests
 from . import *
 
 
-@bot.on(hell_cmd(pattern="ytube (.*)", outgoing=True))
-@bot.on(sudo_cmd(pattern="ytube (.*)", allow_sudo=True))
+@hell_cmd(pattern="ytube ?(.*)")
 async def _(event):
-    if event.fwd_from:
-        return
     input_str = event.pattern_match.group(1)
     sample_url = (
         "https://da.gd/s?url=https://www.youtube.com/results?search_query={}".format(
@@ -16,19 +13,15 @@ async def _(event):
     )
     response_api = requests.get(sample_url).text
     if response_api:
-        await edit_or_reply(event, "Let me **UThoob** that for you:\n👉 [{}]({})\n`Thank me later 😉` ".format(
+        await eor(event, "Let me **UThoob** that for you:\n👉 [{}]({})\n`Thank me later 😉` ".format(
                 input_str, response_api.rstrip()
             )
         )
     else:
         await eod(event, "Something went wrong. Please try again later.")
 
-
-@bot.on(hell_cmd(pattern="ddg (.*)", outgoing=True))
-@bot.on(sudo_cmd(pattern="ddg (.*)", allow_sudo=True))
+@hell_cmd(pattern="ddg ?(.*)")
 async def _(event):
-    if event.fwd_from:
-        return
     input_str = event.pattern_match.group(1)
     sample_url = (
         "https://da.gd/s?url=https://duckduckgo.com/?q={}&t=h_&ia=about".format(
@@ -37,35 +30,29 @@ async def _(event):
     )
     response_api = requests.get(sample_url).text
     if response_api:
-        await edit_or_reply(event, "Let me **duckduckgo** that for you:\n👉 [{}]({})\n`Thank me later 😉` ".format(
+        await eor(event, "Let me **duckduckgo** that for you:\n👉 [{}]({})\n`Thank me later 😉` ".format(
                 input_str, response_api.rstrip()
             )
         )
     else:
         await eod(event, "Something went wrong. Please try again later.")
 
-
-@bot.on(hell_cmd(pattern="altn (.*)", outgoing=True))
-@bot.on(sudo_cmd(pattern="altn (.*)", allow_sudo=True))
+@hell_cmd(pattern="altn ?(.*)")
 async def _(event):
-    if event.fwd_from:
-        return
     input_str = event.pattern_match.group(1)
     sample_url = "https://da.gd/s?url=https://www.altnews.in/?s={}".format(
         input_str.replace(" ", "+")
     )
     response_api = requests.get(sample_url).text
     if response_api:
-        await edit_or_reply(event, "Let me **altnews** that for you:\n👉 [{}]({})\n`Thank me later 😉` ".format(
+        await eor(event, "Let me **altnews** that for you:\n👉 [{}]({})\n`Thank me later 😉` ".format(
                 input_str, response_api.rstrip()
             )
         )
     else:
         await eod(event, "Something went wrong. Please try again later.")
 
-
-@bot.on(hell_cmd(pattern="var (.*)", outgoing=True))
-@bot.on(sudo_cmd(pattern="var (.*)", allow_sudo=True))
+@hell_cmd(pattern="var ?(.*)")
 async def _(event):
     if event.fwd_from:
         return
@@ -77,19 +64,15 @@ async def _(event):
     )
     response_api = requests.get(sample_url).text
     if response_api:
-        await edit_or_reply(event, "Let me **var** that for you:\n👉 [{}]({})\n`Thank me later 😉` ".format(
+        await eor(event, "Let me **var** that for you:\n👉 [{}]({})\n`Thank me later 😉` ".format(
                 input_str, response_api.rstrip()
             )
         )
     else:
         await eod(event, "Something went wrong. Please try again later.")
 
-
-@bot.on(hell_cmd(pattern="lmlog (.*)", outgoing=True))
-@bot.on(sudo_cmd(pattern="lmlog (.*)", allow_sudo=True))
+@hell_cmd(pattern="lmlog ?(.*)")
 async def _(event):
-    if event.fwd_from:
-        return
     input_str = event.pattern_match.group(1)
     sample_url = "https://da.gd/s?url=https://dashboard.heroku.com/apps/{}/logs".format(
         input_str.replace(" ", "+")
@@ -103,76 +86,60 @@ async def _(event):
     else:
         await eod(event, "Something went wrong. Please try again later.")
 
-
-@bot.on(hell_cmd(pattern="hacc (.*)", outgoing=True))
-@bot.on(sudo_cmd(pattern="hacc (.*)", allow_sudo=True))
+@hell_cmd(pattern="hacc ?(.*)")
 async def _(event):
-    if event.fwd_from:
-        return
     input_str = event.pattern_match.group(1)
     sample_url = "https://da.gd/s?url=https://dashboard.heroku.com/account/{}".format(
         input_str.replace(" ", "+")
     )
     response_api = requests.get(sample_url).text
     if response_api:
-        await edit_or_reply(event, "Let me **Heroku Account** that for you:\n👉 [{}]({})\n`Thank me later 😉` ".format(
+        await eor(event, "Let me **Heroku Account** that for you:\n👉 [{}]({})\n`Thank me later 😉` ".format(
                 input_str, response_api.rstrip()
             )
         )
     else:
         await eod(event, "Something went wrong. Please try again later.")
 
-
-@bot.on(hell_cmd(pattern="lmkp (.*)", outgoing=True))
-@bot.on(sudo_cmd(pattern="lmkp (.*)", allow_sudo=True))
+@hell_cmd(pattern="lmkp ?(.*)")
 async def _(event):
-    if event.fwd_from:
-        return
     input_str = event.pattern_match.group(1)
     sample_url = "https://da.gd/s?url=https://indiankanoon.org/search/?formInput={}+sortby%3Amostrecent".format(
         input_str.replace(" ", "+")
     )
     response_api = requests.get(sample_url).text
     if response_api:
-        await edit_or_reply(event, "Let me **Indiankanoon.com : Place** that for you:\n👉 [{}]({})\n`Thank me later 😉` ".format(
+        await eor(event, "Let me **Indiankanoon.com : Place** that for you:\n👉 [{}]({})\n`Thank me later 😉` ".format(
                 input_str, response_api.rstrip()
             )
         )
     else:
         await eod(event, "Something went wrong. Please try again later.")
 
-
-@bot.on(hell_cmd(pattern="gem (.*)", outgoing=True))
-@bot.on(sudo_cmd(pattern="gem (.*)", allow_sudo=True))
+@hell_cmd(pattern="gem ?(.*)")
 async def _(event):
-    if event.fwd_from:
-        return
     input_str = event.pattern_match.group(1)
     sample_url = "https://da.gd/s?url=https://mkp.gem.gov.in/search?q={}&sort_type=created_at_desc&_xhr=1".format(
         input_str.replace(" ", "+")
     )
     response_api = requests.get(sample_url).text
     if response_api:
-        await edit_or_reply(event, "Let me **gem.gov.in** that for you:\n👉 [{}]({})\n`Thank me later 😉` ".format(
+        await eor(event, "Let me **gem.gov.in** that for you:\n👉 [{}]({})\n`Thank me later 😉` ".format(
                 input_str, response_api.rstrip()
             )
         )
     else:
         await eod(event, "Something went wrong. Please try again later.")
 
-
-@bot.on(hell_cmd(pattern="rchiv (.*)", outgoing=True))
-@bot.on(sudo_cmd(pattern="rchiv (.*)", allow_sudo=True))
+@hell_cmd(pattern="rchiv ?(.*)")
 async def _(event):
-    if event.fwd_from:
-        return
     input_str = event.pattern_match.group(1)
     sample_url = "https://da.gd/s?url=https://web.archive.org/web/*/{}".format(
         input_str.replace(" ", "+")
     )
     response_api = requests.get(sample_url).text
     if response_api:
-        await edit_or_reply(event, "Let me run your link on wayback machine that for you:\n👉 [{}]({})\n`Thank me later 😉` ".format(
+        await eor(event, "Let me run your link on wayback machine that for you:\n👉 [{}]({})\n`Thank me later 😉` ".format(
                 input_str, response_api.rstrip()
             )
         )

@@ -1,15 +1,13 @@
 import re
+
 from telethon import events
 
 from hellbot.sql import blacklist_sql as sq
 from . import *
 
 
-@bot.on(events.NewMessage(incoming=True))
+@H1.on(events.NewMessage(incoming=True))
 async def on_new_message(event):
-    if event.fwd_from:
-        return
-    # TODO: exempt admins from locks
     name = event.raw_text
     snips = sq.get_chat_blacklist(event.chat_id)
     for snip in snips:
@@ -23,11 +21,72 @@ async def on_new_message(event):
             break
 
 
-@bot.on(hell_cmd(pattern="addblacklist ((.|\n)*)"))
-@bot.on(sudo_cmd(pattern="addblacklist ((.|\n)*)", allow_sudo=True))
+if H2:
+    @H2.on(events.NewMessage(incoming=True))
+    async def on_new_message(event):
+        name = event.raw_text
+        snips = sq.get_chat_blacklist(event.chat_id)
+        for snip in snips:
+            pattern = r"( |^|[^\w])" + re.escape(snip) + r"( |$|[^\w])"
+            if re.search(pattern, name, flags=re.IGNORECASE):
+                try:
+                    await event.delete()
+                except Exception:
+                    await event.reply("I do not have DELETE permission in this chat")
+                    sq.rm_from_blacklist(event.chat_id, snip.lower())
+                break
+
+
+if H3:
+    @H3.on(events.NewMessage(incoming=True))
+    async def on_new_message(event):
+        name = event.raw_text
+        snips = sq.get_chat_blacklist(event.chat_id)
+        for snip in snips:
+            pattern = r"( |^|[^\w])" + re.escape(snip) + r"( |$|[^\w])"
+            if re.search(pattern, name, flags=re.IGNORECASE):
+                try:
+                    await event.delete()
+                except Exception:
+                    await event.reply("I do not have DELETE permission in this chat")
+                    sq.rm_from_blacklist(event.chat_id, snip.lower())
+                break
+
+
+if H4:
+    @H4.on(events.NewMessage(incoming=True))
+    async def on_new_message(event):
+        name = event.raw_text
+        snips = sq.get_chat_blacklist(event.chat_id)
+        for snip in snips:
+            pattern = r"( |^|[^\w])" + re.escape(snip) + r"( |$|[^\w])"
+            if re.search(pattern, name, flags=re.IGNORECASE):
+                try:
+                    await event.delete()
+                except Exception:
+                    await event.reply("I do not have DELETE permission in this chat")
+                    sq.rm_from_blacklist(event.chat_id, snip.lower())
+                break
+
+
+if H5:
+    @H5.on(events.NewMessage(incoming=True))
+    async def on_new_message(event):
+        name = event.raw_text
+        snips = sq.get_chat_blacklist(event.chat_id)
+        for snip in snips:
+            pattern = r"( |^|[^\w])" + re.escape(snip) + r"( |$|[^\w])"
+            if re.search(pattern, name, flags=re.IGNORECASE):
+                try:
+                    await event.delete()
+                except Exception:
+                    await event.reply("I do not have DELETE permission in this chat")
+                    sq.rm_from_blacklist(event.chat_id, snip.lower())
+                break
+
+
+@hell_cmd(pattern="addblacklist ((.|\n)*)")
 async def on_add_black_list(event):
-    if event.fwd_from:
-        return
     text = event.pattern_match.group(1)
     to_blacklist = list(
         {trigger.strip() for trigger in text.split("\n") if trigger.strip()}
@@ -35,7 +94,7 @@ async def on_add_black_list(event):
 
     for trigger in to_blacklist:
         sq.add_to_blacklist(event.chat_id, trigger.lower())
-    await edit_or_reply(
+    await eor(
         event,
         "Added {} triggers to the blacklist in the current chat".format(
             len(to_blacklist)
@@ -43,11 +102,8 @@ async def on_add_black_list(event):
     )
 
 
-@bot.on(hell_cmd(pattern="rmblacklist ((.|\n)*)"))
-@bot.on(sudo_cmd(pattern="rmblacklist ((.|\n)*)", allow_sudo=True))
+@hell_cmd(pattern="rmblacklist ((.|\n)*)")
 async def on_delete_blacklist(event):
-    if event.fwd_from:
-        return
     text = event.pattern_match.group(1)
     to_unblacklist = list(
         {trigger.strip() for trigger in text.split("\n") if trigger.strip()}
@@ -58,17 +114,13 @@ async def on_delete_blacklist(event):
         for trigger in to_unblacklist
         if sq.rm_from_blacklist(event.chat_id, trigger.lower())
     )
-
-    await edit_or_reply(
+    await eor(
         event, f"Removed {successful} / {len(to_unblacklist)} from the blacklist"
     )
 
 
-@bot.on(hell_cmd(pattern="listblacklist$"))
-@bot.on(sudo_cmd(pattern="listblacklist$", allow_sudo=True))
+@hell_cmd(pattern="listblacklist$")
 async def on_view_blacklist(event):
-    if event.fwd_from:
-        return
     all_blacklisted = sq.get_chat_blacklist(event.chat_id)
     OUT_STR = "Blacklists in the Current Chat:\n"
     if len(all_blacklisted) > 0:
@@ -89,7 +141,7 @@ async def on_view_blacklist(event):
             )
             await event.delete()
     else:
-        await edit_or_reply(event, OUT_STR)
+        await eor(event, OUT_STR)
 
 
 CmdHelp("blacklist").add_command(

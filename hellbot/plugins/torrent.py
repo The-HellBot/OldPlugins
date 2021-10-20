@@ -1,29 +1,14 @@
+import cfscrape
 import datetime
 import requests
+
 from bs4 import BeautifulSoup as bs
-import cfscrape
 
 from . import *
 
 
-def dogbin(magnets):
-    counter = 0
-    urls = []
-    while counter != len(magnets):
-        message = magnets[counter]
-        url = "https://del.dog/documents"
-        r = requests.post(url, data=message.encode("UTF-8")).json()
-        url = f"https://del.dog/{r['key']}"
-        urls.append(url)
-        counter += 1
-    return urls
-
-
-@bot.on(hell_cmd(pattern=r"tsearch ?(.*)"))
-@bot.on(sudo_cmd(pattern=r"tsearch ?(.*)", allow_sudo=True))
+@hell_cmd(pattern=r"tsearch ?(.*)")
 async def tor_search(event):
-    if event.fwd_from:
-        return
     headers = {
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.121 Safari/537.36"
     }
@@ -62,7 +47,7 @@ async def tor_search(event):
             break
         counter += 1
     if not urls:
-        await eod(hell, "Either the Keyword was restricted or not found..", 7)
+        await eod(hell, "Either the Keyword was restricted or not found..")
         return
     for url in urls:
         res = requests.get(url, headers)
@@ -73,7 +58,7 @@ async def tor_search(event):
                 magnets.append(mg)
             except Exception:
                 pass
-    shorted_links = dogbin(magnets)
+    shorted_links = space_paste(magnets)
     msg = ""
     try:
         search_str = search_str.replace("+", " ")
@@ -92,11 +77,8 @@ async def tor_search(event):
     await hell.edit(msg, link_preview=False)
 
 
-@bot.on(hell_cmd(pattern=r"movie (torrentz2\.eu|idop\.se) (.*)"))
-@bot.on(sudo_cmd(pattern=r"movie (torrentz2\.eu|idop\.se) (.*)", allow_sudo=True))
+@hell_cmd(pattern=r"movie (torrentz2\.eu|idop\.se) (.*)")
 async def _(event):
-    if event.fwd_from:
-        return
     start = datetime.datetime.now()
     hell = await eor(event, "Processing ...")
     input_type = event.pattern_match.group(1)

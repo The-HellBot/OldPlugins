@@ -9,35 +9,23 @@ from telethon.utils import get_input_location
 from . import *
 
 
-@bot.on(hell_cmd(pattern="getpic ?(.*)", outgoing=True))
-@bot.on(sudo_cmd(pattern="getpic ?(.*)", allow_sudo=True))
+@hell_cmd(pattern="getpic ?(.*)")
 async def _(event):
-    if event.fwd_from:
-        return
-    await eor(event, "Getting profile photo..")
+    hell = await eor(event, "Getting profile photo..")
     replied_user, error_i_a = await get_full_user(event)
     if replied_user is None:
-        await edit_or_reply(event, str(error_i_a))
+        await hell.edit(str(error_i_a))
         return False
-    replied_user_profile_photos = await bot(
-        GetUserPhotosRequest(
-            user_id=replied_user.user.id, offset=42, max_id=0, limit=80
-        )
-    )
+    replied_user_profile_photos = await event.client(GetUserPhotosRequest(user_id=replied_user.user.id, offset=42, max_id=0, limit=80))
     replied_user_profile_photos_count = "NaN"
     try:
         replied_user_profile_photos_count = replied_user_profile_photos.count
     except AttributeError:
         pass
     user_id = replied_user.user.id
-    # some people have weird HTML in their names
     first_name = html.escape(replied_user.user.first_name)
-    # https://stackoverflow.com/a/5072031/4723940
-    # some Deleted Accounts do not have first_name
     if first_name is not None:
-        # some weird people (like me) have more than 4096 characters in their names
         first_name = first_name.replace("\u2060", "")
-    # inspired by https://telegram.dog/afsaI181
     user_bio = replied_user.about
     if user_bio is not None:
         user_bio = html.escape(replied_user.about)
@@ -47,24 +35,23 @@ async def _(event):
     except Exception as e:
         dc_id = "Need a Profile Picture to check **this**"
         str(e)
-    caption = """Profile Pics (◠‿◕)
-Person: <a href='tg://user?id={}'>{}</a>
+    caption = """<b><i><u>Profile Pics (◠‿◕)</b></i></u>
+
+<b>Person :</b> <a href='tg://user?id={}'>{}</a>
+<b>Bio :</b> {}
+<b>DC ID :</b> {}
+<b>Pic Count :</b> {}
 """.format(
-        user_id,
         user_id,
         first_name,
         user_bio,
         dc_id,
         replied_user_profile_photos_count,
-        replied_user.user.restricted,
-        replied_user.user.verified,
-        replied_user.user.bot,
-        common_chats,
     )
     message_id_to_reply = event.message.reply_to_msg_id
     if not message_id_to_reply:
         message_id_to_reply = event.message.id
-    await bot.send_message(
+    await event.client.send_message(
         event.chat_id,
         caption,
         reply_to=message_id_to_reply,
@@ -73,7 +60,7 @@ Person: <a href='tg://user?id={}'>{}</a>
         force_document=False,
         silent=True,
     )
-    await event.delete()
+    await hell.delete()
 
 
 async def get_full_user(event):
@@ -131,12 +118,12 @@ async def get_full_user(event):
 
 name = "Profile Photos"
 
-@bot.on(hell_cmd(pattern="poto ?(.*)", outgoing=True))
-@bot.on(sudo_cmd(pattern="poto ?(.*)", allow_sudo=True))
+@hell_cmd(pattern="poto ?(.*)")
 async def potocmd(event):
     uid = "".join(event.raw_text.split(maxsplit=1)[1:])
     user = await event.get_reply_message()
     chat = event.input_chat
+    hell = await eor(event, "Getting profile pictures of this user...")
     if user:
         photos = await event.client.get_profile_photos(user.sender)
         u = True
@@ -149,10 +136,7 @@ async def potocmd(event):
             send_photos = await event.client.download_media(photos[uid - 1])
             await event.client.send_file(event.chat_id, send_photos)
         else:
-            await eod(
-                event, "No photo found of this NIBBA. Now u Die!"
-            )
-            await asyncio.sleep(2)
+            await eod(hell, "No photo found of this NIBBA. Now u Die!")
             return
     elif uid.strip() == "all":
         if len(photos) > 0:
@@ -164,33 +148,30 @@ async def potocmd(event):
                 else:
                     photo = await event.client.download_profile_photo(event.input_chat)
                 await event.client.send_file(event.chat_id, photo)
-            except a:
-                await eod(event, "**This user has no photos!**")
+            except:
+                await eod(hell, "**This user has no photos!**")
                 return
     else:
         try:
             uid = int(uid)
             if uid <= 0:
-                await eod(
-                    event, "```number Invalid!``` **Are you komedy Me ?**"
-                )
+                await eod(hell, "`Number Invalid!` **Are you komedy Me ?**")
                 return
         except BaseException:
-            await eod(event, "Are you komedy me ?")
+            await eod(hell, "Are you komedy me ?")
             return
         if int(uid) <= (len(photos)):
             send_photos = await event.client.download_media(photos[uid - 1])
             await event.client.send_file(event.chat_id, send_photos)
         else:
-            await eod(
-                event, "No photo found of this NIBBA. Now u Die!"
-            )
+            await eod(hell, "No photo found of this NIBBA. Now u Die!")
             await asyncio.sleep(2)
             return
+    await hell.delete()
 
 
 CmdHelp("getpfp").add_command(
-  "poto", "<all> / <desired pp number>", "Reply to user to get his/her profile pic. Use .poto <number> to get desired profile pic else use .poto all to get all profile pic(s). If you dont reply to a user then it gets group pics."
+  "poto", "<all> / <desired pfp number>", f"Reply to user to get his/her profile pic. Use {hl}poto <number> to get desired profile pic else use {hl}poto all to get all profile pic(s). If you dont reply to a user then it gets group pics."
 ).add_command(
   "getpic", "<reply> <username>", "Gets the user's 1st profile pic. But this time with a caption. Try it yourself..."
 ).add_info(

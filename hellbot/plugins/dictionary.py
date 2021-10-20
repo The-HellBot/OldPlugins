@@ -1,4 +1,5 @@
 import aiohttp
+
 from PyDictionary import PyDictionary
 
 from . import *
@@ -12,8 +13,7 @@ class AioHttp:
                 return await resp.json()
 
 
-@bot.on(hell_cmd(pattern="ud ?(.*)"))
-@bot.on(sudo_cmd(pattern="ud ?(.*)", allow_sudo=True))
+@hell_cmd(pattern="ud ?(.*)")
 async def _(event):
     word = event.text[4:]
     try:
@@ -29,11 +29,8 @@ async def _(event):
         await eod(event, f"**Error !!** \n\n`{e}`")
 
 
-@bot.on(admin_cmd(pattern="meaning (.*)"))
-@bot.on(sudo_cmd(pattern="meaning (.*)", allow_sudo=True))
+@hell_cmd(pattern="meaning (.*)")
 async def _(event):
-    if event.fwd_from:
-        return
     word = event.pattern_match.group(1)
     dictionary = PyDictionary()
     hell = dictionary.meaning(word)
@@ -43,13 +40,15 @@ async def _(event):
             output += f"**{a}**\n"
             for i in b:
                 output += f"☞ __{i}__\n"
-        await edit_or_reply(event, output)
+        await eor(event, output)
     except Exception:
-        await edit_or_reply(event, f"Couldn't fetch meaning of {word}")
+        await eod(event, f"Couldn't fetch meaning of {word}")
 
 
 CmdHelp("dictionary").add_command(
   'meaning', 'query', 'Fetches meaning of the given word'
+).add_command(
+  'ud', 'query', 'Fetches meaning of given word from Urban Dictionary.'
 ).add_info(
   'Dictionary 📕'
 ).add_warning(

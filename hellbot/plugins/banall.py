@@ -33,8 +33,7 @@ BANNED_RIGHTS = ChatBannedRights(
     embed_links=True,
 )
 
-@bot.on(hell_cmd(pattern=r"kickall ?(.*)"))
-@bot.on(sudo_cmd(pattern=r"kickall ?(.*)", allow_sudo=True))
+@hell_cmd(pattern="kickall ?(.*)")
 async def _(event):
     result = await event.client(
         functions.channels.GetParticipantRequest(event.chat_id, event.client.uid)
@@ -63,14 +62,13 @@ async def _(event):
     await hell.edit(
         "**Bleck Magik Done...**"
     )
-    await bot.send_message(
+    await event.client.send_message(
         Config.LOGGER_ID,
         f"#KICKALL \n\nKicked Out  `{success}`  of  `{total}`  members"
     )
 
 
-@bot.on(hell_cmd(pattern=r"banall ?(.*)"))
-@bot.on(sudo_cmd(pattern=r"banall ?(.*)", allow_sudo=True))
+@hell_cmd(pattern="banall ?(.*)")
 async def _(event):
     result = await event.client(
         functions.channels.GetParticipantRequest(event.chat_id, event.client.uid)
@@ -101,56 +99,50 @@ async def _(event):
     await hell.edit(
         "**Bleck Magik Completed...**"
     )
-    await bot.send_message(
+    await event.client.send_message(
         Config.LOGGER_ID,
         f"#BANALL \n\nSucessfully banned  `{success}`  out of  `{total}`  members!!",
     )
-    
 
-@bot.on(hell_cmd(pattern=r"unbanall ?(.*)"))
-@bot.on(sudo_cmd(pattern=r"unbanall ?(.*)", allow_sudo=True))
+
+@hell_cmd(pattern="unbanall ?(.*)")
 async def _(event):
-    if event.fwd_from:
-        return
     input_str = event.pattern_match.group(1)
     if input_str:
         logger.info("TODO: Not yet Implemented")
     else:
         if event.is_private:
-            return False
-        await edit_or_reply(event, "Searching Participant Lists.")
+            return
+        xyz = await eor(event, "Searching Participant Lists.")
         p = 0
-        async for i in bot.iter_participants(
+        async for i in event.client.iter_participants(
             event.chat_id, filter=ChannelParticipantsKicked, aggressive=True
         ):
             rights = ChatBannedRights(until_date=0, view_messages=False)
             try:
-                await bot(
+                await event.client(
                     functions.channels.EditBannedRequest(event.chat_id, i, rights)
                 )
             except FloodWaitError as ex:
                 logger.warn("sleeping for {} seconds".format(ex.seconds))
                 sleep(ex.seconds)
             except Exception as ex:
-                await edit_or_reply(event, str(ex))
+                await xyz.edit(str(ex))
             else:
                 p += 1
-        await edit_or_reply(event, "{}: {} unbanned".format(event.chat_id, p))
+        await xyz.edit("{}: {} unbanned".format(event.chat_id, p))
 
 
-@bot.on(hell_cmd(pattern="ikuck ?(.*)"))
-@bot.on(sudo_cmd(pattern="ikuck ?(.*)", allow_sudo=True))
+@hell_cmd(pattern="ikuck ?(.*)")
 async def _(event):
-    if event.fwd_from:
-        return
     if event.is_private:
-        return False
+        return
     input_str = event.pattern_match.group(1)
     if input_str:
         chat = await event.get_chat()
         if not (chat.admin_rights or chat.creator):
             await eod(event, "`You aren't an admin here!`")
-            return False
+            return
     p = 0
     b = 0
     c = 0
@@ -163,12 +155,9 @@ async def _(event):
     o = 0
     q = 0
     r = 0
-    hell = await edit_or_reply(event, "Searching Participant Lists.")
-    async for i in bot.iter_participants(event.chat_id):
+    hell = await eor(event, "Searching Participant Lists.")
+    async for i in event.client.iter_participants(event.chat_id):
         p = p + 1
-        #
-        # Note that it's "reversed". You must set to ``True`` the permissions
-        # you want to REMOVE, and leave as ``None`` those you want to KEEP.
         rights = ChatBannedRights(until_date=None, view_messages=True)
         if isinstance(i.status, UserStatusEmpty):
             y = y + 1
@@ -282,7 +271,7 @@ None: {}""".format(
 
 async def ban_user(chat_id, i, rights):
     try:
-        await bot(functions.channels.EditBannedRequest(chat_id, i, rights))
+        await event.client(functions.channels.EditBannedRequest(chat_id, i, rights))
         return True, None
     except Exception as exc:
         return False, str(exc)

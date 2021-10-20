@@ -129,7 +129,7 @@ async def make_gif(event, file):
 # Unsaves the gif from gif keyboard
 async def unsave_gif(event, hgif):
     try:
-        await bot(
+        await event.client(
             functions.messages.SaveGifRequest(
                 id=get_input_document(hgif),
                 unsave=True,
@@ -141,7 +141,7 @@ async def unsave_gif(event, hgif):
 
 async def unsave_stcr(hstcr):
     try:
-        await bot(
+        await event.client(
             functions.messages.SaveRecentStickerRequest(
                 id=get_input_document(hstcr),
                 unsave=True,

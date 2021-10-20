@@ -1,4 +1,5 @@
 import os
+
 from bs4 import BeautifulSoup
 from pySmartDL import SmartDL
 
@@ -6,8 +7,7 @@ from . import *
 
 logo = "https://telegra.ph/file/2c546060b20dfd7c1ff2d.jpg"
 
-@bot.on(hell_cmd(pattern="imdb ?(.*)"))
-@bot.on(sudo_cmd(pattern="imdb ?(.*)", allow_sudo=True))
+@hell_cmd(pattern="imdb ?(.*)")
 async def _(event):
     reply_to = await reply_id(event)
     hel_ = await eor(event, "`Processing ...`")
@@ -119,11 +119,8 @@ async def _(event):
         await hel_.edit(f"**Error:**\n__{e}__")
 
 
-@bot.on(hell_cmd(pattern="watch (.*)"))
-@bot.on(sudo_cmd(pattern="watch (.*)", allow_sudo=True))
+@hell_cmd(pattern="watch (.*)")
 async def _(event):
-    if event.fwd_from:
-        return
     query = event.pattern_match.group(1)
     hell = await eor(event, "Finding Sites...")
     streams = get_stream_data(query)
@@ -158,7 +155,7 @@ async def _(event):
             link = link.replace(" ", "%20")
         output_ += f"[{pretty(provider)}]({link})\n"
 
-    await bot.send_file(
+    await event.client.send_file(
         event.chat_id,
         caption=output_,
         file=thumb_link,

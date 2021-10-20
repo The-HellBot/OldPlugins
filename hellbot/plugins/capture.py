@@ -6,14 +6,10 @@ from selenium import webdriver
 
 from . import *
 
-@bot.on(hell_cmd(pattern="(webshot|screenshot) (.*)", outgoing=True))
-@bot.on(sudo_cmd(pattern="(webshot|screenshot) (.*)", allow_sudo=True))
+@hell_cmd(pattern="webshot (.*)")
 async def _(event):
-    if event.fwd_from:
-        return
     if Config.GOOGLE_CHROME_BIN is None:
-        await eod(event, "need to install Google Chrome. Module Stopping.")
-        return
+        return await eod(event, "need to install Google Chrome. Module Stopping.")
     hell = await eor(event, "Processing ...weit")
     start = datetime.datetime.now()
     try:
@@ -44,8 +40,8 @@ async def _(event):
         if event.reply_to_msg_id:
             message_id = event.reply_to_msg_id
         with io.BytesIO(im_png) as out_file:
-            out_file.name = "HellBot.ScreenCapture.PNG"
-            await bot.send_file(
+            out_file.name = "Hell_Capture.PNG"
+            await event.client.send_file(
                 event.chat_id,
                 out_file,
                 caption=input_str,
@@ -60,12 +56,13 @@ async def _(event):
     except Exception:
         await eod(hell, traceback.format_exc())
 
+
 CmdHelp("capture").add_command(
-        "screenshot", "<link>", "Gives out the web screenshot of given link via Google Crome Bin in .png format", ".screenshot https://github.com/hellboy-op/hellbot"
+  "screenshot", "<link>", "Gives out the web screenshot of given link via Google Crome Bin in .png format", ".screenshot https://github.com/hellboy-op/hellbot"
 ).add_command(
-	"webshot", "<link>", f"Same as  {hl}screenshot."
+  "webshot", "<link>", f"Same as  {hl}screenshot."
 ).add_info(
-	"Website Screenshot Maker."
+  "Website Screenshot Maker."
 ).add_warning(
-	"✅ Harmless Module."
+  "✅ Harmless Module."
 ).add()

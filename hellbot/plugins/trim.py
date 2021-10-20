@@ -1,47 +1,15 @@
 import asyncio
+import datetime
 import os
 import time
-import datetime
 
 from . import *
 
 FF_MPEG_DOWN_LOAD_MEDIA_PATH = "./trim/hellbot.media.ffmpeg"
 
-async def reply_id(event):
-    reply_to_id = None
-    if event.sender_id in Config.SUDO_USERS:
-        reply_to_id = event.id
-    if event.reply_to_msg_id:
-        reply_to_id = event.reply_to_msg_id
-    return reply_to_id
 
-def media_type(message):
-    if message and message.photo:
-        media = "Photo"
-    elif message and message.audio:
-        media = "Audio"
-    elif message and message.voice:
-        media = "Voice"
-    elif message and message.video_note:
-        media = "Round Video"
-    elif message and message.gif:
-        media = "Gif"
-    elif message and message.sticker:
-        media = "Sticker"
-    elif message and message.video:
-        media = "Video"
-    elif message and message.document:
-        media = "Document"
-    else:
-        media = None
-    return media
-    
-
-@bot.on(hell_cmd(pattern="tsave$"))
-@bot.on(sudo_cmd(pattern="tsave$", allow_sudo=True))
+@hell_cmd(pattern="tsave$")
 async def ff_mpeg_trim_cmd(event):
-    if event.fwd_from:
-        return
     if not os.path.exists(FF_MPEG_DOWN_LOAD_MEDIA_PATH):
         reply_message = await event.get_reply_message()
         if reply_message:
@@ -70,25 +38,14 @@ async def ff_mpeg_trim_cmd(event):
         else:
             await eod(event, "`Reply to a any media file`")
     else:
-        await eod(
-            event,
-            f"A media file already exists in path. Please remove the media and try again!\n`{hl}tclear`",
-            10,
-        )
+        await eod(event, f"A media file already exists in path. Please remove the media and try again!\n`{hl}tclear`")
 
 
-@bot.on(hell_cmd(pattern="vtrim"))
-@bot.on(sudo_cmd(pattern="vtrim", allow_sudo=True))
+@hell_cmd(pattern="vtrim ?(.*)")
 async def ff_mpeg_trim_cmd(event):
-    if event.fwd_from:
-        return
     if not os.path.exists(FF_MPEG_DOWN_LOAD_MEDIA_PATH):
-        await eod(
-            event,
-            f"A media file needs to be download, and save to the following path:  `{FF_MPEG_DOWN_LOAD_MEDIA_PATH}`",
-        )
+        await eod(event,f"A media file needs to be download, and save to the following path:  `{FF_MPEG_DOWN_LOAD_MEDIA_PATH}`")
         return
-    reply_to_id = await reply_id(event)
     hellevent = await eor(event, "`Triming the media......`")
     current_message_text = event.raw_text
     cmt = current_message_text.split(" ")
@@ -103,9 +60,7 @@ async def ff_mpeg_trim_cmd(event):
             end_time,
         )
         if o is None:
-            return await eod(
-                hellevent, f"**Error : **`Can't complete the process`"
-            )
+            return await eod(hellevent, f"**Error : **`Can't complete the process`")
         try:
             c_time = time.time()
             await event.client.send_file(
@@ -115,7 +70,6 @@ async def ff_mpeg_trim_cmd(event):
                 force_document=False,
                 supports_streaming=True,
                 allow_cache=False,
-                reply_to=reply_to_id,
                 progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
                     progress(d, t, hellevent, c_time, "trying to upload")
                 ),
@@ -130,9 +84,7 @@ async def ff_mpeg_trim_cmd(event):
             FF_MPEG_DOWN_LOAD_MEDIA_PATH, Config.TMP_DOWNLOAD_DIRECTORY, start_time
         )
         if o is None:
-            return await eod(
-                hellevent, f"**Error : **`Can't complete the process`"
-            )
+            return await eod(hellevent, f"**Error : **`Can't complete the process`")
         try:
             c_time = time.time()
             await event.client.send_file(
@@ -142,7 +94,6 @@ async def ff_mpeg_trim_cmd(event):
                 force_document=True,
                 supports_streaming=True,
                 allow_cache=False,
-                reply_to=event.message.id,
                 progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
                     progress(d, t, hellevent, c_time, "trying to upload")
                 ),
@@ -155,21 +106,14 @@ async def ff_mpeg_trim_cmd(event):
         return
     end = datetime.datetime.now()
     ms = (end - start).seconds
-    await eod(hellevent, f"`Completed Process in {ms} seconds`", 3)
+    await eod(hellevent, f"`Completed Process in {ms} seconds`")
 
 
-@bot.on(hell_cmd(pattern="atrim"))
-@bot.on(sudo_cmd(pattern="atrim", allow_sudo=True))
+@hell_cmd(pattern="atrim ?(.*)")
 async def ff_mpeg_trim_cmd(event):
-    if event.fwd_from:
-        return
     if not os.path.exists(FF_MPEG_DOWN_LOAD_MEDIA_PATH):
-        await eod(
-            event,
-            f"A media file needs to be download, and save to the following path:  `{FF_MPEG_DOWN_LOAD_MEDIA_PATH}`",
-        )
+        await eod(event, f"A media file needs to be download, and save to the following path:  `{FF_MPEG_DOWN_LOAD_MEDIA_PATH}`")
         return
-    reply_to_id = await reply_id(event)
     hellevent = await eor(event, "`Triming the media.....`")
     current_message_text = event.raw_text
     cmt = current_message_text.split(" ")
@@ -188,9 +132,7 @@ async def ff_mpeg_trim_cmd(event):
             out_put_file_name,
         )
         if o is None:
-            return await eod(
-                hellevent, f"**Error : **`Can't complete the process`"
-            )
+            return await eod(hellevent, f"**Error : **`Can't complete the process`")
         try:
             c_time = time.time()
             await event.client.send_file(
@@ -200,7 +142,6 @@ async def ff_mpeg_trim_cmd(event):
                 force_document=False,
                 supports_streaming=True,
                 allow_cache=False,
-                reply_to=reply_to_id,
                 progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
                     progress(d, t, hellevent, c_time, "trying to upload")
                 ),
@@ -216,19 +157,13 @@ async def ff_mpeg_trim_cmd(event):
     await eod(hellevent, f"`Completed Process in {ms} seconds`", 3)
 
 
-@bot.on(hell_cmd(pattern="tclear$"))
-@bot.on(sudo_cmd(pattern="tclear$", allow_sudo=True))
+@hell_cmd(pattern="tclear$")
 async def ff_mpeg_trim_cmd(event):
-    if event.fwd_from:
-        return
     if not os.path.exists(FF_MPEG_DOWN_LOAD_MEDIA_PATH):
         await eod(event, "`There is no media saved in bot for triming`")
     else:
         os.remove(FF_MPEG_DOWN_LOAD_MEDIA_PATH)
-        await eod(
-            event,
-            "`The media saved in bot for triming is deleted now . you can save now new one `",
-        )
+        await eod(event, f"Deleted saved trimming media. You can save new media by `{hl}tsave`")
 
 
 async def take_screen_shot(video_file, output_directory, ttl):
@@ -293,6 +228,7 @@ async def cult_small_video(
     if os.path.lexists(out_put_file_name):
         return out_put_file_name
     return None
+
 
 CmdHelp("trim").add_command(
   "tsave", "<reply to a media>", "Saves the media file in bot to trim mutliple times"

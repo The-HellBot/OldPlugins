@@ -10,39 +10,31 @@ from telethon.tl.functions.channels import LeaveChannelRequest
 from . import *
 
 
-@bot.on(hell_cmd("kickme", outgoing=True))
+@hell_cmd(pattern="kickme$")
 async def leave(e):
-    if not e.text[0].isalpha() and e.text[0] not in ("/", "#", "@", "!"):
         await e.edit("😪 **KThnxBye** See u all in hell!!")
         time.sleep(1)
         if "-" in str(e.chat_id):
-            await bot(LeaveChannelRequest(e.chat_id))
+            await event.client(LeaveChannelRequest(e.chat_id))
         else:
             await eod(e, "**Iz this even a grp?😑**")
 
 
-@bot.on(hell_cmd(pattern=r"dc"))
-@bot.on(sudo_cmd(pattern=r"dc", allow_sudo=True))
+@hell_cmd(pattern="dc$")
 async def _(event):
-    if event.fwd_from:
-        return
-    result = await borg(functions.help.GetNearestDcRequest())
+    result = await event.client(functions.help.GetNearestDcRequest())
     await eor(event, result.stringify())
 
 
-@bot.on(hell_cmd(pattern=r"config"))
-@bot.on(sudo_cmd(pattern=r"config", allow_sudo=True))
+@hell_cmd(pattern="config$")
 async def _(event):
-    if event.fwd_from:
-        return
-    result = await borg(functions.help.GetConfigRequest())
+    result = await event.client(functions.help.GetConfigRequest())
     result = result.stringify()
     logger.info(result)
-    await eor("Config Saved In You Heroku Logs.")
+    await eor(event, "Config Saved In You Heroku Logs.")
 
 
-@bot.on(hell_cmd(pattern="vars"))
-@bot.on(sudo_cmd(pattern="vars", allow_sudo=True))
+@hell_cmd(pattern="vars")
 async def lst(event):
     hell = await eor(event, "Getting configs list...")
     x = "**List of all available configs are :** \n\n"
@@ -51,11 +43,8 @@ async def lst(event):
     await hell.edit(x)
 
 
-@bot.on(hell_cmd(pattern="schd ?(.*)", outgoing=True))
-@bot.on(sudo_cmd(pattern="schd ?(.*)", allow_sudo=True))
+@hell_cmd(pattern="schd ?(.*)")
 async def _(event):
-    if event.fwd_from:
-        return
     input_str = event.pattern_match.group(1)
     ttl = 0
     message = f"SYNTAX: `{hl}schd <time_in_seconds> - <message to send>`"
@@ -70,11 +59,10 @@ async def _(event):
         await asyncio.sleep(int(ttl))
         await event.respond(message)
     else:
-        await event.edit(message)
+        await eor(event, message)
 
 
-@bot.on(hell_cmd(pattern="dm ?(.*)"))
-@bot.on(sudo_cmd(pattern="dm ?(.*)", allow_sudo=True))
+@hell_cmd(pattern="dm ?(.*)")
 async def _(event):
     if len(event.text) > 3:
         if not event.text[3] == " ":
@@ -88,18 +76,18 @@ async def _(event):
     msg = ""
     hunter = await event.get_reply_message()
     if event.reply_to_msg_id:
-        await bot.send_message(chat_id, hunter)
+        await event.client.send_message(chat_id, hunter)
         await eod(event, "**[Done]**")
     for i in c[1:]:
         msg += i + " "
     if msg == "":
         return
     try:
-        await bot.send_message(chat_id, msg)
+        await event.client.send_message(chat_id, msg)
         await eod(event, "**[Done]**")
     except BaseException:
         await eod(f"**Invalid Syntax !!**\n\n`{hl}dm <Username or UserID> <message>`")
-    
+
 
 CmdHelp("bot").add_command(
     "dc", None, "Gets the DataCenter Number"

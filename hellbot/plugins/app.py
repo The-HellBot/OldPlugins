@@ -3,13 +3,12 @@ import requests
 from . import *
 
 
-@bot.on(hell_cmd(pattern="app (.*)"))
-@bot.on(sudo_cmd(pattern="app (.*)", allow_sudo=True))
+@hell_cmd(pattern="app (.*)")
 async def apk(event):
-    if event.fwd_from:
-        return
     app_name = event.pattern_match.group(1)
-    event = await edit_or_reply(event, "Searching...")
+    event = await eor(event, "Searching...")
+    xyz = await client_id(event)
+    HELL_USER = xyz[1]
     try:
         remove_space = app_name.split(" ")
         final_name = "+".join(remove_space)
@@ -75,13 +74,10 @@ async def apk(event):
         await event.edit("Exception Occured:- " + str(err))
 
 
-@bot.on(hell_cmd(pattern="appr (.*)"))
-@bot.on(sudo_cmd(pattern="appr (.*)", allow_sudo=True))
+@hell_cmd(pattern="appr (.*)")
 async def apkr(event):
-    if event.fwd_from:
-        return
     app_name = event.pattern_match.group(1)
-    event = await edit_or_reply(event, "Searching...")
+    event = await eor(event, "Searching...")
     try:
         remove_space = app_name.split(" ")
         final_name = "+".join(remove_space)
@@ -148,18 +144,23 @@ async def apkr(event):
         await event.edit("Exception Occured:- " + str(err))
 
 
-@bot.on(hell_cmd(pattern="mods ?(.*)"))
-@bot.on(sudo_cmd(pattern="mods ?(.*)", allow_sudo=True))
+@hell_cmd(pattern="mods ?(.*)")
 async def mod(event):
-    if event.fwd_from:
-        return
-    modr = event.pattern_match.group(1)
-    botusername = "@PremiumAppBot"
-    if event.reply_to_msg_id:
-        await event.get_reply_message()
-    tap = await bot.inline_query(botusername, modr)
-    await tap[0].click(event.chat_id)
-    await event.delete()
+    hell = event.text[8:]
+    if not hell:
+        if event.is_reply:
+            (await event.get_reply_message()).message
+        else:
+            await eod(uwu, "Give name of apk to search mod...")
+            return
+    uwu = await eor(event, f"Searching Mod for  `{hell}` ...")
+    troll = await event.client.inline_query("PremiumAppBot", f"{(deEmojify(hell))}")
+    owo = await troll[0].click(Config.LOGGER_ID)
+    owo_id = owo.id
+    modd = await event.client.get_messages(entity=Config.LOGGER_ID, ids=owo_id)
+    await event.client.send_message(event.chat_id, modd)
+    await uwu.delete()
+    await owo.delete()
 
 
 CmdHelp("app").add_command(

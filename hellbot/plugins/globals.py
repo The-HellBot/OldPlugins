@@ -2,7 +2,6 @@ import asyncio
 import random
 
 from telethon import events
-from telethon.tl.functions.channels import EditAdminRequest
 from telethon.tl.types import ChatAdminRights, ChannelParticipantsAdmins, ChatBannedRights, MessageEntityMentionName, MessageMediaPhoto
 from telethon.errors.rpcerrorlist import UserIdInvalidError, MessageTooLongError
 from telethon.tl.functions.channels import EditAdminRequest, EditBannedRequest, EditPhotoRequest
@@ -56,23 +55,22 @@ async def get_user_from_id(user, event):
 
 
 
-@bot.on(hell_cmd(pattern="gpro ?(.*)"))
-@bot.on(sudo_cmd(pattern="gpro ?(.*)", allow_sudo=True))
-async def _(hellevent):
+@hell_cmd(pattern="gpro ?(.*)")
+async def _(event):
     i = 0
-    sender = await hellevent.get_sender()
-    me = await hellevent.client.get_me()
-    hell = await eor(hellevent, "`Promoting globally...`")
+    sender = await event.get_sender()
+    me = await event.client.get_me()
+    hell = await eor(event, "`Promoting globally...`")
     my_mention = "[{}](tg://user?id={})".format(me.first_name, me.id)
     f"@{me.username}" if me.username else my_mention
-    await hellevent.get_chat()
-    if hellevent.is_private:
-        user = hellevent.chat
-        rank = hellevent.pattern_match.group(1)
+    await event.get_chat()
+    if event.is_private:
+        user = event.chat
+        rank = event.pattern_match.group(1)
     else:
-        hellevent.chat.title
+        event.chat.title
     try:
-        user, rank = await get_full_user(hellevent)
+        user, rank = await get_full_user(event)
     except:
         pass
     if me == user:
@@ -85,7 +83,7 @@ async def _(hellevent):
         return await hell.edit("**ERROR !!**")
     if user:
         telchanel = [d.entity.id
-                     for d in await hellevent.client.get_dialogs()
+                     for d in await event.client.get_dialogs()
                      if (d.is_group or d.is_channel)
                      ]
         rgt = ChatAdminRights(add_admins=False,
@@ -96,7 +94,7 @@ async def _(hellevent):
                                    pin_messages=True)
         for x in telchanel:
           try:
-             await hellevent.client(EditAdminRequest(x, user, rgt, rank))
+             await event.client(EditAdminRequest(x, user, rgt, rank))
              i += 1
              await hell.edit(f"**Promoting User in :**  `{i}` Chats...")
           except:
@@ -106,26 +104,25 @@ async def _(hellevent):
     await hell.edit(
         f"[{user.first_name}](tg://user?id={user.id}) **Was Promoted Globally In** `{i}` **Chats !!**"
     )
-    await bot.send_message(Config.LOGGER_ID, f"#GPROMOTE \n\n**Globally Promoted User :** [{user.first_name}](tg://user?id={user.id}) \n\n**Total Chats :** `{i}`")
+    await event.client.send_message(Config.LOGGER_ID, f"#GPROMOTE \n\n**Globally Promoted User :** [{user.first_name}](tg://user?id={user.id}) \n\n**Total Chats :** `{i}`")
 
 
-@bot.on(hell_cmd(pattern="gdem ?(.*)"))
-@bot.on(sudo_cmd(pattern="gdem ?(.*)", allow_sudo=True))
-async def _(hellevent):
+@hell_cmd(pattern="gdem ?(.*)")
+async def _(event):
     i = 0
-    sender = await hellevent.get_sender()
-    me = await hellevent.client.get_me()
-    hell = await eor(hellevent, "`Demoting Globally...`")
+    sender = await event.get_sender()
+    me = await event.client.get_me()
+    hell = await eor(event, "`Demoting Globally...`")
     my_mention = "[{}](tg://user?id={})".format(me.first_name, me.id)
     f"@{me.username}" if me.username else my_mention
-    await hellevent.get_chat()
-    if hellevent.is_private:
-        user = hellevent.chat
-        rank = hellevent.pattern_match.group(1)
+    await event.get_chat()
+    if event.is_private:
+        user = event.chat
+        rank = event.pattern_match.group(1)
     else:
-        hellevent.chat.title
+        event.chat.title
     try:
-        user, rank = await get_full_user(hellevent)
+        user, rank = await get_full_user(event)
     except:
         pass
     if me == user:
@@ -138,7 +135,7 @@ async def _(hellevent):
         return await hell.edit("**ERROR !!**")
     if user:
         telchanel = [d.entity.id
-                     for d in await hellevent.client.get_dialogs()
+                     for d in await event.client.get_dialogs()
                      if (d.is_group or d.is_channel)
                      ]
         rgt = ChatAdminRights(add_admins=None,
@@ -149,7 +146,7 @@ async def _(hellevent):
                                    pin_messages=None)
         for x in telchanel:
           try:
-             await hellevent.client(EditAdminRequest(x, user, rgt, rank))
+             await event.client(EditAdminRequest(x, user, rgt, rank))
              i += 1
              await hell.edit(f"**Demoting Globally In Chats :** `{i}`")
           except:
@@ -159,14 +156,15 @@ async def _(hellevent):
     await hell.edit(
         f"[{user.first_name}](tg://user?id={user.id}) **Was Demoted Globally In** `{i}` **Chats !!**"
     )
-    await bot.send_message(Config.LOGGER_ID, f"#GDEMOTE \n\n**Globally Demoted :** [{user.first_name}](tg://user?id={user.id}) \n\n**Total Chats :** `{i}`")
+    await event.client.send_message(Config.LOGGER_ID, f"#GDEMOTE \n\n**Globally Demoted :** [{user.first_name}](tg://user?id={user.id}) \n\n**Total Chats :** `{i}`")
 
 
-@bot.on(hell_cmd(pattern=r"gban ?(.*)"))
-@bot.on(sudo_cmd(pattern=r"gban ?(.*)", allow_sudo=True))
+@hell_cmd(pattern="gban ?(.*)")
 async def _(event):
-    hell = await eor(event, "`Gbanning...`")
+    hell = await eor(event, f"`Gbanning ...`")
     reason = ""
+    cid = await client_id(event)
+    ForGo10God, HELL_USER, hell_mention = cid[0], cid[1], cid[2]
     reply = await event.get_reply_message()
     if event.reply_to_msg_id:
         userid = (await event.get_reply_message()).sender_id
@@ -204,15 +202,15 @@ async def _(event):
         if gfuck.is_group or gfuck.is_channel:
             try:
                 await event.client.edit_permissions(gfuck.id, userid, view_messages=False)
-                chats += 1
-                await hell.edit(f"**Gbanning...** \n**Chats :** __{chats}__")
+                chats +=1
             except BaseException:
                 pass
+
     gbaner(userid)
     a = gvarstat("BAN_PIC")
     if a is not None:
         b = a.split(" ")
-        c = [cjb]
+        c = []
         for d in b:
             c.append(d)
         gbpic = random.choice(c)
@@ -225,15 +223,16 @@ async def _(event):
     if reason != "":
         ogmsg += f"\n**🔰 Reason :**  `{reason}`"
     if Config.ABUSE == "ON":
-        await bot.send_file(event.chat_id, gbpic, caption=gmsg)
+        await event.client.send_file(event.chat_id, gbpic, caption=gmsg)
         await hell.delete()
     else:
         await hell.edit(ogmsg)
 
 
-@bot.on(hell_cmd(pattern=r"ungban ?(.*)"))
-@bot.on(sudo_cmd(pattern=r"ungban ?(.*)", allow_sudo=True))
+@hell_cmd(pattern="ungban ?(.*)")
 async def _(event):
+    cid = await client_id(event)
+    ForGo10God, HELL_USER, hell_mention = cid[0], cid[1], cid[2]
     hell = await eor(event, "`Ungban in progress...`")
     if event.reply_to_msg_id:
         userid = (await event.get_reply_message()).sender_id
@@ -247,22 +246,22 @@ async def _(event):
     chats = 0
     if not is_gbanned(userid):
         return await eod(hell, "`User is not gbanned.`")
+    await hell.edit(f"Ungbaning in client 1... \n**Unbanned in :** `{chats}`")
     async for gfuck in event.client.iter_dialogs():
         if gfuck.is_group or gfuck.is_channel:
             try:
                 await event.client.edit_permissions(gfuck.id, userid, view_messages=True)
                 chats += 1
-                await hell.edit(f"**Ungban in progress...** \n**Chats :** __{chats}__")
             except BaseException:
                 pass
+
     ungbaner(userid)
     await hell.edit(
         f"📍 [{name}](tg://user?id={userid}) **is now Ungbanned from `{chats}` chats and removed from Gban Watch!!**",
     )
 
 
-@bot.on(hell_cmd(pattern="listgban$"))
-@bot.on(sudo_cmd(pattern="listgban$", allow_sudo=True))
+@hell_cmd(pattern="listgban$")
 async def already(event):
     hmm = await eor(event, "`Fetching Gbanned users...`")
     gbanned_users = all_gbanned()
@@ -282,30 +281,121 @@ async def already(event):
     await hmm.edit(GBANNED_LIST)
 
 
-@bot.on(events.ChatAction)
+@H1.on(events.ChatAction)
 async def _(event):
     if event.user_joined or event.added_by:
         user = await event.get_user()
         chat = await event.get_chat()
+        gban_watcher = f"⚠️⚠️**Warning**⚠️⚠️\n\n`Gbanned User Joined the chat!!`\n**⚜️ Victim Id :**  [{user.first_name}](tg://user?id={user.id})\n"
         if is_gbanned(str(user.id)):
             if chat.admin_rights:
                 try:
-                    await event.client.edit_permissions(
+                    await H1.edit_permissions(
                         chat.id,
                         user.id,
                         view_messages=False,
                     )
-                    gban_watcher = f"⚠️⚠️**Warning**⚠️⚠️\n\n`Gbanned User Joined the chat!!`\n**⚜️ Victim Id :**  [{user.first_name}](tg://user?id={user.id})\n"
                     gban_watcher += f"**🔥 Action 🔥**  \n`Banned this piece of shit....` **AGAIN!**"
-                    await event.reply(gban_watcher)
                 except BaseException:
                     pass
+            else:
+                gban_watcher += f"Reported to @admins"
+            await event.reply(gban_watcher)
+
+if H2:
+    @H2.on(events.ChatAction)
+    async def _(event):
+        if event.user_joined or event.added_by:
+            user = await event.get_user()
+            chat = await event.get_chat()
+            gban_watcher = f"⚠️⚠️**Warning**⚠️⚠️\n\n`Gbanned User Joined the chat!!`\n**⚜️ Victim Id :**  [{user.first_name}](tg://user?id={user.id})\n"
+            if is_gbanned(str(user.id)):
+                if chat.admin_rights:
+                    try:
+                        await H2.edit_permissions(
+                            chat.id,
+                            user.id,
+                            view_messages=False,
+                        )
+                        gban_watcher += f"**🔥 Action 🔥**  \n`Banned this piece of shit....` **AGAIN!**"
+                    except BaseException:
+                        pass
+                else:
+                    gban_watcher += f"Reported to @admins"
+                await event.reply(gban_watcher)
+
+if H3:
+    @H3.on(events.ChatAction)
+    async def _(event):
+        if event.user_joined or event.added_by:
+            user = await event.get_user()
+            chat = await event.get_chat()
+            gban_watcher = f"⚠️⚠️**Warning**⚠️⚠️\n\n`Gbanned User Joined the chat!!`\n**⚜️ Victim Id :**  [{user.first_name}](tg://user?id={user.id})\n"
+            if is_gbanned(str(user.id)):
+                if chat.admin_rights:
+                    try:
+                        await H3.edit_permissions(
+                            chat.id,
+                            user.id,
+                            view_messages=False,
+                        )
+                        gban_watcher += f"**🔥 Action 🔥**  \n`Banned this piece of shit....` **AGAIN!**"
+                    except BaseException:
+                        pass
+                else:
+                    gban_watcher += f"Reported to @admins"
+                await event.reply(gban_watcher)
+
+if H4:
+    @H4.on(events.ChatAction)
+    async def _(event):
+        if event.user_joined or event.added_by:
+            user = await event.get_user()
+            chat = await event.get_chat()
+            gban_watcher = f"⚠️⚠️**Warning**⚠️⚠️\n\n`Gbanned User Joined the chat!!`\n**⚜️ Victim Id :**  [{user.first_name}](tg://user?id={user.id})\n"
+            if is_gbanned(str(user.id)):
+                if chat.admin_rights:
+                    try:
+                        await H4.edit_permissions(
+                            chat.id,
+                            user.id,
+                            view_messages=False,
+                        )
+                        gban_watcher += f"**🔥 Action 🔥**  \n`Banned this piece of shit....` **AGAIN!**"
+                    except BaseException:
+                        pass
+                else:
+                    gban_watcher += f"Reported to @admins"
+                await event.reply(gban_watcher)
+
+if H5:
+    @H5.on(events.ChatAction)
+    async def _(event):
+        if event.user_joined or event.added_by:
+            user = await event.get_user()
+            chat = await event.get_chat()
+            gban_watcher = f"⚠️⚠️**Warning**⚠️⚠️\n\n`Gbanned User Joined the chat!!`\n**⚜️ Victim Id :**  [{user.first_name}](tg://user?id={user.id})\n"
+            if is_gbanned(str(user.id)):
+                if chat.admin_rights:
+                    try:
+                        await H5.edit_permissions(
+                            chat.id,
+                            user.id,
+                            view_messages=False,
+                        )
+                        gban_watcher += f"**🔥 Action 🔥**  \n`Banned this piece of shit....` **AGAIN!**"
+                    except BaseException:
+                        pass
+                else:
+                    gban_watcher += f"Reported to @admins"
+                await event.reply(gban_watcher)
 
 
-@bot.on(hell_cmd(pattern=r"gkick ?(.*)"))
-@bot.on(sudo_cmd(pattern=r"gkick ?(.*)", allow_sudo=True))
+@hell_cmd(pattern="gkick ?(.*)")
 async def gkick(event):
-    hell = await eor(event, "`Kicking globally...`")
+    cid = await client_id(event)
+    ForGo10God, HELL_USER, hell_mention = cid[0], cid[1], cid[2]
+    hell = await eor(event, f"`Kicking globally ...`")
     reply = await event.get_reply_message()
     if event.reply_to_msg_id:
         userid = (await event.get_reply_message()).sender_id
@@ -324,15 +414,15 @@ async def gkick(event):
     async for gkick in event.client.iter_dialogs():
         if gkick.is_group or gkick.is_channel:
             try:
-                await bot.kick_participant(gkick.id, userid)
+                await event.client.kick_participant(gkick.id, userid)
                 chats += 1
-                await hell.edit(f"**Kicking globally...** \n**Chats :** __{chats}__")
             except BaseException:
                 pass
+
     a = gvarstat("BAN_PIC")
     if a is not None:
         b = a.split(" ")
-        c = [cjb]
+        c = []
         for d in b:
             c.append(d)
         gbpic = random.choice(c)
@@ -340,19 +430,18 @@ async def gkick(event):
         gbpic = cjb
     gkmsg = f"🏃 **Globally Kicked** [{name}](tg://user?id={userid})'s butts !! \n\n📝 **Chats :**  `{chats}`"
     if Config.ABUSE == "ON":
-        await bot.send_file(event.chat_id, gbpic, caption=gkmsg, reply_to=reply)
+        await event.client.send_file(event.chat_id, gbpic, caption=gkmsg, reply_to=reply)
         await hell.delete()
     else:
         await hell.edit(gkmsg)
 
 
-@bot.on(hell_cmd(pattern=r"gmute ?(\d+)?"))
-@bot.on(sudo_cmd(allow_sudo=True, pattern=r"gmute ?(\d+)?"))
+@hell_cmd(pattern="gmute ?(.*)")
 async def gm(event):
     private = False
-    if event.fwd_from:
-        return
-    elif event.is_private:
+    cid = await client_id(event)
+    ForGo10God, HELL_USER, hell_mention = cid[0], cid[1], cid[2]
+    if event.is_private:
         await eor(event, "`Trying to gmute user...`")
         await asyncio.sleep(2)
         private = True
@@ -370,31 +459,24 @@ async def gm(event):
     await event.get_chat()
     if gsql.is_gmuted(userid, "gmute"):
         return await eod(event, "This kid is already Gmuted.")
-    try:
-        if str(userid) in DEVLIST:
-            return await eod(event, "**Sorry I'm not going to gmute them..**")
-    except:
-        pass
+    if str(userid) in DEVLIST:
+        return await eod(event, "**Sorry I'm not going to gmute them..**")
     try:
         gsql.gmute(userid, "gmute")
     except Exception as e:
         await eod(event, "Error occured!\nError is " + str(e))
     else:
         if Config.ABUSE == "ON":
-            await bot.send_file(event.chat_id, shhh, caption=f"**(~‾▿‾)~ Chup [Madarchod](tg://user?id={userid}) ....**", reply_to=reply)
+            await event.client.send_file(event.chat_id, shhh, caption=f"**(~‾▿‾)~ Chup [Madarchod](tg://user?id={userid}) ....**", reply_to=reply)
             await event.delete()
         else:
             await eor(event, "**Globally Muted [{name}](tg://user?id={userid}) !!**\n\n__Kid struggling to speak__ ♪～(´ε｀ )")
-        
 
 
-@bot.on(hell_cmd(outgoing=True, pattern=r"ungmute ?(\d+)?"))
-@bot.on(sudo_cmd(allow_sudo=True, pattern=r"ungmute ?(\d+)?"))
+@hell_cmd(pattern="ungmute ?(.*)")
 async def endgmute(event):
     private = False
-    if event.fwd_from:
-        return
-    elif event.is_private:
+    if event.is_private:
         await eor(event, "`Trying to ungmute !!`")
         await asyncio.sleep(2)
         private = True
@@ -419,10 +501,13 @@ async def endgmute(event):
         await eor(event, f"**Unmuted [{name}](tg://user?id={userid}) Globally !!**")
 
 
-@command(incoming=True)
+@hell_cmd(incoming=True)
 async def watcher(event):
-    if gsql.is_gmuted(event.sender_id, "gmute"):
-        await event.delete()
+    try:
+        if gsql.is_gmuted(event.sender_id, "gmute"):
+            await event.delete()
+    except Exception as e:
+        LOGS.info(str(e))
 
 
 CmdHelp("globals").add_command(

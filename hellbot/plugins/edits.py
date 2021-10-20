@@ -11,11 +11,8 @@ from telethon.tl.types import MessageEntityMentionName
 from . import *
 
 
-@bot.on(hell_cmd(pattern="type (.*)"))
-@bot.on(sudo_cmd(pattern="type (.*)", allow_sudo=True))
+@hell_cmd(pattern="type ?(.*)")
 async def _(event):
-    if event.fwd_from:
-        return
     input_str = event.pattern_match.group(1)
     shiiinabot = "\u2060"
     for i in range(601):
@@ -25,10 +22,9 @@ async def _(event):
     except Exception as e:
         logger.warn(str(e))
     typing_symbol = "_"
-    DELAY_BETWEEN_EDITS = 0.3
     previous_text = ""
     await eor(event, typing_symbol)
-    await asyncio.sleep(DELAY_BETWEEN_EDITS)
+    await asyncio.sleep(0.3)
     for character in input_str:
         previous_text = previous_text + "" + character
         typing_text = previous_text + "" + typing_symbol
@@ -36,19 +32,16 @@ async def _(event):
             await eor(event, typing_text)
         except Exception as e:
             logger.warn(str(e))
-        await asyncio.sleep(DELAY_BETWEEN_EDITS)
+        await asyncio.sleep(0.3)
         try:
             await eor(event, previous_text)
         except Exception as e:
             logger.warn(str(e))
-        await asyncio.sleep(DELAY_BETWEEN_EDITS)
+        await asyncio.sleep(0.3)
 
 
-@bot.on(hell_cmd(pattern="emoji (.*)"))
-@bot.on(sudo_cmd(pattern="emoji (.*)", allow_sudo=True))
+@hell_cmd(pattern="emoji ?(.*)")
 async def _(event):
-    if event.fwd_from:
-        return
     animation_interval = 0.3
     animation_ttl = range(0, 16)
     input_str = event.pattern_match.group(1)
@@ -57,98 +50,68 @@ async def _(event):
     elif input_str == "apple":
         await eor(event, "\uF8FF")
     elif input_str == ":/":
-        await eor(event, input_str)
+        hell = await eor(event, input_str)
         animation_chars = [":\\", ":/"]
         for i in animation_ttl:
             await asyncio.sleep(animation_interval)
-            await event.edit(animation_chars[i % 2])
+            await hell.edit(animation_chars[i % 2])
     elif input_str == "-_-":
-        await eor(event, input_str)
+        hell = await eor(event, input_str)
         animation_chars = ["-__-", "-_-"]
         for i in animation_ttl:
             await asyncio.sleep(animation_interval)
-            await event.edit(animation_chars[i % 2])
+            await hell.edit(animation_chars[i % 2])
 
 
-@bot.on(hell_cmd(pattern=f"gendar$", outgoing=True))
-@bot.on(sudo_cmd(pattern=f"gendar$", allow_sudo=True))
+@hell_cmd(pattern=f"gendar$")
 async def metoo(e):
-    if e.fwd_from:
-        return
     txt = random.choice(GENDER)
-    await edit_or_reply(e, txt)
+    await eor(e, txt)
     
-@bot.on(hell_cmd(pattern=f"shrug$", outgoing=True))
-@bot.on(sudo_cmd(pattern=f"shrug$", allow_sudo=True))
+@hell_cmd(pattern=f"shrug$")
 async def metoo(e):
-    if e.fwd_from:
-        return
     txt = random.choice(SHRUG)
-    await edit_or_reply(e, txt)
+    await eor(e, txt)
     
-@bot.on(hell_cmd(pattern=f"doge", outgoing=True))
-@bot.on(sudo_cmd(pattern=f"doge", allow_sudo=True))
+@hell_cmd(pattern=f"dogge")
 async def metoo(e):
-    if e.fwd_from:
-        return
     txt = random.choice(DOG)
-    await edit_or_reply(e, txt)
+    await eor(e, txt)
     
-@bot.on(hell_cmd(pattern=f"mesed$", outgoing=True))
-@bot.on(sudo_cmd(pattern=f"mesed$", allow_sudo=True))
+@hell_cmd(pattern=f"mesed$")
 async def metoo(e):
-    if e.fwd_from:
-        return
     txt = random.choice(SED)
-    await edit_or_reply(e, txt)
+    await eor(e, txt)
     
-@bot.on(hell_cmd(pattern=f"medead$", outgoing=True))
-@bot.on(sudo_cmd(pattern=f"medead$", allow_sudo=True))
+@hell_cmd(pattern=f"medead$")
 async def metoo(e):
-    if e.fwd_from:
-        return
     txt = random.choice(DEAD)
-    await edit_or_reply(e, txt)
+    await eor(e, txt)
     
-@bot.on(hell_cmd(pattern=f"confused$", outgoing=True))
-@bot.on(sudo_cmd(pattern=f"confused$", allow_sudo=True))
+@hell_cmd(pattern=f"confused$")
 async def metoo(e):
-    if e.fwd_from:
-        return
     txt = random.choice(CONFUSED)
-    await edit_or_reply(e, txt)
+    await eor(e, txt)
     
-@bot.on(hell_cmd(pattern=f"lobb$", outgoing=True))
-@bot.on(sudo_cmd(pattern=f"lobb$", allow_sudo=True))
+@hell_cmd(pattern=f"lobb$")
 async def metoo(e):
-    if e.fwd_from:
-        return
     txt = random.choice(LOB)
-    await edit_or_reply(e, txt)
+    await eor(e, txt)
     
-@bot.on(hell_cmd(pattern=f"wut$", outgoing=True))
-@bot.on(sudo_cmd(pattern=f"wut$", allow_sudo=True))
+@hell_cmd(pattern=f"wut$")
 async def metoo(e):
-    if e.fwd_from:
-        return
     txt = random.choice(WTF)
-    await edit_or_reply(e, txt)
+    await eor(e, txt)
     
-@bot.on(hell_cmd(pattern=f"wavee$", outgoing=True))
-@bot.on(sudo_cmd(pattern=f"wavee$", allow_sudo=True))
+@hell_cmd(pattern=f"wavee$")
 async def metoo(e):
-    if e.fwd_from:
-        return
     txt = random.choice(WAVING)
-    await edit_or_reply(e, txt)
+    await eor(e, txt)
     
-@bot.on(hell_cmd(pattern=f"hehe$", outgoing=True))
-@bot.on(sudo_cmd(pattern=f"hehe$", allow_sudo=True))
+@hell_cmd(pattern=f"hehe$")
 async def metoo(e):
-    if e.fwd_from:
-        return
     txt = random.choice(EMOTICONS)
-    await edit_or_reply(e, txt)
+    await eor(e, txt)
     
 CmdHelp("edits").add_command(
   "hehe", None, "Use and see"

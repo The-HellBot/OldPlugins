@@ -1,89 +1,83 @@
 import random
+
 from . import *
 
-@bot.on(hell_cmd(pattern=r"sing$", outgoing=True))
-@bot.on(sudo_cmd(pattern=r"sing$", allow_sudo=True))
+
+@hell_cmd(pattern="sing$")
 async def _(e):
     txt = random.choice(SONGS)
     await eor(e, txt)
 
-@bot.on(hell_cmd(pattern=f"hps$", outgoing=True))
-@bot.on(sudo_cmd(pattern=f"hps$", allow_sudo=True))
+@hell_cmd(pattern="hps$")
 async def _(e):
     txt = random.choice(HARRY)
     await eor(e, txt)
 
-@bot.on(hell_cmd(pattern=f"gott$", outgoing=True))
-@bot.on(sudo_cmd(pattern=f"gott$", allow_sudo=True))
+@hell_cmd(pattern="gott$")
 async def _(e):
     txt = random.choice(GOTT)
     await eor(e, txt)
 
-@bot.on(hell_cmd(pattern=f"gotm$", outgoing=True))
-@bot.on(sudo_cmd(pattern=f"gotm$", allow_sudo=True))
+@hell_cmd(pattern="gotm$")
 async def _(e):
     txt = random.choice(GOTM)
     await eor(e, txt, link_preview=True)
 
-@bot.on(hell_cmd(pattern="bello$", outgoing=True))
-@bot.on(sudo_cmd(pattern="bello$", allow_sudo=True))
+@hell_cmd(pattern="bello$")
 async def _(e):
     txt = random.choice(BELLO)
     await eor(e, txt)
 
-@bot.on(hell_cmd(pattern=r"tip$", outgoing=True))
-@bot.on(sudo_cmd(pattern=r"tip$", allow_sudo=True))
+@hell_cmd(pattern="tip$")
 async def _(e):
     txt = random.choice(TIPS)
     await eor(e, txt)
 
-@bot.on(hell_cmd(pattern=r"qt$"))
-@bot.on(sudo_cmd(pattern=r"qt$", allow_sudo=True))
+@hell_cmd(pattern="qt$")
 async def _(e):
     txt = random.choice(QT)
     await eor(e, txt)
 
-@bot.on(hell_cmd(pattern=f"logic$", outgoing=True))
-@bot.on(sudo_cmd(pattern=f"logic$", allow_sudo=True))
+@hell_cmd(pattern="logic$")
 async def _(e):
     txt = random.choice(LOGIC)
     await eor(e, txt)
 
-@bot.on(hell_cmd(pattern=r"snow$", outgoing=True))
-@bot.on(sudo_cmd(pattern=r"sonw$", allow_sudo=True))
+@hell_cmd(pattern="snow$")
 async def _(e):
     txt = random.choice(SNOW)
     await eor(e, txt)
 
-@bot .on(hell_cmd(pattern=r"shayri$", outgoing=True))
-@bot.on(sudo_cmd(pattern=r"shayri$", allow_sudo=True))
+@hell_cmd(pattern="shayri$")
 async def _(e):
+    _, _, hell_mention = await client_id(e)
     txt = random.choice(SHAYRI)
     await eor(e, txt.format(hell_mention))
 
-@bot.on(hell_cmd(pattern=r"hflirt$", outgoing=True))
-@bot.on(sudo_cmd(pattern=r"hflirt$", allow_sudo=True))
+@hell_cmd(pattern="hflirt$")
 async def _(e):
+    _, _, hell_mention = await client_id(e)
     txt = random.choice(HFLIRT)
     await eor(e, txt.format(hell_mention))
 
-@bot.on(hell_cmd(pattern=r"eflirt$", outgoing=True))
-@bot.on(sudo_cmd(pattern=r"eflirt$", allow_sudo=True))
+@hell_cmd(pattern="eflirt$")
 async def _(e):
+    _, _, hell_mention = await client_id(e)
     txt = random.choice(EFLIRT)
     await eor(e, txt.format(hell_mention))
 
-@bot.on(hell_cmd(pattern=r"attitude$", outgoing=True))
-@bot.on(sudo_cmd(pattern=r"attitude$", allow_sudo=True))
+@hell_cmd(pattern="attitude$")
 async def _(e):
+    _, _, hell_mention = await client_id(e)
     txt = random.choice(ATTITUDE)
     await eor(e, txt.format(hell_mention))
 
-@bot.on(hell_cmd(pattern="gbye$", outgoing=True))
-@bot.on(sudo_cmd(pattern="gbye$", allow_sudo=True))
+@hell_cmd(pattern="gbye$")
 async def _(e):
+    _, _, hell_mention = await client_id(e)
     txt = random.choice(GBYE)
     await eor(e, txt.format(hell_mention))
+
 
 CmdHelp("randoms").add_command(
   'sing', None, 'Sings a song'

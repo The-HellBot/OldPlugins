@@ -11,8 +11,8 @@ from telethon.tl.types import ChatBannedRights
 class Config(object):
     LOGGER = True
     ABUSE = os.environ.get("ABUSE", None)
-    ALIVE_MSG = os.environ.get("ALIVE_MSG", "⚡ ʟɛɢɛռɖaʀʏ ᴀғ ɦɛʟʟɮօt ⚡")
-    ALIVE_PIC = os.environ.get("ALIVE_PIC", "https://telegra.ph/file/f62e50245639f24fd955b.jpg")
+    ALIVE_MSG = os.environ.get("ALIVE_MSG", None)
+    ALIVE_PIC = os.environ.get("ALIVE_PIC", None)
     ANTI_FLOOD_WARN_MODE = ChatBannedRights(
         until_date=None,
         view_messages=None,
@@ -62,7 +62,7 @@ class Config(object):
     HELP_PIC = os.environ.get("HELP_PIC", None)
     HEROKU_API_KEY = os.environ.get("HEROKU_API_KEY", None)
     HEROKU_APP_NAME = os.environ.get("HEROKU_APP_NAME", None)
-    INSTANT_BLOCK = os.environ.get("INSTANT_BLOCK", "DISABLE")
+    INSTANT_BLOCK = os.environ.get("INSTANT_BLOCK", None)
     LOCATION = os.environ.get("LOCATION", None)
     LOGGER_ID = os.environ.get("LOGGER_ID", None)
     if LOGGER_ID:
@@ -81,12 +81,16 @@ class Config(object):
     PM_LOG_ID = os.environ.get("PM_LOG_ID", None)
     if PM_LOG_ID:
         PM_LOG_ID = int(PM_LOG_ID)
-    PM_PERMIT = os.environ.get("PM_PERMIT", "ENABLE")
+    PM_PERMIT = os.environ.get("PM_PERMIT", None)
     PMPERMIT_PIC = os.environ.get("PMPERMIT_PIC", "https://telegra.ph/file/73e95f4325159336766c0.jpg")
     REMOVE_BG_API = os.environ.get("REMOVE_BG_API", None)
     SCREEN_SHOT_LAYER_ACCESS_KEY = os.environ.get("SCREEN_SHOT_LAYER_ACCESS_KEY", None)
     STICKER_PACKNAME = os.environ.get("STICKER_PACKNAME", None)
     HELLBOT_SESSION = os.environ.get("HELLBOT_SESSION", None)
+    SESSION_2 = os.environ.get("SESSION_2", None)
+    SESSION_3 = os.environ.get("SESSION_3", None)
+    SESSION_4 = os.environ.get("SESSION_4", None)
+    SESSION_5 = os.environ.get("SESSION_5", None)
     SUDO_HANDLER = os.environ.get("SUDO_HANDLER", r"\.")
     SUDO_USERS = set(int(x) for x in os.environ.get("SUDO_USERS", "").split())
     TAG_LOGGER = os.environ.get("TAG_LOGGER", None)

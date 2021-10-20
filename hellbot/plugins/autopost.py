@@ -1,32 +1,52 @@
 from telethon import events
 
 from hellbot.sql.autopost_sql import add_post, get_all_post, is_post, remove_post
+from hellbot.sql.gvar_sql import gvarstat, addgvar, delgvar
+
 from . import *
 
-@bot.on(hell_cmd(pattern="autopost ?(.*)"))
-@bot.on(sudo_cmd(pattern="autopost ?(.*)", allow_sudo=True))
+
+@hell_cmd(pattern="autopost ?(.*)")
 async def _(event):
-    if (event.is_private or event.is_group):
-        return await eod(event, "AutoPost Can Only Be Used For Channels.")
-    hel_ = event.pattern_match.group(1)
+    if event.is_private:
+        return await eod(event, "AutoPost Can Only Be Used For Channels & Groups.")
+    hell = await eor(event, "Trying to start autoposting from here...")
+    cid = await client_id(event)
+    ForGo10God = cid[0]
+    hel_ = event.text[10:]
+    cli_ = ForGo10God
+    checker = gvarstat(f"AUTOPOST_{str(cli_)}")
+    if hel_ == "":
+        return await eod(hell, f"Give correct command for working of autopost. \n`{hl}autopost channel_id`")
     if str(hel_).startswith("-100"):
         kk = str(hel_).replace("-100", "")
     else:
         kk = hel_
     if not kk.isdigit():
-        return await eod(event, "**Please Give Channel ID !!**")
+        return await eod(hell, "**Please Give Channel ID !!**")
     if is_post(kk , event.chat_id):
-        return await eor(event, "This Channel Is Already In AutoPost Database.")
+        if checker and checker == "True":
+            return await hell.edit("This channel is already in this client's autopost database.")
+        else:
+            addgvar(f"AUTOPOST_{str(cli_)}", "True")
+            return await hell.edit(f"**📍 Started AutoPosting from** `{hel_}` for `{cli_}`")
     add_post(kk, event.chat_id)
-    await eor(event, f"**📍 Started AutoPosting from** `{hel_}`")
+    addgvar(f"AUTOPOST_{str(cli_)}", "True")
+    await hell.edit(f"**📍 Started AutoPosting from** `{hel_}` for `{cli_}`")
 
 
-@bot.on(hell_cmd(pattern="rmautopost ?(.*)"))
-@bot.on(sudo_cmd(pattern="rmautopost ?(.*)", allow_sudo=True))
+@hell_cmd(pattern="rmautopost ?(.*)")
 async def _(event):
-    if (event.is_private or event.is_group):
+    if event.is_private:
         return await eod(event, "AutoPost Can Only Be Used For Channels.")
-    hel_ = event.pattern_match.group(1)
+    hell = await eor(event, "Removing autopost...")
+    cid = await client_id(event)
+    ForGo10God = cid[0]
+    hel_ = event.text[12:]
+    cli_ = ForGo10God
+    checker = gvarstat(f"AUTOPOST_{str(cli_)}")
+    if hel_ == "":
+        return await eod(hell, f"Give correct command for removing autopost. \n`{hl}autopost channel_id`")
     if str(hel_).startswith("-100"):
         kk = str(hel_).replace("-100", "")
     else:
@@ -35,22 +55,31 @@ async def _(event):
         return await eod(event, "**Please Give Channel ID !!**")
     if not is_post(kk, event.chat_id):
         return await eod(event, "I don't think this channel is in AutoPost Database.")
-    remove_post(kk, event.chat_id)
-    await eor(event, f"**📍 Stopped AutoPosting From** `{hel_}`")
+    if is_post(kk, event.chat_id):
+        if checker and checker == "True":
+            remove_post(kk, event.chat_id)
+            delgvar(f"AUTOPOST_{str(cli_)}")
+            return await eod(hell, f"Removed `{hel_}` from `{cli_}` autopost database.")
+        else:
+            return await eod(hell, f"This channel is not in `{cli_}` autopost database.")
 
-@bot.on(events.NewMessage())
+
+@hell_handler()
 async def _(event):
-    if event.is_private:
-        return
     chat_id = str(event.chat_id).replace("-100", "")
     channels_set  = get_all_post(chat_id)
     if channels_set == []:
         return
-    for chat in channels_set:
-        if event.media:
-            await event.client.send_file(int(chat), event.media, caption=event.text)
-        elif not event.media:
-            await bot.send_message(int(chat), event.message)
+    cid = await client_id(event)
+    ForGo10God = cid[0]
+    cli_ = ForGo10God
+    checker = gvarstat(f"AUTOPOST_{str(cli_)}")
+    if checker and checker == "True":
+        for chat in channels_set:
+            if event.media:
+                await event.client.send_file(int(chat), event.media, caption=event.text)
+            elif not event.media:
+                await event.client.send_message(int(chat), event.message)
 
 
 CmdHelp("autopost").add_command(

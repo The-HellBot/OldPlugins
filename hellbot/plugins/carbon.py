@@ -12,23 +12,19 @@ CARBONLANG = "auto"
 LANG = "en"
 
 
-@bot.on(hell_cmd(outgoing=True, pattern="carbon(?: |$)(.*)"))
-@bot.on(sudo_cmd(pattern="carbon(?: |$)(.*)", allow_sudo=True))
+@hell_cmd(pattern="carbon(?: |$)(.*)")
 async def carbon_api(e):
-    if e.fwd_from:
-        return
-    """ A Wrapper for carbon.now.sh """
-    await e.edit("`Processing..`")
+    hell = await eor(e, "`Processing..`")
     CARBON = "https://carbon.now.sh/?l={lang}&code={code}"
     textx = await e.get_reply_message()
     pcode = e.text
     if pcode[8:]:
         pcode = str(pcode[8:])
     elif textx:
-        pcode = str(textx.message)  # Importing message to module
+        pcode = str(textx.message)
     pcode = deEmojify(pcode)
-    code = quote_plus(pcode)  # Converting to urlencoded
-    hell = await edit_or_reply(e, "`Carbonizing...\n25%`")
+    code = quote_plus(pcode)
+    await hell.edit("`Carbonizing...\n25%`")
     url = CARBON.format(code=code, lang=CARBONLANG)
     chrome_options = Options()
     chrome_options.add_argument("--headless")
@@ -55,10 +51,7 @@ async def carbon_api(e):
     }
     driver.execute("send_command", params)
     driver.find_element_by_xpath("//button[contains(text(),'Export')]").click()
-    # driver.find_element_by_xpath("//button[contains(text(),'4x')]").click()
-    # driver.find_element_by_xpath("//button[contains(text(),'PNG')]").click()
     await hell.edit("`Processing..\n75%`")
-    # Waiting for downloading
     await asyncio.sleep(2)
     await hell.edit("`Done Dana Done...\n100%`")
     file = "./carbon.png"
@@ -72,16 +65,12 @@ async def carbon_api(e):
     )
     os.remove("./carbon.png")
     driver.quit()
-    # Removing carbon.png after uploading
     await hell.delete()
 
 
-@bot.on(hell_cmd(outgoing=True, pattern="krb"))
-@bot.on(sudo_cmd(pattern="krb", allow_sudo=True))
+@hell_cmd(pattern="krb")
 async def carbon_api(e):
-    if e.fwd_from:
-        return
-    hell = await edit_or_reply(e, "`Processing....`")
+    hell = await eor(e, "`Processing....`")
     CARBON = "https://carbon.now.sh/?l={lang}&code={code}"
     textx = await e.get_reply_message()
     pcode = e.text
@@ -94,9 +83,9 @@ async def carbon_api(e):
             skeme = None
     elif textx:
         pcode = str(textx.message)
-        skeme = None  # Importing message to module
+        skeme = None
     pcode = deEmojify(pcode)
-    code = quote_plus(pcode)  # Converting to urlencoded
+    code = quote_plus(pcode)
     await hell.edit("`Making Carbon...`\n`25%`")
     url = CARBON.format(code=code, lang=CARBONLANG)
     chrome_options = Options()
@@ -140,7 +129,6 @@ async def carbon_api(e):
     driver.find_element_by_xpath("//button[contains(text(),'4x')]").click()
     driver.find_element_by_xpath("//button[contains(text(),'PNG')]").click()
     await hell.edit("`Processing..\n75%`")
-    # Waiting for downloading
     await asyncio.sleep(2.5)
     color_name = driver.find_element_by_xpath(
         "/html/body/div[1]/main/div[3]/div[2]/div[1]/div[1]/div/span[2]/input"
@@ -160,13 +148,9 @@ async def carbon_api(e):
     await hell.delete()
 
 
-@bot.on(hell_cmd(pattern=f"kar1(?: |$)(.*)", outgoing=True))
-@bot.on(sudo_cmd(pattern="kar1(?: |$)(.*)", allow_sudo=True))
+@hell_cmd(pattern=f"kar1(?: |$)(.*)")
 async def carbon_api(e):
-    if e.fwd_from:
-        return
-    """ A Wrapper for carbon.now.sh """
-    hell = await edit_or_reply(e, "🔲🔲🔲🔲🔲")
+    hell = await eor(e, "🔲🔲🔲🔲🔲")
     CARBON = "https://carbon.now.sh/?bg=rgba(249%2C237%2C212%2C0)&t=synthwave-84&wt=none&l=application%2Fjson&ds=true&dsyoff=20px&dsblur=0px&wc=true&wa=true&pv=56px&ph=0px&ln=false&fl=1&fm=IBM%20Plex%20Mono&fs=14.5px&lh=153%25&si=false&es=4x&wm=false&code={code}"
     CARBONLANG = "en"
     textx = await e.get_reply_message()
@@ -174,8 +158,8 @@ async def carbon_api(e):
     if pcode[6:]:
         pcode = str(pcode[6:])
     elif textx:
-        pcode = str(textx.message)  # Importing message to module
-    code = quote_plus(pcode)  # Converting to urlencoded
+        pcode = str(textx.message)
+    code = quote_plus(pcode)
     url = CARBON.format(code=code, lang=CARBONLANG)
     chrome_options = Options()
     chrome_options.add_argument("--headless")
@@ -217,17 +201,12 @@ async def carbon_api(e):
         reply_to=e.message.reply_to_msg_id,
     )
     os.remove("./carbon.png")
-    # Removing carbon.png after uploading
-    await hell.delete()  # Deleting msg
+    await hell.delete()
 
 
-@bot.on(hell_cmd(pattern=f"kar2(?: |$)(.*)", outgoing=True))
-@bot.on(sudo_cmd(pattern="kar2(?: |$)(.*)", allow_sudo=True))
+@hell_cmd(pattern=f"kar2(?: |$)(.*)")
 async def carbon_api(e):
-    if e.fwd_from:
-        return
-    """ A Wrapper for carbon.now.sh """
-    hell = await edit_or_reply(e, "📛📛📛📛📛")
+    hell = await eor(e, "📛📛📛📛📛")
     CARBON = "https://carbon.now.sh/?bg=rgba(239%2C40%2C44%2C1)&t=one-light&wt=none&l=application%2Ftypescript&ds=true&dsyoff=20px&dsblur=68px&wc=true&wa=true&pv=56px&ph=56px&ln=false&fl=1&fm=Hack&fs=14px&lh=143%25&si=false&es=2x&wm=false&code={code}"
     CARBONLANG = "en"
     textx = await e.get_reply_message()
@@ -235,8 +214,8 @@ async def carbon_api(e):
     if pcode[6:]:
         pcode = str(pcode[6:])
     elif textx:
-        pcode = str(textx.message)  # Importing message to module
-    code = quote_plus(pcode)  # Converting to urlencoded
+        pcode = str(textx.message)
+    code = quote_plus(pcode)
     url = CARBON.format(code=code, lang=CARBONLANG)
     chrome_options = Options()
     chrome_options.add_argument("--headless")
@@ -265,7 +244,7 @@ async def carbon_api(e):
     driver.find_element_by_xpath("//button[contains(text(),'Export')]").click()
     await asyncio.sleep(2)
     await hell.edit("🔘🔘🔘📛📛")
-    await asyncio.sleep(2)  # Waiting for downloading
+    await asyncio.sleep(2)
     await hell.edit("🔘🔘🔘🔘🔘")
     file = "./carbon.png"
     await hell.edit("☣️Karbon2 Completed, Uploading Karbon☣️")
@@ -278,17 +257,12 @@ async def carbon_api(e):
     )
 
     os.remove("./carbon.png")
-    # Removing carbon.png after uploading
-    await hell.delete()  # Deleting msg
+    await hell.delete()
 
 
-@bot.on(hell_cmd(pattern=f"kar3(?: |$)(.*)", outgoing=True))
-@bot.on(sudo_cmd(pattern="kar3(?: |$)(.*)", allow_sudo=True))
+@hell_cmd(pattern=f"kar3(?: |$)(.*)")
 async def carbon_api(e):
-    if e.fwd_from:
-        return
-    """ A Wrapper for carbon.now.sh """
-    hell = await edit_or_reply(e, "🎛🎛🎛🎛🎛")
+    hell = await eor(e, "🎛🎛🎛🎛🎛")
     CARBON = "https://carbon.now.sh/?bg=rgba(74%2C144%2C226%2C1)&t=material&wt=none&l=auto&ds=false&dsyoff=20px&dsblur=68px&wc=true&wa=true&pv=56px&ph=56px&ln=false&fl=1&fm=Fira%20Code&fs=14px&lh=152%25&si=false&es=2x&wm=false&code={code}"
     CARBONLANG = "en"
     textx = await e.get_reply_message()
@@ -296,8 +270,8 @@ async def carbon_api(e):
     if pcode[6:]:
         pcode = str(pcode[6:])
     elif textx:
-        pcode = str(textx.message)  # Importing message to module
-    code = quote_plus(pcode)  # Converting to urlencoded
+        pcode = str(textx.message)
+    code = quote_plus(pcode)
     url = CARBON.format(code=code, lang=CARBONLANG)
     chrome_options = Options()
     chrome_options.add_argument("--headless")
@@ -328,8 +302,7 @@ async def carbon_api(e):
     driver.find_element_by_xpath("//button[contains(text(),'Export')]").click()
     await asyncio.sleep(2)
     await hell.edit("🔵🔵🔵🎛🎛")
-    # driver.find_element_by_xpath("//button[contains(text(),'PNG')]").click()
-    await asyncio.sleep(2)  # Waiting for downloading
+    await asyncio.sleep(2)
 
     await hell.edit("🔵🔵🔵🔵🔵")
     file = "./carbon.png"
@@ -343,17 +316,12 @@ async def carbon_api(e):
     )
 
     os.remove("./carbon.png")
-    # Removing carbon.png after uploading
-    await hell.delete()  # Deleting msg
+    await hell.delete()
 
 
-@bot.on(hell_cmd(pattern=f"kar4(?: |$)(.*)", outgoing=True))
-@bot.on(sudo_cmd(pattern="kar4(?: |$)(.*)", allow_sudo=True))
+@hell_cmd(pattern=f"kar4(?: |$)(.*)")
 async def carbon_api(e):
-    if e.fwd_from:
-        return
-    """ A Wrapper for carbon.now.sh """
-    hell = await edit_or_reply(e, "🌚🌚🌚🌚🌚")
+    hell = await eor(e, "🌚🌚🌚🌚🌚")
     CARBON = "https://carbon.now.sh/?bg=rgba(29%2C40%2C104%2C1)&t=one-light&wt=none&l=application%2Ftypescript&ds=true&dsyoff=20px&dsblur=68px&wc=true&wa=true&pv=56px&ph=56px&ln=false&fl=1&fm=Hack&fs=14px&lh=143%25&si=false&es=2x&wm=false&code={code}"
     CARBONLANG = "en"
     textx = await e.get_reply_message()
@@ -361,8 +329,8 @@ async def carbon_api(e):
     if pcode[6:]:
         pcode = str(pcode[6:])
     elif textx:
-        pcode = str(textx.message)  # Importing message to module
-    code = quote_plus(pcode)  # Converting to urlencoded
+        pcode = str(textx.message)
+    code = quote_plus(pcode)
     url = CARBON.format(code=code, lang=CARBONLANG)
     chrome_options = Options()
     chrome_options.add_argument("--headless")
@@ -393,8 +361,7 @@ async def carbon_api(e):
     driver.find_element_by_xpath("//button[contains(text(),'Export')]").click()
     await asyncio.sleep(2)
     await hell.edit("🌝🌝🌝🌚🌚")
-    # driver.find_element_by_xpath("//button[contains(text(),'PNG')]").click()
-    await asyncio.sleep(2)  # Waiting for downloading
+    await asyncio.sleep(2)
 
     await hell.edit("🌝🌝🌝🌝🌝")
     file = "./carbon.png"
@@ -408,20 +375,16 @@ async def carbon_api(e):
     )
 
     os.remove("./carbon.png")
-    # Removing carbon.png after uploading
-    await hell.delete()  # Deleting msg
+    await hell.delete()
 
 
-@bot.on(hell_cmd(pattern=f"rgbk2(?: |$)(.*)", outgoing=True))
-@bot.on(sudo_cmd(pattern="rgbk2(?: |$)(.*)", allow_sudo=True))
+@hell_cmd(pattern=f"rgbk2(?: |$)(.*)")
 async def carbon_api(e):
-    if e.fwd_from:
-        return
     RED = random.randint(0, 256)
     GREEN = random.randint(0, 256)
     BLUE = random.randint(0, 256)
     OPC = random.random()
-    hell = await edit_or_reply(e, "⬜⬜⬜⬜⬜")
+    hell = await eor(e, "⬜⬜⬜⬜⬜")
     CARBON = "https://carbon.now.sh/?bg=rgba({R}%2C{G}%2C{B}%2C{O})&t=material&wt=none&l=auto&ds=false&dsyoff=20px&dsblur=68px&wc=true&wa=true&pv=56px&ph=56px&ln=false&fl=1&fm=Fira%20Code&fs=14px&lh=152%25&si=false&es=2x&wm=false&code={code}"
     CARBONLANG = "en"
     textx = await e.get_reply_message()
@@ -429,8 +392,8 @@ async def carbon_api(e):
     if pcode[7:]:
         pcode = str(pcode[7:])
     elif textx:
-        pcode = str(textx.message)  # Importing message to module
-    code = quote_plus(pcode)  # Converting to urlencoded
+        pcode = str(textx.message)
+    code = quote_plus(pcode)
     url = CARBON.format(code=code, R=RED, G=GREEN, B=BLUE, O=OPC, lang=CARBONLANG)
     chrome_options = Options()
     chrome_options.add_argument("--headless")
@@ -459,12 +422,9 @@ async def carbon_api(e):
     driver.execute("send_command", params)
 
     driver.find_element_by_xpath("//button[contains(text(),'Export')]").click()
-    await asyncio.sleep(2)  # this might take a bit.
-    # driver.find_element_by_xpath("//button[contains(text(),'4x')]").click()
-    # await asyncio.sleep(5)
+    await asyncio.sleep(2)
     await hell.edit("⬛⬛⬛⬜⬜")
-    # driver.find_element_by_xpath("//button[contains(text(),'PNG')]").click()
-    await asyncio.sleep(2)  # Waiting for downloading
+    await asyncio.sleep(2)
 
     await hell.edit("⬛⬛⬛⬛⬛")
     file = "./carbon.png"
@@ -477,15 +437,11 @@ async def carbon_api(e):
         reply_to=e.message.reply_to_msg_id,
     )
     os.remove("./carbon.png")
-    # Removing carbon.png after uploading
-    await hell.delete()  # Deleting msg
+    await hell.delete()
 
 
-@bot.on(hell_cmd(pattern=f"kargb(?: |$)(.*)", outgoing=True))
-@bot.on(sudo_cmd(pattern="kargb(?: |$)(.*)", allow_sudo=True))
+@hell_cmd(pattern=f"kargb(?: |$)(.*)")
 async def carbon_api(e):
-    if e.fwd_from:
-        return
     RED = random.randint(0, 256)
     GREEN = random.randint(0, 256)
     BLUE = random.randint(0, 256)
@@ -522,7 +478,7 @@ async def carbon_api(e):
     ]
     CUNTHE = random.randint(0, len(THEME) - 1)
     The = THEME[CUNTHE]
-    hell = await edit_or_reply(e, "⬜⬜⬜⬜⬜")
+    hell = await eor(e, "⬜⬜⬜⬜⬜")
     CARBON = "https://carbon.now.sh/?bg=rgba({R}%2C{G}%2C{B}%2C1)&t={T}&wt=none&l=auto&ds=false&dsyoff=20px&dsblur=68px&wc=true&wa=true&pv=56px&ph=56px&ln=false&fl=1&fm=Fira%20Code&fs=14px&lh=152%25&si=false&es=2x&wm=false&code={code}"
     CARBONLANG = "en"
     textx = await e.get_reply_message()
@@ -530,8 +486,8 @@ async def carbon_api(e):
     if pcode[7:]:
         pcode = str(pcode[7:])
     elif textx:
-        pcode = str(textx.message)  # Importing message to module
-    code = quote_plus(pcode)  # Converting to urlencoded
+        pcode = str(textx.message)
+    code = quote_plus(pcode)
     url = CARBON.format(code=code, R=RED, G=GREEN, B=BLUE, T=The, lang=CARBONLANG)
     chrome_options = Options()
     chrome_options.add_argument("--headless")
@@ -559,12 +515,9 @@ async def carbon_api(e):
     }
     driver.execute("send_command", params)
     driver.find_element_by_xpath("//button[contains(text(),'Export')]").click()
-    await asyncio.sleep(2)  # this might take a bit.
-    #  driver.find_element_by_xpath("//button[contains(text(),'4x')]").click()
-    # await asyncio.sleep(5)
+    await asyncio.sleep(2)
     await hell.edit("⬛⬛⬛⬜⬜")
-    # driver.find_element_by_xpath("//button[contains(text(),'PNG')]").click()
-    await asyncio.sleep(2)  # Waiting for downloading
+    await asyncio.sleep(2)
     await hell.edit("⬛⬛⬛⬛⬛")
     file = "./carbon.png"
     await hell.edit("✅RGB Karbon Completed, Uploading Karbon✅")
@@ -576,7 +529,7 @@ async def carbon_api(e):
         reply_to=e.message.reply_to_msg_id,
     )
     os.remove("./carbon.png")
-    await hell.delete()  # Deleting msg
+    await hell.delete()
 
 
 CmdHelp("carbon").add_command(

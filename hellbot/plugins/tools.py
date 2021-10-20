@@ -17,11 +17,8 @@ from telethon.errors.rpcerrorlist import YouBlockedUserError
 from . import *
 
 
-@bot.on(hell_cmd(pattern="scan ?(.*)"))
-@bot.on(sudo_cmd(pattern="scan ?(.*)", allow_sudo=True))
+@hell_cmd(pattern="scan ?(.*)")
 async def _(event):
-    if event.fwd_from:
-        return
     if not event.reply_to_msg_id:
         await eod(event, "Reply to any user message.")
         return
@@ -30,9 +27,6 @@ async def _(event):
         await eod(event, "Reply to a media message")
         return
     chat = "@DrWebBot"
-    if reply_message.sender.bot:
-        await eod(event, "Reply to actual users message.")
-        return
     hellevent = await eor(event, " `Scanning This media..... wait👀`")
     async with event.client.conversation(chat) as conv:
         try:
@@ -59,14 +53,13 @@ async def _(event):
                 )
 
 
-@bot.on(hell_cmd(pattern=r"decode$", outgoing=True))
-@bot.on(sudo_cmd(pattern=r"decode$", allow_sudo=True))
-async def parseqr(qr_e):
+@hell_cmd(pattern="decode$")
+async def parseqr(event):
     if not os.path.isdir(Config.TEMP_DIR):
         os.makedirs(Config.TEMP_DIR)
     # For .decode command, get QR Code/BarCode content from the replied photo.
-    downloaded_file_name = await qr_e.client.download_media(
-        await qr_e.get_reply_message(), Config.TMP_DIR
+    downloaded_file_name = await event.client.download_media(
+        await event.get_reply_message(), Config.TMP_DIR
     )
     # parse the Official ZXing webpage to decode the QRCode
     command_to_exec = [
@@ -88,19 +81,16 @@ async def parseqr(qr_e):
     e_response = stderr.decode().strip()
     t_response = stdout.decode().strip()
     if not t_response:
-        return await edit_or_reply(qr_e, f"Failed to decode.\n`{e_response}`")
+        return await edit_or_reply(event, f"Failed to decode.\n`{e_response}`")
     soup = BeautifulSoup(t_response, "html.parser")
     qr_contents = soup.find_all("pre")[0].text
-    await edit_or_reply(qr_e, qr_contents)
+    await edit_or_reply(event, qr_contents)
     if os.path.exists(downloaded_file_name):
         os.remove(downloaded_file_name)
 
 
-@bot.on(hell_cmd(pattern="barcode ?(.*)"))
-@bot.on(sudo_cmd(pattern="barcode ?(.*)", allow_sudo=True))
+@hell_cmd(pattern="barcode ?(.*)")
 async def _(event):
-    if event.fwd_from:
-        return
     hellevent = await eor(event, "...")
     start = datetime.datetime.now()
     input_str = event.pattern_match.group(1)
@@ -148,19 +138,18 @@ async def _(event):
     await hellevent.delete()
 
 
-@bot.on(hell_cmd(pattern=r"makeqr(?: |$)([\s\S]*)", outgoing=True))
-@bot.on(sudo_cmd(pattern=r"makeqr(?: |$)([\s\S]*)", allow_sudo=True))
-async def make_qr(makeqr):
-    input_str = makeqr.pattern_match.group(1)
+@hell_cmd(pattern="makeqr(?: |$)([\s\S]*)")
+async def make_qr(event):
+    input_str = event.pattern_match.group(1)
     message = f"SYNTAX: `{hl}makeqr <long text to include>`"
     reply_msg_id = None
     if input_str:
         message = input_str
-    elif makeqr.reply_to_msg_id:
-        previous_message = await makeqr.get_reply_message()
+    elif event.reply_to_msg_id:
+        previous_message = await event.get_reply_message()
         reply_msg_id = previous_message.id
         if previous_message.media:
-            downloaded_file_name = await makeqr.client.download_media(previous_message)
+            downloaded_file_name = await event.client.download_media(previous_message)
             m_list = None
             with open(downloaded_file_name, "rb") as file:
                 m_list = file.readlines()
@@ -180,20 +169,16 @@ async def make_qr(makeqr):
     qr.make(fit=True)
     img = qr.make_image(fill_color="black", back_color="white")
     img.save("img_file.webp", "PNG")
-    await makeqr.client.send_file(
-        makeqr.chat_id, "img_file.webp", reply_to=reply_msg_id
+    await event.client.send_file(
+        event.chat_id, "img_file.webp", reply_to=reply_msg_id
     )
     os.remove("img_file.webp")
-    await makeqr.delete()
+    await event.delete()
 
 
-@bot.on(hell_cmd(pattern="cal (.*)"))
-@bot.on(sudo_cmd(pattern="cal (.*)", allow_sudo=True))
+@hell_cmd(pattern="cal ?(.*)")
 async def _(event):
-    if event.fwd_from:
-        return
-    start = datetime.datetime.now()
-    input_str = event.pattern_match.group(1)
+    input_str = event.text[5:]
     hell = await eor(event, "Processing...")
     input_sgra = input_str.split(".")
     if len(input_sgra) == 3:
@@ -214,15 +199,10 @@ async def _(event):
         await hell.edit(str(a))
     else:
         await eod(hell, f"SYNTAX: {hl}calendar YYYY.MM.DD")
-    end = datetime.datetime.now()
-    (end - start).seconds
 
 
-@bot.on(hell_cmd(pattern="currency (.*)"))
-@bot.on(sudo_cmd(pattern="currency (.*)", allow_sudo=True))
+@hell_cmd(pattern="currency (.*)")
 async def _(event):
-    if event.fwd_from:
-        return
     input_str = event.pattern_match.group(1)
     input_sgra = input_str.split(" ")
     if len(input_sgra) == 3:
@@ -255,25 +235,19 @@ async def _(event):
         )
 
 
-@bot.on(hell_cmd(pattern="currencies$"))
-@bot.on(sudo_cmd(pattern="currencies$", allow_sudo=True))
-async def currencylist(ups):
-    if ups.fwd_from:
-        return
+@hell_cmd(pattern="currencies$")
+async def currencylist(event):
     request_url = "https://api.exchangeratesapi.io/latest?base=USD"
     current_response = requests.get(request_url).json()
     dil_wale_puch_de_na_chaaa = current_response["rates"]
     hmm = ""
     for key, value in dil_wale_puch_de_na_chaaa.items():
         hmm += f"`{key}`" + "\t\t\t"
-    await eor(ups, f"**List of some currencies:**\n{hmm}\n")
+    await eor(event, f"**List of some currencies:**\n{hmm}\n")
 
 
-@bot.on(hell_cmd(pattern="ifsc (.*)"))
-@bot.on(sudo_cmd(pattern="ifsc (.*)", allow_sudo=True))
+@hell_cmd(pattern="ifsc ?(.*)")
 async def _(event):
-    if event.fwd_from:
-        return
     input_str = event.pattern_match.group(1)
     url = "https://ifsc.razorpay.com/{}".format(input_str)
     r = requests.get(url)
@@ -286,11 +260,8 @@ async def _(event):
         await eor(event, "`{}`: {}".format(input_str, r.text))
 
 
-@bot.on(hell_cmd(pattern="color (.*)"))
-@bot.on(sudo_cmd(pattern="color (.*)", allow_sudo=True))
+@hell_cmd(pattern="color ?(.*)")
 async def _(event):
-    if event.fwd_from:
-        return
     input_str = event.pattern_match.group(1)
     message_id = None
     if event.sender_id != bot.uid:
@@ -322,11 +293,8 @@ async def _(event):
         )
 
 
-@bot.on(hell_cmd(pattern="xkcd ?(.*)"))
-@bot.on(sudo_cmd(pattern="xkcd ?(.*)", allow_sudo=True))
+@hell_cmd(pattern="xkcd ?(.*)")
 async def _(event):
-    if event.fwd_from:
-        return
     hellevent = await eor(event, "`processiong...`")
     input_str = event.pattern_match.group(1)
     xkcd_id = None
@@ -368,11 +336,8 @@ Year: {}""".format(
     else:
         await eod(hellevent, "xkcd n.{} not found!".format(xkcd_id))
 
-@bot.on(hell_cmd(pattern="dns (.*)", outgoing=True))
-@bot.on(sudo_cmd(pattern="dns (.*)", allow_sudo=True))
+@hell_cmd(pattern="dns (.*)")
 async def _(event):
-    if event.fwd_from:
-        return
     input_str = event.pattern_match.group(1)
     sample_url = "https://da.gd/dns/{}".format(input_str)
     response_api = requests.get(sample_url).text
@@ -382,11 +347,8 @@ async def _(event):
         await eod(event, "i can't seem to find [this link]({}) on the internet".format(input_str, link_preview=False))
 
 
-@bot.on(hell_cmd(pattern="url (.*)", outgoing=True))
-@bot.on(sudo_cmd(pattern="url (.*)", allow_sudo=True))
+@hell_cmd(pattern="url ?(.*)")
 async def _(event):
-    if event.fwd_from:
-        return
     input_str = event.pattern_match.group(1)
     sample_url = "https://da.gd/s?url={}".format(input_str)
     response_api = requests.get(sample_url).text
@@ -396,11 +358,8 @@ async def _(event):
         await eod(event, "something is wrong. please try again later.")
 
 
-@bot.on(hell_cmd(pattern="unshort (.*)", outgoing=True))
-@bot.on(sudo_cmd(pattern="unshort (.*)", allow_sudo=True))
+@hell_cmd(pattern="unshort ?(.*)")
 async def _(event):
-    if event.fwd_from:
-        return
     input_str = event.pattern_match.group(1)
     if not input_str.startswith("http"):
         input_str = "http://" + input_str

@@ -1,12 +1,12 @@
 from telethon import events
+
 from hellbot.sql import snip_sql as sq
 from . import *
 
 lg_id = Config .LOGGER_ID
 
 
-
-@bot.on(events.NewMessage(pattern=r'\#(\S+)', outgoing=True))
+@hell_cmd(pattern=r'\#(\S+)')
 async def incom_note(event):
     if not lg_id:
         return
@@ -39,23 +39,17 @@ async def incom_note(event):
     except AttributeError:
         pass
 
-@bot.on(hell_cmd(pattern=r"snip ?(.*)"))
-@bot.on(sudo_cmd(pattern=r"snip ?(.*)", allow_sudo=True))
+@hell_cmd(pattern="snip ?(.*)")
 async def add_snip(event):
     if not lg_id:
-        return await eod(
-            event, "You need to setup  `LOGGER_ID`  to save snips..."
-        )
+        return await eod(event, "You need to setup  `LOGGER_ID`  to save snips...")
     trigger = event.pattern_match.group(1)
     stri = event.text.partition(trigger)[2]
     cht = await event.get_reply_message()
     cht_id = None
     trigger = trigger.lower()
     if cht and not stri:
-        await event.client.send_message(
-            lg_id,
-            f"#NOTE \n\nAdded Note with  `#{trigger}`. Below message is the output. \n**DO NOT DELETE IT**",
-        )
+        await event.client.send_message(lg_id, f"#NOTE \n\nAdded Note with  `#{trigger}`. Below message is the output. \n**DO NOT DELETE IT**")
         cht_o = await event.client.forward_messages(
             entity=lg_id, messages=cht, from_peer=event.chat_id, silent=True
         )
@@ -64,10 +58,7 @@ async def add_snip(event):
         return await eod(event, f"**ERROR** \nReply to a message with `{hl}snip <trigger>` to add snips...")
     if not cht:
         if stri:
-            await event.client.send_message(
-                lg_id,
-                f"#NOTE \n\nAdded Note with  `#{trigger}`. Below message is the output. \n**DO NOT DELETE IT**",
-            )
+            await event.client.send_message(lg_id, f"#NOTE \n\nAdded Note with  `#{trigger}`. Below message is the output. \n**DO NOT DELETE IT**")
             cht_o = await event.client.send_message(lg_id, stri)
             cht_id = cht_o.id
             stri = None
@@ -83,21 +74,20 @@ async def add_snip(event):
         return await eor(event, success.format("updated", trigger))
     return await eor(event, success.format("added", trigger))
 
-
-@bot.on(hell_cmd(pattern=r"rmsnip ?(.*)"))
-@bot.on(sudo_cmd(pattern=r"rmsnip ?(.*)", allow_sudo=True))
+@hell_cmd(pattern="rmsnip ?(.*)")
 async def _(event):
     input_str = (event.pattern_match.group(1)).lower()
     if not input_str:
         return await eod(e, "I need a snip name to remove...")
     if input_str.startswith("#"):
         input_str = input_str.replace("#", "")
-    sq.rm_note(input_str)
-    await eor(event, "Removed  `#{}`  from snips..".format(input_str))
+    try:
+        sq.rm_note(input_str)
+        await eor(event, "Removed  `#{}`  from snips..".format(input_str))
+    except:
+        await eor(event, "No snip saved with this trigger.")
 
-
-@bot.on(hell_cmd(pattern="listsnip"))
-@bot.on(sudo_cmd(pattern="listsnip", allow_sudo=True))
+@hell_cmd(pattern="listsnip")
 async def lsnote(event):
     all_snips = sq.get_notes()
     OUT_STR = "Available Snips:\n"
@@ -105,11 +95,11 @@ async def lsnote(event):
         for a_snip in all_snips:
             OUT_STR += f"👉 #{a_snip.keyword} \n"
     else:
-        OUT_STR = f"No Snips. Start Saving using `{hl}snips`"
+        OUT_STR = f"No Snips. Start Saving using `{hl}snip`"
     if len(OUT_STR) > 4000:
         with io.BytesIO(str.encode(OUT_STR)) as out_file:
             out_file.name = "snips.text"
-            await bot.send_file(
+            await event.client.send_file(
                 event.chat_id,
                 out_file,
                 force_document=True,
@@ -119,7 +109,7 @@ async def lsnote(event):
             )
             await event.delete()
     else:
-        await edit_or_reply(event, OUT_STR)
+        await eor(event, OUT_STR)
 
 CmdHelp("snips").add_command(
 	"snip", "<reply> <trigger>", "Saves the replied message as a note with given trigger."

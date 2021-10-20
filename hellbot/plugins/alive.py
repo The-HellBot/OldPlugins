@@ -12,7 +12,6 @@ from . import *
 
 ALIVE_TEMP = """
 <b><i>🔥🔥ɦɛʟʟɮօt ɨs օռʟɨռɛ🔥🔥</b></i>
-
 <i><b>↼ Øwñêr ⇀</i></b> : 『 <a href='tg://user?id={}'>{}</a> 』
 ╭──────────────
 ┣─ <b>» Telethon ~</b> <i>{}</i>
@@ -25,16 +24,17 @@ ALIVE_TEMP = """
 """
 #-------------------------------------------------------------------------------
 
-@bot.on(hell_cmd(outgoing=True, pattern="alive$"))
-@bot.on(sudo_cmd(pattern="alive$", allow_sudo=True))
+@hell_cmd(pattern="alive$")
 async def up(event):
+    cid = await client_id(event)
+    ForGo10God, HELL_USER, hell_mention = cid[0], cid[1], cid[2]
     start = datetime.datetime.now()
     hell = await eor(event, "`Building Alive....`")
     uptime = await get_time((time.time() - StartTime))
     a = gvarstat("ALIVE_PIC")
     if a is not None:
         b = a.split(" ")
-        c = ["https://telegra.ph/file/ea9e11f7c9db21c1b8d5e.mp4"]
+        c = []
         if len(b) >= 1:
             for d in b:
                 c.append(d)
@@ -59,9 +59,10 @@ msg = """{}\n
 """
 botname = Config.BOT_USERNAME
 
-@bot.on(hell_cmd(pattern="hell$"))
-@bot.on(sudo_cmd(pattern="hell$", allow_sudo=True))
+@hell_cmd(pattern="hell$")
 async def hell_a(event):
+    cid = await client_id(event)
+    ForGo10God, HELL_USER, hell_mention = cid[0], cid[1], cid[2]
     uptime = await get_time((time.time() - StartTime))
     am = gvarstat("ALIVE_MSG") or "<b>»» нєℓℓвσт ιѕ σиℓιиє ««</b>"
     try:

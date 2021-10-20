@@ -7,8 +7,7 @@ from telethon.errors.rpcerrorlist import ChatSendMediaForbiddenError
 from . import *
 
 
-@bot.on(hell_cmd(pattern="anime ?(.*)"))
-@bot.on(sudo_cmd(pattern="anime ?(.*)", allow_sudo=True))
+@hell_cmd(pattern="anime ?(.*)")
 async def _(event):
     query = event.text[7:]
     if query == "":
@@ -29,8 +28,7 @@ async def _(event):
         os.remove(pic)
 
 
-@bot.on(hell_cmd(pattern="manga ?(.*)"))
-@bot.on(sudo_cmd(pattern="manga ?(.*)", allow_sudo=True))
+@hell_cmd(pattern="manga ?(.*)")
 async def _(event):
     query = event.text[7:]
     if query == "":
@@ -49,10 +47,9 @@ async def _(event):
         await hell.edit(finals_)
     if os.path.exists(pic):
         os.remove(pic)
-    
 
-@bot.on(hell_cmd(pattern="character ?(.*)"))
-@bot.on(sudo_cmd(pattern="character ?(.*)", allow_sudo=True))
+
+@hell_cmd(pattern="character ?(.*)")
 async def _(event):
     query = event.text[11:]
     if query == "":
@@ -74,8 +71,7 @@ async def _(event):
         os.remove(img)
 
 
-@bot.on(hell_cmd(pattern="fillers ?(.*)"))
-@bot.on(sudo_cmd(pattern="fillers ?(.*)", allow_sudo=True))
+@hell_cmd(pattern="fillers ?(.*)")
 async def canon(event):
     hell = event.text[9:]
     if hell == "":
@@ -118,8 +114,7 @@ async def canon(event):
     await nub.edit(hellbot)
 
 
-@bot.on(hell_cmd(pattern="airing ?(.*)"))
-@bot.on(sudo_cmd(pattern="airing ?(.*)", allow_sudo=True))
+@hell_cmd(pattern="airing ?(.*)")
 async def _(event):
     query = event.text[8:]
     hell = await eor(event, f"__Searching airing details for__ `{query}`")
@@ -141,8 +136,7 @@ async def _(event):
         os.remove(coverImg)
 
 
-@bot.on(hell_cmd(pattern="aniquote$"))
-@bot.on(sudo_cmd(pattern="aniquote$", allow_sudo=True))
+@hell_cmd(pattern="aniquote$")
 async def quote(event):
     hell = await eor(event, "(ﾉ◕ヮ◕)ﾉ*.✧")
     q = requests.get("https://animechan.vercel.app/api/random").json()

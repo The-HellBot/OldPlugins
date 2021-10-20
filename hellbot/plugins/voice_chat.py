@@ -1,9 +1,6 @@
 from telethon.tl.functions.channels import GetFullChannelRequest
 from telethon.tl.functions.phone import CreateGroupCallRequest, DiscardGroupCallRequest, GetGroupCallRequest, InviteToGroupCallRequest
 
-from . import *
-
-
 async def getvc(event):
     chat_ = await event.client(GetFullChannelRequest(event.chat_id))
     _chat = await event.client(GetGroupCallRequest(chat_.full_chat.call))
@@ -14,8 +11,7 @@ def all_users(a, b):
         yield a[c : c + b]
 
 
-@bot.on(hell_cmd(pattern="startvc$"))
-@bot.on(sudo_cmd(pattern="startvc$", allow_sudo=True))
+@hell_cmd(pattern="startvc$")
 async def _(event):
     try:
         await event.client(CreateGroupCallRequest(event.chat_id))
@@ -23,19 +19,15 @@ async def _(event):
     except Exception as e:
         await eod(event, f"`{str(e)}`")
 
-
-@bot.on(hell_cmd(pattern="endvc$"))
-@bot.on(sudo_cmd(pattern="endvc$", allow_sudo=True))
+@hell_cmd(pattern="endvc$")
 async def _(event):
     try:
-        await bot(DiscardGroupCallRequest(await getvc(event)))
+        await event.client(DiscardGroupCallRequest(await getvc(event)))
         await eor(event, "**📍 Voice Chat Ended Successfully !!**")
     except Exception as e:
         await eod(event, f"`{str(e)}`")
 
-
-@bot.on(hell_cmd(pattern="vcinvite$"))
-@bot.on(sudo_cmd(pattern="vcinvite$", allow_sudo=True))
+@hell_cmd(pattern="vcinvite$")
 async def _(event):
     hell = await eor(event, "`🧐 Inviting Users To Voice Chat....`")
     users = []
@@ -46,11 +38,12 @@ async def _(event):
     hel_ = list(all_users(users, 6))
     for k in hel_:
         try:
-            await bot(InviteToGroupCallRequest(call=await getvc(event), users=k))
+            await event.client(InviteToGroupCallRequest(call=await getvc(event), users=k))
             i += 6
         except BaseException:
             pass
     await hell.edit(f"**🚀 Invited {i} Users to Voice Chat**")
+
 
 CmdHelp("voice_chat").add_command(
   "startvc", None, "Starts the voice chat in current group."

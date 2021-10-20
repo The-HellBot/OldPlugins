@@ -3,8 +3,7 @@ import os
 from . import *
 
 
-@bot.on(hell_cmd(pattern="mediainfo$"))
-@bot.on(sudo_cmd(pattern="mediainfo$", allow_sudo=True))
+@hell_cmd(pattern="mediainfo$")
 async def mediainfo(event):
     HELL_MEDIA = None
     reply = await event.get_reply_message()

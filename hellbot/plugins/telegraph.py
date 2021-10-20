@@ -6,58 +6,48 @@ from telegraph import Telegraph, exceptions, upload_file
 
 from . import *
 
-HELL_NAME = Config.YOUR_NAME or "Hêllẞø†"
-lg_id = Config.LOGGER_ID
 
-telegraph = Telegraph()
-r = telegraph.create_account(short_name=Config.TELEGRAPH_SHORT_NAME)
-auth_url = r["auth_url"]
-
-
-@bot.on(admin_cmd(pattern=f"t(m|t) ?(.*)", outgoing=True))
-@bot.on(sudo_cmd(pattern=f"t(m|t) ?(.*)", allow_sudo=True))
+@hell_cmd(pattern="t(m|t) ?(.*)")
 async def _(event):
-    if event.fwd_from:
-        return
     if Config.LOGGER_ID is None:
-        await eod(event, "You need to setup `LOGGER_ID` to use telegraph...", 7)
+        await eod(event, "You need to setup `LOGGER_ID` to use telegraph...")
         return
     if not os.path.isdir(Config.TMP_DOWNLOAD_DIRECTORY):
         os.makedirs(Config.TMP_DOWNLOAD_DIRECTORY)
-    optional_title = event.pattern_match.group(2)
+    telegraph = Telegraph()
+    optional_title = event.text[4:]
+    hell = await eor(event, "Making Telegraph Link....")
+    ForGo10God, HELL_USER, hell_mention = await client_id(event)
     if event.reply_to_msg_id:
         start = datetime.datetime.now()
         r_message = await event.get_reply_message()
-        input_str = event.pattern_match.group(1)
+        input_str = event.text[2:3]
         if input_str == "m":
-            downloaded_file_name = await bot.download_media(
+            downloaded_file_name = await event.client.download_media(
                 r_message, Config.TMP_DOWNLOAD_DIRECTORY
             )
             end = datetime.datetime.now()
             ms = (end - start).seconds
-            await edit_or_reply(event, 
-                "Downloaded to  `{}`  in  `{}`  seconds. \nMaking Telegraph Link.....".format(downloaded_file_name, ms)
-            )
+            await hell.edit(f"Downloaded to  `{downloaded_file_name}`  in  `{ms}`  seconds. \nMaking Telegraph Link.....")
             if downloaded_file_name.endswith((".webp")):
                 resize_image(downloaded_file_name)
             try:
                 start = datetime.datetime.now()
                 media_urls = upload_file(downloaded_file_name)
             except exceptions.TelegraphException as exc:
-                await eod(event, "ERROR: " + str(exc), 8)
+                await eod(hell, "ERROR: " + str(exc), 8)
                 os.remove(downloaded_file_name)
             else:
                 end = datetime.datetime.now()
                 ms_two = (end - start).seconds
                 os.remove(downloaded_file_name)
-                await eor(event, 
-                   "✓ **[File uploaded to telegraph](https://telegra.ph{})** \n✓ **Time Taken :-** `{}` secs \n✓ **By :- {}** \n✓  `https://telegra.ph{}`".format(
+                await hell.edit("✓ **[File uploaded to telegraph](https://telegra.ph{})** \n✓ **Time Taken :-** `{}` secs \n✓ **By :- {}** \n✓  `https://telegra.ph{}`".format(
                         media_urls[0], (ms + ms_two), hell_mention, media_urls[0],
                     ),
                     link_preview=True,
                 )
         elif input_str == "t":
-            user_object = await borg.get_entity(r_message.sender_id)
+            user_object = await event.client.get_entity(r_message.sender_id)
             title_of_page = user_object.first_name  # + " " + user_object.last_name
             # apparently, all Users do not have last_name field
             if optional_title:
@@ -66,7 +56,7 @@ async def _(event):
             if r_message.media:
                 if page_content != "":
                     title_of_page = page_content
-                downloaded_file_name = await borg.download_media(
+                downloaded_file_name = await event.client.download_media(
                     r_message, Config.TMP_DOWNLOAD_DIRECTORY
                 )
                 m_list = None
@@ -80,12 +70,9 @@ async def _(event):
             end = datetime.datetime.now()
             ms = (end - start).seconds
             hellboy = f"https://telegra.ph/{response['path']}"
-            await edit_or_reply(event, 
-                  f"✓ **[Pasted to telegraph]({hellboy})** \n✓ **Time Taken :-** `{ms}` secs\n✓** By :**  {hell_mention} \n✓  `{hellboy}`", link_preview=True)
+            await hell.edit(f"✓ **[Pasted to telegraph]({hellboy})** \n✓ **Time Taken :-** `{ms}` secs\n✓** By :**  {hell_mention} \n✓  `{hellboy}`", link_preview=True)
     else:
-        await eod(event, 
-            "Reply to a message to get a permanent telegra.ph link."
-        )
+        await eod(hell, "Reply to a message to get a permanent telegra.ph link.")
 
 
 def resize_image(image):

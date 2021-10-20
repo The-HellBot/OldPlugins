@@ -70,11 +70,8 @@ def progress(current, total):
     )
 
 
-@bot.on(hell_cmd(pattern="ocrlang", outgoing=True))
-@bot.on(sudo_cmd(pattern="ocrlang", allow_sudo=True))
+@hell_cmd(pattern="ocrlang$")
 async def get_ocr_languages(event):
-    if event.fwd_from:
-        return
     languages = {}
     languages["English"] = "eng"
     languages["Arabic"] = "ara"
@@ -104,16 +101,13 @@ async def get_ocr_languages(event):
     await eor(event, str(a))
 
 
-@bot.on(hell_cmd(pattern=r"ocr (.*)", outgoing=True))
-@bot.on(sudo_cmd(pattern=r"ocr (.*)", allow_sudo=True))
+@hell_cmd(pattern="ocr ?(.*)")
 async def parse_ocr_space_api(event):
-    if event.fwd_from:
-        return
     hell = await eor(event, "Processing weit...🤓")
     if not os.path.isdir(Config.TMP_DOWNLOAD_DIRECTORY):
         os.makedirs(Config.TMP_DOWNLOAD_DIRECTORY)
     lang_code = event.pattern_match.group(1)
-    downloaded_file_name = await borg.download_media(
+    downloaded_file_name = await event.client.download_media(
         await event.get_reply_message(),
         Config.TMP_DOWNLOAD_DIRECTORY,
         progress_callback=progress,

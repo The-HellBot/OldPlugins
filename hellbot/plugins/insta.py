@@ -9,17 +9,15 @@ from . import *
 
 
 
-@bot.on(hell_cmd(pattern="insta (.*)"))
-@bot.on(sudo_cmd(pattern="insta (.*)", allow_sudo=True))
+@hell_cmd(pattern="insta ?(.*)")
 async def _(event):
-    if event.fwd_from:
-        return
     bot = "@instasavegrambot"
+    cid = await client_id(event)
+    hell_mention = cid[2]
     input_str = event.pattern_match.group(1)
     if "www.instagram.com" not in input_str:
-        await eor(event, "Well... this is not instagram link... Mind giving a proper instagram link?")
-    else:
-        kraken = await eor(event, "Trying to download.... please wait!")
+        return await eod(event, "Well... this is not instagram link... Mind giving a proper instagram link?")
+    kraken = await eor(event, "Trying to download.... please wait!")
     async with event.client.conversation(bot) as conv:
         try:
             first = await conv.send_message("/start")

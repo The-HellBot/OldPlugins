@@ -1,5 +1,6 @@
 import asyncio
 import requests
+
 from telethon import functions
 from telethon.errors import ChatSendInlineForbiddenError as noin
 from telethon.errors.rpcerrorlist import BotMethodInvalidError as dedbot, BotInlineDisabledError as noinline, YouBlockedUserError
@@ -8,19 +9,18 @@ from . import *
 
 msg = f"""
 **⚡ ʟɛɢɛռɖaʀʏ ᴀғ ɦɛʟʟɮօt ⚡**
-
   •        [📑 Repo 📑](https://github.com/The-HellBot/HellBot)
   •        [🚀 Deploy 🚀](https://dashboard.heroku.com/new?button-url=https%3A%2F%2Fgithub.com%2FThe-HellBot%2FHellBot&template=https%3A%2F%2Fgithub.com%2Fthe-hellbot%2Fhellbot)
-
   •  ©️ {hell_channel} ™
 """
 botname = Config.BOT_USERNAME
 
-@bot.on(hell_cmd(pattern="repo$"))
-@bot.on(sudo_cmd(pattern="repo$", allow_sudo=True))
+@hell_cmd(pattern="repo$")
 async def repo(event):
+    cids = await client_id(event)
+    ForGo10God, HELL_USER, hell_mention = cids[0], cids[1], cids[2]
     try:
-        hell = await bot.inline_query(botname, "repo")
+        hell = await event.client.inline_query(botname, "repo")
         await hell[0].click(event.chat_id)
         if event.sender_id == ForGo10God:
             await event.delete()
@@ -28,11 +28,8 @@ async def repo(event):
         await eor(event, msg)
 
 
-@bot.on(hell_cmd(pattern="help ?(.*)", outgoing=True))
-@bot.on(sudo_cmd(pattern="help ?(.*)", allow_sudo=True))
+@hell_cmd(pattern="help ?(.*)")
 async def _(event):
-    if event.fwd_from:
-        return
     tgbotusername = Config.BOT_USERNAME
     chat = "@Botfather"
     if tgbotusername is not None:
@@ -63,11 +60,8 @@ async def _(event):
         await eor(event, "**⚠️ ERROR !!** \nPlease Re-Check BOT_TOKEN & BOT_USERNAME on Heroku.")
 
 
-@bot.on(hell_cmd(pattern="plinfo(?: |$)(.*)", outgoing=True))
-@bot.on(sudo_cmd(pattern="plinfo(?: |$)(.*)", allow_sudo=True))
+@hell_cmd(pattern="plinfo(?: |$)(.*)")
 async def hellbott(event):
-    if event.fwd_from:
-        return
     args = event.pattern_match.group(1).lower()
     if args:
         if args in CMD_HELP:
@@ -91,5 +85,3 @@ async def hellbott(event):
                     string += "`, "
             string += "\n"
         await eod(event, "Please Specify A Module Name Of Which You Want Info" + "\n\n" + string)
-
-# hellbot
