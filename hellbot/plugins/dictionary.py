@@ -1,6 +1,6 @@
 import aiohttp
 
-from PyDictionary import PyDictionary
+# from PyDictionary import PyDictionary
 
 from . import *
 
@@ -29,6 +29,7 @@ async def _(event):
         await eod(event, f"**Error !!** \n\n`{e}`")
 
 
+"""
 @hell_cmd(pattern="meaning (.*)")
 async def _(event):
     word = event.pattern_match.group(1)
@@ -43,7 +44,7 @@ async def _(event):
         await eor(event, output)
     except Exception:
         await eod(event, f"Couldn't fetch meaning of {word}")
-
+"""
 
 CmdHelp("dictionary").add_command(
   'meaning', 'query', 'Fetches meaning of the given word'
