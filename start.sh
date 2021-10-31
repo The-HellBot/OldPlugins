@@ -10,7 +10,5 @@ echo """
 \_| |_/\___|_|_\____/ \___/ \__|
                                 
 """
-rm -rf Plugins
-git clone https://github.com/The-HellBot/Plugins
-cd Plugins
+
 python3 -m hellbot
