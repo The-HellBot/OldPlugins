@@ -32,9 +32,6 @@ async def repo(event):
 async def _(event):
     tgbotusername = Config.BOT_USERNAME
     chat = "@Botfather"
-    input_ = event.text[6:]
-    if input_ and input_.lower() in CMD_HELP:
-        return await eor(event, str(CMD_HELP[input_]))
     if tgbotusername is not None:
         try:
             results = await event.client.inline_query(tgbotusername, "hellbot_help")
@@ -79,7 +76,7 @@ async def hellbott(event):
         ]
 
         for i in sayfa:
-            string += f"`▶️ `"
+            string += f"`📌 `"
             for sira, a in enumerate(i):
                 string += "`" + str(a)
                 if sira == i.index(i[-1]):
