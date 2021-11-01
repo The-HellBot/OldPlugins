@@ -34,8 +34,10 @@ async def _(event):
     chat = "@Botfather"
     input_ = event.text[6:]
     if input_ and input_.lower() in CMD_HELP:
-        await eor(event, str(CMD_HELP[args]))
-    else:
+        await eor(event, str(CMD_HELP[input_]))
+    elif input_ and input_.lower() not in CMD_HELP:
+        await eod(event, f"{input_} is not a valid plugin name.")
+    elif input_ == "":
         if tgbotusername is not None:
             try:
                 results = await event.client.inline_query(tgbotusername, "hellbot_help")
