@@ -28,39 +28,43 @@ async def repo(event):
         await eor(event, msg)
 
 
-@hell_cmd(pattern="help ?(.*)")
+@hell_cmd(pattern="help ([\s\S]*)")
 async def _(event):
     tgbotusername = Config.BOT_USERNAME
     chat = "@Botfather"
-    if tgbotusername is not None:
-        try:
-            results = await event.client.inline_query(tgbotusername, "hellbot_help")
-            await results[0].click(
-                event.chat_id, reply_to=event.reply_to_msg_id, hide_via=True
-            )
-            await event.delete()
-        except noinline:
-            hell = await eor(event, "**Inline Mode is disabled.** \n__Turning it on, please wait for a minute...__")
-            async with bot.conversation(chat) as conv:
-                try:
-                    first = await conv.send_message("/setinline")
-                    second = await conv.get_response()
-                    third = await conv.send_message(tgbotusername)
-                    fourth = await conv.get_response()
-                    fifth = await conv.send_message(perf)
-                    sixth = await conv.get_response()
-                    await bot.send_read_acknowledge(conv.chat_id)
-                except YouBlockedUserError:
-                    return await hell.edit("Unblock @Botfather first.")
-                await hell.edit(f"**Turned On Inline Mode Successfully.** \n\nDo `{hl}help` again to get the help menu.")
-            await bot.delete_messages(
-                conv.chat_id, [first.id, second.id, third.id, fourth.id, fifth.id, sixth.id]
-            )
+    input_ = event.text[6:]
+    if input_ and input_.lower() in CMD_HELP:
+        await eor(event, str(CMD_HELP[args]))
     else:
-        await eor(event, "**⚠️ ERROR !!** \nPlease Re-Check BOT_TOKEN & BOT_USERNAME on Heroku.")
+        if tgbotusername is not None:
+            try:
+                results = await event.client.inline_query(tgbotusername, "hellbot_help")
+                await results[0].click(
+                    event.chat_id, reply_to=event.reply_to_msg_id, hide_via=True
+                )
+                await event.delete()
+            except noinline:
+                hell = await eor(event, "**Inline Mode is disabled.** \n__Turning it on, please wait for a minute...__")
+                async with bot.conversation(chat) as conv:
+                    try:
+                        first = await conv.send_message("/setinline")
+                        second = await conv.get_response()
+                        third = await conv.send_message(tgbotusername)
+                        fourth = await conv.get_response()
+                        fifth = await conv.send_message(perf)
+                        sixth = await conv.get_response()
+                        await bot.send_read_acknowledge(conv.chat_id)
+                    except YouBlockedUserError:
+                        return await hell.edit("Unblock @Botfather first.")
+                    await hell.edit(f"**Turned On Inline Mode Successfully.** \n\nDo `{hl}help` again to get the help menu.")
+                await bot.delete_messages(
+                    conv.chat_id, [first.id, second.id, third.id, fourth.id, fifth.id, sixth.id]
+                )
+        else:
+            await eor(event, "**⚠️ ERROR !!** \nPlease Re-Check BOT_TOKEN & BOT_USERNAME on Heroku.")
 
 
-@hell_cmd(pattern="plinfo(?: |$)(.*)")
+@hell_cmd(pattern="plinfo(?:\s|$)([\s\S]*)")
 async def hellbott(event):
     args = event.pattern_match.group(1).lower()
     if args:
@@ -84,4 +88,4 @@ async def hellbott(event):
                 else:
                     string += "`, "
             string += "\n"
-        await eod(event, "Please Specify A Module Name Of Which You Want Info" + "\n\n" + string)
+        await eor(event, "Please Specify A Module Name Of Which You Want Info" + "\n\n" + string)

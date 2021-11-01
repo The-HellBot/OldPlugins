@@ -9,12 +9,12 @@ from . import *
 
 
 
-@hell_cmd(pattern="insta ?(.*)")
+@hell_cmd(pattern="insta(?:\s|$)([\s\S]*)")
 async def _(event):
     bot = "@instasavegrambot"
     cid = await client_id(event)
     hell_mention = cid[2]
-    input_str = event.pattern_match.group(1)
+    input_str = event.text[7:]
     if "www.instagram.com" not in input_str:
         return await eod(event, "Well... this is not instagram link... Mind giving a proper instagram link?")
     kraken = await eor(event, "Trying to download.... please wait!")
