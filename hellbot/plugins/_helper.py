@@ -28,7 +28,7 @@ async def repo(event):
         await eor(event, msg)
 
 
-@hell_cmd(pattern="help ([\s\S]*)")
+@hell_cmd(pattern="help$")
 async def _(event):
     tgbotusername = Config.BOT_USERNAME
     chat = "@Botfather"
