@@ -147,7 +147,13 @@ async def _(event):
     if len(result) == 1:
         return await eod(hell, result[0])
     pic, msg = result
-    await event.client.send_file(event.chat_id, pic, caption=msg)
+    try:
+        await event.client.send_file(event.chat_id, file=pic, caption=msg, force_document=False, parse_mode="HTML")
+        await hell.delete()
+    except ChatSendMediaForbiddenError:
+        await hell.edit(msg)
+    if os.path.exists(pic):
+        os.remove(pic)
 
 
 @hell_cmd(pattern="aniquote$")

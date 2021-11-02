@@ -13,7 +13,7 @@ class AioHttp:
                 return await resp.json()
 
 
-@hell_cmd(pattern="ud ?(.*)")
+@hell_cmd(pattern="ud ([\s\S]*)")
 async def _(event):
     word = event.text[4:]
     try:
@@ -47,8 +47,6 @@ async def _(event):
 """
 
 CmdHelp("dictionary").add_command(
-  'meaning', 'query', 'Fetches meaning of the given word'
-).add_command(
   'ud', 'query', 'Fetches meaning of given word from Urban Dictionary.'
 ).add_info(
   'Dictionary 📕'

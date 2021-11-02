@@ -11,7 +11,7 @@ from humanize import naturalsize
 from . import *
 
 
-@hell_cmd(pattern=r"direct(?: |$)([\s\S]*)")
+@hell_cmd(pattern="direct(?:\s|$)([\s\S]*)")
 async def direct_link_generator(request):
     if request.fwd_from:
         return
