@@ -94,7 +94,7 @@ async def set_group_photo(event):
             )
 
 
-@hell_cmd(pattern="promote(?: |$)(.*)")
+@hell_cmd(pattern="promote(?:\s|$)([\s\S]*)")
 @errors_handler
 async def promote(event):
     if event.fwd_from:
@@ -134,7 +134,7 @@ async def promote(event):
     )
 
 
-@hell_cmd(pattern="demote(?: |$)(.*)")
+@hell_cmd(pattern="demote(?:\s|$)([\s\S]*)")
 @errors_handler
 async def demote(event):
     if event.fwd_from:
@@ -183,7 +183,7 @@ async def watcher(event):
             LOGS.info(str(e))
 
 
-@hell_cmd(pattern=r"mute ?(.*)")
+@hell_cmd(pattern="mute ([\s\S]*)")
 async def muth(event):
     x = await client_id(event)
     ForGo10God = x[0]
@@ -263,7 +263,7 @@ async def muth(event):
         )
 
 
-@hell_cmd(pattern="unmute ?(.*)")
+@hell_cmd(pattern="unmute ([\s\S]*)")
 async def nomuth(event):
     x = await client_id(event)
     ForGo10God = x[0]
@@ -338,7 +338,7 @@ async def nomuth(event):
         )
 
 
-@hell_cmd(pattern="ban(?: |$)(.*)")
+@hell_cmd(pattern="ban(?:\s|$)([\s\S]*)")
 @errors_handler
 async def ban(event):
     hellevent = await eor(event, "`Banning Nigga...`")
@@ -377,7 +377,7 @@ async def ban(event):
     )
 
 
-@hell_cmd(pattern="unban(?: |$)(.*)")
+@hell_cmd(pattern="unban(?:\s|$)([\s\S]*)")
 @errors_handler
 async def nothanos(event):
     if event.fwd_from:
@@ -443,7 +443,7 @@ async def pin(event):
         await eod(event, "**📍 Pinned successfully !!**")
 
 
-@hell_cmd(pattern="unpin ?(.*)")
+@hell_cmd(pattern="unpin ([\s\S]*)")
 async def unpin(event):
     chat = await event.get_chat()
     rply = event.reply_to_msg_id
@@ -472,7 +472,7 @@ async def unpin(event):
         return await eod(event, f"**ERROR !!** \n\n`{e}`")
 
 
-@hell_cmd(pattern="kick(?: |$)(.*)")
+@hell_cmd(pattern="kick(?:\s|$)([\s\S]*)")
 @errors_handler
 async def kick(event):
     chat = await event.get_chat()
@@ -507,7 +507,7 @@ async def kick(event):
     )
 
 
-@hell_cmd(pattern=f"zombies ?(.*)")
+@hell_cmd(pattern="zombies ([\s\S]*)")
 async def rm_deletedacc(event):
     con = event.pattern_match.group(1).lower()
     del_u = 0

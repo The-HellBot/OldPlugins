@@ -3,7 +3,7 @@ import requests
 from . import *
 
 
-@hell_cmd(pattern="app (.*)")
+@hell_cmd(pattern="app ([\s\S]*)")
 async def apk(event):
     app_name = event.pattern_match.group(1)
     event = await eor(event, "Searching...")
@@ -74,7 +74,7 @@ async def apk(event):
         await event.edit("Exception Occured:- " + str(err))
 
 
-@hell_cmd(pattern="appr (.*)")
+@hell_cmd(pattern="appr ([\s\S]*)")
 async def apkr(event):
     app_name = event.pattern_match.group(1)
     event = await eor(event, "Searching...")
@@ -144,7 +144,7 @@ async def apkr(event):
         await event.edit("Exception Occured:- " + str(err))
 
 
-@hell_cmd(pattern="mods ?(.*)")
+@hell_cmd(pattern="mods ([\s\S]*)")
 async def mod(event):
     hell = event.text[8:]
     if not hell:

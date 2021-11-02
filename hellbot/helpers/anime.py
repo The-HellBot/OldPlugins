@@ -170,6 +170,33 @@ query ($id: Int, $idMal:Int, $search: String) {
 }
 """
 
+# returns user data from anilist
+
+USER_QRY = """
+query ($search: String) {
+  User (name: $search) {
+    id
+    name
+    siteUrl
+    statistics {
+      anime {
+        count
+        minutesWatched
+        episodesWatched
+        meanScore
+      }
+      manga {
+        count
+        chaptersRead
+        volumesRead
+        meanScore
+      }
+    }
+  }
+}
+"""
+
+
 # searches for fillers episodes
 def search_filler(query):
     html = requests.get("https://www.animefillerlist.com/shows").text
@@ -539,3 +566,33 @@ async def get_airing(vars_):
         out += f"\n**✪ Airing Episode** `{episode}{th}` **in** `{air_on}`"
     site = data["siteUrl"]
     return [coverImg, out], site, [mid, in_ls, in_ls_id]
+
+
+async def get_user(vars_):
+    query = USER_QRY
+    k = await return_json_senpai(query=query, vars_=vars_)
+    error = k.get("errors")
+    if error:
+        error_sts = error[0].get("message")
+        return [f"{error_sts}"]
+
+    data = k['data']['User']
+    anime = data['statistics']['anime']
+    manga = data['statistics']['manga']
+    stats = f"""
+<b><i>✪ <u>Anime Stats</u> :<b><i>
+
+<b><i>✘ Animes Watched :</b></i> <i>{anime['count']}</i>
+<b><i>✘ Episodes Watched :</b></i> <i>{anime['episodesWatched']}</i>
+<b><i>✘ Time Spent :</b></i> <i>{anime['minutesWatched']}</i>
+<b><i>✘ Average Score :</b></i> <i>{anime['meanScore']}</i>
+
+
+<b><i>✪ <u>Manga Stats</u> :</b></i>
+
+<b><i>✘ Total Manga Read :</b> {manga['count']}</i>
+<b><i>✘ Total Chapters Read :</b> {manga['chaptersRead']}</i>
+<b><i>✘ Total Volumes Read :</b> {manga['volumesRead']}</i>
+<b><i>✘ Average Score :</b> {manga['meanScore']}</i>
+""" 
+    return f'https://img.anili.st/user/{data["id"]}?a={time.time()}', stats

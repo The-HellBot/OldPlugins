@@ -13,7 +13,7 @@ DEVICES_DATA = (
 )
 
 
-@hell_cmd(pattern=r"magisk")
+@hell_cmd(pattern="magisk$")
 async def _(magisk):
     if magisk.fwd_from:
         return
@@ -41,7 +41,7 @@ async def _(magisk):
     await eor(magisk, releases)
 
 
-@hell_cmd(pattern=r"device(?: |$)(\S*)")
+@hell_cmd(pattern="device(?:\s|$)([\s\S]*)")
 async def device_info(request):
     textx = await request.get_reply_message()
     codename = request.pattern_match.group(1)
@@ -72,7 +72,7 @@ async def device_info(request):
     await eor(request, reply)
 
 
-@hell_cmd(pattern=r"codename(?: |)([\S]*)(?: |)([\s\S]*)")
+@hell_cmd(pattern="codename(?: |)([\S]*)(?: |)([\s\S]*)")
 async def codename_info(request):
     if request.fwd_from:
         return
@@ -117,7 +117,7 @@ async def codename_info(request):
     await eor(request, reply)
 
 
-@hell_cmd(pattern=r"specs(?: |)([\S]*)(?: |)([\s\S]*)")
+@hell_cmd(pattern="specs(?: |)([\S]*)(?: |)([\s\S]*)")
 async def devices_specifications(request):
     if request.fwd_from:
         return
@@ -180,7 +180,7 @@ async def devices_specifications(request):
     await eor(request, reply)
 
 
-@hell_cmd(pattern=r"twrp(?: |$)(\S*)")
+@hell_cmd(pattern="twrp(?:\s|$)([\s\S]*)")
 async def twrp(request):
     if request.fwd_from:
         return

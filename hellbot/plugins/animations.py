@@ -311,7 +311,7 @@ async def _(event):
     await asyncio.sleep(999)
 
 
-@hell_cmd(pattern="hnd (.*)")
+@hell_cmd(pattern="hnd ([\s\S]*)")
 async def _(event):
     name = event.pattern_match.group(1)
     animation_interval = 0.5
@@ -466,14 +466,14 @@ async def _(event):
         await event.edit(animation_chars[i % 11])
 
 
-@hell_cmd(pattern="sprinkle")
+@hell_cmd(pattern="sprinkle$")
 async def sprinkle(event):
     await eor(event, 
         "✨.•*¨*.¸.•*¨*.¸¸.•*¨*• ƸӜƷ\n🌸🌺🌸🌺🌸🌺🌸🌺\n Sprinkled with love❤\n🌷🌻🌷🌻🌷🌻🌷🌻\n ¨*.¸.•*¨*. ¸.•*¨*.¸¸.•*¨`*•.✨\n🌹🍀🌹🍀🌹🍀🌹🍀"
     )
 
 
-@hell_cmd(pattern="kiler( (.*)|$)")
+@hell_cmd(pattern="kiler(?:\s|$)([\s\S]*)")
 async def _(event):
     name = event.pattern_match.group(1)
     xyz = await client_id(event)
@@ -849,7 +849,7 @@ async def _(event):
     await asyncio.sleep(6)
 
 
-@hell_cmd(pattern=r"padmin ?(.*)")
+@hell_cmd(pattern="padmin ([\s\S]*)")
 async def _(event):
     animation_interval = 1
     animation_ttl = range(0, 20)
@@ -882,7 +882,7 @@ async def _(event):
         await asyncio.sleep(animation_interval)
         await event.edit(animation_chars[i % 20])
 
-@hell_cmd(pattern=r"hack$")
+@hell_cmd(pattern="hack$")
 async def _(event):
     xyz = await client_id(event)
     hell_mention = xyz[2]

@@ -11,7 +11,7 @@ DEFAULTUSERBIO = Config.BIO_MSG
 DEL_TIME_OUT = 60
 
 
-@hell_cmd(pattern="autoname")
+@hell_cmd(pattern="autoname$")
 async def _(event):
     hell = await eor(event, "`Starting AutoName Please Wait`")
     while True:
@@ -33,7 +33,7 @@ async def _(event):
         await event.client.send_message(Config.LOGGER_ID, "#AUTONAME \n\nAutoname Started!!")
 
 
-@hell_cmd(pattern="autobio")
+@hell_cmd(pattern="autobio$")
 async def _(event):
     hell = await eor(event, "Starting AutoBio...")
     while True:
@@ -55,7 +55,7 @@ async def _(event):
         await event.client.send_message(Config.LOGGER_ID, "#AUTOBIO \n\nAutoBio Started!!")
 
 
-@hell_cmd(pattern="reserved")
+@hell_cmd(pattern="reserved$")
 async def mine(event):
     result = await event.client(GetAdminedPublicChannelsRequest())
     output_str = ""
