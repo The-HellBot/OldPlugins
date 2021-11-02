@@ -579,10 +579,11 @@ async def get_user(vars_):
         return [f"{error_sts}"]
 
     data = k['data']['User']
+    xid = data['id']
     banner = f'https://img.anili.st/user/{data["id"]}?a={time.time()}'
     banner_ = requests.get(banner)
-    open(f"{data["id"]}.jpg", "wb").write(banner_.content)
-    pic = f"{data["id"]}.jpg"
+    open(f"{xid}.jpg", "wb").write(banner_.content)
+    pic = f"{xid}.jpg"
     anime = data['statistics']['anime']
     manga = data['statistics']['manga']
     stats = f"""
