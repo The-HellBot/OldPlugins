@@ -6,7 +6,7 @@ from selenium import webdriver
 
 from . import *
 
-@hell_cmd(pattern="webshot (.*)")
+@hell_cmd(pattern="webshot ([\s\S]*)")
 async def _(event):
     if Config.GOOGLE_CHROME_BIN is None:
         return await eod(event, "need to install Google Chrome. Module Stopping.")

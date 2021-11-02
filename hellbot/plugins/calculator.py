@@ -4,7 +4,7 @@ import traceback
 from . import *
 
 
-@hell_cmd(pattern="calc (.*)")
+@hell_cmd(pattern="calc ([\s\S]*)")
 async def _(car):
     cmd = car.text.split(" ", maxsplit=1)[1]
     event = await eor(car, "Calculating ...")
@@ -42,7 +42,7 @@ async def aexec(code, event):
     return await locals()["__aexec"](event)
 
 
-CmdHelp("calc").add_command(
+CmdHelp("calculator").add_command(
   "calc", "Your expression", "Sopves the given maths equation by BODMAS rule"
 ).add_info(
   "Calculator"

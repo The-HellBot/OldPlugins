@@ -16,7 +16,7 @@ if not os.path.isdir("./temp"):
     os.makedirs("./temp")
 
 
-@hell_cmd(pattern="stog ?(.*)")
+@hell_cmd(pattern="stog ([\s\S]*)")
 async def _(event):
     if not event.reply_to_msg_id:
         return await eod(event, "Reply to animated sticker to make gif.")
@@ -96,7 +96,7 @@ async def _(hell):
         await event.edit(f"Syntax : `{hl}itos` reply to a Telegram normal sticker")
 
 
-@hell_cmd(pattern="ttf ?(.*)")
+@hell_cmd(pattern="ttf ([\s\S]*)")
 async def get(event):
     name = event.text[5:]
     if name is None:
@@ -178,7 +178,7 @@ async def _(hell):
         await event.edit(f"Syntax : `{hl}itof` reply to a sticker/image")
 
 
-@hell_cmd(pattern="nfc ?(.*)")
+@hell_cmd(pattern="nfc ([\s\S]*)")
 async def _(event):
     if not event.reply_to_msg_id:
         await eod(event, "```Reply to any media file.```")

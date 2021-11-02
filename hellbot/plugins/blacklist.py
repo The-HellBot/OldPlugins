@@ -85,7 +85,7 @@ if H5:
                 break
 
 
-@hell_cmd(pattern="addblacklist ((.|\n)*)")
+@hell_cmd(pattern="addblacklist(?:\s|$)([\s\S]*)")
 async def on_add_black_list(event):
     text = event.pattern_match.group(1)
     to_blacklist = list(
@@ -102,7 +102,7 @@ async def on_add_black_list(event):
     )
 
 
-@hell_cmd(pattern="rmblacklist ((.|\n)*)")
+@hell_cmd(pattern="rmblacklist(?:\s|$)([\s\S]*)")
 async def on_delete_blacklist(event):
     text = event.pattern_match.group(1)
     to_unblacklist = list(

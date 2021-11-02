@@ -1,6 +1,8 @@
 import json
 import re
 import requests
+import time
+
 from bs4 import BeautifulSoup
 from .pasters import telegraph_paste
 
@@ -596,3 +598,4 @@ async def get_user(vars_):
 <b><i>✘ Average Score :</b> {manga['meanScore']}</i>
 """ 
     return f'https://img.anili.st/user/{data["id"]}?a={time.time()}', stats
+

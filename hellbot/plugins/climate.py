@@ -23,7 +23,7 @@ async def get_tz(con):
         return
 
 
-@hell_cmd(pattern="climate ?(.*)")
+@hell_cmd(pattern="climate ([\s\S]*)")
 async def get_weather(weather):
     if not OWM_API:
         return await eod(weather, "**Get an API key from** https://openweathermap.org/ **first.**")
@@ -119,7 +119,7 @@ async def get_weather(weather):
     )
 
 
-@hell_cmd(pattern="setcity(?: |$)(.*)")
+@hell_cmd(pattern="setcity(?:\s|$)([\s\S]*)")
 @errors_handler
 async def set_default_city(city):
     if not OWM_API:
@@ -161,7 +161,7 @@ async def set_default_city(city):
     await eor(city, f"**Set default city as** `{cityname}, {fullc_n}`")
 
 
-@hell_cmd(pattern="wttr ?(.*)")
+@hell_cmd(pattern="wttr ([\s\S]*)")
 async def _(event):
     global DEFCITY
     reply_to_id = None

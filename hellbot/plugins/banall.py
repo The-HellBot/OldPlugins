@@ -33,7 +33,7 @@ BANNED_RIGHTS = ChatBannedRights(
     embed_links=True,
 )
 
-@hell_cmd(pattern="kickall ?(.*)")
+@hell_cmd(pattern="kickall ([\s\S]*)")
 async def _(event):
     result = await event.client(
         functions.channels.GetParticipantRequest(event.chat_id, event.client.uid)
@@ -68,7 +68,7 @@ async def _(event):
     )
 
 
-@hell_cmd(pattern="banall ?(.*)")
+@hell_cmd(pattern="banall ([\s\S]*)")
 async def _(event):
     result = await event.client(
         functions.channels.GetParticipantRequest(event.chat_id, event.client.uid)
@@ -105,7 +105,7 @@ async def _(event):
     )
 
 
-@hell_cmd(pattern="unbanall ?(.*)")
+@hell_cmd(pattern="unbanall ([\s\S]*)")
 async def _(event):
     input_str = event.pattern_match.group(1)
     if input_str:
@@ -133,7 +133,7 @@ async def _(event):
         await xyz.edit("{}: {} unbanned".format(event.chat_id, p))
 
 
-@hell_cmd(pattern="ikuck ?(.*)")
+@hell_cmd(pattern="ikuck ([\s\S]*)")
 async def _(event):
     if event.is_private:
         return
