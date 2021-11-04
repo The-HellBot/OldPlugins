@@ -149,31 +149,17 @@ async def _(event):
             except UserNotParticipantError:
                 return await event.answer("You need to join the channel first.", alert=True)
         try:
-            if H1:
-                try:
-                    await H1.edit_permissions(event.chat.id, uid, until_date=None, send_messages=True)
-                except Exception as e:
-                    pass
-            if H2:
-                try:
-                    await H2.edit_permissions(event.chat.id, uid, until_date=None, send_messages=True)
-                except Exception as e:
-                    pass
-            if H3:
-                try:
-                    await H3.edit_permissions(event.chat.id, uid, until_date=None, send_messages=True)
-                except Exception as e:
-                    pass
-            if H4:
-                try:
-                    await H4.edit_permissions(event.chat.id, uid, until_date=None, send_messages=True)
-                except Exception as e:
-                    pass
-            if H5:
-                try:
-                    await H5.edit_permissions(event.chat.id, uid, until_date=None, send_messages=True)
-                except Exception as e:
-                    pass
+            await H1.edit_permissions(event.chat.id, uid, until_date=None, send_messages=True)
+        except Exception:
+            await H2.edit_permissions(event.chat.id, uid, until_date=None, send_messages=True)
+        except Exception:
+            await H3.edit_permissions(event.chat.id, uid, until_date=None, send_messages=True)
+        except Exception:
+            await H4.edit_permissions(event.chat.id, uid, until_date=None, send_messages=True)
+        except Exception:
+            await H5.edit_permissions(event.chat.id, uid, until_date=None, send_messages=True)
+        except Exception:
+            await tbot.edit_permissions(event.chat.id, uid, until_date=None, send_messages=True)
         except Exception as e:
             print(str(e))
             return
