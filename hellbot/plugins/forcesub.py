@@ -113,41 +113,21 @@ async def _(event):
     joinchat = fsub.channel
     if uid == event.sender_id:
         nm = (await event.client(GetFullUserRequest(uid))).user.first_name
-        if H1:
-            try:
-                await H1(GetParticipantRequest(int(joinchat), uid))
-            except Exception:
-                pass
-            except UserNotParticipantError:
-                return await event.answer("You need to join the channel first.", alert=True)
-        if H2:
-            try:
-                await H2(GetParticipantRequest(int(joinchat), uid))
-            except Exception:
-                pass
-            except UserNotParticipantError:
-                return await event.answer("You need to join the channel first.", alert=True)
-        if H3:
-            try:
-                await H3(GetParticipantRequest(int(joinchat), uid))
-            except Exception:
-                pass
-            except UserNotParticipantError:
-                return await event.answer("You need to join the channel first.", alert=True)
-        if H4:
-            try:
-                await H4(GetParticipantRequest(int(joinchat), uid))
-            except Exception:
-                pass
-            except UserNotParticipantError:
-                return await event.answer("You need to join the channel first.", alert=True)
-        if H5:
-            try:
-                await H5(GetParticipantRequest(int(joinchat), uid))
-            except Exception:
-                pass
-            except UserNotParticipantError:
-                return await event.answer("You need to join the channel first.", alert=True)
+        try:
+            await H1(GetParticipantRequest(int(joinchat), uid))
+        except Exception:
+            await H2(GetParticipantRequest(int(joinchat), uid))
+        except Exception:
+            await H3(GetParticipantRequest(int(joinchat), uid))
+        except Exception:
+            await H4(GetParticipantRequest(int(joinchat), uid))
+        except Exception:
+            await H5(GetParticipantRequest(int(joinchat), uid))
+        except Exception:
+            await tbot(GetParticipantRequest(int(joinchat), uid))
+        except UserNotParticipantError:
+            await event.answer("You need to join the channel first.", alert=True)
+            return
         try:
             await H1.edit_permissions(event.chat.id, uid, until_date=None, send_messages=True)
         except Exception:
