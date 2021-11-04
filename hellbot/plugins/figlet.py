@@ -2,7 +2,7 @@ import pyfiglet
 
 from . import *
 
-@hell_cmd(pattern="figlet ?(.*)")
+@hell_cmd(pattern="figlet ([\s\S]*)")
 async def figlet(event):
     CMD_FIG = {
         "slant": "slant",

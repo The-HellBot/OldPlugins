@@ -183,7 +183,7 @@ async def watcher(event):
             LOGS.info(str(e))
 
 
-@hell_cmd(pattern="mute ([\s\S]*)")
+@hell_cmd(pattern="mute(?:\s|$)([\s\S]*)")
 async def muth(event):
     x = await client_id(event)
     ForGo10God = x[0]
@@ -263,7 +263,7 @@ async def muth(event):
         )
 
 
-@hell_cmd(pattern="unmute ([\s\S]*)")
+@hell_cmd(pattern="unmute(?:\s|$)([\s\S]*)")
 async def nomuth(event):
     x = await client_id(event)
     ForGo10God = x[0]
@@ -406,7 +406,7 @@ async def nothanos(event):
         await hellevent.edit("Invalid UserId!! Please Recheck it!!")
 
 
-@hell_cmd(pattern="pin($| (.*))")
+@hell_cmd(pattern="pin(?:\s|$)([\s\S]*)")
 @errors_handler
 async def pin(event):
     chat = await event.get_chat()
@@ -443,7 +443,7 @@ async def pin(event):
         await eod(event, "**📍 Pinned successfully !!**")
 
 
-@hell_cmd(pattern="unpin ([\s\S]*)")
+@hell_cmd(pattern="unpin(?:\s|$)([\s\S]*)")
 async def unpin(event):
     chat = await event.get_chat()
     rply = event.reply_to_msg_id
@@ -507,7 +507,7 @@ async def kick(event):
     )
 
 
-@hell_cmd(pattern="zombies ([\s\S]*)")
+@hell_cmd(pattern="zombies(?:\s|$)([\s\S]*)")
 async def rm_deletedacc(event):
     con = event.pattern_match.group(1).lower()
     del_u = 0

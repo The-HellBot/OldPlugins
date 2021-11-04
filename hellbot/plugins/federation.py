@@ -9,7 +9,7 @@ logs_id = Config.FBAN_LOG_GROUP
 fbot = "@MissRose_bot"
 
 
-@hell_cmd(pattern="newfed ?(.*)")
+@hell_cmd(pattern="newfed ([\s\S]*)")
 async def _(event):
     hell_input = event.pattern_match.group(1)
     chat = "@MissRose_Bot"
@@ -30,7 +30,7 @@ async def _(event):
             await hell.edit(f"{response.message.message}")
 
 
-@hell_cmd(pattern="renamefed ?(.*)")
+@hell_cmd(pattern="renamefed ([\s\S]*)")
 async def _(event):
     hell_input = event.pattern_match.group(1)
     chat = "@MissRose_Bot"
@@ -47,7 +47,7 @@ async def _(event):
              await hell.edit(response.message)
 
 
-@hell_cmd(pattern="fstat ?(.*)")
+@hell_cmd(pattern="fstat ([\s\S]*)")
 async def _(event):
     hell = await eor(event, "`Collecting fstat....`")
     thumb = hell_logo
@@ -74,7 +74,7 @@ async def _(event):
                 await hell.edit("`Please Unblock` @MissRose_Bot")
 
 
-@hell_cmd(pattern="fedinfo ?(.*)")
+@hell_cmd(pattern="fedinfo ([\s\S]*)")
 async def _(event):
     hell = await eor(event, "`Fetching fed info.... please wait`")
     lavde = event.pattern_match.group(1)

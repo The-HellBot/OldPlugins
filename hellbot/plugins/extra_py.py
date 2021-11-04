@@ -29,7 +29,7 @@ async def install(event):
     await hell_.edit(hell)
 
 
-@hell_cmd(pattern="installall ?(.*)")
+@hell_cmd(pattern="installall ([\s\S]*)")
 async def install(event):
     chat = event.pattern_match.group(1)
     hell_ = await eor(event, f"Starting To Install Plugins From {chat} !!")

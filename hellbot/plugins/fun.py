@@ -10,7 +10,7 @@ from telethon.tl.types import MessageEntityMentionName
 from . import *
 
 
-@hell_cmd(pattern="slap ?(.*)")
+@hell_cmd(pattern="slap ([\s\S]*)")
 async def who(event):
     replied_user = await get_user(event)
     caption = await slap(replied_user, event)
@@ -157,7 +157,7 @@ async def cry(e):
     await eor(e, txt)
 
 
-@hell_cmd(pattern="cp(?: |$)(.*)")
+@hell_cmd(pattern="cp(?:\s|$)([\s\S]*)")
 async def copypasta(cp_e):
     if not cp_e.text[0].isalpha() and cp_e.text[0] not in ("/", "#", "@", "!"):
         textx = await cp_e.get_reply_message()
@@ -188,7 +188,7 @@ async def copypasta(cp_e):
         await eor(cp_e, reply_text)
 
 
-@hell_cmd(pattern="owo(?: |$)(.*)")
+@hell_cmd(pattern="owo(?:\s|$)([\s\S]*)")
 async def faces(owo):
     if not owo.text[0].isalpha() and owo.text[0] not in ("/", "#", "@", "!"):
         textx = await owo.get_reply_message()
@@ -216,7 +216,7 @@ async def react_meme(react):
         await eor(react, random.choice(FACEREACTS))
 
 
-@hell_cmd(pattern="clap(?: |$)(.*)")
+@hell_cmd(pattern="clap(?:\s|$)([\s\S]*)")
 async def claptext(memereview):
     if not memereview.text[0].isalpha() and memereview.text[0] not in (
         "/",

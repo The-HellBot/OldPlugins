@@ -16,7 +16,7 @@ if not os.path.isdir(Config.TMP_DOWNLOAD_DIRECTORY):
     os.makedirs(Config.TMP_DOWNLOAD_DIRECTORY)
 
 
-@hell_cmd(pattern="fext ?(.*)")
+@hell_cmd(pattern="fext ([\s\S]*)")
 async def _(event):
     sample_url = "https://www.fileext.com/file-extension/{}.html"
     input_str = event.pattern_match.group(1).lower()
@@ -40,7 +40,7 @@ async def _(event):
             ),
         )    
 
-@hell_cmd(pattern="pips(?: |$)(.*)")
+@hell_cmd(pattern="pips(?:\s|$)([\s\S]*)")
 async def pipcheck(pip):
     pipmodule = pip.pattern_match.group(1)
     if pipmodule:
