@@ -86,7 +86,7 @@ CmdHelp("msgs").add_command(
 ).add_command(
   "resend", "<reply to a msg>", "Just resends the replied msg"
 ).add_command(
-  "copy", "<reply to a msg>", "Resends the replied msg by replying to the original msg.")
+  "copy", "<reply to a msg>", "Resends the replied msg by replying to the original msg."
 ).add_info(
   "Messages tools."
 ).add_warning(
