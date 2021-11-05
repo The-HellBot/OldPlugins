@@ -6,11 +6,10 @@ from PIL import Image, ImageDraw, ImageFont
 
 from . import *
 
-
 FONT_FILE_TO_USE = "/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf"
 
 
-@hell_cmd(pattern="time ?(.*)")
+@hell_cmd(pattern="time(?:\s|$)([\s\S]*)")
 async def _(event):
     current_time = datetime.datetime.now().strftime(
         "⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡\

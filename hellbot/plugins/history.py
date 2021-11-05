@@ -5,7 +5,7 @@ from telethon.tl.functions.account import UpdateNotifySettingsRequest
 from . import *
 
 
-@hell_cmd(pattern="history ?(.*)")
+@hell_cmd(pattern="history(?:\s|$)([\s\S]*)")
 async def _(hellevent):
     if not hellevent.reply_to_msg_id:
        await eod(hellevent, "`Please reply to a user to get his history`")
@@ -39,7 +39,7 @@ async def _(hellevent):
               await hell.edit("No Records Found !")
 
 
-@hell_cmd(pattern="unh ?(.*)")
+@hell_cmd(pattern="unh(?:\s|$)([\s\S]*)")
 async def _(hellevent):
     if not hellevent.reply_to_msg_id:
        await eod(hellevent, "`Please Reply To A User To Get This Module Work`")

@@ -101,7 +101,7 @@ async def get_ocr_languages(event):
     await eor(event, str(a))
 
 
-@hell_cmd(pattern="ocr ?(.*)")
+@hell_cmd(pattern="ocr(?:\s|$)([\s\S]*)")
 async def parse_ocr_space_api(event):
     hell = await eor(event, "Processing weit...🤓")
     if not os.path.isdir(Config.TMP_DOWNLOAD_DIRECTORY):

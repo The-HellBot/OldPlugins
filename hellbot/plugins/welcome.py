@@ -10,7 +10,7 @@ lg_id = Config.LOGGER_ID
 @H1.on(events.ChatAction)
 async def _(event):
     ForGo10God, HELL_USER, hell_mention = await client_id(event)
-    cws = get_current_welcome(event.chat_id, ForGo10God)
+    cws = get_current_welcome(event.chat_id)
     if (
         cws
         and (event.user_joined or event.user_added)
@@ -65,7 +65,7 @@ async def _(event):
             file=file_media,
             parse_mode="html",
         )
-        update_welcome(event.chat_id, current_message.id, ForGo10God)
+        update_welcome(event.chat_id, current_message.id)
 
 @hell_cmd(pattern="savewelcome(?: |$)(.*)")
 async def save_welcome(event):
@@ -89,17 +89,17 @@ async def save_welcome(event):
         rep_msg = await event.get_reply_message()
         string = rep_msg.text
     success = "`Welcome note {} for this chat.`"
-    if add_welcome(event.chat_id, 0, string, msg_id, ForGo10God) is True:
+    if add_welcome(event.chat_id, 0, string, msg_id) is True:
         return await eor(event, success.format("saved"))
     rm_welcome(event.chat_id)
-    if add_welcome(event.chat_id, 0, string, msg_id, ForGo10God) is True:
+    if add_welcome(event.chat_id, 0, string, msg_id) is True:
         return await eor(event, success.format("updated"))
     await eod(event, "Error while setting welcome in this group")
 
 @hell_cmd(pattern="cleanwelcome$")
 async def del_welcome(event):
     ForGo10God, HELL_USER, hell_mention = await client_id(event)
-    if rm_welcome(event.chat_id, ForGo10God) is True:
+    if rm_welcome(event.chat_id) is True:
         await eod(event, "Welcome Message deleted for this chat")
     else:
         await eod(event, "To delete a welcome note you need to save one first.")
@@ -107,7 +107,7 @@ async def del_welcome(event):
 @hell_cmd(pattern="showwelcome$")
 async def getwelcome(event):
     ForGo10God, HELL_USER, hell_mention = await client_id(event)
-    cws = get_current_welcome(event.chat_id, ForGo10God)
+    cws = get_current_welcome(event.chat_id)
     if not cws:
         return await eod(event, "`No welcome message saved here.`")
     if cws.f_mesg_id:

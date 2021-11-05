@@ -66,7 +66,7 @@ async def down(hell):
         sys.exit(0)
 
 
-@hell_cmd(pattern="svar ?(.*)")
+@hell_cmd(pattern="svar(?:\s|$)([\s\S]*)")
 async def sett(event):
     hel_ = event.pattern_match.group(1)
     var_ = hel_.split(" ")[0].upper()
@@ -86,7 +86,7 @@ async def sett(event):
     await hell.edit(f"**Variable** `{var_}` **successfully added with value** `{valu}`")
 
 
-@hell_cmd(pattern="gvar ?(.*)")
+@hell_cmd(pattern="gvar(?:\s|$)([\s\S]*)")
 async def gett(event):
     var_ = event.pattern_match.group(1).upper()
     hell = await eor(event, f"**Getting variable** `{var_}`")
@@ -102,7 +102,7 @@ async def gett(event):
     await hell.edit(f"**OS VARIABLE:** `{var_}`\n**OS VALUE :** `{os_v}`\n------------------\n**SQL VARIABLE:** `{var_}`\n**SQL VALUE :** `{sql_v}`\n")
 
 
-@hell_cmd(pattern="dvar ?(.*)")
+@hell_cmd(pattern="dvar(?:\s|$)([\s\S]*)")
 async def dell(event):
     var_ = event.pattern_match.group(1).upper()
     hell = await eor(event, f"**Deleting Variable** `{var_}`")

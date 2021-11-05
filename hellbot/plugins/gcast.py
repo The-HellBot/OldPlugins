@@ -1,6 +1,6 @@
 from . import *
 
-@hell_cmd(pattern="gcast ?(.*)")
+@hell_cmd(pattern="gcast(?:\s|$)([\s\S]*)")
 async def _(event):
     reply_msg = await event.get_reply_message()
     flag = event.text[-4:]

@@ -9,7 +9,7 @@ from telethon.utils import get_input_location
 from . import *
 
 
-@hell_cmd(pattern="getpic ?(.*)")
+@hell_cmd(pattern="getpic(?:\s|$)([\s\S]*)")
 async def _(event):
     hell = await eor(event, "Getting profile photo..")
     replied_user, error_i_a = await get_full_user(event)
@@ -33,7 +33,7 @@ async def _(event):
     try:
         dc_id, location = get_input_location(replied_user.profile_photo)
     except Exception as e:
-        dc_id = "Need a Profile Picture to check **this**"
+        dc_id = "Need a Profile Picture to check this"
         str(e)
     caption = """<b><i><u>Profile Pics (◠‿◕)</b></i></u>
 
@@ -118,7 +118,7 @@ async def get_full_user(event):
 
 name = "Profile Photos"
 
-@hell_cmd(pattern="poto ?(.*)")
+@hell_cmd(pattern="poto(?:\s|$)([\s\S]*)")
 async def potocmd(event):
     uid = "".join(event.raw_text.split(maxsplit=1)[1:])
     user = await event.get_reply_message()

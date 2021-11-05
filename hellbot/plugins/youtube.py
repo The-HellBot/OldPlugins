@@ -12,7 +12,7 @@ from youtube_dl.utils import ContentTooShortError, DownloadError, ExtractorError
 from . import *
 
 
-@hell_cmd(pattern="yt(a|v) (.*)")
+@hell_cmd(pattern="yt(a|v)(?:\s|$)([\s\S]*)")
 async def download_video(event):
     url = event.text[5:]
     type_ = event.text[3:4]
@@ -105,7 +105,7 @@ async def download_video(event):
         await event.delete()
 
 
-@hell_cmd(pattern="ytlink ?(.*)")
+@hell_cmd(pattern="ytlink(?:\s|$)([\s\S]*)")
 async def hmm(event):
     query = event.text[8:]
     if query == "":

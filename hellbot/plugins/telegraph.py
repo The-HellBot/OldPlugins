@@ -7,7 +7,7 @@ from telegraph import Telegraph, exceptions, upload_file
 from . import *
 
 
-@hell_cmd(pattern="t(m|t) ?(.*)")
+@hell_cmd(pattern="t(m|t)(?:\s|$)([\s\S]*)")
 async def _(event):
     if Config.LOGGER_ID is None:
         await eod(event, "You need to setup `LOGGER_ID` to use telegraph...")

@@ -18,7 +18,7 @@ from . import *
 Glitched = Config.TMP_DOWNLOAD_DIRECTORY + "glitch.gif"
 
 
-@hell_cmd(pattern="glitch ?(.*)")
+@hell_cmd(pattern="glitch(?:\s|$)([\s\S]*)")
 async def glitch_(event):
     hell = await eor(event, "`Trying to glitch this ...`")
     replied = await event.get_reply_message()

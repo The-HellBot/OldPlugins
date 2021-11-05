@@ -6,7 +6,7 @@ from . import *
 # So please dont remove credit. 
 # You can use it in your repo. But dont remove these lines...
 
-@hell_cmd(pattern="mev ?(.*)")
+@hell_cmd(pattern="mev(?:\s|$)([\s\S]*)")
 async def _(event):
     hell = event.text[5:]
     rply = await event.get_reply_message()
@@ -31,7 +31,7 @@ async def _(event):
         await eod(event, "**Error 404:**  Not Found")
 
 
-@hell_cmd(pattern="meev ?(.*)")
+@hell_cmd(pattern="meev(?:\s|$)([\s\S]*)")
 async def _(event):
     hell = event.text[6:]
     rply = await event.get_reply_message()

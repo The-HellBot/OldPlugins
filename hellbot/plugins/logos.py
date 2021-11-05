@@ -8,10 +8,10 @@ from telethon.tl.types import InputMessagesFilterPhotos, InputMessagesFilterDocu
 
 from . import *
 
-
 PICS_STR = []
 
-@hell_cmd(pattern="logo ?(.*)")
+
+@hell_cmd(pattern="logo(?:\s|$)([\s\S]*)")
 async def _(event):
     hell = await eor(event, "`Processing.....`")
     text = event.text[6:]

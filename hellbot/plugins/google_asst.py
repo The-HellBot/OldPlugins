@@ -10,9 +10,9 @@ from gtts import gTTS
 from . import *
 
 
-@hell_cmd(pattern="trt ?(.*)")
+@hell_cmd(pattern="trt(?:\s|$)([\s\S]*)")
 async def _(event):
-    input_str = event.pattern_match.group(1)
+    input_str = event.text[5:]
     if event.reply_to_msg_id:
         previous_message = await event.get_reply_message()
         text = previous_message.message
@@ -33,12 +33,12 @@ async def _(event):
     except Exception as exc:
         await eor(event, str(exc))
 
-@hell_cmd(pattern=r"trc$")
+@hell_cmd(pattern="trc$")
 async def _(hell):
     await eor(hell, "**All The Language Codes Can Be Found** ⚡ [Here](https://telegra.ph/SfMæisér--𐌷𐌴ࠋࠋ𐌱𐍈𐌸-𐌾𐌰𐍀𐌾-06-04) ⚡", link_preview=False)
 
 
-@hell_cmd(pattern="voice ?(.*)")
+@hell_cmd(pattern="voice(?:\s|$)([\s\S]*)")
 async def _(event):
     hell = await eor(event, "Preparing Voice....")
     input_str = event.pattern_match.group(1)

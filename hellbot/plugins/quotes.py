@@ -1,7 +1,5 @@
 import requests
-
 from random import choice
-
 from . import *
 
 
@@ -55,7 +53,7 @@ async def morning(e):
     txt = choice(GDMORNING)
     await eor(e, txt)
 
-@hell_cmd(pattern="quote ?(.*)")
+@hell_cmd(pattern="quote(?:\s|$)([\s\S]*)")
 async def quote_search(event):
     hell = await eor(event, "`Processing...`")
     input_str = event.pattern_match.group(1)
