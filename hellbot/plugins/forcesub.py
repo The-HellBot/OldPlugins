@@ -9,7 +9,7 @@ from hellbot.sql.fsub_sql import *
 from . import *
 
 
-@H1.on(events.ChatAction())
+@tbot.on(events.ChatAction())
 async def forcesub(event):
     if all_fsub() == None:
         return
@@ -24,23 +24,72 @@ async def forcesub(event):
     joinchat = xyz.channel
     tgbotusername = Config.BOT_USERNAME
     try:
-        await event.client(GetParticipantRequest(int(joinchat), user.id))
+        await H1(GetParticipantRequest(int(joinchat), user.id))
+    except Exception:
+        await H2(GetParticipantRequest(int(joinchat), user.id))
+    except Exception:
+        await H3(GetParticipantRequest(int(joinchat), user.id))
+    except Exception:
+        await H4(GetParticipantRequest(int(joinchat), user.id))
+    except Exception:
+        await H5(GetParticipantRequest(int(joinchat), user.id))
+    except Exception:
+        await tbot(GetParticipantRequest(int(joinchat), user.id))
     except UserNotParticipantError:
-        await event.client.edit_permissions(event.chat_id, user.id, send_messages=False)
-       # res = await event.client.inline_query(tgbotusername, f"fsub {user.id}+{joinchat}")
-       # await res[0].click(event.chat_id, reply_to=event.action_message.id)
-        channel = await event.client.get_entity(int(joinchat))
-        user = await event.client.get_entity(int(user.id))
-        if not channel.username:
-            channel_link = (await event.client(ExportChatInviteRequest(channel))).link
-        else:
-            channel_link = "https://t.me/" + channel.username
+        try:
+            await H1.edit_permissions(event.chat_id, user.id, send_messages=False)
+            channel = await H1.get_entity(int(joinchat))
+            user = await H1.get_entity(int(user.id))
+            if not channel.username:
+                channel_link = (await H1(ExportChatInviteRequest(channel))).link
+            else:
+                channel_link = "https://t.me/" + channel.username
+        except Exception:
+            await H2.edit_permissions(event.chat_id, user.id, send_messages=False)
+            channel = await H2.get_entity(int(joinchat))
+            user = await H2.get_entity(int(user.id))
+            if not channel.username:
+                channel_link = (await H2(ExportChatInviteRequest(channel))).link
+            else:
+                channel_link = "https://t.me/" + channel.username
+        except Exception:
+            await H3.edit_permissions(event.chat_id, user.id, send_messages=False)
+            channel = await H3.get_entity(int(joinchat))
+            user = await H3.get_entity(int(user.id))
+            if not channel.username:
+                channel_link = (await H3(ExportChatInviteRequest(channel))).link
+            else:
+                channel_link = "https://t.me/" + channel.username
+        except Exception:
+            await H4.edit_permissions(event.chat_id, user.id, send_messages=False)
+            channel = await H4.get_entity(int(joinchat))
+            user = await H4.get_entity(int(user.id))
+            if not channel.username:
+                channel_link = (await H4(ExportChatInviteRequest(channel))).link
+            else:
+                channel_link = "https://t.me/" + channel.username
+        except Exception:
+            await H5.edit_permissions(event.chat_id, user.id, send_messages=False)
+            channel = await H5.get_entity(int(joinchat))
+            user = await H5.get_entity(int(user.id))
+            if not channel.username:
+                channel_link = (await H5(ExportChatInviteRequest(channel))).link
+            else:
+                channel_link = "https://t.me/" + channel.username
+        except Exception:
+            await tbot.edit_permissions(event.chat_id, user.id, send_messages=False)
+            channel = await tbot.get_entity(int(joinchat))
+            user = await tbot.get_entity(int(user.id))
+            if not channel.username:
+                channel_link = (await tbot(ExportChatInviteRequest(channel))).link
+            else:
+                channel_link = "https://t.me/" + channel.username
         capt = f"**👋 Welcome** [{user.first_name}](tg://user?id={user.id}), \n\n**📍 You need to Join** {channel.title} **to chat in this group.**"
         btns = [Button.url("Channel", url=channel_link), Button.inline("Unmute Me", data=f"unmute_{user.id}")]
         await tbot.send_message(event.chat_id, capt, buttons=btns)
 
 
-@hell_cmd(pattern="fsub ([\s\S]*)")
+@hell_cmd(pattern="fsub(?:\s|$)([\s\S]*)")
 async def _(event):
     if event.is_private:
         await eor(event, "This is meant to be used in groups only!!")

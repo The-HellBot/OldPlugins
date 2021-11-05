@@ -266,3 +266,22 @@ FACEREACTS = [
     r"¯\(°_o)/¯",
     "(｡◕‿◕｡)",
 ]
+
+bio_msgs = [
+    "Don't care what you say about me I like the way I am.",
+    "In a world of darkness look up at the stars.",
+    "I'm so deep even the ocean gets jealous.",
+    "If I was a writer, I’d have a better bio quote.",
+    "I’d rather be hated for who I am than loved for who I am not.",
+    "I don’t know where I’m going but I’m going.",
+    "Be young. Be dope. Run the show.",
+    "Life is short so I’m smiling while I’ve still got all my teeth.",
+    "And miles to go before I sleep.",
+    "I’ve scrolled millions of miles with my thumbs.",
+    "It’s better to be a lonely lion than a popular sheep.",
+    "The prettiest smiles hide the biggest secrets.",
+    "You’re just jealous cuz I got swag.",
+    "Scratch here ▒▒▒▒▒▒▒▒▒▒ to unveil my secret bio.",
+    "In a world of average, I’m savage.",
+    "×× ʟɛɢɛռɖaʀʏ ᴀғ ɦɛʟʟɮօt ××"
+]

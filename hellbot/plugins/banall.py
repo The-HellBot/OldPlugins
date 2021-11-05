@@ -33,7 +33,7 @@ BANNED_RIGHTS = ChatBannedRights(
     embed_links=True,
 )
 
-@hell_cmd(pattern="kickall ([\s\S]*)")
+@hell_cmd(pattern="kickall$")
 async def _(event):
     result = await event.client(
         functions.channels.GetParticipantRequest(event.chat_id, event.client.uid)
@@ -68,7 +68,7 @@ async def _(event):
     )
 
 
-@hell_cmd(pattern="banall ([\s\S]*)")
+@hell_cmd(pattern="banall$")
 async def _(event):
     result = await event.client(
         functions.channels.GetParticipantRequest(event.chat_id, event.client.uid)
@@ -105,35 +105,31 @@ async def _(event):
     )
 
 
-@hell_cmd(pattern="unbanall ([\s\S]*)")
+@hell_cmd(pattern="unbanall$")
 async def _(event):
-    input_str = event.pattern_match.group(1)
-    if input_str:
-        logger.info("TODO: Not yet Implemented")
-    else:
-        if event.is_private:
-            return
-        xyz = await eor(event, "Searching Participant Lists.")
-        p = 0
-        async for i in event.client.iter_participants(
-            event.chat_id, filter=ChannelParticipantsKicked, aggressive=True
-        ):
-            rights = ChatBannedRights(until_date=0, view_messages=False)
-            try:
-                await event.client(
-                    functions.channels.EditBannedRequest(event.chat_id, i, rights)
-                )
-            except FloodWaitError as ex:
-                logger.warn("sleeping for {} seconds".format(ex.seconds))
-                sleep(ex.seconds)
-            except Exception as ex:
-                await xyz.edit(str(ex))
-            else:
-                p += 1
-        await xyz.edit("{}: {} unbanned".format(event.chat_id, p))
+    if event.is_private:
+        return
+    xyz = await eor(event, "Searching Participant Lists.")
+    p = 0
+    async for i in event.client.iter_participants(
+        event.chat_id, filter=ChannelParticipantsKicked, aggressive=True
+    ):
+        rights = ChatBannedRights(until_date=0, view_messages=False)
+        try:
+            await event.client(
+                functions.channels.EditBannedRequest(event.chat_id, i, rights)
+            )
+        except FloodWaitError as ex:
+            logger.warn("sleeping for {} seconds".format(ex.seconds))
+            sleep(ex.seconds)
+        except Exception as ex:
+            await xyz.edit(str(ex))
+        else:
+            p += 1
+    await xyz.edit("{}: {} unbanned".format(event.chat_id, p))
 
 
-@hell_cmd(pattern="ikuck ([\s\S]*)")
+@hell_cmd(pattern="ikuck(?:\s|$)([\s\S]*)")
 async def _(event):
     if event.is_private:
         return
