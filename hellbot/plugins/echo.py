@@ -1,7 +1,7 @@
 import asyncio
 import base64
 import requests
-
+import telethon.utils
 from telethon import events
 
 from hellbot.sql.echo_sql import addecho, get_all_echos, is_echo, remove_echo
@@ -61,8 +61,8 @@ async def echo(event):
 async def samereply(event):
     if event.chat_id in Config.BL_CHAT:
         return
-    id_ = H1.get_me()
-    uid = id_.id
+    id_ = await H1.get_me()
+    uid = telethon.utils.get_peer_id(id_)
     if is_echo(event.sender_id, event.chat_id):
         if gvarstat(f"ECHO_{uid}") == "True":
             await asyncio.sleep(1)
@@ -75,8 +75,8 @@ if H2:
     async def samereply(event):
         if event.chat_id in Config.BL_CHAT:
             return
-        id_ = H2.get_me()
-        uid = id_.id
+        id_ = await H2.get_me()
+        uid = telethon.utils.get_peer_id(id_)
         if is_echo(event.sender_id, event.chat_id):
             if gvarstat(f"ECHO_{uid}") == "True":
                 await asyncio.sleep(1)
@@ -89,8 +89,8 @@ if H3:
     async def samereply(event):
         if event.chat_id in Config.BL_CHAT:
             return
-        id_ = H3.get_me()
-        uid = id_.id
+        id_ = await H3.get_me()
+        uid = telethon.utils.get_peer_id(id_)
         if is_echo(event.sender_id, event.chat_id):
             if gvarstat(f"ECHO_{uid}") == "True":
                 await asyncio.sleep(1)
@@ -103,8 +103,8 @@ if H4:
     async def samereply(event):
         if event.chat_id in Config.BL_CHAT:
             return
-        id_ = H4.get_me()
-        uid = id_.id
+        id_ = await H4.get_me()
+        uid = telethon.utils.get_peer_id(id_)
         if is_echo(event.sender_id, event.chat_id):
             if gvarstat(f"ECHO_{uid}") == "True":
                 await asyncio.sleep(1)
@@ -117,8 +117,8 @@ if H5:
     async def samereply(event):
         if event.chat_id in Config.BL_CHAT:
             return
-        id_ = H5.get_me()
-        uid = id_.id
+        id_ = await H5.get_me()
+        uid = telethon.utils.get_peer_id(id_)
         if is_echo(event.sender_id, event.chat_id):
             if gvarstat(f"ECHO_{uid}") == "True":
                 await asyncio.sleep(1)
