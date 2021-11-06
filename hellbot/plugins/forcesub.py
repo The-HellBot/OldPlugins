@@ -9,7 +9,7 @@ from hellbot.sql.fsub_sql import *
 from . import *
 
 
-@tbot.on(events.ChatAction())
+@H1.on(events.ChatAction())
 async def forcesub(event):
     if all_fsub() == None:
         return
@@ -24,13 +24,13 @@ async def forcesub(event):
     joinchat = xyz.channel
     tgbotusername = Config.BOT_USERNAME
     try:
-        await H1(GetParticipantRequest(int(joinchat), user.id))
+        await event.client(GetParticipantRequest(int(joinchat), user.id))
     except UserNotParticipantError:
-        await H1.edit_permissions(event.chat_id, user.id, send_messages=False)
-        channel = await H1.get_entity(int(joinchat))
-        user = await H1.get_entity(int(user.id))
+        await event.client.edit_permissions(event.chat_id, user.id, send_messages=False)
+        channel = await event.client.get_entity(int(joinchat))
+        user = await event.client.get_entity(int(user.id))
         if not channel.username:
-            channel_link = (await H1(ExportChatInviteRequest(channel))).link
+            channel_link = (await event.client(ExportChatInviteRequest(channel))).link
         else:
             channel_link = "https://t.me/" + channel.username
         capt = f"**👋 Welcome** [{user.first_name}](tg://user?id={user.id}), \n\n**📍 You need to Join** {channel.title} **to chat in this group.**"
