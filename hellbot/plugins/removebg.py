@@ -6,7 +6,7 @@ from PIL import Image
 from . import *
 
 
-@hell_cmd(pattern="rmbg ?(.*)")
+@hell_cmd(pattern="rmbg(?:\s|$)([\s\S]*)")
 async def _(event):
     if Config.REMOVE_BG_API is None:
         return await eod(event, "You need to set  `REMOVE_BG_API`  for this module to work...")

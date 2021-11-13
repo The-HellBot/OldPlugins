@@ -10,6 +10,7 @@ ping_txt = """<b><i>╰•★★  ℘ơŋɠ ★★•╯</b></i>
     ⚘  <i>ų℘ɬıɱɛ :</i> <code>{}</code>
     ⚘  <i>ơῳŋɛཞ :</i> {}"""
 
+
 @hell_cmd(pattern="ping$")
 async def pong(hell):
     start = datetime.datetime.now()
@@ -28,5 +29,3 @@ CmdHelp("ping").add_command(
 ).add_warning(
   "✅ Harmless Module"
 ).add()
-
-# hellbot

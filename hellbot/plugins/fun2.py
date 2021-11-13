@@ -13,7 +13,7 @@ BASE_URL = "https://headp.at/pats/{}"
 PAT_IMAGE = "pat.jpg"
 
 
-@hell_cmd(pattern="pat ?(.*)")
+@hell_cmd(pattern="pat ([\s\S]*)")
 async def _(event):
     username = event.pattern_match.group(1)
     if not username and not event.reply_to_msg_id:
@@ -200,7 +200,7 @@ async def _(event):
     await eor(event, mentions)
 
 
-@hell_cmd(pattern="ftext ?(.*)")
+@hell_cmd(pattern="ftext ([\s\S]*)")
 async def payf(event):
     input_str = event.pattern_match.group(1)
     if input_str:

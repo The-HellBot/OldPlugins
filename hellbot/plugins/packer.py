@@ -19,7 +19,7 @@ async def _(event):
     os.remove(b)
 
 
-@hell_cmd(pattern="pack ?(.*)")
+@hell_cmd(pattern="pack(?:\s|$)([\s\S]*)")
 async def _(event):
     a = await event.get_reply_message()
     input_str = event.pattern_match.group(1)

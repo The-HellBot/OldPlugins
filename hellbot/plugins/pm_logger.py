@@ -12,7 +12,7 @@ NO_PM_LOG_USERS = []
 lg_id = Config.PM_LOG_ID
 
 
-@hell_cmd(pattern="save ?(.*)")
+@hell_cmd(pattern="save(?:\s|$)([\s\S]*)")
 async def log(event):
     if f"{hl}savewelcome" in event.text:
         return
@@ -49,7 +49,7 @@ async def monito_p_m_s(event):
                     print(e)
 
 
-@hell_cmd(pattern="elog ?(.*)")
+@hell_cmd(pattern="elog(?:\s|$)([\s\S]*)")
 async def set_no_log_p_m(event):
     if Config.PM_LOG_ID is not None:
         event.pattern_match.group(1)
@@ -60,7 +60,7 @@ async def set_no_log_p_m(event):
                 await eod(event, "Will Log Messages from this chat")
 
 
-@hell_cmd(pattern="nlog ?(.*)")
+@hell_cmd(pattern="nlog(?:\s|$)([\s\S]*)")
 async def set_no_log_p_m(event):
     if Config.PM_LOG_ID is not None:
         event.pattern_match.group(1)

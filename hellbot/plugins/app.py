@@ -5,8 +5,8 @@ from . import *
 
 @hell_cmd(pattern="app ([\s\S]*)")
 async def apk(event):
-    app_name = event.pattern_match.group(1)
-    event = await eor(event, "Searching...")
+    app_name = event.text[5:]
+    event = await eor(event, f"Searching for {app_name}...")
     xyz = await client_id(event)
     HELL_USER = xyz[1]
     try:
@@ -76,8 +76,8 @@ async def apk(event):
 
 @hell_cmd(pattern="appr ([\s\S]*)")
 async def apkr(event):
-    app_name = event.pattern_match.group(1)
-    event = await eor(event, "Searching...")
+    app_name = event.text[6:]
+    event = await eor(event, f"Searching for {app_name}...")
     try:
         remove_space = app_name.split(" ")
         final_name = "+".join(remove_space)
@@ -146,7 +146,7 @@ async def apkr(event):
 
 @hell_cmd(pattern="mods ([\s\S]*)")
 async def mod(event):
-    hell = event.text[8:]
+    hell = event.text[6:]
     if not hell:
         if event.is_reply:
             (await event.get_reply_message()).message

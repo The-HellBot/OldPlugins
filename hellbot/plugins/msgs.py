@@ -44,7 +44,16 @@ async def _(event):
     await event.delete()
 
 
-@hell_cmd(pattern="fpost ?(.*)")
+@hell_cmd(pattern="copy$")
+async def _(event):
+    m = await event.get_reply_message()
+    if not m:
+        return
+    await event.client.send_message(event.chat_id, m, reply_to=m.id)
+    await event.delete()
+
+
+@hell_cmd(pattern="fpost(?:\s|$)([\s\S]*)")
 async def _(event):
     global groupsid
     global msg_cache
@@ -76,6 +85,8 @@ CmdHelp("msgs").add_command(
   "frwd", "<reply to a msg>", "Enables seen counter in replied msg. To know how many users have seen your msg."
 ).add_command(
   "resend", "<reply to a msg>", "Just resends the replied msg"
+).add_command(
+  "copy", "<reply to a msg>", "Resends the replied msg by replying to the original msg."
 ).add_info(
   "Messages tools."
 ).add_warning(

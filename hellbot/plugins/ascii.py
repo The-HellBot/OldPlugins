@@ -4,7 +4,7 @@ from telethon.errors.rpcerrorlist import YouBlockedUserError
 from . import *
 
 
-@hell_cmd(pattern="ascii ([\s\S]*)")
+@hell_cmd(pattern="ascii(?:\s|$)([\s\S]*)")
 async def _(event):
     if not event.reply_to_msg_id:
         return await eor(event, "Reply to any user message.😒🤐")
@@ -12,6 +12,8 @@ async def _(event):
     if not reply_message.media:
         return await eor(event, "Reply to media message😒🤐")
     bot = "@asciiart_bot"
+    cid = await client_id(event)
+    hell_mention = cid[2]
     kraken = await eor(event, "Wait making ASCII...🤓🔥🔥")
     async with event.client.conversation(bot) as conv:
         try:
@@ -29,7 +31,7 @@ async def _(event):
         conv.chat_id, [first.id, response.id, second.id, output_op.id]
     )
 
-@hell_cmd(pattern="line ([\s\S]*)")
+@hell_cmd(pattern="line(?:\s|$)([\s\S]*)")
 async def _(event):
     if not event.reply_to_msg_id:
         await eor(event, "Reply to any user message.😒🤐")
@@ -39,6 +41,8 @@ async def _(event):
         await eor(event, "Reply to media message😒🤐")
         return
     bot = "@lines50bot"
+    cid = await client_id(event)
+    hell_mention = cid[2]
     kraken = await eor(event, "`Processing...`")
     async with event.client.conversation(bot) as conv:
         try:

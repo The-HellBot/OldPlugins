@@ -127,7 +127,7 @@ def unlock(event):
     return rights
 
 
-@hell_cmd(pattern="lock ?(.*)")
+@hell_cmd(pattern="lock(?:\s|$)([\s\S]*)")
 async def _(event):
     text = event.text[6:]
     cid = await client_id(event)
@@ -143,7 +143,7 @@ async def _(event):
     await hell.delete()
 
 
-@hell_cmd(pattern="unlock ?(.*)")
+@hell_cmd(pattern="unlock(?:\s|$)([\s\S]*)")
 async def _(event):
     text = event.text[8:]
     cid = await client_id(event)

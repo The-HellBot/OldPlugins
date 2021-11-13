@@ -20,7 +20,7 @@ def progress(current, total):
         )
     )
 
-@hell_cmd(pattern="pt ?(.*)")
+@hell_cmd(pattern="pt(?:\s|$)([\s\S]*)")
 async def _(event):
     hell = await eor(event, "Hmm..")
     BASE_URL = "http://images.google.com"
@@ -113,7 +113,7 @@ async def _(event):
             pass
 
 
-@hell_cmd(pattern="adwaifu ?(.*)")
+@hell_cmd(pattern="adwaifu(?:\s|$)([\s\S]*)")
 async def _(event):
     if not event.is_group:
         await eod(event, "Autowaifu works in Groups Only !!")
@@ -125,7 +125,7 @@ async def _(event):
     await eod(event, f"**Added Chat** {event.chat.title} **With Id** `{event.chat_id}` **To Autowaifu Database.**")
 
 
-@hell_cmd(pattern="rmwaifu ?(.*)")
+@hell_cmd(pattern="rmwaifu(?:\s|$)([\s\S]*)")
 async def _(event):
     if not event.is_group:
         await eod(event, "Autowaifu works in groups only !!")

@@ -41,7 +41,7 @@ async def _(event):
         await hell.delete()
 
 
-@hell_cmd(pattern=r"fry(?: |$)(.*)")
+@hell_cmd(pattern="fry(?:\s|$)([\s\S]*)")
 async def deepfryer(event):
     try:
         frycount = int(event.pattern_match.group(1))

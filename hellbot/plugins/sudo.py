@@ -20,7 +20,7 @@ async def sudo(event):
         await eod(event, f"📍 **Sudo :**  `Disabled`")
 
 
-@hell_cmd(pattern="addsudo ?(.*)")
+@hell_cmd(pattern="addsudo(?:\s|$)([\s\S]*)")
 async def add(event):
     suu = event.text[9:]
     if f"{hl}add " in event.text:
@@ -49,7 +49,7 @@ async def add(event):
     heroku_Config[bot] = newsudo
 
 
-@hell_cmd(pattern="rmsudo ?(.*)")
+@hell_cmd(pattern="rmsudo(?:\s|$)([\s\S]*)")
 async def _(event):
     suu = event.text[8:]
     ok = await eor(event, "**🚫 Removing Sudo User...**")

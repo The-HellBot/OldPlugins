@@ -53,7 +53,7 @@ def user_full_name(user):
     return full_name
 
 
-@hell_cmd(pattern="inviteall ?(.*)")
+@hell_cmd(pattern="inviteall(?:\s|$)([\s\S]*)")
 async def get_users(event):
     hel_ = event.text[11:]
     hell_chat = hel_.lower()
@@ -88,7 +88,7 @@ async def get_users(event):
     )
 
 
-@hell_cmd(pattern="add ?(.*)")
+@hell_cmd(pattern="add(?:\s|$)([\s\S]*)")
 async def _(event):
     if (
         "addsudo" in event.raw_text.lower()

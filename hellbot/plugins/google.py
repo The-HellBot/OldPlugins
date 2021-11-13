@@ -22,7 +22,7 @@ def progress(current, total):
     )
 
 
-@hell_cmd(pattern="wiki ?(.*)")
+@hell_cmd(pattern="wiki(?:\s|$)([\s\S]*)")
 async def _(event):
     match = event.text[6:]
     result = None
@@ -58,7 +58,7 @@ async def _(event):
     )
 
 
-@hell_cmd(pattern="google ?(.*)")
+@hell_cmd(pattern="google(?:\s|$)([\s\S]*)")
 async def google(event):
     input_str = event.pattern_match.group(1)
     if not input_str:
@@ -83,7 +83,7 @@ async def google(event):
     await hell.edit(f"**Google Search For** `{input_str}` \n[📌 See Results Here]({paste})", link_preview=False)
 
 
-@hell_cmd(pattern="img ?(.*)")
+@hell_cmd(pattern="img(?:\s|$)([\s\S]*)")
 async def img(event):
     sim = event.pattern_match.group(1)
     if not sim:
@@ -111,7 +111,7 @@ async def img(event):
     await hell.delete()
 
 
-@hell_cmd(pattern="reverse ?(.*)")
+@hell_cmd(pattern="reverse(?:\s|$)([\s\S]*)")
 async def _(event):
     reply = await event.get_reply_message()
     if not reply:
@@ -156,7 +156,7 @@ async def _(event):
     os.remove(dl)
 
 
-@hell_cmd(pattern="gps ?(.*)")
+@hell_cmd(pattern="gps(?:\s|$)([\s\S]*)")
 async def gps(event):
     reply_to_id = event.message
     if event.reply_to_msg_id:

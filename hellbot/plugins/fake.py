@@ -7,7 +7,7 @@ from telethon.tl.types import ChannelParticipantsAdmins
 
 from . import *
 
-@hell_cmd(pattern="fpic")
+@hell_cmd(pattern="fpic$")
 async def _(event):
     cid = await client_id(event)
     hell_mention = cid[2]
@@ -26,7 +26,7 @@ async def _(event):
     os.system("rm /root/hellbot/HELLBOT.jpg ")
 
 
-@hell_cmd(pattern="fake ?(.*)")
+@hell_cmd(pattern="fake ([\s\S]*)")
 async def _(event):
     await event.delete()
     input_str = event.pattern_match.group(1)

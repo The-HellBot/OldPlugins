@@ -11,7 +11,7 @@ from telethon.tl.types import MessageEntityMentionName
 from . import *
 
 
-@hell_cmd(pattern="type ?(.*)")
+@hell_cmd(pattern="type ([\s\S]*)")
 async def _(event):
     input_str = event.pattern_match.group(1)
     shiiinabot = "\u2060"
@@ -40,7 +40,7 @@ async def _(event):
         await asyncio.sleep(0.3)
 
 
-@hell_cmd(pattern="emoji ?(.*)")
+@hell_cmd(pattern="emoji ([\s\S]*)")
 async def _(event):
     animation_interval = 0.3
     animation_ttl = range(0, 16)

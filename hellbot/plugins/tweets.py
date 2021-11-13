@@ -1,7 +1,7 @@
 from . import *
 
 
-@hell_cmd(pattern="tweet ?(.*)")
+@hell_cmd(pattern="tweet(?:\s|$)([\s\S]*)")
 async def nope(kraken):
     hell = kraken.text[7:]
     okvai = await eor(kraken, "Trying to tweet for you...")
@@ -19,7 +19,7 @@ async def nope(kraken):
     await unsave_stcr(stcr)
     await unsave_stcr(owo)
 
-@hell_cmd(pattern="trump ?(.*)")
+@hell_cmd(pattern="trump(?:\s|$)([\s\S]*)")
 async def nekobot(event):
     text = event.text[7:]
     reply_to_id = event.message
@@ -42,7 +42,7 @@ async def nekobot(event):
     await event.delete()
 
 
-@hell_cmd(pattern="modi ?(.*)")
+@hell_cmd(pattern="modi(?:\s|$)([\s\S]*)")
 async def nekobot(event):
     text = event.text[6:]
     reply_to_id = event.message
@@ -65,7 +65,7 @@ async def nekobot(event):
     await event.delete()
 
 
-@hell_cmd(pattern="mia ?(.*)")
+@hell_cmd(pattern="mia(?:\s|$)([\s\S]*)")
 async def nekobot(event):
     text = event.text[5:]
     reply_to_id = event.message
@@ -88,7 +88,7 @@ async def nekobot(event):
     await event.delete()
 
 
-@hell_cmd(pattern="dani ?(.*)")
+@hell_cmd(pattern="dani(?:\s|$)([\s\S]*)")
 async def nekobot(event):
     text = event.text[6:]
     reply_to_id = event.message
@@ -111,7 +111,7 @@ async def nekobot(event):
     await event.delete()
 
 
-@hell_cmd(pattern="pappu ?(.*)")
+@hell_cmd(pattern="pappu(?:\s|$)([\s\S]*)")
 async def nekobot(event):
     text = event.text[7:]
     reply_to_id = event.message
@@ -134,7 +134,7 @@ async def nekobot(event):
     await event.delete()
 
 
-@hell_cmd(pattern="sunny ?(.*)")
+@hell_cmd(pattern="sunny(?:\s|$)([\s\S]*)")
 async def nekobot(event):
     text = event.text[7:]
     reply_to_id = event.message
@@ -156,7 +156,7 @@ async def nekobot(event):
     await event.client.send_file(event.chat_id, eventfile, reply_to=reply_to_id)
     await event.delete()
 
-@hell_cmd(pattern="johhny ?(.*)")
+@hell_cmd(pattern="johhny(?:\s|$)([\s\S]*)")
 async def nekobot(event):
     text = event.text[8:]
     reply_to_id = event.message
@@ -178,7 +178,7 @@ async def nekobot(event):
     await event.client.send_file(event.chat_id, eventfile, reply_to=reply_to_id)
     await event.delete()
 
-@hell_cmd(pattern="gandhi ?(.*)")
+@hell_cmd(pattern="gandhi(?:\s|$)([\s\S]*)")
 async def nekobot(event):
     text = event.text[8:]
     reply_to_id = event.message
@@ -200,7 +200,7 @@ async def nekobot(event):
     await event.client.send_file(event.chat_id, eventfile, reply_to=reply_to_id)
     await event.delete()  # bancho kitni baar bolu no offence
 
-@hell_cmd(pattern="cmm ?(.*)")
+@hell_cmd(pattern="cmm(?:\s|$)([\s\S]*)")
 async def nekobot(event):
     text = event.text[5:]
     reply_to_id = event.message
@@ -222,7 +222,7 @@ async def nekobot(event):
     await event.client.send_file(event.chat_id, eventfile, reply_to=reply_to_id)
     await event.delete()
 
-@hell_cmd(pattern="kanna ?(.*)")
+@hell_cmd(pattern="kanna(?:\s|$)([\s\S]*)")
 async def nekobot(event):
     text = event.text[7:]
     reply_to_id = event.message

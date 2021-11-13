@@ -104,7 +104,7 @@ async def _(event):
             os.remove(files)
 
 
-@hell_cmd(pattern="ytc ?(.*)")
+@hell_cmd(pattern="ytc(?:\s|$)([\s\S]*)")
 async def _(event):
     hell = await eor(event, "`Making a youthuub comment...`")
     owo = await event.get_reply_message()

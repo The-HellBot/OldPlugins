@@ -27,8 +27,6 @@ async def forcesub(event):
         await event.client(GetParticipantRequest(int(joinchat), user.id))
     except UserNotParticipantError:
         await event.client.edit_permissions(event.chat_id, user.id, send_messages=False)
-       # res = await event.client.inline_query(tgbotusername, f"fsub {user.id}+{joinchat}")
-       # await res[0].click(event.chat_id, reply_to=event.action_message.id)
         channel = await event.client.get_entity(int(joinchat))
         user = await event.client.get_entity(int(user.id))
         if not channel.username:
@@ -40,7 +38,7 @@ async def forcesub(event):
         await tbot.send_message(event.chat_id, capt, buttons=btns)
 
 
-@hell_cmd(pattern="fsub ?(.*)")
+@hell_cmd(pattern="fsub(?:\s|$)([\s\S]*)")
 async def _(event):
     if event.is_private:
         await eor(event, "This is meant to be used in groups only!!")
@@ -74,7 +72,7 @@ async def removef(event):
         return await eod(event, "I don't think force sub was activated here.")
     
 
-@hell_cmd(pattern="chfsub")
+@hell_cmd(pattern="chfsub$")
 async def getfsub(event):
     x = is_fsub(event.chat_id)
     if not x:
@@ -114,11 +112,32 @@ async def _(event):
     if uid == event.sender_id:
         nm = (await event.client(GetFullUserRequest(uid))).user.first_name
         try:
-            await event.client(GetParticipantRequest(int(joinchat), uid))
+            await H1(GetParticipantRequest(int(joinchat), uid))
+        except Exception:
+            await H2(GetParticipantRequest(int(joinchat), uid))
+        except Exception:
+            await H3(GetParticipantRequest(int(joinchat), uid))
+        except Exception:
+            await H4(GetParticipantRequest(int(joinchat), uid))
+        except Exception:
+            await H5(GetParticipantRequest(int(joinchat), uid))
+        except Exception:
+            await tbot(GetParticipantRequest(int(joinchat), uid))
         except UserNotParticipantError:
-            return await event.answer("You need to join the channel first.", alert=True)
+            await event.answer("You need to join the channel first.", alert=True)
+            return
         try:
-            await event.client.edit_permissions(event.chat.id, uid, until_date=None, send_messages=True)
+            await H1.edit_permissions(event.chat.id, uid, until_date=None, send_messages=True)
+        except Exception:
+            await H2.edit_permissions(event.chat.id, uid, until_date=None, send_messages=True)
+        except Exception:
+            await H3.edit_permissions(event.chat.id, uid, until_date=None, send_messages=True)
+        except Exception:
+            await H4.edit_permissions(event.chat.id, uid, until_date=None, send_messages=True)
+        except Exception:
+            await H5.edit_permissions(event.chat.id, uid, until_date=None, send_messages=True)
+        except Exception:
+            await tbot.edit_permissions(event.chat.id, uid, until_date=None, send_messages=True)
         except Exception as e:
             print(str(e))
             return

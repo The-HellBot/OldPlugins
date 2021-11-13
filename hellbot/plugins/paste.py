@@ -23,7 +23,7 @@ def progress(current, total):
     )
 
 
-@hell_cmd(pattern="paste ?(.*)")
+@hell_cmd(pattern="paste(?:\s|$)([\s\S]*)")
 async def _(event):
     evnt = await eor(event, "`Pasting ....`")
     input_str = event.pattern_match.group(1)
@@ -67,7 +67,7 @@ async def _(event):
         await eod(evnt, f"**ERROR !!**\n\n`{str(e)}`")
 
 
-@hell_cmd(pattern="neko ?(.*)")
+@hell_cmd(pattern="neko(?:\s|$)([\s\S]*)")
 async def _(event):
     datetime.datetime.now()
     if not os.path.isdir(Config.TMP_DOWNLOAD_DIRECTORY):

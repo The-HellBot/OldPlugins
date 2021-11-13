@@ -8,7 +8,7 @@ from . import *
 lg_id = Config.LOGGER_ID
 
 
-@hell_cmd(pattern="spam ?(.*)")
+@hell_cmd(pattern="spam(?:\s|$)([\s\S]*)")
 async def spammer(event):
     msg_ = event.text[6:]
     counter = int(msg_.split(" ")[0])
@@ -22,7 +22,7 @@ async def spammer(event):
     await hell.delete()
     await event.client.send_message(lg_id, f"#SPAM \n\nSpammed  `{counter}`  messages!!")
 
-@hell_cmd(pattern="bigspam ?(.*)")
+@hell_cmd(pattern="bigspam(?:\s|$)([\s\S]*)")
 async def bigspam(event):
     msg_ = event.text[9:]
     hellbot_count = int(msg_.split(" ")[0])
@@ -36,7 +36,7 @@ async def bigspam(event):
     await event.delete()
     await event.client.send_message(lg_id, f"#BIGSPAM \n\nBigspammed  `{hell_count}`  messages !!")
 
-@hell_cmd("dspam (.*)")
+@hell_cmd(pattern="dspam(?:\s|$)([\s\S]*)")
 async def spammer(event):
     input_str = "".join(event.text.split(maxsplit=1)[1:])
     spamDelay = float(input_str.split(" ", 2)[0])
@@ -48,7 +48,7 @@ async def spammer(event):
         await asyncio.sleep(spamDelay)
     await event.client.send_message(lg_id, f"#DELAYSPAM \n\nSpammed `{counter}`  messages with delay of `{spamDelay}` seconds!!")
 
-@hell_cmd(pattern="uspam ?(.*)")
+@hell_cmd(pattern="uspam(?:\s|$)([\s\S]*)")
 async def _(event):
     reply_msg = await event.get_reply_message()
     hell = event.text[7:]
@@ -63,7 +63,7 @@ async def _(event):
 
 # Special Break Spam Module For HellBot Made By Chirag Bhargava.
 # Team HellBot
-@hell_cmd(pattern="bspam ?(.*)")
+@hell_cmd(pattern="bspam(?:\s|$)([\s\S]*)")
 async def spammer(event):
     msg_ = event.text[7:]
     counter = int(msg_.split(" ")[0])
@@ -83,7 +83,7 @@ async def spammer(event):
     await event.delete()
     await event.client.send_message(lg_id, f"#BREAK_SPAM \n\nSpammed  {counter}  messages!!")
 
-@hell_cmd(pattern="mspam (.*)")
+@hell_cmd(pattern="mspam(?:\s|$)([\s\S]*)")
 async def tiny_pic_spam(event):
     try:
         counter = int(event.pattern_match.group(1).split(" ", 1)[0])

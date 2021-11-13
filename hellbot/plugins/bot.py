@@ -43,7 +43,7 @@ async def lst(event):
     await hell.edit(x)
 
 
-@hell_cmd(pattern="schd ([\s\S]*)")
+@hell_cmd(pattern="schd(?:\s|$)([\s\S]*)")
 async def _(event):
     input_str = event.pattern_match.group(1)
     ttl = 0
@@ -62,7 +62,7 @@ async def _(event):
         await eor(event, message)
 
 
-@hell_cmd(pattern="dm ([\s\S]*)")
+@hell_cmd(pattern="dm(?:\s|$)([\s\S]*)")
 async def _(event):
     if len(event.text) > 3:
         if not event.text[3] == " ":
