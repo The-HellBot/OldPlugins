@@ -2,22 +2,22 @@ import asyncio
 import time
 
 from telethon.tl.types import DocumentAttributeAudio
-from youtube_dl import YoutubeDL
-from youtube_dl.utils import (
-    ContentTooShortError,
-    DownloadError,
-    ExtractorError,
-    GeoRestrictedError,
-    MaxDownloadsReached,
-    PostProcessingError,
-    UnavailableVideoError,
-    XAttrMetadataError,
-)
+# from youtube_dl import YoutubeDL
+# from youtube_dl.utils import (
+#     ContentTooShortError,
+#     DownloadError,
+#     ExtractorError,
+#     GeoRestrictedError,
+#     MaxDownloadsReached,
+#     PostProcessingError,
+#     UnavailableVideoError,
+#     XAttrMetadataError,
+# )
 from telethon.errors.rpcerrorlist import YouBlockedUserError
 
 from . import *
 
-
+"""
 @hell_cmd(pattern="song(?:\s|$)([\s\S]*)")
 async def _(event):
     xyz = await client_id(event)
@@ -129,7 +129,7 @@ async def _(event):
     )
     await hell.delete()
     os.remove(f"{hell_data['id']}.mp4")
-
+"""
 
 @hell_cmd(pattern="lyrics(?: |$)(.*)")
 async def nope(kraken):
@@ -235,9 +235,9 @@ async def _(event):
 
 
 CmdHelp("songs").add_command(
-  "song", "<song name>", "Downloads the song from YouTube."
+  "song", "<song name>", "Downloads the song from YouTube. Disabled for railway deploys."
 ).add_command(
-  "vsong", "<song name>", "Downloads the Video Song from YouTube."
+  "vsong", "<song name>", "Downloads the Video Song from YouTube. Disabled for railway deploys."
 ).add_command(
   "lsong", "<song name>", "Sends the searched song in current chat.", "lsong Alone"
 ).add_command(
