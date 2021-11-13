@@ -6,12 +6,12 @@ import time
 
 from telethon.tl.types import DocumentAttributeAudio
 from youtube_search import YoutubeSearch
-from youtube_dl import YoutubeDL
-from youtube_dl.utils import ContentTooShortError, DownloadError, ExtractorError, GeoRestrictedError, MaxDownloadsReached, PostProcessingError, UnavailableVideoError, XAttrMetadataError
+# from youtube_dl import YoutubeDL
+# from youtube_dl.utils import ContentTooShortError, DownloadError, ExtractorError, GeoRestrictedError, MaxDownloadsReached, PostProcessingError, UnavailableVideoError, XAttrMetadataError
 
 from . import *
 
-
+"""
 @hell_cmd(pattern="yt(a|v)(?:\s|$)([\s\S]*)")
 async def download_video(event):
     url = event.text[5:]
@@ -103,7 +103,7 @@ async def download_video(event):
         )
         os.remove(f"{ytdl_data['id']}.mp4")
         await event.delete()
-
+"""
 
 @hell_cmd(pattern="ytlink(?:\s|$)([\s\S]*)")
 async def hmm(event):
@@ -122,9 +122,9 @@ async def hmm(event):
 
 
 CmdHelp("youtube").add_command(
-  "yta", "<yt link>", "Extracts the audio from given youtube link and uploads it to telegram"
+  "yta", "<yt link>", "Extracts the audio from given youtube link and uploads it to telegram. Disabled for railway deploys."
 ).add_command(
-  "ytv", "<yt link>", "Extracts the video from given youtube link and uploads it to telegram"
+  "ytv", "<yt link>", "Extracts the video from given youtube link and uploads it to telegram. Disabled for railway deploys."
 ).add_command(
   "ytlink", "<search keyword>", "Extracts 7 links from youtube based on the given search query"
 ).add_info(
