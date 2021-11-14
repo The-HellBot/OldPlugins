@@ -9,7 +9,7 @@ from . import *
 
 lg_id = Config.LOGGER_ID
 
-@hell_cmd(pattern="exec(?: |$|\n)(.*)")
+@hell_cmd(pattern="exec(?:\s|$)([\s\S]*)")
 async def _(event):
     cmd = "".join(event.text.split(maxsplit=1)[1:])
     if not cmd:
@@ -34,7 +34,7 @@ async def _(event):
 
 
 
-@hell_cmd(pattern="eval(?: |$|\n)(.*)")
+@hell_cmd(pattern="eval(?:\s|$)([\s\S]*)")
 async def _(event):
     if Config.USE_EVAL == "TRUE":
         cmd = "".join(event.text.split(maxsplit=1)[1:])
@@ -83,7 +83,7 @@ async def aexec(code, smessatatus):
     )
 
 
-@hell_cmd(pattern="bash ?(.*)")
+@hell_cmd(pattern="bash ([\s\S]*)")
 async def _(event):
     PROCESS_RUN_TIME = 100
     cmd = event.pattern_match.group(1)

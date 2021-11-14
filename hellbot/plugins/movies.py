@@ -7,7 +7,7 @@ from . import *
 
 logo = "https://telegra.ph/file/2c546060b20dfd7c1ff2d.jpg"
 
-@hell_cmd(pattern="imdb ?(.*)")
+@hell_cmd(pattern="imdb(?:\s|$)([\s\S]*)")
 async def _(event):
     reply_to = await reply_id(event)
     hel_ = await eor(event, "`Processing ...`")
@@ -119,7 +119,7 @@ async def _(event):
         await hel_.edit(f"**Error:**\n__{e}__")
 
 
-@hell_cmd(pattern="watch (.*)")
+@hell_cmd(pattern="watch(?:\s|$)([\s\S]*)")
 async def _(event):
     query = event.pattern_match.group(1)
     hell = await eor(event, "Finding Sites...")

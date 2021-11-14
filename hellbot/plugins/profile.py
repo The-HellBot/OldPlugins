@@ -103,7 +103,7 @@ async def _(event):
         await eod(hell, str(e))
 
 
-@hell_cmd(pattern="pbio ?(.*)")
+@hell_cmd(pattern="pbio(?:\s|$)([\s\S]*)")
 async def _(event):
     bio = event.text[6:]
     try:
@@ -115,7 +115,7 @@ async def _(event):
         await eor(event, str(e))
 
 
-@hell_cmd(pattern="pname ?(.*)")
+@hell_cmd(pattern="pname(?:\s|$)([\s\S]*)")
 async def _(event):
     names = event.text[7:]
     first_name = names
@@ -156,7 +156,7 @@ async def _(event):
         LOGS.warn(str(e))
 
 
-@hell_cmd(pattern="username ?(.*)")
+@hell_cmd(pattern="username(?:\s|$)([\s\S]*)")
 async def update_username(event):
     newusername = event.text[10:]
     try:

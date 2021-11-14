@@ -7,7 +7,7 @@ from telethon.tl.types import MessageEntityMentionName
 from . import *
 
 
-@hell_cmd(pattern="clone ?(.*)")
+@hell_cmd(pattern="clone ([\s\S]*)")
 async def _(event):
     reply_message = await event.get_reply_message()
     replied_user, error_i_a = await get_full_user(event)

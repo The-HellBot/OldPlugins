@@ -17,7 +17,7 @@ from telethon.errors.rpcerrorlist import YouBlockedUserError
 from . import *
 
 
-@hell_cmd(pattern="scan ?(.*)")
+@hell_cmd(pattern="scan(?:\s|$)([\s\S]*)")
 async def _(event):
     if not event.reply_to_msg_id:
         await eod(event, "Reply to any user message.")
@@ -89,7 +89,7 @@ async def parseqr(event):
         os.remove(downloaded_file_name)
 
 
-@hell_cmd(pattern="barcode ?(.*)")
+@hell_cmd(pattern="barcode(?:\s|$)([\s\S]*)")
 async def _(event):
     hellevent = await eor(event, "...")
     start = datetime.datetime.now()
@@ -176,7 +176,7 @@ async def make_qr(event):
     await event.delete()
 
 
-@hell_cmd(pattern="cal ?(.*)")
+@hell_cmd(pattern="cal(?:\s|$)([\s\S]*)")
 async def _(event):
     input_str = event.text[5:]
     hell = await eor(event, "Processing...")
@@ -201,7 +201,7 @@ async def _(event):
         await eod(hell, f"SYNTAX: {hl}calendar YYYY.MM.DD")
 
 
-@hell_cmd(pattern="currency (.*)")
+@hell_cmd(pattern="currency(?:\s|$)([\s\S]*)")
 async def _(event):
     input_str = event.pattern_match.group(1)
     input_sgra = input_str.split(" ")
@@ -246,7 +246,7 @@ async def currencylist(event):
     await eor(event, f"**List of some currencies:**\n{hmm}\n")
 
 
-@hell_cmd(pattern="ifsc ?(.*)")
+@hell_cmd(pattern="ifsc(?:\s|$)([\s\S]*)")
 async def _(event):
     input_str = event.pattern_match.group(1)
     url = "https://ifsc.razorpay.com/{}".format(input_str)
@@ -260,7 +260,7 @@ async def _(event):
         await eor(event, "`{}`: {}".format(input_str, r.text))
 
 
-@hell_cmd(pattern="color ?(.*)")
+@hell_cmd(pattern="color(?:\s|$)([\s\S]*)")
 async def _(event):
     input_str = event.pattern_match.group(1)
     message_id = None
@@ -293,7 +293,7 @@ async def _(event):
         )
 
 
-@hell_cmd(pattern="xkcd ?(.*)")
+@hell_cmd(pattern="xkcd(?:\s|$)([\s\S]*)")
 async def _(event):
     hellevent = await eor(event, "`processiong...`")
     input_str = event.pattern_match.group(1)
@@ -336,7 +336,7 @@ Year: {}""".format(
     else:
         await eod(hellevent, "xkcd n.{} not found!".format(xkcd_id))
 
-@hell_cmd(pattern="dns (.*)")
+@hell_cmd(pattern="dns(?:\s|$)([\s\S]*)")
 async def _(event):
     input_str = event.pattern_match.group(1)
     sample_url = "https://da.gd/dns/{}".format(input_str)
@@ -347,7 +347,7 @@ async def _(event):
         await eod(event, "i can't seem to find [this link]({}) on the internet".format(input_str, link_preview=False))
 
 
-@hell_cmd(pattern="url ?(.*)")
+@hell_cmd(pattern="url(?:\s|$)([\s\S]*)")
 async def _(event):
     input_str = event.pattern_match.group(1)
     sample_url = "https://da.gd/s?url={}".format(input_str)
@@ -358,7 +358,7 @@ async def _(event):
         await eod(event, "something is wrong. please try again later.")
 
 
-@hell_cmd(pattern="unshort ?(.*)")
+@hell_cmd(pattern="unshort(?:\s|$)([\s\S]*)")
 async def _(event):
     input_str = event.pattern_match.group(1)
     if not input_str.startswith("http"):

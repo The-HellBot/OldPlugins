@@ -6,7 +6,7 @@ from hellbot.sql import blacklist_sql as sq
 from . import *
 
 
-@H1.on(events.NewMessage(incoming=True))
+@hell_handler()
 async def on_new_message(event):
     name = event.raw_text
     snips = sq.get_chat_blacklist(event.chat_id)
@@ -20,7 +20,7 @@ async def on_new_message(event):
                 sq.rm_from_blacklist(event.chat_id, snip.lower())
             break
 
-
+"""
 if H2:
     @H2.on(events.NewMessage(incoming=True))
     async def on_new_message(event):
@@ -83,9 +83,9 @@ if H5:
                     await event.reply("I do not have DELETE permission in this chat")
                     sq.rm_from_blacklist(event.chat_id, snip.lower())
                 break
+"""
 
-
-@hell_cmd(pattern="addblacklist ((.|\n)*)")
+@hell_cmd(pattern="addblacklist(?:\s|$)([\s\S]*)")
 async def on_add_black_list(event):
     text = event.pattern_match.group(1)
     to_blacklist = list(
@@ -102,7 +102,7 @@ async def on_add_black_list(event):
     )
 
 
-@hell_cmd(pattern="rmblacklist ((.|\n)*)")
+@hell_cmd(pattern="rmblacklist(?:\s|$)([\s\S]*)")
 async def on_delete_blacklist(event):
     text = event.pattern_match.group(1)
     to_unblacklist = list(

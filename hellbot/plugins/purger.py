@@ -18,7 +18,7 @@ async def delete_it(event):
         	pass
 
 
-@hell_cmd(pattern=r"purge$")
+@hell_cmd(pattern="purge$")
 @errors_handler
 async def fastpurger(event):
     chat = await event.get_input_chat()

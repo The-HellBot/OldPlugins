@@ -7,7 +7,7 @@ from telethon.errors.rpcerrorlist import ChatSendMediaForbiddenError
 from . import *
 
 
-@hell_cmd(pattern="anime ?(.*)")
+@hell_cmd(pattern="anime(?:\s|$)([\s\S]*)")
 async def _(event):
     query = event.text[7:]
     if query == "":
@@ -28,7 +28,7 @@ async def _(event):
         os.remove(pic)
 
 
-@hell_cmd(pattern="manga ?(.*)")
+@hell_cmd(pattern="manga(?:\s|$)([\s\S]*)")
 async def _(event):
     query = event.text[7:]
     if query == "":
@@ -49,7 +49,7 @@ async def _(event):
         os.remove(pic)
 
 
-@hell_cmd(pattern="character ?(.*)")
+@hell_cmd(pattern="character(?:\s|$)([\s\S]*)")
 async def _(event):
     query = event.text[11:]
     if query == "":
@@ -71,7 +71,7 @@ async def _(event):
         os.remove(img)
 
 
-@hell_cmd(pattern="fillers ?(.*)")
+@hell_cmd(pattern="fillers(?:\s|$)([\s\S]*)")
 async def canon(event):
     hell = event.text[9:]
     if hell == "":
@@ -114,7 +114,7 @@ async def canon(event):
     await nub.edit(hellbot)
 
 
-@hell_cmd(pattern="airing ?(.*)")
+@hell_cmd(pattern="airing(?:\s|$)([\s\S]*)")
 async def _(event):
     query = event.text[8:]
     hell = await eor(event, f"__Searching airing details for__ `{query}`")
@@ -136,6 +136,26 @@ async def _(event):
         os.remove(coverImg)
 
 
+@hell_cmd(pattern="aniuser(?:\s|$)([\s\S]*)")
+async def _(event):
+    query = event.text[9:]
+    hell = await eor(event, "Searching user's Anilist Stats...")
+    if query == "":
+        return await hell.edit("No user found. Give anilist username.")
+    qry = {"search": query}
+    result = await get_user(qry)
+    if len(result) == 1:
+        return await eod(hell, result[0])
+    pic, msg = result
+    try:
+        await event.client.send_file(event.chat_id, file=pic, caption=msg, force_document=False, parse_mode="HTML")
+        await hell.delete()
+    except ChatSendMediaForbiddenError:
+        await hell.edit(msg)
+    if os.path.exists(pic):
+        os.remove(pic)
+
+
 @hell_cmd(pattern="aniquote$")
 async def quote(event):
     hell = await eor(event, "(ﾉ◕ヮ◕)ﾉ*.✧")
@@ -150,6 +170,10 @@ CmdHelp("anime").add_command(
   "manga", "<manga name>", "Searches for the given manga and sends the details.", "manga Jujutsu kaisen"
 ).add_command(
   "character", "<character name>", "Searches for the given anime character and sends the details.", "character Mai Sakurajima"
+).add_command(
+  "aniuser", "<anilist username>", "Searches for the Anilist Stats of the given user.", "aniuser meizhellboy"
+).add_command(
+  "airing", "<anime name>", "Searches for the airing info of given anime."
 ).add_command(
   "fillers", "<anime name>", "Searches for the filler episodes of given Anime.", "fillers Naruto"
 ).add_command(

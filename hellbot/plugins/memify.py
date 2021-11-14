@@ -18,7 +18,7 @@ if not os.path.isdir(path):
     os.makedirs(path)
 
 
-@hell_cmd(pattern="mmf ?(.*)")
+@hell_cmd(pattern="mmf(?:\s|$)([\s\S]*)")
 async def _(event):
     _reply = await event.get_reply_message()
     msg = event.pattern_match.group(1)
@@ -59,7 +59,7 @@ async def _(event):
         pass
 
 
-@hell_cmd(pattern="mms ?(.*)")
+@hell_cmd(pattern="mms(?:\s|$)([\s\S]*)")
 async def _(event):
     _reply = await event.get_reply_message()
     msg = event.pattern_match.group(1)
@@ -100,7 +100,7 @@ async def _(event):
     os.remove(pic)
 
 
-@hell_cmd(pattern="doge ?(.*)")
+@hell_cmd(pattern="doge(?:\s|$)([\s\S]*)")
 async def nope(event):
     hell = event.text[6:]
     if not hell:
@@ -127,7 +127,7 @@ async def nope(event):
      await eod(event, "Error 404:  Not Found")
 
 
-@hell_cmd(pattern="gg ?(.*)")
+@hell_cmd(pattern="gg(?:\s|$)([\s\S]*)")
 async def nope(event):
     hell = event.text[4:]
     if not hell:
@@ -154,7 +154,7 @@ async def nope(event):
      await eod(event, "Error 404:  Not Found")
 
 
-@hell_cmd(pattern="honk ?(.*)")
+@hell_cmd(pattern="honk(?:\s|$)([\s\S]*)")
 async def nope(event):
     hell = event.text[6:]
     if not hell:
@@ -181,7 +181,7 @@ async def nope(event):
      await eod(event, "Error 404:  Not Found")
 
 
-@hell_cmd(pattern="gogl ?(.*)")
+@hell_cmd(pattern="gogl(?:\s|$)([\s\S]*)")
 async def nope(event):
     hell = event.text[6:]
     if not hell:

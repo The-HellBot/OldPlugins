@@ -1,6 +1,6 @@
 from . import *
 
-@hell_cmd(pattern="carry ?(.*)")
+@hell_cmd(pattern="carry ([\s\S]*)")
 async def kraken(carry):
     name = carry.pattern_match.group(1)
     await eor(
@@ -9,7 +9,7 @@ async def kraken(carry):
     )
 
 
-@hell_cmd(pattern="ded (.*)")
+@hell_cmd(pattern="ded ([\s\S]*)")
 async def kraken(event):
     xyz = await client_id(event)
     hell_mention = xyz[2]
@@ -33,7 +33,7 @@ async def kraken(event):
     )
 
 
-@hell_cmd(pattern="sthink (.*)")
+@hell_cmd(pattern="sthink ([\s\S]*)")
 async def kraken(event):
     xyz = await client_id(event)
     hell_mention = xyz[2]
@@ -59,7 +59,7 @@ async def kraken(event):
     await eor(event, B)
 
 
-@hell_cmd(pattern="sfrog (.*)")
+@hell_cmd(pattern="sfrog ([\s\S]*)")
 async def kraken(event):
     xyz = await client_id(event)
     hell_mention = xyz[2]
@@ -85,7 +85,7 @@ async def kraken(event):
     await eor(event, C)
 
 
-@hell_cmd(pattern="sdead (.*)")
+@hell_cmd(pattern="sdead ([\s\S]*)")
 async def kraken(event):
     xyz = await client_id(event)
     hell_mention = xyz[2]
@@ -111,7 +111,7 @@ async def kraken(event):
     await eor(event, D)
 
 
-@hell_cmd(pattern="strump (.*)")
+@hell_cmd(pattern="strump ([\s\S]*)")
 async def kraken(trumpsay):
     name = trumpsay.pattern_match.group(1)
     E = (
@@ -135,7 +135,7 @@ async def kraken(trumpsay):
     await eor(trumpsay, E)
 
 
-@hell_cmd(pattern="schina (.*)")
+@hell_cmd(pattern="schina ([\s\S]*)")
 async def kraken(ckmkb):
     name = ckmkb.pattern_match.group(1)
     F = (

@@ -57,7 +57,7 @@ async def on_snip(event):
                 last_triggered_filters[event.chat_id].remove(name)
 
 
-@hell_cmd(pattern=r"filter (.*)")
+@hell_cmd(pattern="filter(?:\s|$)([\s\S]*)")
 async def on_snip_save(event):
     name = event.pattern_match.group(1)
     msg = await event.get_reply_message()
@@ -106,7 +106,7 @@ async def on_snip_list(event):
         await eod(event, OUT_STR)
 
 
-@hell_cmd(pattern="stop (.*)")
+@hell_cmd(pattern="stop(?:\s|$)([\s\S]*)")
 async def on_snip_delete(event):
     name = event.pattern_match.group(1)
     try:

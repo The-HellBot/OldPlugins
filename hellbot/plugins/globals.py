@@ -55,7 +55,7 @@ async def get_user_from_id(user, event):
 
 
 
-@hell_cmd(pattern="gpro ?(.*)")
+@hell_cmd(pattern="gpro(?:\s|$)([\s\S]*)")
 async def _(event):
     i = 0
     sender = await event.get_sender()
@@ -107,7 +107,7 @@ async def _(event):
     await event.client.send_message(Config.LOGGER_ID, f"#GPROMOTE \n\n**Globally Promoted User :** [{user.first_name}](tg://user?id={user.id}) \n\n**Total Chats :** `{i}`")
 
 
-@hell_cmd(pattern="gdem ?(.*)")
+@hell_cmd(pattern="gdem(?:\s|$)([\s\S]*)")
 async def _(event):
     i = 0
     sender = await event.get_sender()
@@ -159,7 +159,7 @@ async def _(event):
     await event.client.send_message(Config.LOGGER_ID, f"#GDEMOTE \n\n**Globally Demoted :** [{user.first_name}](tg://user?id={user.id}) \n\n**Total Chats :** `{i}`")
 
 
-@hell_cmd(pattern="gban ?(.*)")
+@hell_cmd(pattern="gban(?:\s|$)([\s\S]*)")
 async def _(event):
     hell = await eor(event, f"`Gbanning ...`")
     reason = ""
@@ -229,7 +229,7 @@ async def _(event):
         await hell.edit(ogmsg)
 
 
-@hell_cmd(pattern="ungban ?(.*)")
+@hell_cmd(pattern="ungban(?:\s|$)([\s\S]*)")
 async def _(event):
     cid = await client_id(event)
     ForGo10God, HELL_USER, hell_mention = cid[0], cid[1], cid[2]
@@ -391,7 +391,7 @@ if H5:
                 await event.reply(gban_watcher)
 
 
-@hell_cmd(pattern="gkick ?(.*)")
+@hell_cmd(pattern="gkick(?:\s|$)([\s\S]*)")
 async def gkick(event):
     cid = await client_id(event)
     ForGo10God, HELL_USER, hell_mention = cid[0], cid[1], cid[2]
@@ -436,7 +436,7 @@ async def gkick(event):
         await hell.edit(gkmsg)
 
 
-@hell_cmd(pattern="gmute ?(.*)")
+@hell_cmd(pattern="gmute(?:\s|$)([\s\S]*)")
 async def gm(event):
     private = False
     cid = await client_id(event)
@@ -470,10 +470,10 @@ async def gm(event):
             await event.client.send_file(event.chat_id, shhh, caption=f"**(~‾▿‾)~ Chup [Madarchod](tg://user?id={userid}) ....**", reply_to=reply)
             await event.delete()
         else:
-            await eor(event, "**Globally Muted [{name}](tg://user?id={userid}) !!**\n\n__Kid struggling to speak__ ♪～(´ε｀ )")
+            await eor(event, f"**Globally Muted [{name}](tg://user?id={userid}) !!**\n\n__Kid struggling to speak__ ♪～(´ε｀ )")
 
 
-@hell_cmd(pattern="ungmute ?(.*)")
+@hell_cmd(pattern="ungmute(?:\s|$)([\s\S]*)")
 async def endgmute(event):
     private = False
     if event.is_private:

@@ -3,7 +3,7 @@ import subprocess
 
 from . import *
 
-@hell_cmd(pattern="getc ?(.*)")
+@hell_cmd(pattern="getc ([\s\S]*)")
 async def get_media(event):
     dir = "./channel_dwl/"
     try:
@@ -31,7 +31,7 @@ async def get_media(event):
     await hell.edit("Downloaded " + output + " files.")
 
 
-@hell_cmd(pattern="geta ?(.*)")
+@hell_cmd(pattern="geta ([\s\S]*)")
 async def get_media(event):
     dir = "./channel_dwl/"
     try:

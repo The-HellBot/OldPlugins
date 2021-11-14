@@ -9,7 +9,7 @@ from . import *
 GIT_TEMP_DIR = "./github/"
 
 
-@hell_cmd(pattern="commit ?(.*)")
+@hell_cmd(pattern="commit(?:\s|$)([\s\S]*)")
 async def download(event):
     if Config.GITHUB_ACCESS_TOKEN is None:
         await eod(event, "Please add proper access token from github.com")
@@ -85,7 +85,7 @@ async def git_commit(file_name, path, branch, hellbot):
         return await eod(hellbot, "`Committed Suicide`")
 
 
-@hell_cmd(pattern="github (.*)")
+@hell_cmd(pattern="github(?:\s|$)([\s\S]*)")
 async def _(event):
     input_str = event.pattern_match.group(1)
     url = "https://api.github.com/users/{}".format(input_str)

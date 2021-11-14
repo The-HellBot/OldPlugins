@@ -6,7 +6,7 @@ from hellbot.sql.gvar_sql import gvarstat, addgvar, delgvar
 from . import *
 
 
-@hell_cmd(pattern="autopost ?(.*)")
+@hell_cmd(pattern="autopost(?:\s|$)([\s\S]*)")
 async def _(event):
     if event.is_private:
         return await eod(event, "AutoPost Can Only Be Used For Channels & Groups.")
@@ -35,7 +35,7 @@ async def _(event):
     await hell.edit(f"**📍 Started AutoPosting from** `{hel_}` for `{cli_}`")
 
 
-@hell_cmd(pattern="rmautopost ?(.*)")
+@hell_cmd(pattern="rmautopost(?:\s|$)([\s\S]*)")
 async def _(event):
     if event.is_private:
         return await eod(event, "AutoPost Can Only Be Used For Channels.")

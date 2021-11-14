@@ -14,7 +14,7 @@ from telethon.tl.types import DocumentAttributeVideo
 
 from . import *
 
-@hell_cmd(pattern="webup ?(.*)")
+@hell_cmd(pattern="webup(?:\s|$)([\s\S]*)")
 async def labstack(event):
     await eor(event, "Processing...")
     input_str = event.pattern_match.group(1)
@@ -68,7 +68,7 @@ async def labstack(event):
     await eor(event, t_response_arry + "\nMax Days:" + str(max_days), link_preview=False
     )
 
-@hell_cmd(pattern="upld_dir ?(.*)")
+@hell_cmd(pattern="upld_dir(?:\s|$)([\s\S]*)")
 async def uploadir(event):
     input_str = event.pattern_match.group(1)
     if os.path.exists(input_str):
@@ -148,7 +148,7 @@ async def uploadir(event):
     else:
         await hell.edit("404: Directory Not Found")
 
-@hell_cmd(pattern="upload ?(.*)")
+@hell_cmd(pattern="upload(?:\s|$)([\s\S]*)")
 async def upload(event):
     hell = await eor(event, "Processing ...")
     input_str = event.pattern_match.group(1)
@@ -225,7 +225,7 @@ def extract_w_h(file):
         return width, height
 
 
-@hell_cmd(pattern="upld_as_(stm|vnr|all) ?(.*)")
+@hell_cmd(pattern="upld_as_(stm|vnr|all)(?:\s|$)([\s\S]*)")
 async def uploadas(event):
     hell = await eor(event, "Processing ...")
     type_of_upload = event.text[9:12]
@@ -316,7 +316,7 @@ async def uploadas(event):
     else:
         await hell.edit("404: File Not Found")
 
-@hell_cmd(pattern="download ?(.*)")
+@hell_cmd(pattern="download(?:\s|$)([\s\S]*)")
 async def _(event):
     hell = await eor(event, "`Processing ...`")
     cid = await client_id(event)

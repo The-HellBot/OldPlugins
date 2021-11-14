@@ -96,7 +96,7 @@ async def on_afk(event):
         last_afk_message[event.chat_id] = msg
 
 
-@H1.on(admin_cmd(pattern=r"afk ?(.*)"))
+@H1.on(admin_cmd(pattern="afk(?:\s|$)([\s\S]*)"))
 async def _(event):
     if event.fwd_from:
         return
@@ -245,7 +245,7 @@ if H2:
             last_afk_message[event.chat_id] = msg
 
 
-    @H2.on(admin_cmd(pattern=r"afk ?(.*)"))
+    @H2.on(admin_cmd(pattern="afk(?:\s|$)([\s\S]*)"))
     async def _(event):
         if event.fwd_from:
             return
@@ -394,7 +394,7 @@ if H3:
             last_afk_message[event.chat_id] = msg
 
 
-    @H3.on(admin_cmd(pattern=r"afk ?(.*)"))
+    @H3.on(admin_cmd(pattern="afk(?:\s|$)([\s\S]*)"))
     async def _(event):
         if event.fwd_from:
             return
@@ -543,7 +543,7 @@ if H4:
             last_afk_message[event.chat_id] = msg
 
 
-    @H4.on(admin_cmd(pattern=r"afk ?(.*)"))
+    @H4.on(admin_cmd(pattern="afk(?:\s|$)([\s\S]*)"))
     async def _(event):
         if event.fwd_from:
             return
@@ -692,7 +692,7 @@ if H5:
             last_afk_message[event.chat_id] = msg
 
 
-    @H5.on(admin_cmd(pattern=r"afk ?(.*)"))
+    @H5.on(admin_cmd(pattern="afk(?:\s|$)([\s\S]*)"))
     async def _(event):
         if event.fwd_from:
             return

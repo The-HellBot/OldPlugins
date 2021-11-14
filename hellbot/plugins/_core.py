@@ -43,7 +43,7 @@ async def kk(event):
             await event.delete()
 
 
-@hell_cmd(pattern=r"send (?P<shortname>\w+)")
+@hell_cmd(pattern="send ([\s\S]*)")
 async def send(event):
     cids = await client_id(event)
     ForGo10God, HELL_USER, hell_mention = cids[0], cids[1], cids[2]
@@ -67,7 +67,7 @@ async def send(event):
         await eod(event, "File not found..... Kek")
 
 
-@hell_cmd(pattern="install ?(.*)")
+@hell_cmd(pattern="install$")
 async def install(event):
     cids = await client_id(event)
     ForGo10God, HELL_USER, hell_mention = cids[0], cids[1], cids[2]
@@ -117,7 +117,7 @@ async def install(event):
             return os.remove(downloaded_file_name)
 
 
-@hell_cmd(pattern=r"uninstall ?(.*)")
+@hell_cmd(pattern="uninstall ([\s\S]*)")
 async def uninstall(event):
     shortname = event.text[11:]
     if ".py" in shortname:
@@ -132,7 +132,7 @@ async def uninstall(event):
         await eod(hell, f"**Error !!** \n\n`{dir_path}` : __{e.strerror}__")
 
 
-@hell_cmd(pattern=r"unload (?P<shortname>\w+)$")
+@hell_cmd(pattern="unload ([\s\S]*)")
 async def unload(event):
     shortname = event.pattern_match["shortname"]
     try:
@@ -146,7 +146,7 @@ async def unload(event):
         )
 
 
-@hell_cmd(pattern=r"load (?P<shortname>\w+)$")
+@hell_cmd(pattern="load ([\s\S]*)")
 async def load(event):
     shortname = event.pattern_match["shortname"]
     try:

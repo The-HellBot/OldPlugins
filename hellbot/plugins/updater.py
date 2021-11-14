@@ -96,7 +96,7 @@ async def update(event, repo, ups_rem, ac_br):
     return
 
 
-@hell_cmd(pattern=r"update(| now)$")
+@hell_cmd(pattern="update(| now)$")
 async def upstream(event):
     conf = event.pattern_match.group(1).strip()
     event = await eor(event, "`Checking for new updates...`")

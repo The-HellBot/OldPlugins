@@ -7,6 +7,7 @@ from . import *
 async def mediainfo(event):
     HELL_MEDIA = None
     reply = await event.get_reply_message()
+    logo = "https://telegra.ph/file/2c546060b20dfd7c1ff2d.jpg"
     if not reply:
         return await eod(event, "Reply to a media to fetch info...")
     if not reply.media:
@@ -30,7 +31,8 @@ async def mediainfo(event):
 <h2>🧐 MORE DETAILS 🧐</h2>
 <code>
 {out} 
-</code>"""
+</code>
+<img src='{logo}'/>"""
     paste = await telegraph_paste(f"{HELL_MEDIA}", paster)
     await hell.edit(f"📌 Fetched  Media Info Successfully !! \n\n**Check Here :** [{HELL_MEDIA}]({paste})")
     os.remove(file_path)

@@ -39,7 +39,7 @@ async def incom_note(event):
     except AttributeError:
         pass
 
-@hell_cmd(pattern="snip ?(.*)")
+@hell_cmd(pattern="snip(?:\s|$)([\s\S]*)")
 async def add_snip(event):
     if not lg_id:
         return await eod(event, "You need to setup  `LOGGER_ID`  to save snips...")
@@ -74,7 +74,7 @@ async def add_snip(event):
         return await eor(event, success.format("updated", trigger))
     return await eor(event, success.format("added", trigger))
 
-@hell_cmd(pattern="rmsnip ?(.*)")
+@hell_cmd(pattern="rmsnip(?:\s|$)([\s\S]*)")
 async def _(event):
     input_str = (event.pattern_match.group(1)).lower()
     if not input_str:
@@ -87,7 +87,7 @@ async def _(event):
     except:
         await eor(event, "No snip saved with this trigger.")
 
-@hell_cmd(pattern="listsnip")
+@hell_cmd(pattern="listsnip$")
 async def lsnote(event):
     all_snips = sq.get_notes()
     OUT_STR = "Available Snips:\n"

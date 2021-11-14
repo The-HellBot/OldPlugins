@@ -28,7 +28,7 @@ async def repo(event):
         await eor(event, msg)
 
 
-@hell_cmd(pattern="help ?(.*)")
+@hell_cmd(pattern="help$")
 async def _(event):
     tgbotusername = Config.BOT_USERNAME
     chat = "@Botfather"
@@ -60,7 +60,7 @@ async def _(event):
         await eor(event, "**⚠️ ERROR !!** \nPlease Re-Check BOT_TOKEN & BOT_USERNAME on Heroku.")
 
 
-@hell_cmd(pattern="plinfo(?: |$)(.*)")
+@hell_cmd(pattern="plinfo(?:\s|$)([\s\S]*)")
 async def hellbott(event):
     args = event.pattern_match.group(1).lower()
     if args:
@@ -76,7 +76,7 @@ async def hellbott(event):
         ]
 
         for i in sayfa:
-            string += f"`▶️ `"
+            string += f"`📌 `"
             for sira, a in enumerate(i):
                 string += "`" + str(a)
                 if sira == i.index(i[-1]):
@@ -84,4 +84,4 @@ async def hellbott(event):
                 else:
                     string += "`, "
             string += "\n"
-        await eod(event, "Please Specify A Module Name Of Which You Want Info" + "\n\n" + string)
+        await eor(event, "Please Specify A Module Name Of Which You Want Info" + "\n\n" + string)

@@ -37,7 +37,7 @@ def get_video_thumb(file, output=None, width=90):
         return output
 
 
-@hell_cmd(pattern="rename ?(.*)")
+@hell_cmd(pattern="rename(?:\s|$)([\s\S]*)")
 async def _(event):
     input_str = event.text[8:]
     if input_str == "":
@@ -64,7 +64,7 @@ async def _(event):
     else:
         await eod(hell, f"**Syntax Wrong !!** \n\n• `{hl}rename new file name` as reply to a Telegram file")
 
-@hell_cmd(pattern="rnupload ?(.*)")
+@hell_cmd(pattern="rnupload(?:\s|$)([\s\S]*)")
 async def _(event):
     input_str = event.text[10:]
     hell = await eor(event, f"Renaming to `{input_str}`")
@@ -109,7 +109,7 @@ async def _(event):
     else:
         await hell.edit(f"**Syntax Wrong !!** \n\n• `{hl}rnupload new file name`")
 
-@hell_cmd(pattern="rnsupload (.*)")
+@hell_cmd(pattern="rnsupload(?:\s|$)([\s\S]*)")
 async def _(event):
     hell = await eor(event, "Rename & Upload as streamable format is in progress...")
     input_str = event.text[11:]

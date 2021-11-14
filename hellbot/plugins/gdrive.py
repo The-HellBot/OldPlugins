@@ -1,7 +1,7 @@
 from . import *
 
 
-@hell_cmd(pattern=r"gdl")
+@hell_cmd(pattern="gdl$")
 async def g_download(event):
     hell = await eor(event, "Accessing gdrive...")
     drive_link = event.text[5:]

@@ -1,7 +1,7 @@
 from telethon.errors.rpcerrorlist import YouBlockedUserError
 
 
-@hell_cmd(pattern="ss ?(.*)")
+@hell_cmd(pattern="ss(?:\s|$)([\s\S]*)")
 async def _(event):
     if not event.reply_to_msg_id:
         await eod(event, "```Reply to any user's message.```")

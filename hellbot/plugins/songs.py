@@ -18,7 +18,7 @@ from telethon.errors.rpcerrorlist import YouBlockedUserError
 from . import *
 
 
-@hell_cmd(pattern="song ?(.*)")
+@hell_cmd(pattern="song(?:\s|$)([\s\S]*)")
 async def _(event):
     xyz = await client_id(event)
     ForGo10God, hell_mention = xyz[0], xyz[2]
@@ -78,7 +78,7 @@ async def _(event):
     os.remove(f"{hell_data['id']}.mp3")
 
 
-@hell_cmd(pattern="vsong ?(.*)")
+@hell_cmd(pattern="vsong(?:\s|$)([\s\S]*)")
 async def _(event):
     xyz = await client_id(event)
     ForGo10God, hell_mention = xyz[0], xyz[2]
@@ -154,7 +154,7 @@ async def nope(kraken):
         await uwu.edir(f"**ERROR !!** \n\n`{str(e)}`")
 
 
-@hell_cmd(pattern="lsong ?(.*)")
+@hell_cmd(pattern="lsong(?:\s|$)([\s\S]*)")
 async def _(event):
     hell_ = event.text[6:]
     xyz = await client_id(event)
@@ -177,7 +177,7 @@ async def _(event):
         await hell.edit("**ERROR 404 :** __NOT FOUND__")
 
 
-@hell_cmd(pattern="wsong ?(.*)")
+@hell_cmd(pattern="wsong(?:\s|$)([\s\S]*)")
 async def _(event):
     if not event.reply_to_msg_id:
         return await eor(event, "Reply to a mp3 file.")
@@ -206,7 +206,7 @@ async def _(event):
     await event.client.delete_messages(conv.chat_id, [first.id, second.id, third.id, fourth.id, fifth.id])
 
 
-@hell_cmd(pattern="spotify ?(.*)")
+@hell_cmd(pattern="spotify(?:\s|$)([\s\S]*)")
 async def _(event):
     text = event.text[9:]
     chat = "@spotifysavebot"

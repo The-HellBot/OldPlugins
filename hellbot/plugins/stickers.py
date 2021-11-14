@@ -37,7 +37,7 @@ KANGING_STR = [
 hellbot = gvarstat("STICKER_PACKNAME")
 
 
-@hell_cmd(pattern="kang ?(.*)")
+@hell_cmd(pattern="kang(?:\s|$)([\s\S]*)")
 async def kang(event):
     user = await event.client.get_me()
     ForGo10God, HELL_USER, hell_mention = await client_id(event)
@@ -334,7 +334,7 @@ async def get_pack_info(event):
     await hell.edit(OUTPUT)
 
 
-@hell_cmd(pattern="delst ?(.*)")
+@hell_cmd(pattern="delst(?:\s|$)([\s\S]*)")
 async def _(event):
     if not event.reply_to_msg_id:
         await eod(event, "`Reply to any user's message.`")
@@ -359,7 +359,7 @@ async def _(event):
         await hell.edit(response.message)
 
 
-@hell_cmd(pattern="editst ?(.*)")
+@hell_cmd(pattern="editst(?:\s|$)([\s\S]*)")
 async def _(event):
     if not event.reply_to_msg_id:
         await eod(event, "`Reply to any user's message.`")
@@ -390,7 +390,7 @@ async def _(event):
             await hell.edit(f"{response.message}")
 
 
-@hell_cmd(pattern="pkang ?(.*)")
+@hell_cmd(pattern="pkang(?:\s|$)([\s\S]*)")
 async def _(event):
     hel_ = await eor(event, "`Preparing pack kang...`")
     rply = await event.get_reply_message()
@@ -459,7 +459,7 @@ async def _(event):
         await hel_.edit("Unsupported File. Please Reply to a sticker only.")
 
 
-@hell_cmd(pattern="text ?(.*)")
+@hell_cmd(pattern="text(?:\s|$)([\s\S]*)")
 async def sticklet(event):
     R = random.randint(0, 256)
     G = random.randint(0, 256)
@@ -517,7 +517,7 @@ async def get_font_file(client, channel_id):
     return await client.download_media(font_file_message)
 
 
-@hell_cmd(pattern="waifu(?: |$)(.*)")
+@hell_cmd(pattern="waifu(?:\s|$)([\s\S]*)")
 async def waifu(event):
     text = event.pattern_match.group(1)
     if not text:

@@ -41,7 +41,7 @@ async def ff_mpeg_trim_cmd(event):
         await eod(event, f"A media file already exists in path. Please remove the media and try again!\n`{hl}tclear`")
 
 
-@hell_cmd(pattern="vtrim ?(.*)")
+@hell_cmd(pattern="vtrim(?:\s|$)([\s\S]*)")
 async def ff_mpeg_trim_cmd(event):
     if not os.path.exists(FF_MPEG_DOWN_LOAD_MEDIA_PATH):
         await eod(event,f"A media file needs to be download, and save to the following path:  `{FF_MPEG_DOWN_LOAD_MEDIA_PATH}`")
@@ -109,7 +109,7 @@ async def ff_mpeg_trim_cmd(event):
     await eod(hellevent, f"`Completed Process in {ms} seconds`")
 
 
-@hell_cmd(pattern="atrim ?(.*)")
+@hell_cmd(pattern="atrim(?:\s|$)([\s\S]*)")
 async def ff_mpeg_trim_cmd(event):
     if not os.path.exists(FF_MPEG_DOWN_LOAD_MEDIA_PATH):
         await eod(event, f"A media file needs to be download, and save to the following path:  `{FF_MPEG_DOWN_LOAD_MEDIA_PATH}`")
