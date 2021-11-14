@@ -141,6 +141,13 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
                     buttons=veriler[1],
                     link_preview=False,
                 )
+            else:
+                result = builder.article(
+                    f"Hey! Only use {hl}help please",
+                    text=help_msg,
+                    buttons=veriler[1],
+                    link_preview=False,
+                )
         elif event.query.user_id in auth and query == "alive":
             uptime = await get_time((time.time() - StartTime))
             alv_msg = gvarstat("ALIVE_MSG") or "»»» <b>нєℓℓвσт ιѕ σиℓιиє</b> «««"
