@@ -1,5 +1,7 @@
 import telethon.utils
 
+from telethon.tl.functions.users import GetFullUserRequest
+
 from .session import Hell, H2, H3, H4, H5
 from hellbot.config import Config
 
@@ -40,10 +42,16 @@ async def clients_list(Config, Hell, H2, H3, H4, H5):
     return user_ids
 
 
-async def client_id(event):
-    client = await event.client.get_me()
-    uid = telethon.utils.get_peer_id(client)
-    ForGo10God = uid
-    HELL_USER = client.first_name
-    hell_mention = f"[{HELL_USER}](tg://user?id={ForGo10God})"
+async def client_id(event, botid=None):
+    if botid is not None:
+        uid = await event.client(GetFullUserRequest(botid))
+        ForGo10God = uid.user.id
+        HELL_USER = uid.user.first_name
+        hell_mention = f"[{HELL_USER}](tg://user?id={ForGo10God})"
+    else:
+        client = await event.client.get_me()
+        uid = telethon.utils.get_peer_id(client)
+        ForGo10God = uid
+        HELL_USER = client.first_name
+        hell_mention = f"[{HELL_USER}](tg://user?id={ForGo10God})"
     return ForGo10God, HELL_USER, hell_mention
