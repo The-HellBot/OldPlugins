@@ -442,7 +442,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
         if sextraa:
             a = sorted(sextraa.keys())
             for b in a:
-                c = a
+                c = b
                 d = sextraa[c]["content"]
                 result += f"**{c} :**  `{d}`\n"
         result += "\n"
