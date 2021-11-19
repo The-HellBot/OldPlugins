@@ -5,9 +5,11 @@ async def _(event):
     reply_msg = await event.get_reply_message()
     flag = event.text[-4:]
     if reply_msg:
-        OwO = reply_msg
+        OwO = reply_msg.text
+        file = reply_msg.media
     else:
         OwO = str(event.text[7:])
+        file = None
     if OwO == "":
         return await eod(event, "I need something to Gcast.")
     hel_ = await eor(event, "`Gcasting message...`")
@@ -16,10 +18,13 @@ async def _(event):
     if "-all" in flag:
         async for allhell in event.client.iter_dialogs():
             chat = allhell.id
-            hell = OwO.replace("-all", "")
+            try:
+                hell = OwO.replace("-all", "")
+            except:
+                pass
             try:
                 if chat != -1001496036895:
-                    await event.client.send_message(chat, hell)
+                    await event.client.send_message(chat, hell, file=file)
                     owo += 1
                 elif chat == -1001496036895:
                     pass
@@ -29,9 +34,12 @@ async def _(event):
         async for pvthell in event.client.iter_dialogs():
             if pvthell.is_user and not pvthell.entity.bot:
                 chat = pvthell.id
-                hell = OwO.replace("-pvt", "")
                 try:
-                    await event.client.send_message(chat, hell)
+                    hell = OwO.replace("-pvt", "")
+                except:
+                    pass
+                try:
+                    await event.client.send_message(chat, hell, file=file)
                     owo += 1
                 except BaseException:
                     sed += 1
@@ -39,10 +47,13 @@ async def _(event):
         async for ghell in event.client.iter_dialogs():
             if ghell.is_group:
                 chat = ghell.id
-                hell = OwO.replace("-grp", "")
+                try:
+                    hell = OwO.replace("-grp", "")
+                except:
+                    pass
                 try:
                     if chat != -1001496036895:
-                        await event.client.send_message(chat, hell)
+                        await event.client.send_message(chat, hell, file=file)
                         owo += 1
                     elif chat == -1001496036895:
                         pass
