@@ -30,8 +30,8 @@ async def unb(event):
             return
         replied_user = await event.client(GetFullUserRequest(reply_s.sender_id))
         firstname = replied_user.user.first_name
-        await eor(event, f"**Unblocked [{firstname}](tg://user?id={event.chat_id}) !!**")
-        await event.client(functions.contacts.UnblockRequest(event.chat_id))
+        await eor(event, f"**Unblocked [{firstname}](tg://user?id={reply_s.sender_id}) !!**")
+        await event.client(functions.contacts.UnblockRequest(reply_s.sender_id))
 
 
 @hell_cmd(pattern="block$")
