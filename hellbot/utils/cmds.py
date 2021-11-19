@@ -60,7 +60,7 @@ class CmdHelp:
 
     def get_result(self):
         result = f"**📗 File :**  `{self.FILE}`\n"
-        if self.EXTRA != "":
+        if self.EXTRA:
             if self.INFO == "":
                 if not self.WARNING == "":
                     result += f"**⚠️ Warning :**  {self.WARNING}\n\n"
