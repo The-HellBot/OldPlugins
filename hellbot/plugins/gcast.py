@@ -75,7 +75,9 @@ async def _(event):
 CmdHelp("gcast").add_command(
   "gcast", "<text/reply> <flag>", "Globally Broadcast the replied or given message based on flag given.", f"gcast Hello -all / {hl}gcast Hello -grp / {hl}gcast Hello -pvt"
 ).add_info(
-  "Global Broadcast. \n**🚩 Flags :** `-all`, `-pvt`, `-grp`"
+  "Global Broadcast."
+).add_extra(
+  "🚩 Flags", "-all, -pvt, -grp"
 ).add_warning(
   "✅ Harmless Module."
 ).add()
