@@ -93,6 +93,7 @@ class CmdHelp:
             "info": {
                 "warning": self.WARNING,
                 "info": self.INFO,
+                "extra": self.EXTRA,
             },
             "commands": self.COMMANDS,
         }
