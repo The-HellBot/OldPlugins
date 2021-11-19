@@ -60,17 +60,26 @@ class CmdHelp:
 
     def get_result(self):
         result = f"**📗 File :**  `{self.FILE}`\n"
-        if self.INFO == "":
-            if not self.WARNING == "":
-                result += f"**⚠️ Warning :**  {self.WARNING}\n\n"
-        else:
-            if not self.WARNING == "":
-                result += f"**⚠️ Warning :**  {self.WARNING}\n"
-            result += f"**ℹ️ Info :**  {self.INFO}\n\n"
         if self.EXTRA != "":
+            if self.INFO == "":
+                if not self.WARNING == "":
+                    result += f"**⚠️ Warning :**  {self.WARNING}\n\n"
+            else:
+                if not self.WARNING == "":
+                    result += f"**⚠️ Warning :**  {self.WARNING}\n"
+                result += f"**ℹ️ Info :**  {self.INFO}\n"
             for extra in self.EXTRA:
                 extra = self.EXTRA[extra]
-                result += f"**{extra['extra']} :**  `{extra['content']}`\n"
+                result += f"**{extra['extra']} :**  `{extra['content']}`\n\n"
+        else:
+            if self.INFO == "":
+                if not self.WARNING == "":
+                    result += f"**⚠️ Warning :**  {self.WARNING}\n\n"
+            else:
+                if not self.WARNING == "":
+                    result += f"**⚠️ Warning :**  {self.WARNING}\n"
+                result += f"**ℹ️ Info :**  {self.INFO}\n\n"
+
         for command in self.COMMANDS:
             command = self.COMMANDS[command]
             if command["params"] == None:
