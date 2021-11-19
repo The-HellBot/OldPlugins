@@ -243,7 +243,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
 
     @tgbot.on(callbackquery.CallbackQuery(data=compile(b"pmclick")))
     async def on_pm_click(event):
-        cids = await client_id(event)
+        cids = await client_id(event, event.query.user_id)
         ForGo10God, HELL_USER, hell_mention = cids[0], cids[1], cids[2]
         auth = await clients_list(Config, Hell, H2, H3, H4, H5)
         if event.query.user_id in auth:
@@ -256,7 +256,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
 
     @tgbot.on(callbackquery.CallbackQuery(data=compile(b"req")))
     async def on_pm_click(event):
-        cids = await client_id(event)
+        cids = await client_id(event, event.query.user_id)
         ForGo10God, HELL_USER, hell_mention = cids[0], cids[1], cids[2]
         auth = await clients_list(Config, Hell, H2, H3, H4, H5)
         if event.query.user_id in auth:
@@ -277,7 +277,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
 
     @tgbot.on(callbackquery.CallbackQuery(data=compile(b"chat")))
     async def on_pm_click(event):
-        cids = await client_id(event)
+        cids = await client_id(event, event.query.user_id)
         ForGo10God, HELL_USER, hell_mention = cids[0], cids[1], cids[2]
         auth = await clients_list(Config, Hell, H2, H3, H4, H5)
         event.query.user_id
@@ -299,7 +299,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
 
     @tgbot.on(callbackquery.CallbackQuery(data=compile(b"heheboi")))
     async def on_pm_click(event):
-        cids = await client_id(event)
+        cids = await client_id(event, event.query.user_id)
         ForGo10God, HELL_USER, hell_mention = cids[0], cids[1], cids[2]
         auth = await clients_list(Config, Hell, H2, H3, H4, H5)
         if event.query.user_id in auth:
@@ -324,7 +324,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
 
     @tgbot.on(callbackquery.CallbackQuery(data=compile(b"reopen")))
     async def reopn(event):
-        cids = await client_id(event)
+        cids = await client_id(event, event.query.user_id)
         ForGo10God, HELL_USER, hell_mention = cids[0], cids[1], cids[2]
         auth = await clients_list(Config, Hell, H2, H3, H4, H5)
         if event.query.user_id in auth:
@@ -347,7 +347,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
 
     @tgbot.on(callbackquery.CallbackQuery(data=compile(b"close")))
     async def on_plug_in_callback_query_handler(event):
-        cids = await client_id(event)
+        cids = await client_id(event, event.query.user_id)
         ForGo10God, HELL_USER, hell_mention = cids[0], cids[1], cids[2]
         auth = await clients_list(Config, Hell, H2, H3, H4, H5)
         if event.query.user_id in auth:
@@ -360,7 +360,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
 
     @tgbot.on(callbackquery.CallbackQuery(data=compile(b"page\((.+?)\)")))
     async def page(event):
-        cids = await client_id(event)
+        cids = await client_id(event, event.query.user_id)
         ForGo10God, HELL_USER, hell_mention = cids[0], cids[1], cids[2]
         auth = await clients_list(Config, Hell, H2, H3, H4, H5)
         page = int(event.data_match.group(1).decode("UTF-8"))
@@ -387,7 +387,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
         callbackquery.CallbackQuery(data=compile(b"Information\[(\d*)\]\((.*)\)"))
     )
     async def Information(event):
-        cids = await client_id(event)
+        cids = await client_id(event, event.query.user_id)
         ForGo10God, HELL_USER, hell_mention = cids[0], cids[1], cids[2]
         auth = await clients_list(Config, Hell, H2, H3, H4, H5)
         page = int(event.data_match.group(1).decode("UTF-8"))
@@ -424,7 +424,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
         callbackquery.CallbackQuery(data=compile(b"commands\[(.*)\[(\d*)\]\]\((.*)\)"))
     )
     async def commands(event):
-        cids = await client_id(event)
+        cids = await client_id(event, event.query.user_id)
         ForGo10God, HELL_USER, hell_mention = cids[0], cids[1], cids[2]
         auth = await clients_list(Config, Hell, H2, H3, H4, H5)
         cmd = event.data_match.group(1).decode("UTF-8")
