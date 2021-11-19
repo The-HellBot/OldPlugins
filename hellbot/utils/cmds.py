@@ -67,7 +67,7 @@ class CmdHelp:
             if not self.WARNING == "":
                 result += f"**⚠️ Warning :**  {self.WARNING}\n"
             result += f"**ℹ️ Info :**  {self.INFO}\n"
-        if self.EXTRA != "":
+        if self.EXTRA:
             for extra in self.EXTRA:
                 extra = self.EXTRA[extra]
                 result += f"**{extra['extra']} :**  `{extra['content']}`\n"
@@ -93,8 +93,8 @@ class CmdHelp:
             "info": {
                 "warning": self.WARNING,
                 "info": self.INFO,
-                "extra": self.EXTRA,
             },
+            "extra": self.EXTRA,
             "commands": self.COMMANDS,
         }
         CMD_HELP[self.FILE] = self.get_result()
