@@ -433,11 +433,19 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
         result = f"**📗 File :**  `{cmd}`\n"
         if CMD_HELP_BOT[cmd]["info"]["info"] == "":
             if not CMD_HELP_BOT[cmd]["info"]["warning"] == "":
-                result += f"**⚠️ Warning :**  {CMD_HELP_BOT[cmd]['info']['warning']}\n\n"
+                result += f"**⚠️ Warning :**  {CMD_HELP_BOT[cmd]['info']['warning']}\n"
         else:
             if not CMD_HELP_BOT[cmd]["info"]["warning"] == "":
                 result += f"**⚠️ Warning :**  {CMD_HELP_BOT[cmd]['info']['warning']}\n"
-            result += f"**ℹ️ Info :**  {CMD_HELP_BOT[cmd]['info']['info']}\n\n"
+            result += f"**ℹ️ Info :**  {CMD_HELP_BOT[cmd]['info']['info']}\n"
+        sextraa = CMD_HELP_BOT[cmd]["extra"]
+        if sextraa:
+            a = sorted(sextraa.keys())
+            for b in a:
+                c = a
+                d = sextraa[c]["content"]
+                result += f"**{c} :**  `{d}`\n"
+        result += "\n"
         command = CMD_HELP_BOT[cmd]["commands"][commands]
         if command["params"] is None:
             result += f"**🛠 Commands :**  `{HANDLER[:1]}{command['command']}`\n"
