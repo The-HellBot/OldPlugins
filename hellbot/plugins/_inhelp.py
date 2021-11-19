@@ -95,7 +95,7 @@ def button(page, modules):
 if Config.BOT_USERNAME is not None and tgbot is not None:
     @tgbot.on(InlineQuery)
     async def inline_handler(event):
-        cids = await client_id(event)
+        cids = await client_id(event.query.user_id)
         ForGo10God, HELL_USER, hell_mention = cids[0], cids[1], cids[2]
         builder = event.builder
         result = None
@@ -109,26 +109,21 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
                 for y in x:
                     apn.append(y)
             a = gvarstat("HELP_PIC")
-            if a is not None:
-                b = a.split(" ")
-                c = []
-            if len(b) >= 1:
-                for d in b:
-                    c.append(d)
-                help_pic = random.choice(c)
+            if a:
+                help_pic = a.split(" ")[0]
             else:
                 help_pic = "https://telegra.ph/file/62b0f29c8887887f259ac.jpg"
             help_msg = f"🔰 **{hell_mention}**\n\n📜 __No.of Plugins__ : `{len(CMD_HELP)}` \n🗂️ __Commands__ : `{len(apn)}`\n🗒️ __Page__ : 1/{veriler[0]}"
-            if help_pic and help_pic.endswith((".jpg", ".png")):
-                result = builder.photo(
-                    help_pic,
+            if help_pic == "DISABLE":
+                result = builder.article(
+                    f"Hey! Only use {hl}help please",
                     text=help_msg,
                     buttons=veriler[1],
                     link_preview=False,
                 )
-            elif help_pic == "DISABLE":
-                result = builder.article(
-                    f"Hey! Only use {hl}help please",
+            elif help_pic.endswith((".jpg", ".png")):
+                result = builder.photo(
+                    help_pic,
                     text=help_msg,
                     buttons=veriler[1],
                     link_preview=False,
@@ -138,13 +133,6 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
                     help_pic,
                     text=help_msg,
                     title="HellBot Alive",
-                    buttons=veriler[1],
-                    link_preview=False,
-                )
-            else:
-                result = builder.article(
-                    f"Hey! Only use {hl}help please",
-                    text=help_msg,
                     buttons=veriler[1],
                     link_preview=False,
                 )
