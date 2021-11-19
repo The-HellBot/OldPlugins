@@ -16,6 +16,24 @@ CSTM_PMP = Config.CUSTOM_PMPERMIT or "**You Have Trespassed To My Master's PM!\n
 HELL_ZERO = "Go get some sleep retard. \n\n**Blocked !!**"
 
 
+@hell_cmd(pattern="unblock$")
+async def unb(event):
+    if event.is_private:
+        replied_user = await event.client(GetFullUserRequest (await event.get_input_chat()))
+        firstname = replied_user.user.first_name
+        await eor(event, f"**Unblocked [{firstname}](tg://user?id={event.chat_id}) !!**")
+        await event.client(functions.contacts.UnblockRequest(event.chat_id))
+    elif event.is_group:
+        reply_s = await event.get_reply_message()
+        if not reply_s:
+            await eod(event, "Reply to someone to unblock them..")
+            return
+        replied_user = await event.client(GetFullUserRequest(reply_s.sender_id))
+        firstname = replied_user.user.first_name
+        await eor(event, f"**Unblocked [{firstname}](tg://user?id={event.chat_id}) !!**")
+        await event.client(functions.contacts.UnblockRequest(event.chat_id))
+
+
 @hell_cmd(pattern="block$")
 async def approve_p_m(event):
     if event.is_private:
@@ -252,7 +270,9 @@ CmdHelp("pm_permit").add_command(
 ).add_command(
   "disallow", "<in pm>", "Disapprove User to PM you."
 ).add_command(
-  "block", "<in pm>", "Blocks the user"
+  "block", "<in pm>/<reply>", "Blocks the user"
+).add_command(
+  "unblock", "<in pm>/<reply>", "Unblocks the mentioned user."
 ).add_command(
   "listapproved", None, "Sends the list of all users approved by Hêllẞø†"
 ).add_info(
