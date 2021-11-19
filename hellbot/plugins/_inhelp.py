@@ -95,7 +95,7 @@ def button(page, modules):
 if Config.BOT_USERNAME is not None and tgbot is not None:
     @tgbot.on(InlineQuery)
     async def inline_handler(event):
-        cids = await client_id(event.query.user_id)
+        cids = await client_id(event, event.query.user_id)
         ForGo10God, HELL_USER, hell_mention = cids[0], cids[1], cids[2]
         builder = event.builder
         result = None
