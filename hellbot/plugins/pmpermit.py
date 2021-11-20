@@ -63,8 +63,8 @@ async def approve_p_m(event):
 
 
 if PM_ON_OFF != "DISABLE":
-    @hell_handler(outgoing=True)
-    async def auto_approve_for_out_going(event):
+    @H1.on(events.NewMessage(outgoing=True))
+    async def _(event):
         if not event.is_private:
             return
         cid = await client_id(event)
@@ -78,15 +78,17 @@ if PM_ON_OFF != "DISABLE":
             return
         if sender.user.verified:
             return
-        if PM_ON_OFF == "DISABLE":
-            return
         if str(event.chat_id) in DEVLIST:
             return
         if not pm_sql.is_approved(event.chat_id):
             if not event.chat_id in PM_WARNS:
                 pm_sql.approve(event.chat_id, "outgoing")
+                x = await event.client.send_message(event.chat_id, "**Auto Approved because outgoing message.**")
+                await asyncio.sleep(4)
+                await x.delete()
 
-    @hell_cmd(pattern="(a|approve|allow)$")
+
+    @H1.on(admin_cmd(pattern="(a|approve|allow)$"))
     async def approve(event):
         if event.is_private:
             replied_user = await event.client(GetFullUserRequest(await event.get_input_chat()))
@@ -118,7 +120,7 @@ if PM_ON_OFF != "DISABLE":
             elif pm_sql.is_approved(reply_s.sender_id):
                 await eod(event, 'User Already Approved !')
 
-    @hell_cmd(pattern="(da|disapprove|disallow)$")
+    @H1.on(admin_cmd(pattern="(da|disapprove|disallow)$"))
     async def dapprove(event):
         if event.is_private:
             replied_user = await event.client(GetFullUserRequest(await event.get_input_chat()))
@@ -151,7 +153,7 @@ if PM_ON_OFF != "DISABLE":
             elif not pm_sql.is_approved(reply_s.sender_id):
                 await eod(event, 'Not even in my approved list.')
 
-    @hell_cmd(pattern="listapproved$")
+    @H1.on(admin_cmd(pattern="listapproved$"))
     async def approve_p_m(event):
         approved_users = pm_sql.get_all_approved()
         APPROVED_PMs = "Current Approved PMs\n"
@@ -180,7 +182,7 @@ if PM_ON_OFF != "DISABLE":
         else:
             await eor(event, APPROVED_PMs)
 
-    @hell_handler()
+    @H1.on(events.NewMessage(incoming=True))
     async def on_new_private_message(event):
         if not event.is_private:
             return
@@ -211,7 +213,8 @@ if PM_ON_OFF != "DISABLE":
             return
         if not pm_sql.is_approved(chat_ids):
             await do_pm_permit_action(chat_ids, event)
-                                       
+
+
     async def do_pm_permit_action(chat_ids, event):
         if chat_ids not in PM_WARNS:
             PM_WARNS.update({chat_ids: 0})
@@ -245,9 +248,9 @@ if PM_ON_OFF != "DISABLE":
             await PREV_REPLY_MESSAGE[chat_ids].delete()
         PREV_REPLY_MESSAGE[chat_ids] = hel_
 
-NEEDIT = Config.INSTANT_BLOCK
-if NEEDIT == "ENABLE":
-    @hell_handler()
+
+if Config.INSTANT_BLOCK == "ENABLE":
+    @H1.on(events.NewMessage(incoming=True))
     async def on_new_private_message(event):
         chat_id = event.chat_id
         sender = await event.client.get_entity(chat_id)
