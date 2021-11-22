@@ -13,7 +13,7 @@ from hellbot.config import Config
 from hellbot.utils import load_module
 from hellbot.version import __hell__ as hellver
 hl = Config.HANDLER
-HELL_PIC = "https://telegra.ph/file/ea9e11f7c9db21c1b8d5e.mp4"
+HELL_PIC = "https://telegra.ph/file/2172638b8d18eeb9c76fe.jpg"
 
 # let's get the bot ready
 async def h1(bot_token):
@@ -140,18 +140,57 @@ async def hell_is_on():
         )
     except Exception as e:
         LOGS.info(str(e))
-
 # Join HellBot Channel after deploying 🤐😅
     try:
         await bot(JoinChannelRequest("@Its_HellBot"))
     except BaseException:
         pass
-
-# Why not come here and chat??
     try:
-        await bot(JoinChannelRequest("@HellBot_Chat"))
+        if H2:
+            await H2(JoinChannelRequest("@Its_HellBot"))
     except BaseException:
         pass
+    try:
+        if H3:
+            await H3(JoinChannelRequest("@Its_HellBot"))
+    except BaseException:
+        pass
+    try:
+        if H4:
+            await H4(JoinChannelRequest("@Its_HellBot"))
+    except BaseException:
+        pass
+    try:
+        if H5:
+            await H5(JoinChannelRequest("@Its_HellBot"))
+    except BaseException:
+        pass
+# Why not come here and chat??
+    try:
+        await bot(ImportChatInviteRequest('bZxlmdNFp1NjMDNh'))
+    except BaseException:
+        pass
+    try:
+        if H2:
+            await H2(ImportChatInviteRequest('bZxlmdNFp1NjMDNh'))
+    except BaseException:
+        pass
+    try:
+        if H3:
+            await H3(ImportChatInviteRequest('bZxlmdNFp1NjMDNh'))
+    except BaseException:
+        pass
+    try:
+        if H4:
+            await H4(ImportChatInviteRequest('bZxlmdNFp1NjMDNh'))
+    except BaseException:
+        pass
+    try:
+        if H5:
+            await H5(ImportChatInviteRequest('bZxlmdNFp1NjMDNh'))
+    except BaseException:
+        pass
+
 
 
 bot.loop.create_task(hell_is_on())
