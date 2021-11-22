@@ -7,6 +7,7 @@ from telethon import events
 from .session import H2, H3, H4, H5
 from hellbot import CMD_LIST, LOAD_PLUG, bot
 from hellbot.config import Config
+from hellbot.sql.gvar_sql import gvarstat
 
 
 def hell_cmd(
@@ -30,6 +31,12 @@ def hell_cmd(
     black_list_chats = list(Config.BL_CHAT)
     if len(black_list_chats) > 0:
         args["chats"] = black_list_chats
+    sudo_user = []
+    if gvarstat("SUDO_USERS"):
+        a = gvarstat("SUDO_USERS").split(" ")
+        for c in a:
+            a = int(c)
+            sudo_user.append(a)
 
     if pattern is not None:
         global hell_reg
@@ -67,8 +74,8 @@ def hell_cmd(
         bot.add_event_handler(func, events.NewMessage(**args, outgoing=True, pattern=hell_reg))
         if allow_sudo:
             if not disable_edited:
-                bot.add_event_handler(func, events.MessageEdited(**args, from_users=list(Config.SUDO_USERS), pattern=sudo_reg))
-            bot.add_event_handler(func, events.NewMessage(**args, from_users=list(Config.SUDO_USERS), pattern=sudo_reg))
+                bot.add_event_handler(func, events.MessageEdited(**args, from_users=sudo_user, pattern=sudo_reg))
+            bot.add_event_handler(func, events.NewMessage(**args, from_users=sudo_user, pattern=sudo_reg))
         if H2:
             if not disable_edited:
                 H2.add_event_handler(func, events.MessageEdited(**args, outgoing=True, pattern=hell_reg))

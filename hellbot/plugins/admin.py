@@ -268,21 +268,17 @@ async def nomuth(event):
     x = await client_id(event)
     ForGo10God = x[0]
     if event.is_private:
-        await eor(event, "Talk bich..")
+        await eor(event, "Talk bitch..")
         await sleep(1)
         replied_user = await event.client(GetFullUserRequest(event.chat_id))
         if not is_muted(event.chat_id, event.chat_id):
-            return await eor(event,
-                "Not even muted !!"
-            )
+            return await eor(event,"Not even muted !!")
         try:
             unmute(event.chat_id, event.chat_id)
         except Exception as e:
             await eor(event, f"**Error **\n`{str(e)}`")
         else:
-            await eor(event,
-                "Abb boll bsdk."
-            )
+            await eor(event,"Abb boll bsdk.")
     elif event.is_group:
         hellevent = await eor(event, "`Unmuting...`")
         input_str = event.pattern_match.group(1)
@@ -316,7 +312,7 @@ async def nomuth(event):
             except Exception as e:
                 await hellevent.edit(f"**Error :** \n\n`{e}`")
             else:
-                return await hellevent.edit("**Successfully Unmuted** [{name}](tg://user?id={userid}) **in** `{chat.title}`")
+                return await hellevent.edit(f"**Successfully Unmuted** [{name}](tg://user?id={userid}) **in** `{chat.title}`")
         try:
             await event.client.edit_permissions(
                 chat.id,

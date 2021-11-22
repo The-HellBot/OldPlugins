@@ -50,7 +50,7 @@ class Config(object):
     GITHUB_ACCESS_TOKEN = os.environ.get("GITHUB_ACCESS_TOKEN", None)
     GOOGLE_CHROME_BIN = os.environ.get("GOOGLE_CHROME_BIN", "/app/.apt/usr/bin/google-chrome")
     GROUP_REG_SED_EX_BOT_S = os.environ.get("GROUP_REG_SED_EX_BOT_S", r"(regex|moku|BananaButler_|rgx|l4mR)bot")
-    HANDLER = os.environ.get("HANDLER", r"\.")
+    HANDLER = os.environ.get("HANDLER", ".")
     HELP_PIC = os.environ.get("HELP_PIC", None)
     HEROKU_API_KEY = os.environ.get("HEROKU_API_KEY", None)
     HEROKU_APP_NAME = os.environ.get("HEROKU_APP_NAME", None)
@@ -81,7 +81,7 @@ class Config(object):
     SESSION_3 = os.environ.get("SESSION_3", None)
     SESSION_4 = os.environ.get("SESSION_4", None)
     SESSION_5 = os.environ.get("SESSION_5", None)
-    SUDO_HANDLER = os.environ.get("SUDO_HANDLER", r"\.")
+    SUDO_HANDLER = os.environ.get("SUDO_HANDLER", ".")
     SUDO_USERS = set(int(x) for x in os.environ.get("SUDO_USERS", "").split())
     TAG_LOGGER = os.environ.get("TAG_LOGGER", None)
     if TAG_LOGGER: 
