@@ -35,7 +35,7 @@ async def add(event):
     else:
         final = user
     addgvar("SUDO_USERS", final)
-    await ok.edit("**Successfully Added New Sudo User.** \n\n__Restart your bot to apply changes.__")
+    await ok.edit(f"**Successfully Added New Sudo User.** \n\n__Restart your bot to apply changes. Do__ `{hl}reload`")
 
 
 @hell_cmd(pattern="rmsudo(?:\s|$)([\s\S]*)")
@@ -59,7 +59,7 @@ async def _(event):
         final = x[1:]
         delgvar("SUDO_USERS")
         addgvar("SUDO_USERS", final)
-        await ok.edit(f"❌** Removed**  `{user}`  from Sudo User.\n\n**Restart your bot to apply changes.**")
+        await ok.edit(f"❌** Removed**  `{user}`  **from Sudo User.**\n\n__Restart your bot to apply changes. Do__ `{hl}reload`")
     else:
         await ok.edit("**Sudo Is Disabled !!**")
 
