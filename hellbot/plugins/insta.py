@@ -11,7 +11,7 @@ from . import *
 
 @hell_cmd(pattern="insta(?:\s|$)([\s\S]*)")
 async def _(event):
-    bot = "@instasavegrambot"
+    bot = "@InstagramSaverRobot"
     cid = await client_id(event)
     hell_mention = cid[2]
     input_str = event.text[7:]
@@ -23,8 +23,8 @@ async def _(event):
             first = await conv.send_message("/start")
             response = await conv.get_response()
             second = await conv.send_message(input_str)
-            output_op = await conv.get_response()
             last = await conv.get_response()
+            output_op = await conv.get_response()
             await event.client.send_read_acknowledge(conv.chat_id)
         except YouBlockedUserError:
             await kraken.edit("User Blocked!! Please Unblock @instasavegrambot and try again...")
@@ -37,7 +37,7 @@ async def _(event):
         await final.edit(
             f"📥 InstaGram Video Downloaded By :- {hell_mention}")
     await event.client.delete_messages(
-        conv.chat_id, [first.id, response.id, second.id, output_op.id, last.id]
+        conv.chat_id, [first.id, response.id, second.id, output_op.id]
     )
 
 
