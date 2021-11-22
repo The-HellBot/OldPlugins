@@ -95,7 +95,7 @@ def button(page, modules):
 if Config.BOT_USERNAME is not None and tgbot is not None:
     @tgbot.on(InlineQuery)
     async def inline_handler(event):
-        cids = await client_id(event)
+        cids = await client_id(event, event.query.user_id)
         ForGo10God, HELL_USER, hell_mention = cids[0], cids[1], cids[2]
         builder = event.builder
         result = None
@@ -109,26 +109,21 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
                 for y in x:
                     apn.append(y)
             a = gvarstat("HELP_PIC")
-            if a is not None:
-                b = a.split(" ")
-                c = []
-            if len(b) >= 1:
-                for d in b:
-                    c.append(d)
-                help_pic = random.choice(c)
+            if a:
+                help_pic = a.split(" ")[0]
             else:
-                help_pic = "https://telegra.ph/file/62b0f29c8887887f259ac.jpg"
+                help_pic = "https://telegra.ph/file/3a48c5756d2a9763eafaf.jpg"
             help_msg = f"🔰 **{hell_mention}**\n\n📜 __No.of Plugins__ : `{len(CMD_HELP)}` \n🗂️ __Commands__ : `{len(apn)}`\n🗒️ __Page__ : 1/{veriler[0]}"
-            if help_pic and help_pic.endswith((".jpg", ".png")):
-                result = builder.photo(
-                    help_pic,
+            if help_pic == "DISABLE":
+                result = builder.article(
+                    f"Hey! Only use {hl}help please",
                     text=help_msg,
                     buttons=veriler[1],
                     link_preview=False,
                 )
-            elif help_pic == "DISABLE":
-                result = builder.article(
-                    f"Hey! Only use {hl}help please",
+            elif help_pic.endswith((".jpg", ".png")):
+                result = builder.photo(
+                    help_pic,
                     text=help_msg,
                     buttons=veriler[1],
                     link_preview=False,
@@ -248,7 +243,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
 
     @tgbot.on(callbackquery.CallbackQuery(data=compile(b"pmclick")))
     async def on_pm_click(event):
-        cids = await client_id(event)
+        cids = await client_id(event, event.query.user_id)
         ForGo10God, HELL_USER, hell_mention = cids[0], cids[1], cids[2]
         auth = await clients_list(Config, Hell, H2, H3, H4, H5)
         if event.query.user_id in auth:
@@ -261,7 +256,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
 
     @tgbot.on(callbackquery.CallbackQuery(data=compile(b"req")))
     async def on_pm_click(event):
-        cids = await client_id(event)
+        cids = await client_id(event, event.query.user_id)
         ForGo10God, HELL_USER, hell_mention = cids[0], cids[1], cids[2]
         auth = await clients_list(Config, Hell, H2, H3, H4, H5)
         if event.query.user_id in auth:
@@ -282,7 +277,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
 
     @tgbot.on(callbackquery.CallbackQuery(data=compile(b"chat")))
     async def on_pm_click(event):
-        cids = await client_id(event)
+        cids = await client_id(event, event.query.user_id)
         ForGo10God, HELL_USER, hell_mention = cids[0], cids[1], cids[2]
         auth = await clients_list(Config, Hell, H2, H3, H4, H5)
         event.query.user_id
@@ -304,7 +299,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
 
     @tgbot.on(callbackquery.CallbackQuery(data=compile(b"heheboi")))
     async def on_pm_click(event):
-        cids = await client_id(event)
+        cids = await client_id(event, event.query.user_id)
         ForGo10God, HELL_USER, hell_mention = cids[0], cids[1], cids[2]
         auth = await clients_list(Config, Hell, H2, H3, H4, H5)
         if event.query.user_id in auth:
@@ -329,7 +324,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
 
     @tgbot.on(callbackquery.CallbackQuery(data=compile(b"reopen")))
     async def reopn(event):
-        cids = await client_id(event)
+        cids = await client_id(event, event.query.user_id)
         ForGo10God, HELL_USER, hell_mention = cids[0], cids[1], cids[2]
         auth = await clients_list(Config, Hell, H2, H3, H4, H5)
         if event.query.user_id in auth:
@@ -352,7 +347,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
 
     @tgbot.on(callbackquery.CallbackQuery(data=compile(b"close")))
     async def on_plug_in_callback_query_handler(event):
-        cids = await client_id(event)
+        cids = await client_id(event, event.query.user_id)
         ForGo10God, HELL_USER, hell_mention = cids[0], cids[1], cids[2]
         auth = await clients_list(Config, Hell, H2, H3, H4, H5)
         if event.query.user_id in auth:
@@ -365,7 +360,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
 
     @tgbot.on(callbackquery.CallbackQuery(data=compile(b"page\((.+?)\)")))
     async def page(event):
-        cids = await client_id(event)
+        cids = await client_id(event, event.query.user_id)
         ForGo10God, HELL_USER, hell_mention = cids[0], cids[1], cids[2]
         auth = await clients_list(Config, Hell, H2, H3, H4, H5)
         page = int(event.data_match.group(1).decode("UTF-8"))
@@ -392,7 +387,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
         callbackquery.CallbackQuery(data=compile(b"Information\[(\d*)\]\((.*)\)"))
     )
     async def Information(event):
-        cids = await client_id(event)
+        cids = await client_id(event, event.query.user_id)
         ForGo10God, HELL_USER, hell_mention = cids[0], cids[1], cids[2]
         auth = await clients_list(Config, Hell, H2, H3, H4, H5)
         page = int(event.data_match.group(1).decode("UTF-8"))
@@ -429,7 +424,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
         callbackquery.CallbackQuery(data=compile(b"commands\[(.*)\[(\d*)\]\]\((.*)\)"))
     )
     async def commands(event):
-        cids = await client_id(event)
+        cids = await client_id(event, event.query.user_id)
         ForGo10God, HELL_USER, hell_mention = cids[0], cids[1], cids[2]
         auth = await clients_list(Config, Hell, H2, H3, H4, H5)
         cmd = event.data_match.group(1).decode("UTF-8")
@@ -438,11 +433,19 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
         result = f"**📗 File :**  `{cmd}`\n"
         if CMD_HELP_BOT[cmd]["info"]["info"] == "":
             if not CMD_HELP_BOT[cmd]["info"]["warning"] == "":
-                result += f"**⚠️ Warning :**  {CMD_HELP_BOT[cmd]['info']['warning']}\n\n"
+                result += f"**⚠️ Warning :**  {CMD_HELP_BOT[cmd]['info']['warning']}\n"
         else:
             if not CMD_HELP_BOT[cmd]["info"]["warning"] == "":
                 result += f"**⚠️ Warning :**  {CMD_HELP_BOT[cmd]['info']['warning']}\n"
-            result += f"**ℹ️ Info :**  {CMD_HELP_BOT[cmd]['info']['info']}\n\n"
+            result += f"**ℹ️ Info :**  {CMD_HELP_BOT[cmd]['info']['info']}\n"
+        sextraa = CMD_HELP_BOT[cmd]["extra"]
+        if sextraa:
+            a = sorted(sextraa.keys())
+            for b in a:
+                c = b
+                d = sextraa[c]["content"]
+                result += f"**{c} :**  `{d}`\n"
+        result += "\n"
         command = CMD_HELP_BOT[cmd]["commands"][commands]
         if command["params"] is None:
             result += f"**🛠 Commands :**  `{HANDLER[:1]}{command['command']}`\n"

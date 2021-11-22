@@ -762,7 +762,9 @@ if H5:
 
 
 CmdHelp("afk").add_command(
-  'afk', '<reply to media>/<reason>', 'Marks you AFK with reason also shows afk time. Media also supported.\nUse # in message to chat without breaking AFK mode.', "afk <reason>`\n📍 **Exception :** `Use # in a msg to stay in afk mode while chatting."
+  'afk', '<reply to media>/<reason>', 'Marks you AFK with reason also shows afk time. Media also supported.', "afk <reason>`"
+).add_extra(
+  "📌 Exception", "Use # in a msg to stay in afk mode while chatting."
 ).add_info(
   "Away From Keyboard"
 ).add_warning(
