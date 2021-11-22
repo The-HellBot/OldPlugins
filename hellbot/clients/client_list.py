@@ -3,11 +3,16 @@ import telethon.utils
 from telethon.tl.functions.users import GetFullUserRequest
 
 from .session import Hell, H2, H3, H4, H5
-from hellbot.config import Config
+from hellbot.sql.gvar_sql import gvarstat
 
 
 async def clients_list(Config, Hell, H2, H3, H4, H5):
-    user_ids = list(Config.SUDO_USERS) or []
+    user_ids = []
+    if gvarstat("SUDO_USERS"):
+        a = gvarstat("SUDO_USERS").split(" ")
+        for b in a:
+            c = int(b)
+            user_ids.append(c)
     main_id = await Hell.get_me()
     user_ids.append(main_id.id)
 

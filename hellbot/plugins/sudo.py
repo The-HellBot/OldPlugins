@@ -28,6 +28,7 @@ async def add(event):
         if not suu.isnumeric():
             return await ok.edit("Give user id(s) only.")
     user = await get_user(event) if rply else suu
+    user = str(user)
     if gvarstat("SUDO_USERS"):
         exist = gvarstat("SUDO_USERS")
         final = f"{exist} {user}"
@@ -35,6 +36,7 @@ async def add(event):
         final = user
     addgvar("SUDO_USERS", final)
     await ok.edit("**Successfully Added New Sudo User.** \n\n__Restart your bot to apply changes.__")
+    await ok.edit(f"**Successfully Added New Sudo User.** \n\n__Restart your bot to apply changes. Do__ `{hl}reload`")
 
 
 @hell_cmd(pattern="rmsudo(?:\s|$)([\s\S]*)")
@@ -48,6 +50,7 @@ async def _(event):
         if not suu.isnumeric():
             return await ok.edit("Give user id only.")
     user = await get_user(event) if rply else suu
+    user = str(user)
     if gvarstat("SUDO_USERS"):
         x = gvarstat("SUDO_USERS")
         y = user.split(" ")
@@ -58,6 +61,7 @@ async def _(event):
         delgvar("SUDO_USERS")
         addgvar("SUDO_USERS", final)
         await ok.edit(f"❌** Removed**  `{user}`  from Sudo User.\n\n**Restart your bot to apply changes.**")
+        await ok.edit(f"❌** Removed**  `{user}`  **from Sudo User.**\n\n__Restart your bot to apply changes. Do__ `{hl}reload`")
     else:
         await ok.edit("**Sudo Is Disabled !!**")
 
