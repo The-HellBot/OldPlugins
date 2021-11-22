@@ -10,7 +10,7 @@ from . import *
 async def sudo(event):
     if gvarstat("SUDO_USERS"):
         sudousers = gvarstat("SUDO_USERS")
-        await eor(event, f"📍 **Sudo :**  `Enabled`\n\n📝 **Sudo users :**  `{users}`")
+        await eor(event, f"📍 **Sudo :**  `Enabled`\n\n📝 **Sudo users :**  `{sudousers}`")
     else:
         await eod(event, f"📍 **Sudo :**  `Disabled`")
 
