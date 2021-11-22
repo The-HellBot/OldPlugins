@@ -3,6 +3,7 @@ import telethon.utils
 from telethon.tl.functions.users import GetFullUserRequest
 
 from .session import Hell, H2, H3, H4, H5
+from hellbot.sql.gvar_sql import gvarstat
 
 
 async def clients_list(Config, Hell, H2, H3, H4, H5):
