@@ -28,6 +28,7 @@ async def add(event):
         if not suu.isnumeric():
             return await ok.edit("Give user id(s) only.")
     user = await get_user(event) if rply else suu
+    user = str(user)
     if gvarstat("SUDO_USERS"):
         exist = gvarstat("SUDO_USERS")
         final = f"{exist} {user}"
@@ -48,6 +49,7 @@ async def _(event):
         if not suu.isnumeric():
             return await ok.edit("Give user id only.")
     user = await get_user(event) if rply else suu
+    user = str(user)
     if gvarstat("SUDO_USERS"):
         x = gvarstat("SUDO_USERS")
         y = user.split(" ")
