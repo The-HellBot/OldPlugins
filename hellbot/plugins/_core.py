@@ -67,7 +67,7 @@ async def send(event):
         await eod(event, "File not found..... Kek")
 
 
-@hell_cmd(pattern="install$")
+@hell_cmd(pattern="install(?:\s|$)([\s\S]*)")
 async def install(event):
     cids = await client_id(event)
     ForGo10God, HELL_USER, hell_mention = cids[0], cids[1], cids[2]
