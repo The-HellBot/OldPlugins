@@ -6,6 +6,7 @@ from pathlib import Path
 import telethon.utils
 from telethon import TelegramClient
 from telethon.tl.functions.channels import InviteToChannelRequest, JoinChannelRequest
+from telethon.tl.functions.messages import ImportChatInviteRequest
 
 from hellbot import LOGS, bot, tbot
 from hellbot.clients.session import Hell, H2, H3, H4, H5
@@ -13,7 +14,7 @@ from hellbot.config import Config
 from hellbot.utils import load_module
 from hellbot.version import __hell__ as hellver
 hl = Config.HANDLER
-HELL_PIC = "https://telegra.ph/file/2172638b8d18eeb9c76fe.jpg"
+HELL_PIC = "https://telegra.ph/file/cb0bd62632a3a2b6b2726.jpg"
 
 # let's get the bot ready
 async def h1(bot_token):
