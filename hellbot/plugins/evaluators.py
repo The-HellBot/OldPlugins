@@ -65,9 +65,12 @@ async def _(event):
             evaluation = "Success"
         final_output = f"•  Eval : \n`{cmd}` \n\n•  Result : \n`{evaluation}` \n"
         final_output2 = f"**•  Eval :** \n`{cmd}` \n\n**•  Result :** \n`{evaluation}` \n"
-        await eor(hellevent, final_output, deflink=True, linktext=f"{final_output2} \n\n**Also Pasted** ")
+        if len(final_output2) > 4092:
+            await eor(hellevent, final_output, deflink=True, linktext=f"**•  Eval :** \n`{cmd}` \n\n**Pasted:** ")
+        else:
+            await eor(hellevent, final_output, deflink=True, linktext=f"{final_output2} \n\n**Also Pasted** ")
     else:
-        await eod(event, f"**Eval Is Disbaled !!** \n\n__Do__ `{hl}set var USE_EVAL TRUE` __to enable eval commands.__")
+        await eod(event, f"**Eval Is Disbaled !!** \n\n__Set__ `USE_EVAL` __as__ `TRUE` __to enable eval commands.__")
 
 
 async def aexec(code, smessatatus):
