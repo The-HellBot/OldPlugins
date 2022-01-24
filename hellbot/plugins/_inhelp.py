@@ -243,8 +243,10 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
 
     @tgbot.on(callbackquery.CallbackQuery(data=compile(b"pmclick")))
     async def on_pm_click(event):
+
         x = await H1.get_me()
         hell_mention = f"[{x.first_name}]({x.id})"
+
         auth = await clients_list(Config, Hell, H2, H3, H4, H5)
         if event.query.user_id in auth:
             reply_pop_up_alert = "This is for Other Users..."
@@ -256,8 +258,11 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
 
     @tgbot.on(callbackquery.CallbackQuery(data=compile(b"req")))
     async def on_pm_click(event):
+
+
         x = await H1.get_me()
         hell_mention = f"[{x.first_name}]({x.id})"
+
         auth = await clients_list(Config, Hell, H2, H3, H4, H5)
         if event.query.user_id in auth:
             reply_pop_up_alert = "This is for other users!"
@@ -277,8 +282,10 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
 
     @tgbot.on(callbackquery.CallbackQuery(data=compile(b"chat")))
     async def on_pm_click(event):
+
         x = await H1.get_me()
         hell_mention = f"[{x.first_name}]({x.id})"
+
         auth = await clients_list(Config, Hell, H2, H3, H4, H5)
         event.query.user_id
         if event.query.user_id in auth:
@@ -299,6 +306,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
 
     @tgbot.on(callbackquery.CallbackQuery(data=compile(b"heheboi")))
     async def on_pm_click(event):
+
         x = await H1.get_me()
         hell_mention = f"[{x.first_name}]({x.id})"
         auth = await clients_list(Config, Hell, H2, H3, H4, H5)
