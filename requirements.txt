@@ -8,6 +8,7 @@ DateTime
 emoji
 fonttools
 geopy
+git+https://github.com/HellBoy-OP/yt-fork
 gitpython
 glitch_this
 google-api-python-client
@@ -62,4 +63,3 @@ wheel
 wikipedia
 youtube-search
 youtube-search-python
-youtube_dl

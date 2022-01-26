@@ -1,17 +1,20 @@
 import html
 
+from random import choice
 from telethon.tl import functions
 from telethon.tl.functions.users import GetFullUserRequest
 from telethon.tl.types import MessageEntityMentionName
 
+from hellbot.sql.gvar_sql import addgvar, gvarstat, delgvar
 from . import *
 
 
-@hell_cmd(pattern="clone ([\s\S]*)")
+@hell_cmd(pattern="clone(?:\s|$)([\s\S]*)")
 async def _(event):
     reply_message = await event.get_reply_message()
     replied_user, error_i_a = await get_full_user(event)
     cid = await client_id(event)
+    addgvar("YOUR_NAME", cid[1])
     if replied_user is None:
         await eod(event, str(error_i_a))
         return False
@@ -48,8 +51,8 @@ async def _(event):
 
 @hell_cmd(pattern="revert$")
 async def _(event):
-    name = Config.YOUR_NAME or "『 Ӈєℓℓ 』"
-    bio = f"{Config.BIO_MSG}"
+    name = gvarstat("YOUR_NAME") or "『 Ӈєℓℓ 』"
+    bio = gvarstat("BIO_MSG") or choice(bio_msgs)
     n = 1
     await event.client(
         functions.photos.DeletePhotosRequest(
@@ -120,6 +123,8 @@ CmdHelp("clone").add_command(
   "clone", "username/reply to user", "Steals others profile including dp, name, bio."
 ).add_command(
   "revert", None, "To get back to your profile but it will show ALIVE_NAME instead of your current name and DEFAULT_BIO instead of your current bio"
+).add_extra(
+  "📌 Note", "You need to setup YOUR_NAME and BIO_MSG to use this command properly."
 ).add_info(
   "Cloner."
 ).add_warning(
