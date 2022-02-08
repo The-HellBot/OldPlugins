@@ -24,7 +24,7 @@ class Config(object):
         t_file.close()
     BAN_PIC = os.environ.get("BAN_PIC", None)
     BAN_TEXT = os.environ.get("BAN_TEXT", None)
-    BIO_MSG = os.environ.get("BIO_MSG", "ʟɛɢɛռɖaʀʏ ᴀғ ɦɛʟʟɮօt")
+    BIO_MSG = os.environ.get("BIO_MSG", "𝙻𝙴𝙶𝙴𝙽𝙳 𝙰𝙵 𝙿𝚁𝙸𝚅𝙰𝚃𝙴 𝙱𝙾𝚃")
     BL_CHAT = set(int(x) for x in os.environ.get("BL_CHAT", "").split())
     BOT_HANDLER = os.environ.get("BOT_HANDLER", "\/")
     BOT_TOKEN = os.environ.get("BOT_TOKEN", None)
@@ -72,7 +72,7 @@ class Config(object):
     if PM_LOG_ID:
         PM_LOG_ID = int(PM_LOG_ID)
     PM_PERMIT = os.environ.get("PM_PERMIT", None)
-    PMPERMIT_PIC = os.environ.get("PMPERMIT_PIC", "https://telegra.ph/file/73e95f4325159336766c0.jpg")
+    PMPERMIT_PIC = os.environ.get("PMPERMIT_PIC", "https://telegra.ru.com/p/f8d87272xf0cf131d445c4db5ab5eb120a14b6ac91c78b7d8")
     REMOVE_BG_API = os.environ.get("REMOVE_BG_API", None)
     SCREEN_SHOT_LAYER_ACCESS_KEY = os.environ.get("SCREEN_SHOT_LAYER_ACCESS_KEY", None)
     STICKER_PACKNAME = os.environ.get("STICKER_PACKNAME", None)
