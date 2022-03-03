@@ -25,7 +25,6 @@ class Development(Config):
   # Create a bot in @BotFather
   # And fill the following values with bot token and username.
   BOT_TOKEN = "Your value" #token
-  BOT_USERNAME = "Your value" #username
 
   # Create a private group and add rose bot to it.
   # and type /id and paste that id here.
@@ -34,11 +33,6 @@ class Development(Config):
 
   # Custom Command Handler. 
   HANDLER = "."
-
-  # enter the userid of sudo users.
-  # you can add multiple ids by separating them by space.
-  # fill values in [] only.
-  SUDO_USERS = []
 
   # Custom Command Handler for sudo users.
   SUDO_HANDLER = "!"
