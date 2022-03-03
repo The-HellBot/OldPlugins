@@ -31,37 +31,32 @@ tbot = HellBot
 
 
 if not Config.API_HASH:
-    LOGS.warning("Please fill var API HASH to continue.")
+    LOGS.warning("Please fill var API_HASH to continue.")
     quit(1)
 
 
 if not Config.APP_ID:
-    LOGS.warning("Please fill var APP ID to continue.")
+    LOGS.warning("Please fill var APP_ID to continue.")
     quit(1)
 
 
 if not Config.BOT_TOKEN:
-    LOGS.warning("Please fill var BOT TOKEN to continue.")
-    quit(1)
-
-
-if not Config.BOT_USERNAME:
-    LOGS.warning("Please fill var BOT USERNAME to continue.")
+    LOGS.warning("Please fill var BOT_TOKEN to continue.")
     quit(1)
 
 
 if not Config.DB_URI:    
-    LOGS.warning("Please fill var DATABASE URL to continue.")
+    LOGS.warning("Please fill var DATABASE_URL to continue.")
     quit(1)
 
 
 if not Config.HELLBOT_SESSION:
-    LOGS.warning("Please fill var HELLBOT SESSION to continue.")
+    LOGS.warning("Please fill var HELLBOT_SESSION to continue.")
     quit(1)
 
 
 if not Config.LOGGER_ID:
-    LOGS.warning("Please fill var LOGGER ID to continue.")
+    LOGS.warning("Please fill var LOGGER_ID to continue.")
     quit(1)
 
 
