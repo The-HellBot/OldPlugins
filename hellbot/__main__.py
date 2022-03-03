@@ -16,6 +16,7 @@ from hellbot.version import __hell__ as hellver
 hl = Config.HANDLER
 
 HELL_PIC = "https://telegra.ph/file/cb0bd62632a3a2b6b2726.jpg"
+Config.BOT_USERNAME = f"@{tbot.get_me().username}"
 
 
 # let's get the bot ready
