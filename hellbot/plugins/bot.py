@@ -10,6 +10,22 @@ from telethon.tl.functions.channels import LeaveChannelRequest
 from . import *
 
 
+@hell_cmd(pattern="limits$")
+async def is_limited(event):
+    chat = "@SpamBot"
+    msg = await eor(event, "Checking your account limit...")
+    async with event.client.conversation(chat) as conv:
+        try:
+            first = await conv.send_message("/start")
+            response = await conv.get_response()
+            await event.client.send_read_acknowledge(conv.chat_id)
+        except YouBlockedUserError:
+            await msg.edit('User Blocked!! Please Unblock @Spambot and try again...')
+            return
+        await msg.edit(response.text)
+        await event.client.delete_messages(conv.chat_id, [first.id, response.id])
+
+        
 @hell_cmd(pattern="kickme$")
 async def leave(e):
         await e.edit("😪 **KThnxBye** See u all in hell!!")
@@ -101,6 +117,8 @@ CmdHelp("bot").add_command(
     "schd", "<secs> - <message>", "Sends your message in given secs", "schd 10 - Hello"
 ).add_command(
     "dm", "<username or user id> <message>", "Sends a DM to given username with required msg"
+).add_comment(
+    "limits", None, "Checks your telegram account limitations or restrictions via @SpamBot."
 ).add_info(
     "Haa vai? Kya hua?"
 ).add_warning(
