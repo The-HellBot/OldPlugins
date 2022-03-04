@@ -5,7 +5,6 @@ import re
 import time
 
 from telethon.tl.types import DocumentAttributeAudio
-from youtube_search import YoutubeSearch
 from youtube_dl import YoutubeDL
 from youtube_dl.utils import ContentTooShortError, DownloadError, ExtractorError, GeoRestrictedError, MaxDownloadsReached, PostProcessingError, UnavailableVideoError, XAttrMetadataError
 
@@ -112,7 +111,7 @@ async def hmm(event):
         await eod(event, "`Enter query to search on yt`")
     event = await eor(event, "`Processing...`")
     try:
-        results = json.loads(YoutubeSearch(query, max_results=7).to_json())
+        results = json.loads(Hell_YTS(query, max_results=7).to_json())
     except KeyError:
         return await eod(event, "Unable to find relevant search queries...")
     output = f"**Search Query:**\n`{query}`\n\n**Results:**\n\n"
