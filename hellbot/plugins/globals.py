@@ -458,14 +458,13 @@ async def gm(event):
         return await eod(hell, "**Sorry I'm not going to gmute them..**")
     try:
         gsql.gmute(userid, "gmute")
-    except Exception as e:
-        await eod(hell, "Error occured!\nError is " + str(e))
-    else:
         if Config.ABUSE == "ON":
             await event.client.send_file(event.chat_id, shhh, caption=f"**(~‾▿‾)~ Chup [Madarchod](tg://user?id={userid}) ....**", reply_to=reply)
             await hell.delete()
         else:
             await eor(hell, f"**Globally Muted [{name}](tg://user?id={userid}) !!**\n\n__Kid struggling to speak__ ♪～(´ε｀ )")
+    except Exception as e:
+        await eod(hell, "Error occured!\nError is " + str(e))
 
 
 @hell_cmd(pattern="ungmute(?:\s|$)([\s\S]*)")
@@ -486,10 +485,10 @@ async def endgmute(event):
         return await eod(hell, "I don't remember I gmuted him/her...")
     try:
         gsql.ungmute(userid, "gmute")
+        await eor(hell, f"**Unmuted [{name}](tg://user?id={userid}) Globally !!**")
     except Exception as e:
         await eod(hell, "Error occured!\nError is " + str(e))
-    else:
-        await eor(hell, f"**Unmuted [{name}](tg://user?id={userid}) Globally !!**")
+
 
 
 @hell_cmd(incoming=True)
