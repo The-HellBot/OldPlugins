@@ -134,14 +134,19 @@ async def kang(event):
                 await event.client.send_read_acknowledge(conv.chat_id)
                 await conv.send_message(packname)
                 x = await conv.get_response()
-                while "120" in x.text:
+                while ("50" in x.text) or ("120" in x.text):
                     pack += 1
-                    packname = f"HellBot_{un_}_pack_{pack}"
+                    packname = f"Hellbot_{un_}_{pack}"
                     packnick = (
                         f"{hellbot} Vol.{pack}"
                         if hellbot
                         else f"{un}'s Hêllẞø† Vol.{pack}"
                     )
+                    cmd = "/newpack"
+                    if is_anim:
+                        packname += "_anim"
+                        packnick += " (Animated)"
+                        cmd = "/newanimated"
                     await hell.edit(
                         "`Switching to Pack "
                         + str(pack)
@@ -149,7 +154,7 @@ async def kang(event):
                     )
                     await conv.send_message(packname)
                     x = await conv.get_response()
-                    if x.text == "Invalid pack selected.":
+                    if x.text == "Invalid set selected.":
                         await conv.send_message(cmd)
                         await conv.get_response()
                         # Ensure user doesn't get spamming notifications
