@@ -493,11 +493,8 @@ async def endgmute(event):
 
 @hell_cmd(incoming=True)
 async def watcher(event):
-    try:
-        if gsql.is_gmuted(event.sender_id, "gmute"):
-            await event.delete()
-    except Exception as e:
-        LOGS.info(str(e))
+    if gsql.is_gmuted(event.sender_id, "gmute"):
+        await event.delete()
 
 
 CmdHelp("globals").add_command(
