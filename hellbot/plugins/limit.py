@@ -1,38 +1,25 @@
 import asyncio
-import os
-import re
 
 from telethon import functions
 from telethon.errors.rpcerrorlist import YouBlockedUserError
 from telethon import events
 
+from . import *
 
-@hell_cmd(pattern="limits(?:\s|$)([\s\S]*)")
+
+@hell_cmd(pattern="limits$")
 async def is_limited(event):
     chat = "@SpamBot"
-    msg = await eor(event, "Checking wheather your are restricted or not.......")
+    cid = await client_id(event)
+    hell_mention = cid[2]
+    msg = await eor(event, "")
     async with event.client.conversation(chat) as conv:
         try:
-            response = conv.wait_event(
-                events.NewMessage(incoming=True, from_users=178220800)
-            )
-            await conv.send_message("/start")
-            response_op = await conv.get_response()
-            await event.client.send_read_acknowledge(chat)
-            if 'Good news, no limits' in response_op:
-                await msg.edit('Wallah wallah tum to free hoti.....tum dhyan rakhti jyada spam or non contacts ko message kar ne se tum restricted ho jati......Info fetched by hell bot')
-                await conv.send_message('Cool, thanks')
-                await event.client.send_read_acknowledge(chat)
-            else:
-                await msg.edit('Kya kand keya tha ki restrict hogaya tu 😏😏.....')
-                await msg.edit(response_op)
-                await conv.send_message('OK')
-                await event.client.send_read_acknowledge(chat)
+            first = await conv.send_message("/start")
+            response = await conv.get_response()
+            await event.client.send_read_acknowledge(conv.chat_id)
         except YouBlockedUserError:
-            await msg.edit('Kindly unblock @SpamBot to further use this plugin.....')
-
+            await msg.edit('User Blocked!! Please Unblock @Spambot and try again...')
             return
-        except Exception as e:
-            await msg.edit('Kya kar ra hai bhai tu......ye sab doglapan hai.....ache se use kar na')
-
-
+        await msg.edit(response.text)
+        await event.client.delete_messages(conv.chat_id, [first.id, response.id])
