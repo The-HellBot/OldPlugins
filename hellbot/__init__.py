@@ -43,7 +43,12 @@ if not Config.APP_ID:
 if not Config.BOT_TOKEN:
     LOGS.warning("Please fill var BOT_TOKEN to continue.")
     quit(1)
-
+    
+    
+if not Config.BOT_USERNAME:
+    LOGS.warning("Please fill var BOT USERNAME to continue.")
+    quit(1)
+    
 
 if not Config.DB_URI:    
     LOGS.warning("Please fill var DATABASE_URL to continue.")
