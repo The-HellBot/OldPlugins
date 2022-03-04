@@ -135,6 +135,8 @@ async def kang(event):
                 await conv.send_message(packname)
                 x = await conv.get_response()
                 while "120" in x.text:
+                    await conv.send_message("/newpack")
+                     x = await conv.get_response()
                     pack += 1
                     packname = f"HellBot_{un_}_pack_{pack}"
                     packnick = (
