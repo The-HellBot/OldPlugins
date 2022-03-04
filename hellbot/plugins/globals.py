@@ -438,67 +438,58 @@ async def gkick(event):
 
 @hell_cmd(pattern="gmute(?:\s|$)([\s\S]*)")
 async def gm(event):
-    private = False
     cid = await client_id(event)
     ForGo10God, HELL_USER, hell_mention = cid[0], cid[1], cid[2]
-    if event.is_private:
-        await eor(event, "`Trying to gmute user...`")
-        await asyncio.sleep(2)
-        private = True
-    reply = await event.get_reply_message()
-    if event.pattern_match.group(1) is not None:
-        userid = event.pattern_match.group(1)
-    elif reply is not None:
-        userid = reply.sender_id
-    elif private is True:
-        userid = event.chat_id
+    hell = await eor(event, "`Trying to gmute user...`")
+    if event.reply_to_msg_id:
+        userid = (await event.get_reply_message()).sender_id
+    elif event.pattern_match.group(1):
+        usr = event.text.split(" ", maxsplit=2)[1]
+        userid = await get_user_id(usr)
+    elif event.is_private:
+        userid = (await event.get_chat()).id
     else:
-        return await eod(event, "Need a user to gmute. Reply or give userid to gmute them..")
+        return await eod(hell, "**To gmute a user I'll need a userid or reply to his/her message!!**")
     name = (await event.client.get_entity(userid)).first_name
-    event.chat_id
-    await event.get_chat()
+    reply = await event.get_reply_message()
     if gsql.is_gmuted(userid, "gmute"):
-        return await eod(event, "This kid is already Gmuted.")
+        return await eod(hell, "This kid is already Gmuted.")
     if str(userid) in DEVLIST:
-        return await eod(event, "**Sorry I'm not going to gmute them..**")
+        return await eod(hell, "**Sorry I'm not going to gmute them..**")
     try:
         gsql.gmute(userid, "gmute")
     except Exception as e:
-        await eod(event, "Error occured!\nError is " + str(e))
+        await eod(hell, "Error occured!\nError is " + str(e))
     else:
         if Config.ABUSE == "ON":
             await event.client.send_file(event.chat_id, shhh, caption=f"**(~‾▿‾)~ Chup [Madarchod](tg://user?id={userid}) ....**", reply_to=reply)
-            await event.delete()
+            await hell.delete()
         else:
-            await eor(event, f"**Globally Muted [{name}](tg://user?id={userid}) !!**\n\n__Kid struggling to speak__ ♪～(´ε｀ )")
+            await eor(hell, f"**Globally Muted [{name}](tg://user?id={userid}) !!**\n\n__Kid struggling to speak__ ♪～(´ε｀ )")
 
 
 @hell_cmd(pattern="ungmute(?:\s|$)([\s\S]*)")
 async def endgmute(event):
-    private = False
-    if event.is_private:
-        await eor(event, "`Trying to ungmute !!`")
-        await asyncio.sleep(2)
-        private = True
-    reply = await event.get_reply_message()
-    if event.pattern_match.group(1) is not None:
-        userid = event.pattern_match.group(1)
-    elif reply is not None:
-        userid = reply.sender_id
-    elif private is True:
-        userid = event.chat_id
+    hell = await eor(event, "`Trying to ungmute !!`")
+    if event.reply_to_msg_id:
+        userid = (await event.get_reply_message()).sender_id
+    elif event.pattern_match.group(1):
+        usr = event.text.split(" ", maxsplit=2)[1]
+        userid = await get_user_id(usr)
+    elif event.is_private:
+        userid = (await event.get_chat()).id
     else:
-        return await eod(event,"Please reply to a user or add their into the command to ungmute them.")
+        return await eod(hell, "**To ungmute a user I'll need a userid or reply to his/her message!!**")
     name = (await event.client.get_entity(userid)).first_name
-    event.chat_id
+    reply = await event.get_reply_message()
     if not gsql.is_gmuted(userid, "gmute"):
-        return await eod(event, "I don't remember I gmuted him...")
+        return await eod(hell, "I don't remember I gmuted him/her...")
     try:
         gsql.ungmute(userid, "gmute")
     except Exception as e:
-        await eod(event, "Error occured!\nError is " + str(e))
+        await eod(hell, "Error occured!\nError is " + str(e))
     else:
-        await eor(event, f"**Unmuted [{name}](tg://user?id={userid}) Globally !!**")
+        await eor(hell, f"**Unmuted [{name}](tg://user?id={userid}) Globally !!**")
 
 
 @hell_cmd(incoming=True)
