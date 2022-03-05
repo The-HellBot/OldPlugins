@@ -4,7 +4,6 @@ config_list = [
     "BAN_PIC",
     "BAN_TEXT",
     "BIO_MSG",
-    "BL_CHAT",
     "BUTTONS_IN_HELP",
     "CUSTOM_PMPERMIT",
     "HELP_PIC",
