@@ -23,11 +23,6 @@ class Development(Config):
   BOT_TOKEN = "Your value" #token
   BOT_USERNAME = "Your Value" #username
 
-  # Create a private group and add rose bot to it.
-  # and type /id and paste that id here.
-  # replace that -100 with that group id.
-  LOGGER_ID = -100
-
   # Custom Command Handler. 
   HANDLER = "."
 
