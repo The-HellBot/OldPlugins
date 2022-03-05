@@ -143,7 +143,13 @@ async def hell_is_on():
         )
     except Exception as e:
         LOGS.info(str(e))
-# Join HellBot Channel after deploying 🤐😅
+        
+    try:
+        await bot(InviteToChannelRequest(channel=Config.LOGGER_ID, users=(await tbot.get_me()).id))
+    except BaseException:
+        pass
+    
+    # Join HellBot Channel after deploying 🤐😅
     try:
         await bot(JoinChannelRequest("@Its_HellBot"))
     except BaseException:
@@ -168,7 +174,7 @@ async def hell_is_on():
             await H5(JoinChannelRequest("@Its_HellBot"))
     except BaseException:
         pass
-# Why not come here and chat??
+    # Why not come here and chat??
     try:
         await bot(ImportChatInviteRequest('bZxlmdNFp1NjMDNh'))
     except BaseException:
