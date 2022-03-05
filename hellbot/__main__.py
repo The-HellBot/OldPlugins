@@ -135,7 +135,7 @@ async def hell_is_on():
     try:
         x = await bot.get_me()
         xid = telethon.utils.get_peer_id(x)
-        if Config.LOGGER_ID == 0:
+        if Config.LOGGER_ID is None:
             if gvarstat("LOGGER_ID") is None:
                 grp_id = await logger_id(bot)
                 addgvar("LOGGER_ID", grp_id)
