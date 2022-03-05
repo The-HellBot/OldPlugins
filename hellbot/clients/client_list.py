@@ -6,7 +6,7 @@ from .session import Hell, H2, H3, H4, H5
 from hellbot.sql.gvar_sql import gvarstat
 
 
-async def clients_list(Config, Hell, H2, H3, H4, H5):
+async def clients_list():
     user_ids = []
     if gvarstat("SUDO_USERS"):
         a = gvarstat("SUDO_USERS").split(" ")
