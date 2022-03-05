@@ -29,7 +29,7 @@ class Config(object):
     CHROME_BIN = os.environ.get("CHROME_BIN", "/app/.apt/usr/bin/google-chrome")
     CHROME_DRIVER = os.environ.get("CHROME_DRIVER", "/app/.chromedriver/bin/chromedriver")
     DB_URI = os.environ.get("DATABASE_URL", None)
-    EMOJI_IN_HELP = os.environ.get("EMOJI_IN_HELP", "๑")
+    EMOJI_IN_HELP = os.environ.get("EMOJI_IN_HELP", "✧")
     FBAN_LOG_GROUP = os.environ.get("FBAN_LOG_GROUP", None)
     if FBAN_LOG_GROUP:
         FBAN_LOG_GROUP = int(FBAN_LOG_GROUP)
