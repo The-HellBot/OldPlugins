@@ -36,7 +36,7 @@ async def _(event):
 
 @hell_cmd(pattern="eval(?:\s|$)([\s\S]*)")
 async def _(event):
-    if Config.USE_EVAL == "TRUE":
+    if gvarstat("USE_EVAL") == "TRUE":
         cmd = "".join(event.text.split(maxsplit=1)[1:])
         if not cmd:
             return await eod(event, "`What should i run ?..`")
@@ -70,7 +70,7 @@ async def _(event):
         else:
             await eor(hellevent, final_output, deflink=True, linktext=f"{final_output2} \n\n**Also Pasted** ")
     else:
-        await eod(event, f"**Eval Is Disbaled !!** \n\n__Set__ `USE_EVAL` __as__ `TRUE` __to enable eval commands.__")
+        await eod(event, f"**Eval Is Disbaled !!** \n\n__Do__ `{hl}svar USE_EVAL TRUE` __to enable eval commands.__")
 
 
 async def aexec(code, smessatatus):
