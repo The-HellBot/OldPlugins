@@ -129,11 +129,17 @@ LOGS.info("⚡ Your HellBot Is Now Working ⚡")
 LOGS.info("Head to @Its_HellBot for Updates. Also join chat group to get help regarding to HellBot.")
 LOGS.info(f"» Total Clients = {total} «")
 
+
 # that's life...
 async def hell_is_on():
     try:
         x = await bot.get_me()
         xid = telethon.utils.get_peer_id(x)
+        if Config.LOGGER_ID == 0:
+            if gvarstat("LOGGER_ID") is None:
+                grp_id = await logger_id(bot)
+                addgvar("LOGGER_ID", grp_id)
+                Config.LOGGER_ID = grp_id
         send_to = Config.LOGGER_ID if Config.LOGGER_ID != 0 else xid
         await bot.send_file(
             send_to,
