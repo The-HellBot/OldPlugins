@@ -8,10 +8,6 @@ class Development(Config):
   APP_ID = 6    # 6 is a placeholder. Fill your 6 digit api id
   API_HASH = "eb06d4abfb49dc3eeb1aeb98ae0f581e"   # replace this with your api hash
 
-  # the name to display in your alive message.
-  # If not filled anything then default value is I'm Hêll.
-  YOUR_NAME = "I'm Hêll"
-
   # create any PostgreSQL database.
   # I recommend to use elephantsql and paste that link here
   DB_URI = "Your value"
