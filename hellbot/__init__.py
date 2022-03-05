@@ -60,11 +60,6 @@ if not Config.HELLBOT_SESSION:
     quit(1)
 
 
-# if not Config.LOGGER_ID:
-#     LOGS.warning("Please fill var LOGGER_ID to continue.")
-#     quit(1)
-
-
 try:
     if Config.HEROKU_API_KEY is not None or Config.HEROKU_APP_NAME is not None:
         HEROKU_APP = heroku3.from_key(Config.HEROKU_API_KEY).apps()[
