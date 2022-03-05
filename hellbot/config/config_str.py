@@ -4,10 +4,10 @@ config_list = [
     "BAN_PIC",
     "BAN_TEXT",
     "BIO_MSG",
-    "BUTTONS_IN_HELP",
     "CUSTOM_PMPERMIT",
     "HELP_PIC",
     "PMPERMIT_PIC",
     "STICKER_PACKNAME",
+    "USE_EVAL",
     "YOUR_NAME",
 ]
