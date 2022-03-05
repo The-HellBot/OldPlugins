@@ -42,8 +42,7 @@ async def _(event):
     while True:
         DMY = time.strftime("%d.%m.%Y")
         HM = time.strftime("%H:%M:%S")
-        rand_bio = random.choice(bio_msgs)
-        bio_ = gvarstat("BIO_MSG") or rand_bio
+        bio_ = gvarstat("BIO_MSG") or random.choice(bio_msgs)
         DEFAULTUSERBIO = bio_[:66]
         bio = f"“ {DEFAULTUSERBIO} ”"
         logger.info(bio)
@@ -69,9 +68,9 @@ async def mine(event):
 
 
 CmdHelp("auto_profile").add_command(
-  'autobio', None, 'Changes your bio with time. Need to set BIO_MSG in heroku vars(optional)'
+  'autobio', None, 'Changes your bio with random quotes. You can set your own bio by setting up gvar BIO_MSG.'
 ).add_command(
-  'autoname', None, 'Changes your name with time according to your ALIVE_NAME in heroku var'
+  'autoname', None, 'Changes your name with time.'
 ).add_command(
   'reserved', None, 'Gives the list of usernames reserved by you. In short gives the list of public groups or channels that you are owner in.'
 ).add_info(
