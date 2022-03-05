@@ -11,8 +11,6 @@ from telethon.tl.types import ChatBannedRights
 class Config(object):
     LOGGER = True
     ABUSE = os.environ.get("ABUSE", None)
-    ALIVE_MSG = os.environ.get("ALIVE_MSG", None)
-    ALIVE_PIC = os.environ.get("ALIVE_PIC", None)
     ANTI_FLOOD_WARN_MODE = ChatBannedRights(until_date=None, view_messages=None, send_messages=True)
     API_HASH = os.environ.get("API_HASH", None)
     APP_ID = os.environ.get("APP_ID", None)
@@ -22,9 +20,6 @@ class Config(object):
         t_file = open(TMP_DOWNLOAD_DIRECTORY+"auth_token.txt","w")
         t_file.write(AUTH_TOKEN_DATA)
         t_file.close()
-    BAN_PIC = os.environ.get("BAN_PIC", None)
-    BAN_TEXT = os.environ.get("BAN_TEXT", None)
-    BIO_MSG = os.environ.get("BIO_MSG", "ʟɛɢɛռɖaʀʏ ᴀғ ɦɛʟʟɮօt")
     BL_CHAT = set(int(x) for x in os.environ.get("BL_CHAT", "").split())
     BOT_HANDLER = os.environ.get("BOT_HANDLER", "\/")
     BOT_TOKEN = os.environ.get("BOT_TOKEN", None)
@@ -33,7 +28,6 @@ class Config(object):
     CHATS_TO_MONITOR_FOR_ANTI_FLOOD = []
     CHROME_BIN = os.environ.get("CHROME_BIN", "/app/.apt/usr/bin/google-chrome")
     CHROME_DRIVER = os.environ.get("CHROME_DRIVER", "/app/.chromedriver/bin/chromedriver")
-    CUSTOM_PMPERMIT = os.environ.get("CUSTOM_PMPERMIT", None)
     DB_URI = os.environ.get("DATABASE_URL", None)
     EMOJI_IN_HELP = os.environ.get("EMOJI_IN_HELP", "๑")
     FBAN_LOG_GROUP = os.environ.get("FBAN_LOG_GROUP", None)
@@ -51,7 +45,6 @@ class Config(object):
     GOOGLE_CHROME_BIN = os.environ.get("GOOGLE_CHROME_BIN", "/app/.apt/usr/bin/google-chrome")
     GROUP_REG_SED_EX_BOT_S = os.environ.get("GROUP_REG_SED_EX_BOT_S", r"(regex|moku|BananaButler_|rgx|l4mR)bot")
     HANDLER = os.environ.get("HANDLER", ".")
-    HELP_PIC = os.environ.get("HELP_PIC", None)
     HEROKU_API_KEY = os.environ.get("HEROKU_API_KEY", None)
     HEROKU_APP_NAME = os.environ.get("HEROKU_APP_NAME", None)
     INSTANT_BLOCK = os.environ.get("INSTANT_BLOCK", None)
@@ -72,10 +65,8 @@ class Config(object):
     if PM_LOG_ID:
         PM_LOG_ID = int(PM_LOG_ID)
     PM_PERMIT = os.environ.get("PM_PERMIT", None)
-    PMPERMIT_PIC = os.environ.get("PMPERMIT_PIC", "https://telegra.ph/file/73e95f4325159336766c0.jpg")
     REMOVE_BG_API = os.environ.get("REMOVE_BG_API", None)
     SCREEN_SHOT_LAYER_ACCESS_KEY = os.environ.get("SCREEN_SHOT_LAYER_ACCESS_KEY", None)
-    STICKER_PACKNAME = os.environ.get("STICKER_PACKNAME", None)
     HELLBOT_SESSION = os.environ.get("HELLBOT_SESSION", None)
     SESSION_2 = os.environ.get("SESSION_2", None)
     SESSION_3 = os.environ.get("SESSION_3", None)
@@ -91,9 +82,7 @@ class Config(object):
     TMP_DOWNLOAD_DIRECTORY = os.environ.get("TMP_DOWNLOAD_DIRECTORY", "./DOWNLOADS/")
     TZ = os.environ.get("TZ", "Asia/Kolkata")
     UPSTREAM_REPO = os.environ.get("UPSTREAM_REPO", "https://github.com/The-HellBot/HellBot")
-    USE_EVAL = os.environ.get("USE_EVAL", None)
     WEATHER_API = os.environ.get("WEATHER_API", None)
-    YOUR_NAME = os.environ.get("YOUR_NAME", None)
     YOUTUBE_API_KEY = os.environ.get("YOUTUBE_API_KEY", None)
 
 
