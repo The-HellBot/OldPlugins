@@ -208,12 +208,12 @@ async def _(event):
 
     gbaner(userid)
     a = gvarstat("BAN_PIC")
-    if a is not None:
+    pic_str = []
+    if a:
         b = a.split(" ")
-        c = []
-        for d in b:
-            c.append(d)
-        gbpic = random.choice(c)
+        for c in b:
+            pic_str.append(c)
+        gbpic = random.choice(pic_str)
     else:
         gbpic = cjb
     gmsg = f"🥴 [{name}](tg://user?id={userid}) **beta majdur ko khodna 😪 aur** {hell_mention} **ko chodna... Kabhi sikhana nhi!! 😏**\n\n📍 Added to Gban Watch!!\n**🔰 Total Chats :**  `{chats}`"
@@ -420,12 +420,12 @@ async def gkick(event):
                 pass
 
     a = gvarstat("BAN_PIC")
-    if a is not None:
+    pic_str = []
+    if a:
         b = a.split(" ")
-        c = []
-        for d in b:
-            c.append(d)
-        gbpic = random.choice(c)
+        for c in b:
+            pic_str.append(c)
+        gbpic = random.choice(pic_str)
     else:
         gbpic = cjb
     gkmsg = f"🏃 **Globally Kicked** [{name}](tg://user?id={userid})'s butts !! \n\n📝 **Chats :**  `{chats}`"
