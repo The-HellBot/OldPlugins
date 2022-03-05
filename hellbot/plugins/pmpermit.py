@@ -8,11 +8,9 @@ from telethon.tl.functions.users import GetFullUserRequest
 from hellbot.sql import pmpermit_sql as pm_sql
 from . import *
 
-WARN_PIC = Config.PMPERMIT_PIC or "https://telegra.ph/file/58df4d86400922aa32acd.jpg"
 PM_WARNS = {}
 PREV_REPLY_MESSAGE = {}
 PM_ON_OFF = Config.PM_PERMIT
-CSTM_PMP = Config.CUSTOM_PMPERMIT or "**You Have Trespassed To My Master's PM!\nThis Is Illegal And Regarded As Crime.**"
 HELL_ZERO = "Go get some sleep retard. \n\n**Blocked !!**"
 
 
@@ -188,7 +186,8 @@ if PM_ON_OFF != "DISABLE":
             return
         cid = await client_id(event)
         ForGo10God, hell_mention = cid[0], cid[2]
-        HELL_FIRST = "**🔥 Hêllẞø† Prîvã†é Sêçürïty Prø†öçõl 🔥**\n\nThis is to inform you that {} is currently unavailable.\nThis is an automated message.\n\n{}\n\n**Please Choose Why You Are Here!!**".format(hell_mention, CSTM_PMP)
+        CSTM_PMP = gvarstat("CUSTOM_PMPERMIT") or "**You Have Trespassed To My Master's PM!\nThis Is Illegal And Regarded As Crime.**"
+        HELL_FIRST = "**🔥 Hêllẞø† Prîvã†é Sêçürïty Prø†öçõl 🔥**\n\nHello!! Welcome to {}'s PM. This is an automated message.\n\n{}".format(hell_mention, CSTM_PMP)
         if event.sender_id == ForGo10God:
             return
         if str(event.sender_id) in DEVLIST:
@@ -220,7 +219,6 @@ if PM_ON_OFF != "DISABLE":
             PM_WARNS.update({chat_ids: 0})
         if PM_WARNS[chat_ids] == Config.MAX_SPAM:
             r = await event.reply(HELL_ZERO)
-            await asyncio.sleep(3)
             await event.client(functions.contacts.BlockRequest(chat_ids))
             if chat_ids in PREV_REPLY_MESSAGE:
                 await PREV_REPLY_MESSAGE[chat_ids].delete()
@@ -240,8 +238,7 @@ if PM_ON_OFF != "DISABLE":
             except BaseException:
                 pass
 
-        botusername = Config.BOT_USERNAME
-        tap = await event.client.inline_query(botusername, "pm_warn")
+        tap = await event.client.inline_query(Config.BOT_USERNAME, "pm_warn")
         hel_ = await tap[0].click(event.chat_id)
         PM_WARNS[chat_ids] += 1
         if chat_ids in PREV_REPLY_MESSAGE:
@@ -258,7 +255,7 @@ if Config.INSTANT_BLOCK == "ENABLE":
         ForGo10God = cid[0]
         if chat_id == ForGo10God:
             return
-        if chat_id == 1432756163:
+        if str(chat_id) in DEVLIST:
             return
         if sender.bot:
             return
