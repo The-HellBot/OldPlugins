@@ -34,8 +34,6 @@ KANGING_STR = [
     "Turn around, Go straight and f*ck off...",
 ]
 
-hellbot = gvarstat("STICKER_PACKNAME")
-
 
 @hell_cmd(pattern="kang(?:\s|$)([\s\S]*)")
 async def kang(event):
@@ -44,6 +42,7 @@ async def kang(event):
     un = f"@{user.username}" if user.username else user.first_name
     un_ = user.username if user.username else ForGo10God
     message = await event.get_reply_message()
+    hellbot = gvarstat("STICKER_PACKNAME")
     photo = None
     emojibypass = False
     is_anim = False
