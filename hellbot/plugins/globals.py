@@ -490,8 +490,7 @@ async def endgmute(event):
         await eod(hell, "Error occured!\nError is " + str(e))
 
 
-
-@hell_cmd(incoming=True)
+@hell_handler()
 async def watcher(event):
     if gsql.is_gmuted(event.sender_id, "gmute"):
         await event.delete()
