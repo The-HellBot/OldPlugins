@@ -60,9 +60,9 @@ if not Config.HELLBOT_SESSION:
     quit(1)
 
 
-if not Config.LOGGER_ID:
-    LOGS.warning("Please fill var LOGGER_ID to continue.")
-    quit(1)
+# if not Config.LOGGER_ID:
+#     LOGS.warning("Please fill var LOGGER_ID to continue.")
+#     quit(1)
 
 
 try:
