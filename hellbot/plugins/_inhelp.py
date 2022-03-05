@@ -22,8 +22,8 @@ from . import *
 
 hell_row = Config.BUTTONS_IN_HELP
 hell_emoji = Config.EMOJI_IN_HELP
-hell_pic = Config.PMPERMIT_PIC or "https://telegra.ph/file/58df4d86400922aa32acd.jpg"
-cstm_pmp = Config.CUSTOM_PMPERMIT
+# hell_pic = Config.PMPERMIT_PIC or "https://telegra.ph/file/58df4d86400922aa32acd.jpg"
+# cstm_pmp = Config.CUSTOM_PMPERMIT
 PM_WARNS = {}
 PREV_REPLY_MESSAGE = {}
 
@@ -146,27 +146,26 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
                 Button.url("My Group", f"https://t.me/{my_group}")],
             ]
             a = gvarstat("ALIVE_PIC")
-            if a is not None:
+            pic_list = []
+            if a:
                 b = a.split(" ")
-                c = []
                 if len(b) >= 1:
-                    for d in b:
-                        c.append(d)
-                PIC = random.choice(c)
+                    for c in b:
+                        pic_list.append(c)
+                PIC = random.choice(pic_list)
             else:
                 PIC = "https://telegra.ph/file/ea9e11f7c9db21c1b8d5e.mp4"
-            ALV_PIC = PIC
-            if ALV_PIC and ALV_PIC.endswith((".jpg", ".png")):
+            if PIC and PIC.endswith((".jpg", ".png")):
                 result = builder.photo(
-                    ALV_PIC,
+                    PIC,
                     text=he_ll,
                     buttons=alv_btn,
                     link_preview=False,
                     parse_mode="HTML",
                 )
-            elif ALV_PIC:
+            elif PIC:
                 result = builder.document(
-                    ALV_PIC,
+                    PIC,
                     text=he_ll,
                     title="HellBot Alive",
                     buttons=alv_btn,
