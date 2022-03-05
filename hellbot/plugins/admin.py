@@ -181,31 +181,27 @@ async def watcher(event):
             await event.delete()
         except Exception as e:
             LOGS.info(str(e))
-
+ 
 
 @hell_cmd(pattern="mute(?:\s|$)([\s\S]*)")
 async def muth(event):
     x = await client_id(event)
     ForGo10God = x[0]
     if event.is_private:
-        await eor(event, "**Enough of your bullshit  !!**")
-        await sleep(2)
+        hell = await eor(event, "**Enough of your bullshit  !!**")
         await event.get_reply_message()
         replied_user = await event.client(GetFullUserRequest(event.chat_id))
         if is_muted(event.chat_id, event.chat_id):
-            return await event.edit(
-                "Nigga is already muted here 🥴"
-            )
+            return await eod(hell, "Nigga is already muted here 🥴")
         if event.chat_id == ForGo10God:
-            return await eod(event, "Nashe me hai kya lawde 🥴")
+            return await eod(hell, "You can't mute yourself !")
         try:
             mute(event.chat_id, event.chat_id)
+            await eod(hell, "**Muted this user !**")
         except Exception as e:
-            await eor(event, f"**Error **\n`{str(e)}`")
-        else:
-            await eor(event, "**Chup Reh Lawde 🥴\n`**｀-´)⊃━☆ﾟ.*･｡ﾟ **`")
+            return await eod(hell, f"**Error **\n`{str(e)}`")
     elif event.is_group:
-        eventevent = await eor(event, "`Muting...`")
+        hell = await eor(event, "`Muting...`")
         input_str = event.pattern_match.group(1)
         chat = await event.get_chat()
         admin_ = []
@@ -221,27 +217,26 @@ async def muth(event):
                     userid = input_str
                     name = (await event.client.get_entity(userid)).first_name
                 except ValueError as ve:
-                    return await eventevent.edit(str(ve))
+                    return await eod(hell, str(ve))
             else:
                 userid = (await event.client.get_entity(input_str)).id
                 name = (await event.client.get_entity(userid)).first_name
         else:
-            return await eod(eventevent, "I Need a user to mute!!")
+            return await eod(hell, "I Need a user to mute !!")
         if userid == ForGo10God:
-            return await eod(eventevent, "Nashe me hai kya lawde")
+            return await eod(hell, "You can't mute yourself !")
         if str(userid) in DEVLIST:
-            return await eod(eventevent, "**Error Muting God**", 7)
+            return await eod(hell, "**Error Muting God**")
         if ForGo10God not in admin_:
-            return await eod(eventevent, NO_PERM)
+            return await eod(hell, NO_PERM)
         if userid in admin_:
             if is_muted(userid, event.chat_id):
-                return await eventevent.edit("Admin already muted ♪～(´ε｀ )")
+                return await eod(hell, "Admin already muted ♪～(´ε｀ )")
             try:
                 mute(userid, event.chat_id)
+                await eod(hell, f"**🌝 Muted admin** [{name}](tg://user?id={userid}) **in** `{chat.title}` (~‾▿‾)~")
             except Exception as e:
-                await eventevent.edit(f"**Error :** \n\n`{e}`")
-            else:
-                return await eventevent.edit(f"**🌝 Muted admin** [{name}](tg://user?id={userid}) **in** `{chat.title}` (~‾▿‾)~")
+                await eod(hell, f"**Error :** \n\n`{e}`")
         try:
             await event.client.edit_permissions(
                 chat.id,
@@ -249,12 +244,9 @@ async def muth(event):
                 until_date=None,
                 send_messages=False,
             )
-            await eor(
-                eventevent,
-                f"**Successfully Muted**  [{name}](tg://user?id={userid}) **in**  `{chat.title}`",
-            )
+            await eor(hell, f"**Successfully Muted**  [{name}](tg://user?id={userid}) **in**  `{chat.title}`")
         except BaseException as be:
-            await eor(eventevent, f"`{str(be)}`")
+            await eor(hell, f"**Error:** `{str(be)}`")
         await event.client.send_message(
             lg_id,
             "#MUTE\n"
@@ -268,19 +260,17 @@ async def nomuth(event):
     x = await client_id(event)
     ForGo10God = x[0]
     if event.is_private:
-        await eor(event, "Talk bitch..")
-        await sleep(1)
+        hell = await eor(event, "`Unmuting ...`")
         replied_user = await event.client(GetFullUserRequest(event.chat_id))
         if not is_muted(event.chat_id, event.chat_id):
-            return await eor(event,"Not even muted !!")
+            return await eod(hell, "Not even muted !!")
         try:
             unmute(event.chat_id, event.chat_id)
+            await eod(hell, "User unmuted successfully !")
         except Exception as e:
-            await eor(event, f"**Error **\n`{str(e)}`")
-        else:
-            await eor(event,"Abb boll bsdk.")
+            await eod(hell, f"**Error **\n`{str(e)}`")
     elif event.is_group:
-        hellevent = await eor(event, "`Unmuting...`")
+        hell = await eod(event, "`Unmuting...`")
         input_str = event.pattern_match.group(1)
         chat = await event.get_chat()
         admin_ = []
@@ -296,36 +286,34 @@ async def nomuth(event):
                     userid = input_str
                     name = (await event.client.get_entity(userid)).first_name
                 except ValueError as ve:
-                    return await hellevent.edit(str(ve))
+                    return await eod(hell, str(ve))
             else:
                 userid = (await event.client.get_entity(input_str)).id
                 name = (await event.client.get_entity(userid)).first_name
         else:
-            return await eod(hellevent, "I need a user to unmute!!")
+            return await eod(hell, "I need a user to unmute!!")
         if ForGo10God not in admin_:
-            return await eod(hellevent, NO_PERM)
+            return await eod(hell, NO_PERM)
         if userid in admin_:
             if not is_muted(userid, event.chat_id):
-                return await hellevent.edit("Not even muted.")
+                return await eod(hell, "Not even muted.")
             try:
                 unmute(userid, event.chat_id)
+                await eod(hell, f"**Successfully Unmuted** [{name}](tg://user?id={userid}) **in** `{chat.title}`")
+                return
             except Exception as e:
-                await hellevent.edit(f"**Error :** \n\n`{e}`")
-            else:
-                return await hellevent.edit(f"**Successfully Unmuted** [{name}](tg://user?id={userid}) **in** `{chat.title}`")
-        try:
-            await event.client.edit_permissions(
-                chat.id,
-                userid,
-                until_date=None,
-                send_messages=True,
-            )
-            await eor(
-                hellevent,
-                f"**Successfully Unmuted**  [{name}](tg://user?id={userid}) **in**  `{chat.title}`",
-            )
-        except BaseException as be:
-            await eor(hellevent, f"`{str(be)}`")
+                return await eod(hell, f"**Error :** \n\n`{e}`")
+        else:
+            try:
+                await event.client.edit_permissions(
+                    chat.id,
+                    userid,
+                    until_date=None,
+                    send_messages=True,
+                )
+                await eor(hell, f"**Successfully Unmuted**  [{name}](tg://user?id={userid}) **in**  `{chat.title}`")
+            except BaseException as be:
+                await eor(hell, f"`{str(be)}`")
         await event.client.send_message(
             lg_id,
             "#UNMUTE\n"
