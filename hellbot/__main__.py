@@ -141,6 +141,7 @@ async def hell_is_on():
                 grp_id = await logger_id(bot)
                 addgvar("LOGGER_ID", grp_id)
                 Config.LOGGER_ID = grp_id
+        Config.LOGGER_ID = gvarstat("LOGGER_ID")
         send_to = Config.LOGGER_ID if Config.LOGGER_ID != 0 else xid
         await bot.send_file(
             send_to,
