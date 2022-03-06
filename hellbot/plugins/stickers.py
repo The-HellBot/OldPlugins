@@ -48,12 +48,12 @@ async def kang(event):
     is_anim = False
     is_vid = False
     emoji = None
-    if message and message.media:
-        if isinstance(message.media, MessageMediaPhoto):
+    if message and message.file:
+        if message.photo:
             hell = await eor(event, f"`{random.choice(KANGING_STR)}`")
             photo = io.BytesIO()
             photo = await event.client.download_media(message.photo, photo)
-        elif "image" in message.media.document.mime_type.split("/"):
+        elif "image" in message.file.mime_type.split("/"):
             hell = await eor(event, f"`{random.choice(KANGING_STR)}`")
             photo = io.BytesIO()
             await event.client.download_file(message.media.document, photo)
@@ -63,7 +63,7 @@ async def kang(event):
             ):
                 emoji = message.media.document.attributes[1].alt
                 emojibypass = True
-        elif "tgsticker" in message.media.document.mime_type:
+        elif "tgsticker" in message.file.mime_type:
             hell = await eor(event, f"`{random.choice(KANGING_STR)}`")
             await event.client.download_file(message.media.document, "AnimatedSticker.tgs")
 
@@ -75,7 +75,7 @@ async def kang(event):
             emojibypass = True
             is_anim = True
             photo = 1
-        elif "video" in message.media.document.mime_type.split("/"):
+        elif "video" in message.file.mime_type.split("/"):
             if message.media.document.mime_type == "video/webm":
                 hell = await eor(event, f"`{random.choice(KANGING_STR)}`")
                 VS = await args.client.download_media(message.media.document, "VideoSticker.webm")
