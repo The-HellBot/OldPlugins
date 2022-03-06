@@ -4,7 +4,7 @@ import sys
 from pathlib import Path
 
 import telethon.utils
-from telethon import TelegramClient
+from telethon import Button, TelegramClient
 from telethon.tl.functions.channels import InviteToChannelRequest, JoinChannelRequest
 from telethon.tl.functions.messages import ImportChatInviteRequest
 
@@ -142,21 +142,20 @@ async def hell_is_on():
                 addgvar("LOGGER_ID", grp_id)
                 Config.LOGGER_ID = grp_id
         Config.LOGGER_ID = int(gvarstat("LOGGER_ID"))
-        send_to = Config.LOGGER_ID if Config.LOGGER_ID != 0 else xid
-        await bot.send_file(
-            send_to,
+        try:
+            await bot(InviteToChannelRequest(channel=Config.LOGGER_ID, users=(await tbot.get_me()).id))
+        except BaseException:
+            pass
+        await tbot.send_file(
+            Config.LOGGER_ID,
             HELL_PIC,
             caption=f"#START \n\n<b><i>Version :</b></i> <code>{hellver}</code> \n<b><i>Clients :</b></i> <code>{total}</code> \n\n<b><i>»» <u><a href='https://t.me/Its_HellBot'>†hê Hêllẞø†</a></u> ««</i></b>",
             parse_mode="HTML",
+            buttons=[[Button.url("HellBot Network", "https://t.me/HellBot_Network")]],
         )
     except Exception as e:
         LOGS.info(str(e))
         
-    try:
-        await bot(InviteToChannelRequest(channel=Config.LOGGER_ID, users=(await tbot.get_me()).id))
-    except BaseException:
-        pass
-    
     # Join HellBot Channel after deploying 🤐😅
     try:
         await bot(JoinChannelRequest("@Its_HellBot"))
