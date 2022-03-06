@@ -46,6 +46,7 @@ async def kang(event):
     photo = None
     emojibypass = False
     is_anim = False
+    is_vid = False
     emoji = None
     if message and message.media:
         if isinstance(message.media, MessageMediaPhoto):
@@ -74,6 +75,16 @@ async def kang(event):
             emojibypass = True
             is_anim = True
             photo = 1
+        elif "video" in message.media.document.mime_type.split("/"):
+            if message.media.document.mime_type == "video/webm":
+                hell = await eor(event, f"`{random.choice(KANGING_STR)}`")
+                VS = await args.client.download_media(message.media.document, "VideoSticker.webm")
+            elif message.media.document.mime_type == "video/mp4":
+                hell = await eor(event, "Oow! A video... **[ Converting ]**")
+                VS = await VSticker(event, message)
+                await eor(hell, f"`{random.choice(KANGING_STR)}`")
+            is_vid = True
+            photo = 1
         else:
             await eod(event, "`Unsupported File!`")
             return
@@ -87,16 +98,12 @@ async def kang(event):
             emoji = "😎"
         pack = 1
         if len(splat) == 3:
-            pack = splat[2]  # User sent both
+            pack = splat[2]
             emoji = splat[1]
         elif len(splat) == 2:
             if splat[1].isnumeric():
-                # User wants to push into different pack, but is okay with
-                # thonk as emote.
                 pack = int(splat[1])
             else:
-                # User sent just custom emote, wants to push to default
-                # pack
                 emoji = splat[1]
 
         packname = f"Hellbot_{un_}_{pack}"
@@ -116,6 +123,11 @@ async def kang(event):
             packname += "_anim"
             packnick += " (Animated)"
             cmd = "/newanimated"
+        
+        if is_vid:
+            packname += "_vid"
+            packnick += " (Video)"
+            cmd = "/newvideo"
 
         response = urllib.request.urlopen(
             urllib.request.Request(f"http://t.me/addstickers/{packname}")
@@ -129,7 +141,6 @@ async def kang(event):
             async with event.client.conversation("@Stickers") as conv:
                 await conv.send_message("/addsticker")
                 await conv.get_response()
-                # Ensure user doesn't get spamming notifications
                 await event.client.send_read_acknowledge(conv.chat_id)
                 await conv.send_message(packname)
                 x = await conv.get_response()
@@ -142,124 +153,108 @@ async def kang(event):
                         else f"{un}'s Hêllẞø† Vol.{pack}"
                     )
                     cmd = "/newpack"
+
                     if is_anim:
                         packname += "_anim"
                         packnick += " (Animated)"
                         cmd = "/newanimated"
-                    await hell.edit(
-                        "`Switching to Pack "
-                        + str(pack)
-                        + " due to insufficient space`"
-                    )
+
+                    if is_vid:
+                        packname += "_vid"
+                        packnick += " (Video)"
+                        cmd = "/newvideo"
+                    await hell.edit(f"`Switching to Pack {str(pack)} due to insufficient space`")
                     await conv.send_message(packname)
                     x = await conv.get_response()
                     if x.text == "Invalid set selected.":
                         await conv.send_message(cmd)
                         await conv.get_response()
-                        # Ensure user doesn't get spamming notifications
                         await event.client.send_read_acknowledge(conv.chat_id)
                         await conv.send_message(packnick)
                         await conv.get_response()
-                        # Ensure user doesn't get spamming notifications
                         await event.client.send_read_acknowledge(conv.chat_id)
                         if is_anim:
                             await conv.send_file("AnimatedSticker.tgs")
                             remove("AnimatedSticker.tgs")
+                        elif is_vid:
+                            await conv.send_file("VideoSticker.webm")
+                            remove("VideoSticker.webm")
                         else:
                             file.seek(0)
                             await conv.send_file(file, force_document=True)
                         await conv.get_response()
                         await conv.send_message(emoji)
-                        # Ensure user doesn't get spamming notifications
                         await event.client.send_read_acknowledge(conv.chat_id)
                         await conv.get_response()
                         await conv.send_message("/publish")
                         if is_anim:
                             await conv.get_response()
                             await conv.send_message(f"<{packnick}>")
-                        # Ensure user doesn't get spamming notifications
                         await conv.get_response()
                         await event.client.send_read_acknowledge(conv.chat_id)
                         await conv.send_message("/skip")
-                        # Ensure user doesn't get spamming notifications
                         await event.client.send_read_acknowledge(conv.chat_id)
                         await conv.get_response()
                         await conv.send_message(packname)
-                        # Ensure user doesn't get spamming notifications
                         await event.client.send_read_acknowledge(conv.chat_id)
                         await conv.get_response()
-                        # Ensure user doesn't get spamming notifications
                         await event.client.send_read_acknowledge(conv.chat_id)
-                        await hell.edit(
-                            f"`Sticker added in a Different Pack !\
-                            \nThis Pack is Newly created!\
-                            \nYour pack can be found [here](t.me/addstickers/{packname})",
-                            parse_mode="md",
-                        )
+                        await hell.edit(f"**Sticker added in a Different Pack !**\nThis Pack is Newly created!\nYour pack can be found [here](t.me/addstickers/{packname})")
                         return
                 if is_anim:
                     await conv.send_file("AnimatedSticker.tgs")
                     remove("AnimatedSticker.tgs")
+                elif is_vid:
+                    await conv.send_file("VideoSticker.webm")
+                    remove("VideoSticker.webm")
                 else:
                     file.seek(0)
                     await conv.send_file(file, force_document=True)
                 rsp = await conv.get_response()
                 if "Sorry, the file type is invalid." in rsp.text:
-                    await hell.edit(
-                        "`Failed to add sticker, use` @Stickers `bot to add the sticker manually.`"
-                    )
-                    return
+                    return await hell.edit("`Failed to add sticker, use` @Stickers `bot to add the sticker manually.`")
                 await conv.send_message(emoji)
-                # Ensure user doesn't get spamming notifications
                 await event.client.send_read_acknowledge(conv.chat_id)
                 await conv.get_response()
                 await conv.send_message("/done")
                 await conv.get_response()
-                # Ensure user doesn't get spamming notifications
                 await event.client.send_read_acknowledge(conv.chat_id)
         else:
             await hell.edit("`Preparing a new pack....`")
             async with event.client.conversation("Stickers") as conv:
                 await conv.send_message(cmd)
                 await conv.get_response()
-                # Ensure user doesn't get spamming notifications
                 await event.client.send_read_acknowledge(conv.chat_id)
                 await conv.send_message(packnick)
                 await conv.get_response()
-                # Ensure user doesn't get spamming notifications
                 await event.client.send_read_acknowledge(conv.chat_id)
                 if is_anim:
                     await conv.send_file("AnimatedSticker.tgs")
                     remove("AnimatedSticker.tgs")
+                if is_vid:
+                    await conv.send_file("VideoSticker.webm")
+                    remove("VideoSticker.webm")
                 else:
                     file.seek(0)
                     await conv.send_file(file, force_document=True)
                 rsp = await conv.get_response()
                 if "Sorry, the file type is invalid." in rsp.text:
-                    await hell.edit(
-                        "`Failed to add sticker, use` @Stickers `bot to add the sticker manually.`"
-                    )
-                    return
+                    return await hell.edit("`Failed to add sticker, use` @Stickers `bot to add the sticker manually.`")
                 await conv.send_message(emoji)
-                # Ensure user doesn't get spamming notifications
                 await event.client.send_read_acknowledge(conv.chat_id)
                 await conv.get_response()
                 await conv.send_message("/publish")
                 if is_anim:
                     await conv.get_response()
                     await conv.send_message(f"<{packnick}>")
-                # Ensure user doesn't get spamming notifications
                 await conv.get_response()
                 await event.client.send_read_acknowledge(conv.chat_id)
                 await conv.send_message("/skip")
-                # Ensure user doesn't get spamming notifications
                 await event.client.send_read_acknowledge(conv.chat_id)
                 await conv.get_response()
                 await conv.send_message(packname)
-                # Ensure user doesn't get spamming notifications
                 await event.client.send_read_acknowledge(conv.chat_id)
                 await conv.get_response()
-                # Ensure user doesn't get spamming notifications
                 await event.client.send_read_acknowledge(conv.chat_id)
 
         await hell.edit(
