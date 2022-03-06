@@ -153,10 +153,7 @@ async def hell_is_on():
             pin_messages=True,
             manage_call=True,
         )
-        try:
-            await bot(EditAdminRequest(Config.LOGGER_ID, tbot_id, new_rights, "Helper"))
-        except BaseException:
-            pass
+        await bot(EditAdminRequest(Config.LOGGER_ID, tbot_id, new_rights, "Helper"))
         await tbot.send_file(
             Config.LOGGER_ID,
             HELL_PIC,
