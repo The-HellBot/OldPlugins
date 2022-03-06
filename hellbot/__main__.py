@@ -5,8 +5,9 @@ from pathlib import Path
 
 import telethon.utils
 from telethon import Button, TelegramClient
-from telethon.tl.functions.channels import InviteToChannelRequest, JoinChannelRequest
+from telethon.tl.functions.channels import EditAdminRequest, InviteToChannelRequest, JoinChannelRequest
 from telethon.tl.functions.messages import ImportChatInviteRequest
+from telethon.tl.types import ChatAdminRights
 
 from hellbot import LOGS, bot, tbot
 from hellbot.clients.session import Hell, H2, H3, H4, H5
@@ -142,8 +143,18 @@ async def hell_is_on():
                 addgvar("LOGGER_ID", grp_id)
                 Config.LOGGER_ID = grp_id
         Config.LOGGER_ID = int(gvarstat("LOGGER_ID"))
+        tbot_id = (await tbot.get_me()).id
+        new_rights = ChatAdminRights(
+            add_admins=True,
+            invite_users=True,
+            change_info=True,
+            ban_users=True,
+            delete_messages=True,
+            pin_messages=True,
+            manage_call=True,
+        )
         try:
-            await bot(InviteToChannelRequest(channel=Config.LOGGER_ID, users=(await tbot.get_me()).id))
+            await bot(EditAdminRequest(Config.LOGGER_ID, tbot_id, new_rights, "Helper"))
         except BaseException:
             pass
         await tbot.send_file(
