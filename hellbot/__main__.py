@@ -154,7 +154,7 @@ async def hell_is_on():
             manage_call=True,
         )
         try:
-            await bot(InviteToChannelRequest(channel=Config.LOGGER_ID, users=tbot_id.username))
+            await bot(InviteToChannelRequest(channel=Config.LOGGER_ID, users=[tbot_id.username]))
             await bot(EditAdminRequest(Config.LOGGER_ID, tbot_id.username, new_rights, "Helper"))
         except Exception as e:
             LOGS.info(str(e))
