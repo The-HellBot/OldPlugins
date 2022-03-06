@@ -115,7 +115,7 @@ async def kang(event):
         cmd = "/newpack"
         file = io.BytesIO()
 
-        if not is_anim:
+        if not is_anim and not is_vid:
             image = await resize_photo(photo)
             file.name = "sticker.png"
             image.save(file, "PNG")
