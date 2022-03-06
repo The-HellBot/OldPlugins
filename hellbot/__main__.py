@@ -143,7 +143,7 @@ async def hell_is_on():
                 addgvar("LOGGER_ID", grp_id)
                 Config.LOGGER_ID = grp_id
         Config.LOGGER_ID = int(gvarstat("LOGGER_ID"))
-        tbot_id = (await tbot.get_me()).id
+        tbot_id = await tbot.get_me()
         new_rights = ChatAdminRights(
             add_admins=True,
             invite_users=True,
@@ -154,8 +154,8 @@ async def hell_is_on():
             manage_call=True,
         )
         try:
-            await bot(InviteToChannelRequest(channel=Config.LOGGER_ID, users=(await tbot.get_me()).id))
-            await bot(EditAdminRequest(Config.LOGGER_ID, tbot_id, new_rights, "Helper"))
+            await bot(InviteToChannelRequest(channel=Config.LOGGER_ID, users=tbot_id.username)
+            await bot(EditAdminRequest(Config.LOGGER_ID, tbot_id.username, new_rights, "Helper"))
         except Exception as e:
             LOGS.info(str(e))
         await tbot.send_file(
