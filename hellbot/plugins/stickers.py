@@ -119,12 +119,11 @@ async def kang(event):
             image = await resize_photo(photo)
             file.name = "sticker.png"
             image.save(file, "PNG")
-        else:
+        elif is_anim:
             packname += "_anim"
             packnick += " (Animated)"
             cmd = "/newanimated"
-        
-        if is_vid:
+        elif is_vid:
             packname += "_vid"
             packnick += " (Video)"
             cmd = "/newvideo"
@@ -158,8 +157,7 @@ async def kang(event):
                         packname += "_anim"
                         packnick += " (Animated)"
                         cmd = "/newanimated"
-
-                    if is_vid:
+                    elif is_vid:
                         packname += "_vid"
                         packnick += " (Video)"
                         cmd = "/newvideo"
