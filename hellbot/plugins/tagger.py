@@ -10,7 +10,6 @@ if Config.TAG_LOGGER:
 if Config.TAG_LOGGER:
     @hell_handler(func=lambda e: (e.mentioned))
     async def all_messages_catcher(event):
-        await event.forward_to(tagger)
         ammoca_message = ""
         __, _, hell_men = await client_id(event)
         kraken = await event.client.get_entity(event.sender_id)
@@ -26,6 +25,7 @@ if Config.TAG_LOGGER:
             message_link = f"tg://openmessage?chat_id={where_.id}&message_id={event.id}"
         ammoca_message += f"👆 #TAG\n\n**• Tag By :** {krakenm} \n**• Tag For :** {hell_men} \n**• Chat :** [{where_m}]({message_link})"
         if tagger is not None:
+            await tbot.forward_messages(tagger, event.message)
             await tbot.send_message(
                 entity=tagger,
                 message=ammoca_message,
