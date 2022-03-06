@@ -172,7 +172,7 @@ async def VSticker(event, file):
         _height_, _width_ = (512, -1)
     else:
         _height_, _width_ = (-1, 512)
-    _video = await event.client.download_media(file, Config.TMP_DOWNLOAD_DIRECTORY)
+    _video = await event.client.download_media(file, dwlpath)
     await runcmd(f"ffmpeg -ss 00:00:00 -to 00:00:02.900 -i {_video} -vf scale={_width_}:{_height_} -c:v libvpx-vp9 -crf 30 -b:v 560k -maxrate 560k -bufsize 256k -an VideoSticker.webm")
     os.remove(_video)
     return "VideoSticker.webm"
