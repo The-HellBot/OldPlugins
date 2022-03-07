@@ -27,7 +27,7 @@ async def _(event):
         quality = 512
     rply = await event.get_reply_message()
     hell_ = await event.client.download_media(rply.media)
-    gifs = tgs_to_gif(hell, quality)
+    gifs = tgs_to_gif(hell_, quality)
     await event.client.send_file(event.chat_id, file=gifs, force_document=False)
     await hell.delete()
 
