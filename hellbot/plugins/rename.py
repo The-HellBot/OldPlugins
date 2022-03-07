@@ -10,7 +10,7 @@ from telethon.tl.types import DocumentAttributeVideo
 from hellbot.sql.gvar_sql import addgvar, delgvar, gvarstat
 from . import *
 
-thumb_image_path = Config.TMP_DOWNLOAD_DIRECTORY + "/thumb_image.jpg"
+thumb_image_path = Config.THUMB_IMG
 
 
 def get_video_thumb(file, output=None, width=90):
@@ -100,10 +100,7 @@ async def _(event):
             end_two = datetime.datetime.now()
             os.remove(downloaded_file_name)
             ms_two = (end_two - end).seconds
-            await hell.edit("Downloaded in {} seconds. Uploaded in {} seconds.".format(
-                    ms_one, ms_two
-                )
-            )
+            await hell.edit("Downloaded in {} seconds. Uploaded in {} seconds.".format(ms_one, ms_two))
         else:
             await eod(event, "File Not Found {}".format(input_str))
     else:
