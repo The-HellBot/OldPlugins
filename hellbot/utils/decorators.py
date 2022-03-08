@@ -6,7 +6,6 @@ import sys
 
 from pathlib import Path
 
-import telethon.utils
 from telethon import TelegramClient, events
 from telethon.errors import MessageIdInvalidError, MessageNotModifiedError
 
