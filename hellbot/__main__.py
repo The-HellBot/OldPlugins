@@ -3,11 +3,11 @@ import os
 import sys
 from pathlib import Path
 
-import telethon.utils
 from telethon import Button, TelegramClient
 from telethon.tl.functions.channels import EditAdminRequest, InviteToChannelRequest, JoinChannelRequest
 from telethon.tl.functions.messages import ImportChatInviteRequest
 from telethon.tl.types import ChatAdminRights
+from telethon.utils import get_peer_id
 
 from hellbot import LOGS, bot, tbot
 from hellbot.clients.session import Hell, H2, H3, H4, H5
@@ -25,7 +25,7 @@ async def h1(bot_token):
     try:
         await bot.start(bot_token)
         bot.me = await bot.get_me()
-        bot.uid = telethon.utils.get_peer_id(bot.me)
+        bot.uid = get_peer_id(bot.me)
     except Exception as e:
         LOGS.error(f"HELLBOT_SESSION - {str(e)}")
         sys.exit()
@@ -34,7 +34,7 @@ async def h1(bot_token):
 # Multi-Client helper
 async def hell_client(client):
     client.me = await client.get_me()
-    client.uid = telethon.utils.get_peer_id(client.me)
+    client.uid = get_peer_id(client.me)
 
 
 # Multi-Client Starter
@@ -136,7 +136,7 @@ LOGS.info(f"» Total Clients = {total} «")
 async def hell_is_on():
     try:
         x = await bot.get_me()
-        xid = telethon.utils.get_peer_id(x)
+        xid = get_peer_id(x)
         if Config.LOGGER_ID is None:
             if gvarstat("LOGGER_ID") is None:
                 grp_id = await logger_id(bot)
