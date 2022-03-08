@@ -1,5 +1,4 @@
-import telethon.utils
-
+from telethon.utils import get_peer_id
 from telethon.tl.functions.users import GetFullUserRequest
 
 from .session import Hell, H2, H3, H4, H5
@@ -55,7 +54,7 @@ async def client_id(event, botid=None):
         hell_mention = f"[{HELL_USER}](tg://user?id={ForGo10God})"
     else:
         client = await event.client.get_me()
-        uid = telethon.utils.get_peer_id(client)
+        uid = get_peer_id(client)
         ForGo10God = uid
         HELL_USER = client.first_name
         hell_mention = f"[{HELL_USER}](tg://user?id={ForGo10God})"
