@@ -48,7 +48,7 @@ async def kang(event):
     is_anim = False
     is_vid = False
     emoji = None
-    if message and message.file:
+    if message and message.media:
         if message.photo:
             hell = await eor(event, f"`{random.choice(KANGING_STR)}`")
             photo = io.BytesIO()
