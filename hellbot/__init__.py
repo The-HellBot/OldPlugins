@@ -45,9 +45,9 @@ if not Config.BOT_TOKEN:
     quit(1)
     
     
-if not Config.BOT_USERNAME:
-    LOGS.warning("Please fill var BOT USERNAME to continue.")
-    quit(1)
+# if not Config.BOT_USERNAME:
+#     LOGS.warning("Please fill var BOT USERNAME to continue.")
+#     quit(1)
     
 
 if not Config.DB_URI:    
