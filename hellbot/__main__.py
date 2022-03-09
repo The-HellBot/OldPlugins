@@ -17,7 +17,7 @@ HELL_PIC = "https://telegra.ph/file/cb0bd62632a3a2b6b2726.jpg"
 
 
 # Client Starter
-async def hells(session=None, client=None, session_name=None):
+async def hells(session=None, client=None, session_name="Main"):
     if session:
         LOGS.info(f"••• Starting Client [{session_name}] •••")
         try:
@@ -78,6 +78,6 @@ async def start_hellbot():
         sys.exit()
 
 
-bot.loop.create_task(start_hellbot())
+bot.loop.run_until_complete(start_hellbot())
 
 # hellbot
