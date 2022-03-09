@@ -60,7 +60,7 @@ async def start_msg(client, pic, version, total):
 
 <b><i>Version :</b></i> <code>{version}</code>
 <b><i>Clients :</b></i> <code>{total}</code>
-<b><i>Sudo :</b></i> <code>{sudo}</code>
+<b><i>Sudo :</b></i> <code>{is_sudo}</code>
 
 <b><i>»» <u><a href='https://t.me/Its_HellBot'>†hê Hêllẞø†</a></u> ««</i></b>
 """
