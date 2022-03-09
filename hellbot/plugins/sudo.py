@@ -87,14 +87,6 @@ async def get_user(event):
     target = replied_user.user.id
     return target
 
-# pass a string to convert it into integers
-async def make_int(str_input):
-    str_list = str_input.split(" ")
-    int_list = []
-    for x in str_list:
-        int_list.append(int(x))
-    return int_list
-
 
 CmdHelp("sudo").add_command(
   "sudo", None, "Check If Your Bot Has Sudo Enabled!!"
