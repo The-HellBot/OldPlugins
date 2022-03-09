@@ -19,7 +19,9 @@ from telethon.tl.types import ChannelParticipantAdmin, ChannelParticipantCreator
 
 from hellbot import *
 from hellbot.helpers.pasters import pasty
+from hellbot.helpers.convert import make_int
 from hellbot.config import Config
+from hellbot.sql.gvar_sql import gvarstat
 
 
 # either edit or reply that msg
@@ -114,5 +116,15 @@ async def logger_id(client):
     if not str(grp_id).startswith("-100"):
         grp_id = int("-100" + str(grp_id))
     return grp_id
+
+
+async def update_sudo():
+    Sudo = Config.SUDO_USERS
+    if gvarstat("SUDO_USERS"):
+        int_list = make_int(gvarstat("SUDO_USERS"))
+        for x in int_list:
+            Sudo.append(x)
+        return Sudo
+
 
 # hellbot
