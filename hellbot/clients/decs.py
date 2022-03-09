@@ -31,12 +31,8 @@ def hell_cmd(
     black_list_chats = list(Config.BL_CHAT)
     if len(black_list_chats) > 0:
         args["chats"] = black_list_chats
-    sudo_user = []
-    if gvarstat("SUDO_USERS"):
-        a = gvarstat("SUDO_USERS").split(" ")
-        for c in a:
-            a = int(c)
-            sudo_user.append(a)
+
+    sudo_user = Config.SUDO_USERS
 
     if pattern is not None:
         global hell_reg
