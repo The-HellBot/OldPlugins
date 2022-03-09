@@ -98,7 +98,6 @@ else:
             bot.tgbot = tbot
             LOGS.info("Checking Completed. Proceeding to next step...")
             LOGS.info("🔰 Starting HellBot 🔰")
-            await update_sudo()
             bot.loop.run_until_complete(h1(Config.BOT_USERNAME))
             failed_client = hells()
             global total
@@ -135,6 +134,7 @@ LOGS.info(f"» Total Clients = {total} «")
 
 # that's life...
 async def hell_is_on():
+    await update_sudo()
     try:
         x = await bot.get_me()
         xid = get_peer_id(x)
