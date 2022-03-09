@@ -35,11 +35,11 @@ async def logger_id(client):
 # Updates sudo cache on every restart
 async def update_sudo():
     Sudo = Config.SUDO_USERS
-    if gvarstat("SUDO_USERS"):
+    sudo = gvarstat("SUDO_USERS")
+    if sudo:
         int_list = await make_int(gvarstat("SUDO_USERS"))
         for x in int_list:
             Sudo.append(x)
-        return Sudo
 
 
 # Checks for logger group.
