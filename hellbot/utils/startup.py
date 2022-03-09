@@ -9,7 +9,7 @@ from hellbot.sql.gvar_sql import addgvar, gvarstat
 
 # Creates the logger group on first deploy and adds the helper bot
 async def logger_id(client):
-    desc = "A Bot Logger Group For Hellbot. DO NO LEAVE THIS GROUP!!"
+    desc = "A Bot Logger Group For Hellbot. DO NOT LEAVE THIS GROUP!!"
     new_rights = ChatAdminRights(
         add_admins=True,
         invite_users=True,
