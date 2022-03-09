@@ -2,6 +2,7 @@ from telethon import Button
 from telethon.tl import functions
 from telethon.tl.types import ChatAdminRights
 
+from hellbot import LOGS
 from hellbot.config import Config
 from hellbot.helpers.int_str import make_int
 from hellbot.sql.gvar_sql import addgvar, gvarstat
@@ -26,7 +27,7 @@ async def logger_id(client):
         await client(functions.channels.InviteToChannelRequest(channel=grp_id, users=[Config.BOT_USERNAME]))
         await client(functions.channels.EditAdminRequest(grp_id, Config.BOT_USERNAME, new_rights, "Helper"))
     except Exception as e:
-        return f"ERROR: {str(e)}"
+        LOGS.error(f"{str(e)}")
     if not str(grp_id).startswith("-100"):
         grp_id = int("-100" + str(grp_id))
     return grp_id
