@@ -8,9 +8,10 @@ from . import *
 
 @hell_cmd(pattern="sudo$")
 async def sudo(event):
-    if gvarstat("SUDO_USERS"):
-        sudousers = gvarstat("SUDO_USERS")
-        await eor(event, f"📍 **Sudo :**  `Enabled`\n\n📝 **Sudo users :**  `{sudousers}`")
+    if Config.SUDO_USERS:
+        if gvarstat("SUDO_USERS"):
+            sudousers = gvarstat("SUDO_USERS")
+            await eor(event, f"📍 **Sudo :**  `Enabled`\n\n📝 **Sudo users :**  `{sudousers}`")
     else:
         await eod(event, f"📍 **Sudo :**  `Disabled`")
 
@@ -18,50 +19,58 @@ async def sudo(event):
 @hell_cmd(pattern="addsudo(?:\s|$)([\s\S]*)")
 async def add(event):
     suu = event.text[9:]
+    suu = suu.split(" ")[0]
     if f"{hl}add " in event.text:
         return
     ok = await eor(event, "**🚀 Adding Sudo User...**")
     rply = await event.get_reply_message()
     if not suu and not rply:
-        return await ok.edit("Either reply to a user or give user ids to add them to your sudo users list.")
+        return await eod(ok, "Either reply to a user or give user id to add them to your sudo users list.")
     if suu:
         if not suu.isnumeric():
-            return await ok.edit("Give user id(s) only.")
+            return await eod(ok, "Give user id only.")
     user = await get_user(event) if rply else suu
     user = str(user)
     if gvarstat("SUDO_USERS"):
         exist = gvarstat("SUDO_USERS")
-        final = f"{exist} {user}"
+        int_list = await make_int(exist)
+        if int(user) in int_list:
+            return await eod(ok, "User is already in sudo list")
+        final = f"{str(exist)} {str(user)}"
     else:
         final = user
     addgvar("SUDO_USERS", final)
-    await ok.edit(f"**Successfully Added New Sudo User.** \n\n__Restart your bot to apply changes. Do__ `{hl}reload`")
+    await eod(ok, f"**Successfully Added New Sudo User.** \n\n__Reload your bot to apply changes. Do__ `{hl}reload`")
 
 
 @hell_cmd(pattern="rmsudo(?:\s|$)([\s\S]*)")
 async def _(event):
     suu = event.text[8:]
+    suu = suu.split(" ")[0]
     ok = await eor(event, "**🚫 Removing Sudo User...**")
     rply = await event.get_reply_message()
     if not suu and not rply:
-        return await ok.edit("Either reply to a user or give user ids to remove them from your sudo users list.")
+        return await eod(ok, "Either reply to a user or give user id to remove them from your sudo users list.")
     if suu:
         if not suu.isnumeric():
-            return await ok.edit("Give user id only.")
+            return await eod(ok, "Give user id only.")
     user = await get_user(event) if rply else suu
     user = str(user)
+    
     if gvarstat("SUDO_USERS"):
         x = gvarstat("SUDO_USERS")
-        y = user.split(" ")
-        for z in y:
-            if z in x:
-                x = x.replace(z, "")
-        final = x[1:]
-        delgvar("SUDO_USERS")
-        addgvar("SUDO_USERS", final)
-        await ok.edit(f"❌** Removed**  `{user}`  **from Sudo User.**\n\n__Restart your bot to apply changes. Do__ `{hl}reload`")
+        int_list = await make_int(x)
+        if int(user) in int_list:
+            int_list.remove(int(user))
+            str_list = [str(xyz) for xyz in int_list]
+            final = " ".join(str_list)
+            delgvar("SUDO_USERS")
+            addgvar("SUDO_USERS", final)
+            await eod(ok, f"❌** Removed**  `{str(user)}`  **from Sudo User.**\n\n__Reload your bot to apply changes. Do__ `{hl}reload`")
+        else:
+            return await eod(ok, "This user is not in your sudo users list.")
     else:
-        await ok.edit("**Sudo Is Disabled !!**")
+        await eod(ok, "**Sudo Is Disabled !!**")
 
 
 async def get_user(event):
@@ -77,6 +86,14 @@ async def get_user(event):
             )
     target = replied_user.user.id
     return target
+
+# pass a string to convert it into integers
+async def make_int(str_input):
+    str_list = str_input.split(" ")
+    int_list = []
+    for x in str_list:
+        int_list.append(int(x))
+    return int_list
 
 
 CmdHelp("sudo").add_command(
