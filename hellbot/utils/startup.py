@@ -25,7 +25,6 @@ async def logger_id(client):
         grp = await client(functions.messages.ExportChatInviteRequest(peer=grp_id))
         await client(functions.channels.InviteToChannelRequest(channel=grp_id, users=[Config.BOT_USERNAME]))
         await client(functions.channels.EditAdminRequest(grp_id, Config.BOT_USERNAME, new_rights, "Helper"))
-        await client(functions.channels.EditPhotoRequest(grp_id, await client.upload_file("./hellbot/resources/pics/hell_grp_logo.jpg")))
     except Exception as e:
         return f"ERROR: {str(e)}"
     if not str(grp_id).startswith("-100"):
@@ -50,7 +49,7 @@ async def logger_check(bot):
             grp_id = await logger_id(bot)
             addgvar("LOGGER_ID", grp_id)
             Config.LOGGER_ID = grp_id
-    Config.LOGGER_ID = int(gvarstat("LOGGER_ID"))
+        Config.LOGGER_ID = int(gvarstat("LOGGER_ID"))
 
 
 # Sends the startup message to logger group
