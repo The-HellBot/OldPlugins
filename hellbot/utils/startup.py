@@ -25,7 +25,7 @@ async def logger_id(client):
         grp = await client(functions.messages.ExportChatInviteRequest(peer=grp_id))
         await client(functions.channels.InviteToChannelRequest(channel=grp_id, users=[Config.BOT_USERNAME]))
         await client(functions.channels.EditAdminRequest(grp_id, Config.BOT_USERNAME, new_rights, "Helper"))
-        await client(functions.channels.EditPhotoRequest(grp_id, await client.upload_file("https://telegra.ph/file/cb0bd62632a3a2b6b2726.jpg")))
+        await client(functions.channels.EditPhotoRequest(grp_id, await client.upload_file("./hellbot/resources/pics/hell_grp_logo.jpg")))
     except Exception as e:
         return f"ERROR: {str(e)}"
     if not str(grp_id).startswith("-100"):
