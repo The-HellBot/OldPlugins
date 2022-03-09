@@ -71,7 +71,7 @@ async def start_hellbot():
         await plug_load("hellbot/plugins/*.py")
         LOGS.info("⚡ Your HellBot Is Now Working ⚡")
         LOGS.info("Head to @Its_HellBot for Updates. Also join chat group to get help regarding to HellBot.")
-        LOGS.info(f"» Total Clients = {total} «")
+        LOGS.info(f"» Total Clients = {str(total)} «")
         await hell_is_on(total)
     except Exception as e:
         LOGS.error(f"{str(e)}")
