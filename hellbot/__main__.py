@@ -4,230 +4,80 @@ import sys
 from pathlib import Path
 
 from telethon import Button, TelegramClient
-from telethon.tl.functions.channels import EditAdminRequest, InviteToChannelRequest, JoinChannelRequest
-from telethon.tl.functions.messages import ImportChatInviteRequest
-from telethon.tl.types import ChatAdminRights
 from telethon.utils import get_peer_id
 
 from hellbot import LOGS, bot, tbot
 from hellbot.clients.session import Hell, H2, H3, H4, H5
 from hellbot.config import Config
-from hellbot.sql.gvar_sql import gvarstat, addgvar
-from hellbot.utils import load_module, logger_id, update_sudo
+from hellbot.utils import join_it, load_module, logger_check, start_msg, update_sudo
 from hellbot.version import __hell__ as hellver
-hl = Config.HANDLER
 
+hl = Config.HANDLER
 HELL_PIC = "https://telegra.ph/file/cb0bd62632a3a2b6b2726.jpg"
 
 
-# let's get the bot ready
-async def h1(bot_token):
-    try:
-        await bot.start(bot_token)
-        bot.me = await bot.get_me()
-        bot.uid = get_peer_id(bot.me)
-    except Exception as e:
-        LOGS.error(f"HELLBOT_SESSION - {str(e)}")
-        sys.exit()
-
-
-# Multi-Client helper
-async def hell_client(client):
-    client.me = await client.get_me()
-    client.uid = get_peer_id(client.me)
-
-
-# Multi-Client Starter
-def hells():
-    failed = 0
-    if Config.SESSION_2:
-        LOGS.info("SESSION_2 detected! Starting 2nd Client.")
+# Client Starter
+async def hells(session=None, client=None, session_name):
+    if session:
+        LOGS.info(f"••• Starting Client [{session_name}] •••")
         try:
-            H2.start()
-            H2.loop.run_until_complete(hell_client(H2))
+            await client.start()
+            return 1
         except:
-            LOGS.info("SESSION_2 failed. Please Check Your String session.")
-            failed += 1
-
-    if Config.SESSION_3:
-        LOGS.info("SESSION_3 detected! Starting 3rd Client.")
-        try:
-            H3.start()
-            H3.loop.run_until_complete(hell_client(H3))
-        except:
-            LOGS.info("SESSION_3 failed. Please Check Your String session.")
-            failed += 1
-
-    if Config.SESSION_4:
-        LOGS.info("SESSION_4 detected! Starting 4th Client.")
-        try:
-            H4.start()
-            H4.loop.run_until_complete(hell_client(H4))
-        except:
-            LOGS.info("SESSION_4 failed. Please Check Your String session.")
-            failed += 1
-
-    if Config.SESSION_5:
-        LOGS.info("SESSION_5 detected! Starting 5th Client.")
-        try:
-            H5.start()
-            H5.loop.run_until_complete(hell_client(H5))
-        except:
-            LOGS.info("SESSION_5 failed. Please Check Your String session.")
-            failed += 1
-
-    if not Config.SESSION_2:
-        failed += 1
-    if not Config.SESSION_3:
-        failed += 1
-    if not Config.SESSION_4:
-        failed += 1
-    if not Config.SESSION_5:
-        failed += 1
-    return failed
+            LOGS.error(f"Error in {session_name}!! Check & try again!")
+            return 0
+    else:
+        return 0
 
 
-# hellbot starter...
-if len(sys.argv) not in (1, 3, 4):
-    bot.disconnect()
-else:
-    bot.tgbot = None
-    try:
-        if Config.BOT_USERNAME is not None:
-            LOGS.info("Checking Telegram Bot Username...")
-            bot.tgbot = tbot
-            LOGS.info("Checking Completed. Proceeding to next step...")
-            LOGS.info("🔰 Starting HellBot 🔰")
-            bot.loop.run_until_complete(h1(Config.BOT_USERNAME))
-            failed_client = hells()
-            global total
-            total = 5 - failed_client
-            LOGS.info("🔥 HellBot Startup Completed 🔥")
-            LOGS.info(f"» Total Clients = {total} «")
-        else:
-            bot.start()
-            failed_client = hells()
-            total = 5 - failed_client
-            LOGS.info(f"» Total Clients = {total} «")
-    except Exception as e:
-        LOGS.error(f"BOT_TOKEN - {str(e)}")
-        sys.exit()
+# Load all plugins
+async def plug_load(path):
+    files = glob.glob(path)
+    for name in files:
+        with open(name) as hell:
+            path1 = Path(hell.name)
+            shortname = path1.stem
+            load_module(shortname.replace(".py", ""))
 
 
-# imports plugins...
-path = "hellbot/plugins/*.py"
-files = glob.glob(path)
-for name in files:
-    with open(name) as f:
-        path1 = Path(f.name)
-        shortname = path1.stem
-        load_module(shortname.replace(".py", ""))
-
-
-# let the party begin...
-LOGS.info("Starting Bot Mode !")
-tbot.start()
-LOGS.info("⚡ Your HellBot Is Now Working ⚡")
-LOGS.info("Head to @Its_HellBot for Updates. Also join chat group to get help regarding to HellBot.")
-LOGS.info(f"» Total Clients = {total} «")
-
-
-# that's life...
-async def hell_is_on():
+# Final checks after startup
+async def hell_is_on(total):
     await update_sudo()
+    await logger_check(bot)
+    await start_msg(tbot, HELL_PIC, hellver, total)
+    await join_it(bot)
+    await join_it(H2)
+    await join_it(H3)
+    await join_it(H4)
+    await join_it(H5)
+
+
+# Hellbot starter...
+async def start_hellbot():
     try:
-        x = await bot.get_me()
-        xid = get_peer_id(x)
-        if Config.LOGGER_ID is None:
-            if gvarstat("LOGGER_ID") is None:
-                grp_id = await logger_id(bot)
-                addgvar("LOGGER_ID", grp_id)
-                Config.LOGGER_ID = grp_id
-        Config.LOGGER_ID = int(gvarstat("LOGGER_ID"))
         tbot_id = await tbot.get_me()
-        new_rights = ChatAdminRights(
-            add_admins=True,
-            invite_users=True,
-            change_info=True,
-            ban_users=True,
-            delete_messages=True,
-            pin_messages=True,
-            manage_call=True,
-        )
-        try:
-            await bot(InviteToChannelRequest(channel=Config.LOGGER_ID, users=[tbot_id.username]))
-            await bot(EditAdminRequest(Config.LOGGER_ID, tbot_id.username, new_rights, "Helper"))
-        except Exception as e:
-            LOGS.info(str(e))
-        await tbot.send_file(
-            Config.LOGGER_ID,
-            HELL_PIC,
-            caption=f"#START \n\n<b><i>Version :</b></i> <code>{hellver}</code> \n<b><i>Clients :</b></i> <code>{total}</code> \n\n<b><i>»» <u><a href='https://t.me/Its_HellBot'>†hê Hêllẞø†</a></u> ««</i></b>",
-            parse_mode="HTML",
-            buttons=[[Button.url("HellBot Network", "https://t.me/HellBot_Network")]],
-        )
+        Config.BOT_USERNAME = f"@{tbot_id.username}"
+        bot.tgbot = tbot
+        LOGS.info("••• Starting HellBot •••")
+        C1 = hells(Config.HELLBOT_SESSION, bot, "HELLBOT_SESSION")
+        C2 = hells(Config.SESSION_2, H2, "SESSION_2")
+        C3 = hells(Config.SESSION_3, H3, "SESSION_3")
+        C4 = hells(Config.SESSION_4, H4, "SESSION_4")
+        C5 = hells(Config.SESSION_5, H5, "SESSION_5")
+        await tbot.start()
+        total = C1 + C2 + C3 + C4 + C5
+        LOGS.info("••• HellBot Startup Completed •••")
+        LOGS.info("••• Starting to load Plugins •••")
+        await plug_load("hellbot/plugins/*.py")
+        LOGS.info("⚡ Your HellBot Is Now Working ⚡")
+        LOGS.info("Head to @Its_HellBot for Updates. Also join chat group to get help regarding to HellBot.")
+        LOGS.info(f"» Total Clients = {total} «")
+        await hell_is_on(total)
     except Exception as e:
-        LOGS.info(str(e))
-        
-    # Join HellBot Channel after deploying 🤐😅
-    try:
-        await bot(JoinChannelRequest("@Its_HellBot"))
-    except BaseException:
-        pass
-    try:
-        if H2:
-            await H2(JoinChannelRequest("@Its_HellBot"))
-    except BaseException:
-        pass
-    try:
-        if H3:
-            await H3(JoinChannelRequest("@Its_HellBot"))
-    except BaseException:
-        pass
-    try:
-        if H4:
-            await H4(JoinChannelRequest("@Its_HellBot"))
-    except BaseException:
-        pass
-    try:
-        if H5:
-            await H5(JoinChannelRequest("@Its_HellBot"))
-    except BaseException:
-        pass
-    # Why not come here and chat??
-    try:
-        await bot(ImportChatInviteRequest('bZxlmdNFp1NjMDNh'))
-    except BaseException:
-        pass
-    try:
-        if H2:
-            await H2(ImportChatInviteRequest('bZxlmdNFp1NjMDNh'))
-    except BaseException:
-        pass
-    try:
-        if H3:
-            await H3(ImportChatInviteRequest('bZxlmdNFp1NjMDNh'))
-    except BaseException:
-        pass
-    try:
-        if H4:
-            await H4(ImportChatInviteRequest('bZxlmdNFp1NjMDNh'))
-    except BaseException:
-        pass
-    try:
-        if H5:
-            await H5(ImportChatInviteRequest('bZxlmdNFp1NjMDNh'))
-    except BaseException:
-        pass
+        LOGS.error(f"{str(e)}")
+        sys.exit()
 
 
-
-bot.loop.create_task(hell_is_on())
-
-if len(sys.argv) not in (1, 3, 4):
-    bot.disconnect()
-else:
-    bot.tgbot = None
-    bot.run_until_disconnected()
+bot.loop.create_task(start_hellbot())
 
 # hellbot
