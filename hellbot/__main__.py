@@ -13,7 +13,7 @@ from hellbot import LOGS, bot, tbot
 from hellbot.clients.session import Hell, H2, H3, H4, H5
 from hellbot.config import Config
 from hellbot.sql.gvar_sql import gvarstat, addgvar
-from hellbot.utils import load_module, logger_id
+from hellbot.utils import load_module, logger_id, update_sudo
 from hellbot.version import __hell__ as hellver
 hl = Config.HANDLER
 
@@ -98,6 +98,7 @@ else:
             bot.tgbot = tbot
             LOGS.info("Checking Completed. Proceeding to next step...")
             LOGS.info("🔰 Starting HellBot 🔰")
+            await update_sudo()
             bot.loop.run_until_complete(h1(Config.BOT_USERNAME))
             failed_client = hells()
             global total
