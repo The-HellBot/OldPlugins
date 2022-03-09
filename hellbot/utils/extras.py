@@ -18,8 +18,7 @@ from telethon.tl.functions.channels import GetParticipantRequest
 from telethon.tl.types import ChannelParticipantAdmin, ChannelParticipantCreator
 
 from hellbot import *
-from hellbot.helpers.pasters import pasty
-from hellbot.helpers import make_int
+from hellbot.helpers import *
 from hellbot.config import Config
 from hellbot.sql.gvar_sql import gvarstat
 
