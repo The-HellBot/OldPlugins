@@ -121,7 +121,7 @@ async def logger_id(client):
 async def update_sudo():
     Sudo = Config.SUDO_USERS
     if gvarstat("SUDO_USERS"):
-        int_list = make_int(gvarstat("SUDO_USERS"))
+        int_list = await make_int(gvarstat("SUDO_USERS"))
         for x in int_list:
             Sudo.append(x)
         return Sudo
