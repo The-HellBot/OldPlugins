@@ -59,11 +59,11 @@ async def start_hellbot():
         Config.BOT_USERNAME = f"@{tbot_id.username}"
         bot.tgbot = tbot
         LOGS.info("••• Starting HellBot •••")
-        C1 = hells(Config.HELLBOT_SESSION, bot, "HELLBOT_SESSION")
-        C2 = hells(Config.SESSION_2, H2, "SESSION_2")
-        C3 = hells(Config.SESSION_3, H3, "SESSION_3")
-        C4 = hells(Config.SESSION_4, H4, "SESSION_4")
-        C5 = hells(Config.SESSION_5, H5, "SESSION_5")
+        C1 = await hells(Config.HELLBOT_SESSION, bot, "HELLBOT_SESSION")
+        C2 = await hells(Config.SESSION_2, H2, "SESSION_2")
+        C3 = await hells(Config.SESSION_3, H3, "SESSION_3")
+        C4 = await hells(Config.SESSION_4, H4, "SESSION_4")
+        C5 = await hells(Config.SESSION_5, H5, "SESSION_5")
         await tbot.start()
         total = C1 + C2 + C3 + C4 + C5
         LOGS.info("••• HellBot Startup Completed •••")
