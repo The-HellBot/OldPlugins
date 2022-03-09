@@ -8,7 +8,7 @@ async def make_int(str_input):
 
 
 # pass a integer list to convert it into string
-async def make_str(int_input)
+async def make_str(int_input):
     int_list = int_input
     str_list = []
     for x in int_list:
