@@ -63,7 +63,7 @@ async def start_msg(client, pic, version, total):
 <b><i>Sudo :</b></i> <code>{sudo}</code>
 
 <b><i>»» <u><a href='https://t.me/Its_HellBot'>†hê Hêllẞø†</a></u> ««</i></b>
-""""
+"""
     await client.send_file(
         Config.LOGGER_ID,
         pic,
