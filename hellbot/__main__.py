@@ -1,8 +1,8 @@
 import glob
 import os
 import sys
-from pathlib import Path
 
+from pathlib import Path
 from telethon import Button, TelegramClient
 from telethon.utils import get_peer_id
 
@@ -79,6 +79,7 @@ async def start_hellbot():
 
 
 bot.loop.run_until_complete(start_hellbot())
+
 if len(sys.argv) not in (1, 3, 4):
     bot.disconnect()
 else:
@@ -86,4 +87,6 @@ else:
         bot.run_until_disconnected()
     except ConnectionError:
         pass
+
+
 # hellbot
