@@ -21,13 +21,13 @@ class Development(Config):
   # Create a bot in @BotFather
   # And fill the following values with bot token and username.
   BOT_TOKEN = "Your value" #token
-  BOT_USERNAME = "Your Value" #username
 
   # Custom Command Handler. 
   HANDLER = "."
 
   # Custom Command Handler for sudo users.
   SUDO_HANDLER = "!"
+
 
 # end of required config
 # hellbot
