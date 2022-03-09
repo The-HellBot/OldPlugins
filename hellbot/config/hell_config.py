@@ -73,7 +73,7 @@ class Config(object):
     SESSION_4 = os.environ.get("SESSION_4", None)
     SESSION_5 = os.environ.get("SESSION_5", None)
     SUDO_HANDLER = os.environ.get("SUDO_HANDLER", ".")
-    SUDO_USERS = set(int(x) for x in os.environ.get("SUDO_USERS", "").split())
+    SUDO_USERS = []
     TAG_LOGGER = os.environ.get("TAG_LOGGER", None)
     if TAG_LOGGER: 
         TAG_LOGGER = int(TAG_LOGGER)
