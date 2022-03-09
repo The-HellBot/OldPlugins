@@ -28,11 +28,7 @@ async def get_user_id(ids):
         userid = (await bot.get_entity(ids)).id
     return userid
 
-sudos = Config.SUDO_USERS
-if sudos:
-    is_sudo = "True"
-else:
-    is_sudo = "False"
+is_sudo = "True" if Config.SUDO_USERS else "False"
 
 abus = Config.ABUSE
 if abus == "ON":
