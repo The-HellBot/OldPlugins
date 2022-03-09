@@ -104,27 +104,4 @@ async def delete_hell(event, text, time=None, parse_mode=None, link_preview=None
     return await hellevent.delete()
 
 
-async def logger_id(client):
-    desc = "A Bot Logger Group For Hellbot. DO NO LEAVE THIS GROUP!!"
-    try:
-        grp = await client(functions.channels.CreateChannelRequest(title="Hellbot Logger", about=desc, megagroup=True))
-        grp_id = grp.chats[0].id
-        grp = await client(functions.messages.ExportChatInviteRequest(peer=grp_id))
-        await client(functions.channels.InviteToChannelRequest(channel=grp_id, users=[Config.BOT_USERNAME]))
-    except Exception as e:
-        return f"ERROR: {str(e)}"
-    if not str(grp_id).startswith("-100"):
-        grp_id = int("-100" + str(grp_id))
-    return grp_id
-
-
-async def update_sudo():
-    Sudo = Config.SUDO_USERS
-    if gvarstat("SUDO_USERS"):
-        int_list = await make_int(gvarstat("SUDO_USERS"))
-        for x in int_list:
-            Sudo.append(x)
-        return Sudo
-
-
 # hellbot
