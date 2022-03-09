@@ -22,9 +22,9 @@ def progress(current, total):
 
 @hell_cmd(pattern="pt(?:\s|$)([\s\S]*)")
 async def _(event):
-    hell = await eor(event, "Hmm..")
     BASE_URL = "http://images.google.com"
     if event.reply_to_msg_id:
+        hell = await eor(event, "Hmm..")
         previous_message = await event.get_reply_message()
         previous_message_text = previous_message.message
         if previous_message.media:
@@ -63,7 +63,7 @@ async def _(event):
         img_size = img_size_div.find_all("div")
         OUTPUT_STR = """/protecc {prs_text}""".format(
             **locals())
-    await hell.edit(OUTPUT_STR, parse_mode="HTML", link_preview=False)
+        await hell.edit(OUTPUT_STR, parse_mode="HTML", link_preview=False)
 
 
 @hell_handler()
