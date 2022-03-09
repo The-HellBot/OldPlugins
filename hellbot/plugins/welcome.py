@@ -67,7 +67,8 @@ async def _(event):
         )
         update_welcome(event.chat_id, current_message.id)
 
-@hell_cmd(pattern="savewelcome(?: |$)(.*)")
+
+@hell_cmd(pattern="savewelcome(?:\s|$)([\s\S]*)")
 async def save_welcome(event):
     msg = await event.get_reply_message()
     ForGo10God, HELL_USER, hell_mention = await client_id(event)
@@ -96,6 +97,7 @@ async def save_welcome(event):
         return await eor(event, success.format("updated"))
     await eod(event, "Error while setting welcome in this group")
 
+
 @hell_cmd(pattern="cleanwelcome$")
 async def del_welcome(event):
     ForGo10God, HELL_USER, hell_mention = await client_id(event)
@@ -103,6 +105,7 @@ async def del_welcome(event):
         await eod(event, "Welcome Message deleted for this chat")
     else:
         await eod(event, "To delete a welcome note you need to save one first.")
+
 
 @hell_cmd(pattern="showwelcome$")
 async def getwelcome(event):
@@ -127,7 +130,7 @@ async def note(event):
 
 
 CmdHelp("welcome").add_command(
-  "savewelcome", "<reply>", "Sets the replied message as welcome note of that group"
+  "savewelcome", "<reply>/<text>", "Sets the replied message as welcome note of that group"
 ).add_command(
   "cleanwelcome", None, "Cleans the current welcome message of that chat."
 ).add_command(
