@@ -8,7 +8,7 @@ import urllib.request
 
 from os import remove
 from PIL import Image, ImageDraw, ImageFont
-from telethon import events
+from telethon import Button, events
 from telethon.errors import PackShortNameOccupiedError
 from telethon.errors.rpcerrorlist import YouBlockedUserError
 from telethon.tl import functions, types
@@ -259,10 +259,11 @@ async def kang(event):
                 await conv.get_response()
                 await event.client.send_read_acknowledge(conv.chat_id)
 
-        await hell.edit(
-            f"⚡** This Sticker iz [kanged](t.me/addstickers/{packname}) successfully to your pack **⚡",
-            parse_mode="md",
-        )
+        await eod(hell, f"⚡** This Sticker iz [kanged](t.me/addstickers/{packname}) successfully to your pack **⚡")
+        await tbot.send_message(Config.LOGGER_ID,
+                                "#KANG #STICKER \n\n**A sticker has been kanged into your pack. Click below to see the pack!**",
+                                button=[[Button.url("View Pack", f"t.me/addstickers/{packname}")]],
+                            )
 
 
 async def resize_photo(photo):
@@ -351,13 +352,13 @@ async def _(event):
             )
             await conv.send_message("/delsticker")
             await conv.get_response()
-            await asyncio.sleep(2)
+            await asyncio.sleep(1)
             await event.client.forward_messages(chat, reply_message)
-            response = await response
+            response = await conv.get_response()
         except YouBlockedUserError:
             await hell.edit("Please unblock @Stickers and try again")
             return
-        await hell.edit(response.message)
+        await hell.edit(response.text)
 
 
 @hell_cmd(pattern="editst(?:\s|$)([\s\S]*)")
@@ -384,11 +385,11 @@ async def _(event):
                 await conv.get_response()
                 await asyncio.sleep(2)
                 await conv.send_message(f"{hel_}")
-                response = await response
+                response = await conv.get_response()
             except YouBlockedUserError:
                 await hell.edit("Please unblock @Stickers and try again")
                 return
-            await hell.edit(f"{response.message}")
+            await hell.edit(f"{response.text}")
 
 
 @hell_cmd(pattern="pkang(?:\s|$)([\s\S]*)")
@@ -455,7 +456,11 @@ async def _(event):
                 )
             )
             addgvar("PKANG", str(pack))
-        await hel_.edit(f"⚡** This Sticker Pack iz [kanged](t.me/addstickers/{create_st.set.short_name}) successfully **⚡")
+        await eod(hel_, f"⚡** This Sticker Pack iz [kanged](t.me/addstickers/{create_st.set.short_name}) successfully **⚡")
+        await tbot.send_message(Config.LOGGER_ID,
+                                "#PKANG #STICKER \n\n**A sticker pack has been kanged.s Click below to see the pack!**",
+                                button=[[Button.url("View Pack", f"t.me/addstickers/{create_st.set.short_name}")]],
+                            )
     else:
         await hel_.edit("Unsupported File. Please Reply to a sticker only.")
 
