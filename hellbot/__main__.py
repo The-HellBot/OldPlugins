@@ -17,7 +17,7 @@ HELL_PIC = "https://telegra.ph/file/cb0bd62632a3a2b6b2726.jpg"
 
 
 # Client Starter
-async def hells(session=None, client=None, session_name):
+async def hells(session=None, client=None, session_name=None):
     if session:
         LOGS.info(f"••• Starting Client [{session_name}] •••")
         try:
