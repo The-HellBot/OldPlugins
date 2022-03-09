@@ -33,7 +33,7 @@ BANNED_RIGHTS = ChatBannedRights(
     embed_links=True,
 )
 
-@hell_cmd(pattern="kickall$")
+@hell_cmd(pattern="kickall$", allow_sudo=False)
 async def _(event):
     result = await event.client(
         functions.channels.GetParticipantRequest(event.chat_id, event.client.uid)
@@ -68,7 +68,7 @@ async def _(event):
     )
 
 
-@hell_cmd(pattern="banall$")
+@hell_cmd(pattern="banall$", allow_sudo=False)
 async def _(event):
     result = await event.client(
         functions.channels.GetParticipantRequest(event.chat_id, event.client.uid)
