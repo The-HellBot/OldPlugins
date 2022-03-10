@@ -65,5 +65,5 @@ async def font(event):
             if normal in normie:
                 new_ = to_[normie.index(normal)]
                 new = prev.replace(normal, to_)
-    await hell.edit(new)
+        await hell.edit(new)
     
