@@ -8,10 +8,12 @@ from asyncio import sleep
 from bs4 import BeautifulSoup
 
 from hellbot.sql.waifu_sql import is_harem, add_grp, rm_grp, get_all_grp
+from hellbot.sql.husb_sql import is_husb, add_hus_grp, rm_hus_grp, get_all_hus_grp
 from . import *
 
-qt = "waifu appeared!"
+qt = "Add them to your harem by sending"
 qt_bots = ["792028928", "1733263647"]
+hus_bot = ["1964681186"]
 
 def progress(current, total):
     logger.info(
@@ -109,8 +111,51 @@ async def _(event):
                 os.remove(dl)
             except:
                 pass
-        else:
-            pass
+
+
+@hell_handler()
+async def _(event):
+    if not event.media:
+        return
+    if not qt in event.text:
+        return
+    if str(event.sender_id) not in hus_bot:
+        return
+    all_grp = get_all_hus_grp()
+    if len(all_grp) == 0:
+        return
+    for grps in all_grp:
+        if int(grps.chat_id) == event.chat_id:
+            try:
+                dl = await event.client.download_media(event.media, "resources/")
+                file = {"encoded_image": (dl, open(dl, "rb"))}
+                grs = requests.post(
+                    "https://www.google.com/searchbyimage/upload", files=file, allow_redirects=False
+                )
+                loc = grs.headers.get("Location")
+                response = requests.get(
+                    loc,
+                    headers={
+                        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:58.0) Gecko/20100101 Firefox/58.0"
+                    },
+                )
+                qtt = BeautifulSoup(response.text, "html.parser")
+                div = qtt.find_all("div", {"class": "r5a77d"})[0]
+                alls = div.find("a")
+                text = alls.text
+                try:
+                    if "cg" in text:
+                        return
+                    if "fictional character" in text:
+                        return
+                except:
+                    pass
+                hell = await event.client.send_message(event.chat_id, f"/protecc {text}")
+                await sleep(2)
+                await hell.delete()
+                os.remove(dl)
+            except:
+                pass
 
 
 @hell_cmd(pattern="adwaifu(?:\s|$)([\s\S]*)")
@@ -125,6 +170,18 @@ async def _(event):
     await eod(event, f"**Added Chat** {event.chat.title} **With Id** `{event.chat_id}` **To Autowaifu Database.**")
 
 
+@hell_cmd(pattern="adhusb(?:\s|$)([\s\S]*)")
+async def _(event):
+    if not event.is_group:
+        await eod(event, "Autohusbando works in Groups Only !!")
+        return
+    if is_husb(str(event.chat_id)):
+        await eod(event, "This Chat is Already In AutoHusbando Database !!")
+        return
+    add_hus_grp(str(event.chat_id))
+    await eod(event, f"**Added Chat** {event.chat.title} **With Id** `{event.chat_id}` **To AutoHusbando Database.**")
+
+
 @hell_cmd(pattern="rmwaifu(?:\s|$)([\s\S]*)")
 async def _(event):
     if not event.is_group:
@@ -135,6 +192,18 @@ async def _(event):
         return
     rm_grp(str(event.chat_id))
     await eod(event, f"**Removed Chat** {event.chat.title} **With Id** `{event.chat_id}` **From AutoWaifu Database.**")
+
+
+@hell_cmd(pattern="rmhusb(?:\s|$)([\s\S]*)")
+async def _(event):
+    if not event.is_group:
+        await eod(event, "Autohusbando works in groups only !!")
+        return
+    if not is_husb(str(event.chat_id)):
+        await eod(event, "AutoHusbando was already disabled here.")
+        return
+    rm_hus_grp(str(event.chat_id))
+    await eod(event, f"**Removed Chat** {event.chat.title} **With Id** `{event.chat_id}` **From AutoHusbando Database.**")
 
 
 @hell_cmd(pattern="aw$")
@@ -149,16 +218,34 @@ async def _(event):
     await hell.edit(x)
 
 
+@hell_cmd(pattern="ah$")
+async def _(event):
+    hell = await eor(event, "Fetching Autohusbando chats...")
+    all_grp = get_all_hus_grp()
+    x = "**Autohusbando enabled chats :** \n\n"
+    for i in all_grp:
+        ch = i.chat_id
+        cht = int(ch)
+        x += f"• `{cht}`\n"
+    await hell.edit(x)
+
+
 CmdHelp("protecc").add_command(
   "pt", "<reply>", "Auto Protecc the waifu."
 ).add_command(
-  "adwaifu", None, "Adds the current group to AutoWaifu Database. Need to setup WAIFU_CATCHER var with value TRUE."
+  "adwaifu", None, "Adds the current group to AutoWaifu Database."
 ).add_command(
   "rmwaifu", None, "Removes the group from AutoWaifu Database."
 ).add_command(
   "aw", None, "Gives the list of all chats with Autowaifu enabled."
+).add_command(
+  "adhusb", None, "Adds the current group to AutoHusbando Database."
+).add_command(
+  "rmhusb", None, "Removes the group from AutoHusbando Database."
+).add_command(
+  "ah", None, "Gives the list of all chats with AutoHusbando enabled."
 ).add_info(
-  "Waifu Protecc."
+  "Waifu & Husbando Protecc."
 ).add_warning(
   "✅ Harmless Module."
 ).add()
