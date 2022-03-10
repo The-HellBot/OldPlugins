@@ -155,9 +155,16 @@ async def kang(event):
                         if hellbot
                         else f"{un}'s Hêllẞø† Vol.{pack}"
                     )
-                    cmd = "/newpack"
+                    if not is_anim and not is_vid:
+                        packname = f"Hellbot_{un_}_{pack}"
+                        packnick = (
+                        f"{hellbot} Vol.{pack}"
+                        if hellbot
+                        else f"{un}'s Hêllẞø† Vol.{pack}"
+                        )
+                        cmd = "/newpack"
 
-                    if is_anim:
+                    elif is_anim:
                         packname += "_anim"
                         packnick += " (Animated)"
                         cmd = "/newanimated"
