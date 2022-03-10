@@ -13,6 +13,7 @@ from hellbot.utils import join_it, load_module, logger_check, start_msg, update_
 from hellbot.version import __hell__ as hellver
 
 hl = Config.HANDLER
+
 HELL_PIC = "https://telegra.ph/file/cb0bd62632a3a2b6b2726.jpg"
 
 

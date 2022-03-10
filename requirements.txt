@@ -8,6 +8,7 @@ DateTime
 emoji
 fonttools
 geopy
+git+https://github.com/HellBoy-OP/yt-fork
 gitpython
 glitch_this
 google-api-python-client
