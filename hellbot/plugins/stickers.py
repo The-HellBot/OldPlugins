@@ -254,40 +254,13 @@ async def kang(event):
                     await conv.get_response()
                     await event.client.send_read_acknowledge(conv.chat_id)
                     await conv.send_file("VideoSticker.webm")
+                    remove("VideoSticker.webm")
                     xy = await conv.get_response()
                     if "50" in xy.text:
-                        await hell.edit(f"`Switching to Pack {str(pack)} due to insufficient space`")
-                        await conv.send_message(cmd)
-                        await conv.get_response()
-                        await event.client.send_read_acknowledge(conv.chat_id)
-                        await conv.send_message(packnick)
-                        await conv.get_response()
-                        await event.client.send_read_acknowledge(conv.chat_id)
-                        await conv.send_file("VideoSticker.webm")
-                        await conv.get_response()
-                        await conv.send_message(emoji)
-                        await event.client.send_read_acknowledge(conv.chat_id)
-                        await conv.get_response()
-                        await conv.send_message("/publish")
-                        await conv.get_response()
-                        await event.client.send_read_acknowledge(conv.chat_id)
-                        await conv.send_message("/skip")
-                        await conv.get_response()
-                        await event.client.send_read_acknowledge(conv.chat_id)
-                        await conv.send_message(packname)
-                        x = await conv.get_response()
-                        while x.text == "Sorry, this short name is already taken.":
-                            pack += 1
-                            packname = f"Hellbot_{un_}_{pack}_vid"
-                            await conv.send_message(packname)
-                            await conv.get_response()
-                            await event.client.send_read_acknowledge(conv.chat_id)
-                            remove("VideoSticker.webm")
-                            await hell.edit(f"**Sticker added in a Different Pack !**\nThis Pack is Newly created!\nYour pack can be found [here](t.me/addstickers/{packname})")
-                            return
+                        pack += 1
+                        return await eod(hell, f"This Video sticker pack is already full. Use `{hl}kang {pack}` to add new stickers.")
                     elif "Sorry, the file type is invalid." in xy.text:
                         return await eod(hell, "`Failed to add sticker, use` @Stickers `bot to add the sticker manually.`")
-                    remove("VideoSticker.webm")
                     await conv.send_message(emoji)
                     await event.client.send_read_acknowledge(conv.chat_id)
                     await conv.get_response()
