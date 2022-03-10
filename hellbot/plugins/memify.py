@@ -27,7 +27,7 @@ async def _(event):
         return
     hel_ = await eor(event, "**Memifying 🌚🌝**")
     hell = await _reply.download_media()
-    if hell.endswith((".tgs")):
+    if hell and hell.endswith((".tgs")):
         await hel_.edit("OwO animated sticker...")
         cmd = ["lottie_convert.py", hell, "pic.png"]
         file = "pic.png"
@@ -37,15 +37,17 @@ async def _(event):
         stdout, stderr = await process.communicate()
         stderr.decode().strip()
         stdout.decode().strip()
-    elif hell.endswith((".webp", ".png")):
+    elif hell and hell.endswith((".webp", ".png")):
         pics = Image.open(hell)
         pics.save("pic.png", format="PNG", optimize=True)
         file = "pic.png"
-    else:
+    elif hell:
         img = cv2.VideoCapture(hell)
         tal, semx = img.read()
         cv2.imwrite("pic.png", semx)
         file = "pic.png"
+    else:
+        return await eod(hel_, "Unable to memify this!")
     output = await draw_meme_text(file, msg)
     await event.client.send_file(
         event.chat_id, output, force_document=False, reply_to=event.reply_to_msg_id
@@ -68,7 +70,7 @@ async def _(event):
         return
     hel_ = await eor(event, "**Memifying 🌚🌝**")
     hell = await _reply.download_media()
-    if hell.endswith((".tgs")):
+    if hell and hell.endswith((".tgs")):
         await hel_.edit("OwO animated sticker...")
         cmd = ["lottie_convert.py", hell, "pic.png"]
         file = "pic.png"
@@ -78,15 +80,17 @@ async def _(event):
         stdout, stderr = await process.communicate()
         stderr.decode().strip()
         stdout.decode().strip()
-    elif hell.endswith((".webp", ".png")):
+    elif hell and hell.endswith((".webp", ".png")):
         pic = Image.open(hell)
         pic.save("pic.png", format="PNG", optimize=True)
         file = "pic.png"
-    else:
+    elif hell:
         img = cv2.VideoCapture(hell)
         tal, semx = img.read()
         cv2.imwrite("pic.png", semx)
         file = "pic.png"
+    else:
+        return await eod(hel_, "Unable to memify this!")
     output = await draw_meme(file, msg)
     await event.client.send_file(
         event.chat_id, output, force_document=False, reply_to=event.reply_to_msg_id
