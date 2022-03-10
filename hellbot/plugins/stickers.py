@@ -108,7 +108,9 @@ async def kang(event):
         elif len(splat) == 2:
             if splat[1].isnumeric():
                 pack = int(splat[1])
+                emoji = "😎"
             else:
+                pack = 1
                 emoji = splat[1]
 
         packname = f"Hellbot_{un_}_{pack}"
