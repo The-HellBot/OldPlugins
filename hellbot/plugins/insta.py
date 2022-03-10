@@ -23,21 +23,20 @@ async def _(event):
             first = await conv.send_message("/start")
             response = await conv.get_response()
             second = await conv.send_message(input_str)
-            last = await conv.get_response()
+            third = await conv.get_response()
+            fourth = await conv.get_response()
+            fifth = await conv.get_response()
             output_op = await conv.get_response()
             await event.client.send_read_acknowledge(conv.chat_id)
         except YouBlockedUserError:
-            await kraken.edit("User Blocked!! Please Unblock @instasavegrambot and try again...")
+            await kraken.edit("User Blocked!! Please Unblock @InstagramSaverRobot and try again...")
             return
-        await kraken.delete()
-        final = await event.client.send_file(
-            event.chat_id,
-            output_op,
-        )
-        await final.edit(
-            f"📥 InstaGram Video Downloaded By :- {hell_mention}")
+        if output_op.text.startswith("⬇️"):
+            await kraken.delete()
+            final = await event.client.send_file(event.chat_id, output_op)
+            await final.edit(f"📥 InstaGram Video Downloaded By :- {hell_mention}")
     await event.client.delete_messages(
-        conv.chat_id, [first.id, response.id, second.id, output_op.id]
+        conv.chat_id, [first.id, response.id, second.id, third.id, fourth.id, fifth.id, output_op.id]
     )
 
 
