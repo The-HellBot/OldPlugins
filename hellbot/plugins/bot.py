@@ -1,4 +1,5 @@
 import asyncio
+import datetime
 import os
 import re
 import time
@@ -8,6 +9,27 @@ from telethon.errors.rpcerrorlist import YouBlockedUserError
 from telethon.tl.functions.channels import LeaveChannelRequest
 
 from . import *
+
+ping_txt = """
+<b><i>╰•★★  ℘ơŋɠ ★★•╯</b></i>
+
+    ⚘  <i>ʂ℘ɛɛɖ :</i> <code>{}</code>
+    ⚘  <i>ų℘ɬıɱɛ :</i> <code>{}</code>
+    ⚘  <i>ơῳŋɛཞ :</i> {}
+"""
+
+
+@hell_cmd(pattern="ping$")
+async def pong(hell):
+    start = datetime.datetime.now()
+    event = await eor(hell, "`·.·★ ℘ıŋɠ ★·.·´")
+    cid = await client_id(event)
+    ForGo10God, HELL_USER = cid[0], cid[1]
+    hell_mention = f"<a href='tg://user?id={ForGo10God}'>{HELL_USER}</a>"
+    uptime = await get_time((time.time() - StartTime))
+    end = datetime.datetime.now()
+    ms = (end - start).microseconds / 1000
+    await event.edit(ping_txt.format(ms, uptime, hell_mention), parse_mode="HTML")
 
 
 @hell_cmd(pattern="limits$")
@@ -113,6 +135,8 @@ CmdHelp("bot").add_command(
     "vars", None, "Gets the list of all available sql variables."
 ).add_command(
     "kickme", None, "Kicks Yourself from the group."
+).add_command(
+    "ping", None, "Checks the ping speed of your Hêllẞø†"
 ).add_command(
     "schd", "<secs> - <message>", "Sends your message in given secs", "schd 10 - Hello"
 ).add_command(
