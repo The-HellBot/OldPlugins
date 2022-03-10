@@ -2,7 +2,7 @@ from sqlalchemy import Boolean, Column, Integer, String, UnicodeText
 from . import BASE, SESSION
 
 
-class Harem(BASE):
+class Husbando(BASE):
     __tablename__ = "husbando"
     chat_id = Column(String(14), primary_key=True)
     
