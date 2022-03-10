@@ -39,7 +39,7 @@ KANGING_STR = [
 async def kang(event):
     user = await event.client.get_me()
     ForGo10God, HELL_USER, hell_mention = await client_id(event)
-    un = f"@{user.username}" if user.username else user.first_name
+    un = f"@{user.username}" if user.username else HELL_USER
     un_ = user.username if user.username else ForGo10God
     message = await event.get_reply_message()
     hellbot = gvarstat("STICKER_PACKNAME")
@@ -254,8 +254,8 @@ async def kang(event):
                     await conv.get_response()
                     await event.client.send_read_acknowledge(conv.chat_id)
                     await conv.send_file("VideoSticker.webm")
-                    x = await conv.get_response()
-                    if "50" in x.text:
+                    xy = await conv.get_response()
+                    if "50" in xy.text:
                         await hell.edit(f"`Switching to Pack {str(pack)} due to insufficient space`")
                         await conv.send_message(cmd)
                         await conv.get_response()
@@ -286,8 +286,7 @@ async def kang(event):
                             await hell.edit(f"**Sticker added in a Different Pack !**\nThis Pack is Newly created!\nYour pack can be found [here](t.me/addstickers/{packname})")
                             return
                     remove("VideoSticker.webm")
-                    rsp = await conv.get_response()
-                    if "Sorry, the file type is invalid." in rsp.text:
+                    elif "Sorry, the file type is invalid." in xy.text:
                         return await eod(hell, "`Failed to add sticker, use` @Stickers `bot to add the sticker manually.`")
                     await conv.send_message(emoji)
                     await event.client.send_read_acknowledge(conv.chat_id)
@@ -388,7 +387,7 @@ async def kang(event):
 
         await tbot.send_message(
             Config.LOGGER_ID,
-            "#KANG #STICKER \n\n**A sticker has been kanged into your pack. Click below to see the pack!**",
+            f"#KANG #STICKER \n\n**A sticker has been kanged into the pack of {hell_mention}. Click below to see the pack!**",
             buttons=[[Button.url("View Pack", f"t.me/addstickers/{packname}")]],
         )
         await eod(hell, f"⚡** This Sticker iz [kanged](t.me/addstickers/{packname}) successfully to your pack **⚡")
@@ -584,7 +583,7 @@ async def _(event):
             )
             addgvar("PKANG", str(pack))
         await tbot.send_message(Config.LOGGER_ID,
-                                "#PKANG #STICKER \n\n**A sticker pack has been kanged.s Click below to see the pack!**",
+                                f"#PKANG #STICKER \n\n**A sticker pack has been kanged by {hell_mention}. Click below to see the pack!**",
                                 buttons=[[Button.url("View Pack", f"t.me/addstickers/{create_st.set.short_name}")]],
                             )
         await eod(hel_, f"⚡** This Sticker Pack iz [kanged](t.me/addstickers/{create_st.set.short_name}) successfully **⚡")
