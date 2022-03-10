@@ -285,9 +285,9 @@ async def kang(event):
                             remove("VideoSticker.webm")
                             await hell.edit(f"**Sticker added in a Different Pack !**\nThis Pack is Newly created!\nYour pack can be found [here](t.me/addstickers/{packname})")
                             return
-                    remove("VideoSticker.webm")
                     elif "Sorry, the file type is invalid." in xy.text:
                         return await eod(hell, "`Failed to add sticker, use` @Stickers `bot to add the sticker manually.`")
+                    remove("VideoSticker.webm")
                     await conv.send_message(emoji)
                     await event.client.send_read_acknowledge(conv.chat_id)
                     await conv.get_response()
