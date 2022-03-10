@@ -260,11 +260,11 @@ async def kang(event):
                 await conv.get_response()
                 await event.client.send_read_acknowledge(conv.chat_id)
 
-        await eod(hell, f"⚡** This Sticker iz [kanged](t.me/addstickers/{packname}) successfully to your pack **⚡")
         await tbot.send_message(Config.LOGGER_ID,
                                 "#KANG #STICKER \n\n**A sticker has been kanged into your pack. Click below to see the pack!**",
                                 buttons=[[Button.url("View Pack", f"t.me/addstickers/{packname}")]],
                             )
+        await eod(hell, f"⚡** This Sticker iz [kanged](t.me/addstickers/{packname}) successfully to your pack **⚡")
 
 
 async def resize_photo(photo):
@@ -457,11 +457,11 @@ async def _(event):
                 )
             )
             addgvar("PKANG", str(pack))
-        await eod(hel_, f"⚡** This Sticker Pack iz [kanged](t.me/addstickers/{create_st.set.short_name}) successfully **⚡")
         await tbot.send_message(Config.LOGGER_ID,
                                 "#PKANG #STICKER \n\n**A sticker pack has been kanged.s Click below to see the pack!**",
                                 buttons=[[Button.url("View Pack", f"t.me/addstickers/{create_st.set.short_name}")]],
                             )
+        await eod(hel_, f"⚡** This Sticker Pack iz [kanged](t.me/addstickers/{create_st.set.short_name}) successfully **⚡")
     else:
         await hel_.edit("Unsupported File. Please Reply to a sticker only.")
 
