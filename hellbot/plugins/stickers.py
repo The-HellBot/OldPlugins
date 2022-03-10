@@ -76,11 +76,12 @@ async def kang(event):
             photo = 1
         elif "video" in message.media.document.mime_type.split("/"):
             if message.media.document.mime_type == "video/webm":
-                hell = await eor(event, f"`{random.choice(KANGING_STR)}`")
-                VS = await args.client.download_media(message.media.document, "VideoSticker.webm")
                 attributes = message.media.document.attributes
                 for attribute in attributes:
                     if isinstance(attribute, DocumentAttributeSticker):
+                        hell = await eor(event, f"Oow! A video sticker... **[ ENCODING ]**")
+                        VS = await VSticker(event, message)
+                        await eor(hell, f"`{random.choice(KANGING_STR)}`")
                         emoji = attribute.alt
                         emojibypass = True
             elif message.media.document.mime_type == "video/mp4":
