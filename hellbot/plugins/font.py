@@ -1,4 +1,4 @@
-from ..random_strings import font_str as font
+from ..random_strings.font_str import *
 from . import *
 
 
@@ -10,9 +10,9 @@ async def font(event):
     if not rply:
         return await eod(hell, "Nothing given to change!")
     old = rply.text
-    normie = font.normal.split(" ")
+    normie = normal.split(" ")
     if str(flag) == "01":
-        to_ = font.one.split(" ")
+        to_ = one.split(" ")
         prev = "  ".join(old).lower()
         for normal in prev:
             if normal in normie:
