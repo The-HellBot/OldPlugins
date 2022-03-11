@@ -17,7 +17,7 @@ TYPE_DOCUMENT = 2
 global last_triggered_filters
 last_triggered_filters = {}
 
-@hell_handler()
+@hell_handler() # will do this later
 async def on_snip(event):
     global last_triggered_filters
     name = event.raw_text
@@ -59,8 +59,10 @@ async def on_snip(event):
 
 @hell_cmd(pattern="filter(?:\s|$)([\s\S]*)")
 async def on_snip_save(event):
+    ForGo10God, HELL_USER, hell_mention = await client_id(event)
     name = event.pattern_match.group(1)
     msg = await event.get_reply_message()
+    _id = f"{event.chat_id}_{ForGo10God}"
     if msg:
         snip = {'type': TYPE_TEXT, 'text': msg.message or ''}
         if msg.media:
@@ -75,15 +77,17 @@ async def on_snip_save(event):
                 snip['id'] = media.id
                 snip['hash'] = media.access_hash
                 snip['fr'] = media.file_reference
-        add_filter(event.chat_id, name, snip['text'], snip['type'], snip.get('id'), snip.get('hash'), snip.get('fr'))
-        await eod(event, f"**Filter** `{name}` **saved successfully. Get it with** `{name}`")
+        add_filter(_id, name, snip['text'], snip['type'], snip.get('id'), snip.get('hash'), snip.get('fr'))
+        await eod(event, f"**Filter Saved!** \n\n__• Client:__ {hell_mention} \n__• Keyword:__ {name}")
     else:
         await eod(event, f"Reply to a message with `{hl}filter keyword` to save the filter")
 
 
 @hell_cmd(pattern="filters$")
 async def on_snip_list(event):
-    all_snips = get_all_filters(event.chat_id)
+    ForGo10God, HELL_USER, hell_mention = await client_id(event)
+    _id = f"{event.chat_id}_{ForGo10God}"
+    all_snips = get_all_filters(_id)
     OUT_STR = "**Available Filters in the Current Chat :** \n"
     if len(all_snips) > 0:
         for a_snip in all_snips:
@@ -109,17 +113,22 @@ async def on_snip_list(event):
 @hell_cmd(pattern="stop(?:\s|$)([\s\S]*)")
 async def on_snip_delete(event):
     name = event.pattern_match.group(1)
+    ForGo10God, HELL_USER, hell_mention = await client_id(event)
+    _id = f"{event.chat_id}_{ForGo10God}"
     try:
-        remove_filter(event.chat_id, name)
-        await eod(event, f"Filter `{name}` deleted successfully")
+        remove_filter(_id, name)
+        await eod(event, f"**Filter Deleted!** \n\n__• Client:__ {hell_mention} \n__• Keyword:__ {namd}")
     except Exception as e:
         await eod(event, f"**ERROR !!** \n\n`{e}`")
 
 
 @hell_cmd(pattern="rmallfilters$")
 async def on_all_snip_delete(event):
-    remove_all_filters(event.chat_id)
+    ForGo10God, HELL_USER, hell_mention = await client_id(event)
+    _id = f"{event.chat_id}_{ForGo10God}"
+    remove_all_filters(_id)
     await eor(event, f"**All the Filters in current chat deleted successfully**")
+    await eod(event, f"**All filters Deletd!** \n\n__• Client:__ {hell_mention}")
 
 
 CmdHelp("filter").add_command(
