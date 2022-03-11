@@ -58,12 +58,13 @@ async def font(event):
         return await eod(hell, "Nothing given to change!")
     old = rply.text
     normie = normal_str.split(" ")
+    new = ""
     if str(flag) == "01":
         to_ = one.split(" ")
         prev = "  ".join(old).lower()
         for normal in prev:
             if normal in normie:
                 new_ = to_[normie.index(normal)]
-                new = prev.replace(normal, to_)
+                new = prev.replace(normal, new_)
         await hell.edit(new)
     
