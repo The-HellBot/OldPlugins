@@ -25,7 +25,6 @@ async def _(event):
             second = await conv.send_message(input_str)
             third = await conv.get_response()
             fourth = await conv.get_response()
-            fifth = await conv.get_response()
             output_op = await conv.get_response()
             await event.client.send_read_acknowledge(conv.chat_id)
         except YouBlockedUserError:
@@ -35,7 +34,7 @@ async def _(event):
     final = await event.client.send_file(event.chat_id, output_op)
     await final.edit(f"📥 InstaGram Video Downloaded By :- {hell_mention}")
     await event.client.delete_messages(
-        conv.chat_id, [first.id, response.id, second.id, third.id, fourth.id, fifth.id, output_op.id]
+        conv.chat_id, [first.id, response.id, second.id, third.id, fourth.id, output_op.id]
     )
 
 
