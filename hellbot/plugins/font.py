@@ -221,8 +221,8 @@ async def font(event):
                     new = to_[normie.index(normal)]
                     prev = prev.replace(normal, new)
                     return prev
-    else:
-        return await eod(hell, "Unsupported font!")
+        case _:
+            return await eod(hell, "Unsupported font!")
     await hell.edit(prev)
 
 
