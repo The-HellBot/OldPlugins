@@ -59,6 +59,178 @@ async def on_snip(event):
                 last_triggered_filters[_id].remove(name)
 
 
+if H2:
+    @H2.on(events.NewMessage(incoming=True))
+    async def on_snip(event):
+        global last_triggered_filters
+        name = event.raw_text
+        ForGo10God, HELL_USER, hell_mention = await client_id(event)
+        _id = f"{event.chat_id}_{ForGo10God}"
+        snips = get_all_filters(_id)
+        if _id in last_triggered_filters:
+            if name in last_triggered_filters[_id]:
+                return False
+        if snips:
+            for snip in snips:
+                pattern = r"( |^|[^\w])" + re.escape(snip.keyword) + r"( |$|[^\w])"
+                if re.search(pattern, name, flags=re.IGNORECASE):
+                    if snip.snip_type == TYPE_PHOTO:
+                        media = types.InputPhoto(
+                            int(snip.media_id),
+                            int(snip.media_access_hash),
+                            snip.media_file_reference
+                        )
+                    elif snip.snip_type == TYPE_DOCUMENT:
+                        media = types.InputDocument(
+                            int(snip.media_id),
+                            int(snip.media_access_hash),
+                            snip.media_file_reference
+                        )
+                    else:
+                        media = None
+                    message_id = event.message.id
+                    if event.reply_to_msg_id:
+                        message_id = event.reply_to_msg_id
+                    await event.reply(
+                        snip.reply,
+                        file=media
+                    )
+                    if _id not in last_triggered_filters:
+                        last_triggered_filters[_id] = []
+                    last_triggered_filters[_id].append(name)
+                    await asyncio.sleep(DELETE_TIMEOUT)
+                    last_triggered_filters[_id].remove(name)
+
+
+if H3:
+    @H3.on(events.NewMessage(incoming=True))
+    async def on_snip(event):
+        global last_triggered_filters
+        name = event.raw_text
+        ForGo10God, HELL_USER, hell_mention = await client_id(event)
+        _id = f"{event.chat_id}_{ForGo10God}"
+        snips = get_all_filters(_id)
+        if _id in last_triggered_filters:
+            if name in last_triggered_filters[_id]:
+                return False
+        if snips:
+            for snip in snips:
+                pattern = r"( |^|[^\w])" + re.escape(snip.keyword) + r"( |$|[^\w])"
+                if re.search(pattern, name, flags=re.IGNORECASE):
+                    if snip.snip_type == TYPE_PHOTO:
+                        media = types.InputPhoto(
+                            int(snip.media_id),
+                            int(snip.media_access_hash),
+                            snip.media_file_reference
+                        )
+                    elif snip.snip_type == TYPE_DOCUMENT:
+                        media = types.InputDocument(
+                            int(snip.media_id),
+                            int(snip.media_access_hash),
+                            snip.media_file_reference
+                        )
+                    else:
+                        media = None
+                    message_id = event.message.id
+                    if event.reply_to_msg_id:
+                        message_id = event.reply_to_msg_id
+                    await event.reply(
+                        snip.reply,
+                        file=media
+                    )
+                    if _id not in last_triggered_filters:
+                        last_triggered_filters[_id] = []
+                    last_triggered_filters[_id].append(name)
+                    await asyncio.sleep(DELETE_TIMEOUT)
+                    last_triggered_filters[_id].remove(name)
+
+
+if H4:
+    @H4.on(events.NewMessage(incoming=True))
+    async def on_snip(event):
+        global last_triggered_filters
+        name = event.raw_text
+        ForGo10God, HELL_USER, hell_mention = await client_id(event)
+        _id = f"{event.chat_id}_{ForGo10God}"
+        snips = get_all_filters(_id)
+        if _id in last_triggered_filters:
+            if name in last_triggered_filters[_id]:
+                return False
+        if snips:
+            for snip in snips:
+                pattern = r"( |^|[^\w])" + re.escape(snip.keyword) + r"( |$|[^\w])"
+                if re.search(pattern, name, flags=re.IGNORECASE):
+                    if snip.snip_type == TYPE_PHOTO:
+                        media = types.InputPhoto(
+                            int(snip.media_id),
+                            int(snip.media_access_hash),
+                            snip.media_file_reference
+                        )
+                    elif snip.snip_type == TYPE_DOCUMENT:
+                        media = types.InputDocument(
+                            int(snip.media_id),
+                            int(snip.media_access_hash),
+                            snip.media_file_reference
+                        )
+                    else:
+                        media = None
+                    message_id = event.message.id
+                    if event.reply_to_msg_id:
+                        message_id = event.reply_to_msg_id
+                    await event.reply(
+                        snip.reply,
+                        file=media
+                    )
+                    if _id not in last_triggered_filters:
+                        last_triggered_filters[_id] = []
+                    last_triggered_filters[_id].append(name)
+                    await asyncio.sleep(DELETE_TIMEOUT)
+                    last_triggered_filters[_id].remove(name)
+
+
+if H5:
+    @H5.on(events.NewMessage(incoming=True))
+    async def on_snip(event):
+        global last_triggered_filters
+        name = event.raw_text
+        ForGo10God, HELL_USER, hell_mention = await client_id(event)
+        _id = f"{event.chat_id}_{ForGo10God}"
+        snips = get_all_filters(_id)
+        if _id in last_triggered_filters:
+            if name in last_triggered_filters[_id]:
+                return False
+        if snips:
+            for snip in snips:
+                pattern = r"( |^|[^\w])" + re.escape(snip.keyword) + r"( |$|[^\w])"
+                if re.search(pattern, name, flags=re.IGNORECASE):
+                    if snip.snip_type == TYPE_PHOTO:
+                        media = types.InputPhoto(
+                            int(snip.media_id),
+                            int(snip.media_access_hash),
+                            snip.media_file_reference
+                        )
+                    elif snip.snip_type == TYPE_DOCUMENT:
+                        media = types.InputDocument(
+                            int(snip.media_id),
+                            int(snip.media_access_hash),
+                            snip.media_file_reference
+                        )
+                    else:
+                        media = None
+                    message_id = event.message.id
+                    if event.reply_to_msg_id:
+                        message_id = event.reply_to_msg_id
+                    await event.reply(
+                        snip.reply,
+                        file=media
+                    )
+                    if _id not in last_triggered_filters:
+                        last_triggered_filters[_id] = []
+                    last_triggered_filters[_id].append(name)
+                    await asyncio.sleep(DELETE_TIMEOUT)
+                    last_triggered_filters[_id].remove(name)
+
+
 @hell_cmd(pattern="filter(?:\s|$)([\s\S]*)")
 async def on_snip_save(event):
     ForGo10God, HELL_USER, hell_mention = await client_id(event)
