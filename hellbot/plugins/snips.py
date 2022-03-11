@@ -3,11 +3,10 @@ from telethon import events
 from hellbot.sql import snip_sql as sq
 from . import *
 
-lg_id = Config .LOGGER_ID
-
 
 @hell_cmd(pattern=r'\#(\S+)')
 async def incom_note(event):
+    lg_id = Config.LOGGER_ID
     if not lg_id:
         return
     try:
@@ -39,8 +38,10 @@ async def incom_note(event):
     except AttributeError:
         pass
 
+
 @hell_cmd(pattern="snip(?:\s|$)([\s\S]*)")
 async def add_snip(event):
+    lg_id = Config.LOGGER_ID
     if not lg_id:
         return await eod(event, "You need to setup  `LOGGER_ID`  to save snips...")
     trigger = event.pattern_match.group(1)
@@ -74,8 +75,10 @@ async def add_snip(event):
         return await eor(event, success.format("updated", trigger))
     return await eor(event, success.format("added", trigger))
 
+
 @hell_cmd(pattern="rmsnip(?:\s|$)([\s\S]*)")
 async def _(event):
+    lg_id = Config.LOGGER_ID
     input_str = (event.pattern_match.group(1)).lower()
     if not input_str:
         return await eod(e, "I need a snip name to remove...")
@@ -87,8 +90,10 @@ async def _(event):
     except:
         await eor(event, "No snip saved with this trigger.")
 
+
 @hell_cmd(pattern="listsnip$")
 async def lsnote(event):
+    lg_id = Config.LOGGER_ID
     all_snips = sq.get_notes()
     OUT_STR = "Available Snips:\n"
     if len(all_snips) > 0:
@@ -111,14 +116,15 @@ async def lsnote(event):
     else:
         await eor(event, OUT_STR)
 
+
 CmdHelp("snips").add_command(
-	"snip", "<reply> <trigger>", "Saves the replied message as a note with given trigger."
+    "snip", "<reply> <trigger>", "Saves the replied message as a note with given trigger."
 ).add_command(
-	"rmsnip", "<trigger>", "Removes the snip from your database."
+    "rmsnip", "<trigger>", "Removes the snip from your database."
 ).add_command(
-	"listsnip", None, "Get the list of all of the available snips."
+    "listsnip", None, "Get the list of all of the available snips."
 ).add_info(
-	"Sniped Notes."
+    "Sniped Notes."
 ).add_warning(
-	"✅ Harmless Module."
+    "✅ Harmless Module."
 ).add()
