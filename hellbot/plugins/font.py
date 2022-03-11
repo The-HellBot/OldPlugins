@@ -62,63 +62,63 @@ async def font(event):
     if not flag.isnumeric():
         return await eod(hell, "Give font numbers only!")
     match int(flag):
-        case 01:
+        case 1:
             to_ = one.split(" ")
             for normal in prev:
                 if normal in normie:
                     new = to_[normie.index(normal)]
                     prev = prev.replace(normal, new)
             await hell.edit(prev)
-        case 02:
+        case 2:
             to_ = two.split(" ")
             for normal in prev:
                 if normal in normie:
                     new = to_[normie.index(normal)]
                     prev = prev.replace(normal, new)
             await hell.edit(prev)
-        case 03:
+        case 3:
             to_ = three.split(" ")
             for normal in prev:
                 if normal in normie:
                     new = to_[normie.index(normal)]
                     prev = prev.replace(normal, new)
             await hell.edit(prev)
-        case 04:
+        case 4:
             to_ = four.split(" ")
             for normal in prev:
                 if normal in normie:
                     new = to_[normie.index(normal)]
                     prev = prev.replace(normal, new)
             await hell.edit(prev)
-        case 05:
+        case 5:
             to_ = five.split(" ")
             for normal in prev:
                 if normal in normie:
                     new = to_[normie.index(normal)]
                     prev = prev.replace(normal, new)
             await hell.edit(prev)
-        case 06:
+        case 6:
             to_ = six.split(" ")
             for normal in prev:
                 if normal in normie:
                     new = to_[normie.index(normal)]
                     prev = prev.replace(normal, new)
             await hell.edit(prev)
-        case 07:
+        case 7:
             to_ = seven.split(" ")
             for normal in prev:
                 if normal in normie:
                     new = to_[normie.index(normal)]
                     prev = prev.replace(normal, new)
             await hell.edit(prev)
-        case 08:
+        case 8:
             to_ = eight.split(" ")
             for normal in prev:
                 if normal in normie:
                     new = to_[normie.index(normal)]
                     prev = prev.replace(normal, new)
             await hell.edit(prev)
-        case 09:
+        case 9:
             to_ = nine.split(" ")
             for normal in prev:
                 if normal in normie:
