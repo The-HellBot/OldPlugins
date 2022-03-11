@@ -17,7 +17,7 @@ TYPE_DOCUMENT = 2
 global last_triggered_filters
 last_triggered_filters = {}
 
-@hell_cmd(incoming=True)
+@hell_handler()
 async def on_snip(event):
     global last_triggered_filters
     name = event.raw_text
