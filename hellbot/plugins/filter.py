@@ -17,14 +17,16 @@ TYPE_DOCUMENT = 2
 global last_triggered_filters
 last_triggered_filters = {}
 
-@hell_handler() # will do this later
+@H1.on(events.NewMessage(incoming=True))
 async def on_snip(event):
     global last_triggered_filters
     name = event.raw_text
-    if event.chat_id in last_triggered_filters:
-        if name in last_triggered_filters[event.chat_id]:
+    ForGo10God, HELL_USER, hell_mention = await client_id(event)
+    _id = f"{event.chat_id}_{ForGo10God}"
+    snips = get_all_filters(_id)
+    if _id in last_triggered_filters:
+        if name in last_triggered_filters[_id]:
             return False
-    snips = get_all_filters(event.chat_id)
     if snips:
         for snip in snips:
             pattern = r"( |^|[^\w])" + re.escape(snip.keyword) + r"( |$|[^\w])"
@@ -50,11 +52,11 @@ async def on_snip(event):
                     snip.reply,
                     file=media
                 )
-                if event.chat_id not in last_triggered_filters:
-                    last_triggered_filters[event.chat_id] = []
-                last_triggered_filters[event.chat_id].append(name)
+                if _id not in last_triggered_filters:
+                    last_triggered_filters[_id] = []
+                last_triggered_filters[_id].append(name)
                 await asyncio.sleep(DELETE_TIMEOUT)
-                last_triggered_filters[event.chat_id].remove(name)
+                last_triggered_filters[_id].remove(name)
 
 
 @hell_cmd(pattern="filter(?:\s|$)([\s\S]*)")
