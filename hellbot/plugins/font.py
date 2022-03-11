@@ -52,155 +52,179 @@ twentythree = "ﾑ 乃 ᄃ り 乇 ｷ ム ん ﾉ ﾌ ズ ﾚ ﾶ 刀 の ｱ �
 @hell_cmd(pattern="font(?:\s|$)([\s\S]*)")
 async def font(event):
     hell = await eor(event, "Changing font...")
-    flag = event.text[6:]
+    flag = str(event.text[6:])
     rply = await event.get_reply_message()
     if not rply:
         return await eod(hell, "Nothing given to change!")
     old = rply.text
     normie = normal_str.split(" ")
     prev = " ".join(old).upper()
-    if str(flag) == "01":
-        to_ = one.split(" ")
-        for normal in prev:
-            if normal in normie:
-                new = to_[normie.index(normal)]
-                prev = prev.replace(normal, new)
-    elif str(flag) == "02":
-        to_ = two.split(" ")
-        for normal in prev:
-            if normal in normie:
-                new = to_[normie.index(normal)]
-                prev = prev.replace(normal, new)
-    elif str(flag) == "03":
+    match flag:
+        case '01':
+            to_ = one.split(" ")
+            for normal in prev:
+                if normal in normie:
+                    new = to_[normie.index(normal)]
+                    prev = prev.replace(normal, new)
+                    return prev
+        case '02':
+            to_ = two.split(" ")
+            for normal in prev:
+                if normal in normie:
+                    new = to_[normie.index(normal)]
+                    prev = prev.replace(normal, new)
+                    return prev
+        case '03':
         to_ = three.split(" ")
         for normal in prev:
             if normal in normie:
                 new = to_[normie.index(normal)]
                 prev = prev.replace(normal, new)
-    elif str(flag) == "04":
+                    return prev
+        case '04':
         to_ = four.split(" ")
         for normal in prev:
             if normal in normie:
                 new = to_[normie.index(normal)]
                 prev = prev.replace(normal, new)
-    elif str(flag) == "05":
+                    return prev
+        case '05':
         to_ = five.split(" ")
         for normal in prev:
             if normal in normie:
                 new = to_[normie.index(normal)]
                 prev = prev.replace(normal, new)
-    elif str(flag) == "06":
+                    return prev
+        case '06':
         to_ = six.split(" ")
         for normal in prev:
             if normal in normie:
                 new = to_[normie.index(normal)]
                 prev = prev.replace(normal, new)
-    elif str(flag) == "07":
+                    return prev
+        case '07':
         to_ = seven.split(" ")
         for normal in prev:
             if normal in normie:
                 new = to_[normie.index(normal)]
                 prev = prev.replace(normal, new)
-    elif str(flag) == "08":
+                    return prev
+        case '08':
         to_ = eight.split(" ")
         for normal in prev:
             if normal in normie:
                 new = to_[normie.index(normal)]
                 prev = prev.replace(normal, new)
-    elif str(flag) == "09":
+                    return prev
+        case '09':
         to_ = nine.split(" ")
         for normal in prev:
             if normal in normie:
                 new = to_[normie.index(normal)]
                 prev = prev.replace(normal, new)
-    elif str(flag) == "10":
+                    return prev
+        case '10':
         to_ = ten.split(" ")
         for normal in prev:
             if normal in normie:
                 new = to_[normie.index(normal)]
                 prev = prev.replace(normal, new)
-    elif str(flag) == "11":
+                    return prev
+        case '11':
         to_ = eleven.split(" ")
         for normal in prev:
             if normal in normie:
                 new = to_[normie.index(normal)]
                 prev = prev.replace(normal, new)
-    elif str(flag) == "12":
+                    return prev
+        case '12':
         to_ = twelve.split(" ")
         for normal in prev:
             if normal in normie:
                 new = to_[normie.index(normal)]
                 prev = prev.replace(normal, new)
-    elif str(flag) == "13":
+                    return prev
+        case '13':
         to_ = thirteen.split(" ")
         for normal in prev:
             if normal in normie:
                 new = to_[normie.index(normal)]
                 prev = prev.replace(normal, new)
-    elif str(flag) == "14":
+                    return prev
+        case '14':
         to_ = fourteen.split(" ")
         for normal in prev:
             if normal in normie:
                 new = to_[normie.index(normal)]
                 prev = prev.replace(normal, new)
-    elif str(flag) == "15":
+                    return prev
+        case '15':
         to_ = fifteen.split(" ")
         for normal in prev:
             if normal in normie:
                 new = to_[normie.index(normal)]
                 prev = prev.replace(normal, new)
-    elif str(flag) == "16":
+                    return prev
+        case '16':
         to_ = sixteen.split(" ")
         for normal in prev:
             if normal in normie:
                 new = to_[normie.index(normal)]
                 prev = prev.replace(normal, new)
-    elif str(flag) == "17":
+                    return prev
+        case '17':
         to_ = seventeen.split(" ")
         for normal in prev:
             if normal in normie:
                 new = to_[normie.index(normal)]
                 prev = prev.replace(normal, new)
-    elif str(flag) == "18":
+                    return prev
+        case '18':
         to_ = eighteen.split(" ")
         for normal in prev:
             if normal in normie:
                 new = to_[normie.index(normal)]
                 prev = prev.replace(normal, new)
-    elif str(flag) == "19":
+                    return prev
+        case '19':
         to_ = nineteen.split(" ")
         for normal in prev:
             if normal in normie:
                 new = to_[normie.index(normal)]
                 prev = prev.replace(normal, new)
-    elif str(flag) == "20":
+                    return prev
+        case '20':
         to_ = twenty.split(" ")
         for normal in prev:
             if normal in normie:
                 new = to_[normie.index(normal)]
                 prev = prev.replace(normal, new)
-    elif str(flag) == "21":
+                    return prev
+        case '21':
         to_ = twentyone.split(" ")
         for normal in prev:
             if normal in normie:
                 new = to_[normie.index(normal)]
                 prev = prev.replace(normal, new)
-    elif str(flag) == "22":
+                    return prev
+        case '22':
         to_ = twentytwo.split(" ")
         for normal in prev:
             if normal in normie:
                 new = to_[normie.index(normal)]
                 prev = prev.replace(normal, new)
-    elif str(flag) == "23":
+                    return prev
+        case '23':
         to_ = twentythree.split(" ")
         for normal in prev:
             if normal in normie:
                 new = to_[normie.index(normal)]
                 prev = prev.replace(normal, new)
+                    return prev
     else:
         return await eod(hell, "Unsupported font!")
     await hell.edit(prev)
-    
+
 
 CmdHelp("fonts").add_command(
     "font", "<font number>", "Changes the replied text to desired font.", "font 07"
