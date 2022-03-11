@@ -31,7 +31,7 @@ async def _(event):
         except YouBlockedUserError:
             await kraken.edit("User Blocked!! Please Unblock @InstagramSaverRobot and try again...")
             return
-        if output_op.text.startswith("⬇️"):
+        if output_op.caption.startswith("⬇️"):
             await kraken.delete()
             final = await event.client.send_file(event.chat_id, output_op)
             await final.edit(f"📥 InstaGram Video Downloaded By :- {hell_mention}")
