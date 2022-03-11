@@ -52,7 +52,7 @@ twentythree = "ﾑ 乃 ᄃ り 乇 ｷ ム ん ﾉ ﾌ ズ ﾚ ﾶ 刀 の ｱ �
 @hell_cmd(pattern="font(?:\s|$)([\s\S]*)")
 async def font(event):
     hell = await eor(event, "Changing font...")
-    flag = str(event.text[6:])
+    flag = event.text[6:]
     rply = await event.get_reply_message()
     if not rply:
         return await eod(hell, "Nothing given to change!")
