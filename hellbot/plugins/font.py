@@ -52,7 +52,7 @@ twentythree = "ﾑ 乃 ᄃ り 乇 ｷ ム ん ﾉ ﾌ ズ ﾚ ﾶ 刀 の ｱ �
 @hell_cmd(pattern="font(?:\s|$)([\s\S]*)")
 async def font(event):
     hell = await eor(event, "Changing font...")
-    flag = event.text[6:]
+    flag = str(event.text[6:])
     rply = await event.get_reply_message()
     if not rply:
         return await eod(hell, "Nothing given to change!")
@@ -66,165 +66,164 @@ async def font(event):
                 if normal in normie:
                     new = to_[normie.index(normal)]
                     prev = prev.replace(normal, new)
-                    return prev
+                    await hell.edit(prev)
         case '02':
             to_ = two.split(" ")
             for normal in prev:
                 if normal in normie:
                     new = to_[normie.index(normal)]
                     prev = prev.replace(normal, new)
-                    return prev
+                    await hell.edit(prev)
         case '03':
             to_ = three.split(" ")
             for normal in prev:
                 if normal in normie:
                     new = to_[normie.index(normal)]
                     prev = prev.replace(normal, new)
-                    return prev
+                    await hell.edit(prev)
         case '04':
             to_ = four.split(" ")
             for normal in prev:
                 if normal in normie:
                     new = to_[normie.index(normal)]
                     prev = prev.replace(normal, new)
-                    return prev
+                    await hell.edit(prev)
         case '05':
             to_ = five.split(" ")
             for normal in prev:
                 if normal in normie:
                     new = to_[normie.index(normal)]
                     prev = prev.replace(normal, new)
-                    return prev
+                    await hell.edit(prev)
         case '06':
             to_ = six.split(" ")
             for normal in prev:
                 if normal in normie:
                     new = to_[normie.index(normal)]
                     prev = prev.replace(normal, new)
-                    return prev
+                    await hell.edit(prev)
         case '07':
             to_ = seven.split(" ")
             for normal in prev:
                 if normal in normie:
                     new = to_[normie.index(normal)]
                     prev = prev.replace(normal, new)
-                    return prev
+                    await hell.edit(prev)
         case '08':
             to_ = eight.split(" ")
             for normal in prev:
                 if normal in normie:
                     new = to_[normie.index(normal)]
                     prev = prev.replace(normal, new)
-                    return prev
+                    await hell.edit(prev)
         case '09':
             to_ = nine.split(" ")
             for normal in prev:
                 if normal in normie:
                     new = to_[normie.index(normal)]
                     prev = prev.replace(normal, new)
-                    return prev
+                    await hell.edit(prev)
         case '10':
             to_ = ten.split(" ")
             for normal in prev:
                 if normal in normie:
                     new = to_[normie.index(normal)]
                     prev = prev.replace(normal, new)
-                    return prev
+                    await hell.edit(prev)
         case '11':
             to_ = eleven.split(" ")
             for normal in prev:
                 if normal in normie:
                     new = to_[normie.index(normal)]
                     prev = prev.replace(normal, new)
-                    return prev
+                    await hell.edit(prev)
         case '12':
             to_ = twelve.split(" ")
             for normal in prev:
                 if normal in normie:
                     new = to_[normie.index(normal)]
                     prev = prev.replace(normal, new)
-                    return prev
+                    await hell.edit(prev)
         case '13':
             to_ = thirteen.split(" ")
             for normal in prev:
                 if normal in normie:
                     new = to_[normie.index(normal)]
                     prev = prev.replace(normal, new)
-                    return prev
+                    await hell.edit(prev)
         case '14':
             to_ = fourteen.split(" ")
             for normal in prev:
                 if normal in normie:
                     new = to_[normie.index(normal)]
                     prev = prev.replace(normal, new)
-                    return prev
+                    await hell.edit(prev)
         case '15':
             to_ = fifteen.split(" ")
             for normal in prev:
                 if normal in normie:
                     new = to_[normie.index(normal)]
                     prev = prev.replace(normal, new)
-                    return prev
+                    await hell.edit(prev)
         case '16':
             to_ = sixteen.split(" ")
             for normal in prev:
                 if normal in normie:
                     new = to_[normie.index(normal)]
                     prev = prev.replace(normal, new)
-                    return prev
+                    await hell.edit(prev)
         case '17':
             to_ = seventeen.split(" ")
             for normal in prev:
                 if normal in normie:
                     new = to_[normie.index(normal)]
                     prev = prev.replace(normal, new)
-                    return prev
+                    await hell.edit(prev)
         case '18':
             to_ = eighteen.split(" ")
             for normal in prev:
                 if normal in normie:
                     new = to_[normie.index(normal)]
                     prev = prev.replace(normal, new)
-                    return prev
+                    await hell.edit(prev)
         case '19':
             to_ = nineteen.split(" ")
             for normal in prev:
                 if normal in normie:
                     new = to_[normie.index(normal)]
                     prev = prev.replace(normal, new)
-                    return prev
+                    await hell.edit(prev)
         case '20':
             to_ = twenty.split(" ")
             for normal in prev:
                 if normal in normie:
                     new = to_[normie.index(normal)]
                     prev = prev.replace(normal, new)
-                    return prev
+                    await hell.edit(prev)
         case '21':
             to_ = twentyone.split(" ")
             for normal in prev:
                 if normal in normie:
                     new = to_[normie.index(normal)]
                     prev = prev.replace(normal, new)
-                    return prev
+                    await hell.edit(prev)
         case '22':
             to_ = twentytwo.split(" ")
             for normal in prev:
                 if normal in normie:
                     new = to_[normie.index(normal)]
                     prev = prev.replace(normal, new)
-                    return prev
+                    await hell.edit(prev)
         case '23':
             to_ = twentythree.split(" ")
             for normal in prev:
                 if normal in normie:
                     new = to_[normie.index(normal)]
                     prev = prev.replace(normal, new)
-                    return prev
+                    await hell.edit(prev)
         case _:
-            return await eod(hell, "Unsupported font!")
-    await hell.edit(prev)
-
+            await eod(hell, "Unsupported font!")
+    
 
 CmdHelp("fonts").add_command(
     "font", "<font number>", "Changes the replied text to desired font.", "font 07"
