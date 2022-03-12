@@ -31,14 +31,17 @@ async def hells(session=None, client=None, session_name="Main"):
         return 0
 
 
-# Load all plugins
+# Load plugins based on config UNLOAD
 async def plug_load(path):
     files = glob.glob(path)
     for name in files:
         with open(name) as hell:
             path1 = Path(hell.name)
             shortname = path1.stem
-            load_module(shortname.replace(".py", ""))
+            if shortname.replace(".py", "") in Config.UNLOAD:
+                os.remove(Path(f"hellbot/plugins/{shortname}.py"))
+            else:
+                load_module(shortname.replace(".py", ""))      
 
 
 # Final checks after startup
