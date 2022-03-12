@@ -5,7 +5,7 @@ from . import BASE, SESSION
 
 class Filters(BASE):
     __tablename__ = "filters"
-    chat_id = Column(UnicodeText, primary_key=True)
+    chat_id = Column(String(14), primary_key=True)
     keyword = Column(UnicodeText, primary_key=True)
     reply = Column(UnicodeText)
     snip_type = Column(Numeric)
