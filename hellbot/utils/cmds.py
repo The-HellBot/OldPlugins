@@ -86,7 +86,7 @@ class CmdHelp:
                 result += (
                     f"**⌨️ For Example :**  `{HANDLER[:1]}{command['example']}`\n\n"
                 )
-            CMD_INFO = {command['command']: command['usage']}
+            CMD_INFO[f"{command['command']}"] = "info": command['usage']}
         return result
 
     def add(self):
