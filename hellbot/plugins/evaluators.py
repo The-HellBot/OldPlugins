@@ -6,32 +6,35 @@ import sys
 import traceback
 
 from . import *
+from ..sql.gvar_sql import gvarstat
 
-lg_id = Config.LOGGER_ID
 
 @hell_cmd(pattern="exec(?:\s|$)([\s\S]*)")
 async def _(event):
-    cmd = "".join(event.text.split(maxsplit=1)[1:])
-    if not cmd:
-        return await eod(event, "`What should i execute?..`")
-    hellevent = await eor(event, "`Executing.....`")
-    process = await asyncio.create_subprocess_shell(
-        cmd, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
-    )
-    stdout, stderr = await process.communicate()
-    result = str(stdout.decode().strip()) + str(stderr.decode().strip())
-    helluser = await event.client.get_me()
-    if helluser.username:
-        curruser = helluser.username
+    if gvarstat("USE_EVAL") == "TRUE":
+        lg_id = Config.LOGGER_ID
+        cmd = "".join(event.text.split(maxsplit=1)[1:])
+        if not cmd:
+            return await eod(event, "`What should i execute?..`")
+        hellevent = await eor(event, "`Executing.....`")
+        process = await asyncio.create_subprocess_shell(
+            cmd, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
+        )
+        stdout, stderr = await process.communicate()
+        result = str(stdout.decode().strip()) + str(stderr.decode().strip())
+        helluser = await event.client.get_me()
+        if helluser.username:
+            curruser = helluser.username
+        else:
+            curruser = "@Its_HellBot"
+        uid = os.geteuid()
+        if uid == 0:
+            cresult = f"`{curruser}:~#` `{cmd}`\n`{result}`"
+        else:
+            cresult = f"`{curruser}:~$` `{cmd}`\n`{result}`"
+        await eor(event, f"**Command :**  `{cmd}`\n**Result :** \n{cresult}")
     else:
-        curruser = "@Its_HellBot"
-    uid = os.geteuid()
-    if uid == 0:
-        cresult = f"`{curruser}:~#` `{cmd}`\n`{result}`"
-    else:
-        cresult = f"`{curruser}:~$` `{cmd}`\n`{result}`"
-    await eor(event, f"**Command :**  `{cmd}`\n**Result :** \n{cresult}")
-
+        await eod(event, "**Eval Is Disbaled !!** \n\n__Do__ `{hl}svar USE_EVAL TRUE` __to enable eval commands.__")
 
 
 @hell_cmd(pattern="eval(?:\s|$)([\s\S]*)")
