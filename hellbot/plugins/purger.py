@@ -51,7 +51,7 @@ async def fastpurger(event):
 @errors_handler
 async def purgeme(event):
     lg_id = Config.LOGGER_ID
-    count = int(event.text[9:]
+    count = int(event.text[9:])
     i = 1
     async for message in event.client.iter_messages(event.chat_id, from_user="me"):
         if i > count + 1:
