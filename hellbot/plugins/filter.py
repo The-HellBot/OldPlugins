@@ -4,7 +4,8 @@ import re
 from telethon import events, utils as ut
 from telethon.tl import types
 
-from hellbot.sql.filter_sql import get_filter, add_filter, remove_filter, get_all_filters, remove_all_filters
+from ..sql.filter_sql import get_filter, add_filter, remove_filter, get_all_filters, remove_all_filters
+from ..sql.gvar_sql import gvarstat, addgvar, delgvar
 from . import *
 
 
@@ -13,19 +14,34 @@ TYPE_TEXT = 0
 TYPE_PHOTO = 1
 TYPE_DOCUMENT = 2
 
+global last_triggered_filters_1
+last_triggered_filters_1 = {}
 
-global last_triggered_filters
-last_triggered_filters = {}
+global last_triggered_filters_2
+last_triggered_filters_2 = {}
+
+global last_triggered_filters_3
+last_triggered_filters_3 = {}
+
+global last_triggered_filters_4
+last_triggered_filters_4 = {}
+
+global last_triggered_filters_5
+last_triggered_filters_5 = {}
+
+
 
 @H1.on(events.NewMessage(incoming=True))
 async def on_snip(event):
-    global last_triggered_filters
+    global last_triggered_filters_1
     name = event.raw_text
-    ForGo10God, HELL_USER, hell_mention = await client_id(event)
-    _id = f"{event.chat_id}_{ForGo10God}"
+    _id = event.chat_id
+    ForGo10God, _, _ = await client_id(event)
+    if not gvarstat(f"FILTER_{ForGo10God}_{str(_id)[1:]}"):
+        return
     snips = get_all_filters(_id)
-    if _id in last_triggered_filters:
-        if name in last_triggered_filters[_id]:
+    if _id in last_triggered_filters_1:
+        if name in last_triggered_filters_1[_id]:
             return False
     if snips:
         for snip in snips:
@@ -52,23 +68,25 @@ async def on_snip(event):
                     snip.reply,
                     file=media
                 )
-                if _id not in last_triggered_filters:
-                    last_triggered_filters[_id] = []
-                last_triggered_filters[_id].append(name)
+                if _id not in last_triggered_filters_1:
+                    last_triggered_filters_1[_id] = []
+                last_triggered_filters_1[_id].append(name)
                 await asyncio.sleep(DELETE_TIMEOUT)
-                last_triggered_filters[_id].remove(name)
+                last_triggered_filters_1[_id].remove(name)
 
 
 if H2:
     @H2.on(events.NewMessage(incoming=True))
     async def on_snip(event):
-        global last_triggered_filters
+        global last_triggered_filters_2
         name = event.raw_text
-        ForGo10God, HELL_USER, hell_mention = await client_id(event)
-        _id = f"{event.chat_id}_{ForGo10God}"
+        _id = event.chat_id
+        ForGo10God, _, _ = await client_id(event)
+        if not gvarstat(f"FILTER_{ForGo10God}_{str(_id)[1:]}"):
+            return
         snips = get_all_filters(_id)
-        if _id in last_triggered_filters:
-            if name in last_triggered_filters[_id]:
+        if _id in last_triggered_filters_2:
+            if name in last_triggered_filters_2[_id]:
                 return False
         if snips:
             for snip in snips:
@@ -95,23 +113,25 @@ if H2:
                         snip.reply,
                         file=media
                     )
-                    if _id not in last_triggered_filters:
-                        last_triggered_filters[_id] = []
-                    last_triggered_filters[_id].append(name)
+                    if _id not in last_triggered_filters_2:
+                        last_triggered_filters_2[_id] = []
+                    last_triggered_filters_2[_id].append(name)
                     await asyncio.sleep(DELETE_TIMEOUT)
-                    last_triggered_filters[_id].remove(name)
+                    last_triggered_filters_2[_id].remove(name)
 
 
 if H3:
     @H3.on(events.NewMessage(incoming=True))
     async def on_snip(event):
-        global last_triggered_filters
+        global last_triggered_filters_3
         name = event.raw_text
-        ForGo10God, HELL_USER, hell_mention = await client_id(event)
-        _id = f"{event.chat_id}_{ForGo10God}"
+        _id = event.chat_id
+        ForGo10God, _, _ = await client_id(event)
+        if not gvarstat(f"FILTER_{ForGo10God}_{str(_id)[1:]}"):
+            return
         snips = get_all_filters(_id)
-        if _id in last_triggered_filters:
-            if name in last_triggered_filters[_id]:
+        if _id in last_triggered_filters_3:
+            if name in last_triggered_filters_3[_id]:
                 return False
         if snips:
             for snip in snips:
@@ -138,23 +158,25 @@ if H3:
                         snip.reply,
                         file=media
                     )
-                    if _id not in last_triggered_filters:
-                        last_triggered_filters[_id] = []
-                    last_triggered_filters[_id].append(name)
+                    if _id not in last_triggered_filters_3:
+                        last_triggered_filters_3[_id] = []
+                    last_triggered_filters_3[_id].append(name)
                     await asyncio.sleep(DELETE_TIMEOUT)
-                    last_triggered_filters[_id].remove(name)
+                    last_triggered_filters_3[_id].remove(name)
 
 
 if H4:
     @H4.on(events.NewMessage(incoming=True))
     async def on_snip(event):
-        global last_triggered_filters
+        global last_triggered_filters_4
         name = event.raw_text
-        ForGo10God, HELL_USER, hell_mention = await client_id(event)
-        _id = f"{event.chat_id}_{ForGo10God}"
+        _id = event.chat_id
+        ForGo10God, _, _ = await client_id(event)
+        if not gvarstat(f"FILTER_{ForGo10God}_{str(_id)[1:]}"):
+            return
         snips = get_all_filters(_id)
-        if _id in last_triggered_filters:
-            if name in last_triggered_filters[_id]:
+        if _id in last_triggered_filters_4:
+            if name in last_triggered_filters_4[_id]:
                 return False
         if snips:
             for snip in snips:
@@ -181,23 +203,25 @@ if H4:
                         snip.reply,
                         file=media
                     )
-                    if _id not in last_triggered_filters:
-                        last_triggered_filters[_id] = []
-                    last_triggered_filters[_id].append(name)
+                    if _id not in last_triggered_filters_4:
+                        last_triggered_filters_4[_id] = []
+                    last_triggered_filters_4[_id].append(name)
                     await asyncio.sleep(DELETE_TIMEOUT)
-                    last_triggered_filters[_id].remove(name)
+                    last_triggered_filters_4[_id].remove(name)
 
 
 if H5:
     @H5.on(events.NewMessage(incoming=True))
     async def on_snip(event):
-        global last_triggered_filters
+        global last_triggered_filters_5
         name = event.raw_text
-        ForGo10God, HELL_USER, hell_mention = await client_id(event)
-        _id = f"{event.chat_id}_{ForGo10God}"
+        _id = event.chat_id
+        ForGo10God, _, _ = await client_id(event)
+        if not gvarstat(f"FILTER_{ForGo10God}_{str(_id)[1:]}"):
+            return
         snips = get_all_filters(_id)
-        if _id in last_triggered_filters:
-            if name in last_triggered_filters[_id]:
+        if _id in last_triggered_filters_5:
+            if name in last_triggered_filters_5[_id]:
                 return False
         if snips:
             for snip in snips:
@@ -224,19 +248,19 @@ if H5:
                         snip.reply,
                         file=media
                     )
-                    if _id not in last_triggered_filters:
-                        last_triggered_filters[_id] = []
-                    last_triggered_filters[_id].append(name)
+                    if _id not in last_triggered_filters_5:
+                        last_triggered_filters_5[_id] = []
+                    last_triggered_filters_5[_id].append(name)
                     await asyncio.sleep(DELETE_TIMEOUT)
-                    last_triggered_filters[_id].remove(name)
+                    last_triggered_filters_5[_id].remove(name)
 
 
 @hell_cmd(pattern="filter(?:\s|$)([\s\S]*)")
 async def on_snip_save(event):
-    ForGo10God, HELL_USER, hell_mention = await client_id(event)
     name = event.pattern_match.group(1)
     msg = await event.get_reply_message()
-    _id = f"{event.chat_id}_{ForGo10God}"
+    ForGo10God, _, hell_mention = await client_id(event)
+    _id = event.chat_id
     if msg:
         snip = {'type': TYPE_TEXT, 'text': msg.message or ''}
         if msg.media:
@@ -252,6 +276,7 @@ async def on_snip_save(event):
                 snip['hash'] = media.access_hash
                 snip['fr'] = media.file_reference
         add_filter(_id, name, snip['text'], snip['type'], snip.get('id'), snip.get('hash'), snip.get('fr'))
+        addgvar(f"FILTER_{ForGo10God}_{str(_id)[1:]}", "TRUE")
         await eod(event, f"**Filter Saved!** \n\n__• Client:__ {hell_mention} \n__• Keyword:__ {name}")
     else:
         await eod(event, f"Reply to a message with `{hl}filter keyword` to save the filter")
@@ -259,8 +284,10 @@ async def on_snip_save(event):
 
 @hell_cmd(pattern="filters$")
 async def on_snip_list(event):
-    ForGo10God, HELL_USER, hell_mention = await client_id(event)
-    _id = f"{event.chat_id}_{ForGo10God}"
+    ForGo10God, _, _ = await client_id(event)
+    _id = event.chat_id
+    if not gvarstat(f"FILTER_{ForGo10God}_{str(_id)[1:]}"):
+        return await eod(event, f"No filters. Start saving using `{hl}filter`")
     all_snips = get_all_filters(_id)
     OUT_STR = "**Available Filters in the Current Chat :** \n"
     if len(all_snips) > 0:
@@ -281,28 +308,31 @@ async def on_snip_list(event):
             )
             await event.delete()
     else:
-        await eod(event, OUT_STR)
+        await eor(event, OUT_STR)
 
 
 @hell_cmd(pattern="stop(?:\s|$)([\s\S]*)")
 async def on_snip_delete(event):
     name = event.pattern_match.group(1)
-    ForGo10God, HELL_USER, hell_mention = await client_id(event)
-    _id = f"{event.chat_id}_{ForGo10God}"
+    ForGo10God, _, hell_mention = await client_id(event)
+    _id = event.chat_id
+    if not gvarstat(f"FILTER_{ForGo10God}_{str(_id)[1:]}"):
+        return await eod(event, "There aren't any filter in chat!")
     try:
         remove_filter(_id, name)
-        await eod(event, f"**Filter Deleted!** \n\n__• Client:__ {hell_mention} \n__• Keyword:__ {namd}")
+        await eod(event, f"**Filter Deleted!** \n\n__• Client:__ {hell_mention} \n__• Keyword:__ {name}")
     except Exception as e:
         await eod(event, f"**ERROR !!** \n\n`{e}`")
 
 
 @hell_cmd(pattern="rmallfilters$")
 async def on_all_snip_delete(event):
-    ForGo10God, HELL_USER, hell_mention = await client_id(event)
-    _id = f"{event.chat_id}_{ForGo10God}"
+    ForGo10God, _, _ = await client_id(event)
+    _id = event.chat_id
+    if not gvarstat(f"FILTER_{ForGo10God}_{str(_id)[1:]}"):
+        return await eod(event, "No filters in this chat!")
     remove_all_filters(_id)
-    await eor(event, f"**All the Filters in current chat deleted successfully**")
-    await eod(event, f"**All filters Deletd!** \n\n__• Client:__ {hell_mention}")
+    await eod(event, f"**All the Filters in current chat deleted successfully**")
 
 
 CmdHelp("filter").add_command(
