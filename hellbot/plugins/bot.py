@@ -92,13 +92,21 @@ async def _(event):
     await eor(event, "Config Saved In You Heroku Logs.")
 
 
-@hell_cmd(pattern="vars$")
+@hell_cmd(pattern="vars(?:\s|$)([\s\S]*)")
 async def lst(event):
-    hell = await eor(event, "Getting configs list...")
-    x = "**List of all available configs are :** \n\n"
-    for i in config_list:
-        x += "`" + i + "`\n"
-    await hell.edit(x)
+    flag = (event.text[6:9]).lower()
+    if flag and flag == "-db":
+        hell = await eor(event, "Getting DB variables..")
+        dbx = "**• List of DB Variables:** \n\n"
+        for data in db_config:
+            dbx += f"» `{data}`\n"
+        await hell.edit(dbx)
+    else:
+        hell = await eor(event, "Getting configs list...")
+        osx = "**• List of OS Configs:** \n\n"
+        for data in os_config:
+            osx += f"» `{data}`\n"
+        await hell.edit(osx)
 
 
 @hell_cmd(pattern="schd(?:\s|$)([\s\S]*)")
@@ -152,7 +160,9 @@ CmdHelp("bot").add_command(
 ).add_command(
     "config", None, "😒"
 ).add_command(
-    "vars", None, "Gets the list of all available sql variables."
+    "vars", None, "Gets the list of all available OS Config Variables."
+).add_command(
+    "vars -db", None, "Gets the list of all available DB Config Variables."
 ).add_command(
     "kickme", None, "Kicks Yourself from the group."
 ).add_command(
