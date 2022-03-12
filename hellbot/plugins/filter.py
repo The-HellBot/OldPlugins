@@ -320,7 +320,6 @@ async def on_snip_delete(event):
         return await eod(event, "There aren't any filter in chat!")
     try:
         remove_filter(_id, name)
-        delgvar(f"FILTER_{ForGo10God}_{str(_id)[1:]}")
         await eod(event, f"**Filter Deleted!** \n\n__• Client:__ {hell_mention} \n__• Keyword:__ {name}")
     except Exception as e:
         await eod(event, f"**ERROR !!** \n\n`{e}`")
