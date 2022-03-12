@@ -85,3 +85,14 @@ async def hellbott(event):
                     string += "`, "
             string += "\n"
         await eor(event, "Please Specify A Module Name Of Which You Want Info" + "\n\n" + string)
+
+
+@hell_cmd(pattern="cmdinfo(?:\s|$)([\s\S]*)")
+async def cmdinfo(event):
+    cmd = (event.text[9:]).lower()
+    try:
+        info = CMD_INFO[cmd]["info"]
+        await eor(event, f"**• {cmd}:** \n» __{info}__")
+    except KeyError:
+        await eod(event, f"**• No command named:** `{cmd}`")
+
