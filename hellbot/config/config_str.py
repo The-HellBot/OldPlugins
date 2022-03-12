@@ -5,6 +5,7 @@ config_list = [
     "BIO_MSG",
     "CUSTOM_PMPERMIT",
     "HELP_PIC",
+    "PING_PIC",
     "PMPERMIT_PIC",
     "STICKER_PACKNAME",
     "USE_EVAL",
