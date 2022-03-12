@@ -10,7 +10,7 @@ from os import execl
 from time import sleep
 from asyncio.exceptions import CancelledError
 
-from hellbot.sql.gvar_sql import addgvar, delgvar, gvarstat
+from ..sql.gvar_sql import addgvar, delgvar, gvarstat
 from . import *
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -19,7 +19,6 @@ Heroku = heroku3.from_key(Config.HEROKU_API_KEY)
 heroku_api = "https://api.heroku.com"
 HEROKU_APP_NAME = Config.HEROKU_APP_NAME
 HEROKU_API_KEY = Config.HEROKU_API_KEY
-lg_id = os.environ.get("LOGGER_ID")
 
 
 async def restart(event):
@@ -27,9 +26,7 @@ async def restart(event):
         try:
             Heroku
         except BaseException:
-            return await eor(
-                event, "`HEROKU_API_KEY` is wrong. Re-Check in config vars."
-            )
+            return await eor(event, "`HEROKU_API_KEY` is wrong. Re-Check in config vars.")
         await eor(event, f"✅ **Restarted Dynos** \n**Type** `{hl}ping` **after 1 minute to check if I am working !**")
         app = Heroku.apps()[HEROKU_APP_NAME]
         app.restart()
@@ -74,16 +71,16 @@ async def sett(event):
     valu = " ".join(val_)
     hell = await eor(event, f"**Setting variable** `{var_}` **as** `{valu}`")
     if var_ == "":
-        return await hell.edit(f"**Invalid Syntax !!** \n\nTry: `{hl}svar VARIABLE_NAME variable_value`")
+        return await eod(hell, f"**Invalid Syntax !!** \n\nTry: `{hl}svar VARIABLE_NAME variable_value`")
     elif valu == "":
-        return await hell.edit(f"**Invalid Syntax !!** \n\nTry: `{hl}svar VARIABLE_NAME variable_value`")
+        return await eod(hell, f"**Invalid Syntax !!** \n\nTry: `{hl}svar VARIABLE_NAME variable_value`")
     if var_ not in config_list:
-        return await hell.edit(f"__There isn't any variable named__ `{var_}`. __Check spelling or get full list by__ `{hl}vars`")
+        return await eod(hell, f"__There isn't any DB variable named__ `{var_}`. __Check spelling or get full list by__ `{hl}vars`")
     try:
         addgvar(var_, valu)
     except Exception as e:
-        return await hell.edit(f"**ERROR !!** \n\n`{e}`")
-    await hell.edit(f"**Variable** `{var_}` **successfully added with value** `{valu}`")
+        return await eod(hell, f"**ERROR !!** \n\n`{e}`")
+    await eod(hell, f"**Variable Added Successfully!!** \n\n**• Variable:** `{var_}` \n**» Value:** `{valu}`")
 
 
 @hell_cmd(pattern="gvar(?:\s|$)([\s\S]*)")
@@ -91,15 +88,15 @@ async def gett(event):
     var_ = event.pattern_match.group(1).upper()
     hell = await eor(event, f"**Getting variable** `{var_}`")
     if var_ == "":
-        return await hell.edit(f"**Invalid Syntax !!** \n\nTry: `{hl}gvar VARIABLE_NAME`")
+        return await eod(hell, f"**Invalid Syntax !!** \n\nTry: `{hl}gvar VARIABLE_NAME`")
     if var_ not in config_list:
-        return await hell.edit(f"__There isn't any variable named__ `{var_}`. __Check spelling or get full list by `{hl}vars`")
+        return await eod(hell, f"__There isn't any variable named__ `{var_}`. __Check spelling or get full list by `{hl}vars`")
     try:
         sql_v = gvarstat(var_)
         os_v = os.environ.get(var_) or "None"
     except Exception as e:
-        return await hell.edit(f"**ERROR !!** \n\n`{e}`")
-    await hell.edit(f"**OS VARIABLE:** `{var_}`\n**OS VALUE :** `{os_v}`\n------------------\n**SQL VARIABLE:** `{var_}`\n**SQL VALUE :** `{sql_v}`\n")
+        return await eod(hell, f"**ERROR !!** \n\n`{e}`")
+    await hell.edit(f"**• OS VARIABLE:** `{var_}`\n**» OS VALUE :** `{os_v}`\n------------------\n**• SQL VARIABLE:** `{var_}`\n**» SQL VALUE :** `{sql_v}`\n")
 
 
 @hell_cmd(pattern="dvar(?:\s|$)([\s\S]*)")
@@ -107,22 +104,27 @@ async def dell(event):
     var_ = event.pattern_match.group(1).upper()
     hell = await eor(event, f"**Deleting Variable** `{var_}`")
     if var_ == "":
-        return await hell.edit(f"**Invalid Syntax !!** \n\nTry: `{hl}dvar VARIABLE_NAME`")
+        return await eod(hell, f"**Invalid Syntax !!** \n\nTry: `{hl}dvar VARIABLE_NAME`")
     if var_ not in config_list:
-        return await hell.edit(f"__There isn't any variable named__ `{var_}`. Check spelling or get full list by `{hl}vars`")
-    try:
-        delgvar(var_)
-    except Exception as e:
-        return await hell.edit(f"**ERROR !!** \n\n`{e}`")
-    await hell.edit(f"**Deleted Variable** `{var_}`")
-
+        return await eod(hell, f"__There isn't any variable named__ `{var_}`. Check spelling or get full list by `{hl}vars`")
+    if gvarstat(var_):
+        try:
+            x = gvarstat(var_)
+            delgvar(var_)
+            await eod(hell, f"**Deleted Variable Successfully!!** \n\n**• Variable:** `{var_}` \n**» Value:** `{x}`")
+        except Exception as e:
+            await eod(hell, f"**ERROR !!** \n\n`{e}`")
+    else:
+        await eod(hell, f"**No variable named** `{var_}`")
+   
 
 @hell_cmd(pattern="(set|get|del) var(?: |$)(.*)(?: |$)([\s\S]*)")
 async def variable(hell):
+    lg_id = Config.LOGGER_ID
     if Config.HEROKU_APP_NAME is not None:
         app = Heroku.app(Config.HEROKU_APP_NAME)
     else:
-        return await eor(hell, "`[HEROKU]:" "\nPlease setup your` **HEROKU_APP_NAME**")
+        return await eor(hell, "**[ HEROKU ]:**\n__Please setup your__ `HEROKU_APP_NAME`")
     exe = hell.pattern_match.group(1)
     heroku_var = app.config()
     if exe == "get":
@@ -133,7 +135,7 @@ async def variable(hell):
             xvar = hell.pattern_match.group(2).split()[0]
             variable = xvar.upper()
             if variable in config_list:
-                return await event.edit(f"This is a SQL based variable. Do `{hl}gvar {variable}` to get variable info.")
+                return await eod(event, f"This is a SQL based variable. Do `{hl}gvar {variable}` to get variable info.")
             if variable in ("HELLBOT_SESSION", "BOT_TOKEN", "HEROKU_API_KEY"):
                 if Config.ABUSE == "ON":
                     await event.client.send_file(hell.chat_id, cjb, caption=cap)
@@ -145,13 +147,9 @@ async def variable(hell):
                     await event.client.send_message(lg_id, f"#HEROKU_VAR \n\n`{heroku_var[variable]}`")
                     return
             if variable in heroku_var:
-                return await event.edit(
-                    "**Heroku Var** :" f"\n\n`{variable}` = `{heroku_var[variable]}`\n"
-                )
+                return await event.edit(f"**Heroku Var:** \n\n`{variable}` = `{heroku_var[variable]}`\n")
             else:
-                return await event.edit(
-                    "**Heroku Var** :" f"\n\n__Error:__\n-> I doubt `{variable}` exists!"
-                )
+                return await eod(event, "**Heroku Var:** \n\n__Error:__\n-> I doubt `{variable}` exists!")
         except IndexError:
             configs = prettyjson(heroku_var.to_dict(), indent=2)
             with open("configs.json", "w") as fp:
@@ -165,6 +163,7 @@ async def variable(hell):
                         reply_to=hell.id,
                         caption="`Output too large, sending it as a file`",
                     )
+                    await event.delete()
                 else:
                     await event.edit(
                         "**Heroku Var :**\n\n"
@@ -178,7 +177,7 @@ async def variable(hell):
         event = await eor(hell, "Setting Heroku Variable...")
         xvar = hell.pattern_match.group(2)
         if not xvar:
-            return await event.edit(f"`{hl}set var <Var Name> <Value>`")
+            return await eod(event, f"`{hl}set var <Var Name> <Value>`")
         variable = xvar.upper()
         value = hell.pattern_match.group(3)
         if not value:
@@ -186,32 +185,28 @@ async def variable(hell):
             try:
                 value = hell.pattern_match.group(2).split()[1]
             except IndexError:
-                return await event.edit(f"`{hl}set var <Var Name> <Value>`")
+                return await eod(event, f"`{hl}set var <Var Name> <Value>`")
         if variable in config_list:
-            return await event.edit(f"This is a SQL based variable. Do `{hl}svar {variable} {value}` to set this.")
+            return await eod(event, f"This is a SQL based variable. Do `{hl}svar {variable} {value}` to set this.")
         if variable in heroku_var:
-            await event.edit(
-                f"`{variable}` **successfully changed to**  ->  `{value}`"
-            )
+            await event.edit(f"`{variable}` **successfully changed to**  ->  `{value}`")
         else:
-            await event.edit(
-                f"`{variable}` **successfully added with value**  ->  `{value}`"
-            )
+            await event.edit(f"`{variable}` **successfully added with value**  ->  `{value}`")
         heroku_var[variable] = value
     elif exe == "del":
         event = await eor(hell, "Getting info to delete Variable")
         try:
             xvar = hell.pattern_match.group(2).split()[0]
         except IndexError:
-            return await event.edit("`Please specify ConfigVars you want to delete`")
+            return await eod(event, "`Please specify ConfigVars you want to delete`")
         variable = xvar.upper()
         if variable in config_list:
-            return await event.edit(f"This is a SQL based variable. Do `{hl}dvar {variable}` to delete it.")
+            return await eod(event, f"This is a SQL based variable. Do `{hl}dvar {variable}` to delete it.")
         if variable in heroku_var:
             await event.edit(f"**Successfully Deleted** \n`{variable}`")
             del heroku_var[variable]
         else:
-            return await event.edit(f"`{variable}`  **does not exists**")
+            return await eod(event, f"`{variable}`  **does not exists**")
 
 
 @hell_cmd(pattern="usage$")
@@ -231,9 +226,7 @@ async def dyno_usage(hell):
     path = "/accounts/" + user_id + "/actions/get-quota"
     r = requests.get(heroku_api + path, headers=headers)
     if r.status_code != 200:
-        return await event.edit(
-            "`Error: something bad happened`\n\n" f">.`{r.reason}`\n"
-        )
+        return await eod(event, "`Error: something bad happened`\n\n" f">.`{r.reason}`\n")
     result = r.json()
     quota = result["account_quota"]
     quota_used = result["quota_used"]
