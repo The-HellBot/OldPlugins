@@ -320,6 +320,7 @@ async def on_snip_delete(event):
         return await eod(event, "There aren't any filter in chat!")
     try:
         remove_filter(_id, name)
+        delgvar(f"FILTER_{ForGo10God}_{str(_id)[1:]}")
         await eod(event, f"**Filter Deleted!** \n\n__• Client:__ {hell_mention} \n__• Keyword:__ {name}")
     except Exception as e:
         await eod(event, f"**ERROR !!** \n\n`{e}`")
@@ -331,8 +332,12 @@ async def on_all_snip_delete(event):
     _id = event.chat_id
     if not gvarstat(f"FILTER_{ForGo10God}_{str(_id)[1:]}"):
         return await eod(event, "No filters in this chat!")
-    remove_all_filters(_id)
-    await eod(event, f"**All the Filters in current chat deleted successfully**")
+    try:
+        delgvar(f"FILTER_{ForGo10God}_{str(_id)[1:]}")
+        remove_all_filters(_id)
+        await eod(event, f"**All the Filters in current chat deleted successfully**")
+    except Exception as e:
+        await eod(event, f"**ERORR !!** \n\n{str(e)}")
 
 
 CmdHelp("filter").add_command(
