@@ -74,7 +74,7 @@ async def sett(event):
         return await eod(hell, f"**Invalid Syntax !!** \n\nTry: `{hl}svar VARIABLE_NAME variable_value`")
     elif valu == "":
         return await eod(hell, f"**Invalid Syntax !!** \n\nTry: `{hl}svar VARIABLE_NAME variable_value`")
-    if var_ not in config_list:
+    if var_ not in db_config:
         return await eod(hell, f"__There isn't any DB variable named__ `{var_}`. __Check spelling or get full list by__ `{hl}vars`")
     try:
         addgvar(var_, valu)
@@ -89,14 +89,14 @@ async def gett(event):
     hell = await eor(event, f"**Getting variable** `{var_}`")
     if var_ == "":
         return await eod(hell, f"**Invalid Syntax !!** \n\nTry: `{hl}gvar VARIABLE_NAME`")
-    if var_ not in config_list:
+    if var_ not in db_config:
         return await eod(hell, f"__There isn't any variable named__ `{var_}`. __Check spelling or get full list by `{hl}vars`")
     try:
         sql_v = gvarstat(var_)
         os_v = os.environ.get(var_) or "None"
     except Exception as e:
         return await eod(hell, f"**ERROR !!** \n\n`{e}`")
-    await hell.edit(f"**• OS VARIABLE:** `{var_}`\n**» OS VALUE :** `{os_v}`\n------------------\n**• SQL VARIABLE:** `{var_}`\n**» SQL VALUE :** `{sql_v}`\n")
+    await hell.edit(f"**• OS VARIABLE:** `{var_}`\n**» OS VALUE :** `{os_v}`\n------------------\n**• DB VARIABLE:** `{var_}`\n**» DB VALUE :** `{sql_v}`\n")
 
 
 @hell_cmd(pattern="dvar(?:\s|$)([\s\S]*)")
@@ -105,7 +105,7 @@ async def dell(event):
     hell = await eor(event, f"**Deleting Variable** `{var_}`")
     if var_ == "":
         return await eod(hell, f"**Invalid Syntax !!** \n\nTry: `{hl}dvar VARIABLE_NAME`")
-    if var_ not in config_list:
+    if var_ not in db_config:
         return await eod(hell, f"__There isn't any variable named__ `{var_}`. Check spelling or get full list by `{hl}vars`")
     if gvarstat(var_):
         try:
@@ -134,7 +134,7 @@ async def variable(hell):
         try:
             xvar = hell.pattern_match.group(2).split()[0]
             variable = xvar.upper()
-            if variable in config_list:
+            if variable in db_config:
                 return await eod(event, f"This is a SQL based variable. Do `{hl}gvar {variable}` to get variable info.")
             if variable in ("HELLBOT_SESSION", "BOT_TOKEN", "HEROKU_API_KEY"):
                 if Config.ABUSE == "ON":
@@ -186,7 +186,7 @@ async def variable(hell):
                 value = hell.pattern_match.group(2).split()[1]
             except IndexError:
                 return await eod(event, f"`{hl}set var <Var Name> <Value>`")
-        if variable in config_list:
+        if variable in db_config:
             return await eod(event, f"This is a SQL based variable. Do `{hl}svar {variable} {value}` to set this.")
         if variable in heroku_var:
             await event.edit(f"`{variable}` **successfully changed to**  ->  `{value}`")
@@ -200,7 +200,7 @@ async def variable(hell):
         except IndexError:
             return await eod(event, "`Please specify ConfigVars you want to delete`")
         variable = xvar.upper()
-        if variable in config_list:
+        if variable in db_config:
             return await eod(event, f"This is a SQL based variable. Do `{hl}dvar {variable}` to delete it.")
         if variable in heroku_var:
             await event.edit(f"**Successfully Deleted** \n`{variable}`")
