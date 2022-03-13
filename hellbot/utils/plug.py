@@ -108,4 +108,26 @@ def remove_plugin(shortname):
     except BaseException:
         raise ValueError
 
+
+async def plug_channel(client, channel):
+    if channel:
+        plugs = await client.get_messages(channel, None, filter=InputMessagesFilterDocument)
+        total = int(plugs.total)
+        for plugins in range(plugs):
+            plug_id = plugs[plugins].id
+            plug_name = plugs[plugins].file.name
+            if os.path.exists(f"hellbot/plugins/{plug_name}"):
+                return
+            downloaded_file_name = await client.download_media(
+                await client.get_messages(channel, ids=plug_id),
+                "hellbot/plugins/",
+            )
+            path1 = Path(downloaded_file_name)
+            shortname = path1.stem
+            try:
+                load_module(shortname.replace(".py", ""))
+            except Exception as e:
+                LOGS.error(str(e))
+
+
 # hellbot
