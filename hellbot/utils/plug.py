@@ -115,7 +115,7 @@ async def plug_channel(client, channel):
         LOGS.info("⚡ Hêllẞø† ⚡ - Starting to load extra plugins.")
         plugs = await client.get_messages(channel, None, filter=InputMessagesFilterDocument)
         total = int(plugs.total)
-        for plugins in range(plugs):
+        for plugins in range(total):
             plug_id = plugs[plugins].id
             plug_name = plugs[plugins].file.name
             if os.path.exists(f"hellbot/plugins/{plug_name}"):
