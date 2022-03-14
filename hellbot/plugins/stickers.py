@@ -274,6 +274,7 @@ async def kang(event):
                                 await conv.send_file("VideoSticker.webm")
                                 xy = await conv.get_response()
                         else:
+                            pack += 1
                             return await eod(hell, f"This Video sticker pack is already full...and an error occured during making new pack. Use `{hl}kang {pack}` to add new stickers.")
                         
                         
