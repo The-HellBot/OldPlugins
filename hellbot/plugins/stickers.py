@@ -288,7 +288,7 @@ async def kang(event):
                     if "50" in xy.text:
                         await conv.send_message("/cancel")
                         xy = await conv.get_response()
-                        if "The command publish was cancelled." in xy.txt:
+                        if "cancelled" in xy.txt:
                             while "50" in xy.text:
                                 pack += 1
                                 await conv.send_message(cmd)
