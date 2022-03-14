@@ -3,9 +3,9 @@
 import os
 
 if os.path.exists("config.py"):
-    pass
+    from config import Development as Config #noqa
 else:
-    pass
+    from .hell_config import Config #noqa
 
 
 # hellbot
