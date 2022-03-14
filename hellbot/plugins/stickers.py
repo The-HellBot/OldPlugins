@@ -262,6 +262,7 @@ async def kang(event):
                         if "The command publish was cancelled." in xy.txt:
                             while "50" in xy.text:
                                 pack += 1
+                                await conv.send_message(cmd)
                                 await conv.send_messsage("/addsticker")
                                 await conv.get_response()
                                 await event.client.send_read_acknowledge(conv.chat_id)
