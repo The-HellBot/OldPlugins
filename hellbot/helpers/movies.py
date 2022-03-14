@@ -1,9 +1,9 @@
 import os
+
 from imdb import IMDb
 from justwatch import JustWatch
 
-
-#======== IMDB Part =========#
+# ======== IMDB Part =========#
 imdb = IMDb()
 moviepath = os.path.join(os.getcwd(), "temp", "moviethumb.jpg")
 
@@ -45,9 +45,9 @@ mov_titles = [
     "localized title",
 ]
 
-#======== IMDB ENDS ==========#
+# ======== IMDB ENDS ==========#
 
-#======== JUST WATCH PART ==========#
+# ======== JUST WATCH PART ==========#
 # Get streaming sites details
 def get_stream_data(query):
     stream_data = {}
@@ -93,11 +93,13 @@ def get_stream_data(query):
     stream_data["score"] = scoring
     return stream_data
 
+
 # Pretty format for google play movies
 def pretty(name):
     if name == "play":
         name = "Google Play Movies"
     return name[0].upper() + name[1:]
+
 
 # Stream providers name.
 def get_provider(url):
@@ -108,4 +110,5 @@ def get_provider(url):
     url = url.split(".")[0]
     return url
 
-#=========== JUST WATCH ENDS =============#
+
+# =========== JUST WATCH ENDS =============#

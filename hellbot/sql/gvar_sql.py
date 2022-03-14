@@ -1,4 +1,5 @@
 from sqlalchemy import Column, String, UnicodeText
+
 from . import BASE, SESSION
 
 
@@ -17,12 +18,7 @@ Gvar.__table__.create(checkfirst=True)
 
 def gvarstat(variable):
     try:
-        return (
-            SESSION.query(Gvar)
-            .filter(Gvar.variable == str(variable))
-            .first()
-            .value
-        )
+        return SESSION.query(Gvar).filter(Gvar.variable == str(variable)).first().value
     except BaseException:
         return None
     finally:

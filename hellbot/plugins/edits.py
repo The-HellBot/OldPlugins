@@ -1,12 +1,5 @@
 import asyncio
 import random
-from random import choice
-import requests
-import re
-import time
-
-from telethon.tl.functions.users import GetFullUserRequest
-from telethon.tl.types import MessageEntityMentionName
 
 from . import *
 
@@ -67,78 +60,86 @@ async def _(event):
 async def metoo(e):
     txt = random.choice(GENDER)
     await eor(e, txt)
-    
+
+
 @hell_cmd(pattern=f"shrug$")
 async def metoo(e):
     txt = random.choice(SHRUG)
     await eor(e, txt)
-    
+
+
 @hell_cmd(pattern=f"dogge")
 async def metoo(e):
     txt = random.choice(DOG)
     await eor(e, txt)
-    
+
+
 @hell_cmd(pattern=f"mesed$")
 async def metoo(e):
     txt = random.choice(SED)
     await eor(e, txt)
-    
+
+
 @hell_cmd(pattern=f"medead$")
 async def metoo(e):
     txt = random.choice(DEAD)
     await eor(e, txt)
-    
+
+
 @hell_cmd(pattern=f"confused$")
 async def metoo(e):
     txt = random.choice(CONFUSED)
     await eor(e, txt)
-    
+
+
 @hell_cmd(pattern=f"lobb$")
 async def metoo(e):
     txt = random.choice(LOB)
     await eor(e, txt)
-    
+
+
 @hell_cmd(pattern=f"wut$")
 async def metoo(e):
     txt = random.choice(WTF)
     await eor(e, txt)
-    
+
+
 @hell_cmd(pattern=f"wavee$")
 async def metoo(e):
     txt = random.choice(WAVING)
     await eor(e, txt)
-    
+
+
 @hell_cmd(pattern=f"hehe$")
 async def metoo(e):
     txt = random.choice(EMOTICONS)
     await eor(e, txt)
-    
-CmdHelp("edits").add_command(
-  "hehe", None, "Use and see"
+
+
+CmdHelp("edits").add_command("hehe", None, "Use and see").add_command(
+    "wavee", None, "Use and see"
+).add_command("wut", None, "Use and see").add_command(
+    "lobb", None, "Use and see"
 ).add_command(
-  "wavee", None, "Use and see"
+    "confused", None, "Use and see"
 ).add_command(
-  "wut", None, "Use and see"
+    "medead", None, "Use and see"
 ).add_command(
-  "lobb", None, "Use and see"
+    "mesed", None, "Use and see"
 ).add_command(
-  "confused", None, "Use and see"
+    "doge", None, "Use and see"
 ).add_command(
-  "medead", None, "Use and see"
+    "shrug", None, "Use and see"
 ).add_command(
-  "mesed", None, "Use and see"
+    "gendar", None, "Use and see"
 ).add_command(
-  "doge", None, "Use and see"
+    "type", "<word>", "Animates the given word into a typewriter."
 ).add_command(
-  "shrug", None, "Use and see"
-).add_command(
-  "gendar", None, "Use and see"
-).add_command(
-  "type", "<word>", "Animates the given word into a typewriter."
-).add_command(
-  "emoji", None, "Available cmnds are:-\n• shrug\n• apple\n• :/\n• -_-\n Add .emoji in front of all cmds."
+    "emoji",
+    None,
+    "Available cmnds are:-\n• shrug\n• apple\n• :/\n• -_-\n Add .emoji in front of all cmds.",
 ).add_info(
-  "Bass Bakchodi hai ye."
+    "Bass Bakchodi hai ye."
 ).add_warning(
-  "✅ Harmless Module."
+    "✅ Harmless Module."
 ).add()

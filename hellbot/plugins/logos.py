@@ -1,10 +1,9 @@
 import datetime
 import os
 import random
-import time
 
 from PIL import Image, ImageDraw, ImageFont
-from telethon.tl.types import InputMessagesFilterPhotos, InputMessagesFilterDocument
+from telethon.tl.types import InputMessagesFilterDocument, InputMessagesFilterPhotos
 
 from . import *
 
@@ -30,7 +29,9 @@ async def _(event):
             pass
     else:
         await hell.edit("Picked a Logo BG...")
-        async for i in event.client.iter_messages("@HELLBOT_LOGOS", filter=InputMessagesFilterPhotos):
+        async for i in event.client.iter_messages(
+            "@HELLBOT_LOGOS", filter=InputMessagesFilterPhotos
+        ):
             PICS_STR.append(i)
         pic = random.choice(PICS_STR)
         logo_ = await pic.download_media()
@@ -92,9 +93,11 @@ async def get_font_file(client, channel_id):
 
 
 CmdHelp("logos").add_command(
-  "logo", "<reply to pic + text> or <text>", "Makes a logo with the given text. If replied to a picture makes logo on that else gets random BG."
+    "logo",
+    "<reply to pic + text> or <text>",
+    "Makes a logo with the given text. If replied to a picture makes logo on that else gets random BG.",
 ).add_info(
-  "Logo Maker.\n**🙋🏻‍♂️ Note :**  Currently only supports custom pics. Fonts are choosen randomly."
+    "Logo Maker.\n**🙋🏻‍♂️ Note :**  Currently only supports custom pics. Fonts are choosen randomly."
 ).add_warning(
-  "✅ Harmless Module."
+    "✅ Harmless Module."
 ).add()

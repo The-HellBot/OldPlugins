@@ -1,25 +1,12 @@
-import asyncio
-import datetime
-import importlib
-import inspect
-import logging
 import math
-import os
 import re
-import sys
 import time
-import traceback
-from pathlib import Path
-from time import gmtime, strftime
-
-from telethon import events
-from telethon.tl.functions.channels import GetParticipantRequest
-from telethon.tl.types import ChannelParticipantAdmin, ChannelParticipantCreator
 
 from hellbot import *
 from hellbot.config import Config
 from hellbot.helpers import *
 from hellbot.utils import *
+
 
 async def reply_id(event):
     reply_to_id = None
@@ -29,11 +16,12 @@ async def reply_id(event):
         reply_to_id = event.reply_to_msg_id
     return reply_to_id
 
+
 # let's see the progress
 async def progress(
     current, total, event, start, type_of_ps, file_name=None, is_cancelled=None
 ):
-    """Generic progress_callback for uploads and downloads.""" # edit this docstring to your need. If you are kanging it. Lol
+    """Generic progress_callback for uploads and downloads."""  # edit this docstring to your need. If you are kanging it. Lol
     now = time.time()
     diff = now - start
     if is_cancelled is True:
@@ -67,7 +55,7 @@ def humanbytes(size):
     if not size:
         return ""
     # 2 ** 10 = 1024
-    power = 2 ** 10
+    power = 2**10
     raised_to_pow = 0
     dict_power_n = {0: "", 1: "Ki", 2: "Mi", 3: "Gi", 4: "Ti"}
     while size > power:
@@ -79,12 +67,12 @@ def humanbytes(size):
 # ok! But Wtf
 def human_to_bytes(size: str) -> int:
     units = {
-        "M": 2 ** 20,
-        "MB": 2 ** 20,
-        "G": 2 ** 30,
-        "GB": 2 ** 30,
-        "T": 2 ** 40,
-        "TB": 2 ** 40,
+        "M": 2**20,
+        "MB": 2**20,
+        "G": 2**30,
+        "GB": 2**30,
+        "T": 2**40,
+        "TB": 2**40,
     }
 
     size = size.upper()
@@ -110,5 +98,6 @@ def time_formatter(milliseconds: int) -> str:
         + ((str(milliseconds) + " millisecond(s), ") if milliseconds else "")
     )
     return tmp[:-2]
+
 
 # hellbot

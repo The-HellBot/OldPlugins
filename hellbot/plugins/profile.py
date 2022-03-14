@@ -24,7 +24,8 @@ ONLINE_TAG = "[ • ONLINE • ]"
 PROFILE_IMAGE = "https://telegra.ph/file/9f0638dbfa028162a8682.jpg"
 # ===============================================================
 
-@hell_cmd(pattern="offline$") 
+
+@hell_cmd(pattern="offline$")
 async def _(event):
     user_it = "me"
     user = await event.client.get_entity(user_it)
@@ -107,9 +108,7 @@ async def _(event):
 async def _(event):
     bio = event.text[6:]
     try:
-        await event.client(
-            functions.account.UpdateProfileRequest(about=bio)
-        )
+        await event.client(functions.account.UpdateProfileRequest(about=bio))
         await eor(event, BIO_SUCCESS)
     except Exception as e:
         await eor(event, str(e))
@@ -123,7 +122,11 @@ async def _(event):
     if "-" in names:
         first_name, last_name = names.split("-", 1)
     try:
-        await event.client(functions.account.UpdateProfileRequest(first_name=first_name, last_name=last_name))
+        await event.client(
+            functions.account.UpdateProfileRequest(
+                first_name=first_name, last_name=last_name
+            )
+        )
         await eor(event, NAME_OK.format(names))
     except Exception as e:
         await eor(event, str(e))
@@ -137,7 +140,9 @@ async def _(event):
         os.makedirs(Config.TMP_DOWNLOAD_DIRECTORY)
     photo = None
     try:
-        photo = await event.client.download_media(reply_message, Config.TMP_DOWNLOAD_DIRECTORY)
+        photo = await event.client.download_media(
+            reply_message, Config.TMP_DOWNLOAD_DIRECTORY
+        )
     except Exception as e:
         await hell.edit(str(e))
     else:
@@ -227,7 +232,10 @@ async def remove_profilepic(event):
             )
         )
     await event.client(DeletePhotosRequest(id=input_photos))
-    await eod(event, f"🗑️ **Successfully deleted**  `{len(input_photos)}`  **profile picture(s).**")
+    await eod(
+        event,
+        f"🗑️ **Successfully deleted**  `{len(input_photos)}`  **profile picture(s).**",
+    )
 
 
 @hell_cmd(pattern="myusernames$")
@@ -240,27 +248,35 @@ async def _(event):
 
 
 CmdHelp("profile").add_command(
-  "count", None, "Counts your groups, chats, bots etc..."
+    "count", None, "Counts your groups, chats, bots etc..."
 ).add_command(
-  "myusernames", None, "Shows usernames reserved by you. That is public groups or channels created by you"
+    "myusernames",
+    None,
+    "Shows usernames reserved by you. That is public groups or channels created by you",
 ).add_command(
-  "delpfp", "<count> or all", "Deletes your Telegram profile picture(s)."
+    "delpfp", "<count> or all", "Deletes your Telegram profile picture(s)."
 ).add_command(
-  "pbio", "<text>", "Changes your Telegram bio", ".pbio Hello there, This iz my bio"
+    "pbio", "<text>", "Changes your Telegram bio", ".pbio Hello there, This iz my bio"
 ).add_command(
-  "ppic", "<reply to image>", "Changes your Telegram profie picture with the one you replied to"
+    "ppic",
+    "<reply to image>",
+    "Changes your Telegram profie picture with the one you replied to",
 ).add_command(
-  "pname", "<firstname> or <firstname - lastname>", "Changes Your Telegram account name"
+    "pname",
+    "<firstname> or <firstname - lastname>",
+    "Changes Your Telegram account name",
 ).add_command(
-  "username", "<new username>", "Changes your Telegram Account Username"
+    "username", "<new username>", "Changes your Telegram Account Username"
 ).add_command(
-  "online", None, "Remove Offline Tag from your name and change profile pic to vars PROFILE_IMAGE."
+    "online",
+    None,
+    "Remove Offline Tag from your name and change profile pic to vars PROFILE_IMAGE.",
 ).add_command(
-  "offline", None, "Add an offline tag in your name and change profile pic to black."
+    "offline", None, "Add an offline tag in your name and change profile pic to black."
 ).add_command(
-  "kickme", None, "Gets out of the grp..."
+    "kickme", None, "Gets out of the grp..."
 ).add_info(
-  "🌝 Managing Profile was never so easy."
+    "🌝 Managing Profile was never so easy."
 ).add_warning(
-  "✅ Harmless Module."
+    "✅ Harmless Module."
 ).add()

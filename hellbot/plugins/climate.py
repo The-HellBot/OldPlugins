@@ -1,16 +1,18 @@
+import datetime
 import io
 import json
-import datetime
 
 import aiohttp
 import requests
-from pytz import country_names as c_n, country_timezones as c_tz, timezone as tz
+from pytz import country_names as c_n
+from pytz import country_timezones as c_tz
+from pytz import timezone as tz
 
 from . import *
 
-
 DEFCITY = "Delhi"
 OWM_API = Config.WEATHER_API
+
 
 async def get_tz(con):
     for c_code in c_n:
@@ -26,7 +28,9 @@ async def get_tz(con):
 @hell_cmd(pattern="climate ([\s\S]*)")
 async def get_weather(weather):
     if not OWM_API:
-        return await eod(weather, "**Get an API key from** https://openweathermap.org/ **first.**")
+        return await eod(
+            weather, "**Get an API key from** https://openweathermap.org/ **first.**"
+        )
     APPID = OWM_API
     if not weather.pattern_match.group(1):
         CITY = DEFCITY
@@ -98,6 +102,7 @@ async def get_weather(weather):
     def sun(unix):
         xx = datetime.datetime.fromtimestamp(unix, tz=ctimezone).strftime("%I:%M %p")
         return xx
+
     cid = await client_id(weather)
     hell_mention = cid[2]
     await eor(
@@ -123,7 +128,9 @@ async def get_weather(weather):
 @errors_handler
 async def set_default_city(city):
     if not OWM_API:
-        return await eod(city, "**Get an API key from** https://openweathermap.org/ **first.**")
+        return await eod(
+            city, "**Get an API key from** https://openweathermap.org/ **first.**"
+        )
     global DEFCITY
     APPID = OWM_API
     if not city.pattern_match.group(1):
@@ -178,7 +185,11 @@ async def _(event):
         response_api_zero = await session.get(sample_url.format(input_str))
         response_api = await response_api_zero.read()
         with io.BytesIO(response_api) as out_file:
-            await event.client.send_message(f"**City :** `{input_str}` \n**By :** {hell_mention}", file=out_file, reply_to=reply_to_id)
+            await event.client.send_message(
+                f"**City :** `{input_str}` \n**By :** {hell_mention}",
+                file=out_file,
+                reply_to=reply_to_id,
+            )
     try:
         await hell.delete()
     except:
@@ -186,13 +197,15 @@ async def _(event):
 
 
 CmdHelp("climate").add_command(
-  "climate", "Name of state/country", "Gets the weather of a city. By default it is Delhi, change it by setcity"
-).add_command(
-  "setcity", "<city>/<country>", "Sets your default city."
-).add_command(
-  "wttr", "<city>", "Shows you the climate data of 3 days from today in a image format."
+    "climate",
+    "Name of state/country",
+    "Gets the weather of a city. By default it is Delhi, change it by setcity",
+).add_command("setcity", "<city>/<country>", "Sets your default city.").add_command(
+    "wttr",
+    "<city>",
+    "Shows you the climate data of 3 days from today in a image format.",
 ).add_info(
-  "Climates And Weathers."
+    "Climates And Weathers."
 ).add_warning(
-  "✅ Harmless Module."
+    "✅ Harmless Module."
 ).add()

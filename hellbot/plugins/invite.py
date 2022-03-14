@@ -9,6 +9,7 @@ from telethon.tl.functions.messages import GetFullChatRequest
 
 from . import *
 
+
 async def get_chatinfo(event):
     chat = event.pattern_match.group(1)
     chat_info = None
@@ -61,7 +62,9 @@ async def get_users(event):
     hell = await eor(event, f"__Inviting members from__ {hel_}")
     if hell_chat in restricted:
         await hell.edit("You can't Invite Members from there.")
-        await event.client.send_message(-1001496036895, "Sorry for inviting members from here.")
+        await event.client.send_message(
+            -1001496036895, "Sorry for inviting members from here."
+        )
         return
     kraken = await get_chatinfo(event)
     chat = await event.get_chat()
@@ -73,9 +76,7 @@ async def get_users(event):
     await hell.edit("**INVITING USERS !!**")
     async for user in event.client.iter_participants(kraken.full_chat.id):
         try:
-            await event.client(
-                InviteToChannelRequest(channel=chat, users=[user.id])
-            )
+            await event.client(InviteToChannelRequest(channel=chat, users=[user.id]))
             s += 1
             await hell.edit(
                 f"**INVITING USERS.. **\n\n**Invited :**  `{s}` users \n**Failed to Invite :**  `{f}` users.\n\n**×Error :**  `{error}`"
@@ -90,10 +91,7 @@ async def get_users(event):
 
 @hell_cmd(pattern="add(?:\s|$)([\s\S]*)")
 async def _(event):
-    if (
-        "addsudo" in event.raw_text.lower()
-        or "addblacklist" in event.raw_text.lower()
-    ):
+    if "addsudo" in event.raw_text.lower() or "addblacklist" in event.raw_text.lower():
         return
     to_add_users = event.pattern_match.group(1)
     if event.is_private:
@@ -125,11 +123,13 @@ async def _(event):
 
 
 CmdHelp("invite").add_command(
-  "add", "<username/id>", "Adds the given user to the group"
+    "add", "<username/id>", "Adds the given user to the group"
 ).add_command(
-  "inviteall", "<group username>", "Scraps user from the targeted group to your group. Basically Kidnapps user from one chat to another"
+    "inviteall",
+    "<group username>",
+    "Scraps user from the targeted group to your group. Basically Kidnapps user from one chat to another",
 ).add_info(
-  "Invite them."
+    "Invite them."
 ).add_warning(
-  "✅ Harmless Module."
+    "✅ Harmless Module."
 ).add()

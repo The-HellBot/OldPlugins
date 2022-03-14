@@ -6,9 +6,9 @@ from .gdriver import *
 from .google import *
 from .image import *
 from .int_str import *
-from .movies import *
 from .mediatype import *
 from .mmf import *
+from .movies import *
 from .pasters import *
 from .pranks import *
 from .progress import *

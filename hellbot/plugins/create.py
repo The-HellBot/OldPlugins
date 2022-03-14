@@ -68,7 +68,9 @@ async def permalink(mention):
     if not user:
         return
     if custom:
-        await eor(mention, f"[{custom}](tg://user?id={user.id}) \n\n\n  ☝️ Tap To See ☝️")
+        await eor(
+            mention, f"[{custom}](tg://user?id={user.id}) \n\n\n  ☝️ Tap To See ☝️"
+        )
     else:
         tag = (
             user.first_name.replace("\u2060", "") if user.first_name else user.username
@@ -77,7 +79,7 @@ async def permalink(mention):
 
 
 async def get_user_from_event(event):
-    """ Get the user from argument or replied message. """
+    """Get the user from argument or replied message."""
     args = event.pattern_match.group(1).split(":", 1)
     extra = None
     if event.reply_to_msg_id and not len(args) == 2:
@@ -126,15 +128,15 @@ async def get_user_from_id(user, event):
 
 
 CmdHelp("create").add_command(
-  'create b', 'Name of your grp', 'Creates a super and send you link'
+    "create b", "Name of your grp", "Creates a super and send you link"
 ).add_command(
-  'create g', 'Name of your grp', 'Creates a private grp and send you link'
+    "create g", "Name of your grp", "Creates a private grp and send you link"
 ).add_command(
-  'create c', 'Name of your channel', 'Creates a channel and sends you link'
+    "create c", "Name of your channel", "Creates a channel and sends you link"
 ).add_command(
-  'link', '<reply> <text>', 'Makes a permanent link of tagged user with a custom text'
+    "link", "<reply> <text>", "Makes a permanent link of tagged user with a custom text"
 ).add_info(
-  'Creates Groups'
+    "Creates Groups"
 ).add_warning(
-  '✅ Harmless Module'
+    "✅ Harmless Module"
 ).add()

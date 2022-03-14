@@ -1,4 +1,3 @@
-from telethon import events
 from telethon.errors.rpcerrorlist import YouBlockedUserError
 
 from . import *
@@ -23,13 +22,21 @@ async def _(event):
             output_op = await conv.get_response()
             await event.client.send_read_acknowledge(conv.chat_id)
         except YouBlockedUserError:
-            await kraken.edit("User Blocked!! Please Unblock @asciiart_bot and try again...")
+            await kraken.edit(
+                "User Blocked!! Please Unblock @asciiart_bot and try again..."
+            )
             return
-    await event.client.send_file(event.chat_id, file=output_op, caption=f"ASCII art By :- {hell_mention}", force_document=False)
-    await kraken.delete()  
+    await event.client.send_file(
+        event.chat_id,
+        file=output_op,
+        caption=f"ASCII art By :- {hell_mention}",
+        force_document=False,
+    )
+    await kraken.delete()
     await event.client.delete_messages(
         conv.chat_id, [first.id, response.id, second.id, output_op.id]
     )
+
 
 @hell_cmd(pattern="line(?:\s|$)([\s\S]*)")
 async def _(event):
@@ -52,9 +59,16 @@ async def _(event):
             output_op = await conv.get_response()
             await event.client.send_read_acknowledge(conv.chat_id)
         except YouBlockedUserError:
-            await kraken.edit("User Blocked!! Please Unblock @Lines50Bot and try again...")
+            await kraken.edit(
+                "User Blocked!! Please Unblock @Lines50Bot and try again..."
+            )
             return
-    await event.client.send_file(event.chat_id, file=output_op, caption=f"Lines By :- {hell_mention}", force_document=False)
+    await event.client.send_file(
+        event.chat_id,
+        file=output_op,
+        caption=f"Lines By :- {hell_mention}",
+        force_document=False,
+    )
     await kraken.delete()
     await event.client.delete_messages(
         conv.chat_id, [first.id, response.id, second.id, output_op.id]
@@ -62,11 +76,11 @@ async def _(event):
 
 
 CmdHelp("ascii").add_command(
-  'ascii', 'reply to any image file', 'Makes an image ascii style, try out your own'
+    "ascii", "reply to any image file", "Makes an image ascii style, try out your own"
 ).add_command(
-  'line', 'reply to any image file', 'Makes an image in line style'
+    "line", "reply to any image file", "Makes an image in line style"
 ).add_info(
-  'Lines And Ascii'
+    "Lines And Ascii"
 ).add_warning(
-  '✅ Harmless Module.'
+    "✅ Harmless Module."
 ).add()

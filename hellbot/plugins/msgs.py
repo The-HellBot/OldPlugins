@@ -22,7 +22,9 @@ async def all_groups_id(hell):
 @hell_cmd(pattern="frwd$")
 async def _(event):
     if Config.LOGGER_ID is None:
-        await eod(event, "Please set the required config `LOGGER_ID` for this plugin to work")
+        await eod(
+            event, "Please set the required config `LOGGER_ID` for this plugin to work"
+        )
         return
     try:
         e = await event.client.get_entity(Config.LOGGER_ID)
@@ -80,15 +82,21 @@ async def _(event):
 
 
 CmdHelp("msgs").add_command(
-  "fpost", "<your msg>", "Checks all your groups and sends the msg matching the given keyword"
+    "fpost",
+    "<your msg>",
+    "Checks all your groups and sends the msg matching the given keyword",
 ).add_command(
-  "frwd", "<reply to a msg>", "Enables seen counter in replied msg. To know how many users have seen your msg."
+    "frwd",
+    "<reply to a msg>",
+    "Enables seen counter in replied msg. To know how many users have seen your msg.",
 ).add_command(
-  "resend", "<reply to a msg>", "Just resends the replied msg"
+    "resend", "<reply to a msg>", "Just resends the replied msg"
 ).add_command(
-  "copy", "<reply to a msg>", "Resends the replied msg by replying to the original msg."
+    "copy",
+    "<reply to a msg>",
+    "Resends the replied msg by replying to the original msg.",
 ).add_info(
-  "Messages tools."
+    "Messages tools."
 ).add_warning(
-  "✅ Harmless Module."
+    "✅ Harmless Module."
 ).add()

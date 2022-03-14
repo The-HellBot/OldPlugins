@@ -3,6 +3,7 @@ from collections import deque
 
 from . import *
 
+
 @hell_cmd(pattern="boxs$")
 async def _(event):
     event = await eor(event, "`boxs...`")
@@ -200,29 +201,29 @@ async def _(event):
     for i in animation_ttl:
         await asyncio.sleep(animation_interval)
         await event.edit(animation_chars[i % 12])
-   
-     
+
+
 @hell_cmd(pattern=f"wahack$")
 async def _(event):
     animation_interval = 0.3
     animation_ttl = range(15)
     event = await eor(event, "`Hacking this kid....`")
     animation_chars = [
-            "Looking for WhatsApp databases in targeted person...",
-            " User online: True\nTelegram access: True\nRead Storage: True ",
-            "Hacking... 0%\n[░░░░░░░░░░░░░░░░░░░░]\n`Looking for WhatsApp...`\nETA: 0m, 20s",
-            "Hacking... 11.07%\n[██░░░░░░░░░░░░░░░░░░]\n`Looking for WhatsApp...`\nETA: 0m, 18s",
-            "Hacking... 20.63%\n[███░░░░░░░░░░░░░░░░░]\n`Found folder C:/WhatsApp`\nETA: 0m, 16s",
-            "Hacking... 34.42%\n[█████░░░░░░░░░░░░░░░]\n`Found folder C:/WhatsApp`\nETA: 0m, 14s",
-            "Hacking... 42.17%\n[███████░░░░░░░░░░░░░]\n`Searching for databases`\nETA: 0m, 12s",
-            "Hacking... 55.30%\n[█████████░░░░░░░░░░░]\n`Found msgstore.db.crypt12`\nETA: 0m, 10s",
-            "Hacking... 64.86%\n[███████████░░░░░░░░░]\n`Found msgstore.db.crypt12`\nETA: 0m, 08s",
-            "Hacking... 74.02%\n[█████████████░░░░░░░]\n`Trying to Decrypt...`\nETA: 0m, 06s",
-            "Hacking... 86.21%\n[███████████████░░░░░]\n`Trying to Decrypt...`\nETA: 0m, 04s",
-            "Hacking... 93.50%\n[█████████████████░░░]\n`Decryption successful!`\nETA: 0m, 02s",
-            "Hacking... 100%\n[████████████████████]\n`Scanning file...`\nETA: 0m, 00s",
-            "Hacking complete!\nUploading file...",
-            "Targeted Account Hacked...!\n\n ✅ File has been successfully uploaded to my server.\nWhatsApp Database:\n`./DOWNLOADS/msgstore.db.crypt12`",
+        "Looking for WhatsApp databases in targeted person...",
+        " User online: True\nTelegram access: True\nRead Storage: True ",
+        "Hacking... 0%\n[░░░░░░░░░░░░░░░░░░░░]\n`Looking for WhatsApp...`\nETA: 0m, 20s",
+        "Hacking... 11.07%\n[██░░░░░░░░░░░░░░░░░░]\n`Looking for WhatsApp...`\nETA: 0m, 18s",
+        "Hacking... 20.63%\n[███░░░░░░░░░░░░░░░░░]\n`Found folder C:/WhatsApp`\nETA: 0m, 16s",
+        "Hacking... 34.42%\n[█████░░░░░░░░░░░░░░░]\n`Found folder C:/WhatsApp`\nETA: 0m, 14s",
+        "Hacking... 42.17%\n[███████░░░░░░░░░░░░░]\n`Searching for databases`\nETA: 0m, 12s",
+        "Hacking... 55.30%\n[█████████░░░░░░░░░░░]\n`Found msgstore.db.crypt12`\nETA: 0m, 10s",
+        "Hacking... 64.86%\n[███████████░░░░░░░░░]\n`Found msgstore.db.crypt12`\nETA: 0m, 08s",
+        "Hacking... 74.02%\n[█████████████░░░░░░░]\n`Trying to Decrypt...`\nETA: 0m, 06s",
+        "Hacking... 86.21%\n[███████████████░░░░░]\n`Trying to Decrypt...`\nETA: 0m, 04s",
+        "Hacking... 93.50%\n[█████████████████░░░]\n`Decryption successful!`\nETA: 0m, 02s",
+        "Hacking... 100%\n[████████████████████]\n`Scanning file...`\nETA: 0m, 00s",
+        "Hacking complete!\nUploading file...",
+        "Targeted Account Hacked...!\n\n ✅ File has been successfully uploaded to my server.\nWhatsApp Database:\n`./DOWNLOADS/msgstore.db.crypt12`",
     ]
     for i in animation_ttl:
         await asyncio.sleep(animation_interval)
@@ -406,14 +407,16 @@ async def ammastar(hellstar):
 
 @hell_cmd(pattern="lmoon$")
 async def test(event):
-    await eor(event, 
-        "🌕🌕🌕🌕🌕🌕🌕🌕\n🌕🌕🌖🌔🌖🌔🌕🌕\n🌕🌕🌗🌔🌖🌓🌕🌕\n🌕🌕🌗🌔🌖🌓🌕🌕\n🌕🌕🌖🌓🌗🌔🌕🌕\n🌕🌕🌗🌑🌑🌓🌕🌕\n🌕🌕🌗👀🌑🌓🌕🌕\n🌕🌕🌘👄🌑🌓🌕🌕\n🌕🌕🌗🌑🌑🌒🌕🌕\n🌕🌖🌑🌑🌑🌑🌔🌕\n🌕🌘🌑🌑🌑🌑🌒🌕\n🌖🌑🌑🌑🌑🌑🌑🌔\n🌕🤜🏻🌑🌑🌑🌑🤛🏻🌕\n🌕🌖🌑🌑🌑🌑🌔🌕\n🌘🌑🌑🌑🌑🌑🌑🌒\n🌕🌕🌕🌕🌕🌕🌕🌕"
+    await eor(
+        event,
+        "🌕🌕🌕🌕🌕🌕🌕🌕\n🌕🌕🌖🌔🌖🌔🌕🌕\n🌕🌕🌗🌔🌖🌓🌕🌕\n🌕🌕🌗🌔🌖🌓🌕🌕\n🌕🌕🌖🌓🌗🌔🌕🌕\n🌕🌕🌗🌑🌑🌓🌕🌕\n🌕🌕🌗👀🌑🌓🌕🌕\n🌕🌕🌘👄🌑🌓🌕🌕\n🌕🌕🌗🌑🌑🌒🌕🌕\n🌕🌖🌑🌑🌑🌑🌔🌕\n🌕🌘🌑🌑🌑🌑🌒🌕\n🌖🌑🌑🌑🌑🌑🌑🌔\n🌕🤜🏻🌑🌑🌑🌑🤛🏻🌕\n🌕🌖🌑🌑🌑🌑🌔🌕\n🌘🌑🌑🌑🌑🌑🌑🌒\n🌕🌕🌕🌕🌕🌕🌕🌕",
     )
 
 
 @hell_cmd(pattern="city$")
 async def test(event):
-    await eor(event, 
+    await eor(
+        event,
         """☁☁🌞      ☁           ☁
        ☁  ✈         ☁    🚁    ☁    ☁        ☁          ☁     ☁   ☁
 
@@ -422,7 +425,7 @@ async def test(event):
            🌳/  🚘 l  🏃 \🌴 👬                       👬  🌴/            l  🚔    \🌲
       🌲/   🚖     l               \
    🌳/🚶           |   🚍         \ 🌴🚴🚴
-🌴/                    |                     \🌲"""
+🌴/                    |                     \🌲""",
     )
 
 
@@ -433,8 +436,9 @@ async def hi(event):
 
 @hell_cmd(pattern="cheer$")
 async def cheer(event):
-    await eor(event, 
-        "💐💐😉😊💐💐\n☕ Cheer Up  🍵\n🍂 ✨ )) ✨  🍂\n🍂┃ (( * ┣┓ 🍂\n🍂┃*💗 ┣┛ 🍂 \n🍂┗━━┛  🍂🎂 For YOU  🍰\n💐💐😌😚💐💐"
+    await eor(
+        event,
+        "💐💐😉😊💐💐\n☕ Cheer Up  🍵\n🍂 ✨ )) ✨  🍂\n🍂┃ (( * ┣┓ 🍂\n🍂┃*💗 ┣┛ 🍂 \n🍂┗━━┛  🍂🎂 For YOU  🍰\n💐💐😌😚💐💐",
     )
 
 
@@ -449,17 +453,17 @@ async def _(event):
     animation_ttl = range(0, 11)
     await eor(event, "Switch")
     animation_chars = [
-         "⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜[🔲](https://github.com/The-HellBot/HellBot)\n⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜⬜",
-         "⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜[🔲](https://github.com/The-HellBot/HellBot)\n⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜⬜\n[👉](https://t.me/ForGo10God)⬜⬜⬜⬜⬜⬜",
-         "⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜[🔲](https://github.com/The-HellBot/HellBot)\n⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜⬜\n⬛[👉](https://t.me/ForGo10God)⬜⬜⬜⬜⬜",
-         "⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜[🔲](https://github.com/The-HellBot/HellBot)\n⬜⬜⬜⬜⬜⬜⬜\n⬜[👆](https://t.me/ForGo10God)⬜⬜⬜⬜⬜\n⬛⬛⬜⬜⬜⬜⬜",
-         "⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜[🔲](https://github.com/The-HellBot/HellBot)\n⬜[👆](https://t.me/ForGo10God)⬜⬜⬜⬜⬜\n⬜⬛⬜⬜⬜⬜⬜\n⬛⬛⬜⬜⬜⬜⬜",
-         "⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜[🔲](https://github.com/The-HellBot/HellBot)\n⬜⬛[👉](https://t.me/ForGo10God)⬜⬜⬜⬜\n⬜⬛⬜⬜⬜⬜⬜\n⬛⬛⬜⬜⬜⬜⬜",
-         "⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜[🔲](https://github.com/The-HellBot/HellBot)\n⬜⬛⬛[👉](https://t.me/ForGo10God)⬜⬜⬜\n⬜⬛⬜⬜⬜⬜⬜\n⬛⬛⬜⬜⬜⬜⬜",
-         "⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜🔲\n⬜⬛⬛⬛[👉](https://t.me/ForGo10God)⬜⬜\n⬜⬛⬜⬜⬜⬜⬜\n⬛⬛⬜⬜⬜⬜⬜",
-         "⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜[👆](https://t.me/ForGo10God)⬜🔲\n⬜⬛⬛⬛⬛⬜⬜\n⬜⬛⬜⬜⬜⬜⬜\n⬛⬛⬜⬜⬜⬜⬜",
-         "⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬛[👉](https://t.me/ForGo10God)🔲\n⬜⬛⬛⬛⬛⬜⬜\n⬜⬛⬜⬜⬜⬜⬜\n⬛⬛⬜⬜⬜⬜⬜",
-         "⬛⬛⬛⬛⬛⬛⬛\n⬛⬛⬛⬛⬛⬛⬛\n⬛⬛⬛⬛⬛⬛⬛\n⬛⬛⬛⬛⬛⬛🔳\n⬛⬛⬛⬛⬛⬛⬛\n⬛⬛⬛⬛⬛⬛⬛\n⬛⬛⬛⬛⬛⬛⬛",
+        "⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜[🔲](https://github.com/The-HellBot/HellBot)\n⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜⬜",
+        "⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜[🔲](https://github.com/The-HellBot/HellBot)\n⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜⬜\n[👉](https://t.me/ForGo10God)⬜⬜⬜⬜⬜⬜",
+        "⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜[🔲](https://github.com/The-HellBot/HellBot)\n⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜⬜\n⬛[👉](https://t.me/ForGo10God)⬜⬜⬜⬜⬜",
+        "⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜[🔲](https://github.com/The-HellBot/HellBot)\n⬜⬜⬜⬜⬜⬜⬜\n⬜[👆](https://t.me/ForGo10God)⬜⬜⬜⬜⬜\n⬛⬛⬜⬜⬜⬜⬜",
+        "⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜[🔲](https://github.com/The-HellBot/HellBot)\n⬜[👆](https://t.me/ForGo10God)⬜⬜⬜⬜⬜\n⬜⬛⬜⬜⬜⬜⬜\n⬛⬛⬜⬜⬜⬜⬜",
+        "⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜[🔲](https://github.com/The-HellBot/HellBot)\n⬜⬛[👉](https://t.me/ForGo10God)⬜⬜⬜⬜\n⬜⬛⬜⬜⬜⬜⬜\n⬛⬛⬜⬜⬜⬜⬜",
+        "⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜[🔲](https://github.com/The-HellBot/HellBot)\n⬜⬛⬛[👉](https://t.me/ForGo10God)⬜⬜⬜\n⬜⬛⬜⬜⬜⬜⬜\n⬛⬛⬜⬜⬜⬜⬜",
+        "⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜🔲\n⬜⬛⬛⬛[👉](https://t.me/ForGo10God)⬜⬜\n⬜⬛⬜⬜⬜⬜⬜\n⬛⬛⬜⬜⬜⬜⬜",
+        "⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜[👆](https://t.me/ForGo10God)⬜🔲\n⬜⬛⬛⬛⬛⬜⬜\n⬜⬛⬜⬜⬜⬜⬜\n⬛⬛⬜⬜⬜⬜⬜",
+        "⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬛[👉](https://t.me/ForGo10God)🔲\n⬜⬛⬛⬛⬛⬜⬜\n⬜⬛⬜⬜⬜⬜⬜\n⬛⬛⬜⬜⬜⬜⬜",
+        "⬛⬛⬛⬛⬛⬛⬛\n⬛⬛⬛⬛⬛⬛⬛\n⬛⬛⬛⬛⬛⬛⬛\n⬛⬛⬛⬛⬛⬛🔳\n⬛⬛⬛⬛⬛⬛⬛\n⬛⬛⬛⬛⬛⬛⬛\n⬛⬛⬛⬛⬛⬛⬛",
     ]
     for i in animation_ttl:
         await asyncio.sleep(animation_interval)
@@ -468,8 +472,9 @@ async def _(event):
 
 @hell_cmd(pattern="sprinkle$")
 async def sprinkle(event):
-    await eor(event, 
-        "✨.•*¨*.¸.•*¨*.¸¸.•*¨*• ƸӜƷ\n🌸🌺🌸🌺🌸🌺🌸🌺\n Sprinkled with love❤\n🌷🌻🌷🌻🌷🌻🌷🌻\n ¨*.¸.•*¨*. ¸.•*¨*.¸¸.•*¨`*•.✨\n🌹🍀🌹🍀🌹🍀🌹🍀"
+    await eor(
+        event,
+        "✨.•*¨*.¸.•*¨*.¸¸.•*¨*• ƸӜƷ\n🌸🌺🌸🌺🌸🌺🌸🌺\n Sprinkled with love❤\n🌷🌻🌷🌻🌷🌻🌷🌻\n ¨*.¸.•*¨*. ¸.•*¨*.¸¸.•*¨`*•.✨\n🌹🍀🌹🍀🌹🍀🌹🍀",
     )
 
 
@@ -803,9 +808,7 @@ async def _(event):
 
 @hell_cmd(pattern="squ$")
 async def _(event):
-    event = await eor(
-        event, "╔═══════════════════╗ \n  \n╚═══════════════════╝"
-    )
+    event = await eor(event, "╔═══════════════════╗ \n  \n╚═══════════════════╝")
     await asyncio.sleep(1)
     await event.edit("╔═══════════════════╗ \n \t░ \n╚═══════════════════╝")
     await asyncio.sleep(1)
@@ -882,6 +885,7 @@ async def _(event):
         await asyncio.sleep(animation_interval)
         await event.edit(animation_chars[i % 20])
 
+
 @hell_cmd(pattern="hack$")
 async def _(event):
     xyz = await client_id(event)
@@ -907,94 +911,90 @@ async def _(event):
         await event.edit(animation_chars[i % 12])
 
 
-CmdHelp("animations").add_command(
-  'boxs', None, 'Use and see'
+CmdHelp("animations").add_command("boxs", None, "Use and see").add_command(
+    "kiler", "<text>", "Cool killing animation with name"
+).add_command("eye", None, "Use and see").add_command(
+    "thinking", None, "Use and see"
 ).add_command(
-  'kiler', '<text>', 'Cool killing animation with name'
+    "snake", None, "Use and see"
 ).add_command(
-  'eye', None, 'Use and see'
+    "human", None, "Use and see"
 ).add_command(
-  'thinking', None, 'Use and see'
+    "mc", None, "Use and see"
 ).add_command(
-  'snake', None, 'Use and see'
+    "virus", None, "Use and see"
 ).add_command(
-  'human', None, 'Use and see'
+    "repe", None, "Use and see"
 ).add_command(
-  'mc', None, 'Use and see'
+    "nikal", None, "Use and see"
 ).add_command(
-  'virus', None, 'Use and see'
+    "music", None, "Use and see"
 ).add_command(
-  'repe', None, 'Use and see'
+    "squ", None, "Use and see"
 ).add_command(
-  'nikal', None, 'Use and see'
+    "rain", None, "Use and see"
 ).add_command(
-  'music', None, 'Use and see'
+    "deploy", None, "Use and see"
 ).add_command(
-  'squ', None, 'Use and see'
+    "dump", None, "Use and see"
 ).add_command(
-  'rain', None, 'Use and see'
+    "fleaveme", None, "Use and see"
 ).add_command(
-  'deploy', None, 'Use and see'
+    "loveu", None, "Use and see"
 ).add_command(
-  'dump', None, 'Use and see'
+    "plane", None, "Use and see"
 ).add_command(
-  'fleaveme', None, 'Use and see'
+    "police", None, "Use and see"
 ).add_command(
-  'loveu', None, 'Use and see'
+    "jio", None, "Use and see"
 ).add_command(
-  'plane', None, 'Use and see'
+    "solarsystem", None, "Use and see"
 ).add_command(
-  'police', None, 'Use and see'
+    "degi", None, "Use and see"
 ).add_command(
-  'jio', None, 'Use and see'
+    "nehi", None, "Use and see"
 ).add_command(
-  'solarsystem', None, 'Use and see'
+    "hack", None, "Im a hacker bitch"
 ).add_command(
-  'degi', None, 'Use and see'
+    "hnd", "<your text>", "A handy animation with the text"
 ).add_command(
-  'nehi', None, 'Use and see'
+    "padmin", None, "Prank promote a user"
 ).add_command(
-  'hack', None, 'Im a hacker bitch'
+    "phub", None, "Animated PORNHUB Typing"
 ).add_command(
-  'hnd', '<your text>', 'A handy animation with the text'
+    "amore", None, "Animated AMORE Typing"
 ).add_command(
-  'padmin', None, 'Prank promote a user'
+    "sexy", None, "Animated SEXY Typing"
 ).add_command(
-  "phub", None, "Animated PORNHUB Typing"
+    "unoob", None, "Animated text calling them noob🚶"
 ).add_command(
-  "amore", None, "Animated AMORE Typing"
+    "menoob", None, "Animated text claiming you noob"
 ).add_command(
-  "sexy", None, "Animated SEXY Typing"
+    "uproo", None, "Animated text claiming you to be proooo"
 ).add_command(
-  "unoob", None, "Animated text calling them noob🚶"
+    "mepro", None, "Animated text calling them proo Af!!"
 ).add_command(
-  "menoob", None, "Animated text claiming you noob"
+    "sprinkle", None, "Use and see"
 ).add_command(
-  "uproo", None, "Animated text claiming you to be proooo"
+    "getwell", None, "Use and see"
 ).add_command(
-  "mepro", None, "Animated text calling them proo Af!!"
+    "cheer", None, "Use and see"
 ).add_command(
-  "sprinkle", None, "Use and see"
+    "hii", None, "Use and see"
 ).add_command(
-  "getwell", None, "Use and see"
+    "city", None, "Use and see"
 ).add_command(
-  "cheer", None, "Use and see"
+    "lmoon", None, "Use and see"
 ).add_command(
-  "hii", None, "Use and see"
+    "istar", None, "I am a Superstar⚡✨"
 ).add_command(
-  "city", None, "Use and see"
+    "switch", None, "Click on the switch to reveal the price✨"
 ).add_command(
-  "lmoon", None, "Use and see"
+    "thanos", None, "A poem on Thanos... Maybe🤐"
 ).add_command(
-  "istar", None, "I am a Superstar⚡✨"
-).add_command(
-  "switch", None, "Click on the switch to reveal the price✨"
-).add_command(
-  "thanos", None, "A poem on Thanos... Maybe🤐"
-).add_command(
-  "wahack", None, "Whatsapp Hack animation"
+    "wahack", None, "Whatsapp Hack animation"
 ).add_info(
-  "Fun Animations."
+    "Fun Animations."
 ).add_warning(
-  "⚠️ Some commands may cause flood error."
+    "⚠️ Some commands may cause flood error."
 ).add()

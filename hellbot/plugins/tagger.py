@@ -1,4 +1,4 @@
-from telethon import custom, events
+from telethon import custom
 from telethon.tl.types import Channel
 from telethon.utils import get_display_name
 
@@ -8,6 +8,7 @@ if Config.TAG_LOGGER:
     tagger = int(Config.TAG_LOGGER)
 
 if Config.TAG_LOGGER:
+
     @hell_handler(func=lambda e: (e.mentioned))
     async def all_messages_catcher(event):
         ammoca_message = ""
@@ -48,9 +49,5 @@ async def _(event):
 
 
 CmdHelp("tagger").add_command(
-  "tagall", "<text>", "Tags recent 100 users in the group."
-).add_info(
-  "Tagger."
-).add_warning(
-  "✅ Harmless Module."
-).add()
+    "tagall", "<text>", "Tags recent 100 users in the group."
+).add_info("Tagger.").add_warning("✅ Harmless Module.").add()

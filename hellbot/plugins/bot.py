@@ -1,10 +1,8 @@
 import asyncio
 import datetime
-import os
-import re
 import time
-
 from random import choice
+
 from telethon import functions
 from telethon.errors.rpcerrorlist import YouBlockedUserError
 from telethon.tl.functions.channels import LeaveChannelRequest
@@ -42,11 +40,12 @@ async def pong(hell):
     end = datetime.datetime.now()
     ms = (end - start).microseconds / 1000
     if PIC:
-        await event.client.send_file(event.chat_id,
-                                     file=PIC,
-                                     caption=ping_txt.format(ms, uptime, hell_mention),
-                                     parse_mode="HTML",
-                                 )
+        await event.client.send_file(
+            event.chat_id,
+            file=PIC,
+            caption=ping_txt.format(ms, uptime, hell_mention),
+            parse_mode="HTML",
+        )
         await event.delete()
     else:
         await event.edit(ping_txt.format(ms, uptime, hell_mention), parse_mode="HTML")
@@ -62,20 +61,20 @@ async def is_limited(event):
             response = await conv.get_response()
             await event.client.send_read_acknowledge(conv.chat_id)
         except YouBlockedUserError:
-            await msg.edit('User Blocked!! Please Unblock @Spambot and try again...')
+            await msg.edit("User Blocked!! Please Unblock @Spambot and try again...")
             return
         await msg.edit(response.text)
         await event.client.delete_messages(conv.chat_id, [first.id, response.id])
 
-        
+
 @hell_cmd(pattern="kickme$")
 async def leave(e):
-        await e.edit("😪 **KThnxBye** See u all in hell!!")
-        time.sleep(1)
-        if "-" in str(e.chat_id):
-            await event.client(LeaveChannelRequest(e.chat_id))
-        else:
-            await eod(e, "**Iz this even a grp?😑**")
+    await e.edit("😪 **KThnxBye** See u all in hell!!")
+    time.sleep(1)
+    if "-" in str(e.chat_id):
+        await event.client(LeaveChannelRequest(e.chat_id))
+    else:
+        await eod(e, "**Iz this even a grp?😑**")
 
 
 @hell_cmd(pattern="dc$")
@@ -155,9 +154,7 @@ async def _(event):
         await eod(f"**Invalid Syntax !!**\n\n`{hl}dm <Username or UserID> <message>`")
 
 
-CmdHelp("bot").add_command(
-    "dc", None, "Gets the DataCenter Number"
-).add_command(
+CmdHelp("bot").add_command("dc", None, "Gets the DataCenter Number").add_command(
     "config", None, "😒"
 ).add_command(
     "vars", None, "Gets the list of all available OS Config Variables."
@@ -170,9 +167,13 @@ CmdHelp("bot").add_command(
 ).add_command(
     "schd", "<secs> - <message>", "Sends your message in given secs", "schd 10 - Hello"
 ).add_command(
-    "dm", "<username or user id> <message>", "Sends a DM to given username with required msg"
+    "dm",
+    "<username or user id> <message>",
+    "Sends a DM to given username with required msg",
 ).add_command(
-    "limits", None, "Checks your telegram account limitations or restrictions via @SpamBot."
+    "limits",
+    None,
+    "Checks your telegram account limitations or restrictions via @SpamBot.",
 ).add_info(
     "Haa vai? Kya hua?"
 ).add_warning(

@@ -1,8 +1,7 @@
 import re
 
-from telethon import events
-
 from hellbot.sql import blacklist_sql as sq
+
 from . import *
 
 
@@ -19,6 +18,7 @@ async def on_new_message(event):
                 await event.reply("I do not have DELETE permission in this chat")
                 sq.rm_from_blacklist(event.chat_id, snip.lower())
             break
+
 
 """
 if H2:
@@ -85,6 +85,7 @@ if H5:
                 break
 """
 
+
 @hell_cmd(pattern="addblacklist(?:\s|$)([\s\S]*)")
 async def on_add_black_list(event):
     text = event.pattern_match.group(1)
@@ -114,9 +115,7 @@ async def on_delete_blacklist(event):
         for trigger in to_unblacklist
         if sq.rm_from_blacklist(event.chat_id, trigger.lower())
     )
-    await eor(
-        event, f"Removed {successful} / {len(to_unblacklist)} from the blacklist"
-    )
+    await eor(event, f"Removed {successful} / {len(to_unblacklist)} from the blacklist")
 
 
 @hell_cmd(pattern="listblacklist$")
@@ -145,13 +144,17 @@ async def on_view_blacklist(event):
 
 
 CmdHelp("blacklist").add_command(
-  "addblacklist", "<word>/<words>", "The given word or words will be added to blacklist in that specific chat if any user sends then the message gets deleted.\n\nNote :- If you are adding more than one word at time via this, then remember that new word must be given in a new line that is not [hi hello]. It must be as [hi \n hello]"
+    "addblacklist",
+    "<word>/<words>",
+    "The given word or words will be added to blacklist in that specific chat if any user sends then the message gets deleted.\n\nNote :- If you are adding more than one word at time via this, then remember that new word must be given in a new line that is not [hi hello]. It must be as [hi \n hello]",
 ).add_command(
-  "rmblacklist", "<word>/<words>", "The given word or words will be removed from blacklist in that specific chat"
+    "rmblacklist",
+    "<word>/<words>",
+    "The given word or words will be removed from blacklist in that specific chat",
 ).add_command(
-  "listblacklist", None, "Shows you the list of blacklist words in that specific chat"
+    "listblacklist", None, "Shows you the list of blacklist words in that specific chat"
 ).add_info(
-  "Blacklist Words"
+    "Blacklist Words"
 ).add_warning(
-  "✅ Harmless Module."
+    "✅ Harmless Module."
 ).add()

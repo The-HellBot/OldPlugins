@@ -1,20 +1,34 @@
 from asyncio import sleep
 
-from telethon import functions
-from telethon.errors import BadRequestError, ImageProcessFailedError, PhotoCropSizeSmallError
+from telethon.errors import (
+    BadRequestError,
+    ImageProcessFailedError,
+    PhotoCropSizeSmallError,
+)
 from telethon.errors.rpcerrorlist import UserAdminInvalidError, UserIdInvalidError
-from telethon.tl.functions.channels import EditAdminRequest, EditBannedRequest, EditPhotoRequest
-from telethon.tl.functions.messages import UpdatePinnedMessageRequest
+from telethon.tl.functions.channels import (
+    EditAdminRequest,
+    EditBannedRequest,
+    EditPhotoRequest,
+)
 from telethon.tl.functions.users import GetFullUserRequest
-from telethon.tl.types import ChatAdminRights, ChatBannedRights, ChannelParticipantsAdmins, MessageEntityMentionName, MessageMediaPhoto
+from telethon.tl.types import (
+    ChannelParticipantsAdmins,
+    ChatAdminRights,
+    ChatBannedRights,
+    MessageEntityMentionName,
+    MessageMediaPhoto,
+)
 
-from . import *
 from hellbot.sql.mute_sql import is_muted, mute, unmute
 
+from . import *
 
 lg_id = Config.LOGGER_ID
 PP_TOO_SMOL = "🥴 The image is too small. Just like your crush's feelings"
-PP_ERROR = "😕 Failure while processing the image. Just like your proposal to your crush."
+PP_ERROR = (
+    "😕 Failure while processing the image. Just like your proposal to your crush."
+)
 NO_ADMIN = "😪 I am not an admin here! Chutiya sala"
 NO_PERM = "😐 Lack of Permissions. Just like your crush's feelings for you."
 CHAT_PP_CHANGED = "😉 Chat Picture Changed Successfully"
@@ -122,7 +136,9 @@ async def promote(event):
         return
     try:
         await event.client(EditAdminRequest(event.chat_id, user.id, new_rights, rank))
-        await hellevent.edit(f"**🔥 Promoted  [{user.first_name}](tg://user?id={user.id})  Successfully In**  `{event.chat.title}`!! \n**Admin Tag :**  `{rank}`")
+        await hellevent.edit(
+            f"**🔥 Promoted  [{user.first_name}](tg://user?id={user.id})  Successfully In**  `{event.chat.title}`!! \n**Admin Tag :**  `{rank}`"
+        )
     except BadRequestError:
         await hellevent.edit(NO_PERM)
         return
@@ -165,7 +181,9 @@ async def demote(event):
     except BadRequestError:
         await hellevent.edit(NO_PERM)
         return
-    await hellevent.edit(f"**😪 Demoted  [{user.first_name}](tg://user?id={user.id})  Successfully In**  `{event.chat.title}`")
+    await hellevent.edit(
+        f"**😪 Demoted  [{user.first_name}](tg://user?id={user.id})  Successfully In**  `{event.chat.title}`"
+    )
     await event.client.send_message(
         lg_id,
         "#DEMOTE\n"
@@ -181,7 +199,7 @@ async def watcher(event):
             await event.delete()
         except Exception as e:
             LOGS.info(str(e))
- 
+
 
 @hell_cmd(pattern="mute(?:\s|$)([\s\S]*)")
 async def muth(event):
@@ -190,7 +208,7 @@ async def muth(event):
     if event.is_private:
         hell = await eor(event, "**Enough of your bullshit  !!**")
         await event.get_reply_message()
-        replied_user = await event.client(GetFullUserRequest(event.chat_id))
+        await event.client(GetFullUserRequest(event.chat_id))
         if is_muted(event.chat_id, event.chat_id):
             return await eod(hell, "Nigga is already muted here 🥴")
         if event.chat_id == ForGo10God:
@@ -205,7 +223,9 @@ async def muth(event):
         input_str = event.pattern_match.group(1)
         chat = await event.get_chat()
         admin_ = []
-        async for admins in event.client.iter_participants(chat, filter=ChannelParticipantsAdmins):
+        async for admins in event.client.iter_participants(
+            chat, filter=ChannelParticipantsAdmins
+        ):
             x = admins.id
             admin_.append(x)
         if event.reply_to_msg_id:
@@ -234,7 +254,10 @@ async def muth(event):
                 return await eod(hell, "Admin already muted ♪～(´ε｀ )")
             try:
                 mute(userid, event.chat_id)
-                await eod(hell, f"**🌝 Muted admin** [{name}](tg://user?id={userid}) **in** `{chat.title}` (~‾▿‾)~")
+                await eod(
+                    hell,
+                    f"**🌝 Muted admin** [{name}](tg://user?id={userid}) **in** `{chat.title}` (~‾▿‾)~",
+                )
             except Exception as e:
                 await eod(hell, f"**Error :** \n\n`{e}`")
         try:
@@ -244,7 +267,10 @@ async def muth(event):
                 until_date=None,
                 send_messages=False,
             )
-            await eor(hell, f"**Successfully Muted**  [{name}](tg://user?id={userid}) **in**  `{chat.title}`")
+            await eor(
+                hell,
+                f"**Successfully Muted**  [{name}](tg://user?id={userid}) **in**  `{chat.title}`",
+            )
         except BaseException as be:
             await eor(hell, f"**Error:** `{str(be)}`")
         await event.client.send_message(
@@ -261,7 +287,7 @@ async def nomuth(event):
     ForGo10God = x[0]
     if event.is_private:
         hell = await eor(event, "`Unmuting ...`")
-        replied_user = await event.client(GetFullUserRequest(event.chat_id))
+        await event.client(GetFullUserRequest(event.chat_id))
         if not is_muted(event.chat_id, event.chat_id):
             return await eod(hell, "Not even muted !!")
         try:
@@ -274,7 +300,9 @@ async def nomuth(event):
         input_str = event.pattern_match.group(1)
         chat = await event.get_chat()
         admin_ = []
-        async for admins in event.client.iter_participants(chat, filter=ChannelParticipantsAdmins):
+        async for admins in event.client.iter_participants(
+            chat, filter=ChannelParticipantsAdmins
+        ):
             x = admins.id
             admin_.append(x)
         if event.reply_to_msg_id:
@@ -299,7 +327,10 @@ async def nomuth(event):
                 return await eod(hell, "Not even muted.")
             try:
                 unmute(userid, event.chat_id)
-                await eod(hell, f"**Successfully Unmuted** [{name}](tg://user?id={userid}) **in** `{chat.title}`")
+                await eod(
+                    hell,
+                    f"**Successfully Unmuted** [{name}](tg://user?id={userid}) **in** `{chat.title}`",
+                )
                 return
             except Exception as e:
                 return await eod(hell, f"**Error :** \n\n`{e}`")
@@ -311,7 +342,10 @@ async def nomuth(event):
                     until_date=None,
                     send_messages=True,
                 )
-                await eor(hell, f"**Successfully Unmuted**  [{name}](tg://user?id={userid}) **in**  `{chat.title}`")
+                await eor(
+                    hell,
+                    f"**Successfully Unmuted**  [{name}](tg://user?id={userid}) **in**  `{chat.title}`",
+                )
             except BaseException as be:
                 await eor(hell, f"`{str(be)}`")
         await event.client.send_message(
@@ -347,12 +381,18 @@ async def ban(event):
         if reply:
             await reply.delete()
     except BadRequestError:
-        await hellevent.edit(f"**Banned  [{user.first_name}](tg://user?id={user.id})  in** `[{event.chat.title}]` !!\n\nMessage Nuking : **False**")
+        await hellevent.edit(
+            f"**Banned  [{user.first_name}](tg://user?id={user.id})  in** `[{event.chat.title}]` !!\n\nMessage Nuking : **False**"
+        )
         return
     if reason:
-        await hellevent.edit(f"**Bitch** [{user.first_name}](tg://user?id={user.id}) **is now banned in**  `[{event.chat.title}]` !!\n**Reason :** `{reason}`")
+        await hellevent.edit(
+            f"**Bitch** [{user.first_name}](tg://user?id={user.id}) **is now banned in**  `[{event.chat.title}]` !!\n**Reason :** `{reason}`"
+        )
     else:
-        await hellevent.edit(f"**Bitch** [{user.first_name}](tg://user?id={user.id}) **is now banned in**  `[{event.chat.title}]`!!")
+        await hellevent.edit(
+            f"**Bitch** [{user.first_name}](tg://user?id={user.id}) **is now banned in**  `[{event.chat.title}]`!!"
+        )
     await event.client.send_message(
         lg_id,
         "#BAN\n"
@@ -379,7 +419,9 @@ async def nothanos(event):
         return
     try:
         await event.client(EditBannedRequest(event.chat_id, user.id, UNBAN_RIGHTS))
-        await hellevent.edit(f"[{user.first_name}](tg://user?id={user.id}) **Is Now Unbanned in**  `{event.chat.title}` !!")
+        await hellevent.edit(
+            f"[{user.first_name}](tg://user?id={user.id}) **Is Now Unbanned in**  `{event.chat.title}` !!"
+        )
         await event.client.send_message(
             lg_id,
             "#UNBAN\n"
@@ -414,7 +456,10 @@ async def pin(event):
         await eor(event, NO_PERM)
         return
     if not event.is_private:
-        await eod(event, f"📌 **Pinned  [this message](https://t.me/c/{ms_l.id}/{to_pin})  Successfully!**")
+        await eod(
+            event,
+            f"📌 **Pinned  [this message](https://t.me/c/{ms_l.id}/{to_pin})  Successfully!**",
+        )
         user = await get_user_from_id(event.sender_id, event)
         await event.client.send_message(
             lg_id,
@@ -429,27 +474,42 @@ async def pin(event):
 
 @hell_cmd(pattern="unpin(?:\s|$)([\s\S]*)")
 async def unpin(event):
-    chat = await event.get_chat()
+    await event.get_chat()
     rply = event.reply_to_msg_id
     ms_l = await event.client.get_entity(event.chat_id)
     options = event.pattern_match.group(1)
     if not rply and options != "all":
-        return await eod(event, f"Reply to a msg to unpin it. Do `{hl}unpin all` to unpin all pinned msgs.")
+        return await eod(
+            event,
+            f"Reply to a msg to unpin it. Do `{hl}unpin all` to unpin all pinned msgs.",
+        )
     try:
         if rply and not options:
             await event.client.unpin_message(event.chat_id, rply)
             if event.is_private:
                 await eod(event, "**Unpinned this message successfully !**")
             else:
-                await eod(event, f"**Unpinned [this message](https://t.me/c/{ms_l.id}/{rply}) successfully !!**")
-                await event.client.send_message(lg_id, f"#UNPIN \n\n**Chat :** {event.chat.title} (`{event.chat_id}`) \n**Message :** [Here](https://t.me/c/{ms_l.id}/{rply})")
+                await eod(
+                    event,
+                    f"**Unpinned [this message](https://t.me/c/{ms_l.id}/{rply}) successfully !!**",
+                )
+                await event.client.send_message(
+                    lg_id,
+                    f"#UNPIN \n\n**Chat :** {event.chat.title} (`{event.chat_id}`) \n**Message :** [Here](https://t.me/c/{ms_l.id}/{rply})",
+                )
         elif options == "all":
             await event.client.unpin_message(event.chat_id)
             await eod(event, f"**Unpinned all pinned msgs.**")
             if not event.is_private:
-                await event.client.send_message(lg_id, f"#UNPIN \n\n**Chat :** {event.chat.title} (`{event.chat_id}`) \n**Messages :** __All__")
+                await event.client.send_message(
+                    lg_id,
+                    f"#UNPIN \n\n**Chat :** {event.chat.title} (`{event.chat_id}`) \n**Messages :** __All__",
+                )
         else:
-            return await eod(event, f"Reply to a msg to unpin it. Do `{hl}unpin all` to unpin all pinned msgs.")
+            return await eod(
+                event,
+                f"Reply to a msg to unpin it. Do `{hl}unpin all` to unpin all pinned msgs.",
+            )
     except BadRequestError:
         return await eod(event, NO_PERM)
     except Exception as e:
@@ -482,7 +542,9 @@ async def kick(event):
             f"**🏃 Kicked**  [{user.first_name}](tg://user?id={user.id})'s **Butt from** `{event.chat.title}!`\nReason: `{reason}`"
         )
     else:
-        await hellevent.edit(f"**🏃 Kicked**  [{user.first_name}](tg://user?id={user.id})'s **Butt from** `{event.chat.title}!`")
+        await hellevent.edit(
+            f"**🏃 Kicked**  [{user.first_name}](tg://user?id={user.id})'s **Butt from** `{event.chat.title}!`"
+        )
     await event.client.send_message(
         lg_id,
         "#KICK\n"
@@ -497,9 +559,7 @@ async def rm_deletedacc(event):
     del_u = 0
     del_status = "`No zombies or deleted accounts found in this group, Group is clean`"
     if con != "clean":
-        event = await eor(
-            event, "**Searching For Zombies...**"
-        )
+        event = await eor(event, "**Searching For Zombies...**")
         async for user in event.client.iter_participants(event.chat_id):
             if user.deleted:
                 del_u += 1
@@ -514,9 +574,7 @@ async def rm_deletedacc(event):
     if not admin and not creator:
         await eod(event, NO_ADMIN)
         return
-    event = await eor(
-        event, "🧹 Purging out zombies from this group..."
-    )
+    event = await eor(event, "🧹 Purging out zombies from this group...")
     del_u = 0
     del_a = 0
     async for user in event.client.iter_participants(event.chat_id):
@@ -533,7 +591,9 @@ async def rm_deletedacc(event):
     if del_u > 0:
         del_status = f"**Zombies Purged!!**\n\n**Zombies Killed :**  `{del_u}`"
     if del_a > 0:
-        del_status = f"**Zombies Killed**  `{del_u}`\n\n`{del_a}`  **Zombies Holds Immunity!!**"
+        del_status = (
+            f"**Zombies Killed**  `{del_u}`\n\n`{del_a}`  **Zombies Holds Immunity!!**"
+        )
     await edit_or_reply(event, del_status)
     await event.client.send_message(
         lg_id,
@@ -612,33 +672,42 @@ async def get_user_from_id(user, event):
 
 
 CmdHelp("admins").add_command(
-  "setgpic", "<reply to image>", "Changes the groups display picture"
+    "setgpic", "<reply to image>", "Changes the groups display picture"
 ).add_command(
-  "promote", "<username/reply> <custom rank (optional)>", "Provides admins right to a person in the chat."
+    "promote",
+    "<username/reply> <custom rank (optional)>",
+    "Provides admins right to a person in the chat.",
 ).add_command(
-  "demote", "<username/reply>", "Revokes the person admin permissions in the chat."
+    "demote", "<username/reply>", "Revokes the person admin permissions in the chat."
 ).add_command(
-  "ban", "<username/reply> <reason (optional)>", "Bans the person off your chat."
+    "ban", "<username/reply> <reason (optional)>", "Bans the person off your chat."
 ).add_command(
-  "unban", "<username/reply>", "Removes the ban from the person in the chat."
+    "unban", "<username/reply>", "Removes the ban from the person in the chat."
 ).add_command(
-  "mute", "<reply>/<userid or username>", "Mutes mentioned user in current PM/Group. Mutes non-admins by restricting their rights and mutes admins by deleting their new messages."
+    "mute",
+    "<reply>/<userid or username>",
+    "Mutes mentioned user in current PM/Group. Mutes non-admins by restricting their rights and mutes admins by deleting their new messages.",
 ).add_command(
-  "unmute", "<reply>/<userid or username>", "Unmutes the person muted in that PM/Group."
+    "unmute",
+    "<reply>/<userid or username>",
+    "Unmutes the person muted in that PM/Group.",
 ).add_command(
-  "pin", "<reply> loud", "Pins the replied message in Group", "pin loud"
+    "pin", "<reply> loud", "Pins the replied message in Group", "pin loud"
 ).add_command(
-  "unpin", "<reply> or 'all'", "Unpins the replied message or unpins all pinned messages.", "unpin all/<reply>"
+    "unpin",
+    "<reply> or 'all'",
+    "Unpins the replied message or unpins all pinned messages.",
+    "unpin all/<reply>",
 ).add_command(
-  "kick", "<username/reply>", "kick the person off your chat"
+    "kick", "<username/reply>", "kick the person off your chat"
 ).add_command(
-  "zombies", None, "Check If The Group is Infected By Zombies."
+    "zombies", None, "Check If The Group is Infected By Zombies."
 ).add_command(
-  "zombies clean", None, "Clears all the zombies in the group."
+    "zombies clean", None, "Clears all the zombies in the group."
 ).add_command(
-  "undlt", None, "display last 5 deleted messages in group."
+    "undlt", None, "display last 5 deleted messages in group."
 ).add_info(
-  "Admins Things!"
+    "Admins Things!"
 ).add_warning(
-  "✅ Harmless Module."
+    "✅ Harmless Module."
 ).add()

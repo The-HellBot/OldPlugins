@@ -1,15 +1,19 @@
 import glob
 import os
 import sys
-
 from pathlib import Path
-from telethon import Button, TelegramClient
-from telethon.utils import get_peer_id
 
 from hellbot import LOGS, bot, tbot
-from hellbot.clients.session import Hell, H2, H3, H4, H5
+from hellbot.clients.session import H2, H3, H4, H5
 from hellbot.config import Config
-from hellbot.utils import join_it, load_module, logger_check, start_msg, update_sudo, plug_channel
+from hellbot.utils import (
+    join_it,
+    load_module,
+    logger_check,
+    plug_channel,
+    start_msg,
+    update_sudo,
+)
 from hellbot.version import __hell__ as hellver
 
 hl = Config.HANDLER
@@ -41,7 +45,7 @@ async def plug_load(path):
             if shortname.replace(".py", "") in Config.UNLOAD:
                 os.remove(Path(f"hellbot/plugins/{shortname}.py"))
             else:
-                load_module(shortname.replace(".py", ""))      
+                load_module(shortname.replace(".py", ""))
 
 
 # Final checks after startup
@@ -75,7 +79,9 @@ async def start_hellbot():
         await plug_load("hellbot/plugins/*.py")
         await plug_channel(bot, Config.PLUGIN_CHANNEL)
         LOGS.info("⚡ Your HellBot Is Now Working ⚡")
-        LOGS.info("Head to @Its_HellBot for Updates. Also join chat group to get help regarding to HellBot.")
+        LOGS.info(
+            "Head to @Its_HellBot for Updates. Also join chat group to get help regarding to HellBot."
+        )
         LOGS.info(f"» Total Clients = {str(total)} «")
         await hell_is_on(total)
     except Exception as e:

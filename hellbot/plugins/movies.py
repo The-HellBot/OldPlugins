@@ -7,6 +7,7 @@ from . import *
 
 logo = "https://telegra.ph/file/2c546060b20dfd7c1ff2d.jpg"
 
+
 @hell_cmd(pattern="imdb(?:\s|$)([\s\S]*)")
 async def _(event):
     reply_to = await reply_id(event)
@@ -122,7 +123,7 @@ async def _(event):
 @hell_cmd(pattern="watch(?:\s|$)([\s\S]*)")
 async def _(event):
     query = event.pattern_match.group(1)
-    hell = await eor(event, "Finding Sites...")
+    await eor(event, "Finding Sites...")
     streams = get_stream_data(query)
     title = streams["title"]
     thumb_link = streams["movie_thumb"]
@@ -167,11 +168,17 @@ async def _(event):
 
 
 CmdHelp("movies").add_command(
-  "imdb", "<movie name>", "Searches for given movie on IMDb database and returns the details.", "imdb The Shawshank Redemption"
+    "imdb",
+    "<movie name>",
+    "Searches for given movie on IMDb database and returns the details.",
+    "imdb The Shawshank Redemption",
 ).add_command(
-  "watch", "<movie name>", "Searches for all the available sites for watching that movie or series", "watch Godfather"
+    "watch",
+    "<movie name>",
+    "Searches for all the available sites for watching that movie or series",
+    "watch Godfather",
 ).add_info(
-  "All about movies."
+    "All about movies."
 ).add_warning(
-  "✅ Harmless Module."
+    "✅ Harmless Module."
 ).add()

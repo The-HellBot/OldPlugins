@@ -1,14 +1,12 @@
-import os
 import asyncio
+import os
 import re
-import requests
 import time
-import lottie 
-import PIL.ImageOps
-
 from os.path import basename
-from PIL import Image
 from typing import Optional
+
+import lottie
+from PIL import Image
 
 from .. import LOGS
 from ..config import Config
@@ -17,21 +15,21 @@ from .progress import *
 from .runner import runcmd
 
 dwlpath = Config.TMP_DOWNLOAD_DIRECTORY
-    
+
 # convertions are done here...
 
 # make a image
 async def convert_to_image(event, client):
     hell = await event.get_reply_message()
     if not (
-            hell.gif
-            or hell.audio
-            or hell.voice
-            or hell.video
-            or hell.video_note
-            or hell.photo
-            or hell.sticker
-            or hell.media
+        hell.gif
+        or hell.audio
+        or hell.voice
+        or hell.video
+        or hell.video_note
+        or hell.photo
+        or hell.sticker
+        or hell.media
     ):
         await eor(event, "`Format Not Supported.`")
         return
@@ -48,8 +46,8 @@ async def convert_to_image(event, client):
         except Exception as e:  # pylint:disable=C0103,W0703
             await eor(event, str(e))
         else:
-            await eor(event,
-                "Downloaded to `{}` successfully.".format(downloaded_file_name)
+            await eor(
+                event, "Downloaded to `{}` successfully.".format(downloaded_file_name)
             )
     if not os.path.exists(downloaded_file_name):
         await eor(event, "Download Unsucessfull :(")
@@ -95,9 +93,7 @@ async def convert_to_image(event, client):
     return hell_final
 
 
-async def take_ss(
-        video_file: str, duration: int, path: str = ""
-) -> Optional[str]:
+async def take_ss(video_file: str, duration: int, path: str = "") -> Optional[str]:
     LOGS.info(
         "[[[Extracting a frame from %s ||| Video duration => %s]]]",
         video_file,
@@ -112,10 +108,12 @@ async def take_ss(
     return thumb_image_path if os.path.exists(thumb_image_path) else None
 
 
-def tgs_to_gif(sticker_path: str, quality: int = 256) -> str:                  
+def tgs_to_gif(sticker_path: str, quality: int = 256) -> str:
     semx = os.path.join(dwlpath, "hellbottgs.gif")
-    with open(semx, 'wb') as t_g:
-        lottie.exporters.gif.export_gif(lottie.parsers.tgs.parse_tgs(sticker_path), t_g, quality, 1)
+    with open(semx, "wb") as t_g:
+        lottie.exporters.gif.export_gif(
+            lottie.parsers.tgs.parse_tgs(sticker_path), t_g, quality, 1
+        )
     os.remove(sticker_path)
     return semx
 
@@ -173,7 +171,9 @@ async def VSticker(event, file):
     else:
         _height_, _width_ = (-1, 512)
     _video = await event.client.download_media(file, dwlpath)
-    await runcmd(f"ffmpeg -ss 00:00:00 -to 00:00:02.900 -i {_video} -vf scale={_width_}:{_height_} -c:v libvpx-vp9 -crf 30 -b:v 560k -maxrate 560k -bufsize 256k -an VideoSticker.webm")
+    await runcmd(
+        f"ffmpeg -ss 00:00:00 -to 00:00:02.900 -i {_video} -vf scale={_width_}:{_height_} -c:v libvpx-vp9 -crf 30 -b:v 560k -maxrate 560k -bufsize 256k -an VideoSticker.webm"
+    )
     os.remove(_video)
     return "VideoSticker.webm"
 

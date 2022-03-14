@@ -1,2 +1,2 @@
-from .config_str import os_config, db_config
+from .config_str import db_config, os_config
 from .vars import Config

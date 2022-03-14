@@ -1,27 +1,9 @@
 import asyncio
-import datetime
-import importlib
-import inspect
-import logging
-import math
 import os
 import re
-import sys
-import time
-import traceback
-from pathlib import Path
-from time import gmtime, strftime
 
-from telethon import events
-from telethon.tl import functions
-from telethon.tl.functions.channels import GetParticipantRequest
-from telethon.tl.types import ChannelParticipantAdmin, ChannelParticipantCreator
-
-from hellbot import *
-from hellbot.helpers.pasters import pasty
-from hellbot.helpers.int_str import make_int
 from hellbot.config import Config
-from hellbot.sql.gvar_sql import gvarstat
+from hellbot.helpers.pasters import pasty
 
 
 # either edit or reply that msg

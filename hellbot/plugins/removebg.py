@@ -1,6 +1,6 @@
 import os
-import requests
 
+import requests
 from PIL import Image
 
 from . import *
@@ -9,7 +9,9 @@ from . import *
 @hell_cmd(pattern="rmbg(?:\s|$)([\s\S]*)")
 async def _(event):
     if Config.REMOVE_BG_API is None:
-        return await eod(event, "You need to set  `REMOVE_BG_API`  for this module to work...")
+        return await eod(
+            event, "You need to set  `REMOVE_BG_API`  for this module to work..."
+        )
     txt = event.text[6:]
     try:
         input_str = txt.replace("-s", "")
@@ -36,7 +38,10 @@ async def _(event):
         hell = await eor(event, "`Removing Background of this media`")
         response = ReTrieveURL(input_str)
     else:
-        await eod(event, f"Reply to a image/sticker with `{hl}rmbg` or give image link to remove background.")
+        await eod(
+            event,
+            f"Reply to a image/sticker with `{hl}rmbg` or give image link to remove background.",
+        )
         return
     contentType = response.headers.get("content-type")
     remove_bg_image = "HellBot.png"
@@ -67,7 +72,7 @@ async def _(event):
         file,
         caption=f"**Background removed by** {hell_memtion}",
         force_document=True,
-        )
+    )
     await hell.delete()
 
 
@@ -100,6 +105,7 @@ def ReTrieveURL(input_url):
         stream=True,
     )
 
+
 def tosticker(response, filename=None):
     filename = filename or os.path.join("./temp/", "temp.webp")
     image = Image.open(response)
@@ -108,6 +114,7 @@ def tosticker(response, filename=None):
     image.save(filename, "webp")
     os.remove(response)
     return filename
+
 
 def toimage(image, filename=None):
     filename = filename or os.path.join("./temp/", "temp.jpg")
@@ -120,9 +127,10 @@ def toimage(image, filename=None):
 
 
 CmdHelp("removebg").add_command(
-  "rmbg", "<reply to image/stcr> or <link> <flag>", "`Removes Background of replied image or sticker. Need` REMOVE_BG_API `to be set in Heroku Config Vars.", "rmbg <reply to img> -s"
-).add_info(
-  "Remove Background. \n**🚩 Flags :** -s = output as sticker"
-).add_warning(
-  "✅ Harmless Module."
+    "rmbg",
+    "<reply to image/stcr> or <link> <flag>",
+    "`Removes Background of replied image or sticker. Need` REMOVE_BG_API `to be set in Heroku Config Vars.",
+    "rmbg <reply to img> -s",
+).add_info("Remove Background. \n**🚩 Flags :** -s = output as sticker").add_warning(
+    "✅ Harmless Module."
 ).add()

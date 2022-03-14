@@ -6,7 +6,6 @@ from telethon.sessions import StringSession
 
 from hellbot.config import Config
 
-
 if Config.HELLBOT_SESSION:
     session = StringSession(str(Config.HELLBOT_SESSION))
 else:

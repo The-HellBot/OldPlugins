@@ -1,13 +1,11 @@
 import asyncio
 import os
 import time
-
 from datetime import datetime
 from io import BytesIO
-from pathlib import Path
-from telethon import functions, types
+
+from telethon import types
 from telethon.errors import PhotoInvalidDimensionsError
-from telethon.errors.rpcerrorlist import YouBlockedUserError
 from telethon.tl.functions.messages import SendMediaRequest
 
 from . import *
@@ -211,8 +209,8 @@ async def _(event):
     else:
         end = datetime.datetime.now()
         ms = (end - start).seconds
-        await eor(event,
-            "Downloaded to `{}` in {} seconds.".format(downloaded_file_name, ms)
+        await eor(
+            event, "Downloaded to `{}` in {} seconds.".format(downloaded_file_name, ms)
         )
         new_required_file_name = ""
         new_required_file_caption = ""
@@ -287,23 +285,33 @@ async def _(event):
 
 
 CmdHelp("convert").add_command(
-  "stoi", "<reply to a sticker", "Converts the replied sticker into an image"
+    "stoi", "<reply to a sticker", "Converts the replied sticker into an image"
 ).add_command(
-  "itos", "<reply to a image>", "Converts the replied image to sticker"
+    "itos", "<reply to a image>", "Converts the replied image to sticker"
 ).add_command(
-  "ftoi", "<reply to a image file", "Converts the replied file image to normal image"
+    "ftoi", "<reply to a image file", "Converts the replied file image to normal image"
 ).add_command(
-  "itof", "<reply to a image/sticker>", "Converts the replied image or sticker into file."
+    "itof",
+    "<reply to a image/sticker>",
+    "Converts the replied image or sticker into file.",
 ).add_command(
-  "stog", "<reply to a animated sticker>", "Converts the replied animated sticker into gif"
+    "stog",
+    "<reply to a animated sticker>",
+    "Converts the replied animated sticker into gif",
 ).add_command(
-  "ttf", "<reply to text>", "Converts the given text message to required file(given file name)"
+    "ttf",
+    "<reply to text>",
+    "Converts the given text message to required file(given file name)",
 ).add_command(
-  "nfc voice", "<reply to media to extract voice>", "Converts the replied media file to voice"
+    "nfc voice",
+    "<reply to media to extract voice>",
+    "Converts the replied media file to voice",
 ).add_command(
-  "nfc mp3", "<reply to media to extract mp3>", "Converts the replied media file to mp3"
+    "nfc mp3",
+    "<reply to media to extract mp3>",
+    "Converts the replied media file to mp3",
 ).add_info(
-  "Converter."
+    "Converter."
 ).add_warning(
-  "✅ Harmless Module."
+    "✅ Harmless Module."
 ).add()

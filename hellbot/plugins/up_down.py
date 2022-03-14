@@ -3,16 +3,17 @@ import datetime
 import json
 import math
 import os
-import requests
 import subprocess
 import time
 
+import requests
 from hachoir.metadata import extractMetadata
 from hachoir.parser import createParser
 from pySmartDL import SmartDL
 from telethon.tl.types import DocumentAttributeVideo
 
 from . import *
+
 
 @hell_cmd(pattern="webup(?:\s|$)([\s\S]*)")
 async def labstack(event):
@@ -26,7 +27,9 @@ async def labstack(event):
             reply.media, Config.TMP_DOWNLOAD_DIRECTORY
         )
     else:
-        await eod(event, "Reply to a media file or provide a directory to upload the file to labstack"
+        await eod(
+            event,
+            "Reply to a media file or provide a directory to upload the file to labstack",
         )
         return
     filesize = os.path.getsize(filebase)
@@ -65,8 +68,10 @@ async def labstack(event):
         t_response_arry = "https://up.labstack.com/api/v1/links/{}/receive".format(
             r2json["code"]
         )
-    await eor(event, t_response_arry + "\nMax Days:" + str(max_days), link_preview=False
+    await eor(
+        event, t_response_arry + "\nMax Days:" + str(max_days), link_preview=False
     )
+
 
 @hell_cmd(pattern="upld_dir(?:\s|$)([\s\S]*)")
 async def uploadir(event):
@@ -81,7 +86,11 @@ async def uploadir(event):
                 lst_of_files.append(os.path.join(r, file))
         LOGS.info(lst_of_files)
         uploaded = 0
-        await hell.edit("Found {} files. Uploading will start soon. Please wait!".format(len(lst_of_files)))
+        await hell.edit(
+            "Found {} files. Uploading will start soon. Please wait!".format(
+                len(lst_of_files)
+            )
+        )
         for single_file in lst_of_files:
             if os.path.exists(single_file):
                 # https://stackoverflow.com/a/678242/4723940
@@ -137,9 +146,7 @@ async def uploadir(event):
                             )
                         ],
                         progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
-                            progress(
-                                d, t, event, c_time, "Uploading...", single_file
-                            )
+                            progress(d, t, event, c_time, "Uploading...", single_file)
                         ),
                     )
                 os.remove(single_file)
@@ -147,6 +154,7 @@ async def uploadir(event):
         await hell.edit("Uploaded {} files successfully !!".format(uploaded))
     else:
         await hell.edit("404: Directory Not Found")
+
 
 @hell_cmd(pattern="upload(?:\s|$)([\s\S]*)")
 async def upload(event):
@@ -175,7 +183,7 @@ async def upload(event):
 
 
 def get_video_thumb(file, output=None, width=90):
-    """ Get video thumbnail """
+    """Get video thumbnail"""
     metadata = extractMetadata(createParser(file))
     popen = subprocess.Popen(
         [
@@ -201,7 +209,7 @@ def get_video_thumb(file, output=None, width=90):
 
 
 def extract_w_h(file):
-    """ Get width and height of media """
+    """Get width and height of media"""
     command_to_run = [
         "ffprobe",
         "-v",
@@ -316,6 +324,7 @@ async def uploadas(event):
     else:
         await hell.edit("404: File Not Found")
 
+
 @hell_cmd(pattern="download(?:\s|$)([\s\S]*)")
 async def _(event):
     hell = await eor(event, "`Processing ...`")
@@ -341,7 +350,9 @@ async def _(event):
         else:
             end = datetime.datetime.now()
             ms = (end - start).seconds
-            await hell.edit(f"**•  Downloaded in {ms} seconds.**\n**•  Downloaded to :- ** `{downloaded_file_name}`\n**•  Downloaded by :-** {hell_mention}")
+            await hell.edit(
+                f"**•  Downloaded in {ms} seconds.**\n**•  Downloaded to :- ** `{downloaded_file_name}`\n**•  Downloaded by :-** {hell_mention}"
+            )
     elif input_str:
         start = datetime.datetime.now()
         url = input_str
@@ -394,19 +405,21 @@ async def _(event):
 
 
 CmdHelp("up_down").add_command(
-  "upload", "<path>", "Uploads a locally stored file to the chat"
+    "upload", "<path>", "Uploads a locally stored file to the chat"
 ).add_command(
-  "upld_as_stm", "<path>", "Uploads the locally stored file in streamable format"
+    "upld_as_stm", "<path>", "Uploads the locally stored file in streamable format"
 ).add_command(
-  "upld_as_vnr", "<path>", "Uploads the locally stored file in vs format"
+    "upld_as_vnr", "<path>", "Uploads the locally stored file in vs format"
 ).add_command(
-  "upld_dir", "<path>", "Uploads all the files in directory"
+    "upld_dir", "<path>", "Uploads all the files in directory"
 ).add_command(
-  "download", "<link/filename> or reply to media", "Downloads the file to the server"
+    "download", "<link/filename> or reply to media", "Downloads the file to the server"
 ).add_command(
-  "webup", "<reply to media>", "Makes a direct download link of the replied media for a limited time"
+    "webup",
+    "<reply to media>",
+    "Makes a direct download link of the replied media for a limited time",
 ).add_info(
-  "Upload & Download."
+    "Upload & Download."
 ).add_warning(
-  "✅ Harmless Module."
+    "✅ Harmless Module."
 ).add()

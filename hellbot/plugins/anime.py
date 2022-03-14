@@ -1,7 +1,4 @@
-import json
-import re
 import requests
-
 from telethon.errors.rpcerrorlist import ChatSendMediaForbiddenError
 
 from . import *
@@ -20,7 +17,9 @@ async def _(event):
         return await hell.edit(result[0])
     pic, msg = result[0], result[1][0]
     try:
-        await event.client.send_file(event.chat_id, file=pic, caption=msg, force_document=False)
+        await event.client.send_file(
+            event.chat_id, file=pic, caption=msg, force_document=False
+        )
         await hell.delete()
     except ChatSendMediaForbiddenError:
         await hell.edit(msg)
@@ -56,7 +55,7 @@ async def _(event):
         return await eor(event, "Give character name to get details.")
     hell = await eor(event, f"__Searching for__ `{query}`")
     qdb = rand_key()
-    CHARC_DB[qdb]=query
+    CHARC_DB[qdb] = query
     result = await get_character(qdb, 1)
     if len(result) == 1:
         return await hell.edit(result[0])
@@ -128,7 +127,9 @@ async def _(event):
         return await hell.edit(result[0])
     coverImg, out = result[0]
     try:
-        await event.client.send_file(event.chat_id, coverImg, caption=out, force_document=False)
+        await event.client.send_file(
+            event.chat_id, coverImg, caption=out, force_document=False
+        )
         await hell.delete()
     except ChatSendMediaForbiddenError:
         await hell.edit(out)
@@ -148,7 +149,13 @@ async def _(event):
         return await eod(hell, result[0])
     pic, msg = result
     try:
-        await event.client.send_file(event.chat_id, file=pic, caption=msg, force_document=False, parse_mode="HTML")
+        await event.client.send_file(
+            event.chat_id,
+            file=pic,
+            caption=msg,
+            force_document=False,
+            parse_mode="HTML",
+        )
         await hell.delete()
     except ChatSendMediaForbiddenError:
         await hell.edit(msg)
@@ -161,25 +168,48 @@ async def quote(event):
     hell = await eor(event, "(ﾉ◕ヮ◕)ﾉ*.✧")
     q = requests.get("https://animechan.vercel.app/api/random").json()
     await asyncio.sleep(1.5)
-    await hell.edit("`"+q["quote"]+"`\n\n—  **"+q["character"]+"** (From __"+q["anime"]+"__)") #dimag ka bhosda hogya bc yha pe (*﹏*;)
+    await hell.edit(
+        "`"
+        + q["quote"]
+        + "`\n\n—  **"
+        + q["character"]
+        + "** (From __"
+        + q["anime"]
+        + "__)"
+    )  # dimag ka bhosda hogya bc yha pe (*﹏*;)
 
 
 CmdHelp("anime").add_command(
-  "anime", "<anime name>", "Searches for the given anime and sends the details.", "anime Darling in the franxx"
+    "anime",
+    "<anime name>",
+    "Searches for the given anime and sends the details.",
+    "anime Darling in the franxx",
 ).add_command(
-  "manga", "<manga name>", "Searches for the given manga and sends the details.", "manga Jujutsu kaisen"
+    "manga",
+    "<manga name>",
+    "Searches for the given manga and sends the details.",
+    "manga Jujutsu kaisen",
 ).add_command(
-  "character", "<character name>", "Searches for the given anime character and sends the details.", "character Mai Sakurajima"
+    "character",
+    "<character name>",
+    "Searches for the given anime character and sends the details.",
+    "character Mai Sakurajima",
 ).add_command(
-  "aniuser", "<anilist username>", "Searches for the Anilist Stats of the given user.", "aniuser meizhellboy"
+    "aniuser",
+    "<anilist username>",
+    "Searches for the Anilist Stats of the given user.",
+    "aniuser meizhellboy",
 ).add_command(
-  "airing", "<anime name>", "Searches for the airing info of given anime."
+    "airing", "<anime name>", "Searches for the airing info of given anime."
 ).add_command(
-  "fillers", "<anime name>", "Searches for the filler episodes of given Anime.", "fillers Naruto"
+    "fillers",
+    "<anime name>",
+    "Searches for the filler episodes of given Anime.",
+    "fillers Naruto",
 ).add_command(
-  "aniquote", None, "Gives a random quote from Anime."
+    "aniquote", None, "Gives a random quote from Anime."
 ).add_info(
-  "Anime Module based on Anilist API."
+    "Anime Module based on Anilist API."
 ).add_warning(
-  "✅ Harmless Module."
+    "✅ Harmless Module."
 ).add()

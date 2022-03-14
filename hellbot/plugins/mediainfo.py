@@ -34,13 +34,14 @@ async def mediainfo(event):
 </code>
 <img src='{logo}'/>"""
     paste = await telegraph_paste(f"{HELL_MEDIA}", paster)
-    await hell.edit(f"📌 Fetched  Media Info Successfully !! \n\n**Check Here :** [{HELL_MEDIA}]({paste})")
+    await hell.edit(
+        f"📌 Fetched  Media Info Successfully !! \n\n**Check Here :** [{HELL_MEDIA}]({paste})"
+    )
     os.remove(file_path)
 
+
 CmdHelp("mediainfo").add_command(
-  "mediainfo", "<reply to a media>", "Fetches the detailed information of replied media."
-).add_info(
-  "Everything About That Media."
-).add_warning(
-  "✅ Harmless Module."
-).add()
+    "mediainfo",
+    "<reply to a media>",
+    "Fetches the detailed information of replied media.",
+).add_info("Everything About That Media.").add_warning("✅ Harmless Module.").add()

@@ -1,13 +1,12 @@
-import cv2
 import html
 import os
 
+import cv2
 from PIL import Image
 from telegraph import upload_file
 from telethon.tl.functions.users import GetFullUserRequest
 
 from . import *
-
 
 dwllpath = "./imgs/"
 if not os.path.isdir(dwllpath):
@@ -110,7 +109,7 @@ async def _(event):
     owo = await event.get_reply_message()
     senderr = await event.client(GetFullUserRequest(owo.sender_id))
     if not senderr.profile_photo:
-        imglink = 'https://telegra.ph/file/93e181ec03a3761a63918.jpg'
+        imglink = "https://telegra.ph/file/93e181ec03a3761a63918.jpg"
     elif senderr.profile_photo:
         img = await event.client.download_media(senderr.profile_photo, dwllpath)
         url_s = upload_file(img)
@@ -132,17 +131,17 @@ async def _(event):
 
 
 CmdHelp("img_memes").add_command(
-  "ytc", "<reply to a msg>", "Makes a fake youtube comment."
+    "ytc", "<reply to a msg>", "Makes a fake youtube comment."
+).add_command("pix", "<reply to a img>", "Pixilates the replied image.").add_command(
+    "geyy", "<reply to a img>", "Makes the replied image gey."
 ).add_command(
-  "pix", "<reply to a img>", "Pixilates the replied image."
+    "trigger", "<reply to a img>", "Makes a triggered gif of replied image."
 ).add_command(
-  "geyy", "<reply to a img>", "Makes the replied image gey."
-).add_command(
-  "trigger", "<reply to a img>", "Makes a triggered gif of replied image."
-).add_command(
-  "thug", "<reply to a img>", "Adds a thug life glasses and cigar to face detected in replied image."
+    "thug",
+    "<reply to a img>",
+    "Adds a thug life glasses and cigar to face detected in replied image.",
 ).add_info(
-  "Come let's do some komedy"
+    "Come let's do some komedy"
 ).add_warning(
-  "✅ Harmless Module."
+    "✅ Harmless Module."
 ).add()

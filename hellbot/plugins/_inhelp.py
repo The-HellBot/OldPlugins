@@ -1,23 +1,15 @@
-import asyncio
 import html
-import os
-import re
 import random
-import sys
-
 from math import ceil
 from re import compile
 
-from telethon import Button, custom, events, functions
-from telethon.tl.functions.users import GetFullUserRequest
+from telethon import Button, custom, functions
 from telethon.events import InlineQuery, callbackquery
 from telethon.sync import custom
-from telethon.errors.rpcerrorlist import UserNotParticipantError
-from telethon.tl.functions.channels import GetParticipantRequest
-from telethon.tl.functions.channels import JoinChannelRequest
-from telethon.tl.functions.messages import ExportChatInviteRequest
+from telethon.tl.functions.users import GetFullUserRequest
 
 from hellbot.sql.gvar_sql import gvarstat
+
 from . import *
 
 hell_row = Config.BUTTONS_IN_HELP
@@ -31,7 +23,9 @@ if mybot.startswith("@"):
 else:
     botname = f"@{mybot}"
 LOG_GP = Config.LOGGER_ID
-USER_BOT_WARN_ZERO = "Enough Of Your Flooding In My Master's PM!! \n\n**🚫 Blocked and Reported**"
+USER_BOT_WARN_ZERO = (
+    "Enough Of Your Flooding In My Master's PM!! \n\n**🚫 Blocked and Reported**"
+)
 
 alive_txt = """{}\n
 <b><i>🏅 𝙱𝚘𝚝 𝚂𝚝𝚊𝚝𝚞𝚜 🏅</b></i>
@@ -42,9 +36,9 @@ alive_txt = """{}\n
 <b>Sudo ≈</b>  <i>{}</i>
 """
 
+
 def button(page, modules):
     Row = hell_row
-    Column = 3
 
     modules = sorted([modul for modul in modules if not modul.startswith("_")])
     pairs = list(map(list, zip(modules[::2], modules[1::2])))
@@ -56,7 +50,10 @@ def button(page, modules):
     for pairs in pairs[page]:
         buttons.append(
             [
-                custom.Button.inline(f"{hell_emoji} " + pair + f" {hell_emoji}", data=f"Information[{page}]({pair})")
+                custom.Button.inline(
+                    f"{hell_emoji} " + pair + f" {hell_emoji}",
+                    data=f"Information[{page}]({pair})",
+                )
                 for pair in pairs
             ]
         )
@@ -64,21 +61,23 @@ def button(page, modules):
     buttons.append(
         [
             custom.Button.inline(
-               f"◀️ Back {hell_emoji}", data=f"page({(max_pages - 1) if page == 0 else (page - 1)})"
+                f"◀️ Back {hell_emoji}",
+                data=f"page({(max_pages - 1) if page == 0 else (page - 1)})",
             ),
+            custom.Button.inline(f"• ❌ •", data="close"),
             custom.Button.inline(
-               f"• ❌ •", data="close"
-            ),
-            custom.Button.inline(
-               f"{hell_emoji} Next ▶️", data=f"page({0 if page == (max_pages - 1) else page + 1})"
+                f"{hell_emoji} Next ▶️",
+                data=f"page({0 if page == (max_pages - 1) else page + 1})",
             ),
         ]
     )
     return [max_pages, buttons]
 
-
     modules = CMD_HELP
+
+
 if Config.BOT_USERNAME is not None and tgbot is not None:
+
     @tgbot.on(InlineQuery)
     async def inline_handler(event):
         cids = await client_id(event, event.query.user_id)
@@ -125,11 +124,15 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
         elif event.query.user_id in auth and query == "alive":
             uptime = await get_time((time.time() - StartTime))
             alv_msg = gvarstat("ALIVE_MSG") or "»»» <b>нєℓℓвσт ιѕ σиℓιиє</b> «««"
-            he_ll = alive_txt.format(alv_msg, tel_ver, hell_ver, uptime, abuse_m, is_sudo)
+            he_ll = alive_txt.format(
+                alv_msg, tel_ver, hell_ver, uptime, abuse_m, is_sudo
+            )
             alv_btn = [
                 [Button.url(f"{HELL_USER}", f"tg://openmessage?user_id={ForGo10God}")],
-                [Button.url("My Channel", f"https://t.me/{my_channel}"), 
-                Button.url("My Group", f"https://t.me/{my_group}")],
+                [
+                    Button.url("My Channel", f"https://t.me/{my_channel}"),
+                    Button.url("My Group", f"https://t.me/{my_group}"),
+                ],
             ]
             a = gvarstat("ALIVE_PIC")
             pic_list = []
@@ -168,8 +171,13 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
                 )
 
         elif event.query.user_id in auth and query == "pm_warn":
-            CSTM_PMP = gvarstat("CUSTOM_PMPERMIT") or "**You Have Trespassed To My Master's PM!\nThis Is Illegal And Regarded As Crime.**"
-            HELL_FIRST = "**🔥 Hêllẞø† Prîvã†é Sêçürïty Prø†öçõl 🔥**\n\nHello!! Welcome to {}'s PM. This is an automated message.\n\n{}".format(hell_mention, CSTM_PMP)
+            CSTM_PMP = (
+                gvarstat("CUSTOM_PMPERMIT")
+                or "**You Have Trespassed To My Master's PM!\nThis Is Illegal And Regarded As Crime.**"
+            )
+            HELL_FIRST = "**🔥 Hêllẞø† Prîvã†é Sêçürïty Prø†öçõl 🔥**\n\nHello!! Welcome to {}'s PM. This is an automated message.\n\n{}".format(
+                hell_mention, CSTM_PMP
+            )
             a = gvarstat("PMPERMIT_PIC")
             pic_list = []
             if a:
@@ -214,7 +222,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
                     ],
                     link_preview=False,
                 )
-                
+
         elif event.query.user_id in auth and query == "repo":
             result = builder.article(
                 title="Repository",
@@ -244,14 +252,17 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
                         custom.Button.url("⚡ GROUP ⚡", "https://t.me/hellbot_chat"),
                     ],
                     [
-                        custom.Button.url("✨ REPO ✨", "https://github.com/The-HellBot/HellBot"),
-                        custom.Button.url("🔰 TUTORIAL 🔰", "https://youtu.be/M2FQJq_sHp4"),
+                        custom.Button.url(
+                            "✨ REPO ✨", "https://github.com/The-HellBot/HellBot"
+                        ),
+                        custom.Button.url(
+                            "🔰 TUTORIAL 🔰", "https://youtu.be/M2FQJq_sHp4"
+                        ),
                     ],
                 ],
                 link_preview=False,
             )
         await event.answer([result] if result else None)
-
 
     @tgbot.on(callbackquery.CallbackQuery(data=compile(b"pmclick")))
     async def on_pm_click(event):
@@ -262,7 +273,6 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
             reply_pop_up_alert = "🔰 This is Hêllẞø† PM Security to keep away unwanted retards from spamming PM !!"
         await event.answer(reply_pop_up_alert, cache_time=0, alert=True)
 
-
     @tgbot.on(callbackquery.CallbackQuery(data=compile(b"req")))
     async def on_pm_click(event):
         auth = await clients_list()
@@ -270,13 +280,17 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
             reply_pop_up_alert = "This is for other users!"
             await event.answer(reply_pop_up_alert, cache_time=0, alert=True)
         else:
-            await event.edit("✅ **Request Registered** \n\nMy master will now decide to look for your request or not.\n😐 Till then wait patiently and don't spam!!")
+            await event.edit(
+                "✅ **Request Registered** \n\nMy master will now decide to look for your request or not.\n😐 Till then wait patiently and don't spam!!"
+            )
             target = await event.client(GetFullUserRequest(event.query.user_id))
             first_name = html.escape(target.user.first_name)
             if first_name is not None:
                 first_name = first_name.replace("\u2060", "")
-            await tbot.send_message(LOG_GP, f"#PM_REQUEST \n\n⚜️ You got a PM request from [{first_name}](tg://user?id={event.query.user_id}) !")
-
+            await tbot.send_message(
+                LOG_GP,
+                f"#PM_REQUEST \n\n⚜️ You got a PM request from [{first_name}](tg://user?id={event.query.user_id}) !",
+            )
 
     @tgbot.on(callbackquery.CallbackQuery(data=compile(b"heheboi")))
     async def on_pm_click(event):
@@ -291,8 +305,10 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
             first_name = html.escape(target.user.first_name)
             if first_name is not None:
                 first_name = first_name.replace("\u2060", "")
-            await tbot.send_message(LOG_GP, f"#BLOCK \n\n**Blocked** [{first_name}](tg://user?id={event.query.user_id}) \nReason:- PM Self Block")
-
+            await tbot.send_message(
+                LOG_GP,
+                f"#BLOCK \n\n**Blocked** [{first_name}](tg://user?id={event.query.user_id}) \nReason:- PM Self Block",
+            )
 
     @tgbot.on(callbackquery.CallbackQuery(data=compile(b"reopen")))
     async def reopn(event):
@@ -300,7 +316,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
         ForGo10God, HELL_USER, hell_mention = cids[0], cids[1], cids[2]
         auth = await clients_list()
         if event.query.user_id in auth:
-            current_page_number=0
+            current_page_number = 0
             simp = button(current_page_number, CMD_HELP)
             veriler = button(0, sorted(CMD_HELP))
             apn = []
@@ -315,7 +331,6 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
         else:
             reply_pop_up_alert = "You are not authorized to use me! \n© Hêllẞø† ™"
             await event.answer(reply_pop_up_alert, cache_time=0, alert=True)
-        
 
     @tgbot.on(callbackquery.CallbackQuery(data=compile(b"close")))
     async def on_plug_in_callback_query_handler(event):
@@ -323,12 +338,17 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
         ForGo10God, HELL_USER, hell_mention = cids[0], cids[1], cids[2]
         auth = await clients_list()
         if event.query.user_id in auth:
-            veriler = custom.Button.inline(f"{hell_emoji} Re-Open Menu {hell_emoji}", data="reopen")
-            await event.edit(f"**⚜️ Hêllẞø† Mêñû Prõvîdêr ìs ñôw Çlösëd ⚜️**\n\n**Bot Of :**  {hell_mention}\n\n        [©️ Hêllẞø† ™️]({chnl_link})", buttons=veriler, link_preview=False)
+            veriler = custom.Button.inline(
+                f"{hell_emoji} Re-Open Menu {hell_emoji}", data="reopen"
+            )
+            await event.edit(
+                f"**⚜️ Hêllẞø† Mêñû Prõvîdêr ìs ñôw Çlösëd ⚜️**\n\n**Bot Of :**  {hell_mention}\n\n        [©️ Hêllẞø† ™️]({chnl_link})",
+                buttons=veriler,
+                link_preview=False,
+            )
         else:
             reply_pop_up_alert = "You are not authorized to use me! \n© Hêllẞø† ™"
             await event.answer(reply_pop_up_alert, cache_time=0, alert=True)
-   
 
     @tgbot.on(callbackquery.CallbackQuery(data=compile(b"page\((.+?)\)")))
     async def page(event):
@@ -348,10 +368,15 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
                 link_preview=False,
             )
         else:
-            return await event.answer("You are not authorized to use me! \n© Hêllẞø† ™", cache_time=0, alert=True)
+            return await event.answer(
+                "You are not authorized to use me! \n© Hêllẞø† ™",
+                cache_time=0,
+                alert=True,
+            )
 
-
-    @tgbot.on(callbackquery.CallbackQuery(data=compile(b"Information\[(\d*)\]\((.*)\)")))
+    @tgbot.on(
+        callbackquery.CallbackQuery(data=compile(b"Information\[(\d*)\]\((.*)\)"))
+    )
     async def Information(event):
         cids = await client_id(event, event.query.user_id)
         ForGo10God, HELL_USER, hell_mention = cids[0], cids[1], cids[2]
@@ -360,14 +385,24 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
         commands = event.data_match.group(2).decode("UTF-8")
         try:
             buttons = [
-                custom.Button.inline("⚡ " + cmd[0] + " ⚡", data=f"commands[{commands}[{page}]]({cmd[0]})")
+                custom.Button.inline(
+                    "⚡ " + cmd[0] + " ⚡", data=f"commands[{commands}[{page}]]({cmd[0]})"
+                )
                 for cmd in CMD_HELP_BOT[commands]["commands"].items()
             ]
         except KeyError:
-            return await event.answer("No Description is written for this plugin", cache_time=0, alert=True)
+            return await event.answer(
+                "No Description is written for this plugin", cache_time=0, alert=True
+            )
 
         buttons = [buttons[i : i + 2] for i in range(0, len(buttons), 2)]
-        buttons.append([custom.Button.inline(f"{hell_emoji} Main Menu {hell_emoji}", data=f"page({page})")])
+        buttons.append(
+            [
+                custom.Button.inline(
+                    f"{hell_emoji} Main Menu {hell_emoji}", data=f"page({page})"
+                )
+            ]
+        )
         if event.query.user_id in auth:
             await event.edit(
                 f"**📗 File :**  `{commands}`\n**🔢 Number of commands :**  `{len(CMD_HELP_BOT[commands]['commands'])}`",
@@ -375,10 +410,15 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
                 link_preview=False,
             )
         else:
-            return await event.answer("You are not authorized to use me! \n© Hêllẞø† ™", cache_time=0, alert=True)
+            return await event.answer(
+                "You are not authorized to use me! \n© Hêllẞø† ™",
+                cache_time=0,
+                alert=True,
+            )
 
-
-    @tgbot.on(callbackquery.CallbackQuery(data=compile(b"commands\[(.*)\[(\d*)\]\]\((.*)\)")))
+    @tgbot.on(
+        callbackquery.CallbackQuery(data=compile(b"commands\[(.*)\[(\d*)\]\]\((.*)\)"))
+    )
     async def commands(event):
         cids = await client_id(event, event.query.user_id)
         ForGo10God, HELL_USER, hell_mention = cids[0], cids[1], cids[2]
@@ -415,11 +455,20 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
         if event.query.user_id in auth:
             await event.edit(
                 result,
-                buttons=[custom.Button.inline(f"{hell_emoji} Return {hell_emoji}", data=f"Information[{page}]({cmd})")],
+                buttons=[
+                    custom.Button.inline(
+                        f"{hell_emoji} Return {hell_emoji}",
+                        data=f"Information[{page}]({cmd})",
+                    )
+                ],
                 link_preview=False,
             )
         else:
-            return await event.answer("You are not authorized to use me! \n© Hêllẞø† ™", cache_time=0, alert=True)
+            return await event.answer(
+                "You are not authorized to use me! \n© Hêllẞø† ™",
+                cache_time=0,
+                alert=True,
+            )
 
 
 # hellbot

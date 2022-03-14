@@ -38,13 +38,19 @@ async def ff_mpeg_trim_cmd(event):
         else:
             await eod(event, "`Reply to a any media file`")
     else:
-        await eod(event, f"A media file already exists in path. Please remove the media and try again!\n`{hl}tclear`")
+        await eod(
+            event,
+            f"A media file already exists in path. Please remove the media and try again!\n`{hl}tclear`",
+        )
 
 
 @hell_cmd(pattern="vtrim(?:\s|$)([\s\S]*)")
 async def ff_mpeg_trim_cmd(event):
     if not os.path.exists(FF_MPEG_DOWN_LOAD_MEDIA_PATH):
-        await eod(event,f"A media file needs to be download, and save to the following path:  `{FF_MPEG_DOWN_LOAD_MEDIA_PATH}`")
+        await eod(
+            event,
+            f"A media file needs to be download, and save to the following path:  `{FF_MPEG_DOWN_LOAD_MEDIA_PATH}`",
+        )
         return
     hellevent = await eor(event, "`Triming the media......`")
     current_message_text = event.raw_text
@@ -112,7 +118,10 @@ async def ff_mpeg_trim_cmd(event):
 @hell_cmd(pattern="atrim(?:\s|$)([\s\S]*)")
 async def ff_mpeg_trim_cmd(event):
     if not os.path.exists(FF_MPEG_DOWN_LOAD_MEDIA_PATH):
-        await eod(event, f"A media file needs to be download, and save to the following path:  `{FF_MPEG_DOWN_LOAD_MEDIA_PATH}`")
+        await eod(
+            event,
+            f"A media file needs to be download, and save to the following path:  `{FF_MPEG_DOWN_LOAD_MEDIA_PATH}`",
+        )
         return
     hellevent = await eor(event, "`Triming the media.....`")
     current_message_text = event.raw_text
@@ -163,7 +172,10 @@ async def ff_mpeg_trim_cmd(event):
         await eod(event, "`There is no media saved in bot for triming`")
     else:
         os.remove(FF_MPEG_DOWN_LOAD_MEDIA_PATH)
-        await eod(event, f"Deleted saved trimming media. You can save new media by `{hl}tsave`")
+        await eod(
+            event,
+            f"Deleted saved trimming media. You can save new media by `{hl}tsave`",
+        )
 
 
 async def take_screen_shot(video_file, output_directory, ttl):
@@ -231,17 +243,23 @@ async def cult_small_video(
 
 
 CmdHelp("trim").add_command(
-  "tsave", "<reply to a media>", "Saves the media file in bot to trim mutliple times"
+    "tsave", "<reply to a media>", "Saves the media file in bot to trim mutliple times"
 ).add_command(
-  "vtrim", "<time>", "Sends you the screenshot of the video at the given specific time"
+    "vtrim",
+    "<time>",
+    "Sends you the screenshot of the video at the given specific time",
 ).add_command(
-  "vtrim", "<starttime> <endtime>", "Trims the saved media with specific given time interval and outputs as video"
+    "vtrim",
+    "<starttime> <endtime>",
+    "Trims the saved media with specific given time interval and outputs as video",
 ).add_command(
-  "atrim", "<starttime> <endtime>", "Trims the saved media with specific given time interval and output as audio"
+    "atrim",
+    "<starttime> <endtime>",
+    "Trims the saved media with specific given time interval and output as audio",
 ).add_command(
-  "tclean", None, "Deletes the saved media. So you can save new one🚶"
+    "tclean", None, "Deletes the saved media. So you can save new one🚶"
 ).add_info(
-  "Trim Media By Ffmpeg."
+    "Trim Media By Ffmpeg."
 ).add_warning(
-  "✅ Harmless Module."
+    "✅ Harmless Module."
 ).add()

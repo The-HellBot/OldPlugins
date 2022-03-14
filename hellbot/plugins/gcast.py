@@ -1,5 +1,6 @@
 from . import *
 
+
 @hell_cmd(pattern="gcast(?:\s|$)([\s\S]*)")
 async def _(event):
     reply_msg = await event.get_reply_message()
@@ -60,7 +61,9 @@ async def _(event):
                 except BaseException:
                     sed += 1
     else:
-        return await hel_.edit("Please give a flag to Gcast message. \n\n**Available flags are :** \n• -all : To Gcast in all chats. \n• -pvt : To Gcast in private chats. \n• -grp : To Gcast in groups.")
+        return await hel_.edit(
+            "Please give a flag to Gcast message. \n\n**Available flags are :** \n• -all : To Gcast in all chats. \n• -pvt : To Gcast in private chats. \n• -grp : To Gcast in groups."
+        )
     UwU = sed + owo
     if flag == "-all":
         omk = "Chats"
@@ -68,16 +71,18 @@ async def _(event):
         omk = "PM"
     elif flag == "-grp":
         omk = "Groups"
-    await hel_.edit(f"**Gcast Executed Successfully !!** \n\n**📍 Sent in :** `{owo} {omk}`\n**📍 Failed in :** `{sed} {omk}`\n**📍 Total :** `{UwU} {omk}`")
+    await hel_.edit(
+        f"**Gcast Executed Successfully !!** \n\n**📍 Sent in :** `{owo} {omk}`\n**📍 Failed in :** `{sed} {omk}`\n**📍 Total :** `{UwU} {omk}`"
+    )
+
 
 # This is a bad way. but works just fine (*﹏*;)
 
 CmdHelp("gcast").add_command(
-  "gcast", "<text/reply> <flag>", "Globally Broadcast the replied or given message based on flag given.", f"gcast Hello -all / {hl}gcast Hello -grp / {hl}gcast Hello -pvt"
-).add_info(
-  "Global Broadcast."
-).add_extra(
-  "🚩 Flags", "-all, -pvt, -grp"
-).add_warning(
-  "✅ Harmless Module."
+    "gcast",
+    "<text/reply> <flag>",
+    "Globally Broadcast the replied or given message based on flag given.",
+    f"gcast Hello -all / {hl}gcast Hello -grp / {hl}gcast Hello -pvt",
+).add_info("Global Broadcast.").add_extra("🚩 Flags", "-all, -pvt, -grp").add_warning(
+    "✅ Harmless Module."
 ).add()

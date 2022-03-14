@@ -2,11 +2,10 @@
 
 import os
 
-
 if os.path.exists("config.py"):
-    from config import Development as Config
+    pass
 else:
-    from .hell_config import Config
+    pass
 
 
 # hellbot

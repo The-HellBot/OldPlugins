@@ -10,8 +10,8 @@
 
 import os
 
-from PIL import Image
 from glitch_this import ImageGlitcher
+from PIL import Image
 
 from . import *
 
@@ -23,8 +23,9 @@ async def glitch_(event):
     hell = await eor(event, "`Trying to glitch this ...`")
     replied = await event.get_reply_message()
     inp = event.text[8:]
-    if not (replied and (
-            replied.photo or replied.sticker or replied.video or replied.gif)):
+    if not (
+        replied and (replied.photo or replied.sticker or replied.video or replied.gif)
+    ):
         return await hell.edit("```Media not found...```")
     if inp != "":
         if not inp.isdigit():
@@ -38,10 +39,7 @@ async def glitch_(event):
     if not os.path.isdir(Config.TMP_DOWNLOAD_DIRECTORY):
         os.makedirs(Config.TMP_DOWNLOAD_DIRECTORY)
     await hell.edit("`Glitchingggggg`")
-    dls = await event.client.download_media(
-        replied,
-        Config.TMP_DOWNLOAD_DIRECTORY
-    )
+    dls = await event.client.download_media(replied, Config.TMP_DOWNLOAD_DIRECTORY)
     dls_loc = os.path.join(Config.TMP_DOWNLOAD_DIRECTORY, os.path.basename(dls))
     glitch_file = None
     if dls.endswith(".tgs"):
@@ -76,15 +74,13 @@ async def glitch_(event):
     LOOP = 0
     glitch_img[0].save(
         Glitched,
-        format='GIF',
+        format="GIF",
         append_images=glitch_img[1:],
         save_all=True,
         duration=DURATION,
-        loop=LOOP)
-    await event.client.send_file(
-        event.chat_id,
-        Glitched,
-        reply_to=message_id)
+        loop=LOOP,
+    )
+    await event.client.send_file(event.chat_id, Glitched, reply_to=message_id)
     os.remove(Glitched)
     await hell.delete()
     for files in (dls_loc, glitch_file):
@@ -93,9 +89,8 @@ async def glitch_(event):
 
 
 CmdHelp("glitch").add_command(
-  "glitch", "1 to 8", "Glitches the replied gif/sticker/pic/video.", "glitch 5 <reply_to_a_media>"
-).add_info(
-  "Glitcher"
-).add_warning(
-  "✅ Harmless Module."
-).add()
+    "glitch",
+    "1 to 8",
+    "Glitches the replied gif/sticker/pic/video.",
+    "glitch 5 <reply_to_a_media>",
+).add_info("Glitcher").add_warning("✅ Harmless Module.").add()

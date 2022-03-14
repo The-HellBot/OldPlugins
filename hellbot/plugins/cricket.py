@@ -14,13 +14,13 @@ async def _(event):
     final = ""
     for match in result:
         final += match.get_text() + "\n\n"
-    await eor(event, f"<b><i><u>Match information gathered successful</b></i></u>\n\n<code>{final}</code>", parse_mode="HTML")
+    await eor(
+        event,
+        f"<b><i><u>Match information gathered successful</b></i></u>\n\n<code>{final}</code>",
+        parse_mode="HTML",
+    )
 
 
 CmdHelp("cricket").add_command(
-  "cs", None, "Collects all the live cricket scores."
-).add_info(
-  "Cricket Kheloge Vro?"
-).add_warning(
-  "✅ Harmless Module."
-).add()
+    "cs", None, "Collects all the live cricket scores."
+).add_info("Cricket Kheloge Vro?").add_warning("✅ Harmless Module.").add()

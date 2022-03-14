@@ -1,17 +1,10 @@
 import asyncio
 import os
-import cv2
-import io
-import lottie
-import random
-import re
-import shutil
-import textwrap
 
-from PIL import Image, ImageDraw, ImageEnhance, ImageFont, ImageOps
+import cv2
+from PIL import Image
 
 from . import *
-
 
 path = "./hellmify/"
 if not os.path.isdir(path):
@@ -128,7 +121,7 @@ async def nope(event):
             )
         await hel_.delete()
     else:
-     await eod(event, "Error 404:  Not Found")
+        await eod(event, "Error 404:  Not Found")
 
 
 @hell_cmd(pattern="gg(?:\s|$)([\s\S]*)")
@@ -155,7 +148,7 @@ async def nope(event):
             )
         await hel_.delete()
     else:
-     await eod(event, "Error 404:  Not Found")
+        await eod(event, "Error 404:  Not Found")
 
 
 @hell_cmd(pattern="honk(?:\s|$)([\s\S]*)")
@@ -182,7 +175,7 @@ async def nope(event):
             )
         await hel_.delete()
     else:
-     await eod(event, "Error 404:  Not Found")
+        await eod(event, "Error 404:  Not Found")
 
 
 @hell_cmd(pattern="gogl(?:\s|$)([\s\S]*)")
@@ -209,23 +202,29 @@ async def nope(event):
             )
         await hel_.delete()
     else:
-     await eod(event, "Error 404:  Not Found")
+        await eod(event, "Error 404:  Not Found")
 
 
 CmdHelp("memify").add_command(
-  "mmf", "<reply to a img/stcr/gif> <upper text> ; <lower text>", "Memifies the replied image/gif/sticker with your text and sends output in sticker format.", "mmf <reply to a img/stcr/gif> hii ; hello"
+    "mmf",
+    "<reply to a img/stcr/gif> <upper text> ; <lower text>",
+    "Memifies the replied image/gif/sticker with your text and sends output in sticker format.",
+    "mmf <reply to a img/stcr/gif> hii ; hello",
 ).add_command(
-  "mms", "<reply to a img/stcr/gif> <upper text> ; <lower text>", "Memifies the replied image/gif/sticker with your text and sends output in image format.", "mms <reply to a img/stcr/gif> hii ; hello"
+    "mms",
+    "<reply to a img/stcr/gif> <upper text> ; <lower text>",
+    "Memifies the replied image/gif/sticker with your text and sends output in image format.",
+    "mms <reply to a img/stcr/gif> hii ; hello",
 ).add_command(
-  "doge", "<text>", "Makes A Sticker of Doge with given text.", "doge Hello"
+    "doge", "<text>", "Makes A Sticker of Doge with given text.", "doge Hello"
 ).add_command(
-  "gogl", "<text>", "Makes google search sticker.", "gogl Hello"
+    "gogl", "<text>", "Makes google search sticker.", "gogl Hello"
 ).add_command(
-  "gg", "<text>", "Makes google search sticker.", "gg Hello"
+    "gg", "<text>", "Makes google search sticker.", "gg Hello"
 ).add_command(
-  "honk", "<text>", "Makes a sticker with honka revealing given text.", "honk Hello"
+    "honk", "<text>", "Makes a sticker with honka revealing given text.", "honk Hello"
 ).add_info(
-  "Make Memes on telegram 😉"
+    "Make Memes on telegram 😉"
 ).add_warning(
-  "✅ Harmless Module."
+    "✅ Harmless Module."
 ).add()

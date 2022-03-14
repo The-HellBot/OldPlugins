@@ -1,11 +1,12 @@
-from sqlalchemy import Boolean, Column, Integer, String, UnicodeText
+from sqlalchemy import Column, String
+
 from . import BASE, SESSION
 
 
 class Husbando(BASE):
     __tablename__ = "husbando"
     chat_id = Column(String(14), primary_key=True)
-    
+
     def __init__(self, chat_id):
         self.chat_id = chat_id
 

@@ -1,24 +1,8 @@
 import asyncio
 import datetime
-import importlib
-import inspect
-import logging
-import math
-import os
-import re
 import sys
-import time
 import traceback
-from pathlib import Path
 from time import gmtime, strftime
-
-from telethon import events
-from telethon.tl.functions.channels import GetParticipantRequest
-from telethon.tl.types import ChannelParticipantAdmin, ChannelParticipantCreator
-
-from hellbot import *
-from hellbot.helpers import *
-from hellbot.config import Config
 
 
 # this shit handles errors
@@ -29,10 +13,7 @@ def errors_handler(func):
         except BaseException:
 
             date = strftime("%Y-%m-%d %H:%M:%S", gmtime())
-            new = {
-                'error': str(sys.exc_info()[1]),
-                'date': datetime.datetime.now()
-            }
+            new = {"error": str(sys.exc_info()[1]), "date": datetime.datetime.now()}
 
             text = "**Hêllẞø† CRASH REPORT**\n\n"
 
@@ -59,20 +40,19 @@ def errors_handler(func):
             ftext += str(sys.exc_info()[1])
             ftext += "\n\n--------END HELLBOT TRACEBACK LOG--------"
 
-            command = "git log --pretty=format:\"%an: %s\" -5"
+            command = 'git log --pretty=format:"%an: %s" -5'
 
             ftext += "\n\n\nLast 5 commits:\n"
 
             process = await asyncio.create_subprocess_shell(
-                command,
-                stdout=asyncio.subprocess.PIPE,
-                stderr=asyncio.subprocess.PIPE)
+                command, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
+            )
             stdout, stderr = await process.communicate()
-            result = str(stdout.decode().strip()) \
-                + str(stderr.decode().strip())
+            result = str(stdout.decode().strip()) + str(stderr.decode().strip())
 
             ftext += result
 
     return wrapper
+
 
 # hellbot

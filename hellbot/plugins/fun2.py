@@ -1,11 +1,11 @@
 import asyncio
 import random
-import requests
-import nekos
-
 from os import remove
-from telethon.tl.types import ChannelParticipantsAdmins
 from urllib import parse
+
+import nekos
+import requests
+from telethon.tl.types import ChannelParticipantsAdmins
 
 from . import *
 
@@ -27,9 +27,13 @@ async def _(event):
     with open(PAT_IMAGE, "wb") as f:
         f.write(requests.get(pat).content)
     if username:
-        await event.client.send_file(event.chat_id, PAT_IMAGE, caption=username, reply_to=event.reply_to_msg_id)
+        await event.client.send_file(
+            event.chat_id, PAT_IMAGE, caption=username, reply_to=event.reply_to_msg_id
+        )
     else:
-        await event.client.send_file(event.chat_id, PAT_IMAGE, reply_to=event.reply_to_msg_id)
+        await event.client.send_file(
+            event.chat_id, PAT_IMAGE, reply_to=event.reply_to_msg_id
+        )
     remove(PAT_IMAGE)
 
 
@@ -37,7 +41,9 @@ async def _(event):
 async def _(event):
     mentions = "`━━━━━┓ \n┓┓┓┓┓┃\n┓┓┓┓┓┃　ヽ○ノ ⇦ Me When You Joined \n┓┓┓┓┓┃.     /　 \n┓┓┓┓┓┃ ノ) \n┓┓┓┓┓┃\n┓┓┓┓┓┃\n┓┓┓┓┓┃\n┓┓┓┓┓┃\n┓┓┓┓┓┃\n┓┓┓┓┓┃\n┓┓┓┓┓┃\n┓┓┓┓┓┃\n┓┓┓┓┓┃\n┓┓┓┓┓┃\n┓┓┓┓┓┃\n┓┓┓┓┓┃\n┓┓┓┓┓┃\n┓┓┓┓┓┃\n┓┓┓┓┓┃\n┓┓┓┓┓┃`"
     chat = await event.get_input_chat()
-    async for x in event.client.iter_participants(chat, filter=ChannelParticipantsAdmins):
+    async for x in event.client.iter_participants(
+        chat, filter=ChannelParticipantsAdmins
+    ):
         mentions += f""
     reply_message = None
     if event.reply_to_msg_id:
@@ -51,7 +57,9 @@ async def _(event):
 async def _(event):
     mentions = "`█▀▀▀▀▀█░▀▀░░░█░░░░█▀▀▀▀▀█\n█░███░█░█▄░█▀▀░▄▄░█░███░█\n█░▀▀▀░█░▀█▀▀▄▀█▀▀░█░▀▀▀░█\n▀▀▀▀▀▀▀░▀▄▀▄▀▄█▄▀░▀▀▀▀▀▀▀\n█▀█▀▄▄▀░█▄░░░▀▀░▄█░▄▀█▀░▀\n░█▄▀░▄▀▀░░░▄▄▄█░▀▄▄▄▀▄▄▀▄\n░░▀█░▀▀▀▀▀▄█░▄░████ ██▀█▄\n▄▀█░░▄▀█▀█▀░█▄▀░▀█▄██▀░█▄\n░░▀▀▀░▀░█▄▀▀▄▄░▄█▀▀▀█░█▀▀\n█▀▀▀▀▀█░░██▀█░░▄█░▀░█▄░██\n█░███░█░▄▀█▀██▄▄▀▀█▀█▄░▄▄\n█░▀▀▀░█░█░░▀▀▀░█░▀▀▀▀▄█▀░\n▀▀▀▀▀▀▀░▀▀░░▀░▀░░░▀▀░▀▀▀▀`"
     chat = await event.get_input_chat()
-    async for x in event.client.iter_participants(chat, filter=ChannelParticipantsAdmins):
+    async for x in event.client.iter_participants(
+        chat, filter=ChannelParticipantsAdmins
+    ):
         mentions += f""
     reply_message = None
     if event.reply_to_msg_id:
@@ -65,7 +73,9 @@ async def _(event):
 async def _(event):
     mentions = "`😏/\n/▌ \n/ \\n████\n╬╬\n╬╬\n╬╬\n╬╬\n╬╬\n╬╬\n╬╬\😦\n╬╬/▌\n╬╬/\`"
     chat = await event.get_input_chat()
-    async for x in event.client.iter_participants(chat, filter=ChannelParticipantsAdmins):
+    async for x in event.client.iter_participants(
+        chat, filter=ChannelParticipantsAdmins
+    ):
         mentions += f""
     reply_message = None
     if event.reply_to_msg_id:
@@ -79,7 +89,9 @@ async def _(event):
 async def _(event):
     mentions = "`😲💨  🔥\n/|\     🔥🔥\n/ \   🔥🔥🔥`"
     chat = await event.get_input_chat()
-    async for x in event.client.iter_participants(chat, filter=ChannelParticipantsAdmins):
+    async for x in event.client.iter_participants(
+        chat, filter=ChannelParticipantsAdmins
+    ):
         mentions += f""
     reply_message = None
     if event.reply_to_msg_id:
@@ -93,7 +105,9 @@ async def _(event):
 async def _(event):
     mentions = "`.      😎\n          |\👐\n         / \\\n━━━━━┓ ＼＼ \n┓┓┓┓┓┃\n┓┓┓┓┓┃ ヽ😩ノ\n┓┓┓┓┓┃ 　 /　\n┓┓┓┓┓┃  ノ)　 \n┓┓┓┓┓┃\n┓┓┓┓┓┃\n┓┓┓┓┓┃\n┓┓┓┓┓┃\n┓┓┓┓┓┃\n┓┓┓┓┓┃\n┓┓┓┓┓┃\n┓┓┓┓┓┃\n┓┓┓┓┓┃\n┓┓┓┓┓┃\n┓┓┓┓┓┃\n┓┓┓┓┓┃`"
     chat = await event.get_input_chat()
-    async for x in event.client.iter_participants(chat, filter=ChannelParticipantsAdmins):
+    async for x in event.client.iter_participants(
+        chat, filter=ChannelParticipantsAdmins
+    ):
         mentions += f""
     reply_message = None
     if event.reply_to_msg_id:
@@ -107,7 +121,9 @@ async def _(event):
 async def _(event):
     mentions = "`📔📚           📚\n📓📚📖  😫  📚📚📓\n📕📚📚  📝  📗💻📘\n📖⁣📖📖📖📖📖📖📖📖`"
     chat = await event.get_input_chat()
-    async for x in event.client.iter_participants(chat, filter=ChannelParticipantsAdmins):
+    async for x in event.client.iter_participants(
+        chat, filter=ChannelParticipantsAdmins
+    ):
         mentions += f""
     reply_message = None
     if event.reply_to_msg_id:
@@ -121,7 +137,9 @@ async def _(event):
 async def _(event):
     mentions = "`......................................... \n \n𝕔𝕠𝕞𝕖 𝕥𝕠 𝕞𝕖, 𝕞𝕪 𝕔𝕙𝕚𝕝𝕕𝕣𝕖𝕟 \n`` \n. . /. ))) . . . . . . . . . (((ヽ \n/. .ノ￣. . . ___. . .￣ Y .\ \n| . (.\, . . . ( ͡° ͜ʖ ͡°). . . ./.) . ) \nヽ.ヽ..ᯢ._.|﹀|._._ノ₄₂₀ // \n. . .\|. 𓀐𓂸Ｙ. . ࿕. . . / \n. . . .|. \. . ᯪ. . .|. . ᯪ. . ﾉ \n. . . . . \ .トー仝ーイ \n. . . . . . . |. ミ土彡 / \n. . . . . . . )\. . .° . ./( \n. . . . . . /. . .\͎̦ ̷̫ ̴́ ̴̢/̴͖. . \ \n. . . . . /. ⁶⁹ . /̴͝Ѽ̔̕☰̴̈́☰☰☰☰D,̰̱ \n. . . . /. / . . / . . .\. \. . \ \n. . . .((. . . .(. . . . .). . . .)) \n. . . .| . . . .). . . . .(|. . . / \n. . . . |. . . /. . . . /. . . ./ \n. . . . |. . ..| . . . ./. . ./. . ... . . 𓁉𓀏𓀃𓁏`"
     chat = await event.get_input_chat()
-    async for x in event.client.iter_participants(chat, filter=ChannelParticipantsAdmins):
+    async for x in event.client.iter_participants(
+        chat, filter=ChannelParticipantsAdmins
+    ):
         mentions += f""
     reply_message = None
     if event.reply_to_msg_id:
@@ -135,7 +153,9 @@ async def _(event):
 async def _(event):
     mentions = "`´´´´´████████´´\n´´`´███▒▒▒▒███´´´´´\n´´´███▒●▒▒●▒██´´´\n´´´███▒▒👄▒▒██´´\n´´█████▒▒████´´´´´\n´█████▒▒▒▒███´´\n█████▒▒▒▒▒▒███´´´´\n´´▓▓▓▓▓▓▓▓▓▓▓▓▓▒´´\n´´▒▒▒▒▓▓▓▓▓▓▓▓▓▒´´´´´\n´.▒▒▒´´▓▓▓▓▓▓▓▓▒´´´´´\n´.▒▒´´´´▓▓▓▓▓▓▓▒\n..▒▒.´´´´▓▓▓▓▓▓▓▒\n´▒▒▒▒▒▒▒▒▒▒▒▒\n´´´´´´´´´███████´´´´\n´´´´´´´´████████´´´´´´\n´´´´´´´█████████´´´´´\n´´´´´´██████████´´´\n´´´´´´██████████´´\n´´´´´´´█████████´\n´´´´´´´█████████´\n´´´´´´´´████████´´´\n´´´´´´´´´´´▒▒▒▒▒´´´\n´´´´´´´´´´▒▒▒▒▒´´´\n´´´´´´´´´´▒▒▒▒▒´´´\n´´´´´´´´´´▒▒´▒▒´´´\n´´´´´´´´´▒▒´´▒▒´´´\n´´´´´´´´´´▒▒´´´▒▒´´´\n´´´´´´´´´▒▒´´´▒▒´´´\n´´´´´´´´▒▒´´´´´▒▒´´´\n´´´´´´´´▒▒´´´´´´▒▒´´´\n´´´´´´´´███´´´´███´´´\n´´´´´´´´████´´███´´´\n´´´´´´´´█´´███´´████´´´`"
     chat = await event.get_input_chat()
-    async for x in event.client.iter_participants(chat, filter=ChannelParticipantsAdmins):
+    async for x in event.client.iter_participants(
+        chat, filter=ChannelParticipantsAdmins
+    ):
         mentions += f""
     reply_message = None
     if event.reply_to_msg_id:
@@ -243,40 +263,36 @@ async def hmm(hell):
     await eor(hell, facthell)
 
 
-CmdHelp("fun2").add_command(
-  "join", None, "Use and see"
+CmdHelp("fun2").add_command("join", None, "Use and see").add_command(
+    "bf", None, "Use and see"
+).add_command("push", None, "Use and see").add_command(
+    "lovestory", None, "Use and see"
 ).add_command(
-  "bf", None, "Use and see"
+    "session", None, "Use and see"
 ).add_command(
-  "push", None, "Use and see"
+    "ohh", None, "Use and see"
 ).add_command(
-  "lovestory", None, "Use and see"
+    "suckit", None, "Use and see"
 ).add_command(
-  "session", None, "Use and see"
+    "work", None, "Use and see"
 ).add_command(
-  "ohh", None, "Use and see"
+    "aag", None, "Use and see"
 ).add_command(
-  "suckit", None, "Use and see"
+    "climb", None, "Use and see"
 ).add_command(
-  "work", None, "Use and see"
+    "pay", None, "Use and see"
 ).add_command(
-  "aag", None, "Use and see"
+    "pat", "<reply> or <@username>", "Pats the user."
 ).add_command(
-  "climb", None, "Use and see"
+    "cat", None, "Sends you some random cat facial text art"
 ).add_command(
-  "pay", None, "Use and see"
+    "why", None, "Asks some random funny questions"
 ).add_command(
-  "pat", "<reply> or <@username>", "Pats the user."
+    "fact", None, "Sends you some random facts"
 ).add_command(
-  "cat", None, "Sends you some random cat facial text art"
-).add_command(
-  "why", None, "Asks some random funny questions"
-).add_command(
-  "fact", None, "Sends you some random facts"
-).add_command(
-  "ftext", "<text>", "Writes your text in "F" format"
+    "ftext", "<text>", "Writes your text in " f" format"
 ).add_info(
-  "Bakchodi h bass."
+    "Bakchodi h bass."
 ).add_warning(
-  "✅ Harmless Module."
+    "✅ Harmless Module."
 ).add()

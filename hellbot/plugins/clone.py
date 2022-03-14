@@ -1,11 +1,12 @@
 import html
-
 from random import choice
+
 from telethon.tl import functions
 from telethon.tl.functions.users import GetFullUserRequest
 from telethon.tl.types import MessageEntityMentionName
 
-from hellbot.sql.gvar_sql import addgvar, gvarstat, delgvar
+from hellbot.sql.gvar_sql import addgvar, gvarstat
+
 from . import *
 
 
@@ -19,7 +20,9 @@ async def _(event):
         await eod(event, str(error_i_a))
         return False
     user_id = replied_user.user.id
-    profile_pic = await event.client.download_profile_photo(user_id, Config.TMP_DOWNLOAD_DIRECTORY)
+    profile_pic = await event.client.download_profile_photo(
+        user_id, Config.TMP_DOWNLOAD_DIRECTORY
+    )
     first_name = html.escape(replied_user.user.first_name)
     if first_name is not None:
         first_name = first_name.replace("\u2060", "")
@@ -36,9 +39,7 @@ async def _(event):
     await event.client(functions.account.UpdateProfileRequest(last_name=last_name))
     await event.client(functions.account.UpdateProfileRequest(about=user_bio))
     pfile = await event.client.upload_file(profile_pic)
-    await event.client(
-        functions.photos.UploadProfilePhotoRequest(pfile)
-    )
+    await event.client(functions.photos.UploadProfilePhotoRequest(pfile))
     await event.delete()
     await event.client.send_message(
         event.chat_id, "😋 **Hello friend!!**", reply_to=reply_message
@@ -62,7 +63,9 @@ async def _(event):
     await event.client(functions.account.UpdateProfileRequest(about=f"{bio}"))
     await event.client(functions.account.UpdateProfileRequest(first_name=f"{name}"))
     await eor(event, "Successfully reverted back..")
-    await event.client.send_message(Config.LOGGER_ID, f"#REVERT \n\n**Revert Successful**")
+    await event.client.send_message(
+        Config.LOGGER_ID, f"#REVERT \n\n**Revert Successful**"
+    )
 
 
 async def get_full_user(event):
@@ -120,13 +123,15 @@ async def get_full_user(event):
 
 
 CmdHelp("clone").add_command(
-  "clone", "username/reply to user", "Steals others profile including dp, name, bio."
+    "clone", "username/reply to user", "Steals others profile including dp, name, bio."
 ).add_command(
-  "revert", None, "To get back to your profile but it will show ALIVE_NAME instead of your current name and DEFAULT_BIO instead of your current bio"
+    "revert",
+    None,
+    "To get back to your profile but it will show ALIVE_NAME instead of your current name and DEFAULT_BIO instead of your current bio",
 ).add_extra(
-  "📌 Note", "You need to setup YOUR_NAME and BIO_MSG to use this command properly."
+    "📌 Note", "You need to setup YOUR_NAME and BIO_MSG to use this command properly."
 ).add_info(
-  "Cloner."
+    "Cloner."
 ).add_warning(
-  "✅ Harmless Module."
+    "✅ Harmless Module."
 ).add()

@@ -1,7 +1,4 @@
 import asyncio
-import os
-
-from telethon import functions, types
 
 from . import *
 
@@ -14,12 +11,19 @@ async def spammer(event):
     spam_message = msg_.replace(str(counter), "")
     reply_message = await event.get_reply_message()
     if counter > 100:
-        return await eor(event, f"To spam more than 100 times use: \n`{hl}bigspam {counter} {spam_message}`")
+        return await eor(
+            event,
+            f"To spam more than 100 times use: \n`{hl}bigspam {counter} {spam_message}`",
+        )
     hell = await eor(event, f"Spamming {counter} times...")
     for i in range(counter):
-        await event.client.send_message(event.chat_id, spam_message, reply_to=reply_message)
+        await event.client.send_message(
+            event.chat_id, spam_message, reply_to=reply_message
+        )
     await hell.delete()
-    await event.client.send_message(lg_id, f"#SPAM \n\nSpammed  `{counter}`  messages!!")
+    await event.client.send_message(
+        lg_id, f"#SPAM \n\nSpammed  `{counter}`  messages!!"
+    )
 
 
 @hell_cmd(pattern="bigspam(?:\s|$)([\s\S]*)")
@@ -35,7 +39,9 @@ async def bigspam(event):
     for i in range(hellbot_count):
         await event.client.send_message(event.chat_id, hell_spam, reply_to=reply_msg)
     await event.delete()
-    await event.client.send_message(lg_id, f"#BIGSPAM \n\nBigspammed  `{hell_count}`  messages !!")
+    await event.client.send_message(
+        lg_id, f"#BIGSPAM \n\nBigspammed  `{hell_count}`  messages !!"
+    )
 
 
 @hell_cmd(pattern="dspam(?:\s|$)([\s\S]*)")
@@ -49,7 +55,10 @@ async def spammer(event):
     for i in range(counter):
         await event.client.send_message(event.chat_id, spam_message)
         await asyncio.sleep(spamDelay)
-    await event.client.send_message(lg_id, f"#DELAYSPAM \n\nSpammed `{counter}`  messages with delay of `{spamDelay}` seconds!!")
+    await event.client.send_message(
+        lg_id,
+        f"#DELAYSPAM \n\nSpammed `{counter}`  messages with delay of `{spamDelay}` seconds!!",
+    )
 
 
 @hell_cmd(pattern="uspam(?:\s|$)([\s\S]*)")
@@ -61,7 +70,10 @@ async def _(event):
         input_str = reply_msg
     else:
         input_str = hell
-    await event.client.send_message(lg_id, f"#UNLIMITED_SPAM \n\nStarted Unlimited Spam. Will spam till floodwait. Do `{hl}restart` to stop.")
+    await event.client.send_message(
+        lg_id,
+        f"#UNLIMITED_SPAM \n\nStarted Unlimited Spam. Will spam till floodwait. Do `{hl}restart` to stop.",
+    )
     x = 0
     while x < 69:
         await event.client.send_message(event.chat_id, input_str)
@@ -80,7 +92,7 @@ async def spammer(event):
     else:
         spam_message = msg_.replace(str(counter), "")
     rd = int(counter % 100)
-    tot = int((counter - rd )/100)
+    tot = int((counter - rd) / 100)
     a = 30
     for q in range(tot):
         for p in range(100):
@@ -88,12 +100,14 @@ async def spammer(event):
         a = a + 2
         await asyncio.sleep(a)
     await event.delete()
-    await event.client.send_message(lg_id, f"#BREAK_SPAM \n\nSpammed  {counter}  messages!!")
+    await event.client.send_message(
+        lg_id, f"#BREAK_SPAM \n\nSpammed  {counter}  messages!!"
+    )
 
 
 @hell_cmd(pattern="mspam(?:\s|$)([\s\S]*)")
 async def tiny_pic_spam(event):
-    lg_id = Config.LOGGER_ID
+    Config.LOGGER_ID
     try:
         counter = int(event.pattern_match.group(1).split(" ", 1)[0])
         reply_message = await event.get_reply_message()
@@ -108,24 +122,41 @@ async def tiny_pic_spam(event):
         for i in range(counter):
             await event.client.send_file(event.chat_id, message)
     except:
-        return await event.reply(f"**Error**\nUsage `{hl}mspam <count> reply to a sticker/gif/photo/video`")
+        return await event.reply(
+            f"**Error**\nUsage `{hl}mspam <count> reply to a sticker/gif/photo/video`"
+        )
     await event.delete()
 
 
 CmdHelp("spam").add_command(
-  "spam", "<number> <text>", "Sends the text 'X' number of times.", "spam 99 Hello"
+    "spam", "<number> <text>", "Sends the text 'X' number of times.", "spam 99 Hello"
 ).add_command(
-  "mspam", "<reply to media> <number>", "Sends the replied media (gif/ video/ sticker/ pic) 'X' number of times", "mspam 100 <reply to media>"
+    "mspam",
+    "<reply to media> <number>",
+    "Sends the replied media (gif/ video/ sticker/ pic) 'X' number of times",
+    "mspam 100 <reply to media>",
 ).add_command(
-  "dspam", "<delay> <spam count> <text>", "Sends the text 'X' number of times in 'Y' seconds of delay", "dspam 5 100 Hello"
+    "dspam",
+    "<delay> <spam count> <text>",
+    "Sends the text 'X' number of times in 'Y' seconds of delay",
+    "dspam 5 100 Hello",
 ).add_command(
-  "uspam", "<reply to a msg> or <text>", "Spams the message unlimited times until you get floodwait error.", "uspam Hello"
+    "uspam",
+    "<reply to a msg> or <text>",
+    "Spams the message unlimited times until you get floodwait error.",
+    "uspam Hello",
 ).add_command(
-  "bspam", "<count> <text or reply>", "Spams the message X times without floodwait. Breaks the spam count to avoid floodwait.", "bspam 9999 Hello"
+    "bspam",
+    "<count> <text or reply>",
+    "Spams the message X times without floodwait. Breaks the spam count to avoid floodwait.",
+    "bspam 9999 Hello",
 ).add_command(
-  "bigspam", "<count> <text>", "Sends the text 'X' number of times. This what hellbot iz known for. The Best BigSpam Ever", "bigspam 9999 Hello"
+    "bigspam",
+    "<count> <text>",
+    "Sends the text 'X' number of times. This what hellbot iz known for. The Best BigSpam Ever",
+    "bigspam 9999 Hello",
 ).add_info(
-  "Spammers Commands"
+    "Spammers Commands"
 ).add_warning(
-  "❌ May Get Floodwait Error Or Limit Your Account"
+    "❌ May Get Floodwait Error Or Limit Your Account"
 ).add()

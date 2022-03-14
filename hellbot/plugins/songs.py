@@ -1,6 +1,7 @@
 import asyncio
 import time
 
+from telethon.errors.rpcerrorlist import YouBlockedUserError
 from telethon.tl.types import DocumentAttributeAudio
 from youtube_dl import YoutubeDL
 from youtube_dl.utils import (
@@ -13,7 +14,6 @@ from youtube_dl.utils import (
     UnavailableVideoError,
     XAttrMetadataError,
 )
-from telethon.errors.rpcerrorlist import YouBlockedUserError
 
 from . import *
 
@@ -29,9 +29,9 @@ async def _(event):
     hell = await eor(event, f"__Searching for__ `{query}`")
     hel_ = await song_search(event, query, max_results, details=True)
     x, title, views, duration, thumb = hel_[0], hel_[1], hel_[2], hel_[3], hel_[4]
-    thumb_name = f'thumb{ForGo10God}.jpg'
+    thumb_name = f"thumb{ForGo10God}.jpg"
     thumbnail = requests.get(thumb, allow_redirects=True)
-    open(thumb_name, 'wb').write(thumbnail.content)
+    open(thumb_name, "wb").write(thumbnail.content)
     url = x.replace("\n", "")
     try:
         await hell.edit("**Fetching Song**")
@@ -42,7 +42,10 @@ async def _(event):
     except ContentTooShortError:
         return await eod(hell, "`The download content was too short.`")
     except GeoRestrictedError:
-        return await eod(hell, "`Video is not available from your geographic location due to geographic restrictions imposed by a website.`")
+        return await eod(
+            hell,
+            "`Video is not available from your geographic location due to geographic restrictions imposed by a website.`",
+        )
     except MaxDownloadsReached:
         return await eod(hell, "`Max-downloads limit has been reached.`")
     except PostProcessingError:
@@ -56,7 +59,9 @@ async def _(event):
     except Exception as e:
         return await eod(hell, f"{str(type(e)): {str(e)}}")
     c_time = time.time()
-    await hell.edit(f"**🎶 Preparing to upload song 🎶 :** \n\n{hell_data['title']} \n**By :** {hell_data['uploader']}")
+    await hell.edit(
+        f"**🎶 Preparing to upload song 🎶 :** \n\n{hell_data['title']} \n**By :** {hell_data['uploader']}"
+    )
     await event.client.send_file(
         event.chat_id,
         f"{hell_data['id']}.mp3",
@@ -89,9 +94,9 @@ async def _(event):
     hell = await eor(event, f"__Searching for__ `{query}`")
     hel_ = await song_search(event, query, max_results, details=True)
     x, title, views, duration, thumb = hel_[0], hel_[1], hel_[2], hel_[3], hel_[4]
-    thumb_name = f'thumb{ForGo10God}.jpg'
+    thumb_name = f"thumb{ForGo10God}.jpg"
     thumbnail = requests.get(thumb, allow_redirects=True)
-    open(thumb_name, 'wb').write(thumbnail.content)
+    open(thumb_name, "wb").write(thumbnail.content)
     url = x.replace("\n", "")
     try:
         await hell.edit("**Fetching Video**")
@@ -102,7 +107,10 @@ async def _(event):
     except ContentTooShortError:
         return await eod(hell, "`The download content was too short.`")
     except GeoRestrictedError:
-        return await eod(hell, "`Video is not available from your geographic location due to geographic restrictions imposed by a website.`")
+        return await eod(
+            hell,
+            "`Video is not available from your geographic location due to geographic restrictions imposed by a website.`",
+        )
     except MaxDownloadsReached:
         return await eod(hell, "`Max-downloads limit has been reached.`")
     except PostProcessingError:
@@ -116,7 +124,9 @@ async def _(event):
     except Exception as e:
         return await eod(hell, f"{str(type(e)): {str(e)}}")
     c_time = time.time()
-    await hell.edit(f"**📺 Preparing to upload video 📺 :** \n\n{hell_data['title']}\n**By :** {hell_data['uploader']}")
+    await hell.edit(
+        f"**📺 Preparing to upload video 📺 :** \n\n{hell_data['title']}\n**By :** {hell_data['uploader']}"
+    )
     await event.client.send_file(
         event.chat_id,
         f"{hell_data['id']}.mp4",
@@ -191,10 +201,10 @@ async def _(event):
             third = await conv.send_message(rply)
             fourth = await conv.get_response()
             if not fourth.text.startswith("Audio received"):
-                await hell.edit(
-                    "Error identifying audio."
+                await hell.edit("Error identifying audio.")
+                await event.client.delete_messages(
+                    conv.chat_id, [first.id, second.id, third.id, fourth.id]
                 )
-                await event.client.delete_messages(conv.chat_id, [first.id, second.id, third.id, fourth.id])
                 return
             await hell.edit("Processed...")
             fifth = await conv.get_response()
@@ -203,7 +213,9 @@ async def _(event):
             return await hell.edit("Please unblock @auddbot and try again")
     audio = f"**Song Name : **{fifth.text.splitlines()[0]}\n\n**Details : **__{fifth.text.splitlines()[2]}__"
     await hell.edit(audio)
-    await event.client.delete_messages(conv.chat_id, [first.id, second.id, third.id, fourth.id, fifth.id])
+    await event.client.delete_messages(
+        conv.chat_id, [first.id, second.id, third.id, fourth.id, fifth.id]
+    )
 
 
 @hell_cmd(pattern="spotify(?:\s|$)([\s\S]*)")
@@ -217,7 +229,9 @@ async def _(event):
         try:
             first = await conv.send_message("/start")
             second = await conv.get_response()
-            somg = await event.client.inline_query("spotifysavebot", f"str: {(deEmojify(text))}")
+            somg = await event.client.inline_query(
+                "spotifysavebot", f"str: {(deEmojify(text))}"
+            )
             if somg:
                 third = await somg[0].click(chat)
             else:
@@ -231,23 +245,27 @@ async def _(event):
             return await eod(hell, f"**ERROR !!** \n\n{e}")
         await event.client.send_file(event.chat_id, file=fourth, caption="")
         await hell.delete()
-        await event.client.delete_messages(conv.chat_id, [first.id, second.id, third.id, fourth.id, fifth.id])
+        await event.client.delete_messages(
+            conv.chat_id, [first.id, second.id, third.id, fourth.id, fifth.id]
+        )
 
 
 CmdHelp("songs").add_command(
-  "song", "<song name>", "Downloads the song from YouTube."
+    "song", "<song name>", "Downloads the song from YouTube."
 ).add_command(
-  "vsong", "<song name>", "Downloads the Video Song from YouTube."
+    "vsong", "<song name>", "Downloads the Video Song from YouTube."
 ).add_command(
-  "lsong", "<song name>", "Sends the searched song in current chat.", "lsong Alone"
+    "lsong", "<song name>", "Sends the searched song in current chat.", "lsong Alone"
 ).add_command(
-  "wsong", "<reply to a song file>", "Searches for the details of replied mp3 song file and uploads it's details."
+    "wsong",
+    "<reply to a song file>",
+    "Searches for the details of replied mp3 song file and uploads it's details.",
 ).add_command(
-  "lyrics", "<song name>", "Gives the lyrics of that song.."
+    "lyrics", "<song name>", "Gives the lyrics of that song.."
 ).add_command(
-  "spotify", "<song name>", "Downloads the song from Spotify."
+    "spotify", "<song name>", "Downloads the song from Spotify."
 ).add_info(
-  "Songs & Lyrics."
+    "Songs & Lyrics."
 ).add_warning(
-  "✅ Harmless Module."
+    "✅ Harmless Module."
 ).add()

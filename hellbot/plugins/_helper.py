@@ -1,9 +1,7 @@
-import asyncio
-import requests
-
-from telethon import functions
 from telethon.errors import ChatSendInlineForbiddenError as noin
-from telethon.errors.rpcerrorlist import BotMethodInvalidError as dedbot, BotInlineDisabledError as noinline, YouBlockedUserError
+from telethon.errors.rpcerrorlist import BotInlineDisabledError as noinline
+from telethon.errors.rpcerrorlist import BotMethodInvalidError as dedbot
+from telethon.errors.rpcerrorlist import YouBlockedUserError
 
 from . import *
 
@@ -14,6 +12,7 @@ msg = f"""
   •  ©️ {hell_channel} ™
 """
 botname = Config.BOT_USERNAME
+
 
 @hell_cmd(pattern="repo$")
 async def repo(event):
@@ -40,7 +39,10 @@ async def _(event):
             )
             await event.delete()
         except noinline:
-            hell = await eor(event, "**Inline Mode is disabled.** \n__Turning it on, please wait for a minute...__")
+            hell = await eor(
+                event,
+                "**Inline Mode is disabled.** \n__Turning it on, please wait for a minute...__",
+            )
             async with bot.conversation(chat) as conv:
                 try:
                     first = await conv.send_message("/setinline")
@@ -52,12 +54,18 @@ async def _(event):
                     await bot.send_read_acknowledge(conv.chat_id)
                 except YouBlockedUserError:
                     return await hell.edit("Unblock @Botfather first.")
-                await hell.edit(f"**Turned On Inline Mode Successfully.** \n\nDo `{hl}help` again to get the help menu.")
+                await hell.edit(
+                    f"**Turned On Inline Mode Successfully.** \n\nDo `{hl}help` again to get the help menu."
+                )
             await bot.delete_messages(
-                conv.chat_id, [first.id, second.id, third.id, fourth.id, fifth.id, sixth.id]
+                conv.chat_id,
+                [first.id, second.id, third.id, fourth.id, fifth.id, sixth.id],
             )
     else:
-        await eor(event, "**⚠️ ERROR !!** \nPlease Re-Check BOT_TOKEN & BOT_USERNAME on Heroku.")
+        await eor(
+            event,
+            "**⚠️ ERROR !!** \nPlease Re-Check BOT_TOKEN & BOT_USERNAME on Heroku.",
+        )
 
 
 @hell_cmd(pattern="plinfo(?:\s|$)([\s\S]*)")
@@ -84,7 +92,10 @@ async def hellbott(event):
                 else:
                     string += "`, "
             string += "\n"
-        await eor(event, "Please Specify A Module Name Of Which You Want Info" + "\n\n" + string)
+        await eor(
+            event,
+            "Please Specify A Module Name Of Which You Want Info" + "\n\n" + string,
+        )
 
 
 @hell_cmd(pattern="cmdinfo(?:\s|$)([\s\S]*)")
@@ -95,4 +106,3 @@ async def cmdinfo(event):
         await eor(event, f"**• {cmd}:** \n» __{info}__")
     except KeyError:
         await eod(event, f"**• No command named:** `{cmd}`")
-

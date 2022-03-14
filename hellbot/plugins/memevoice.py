@@ -1,10 +1,12 @@
 from . import *
+
 # Credits to @ForGo10God developer of HellBot.
 # This is my first plugin that I made when I released first HellBot.
 # Modified to work in groups with inline mode disabled.
 # Added error msg if no voice is found.
-# So please dont remove credit. 
+# So please dont remove credit.
 # You can use it in your repo. But dont remove these lines...
+
 
 @hell_cmd(pattern="mev(?:\s|$)([\s\S]*)")
 async def _(event):
@@ -14,7 +16,10 @@ async def _(event):
         if event.is_reply:
             rply.message
         else:
-            return await eod(event, "`Sir please give some query to search and download it for you..!`")
+            return await eod(
+                event,
+                "`Sir please give some query to search and download it for you..!`",
+            )
     troll = await event.client.inline_query("TrollVoiceBot", f"{(deEmojify(hell))}")
     if troll:
         await event.delete()
@@ -39,7 +44,10 @@ async def _(event):
         if event.is_reply:
             rply.message
         else:
-            return await eod(event, "`Sir please give some query to search and download it for you..!`")
+            return await eod(
+                event,
+                "`Sir please give some query to search and download it for you..!`",
+            )
     troll = await event.client.inline_query("Myinstantsbot", f"{(deEmojify(hell))}")
     if troll:
         await event.delete()
@@ -58,9 +66,7 @@ async def _(event):
 
 CmdHelp("memevoice").add_command(
     "mev", "<query>", "Searches the given meme and sends audio if found."
-).add_command(
-    "meev", "<query>", "Same as {hl}mev"
-).add_info(
+).add_command("meev", "<query>", "Same as {hl}mev").add_info(
     "Audio Memes."
 ).add_warning(
     "✅ Harmless Module."

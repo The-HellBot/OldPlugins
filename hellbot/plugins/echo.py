@@ -1,12 +1,11 @@
 import asyncio
-import base64
-import requests
 
 from telethon import events
 from telethon.utils import get_peer_id
 
 from hellbot.sql.echo_sql import addecho, get_all_echos, is_echo, remove_echo
-from hellbot.sql.gvar_sql import addgvar, gvarstat, delgvar
+from hellbot.sql.gvar_sql import addgvar, gvarstat
+
 from . import *
 
 
@@ -72,6 +71,7 @@ async def samereply(event):
 
 
 if H2:
+
     @H2.on(events.NewMessage(incoming=True))
     async def samereply(event):
         if event.chat_id in Config.BL_CHAT:
@@ -86,6 +86,7 @@ if H2:
 
 
 if H3:
+
     @H3.on(events.NewMessage(incoming=True))
     async def samereply(event):
         if event.chat_id in Config.BL_CHAT:
@@ -100,6 +101,7 @@ if H3:
 
 
 if H4:
+
     @H4.on(events.NewMessage(incoming=True))
     async def samereply(event):
         if event.chat_id in Config.BL_CHAT:
@@ -114,6 +116,7 @@ if H4:
 
 
 if H5:
+
     @H5.on(events.NewMessage(incoming=True))
     async def samereply(event):
         if event.chat_id in Config.BL_CHAT:
@@ -128,13 +131,13 @@ if H5:
 
 
 CmdHelp("echo").add_command(
-  "echo", "Reply to a user", "Replays every message from whom you enabled echo"
+    "echo", "Reply to a user", "Replays every message from whom you enabled echo"
 ).add_command(
-  "rmecho", "reply to a user", "Stop replayings targeted user message"
+    "rmecho", "reply to a user", "Stop replayings targeted user message"
 ).add_command(
-  "listecho", None, "Shows the list of users for whom you enabled echo"
+    "listecho", None, "Shows the list of users for whom you enabled echo"
 ).add_info(
-  "Message Echoer."
+    "Message Echoer."
 ).add_warning(
-  "✅ Harmless Module."
+    "✅ Harmless Module."
 ).add()

@@ -1,13 +1,18 @@
 import asyncio
 import re
 
-from telethon import events, utils as ut
+from telethon import events
+from telethon import utils as ut
 from telethon.tl import types
 
-from ..sql.filter_sql import get_filter, add_filter, remove_filter, get_all_filters, remove_all_filters
-from ..sql.gvar_sql import gvarstat, addgvar, delgvar
+from ..sql.filter_sql import (
+    add_filter,
+    get_all_filters,
+    remove_all_filters,
+    remove_filter,
+)
+from ..sql.gvar_sql import addgvar, delgvar, gvarstat
 from . import *
-
 
 DELETE_TIMEOUT = 0
 TYPE_TEXT = 0
@@ -30,7 +35,6 @@ global last_triggered_filters_5
 last_triggered_filters_5 = {}
 
 
-
 @H1.on(events.NewMessage(incoming=True))
 async def on_snip(event):
     global last_triggered_filters_1
@@ -51,23 +55,20 @@ async def on_snip(event):
                     media = types.InputPhoto(
                         int(snip.media_id),
                         int(snip.media_access_hash),
-                        snip.media_file_reference
+                        snip.media_file_reference,
                     )
                 elif snip.snip_type == TYPE_DOCUMENT:
                     media = types.InputDocument(
                         int(snip.media_id),
                         int(snip.media_access_hash),
-                        snip.media_file_reference
+                        snip.media_file_reference,
                     )
                 else:
                     media = None
-                message_id = event.message.id
+                event.message.id
                 if event.reply_to_msg_id:
-                    message_id = event.reply_to_msg_id
-                await event.reply(
-                    snip.reply,
-                    file=media
-                )
+                    event.reply_to_msg_id
+                await event.reply(snip.reply, file=media)
                 if _id not in last_triggered_filters_1:
                     last_triggered_filters_1[_id] = []
                 last_triggered_filters_1[_id].append(name)
@@ -76,6 +77,7 @@ async def on_snip(event):
 
 
 if H2:
+
     @H2.on(events.NewMessage(incoming=True))
     async def on_snip(event):
         global last_triggered_filters_2
@@ -96,23 +98,20 @@ if H2:
                         media = types.InputPhoto(
                             int(snip.media_id),
                             int(snip.media_access_hash),
-                            snip.media_file_reference
+                            snip.media_file_reference,
                         )
                     elif snip.snip_type == TYPE_DOCUMENT:
                         media = types.InputDocument(
                             int(snip.media_id),
                             int(snip.media_access_hash),
-                            snip.media_file_reference
+                            snip.media_file_reference,
                         )
                     else:
                         media = None
-                    message_id = event.message.id
+                    event.message.id
                     if event.reply_to_msg_id:
-                        message_id = event.reply_to_msg_id
-                    await event.reply(
-                        snip.reply,
-                        file=media
-                    )
+                        event.reply_to_msg_id
+                    await event.reply(snip.reply, file=media)
                     if _id not in last_triggered_filters_2:
                         last_triggered_filters_2[_id] = []
                     last_triggered_filters_2[_id].append(name)
@@ -121,6 +120,7 @@ if H2:
 
 
 if H3:
+
     @H3.on(events.NewMessage(incoming=True))
     async def on_snip(event):
         global last_triggered_filters_3
@@ -141,23 +141,20 @@ if H3:
                         media = types.InputPhoto(
                             int(snip.media_id),
                             int(snip.media_access_hash),
-                            snip.media_file_reference
+                            snip.media_file_reference,
                         )
                     elif snip.snip_type == TYPE_DOCUMENT:
                         media = types.InputDocument(
                             int(snip.media_id),
                             int(snip.media_access_hash),
-                            snip.media_file_reference
+                            snip.media_file_reference,
                         )
                     else:
                         media = None
-                    message_id = event.message.id
+                    event.message.id
                     if event.reply_to_msg_id:
-                        message_id = event.reply_to_msg_id
-                    await event.reply(
-                        snip.reply,
-                        file=media
-                    )
+                        event.reply_to_msg_id
+                    await event.reply(snip.reply, file=media)
                     if _id not in last_triggered_filters_3:
                         last_triggered_filters_3[_id] = []
                     last_triggered_filters_3[_id].append(name)
@@ -166,6 +163,7 @@ if H3:
 
 
 if H4:
+
     @H4.on(events.NewMessage(incoming=True))
     async def on_snip(event):
         global last_triggered_filters_4
@@ -186,23 +184,20 @@ if H4:
                         media = types.InputPhoto(
                             int(snip.media_id),
                             int(snip.media_access_hash),
-                            snip.media_file_reference
+                            snip.media_file_reference,
                         )
                     elif snip.snip_type == TYPE_DOCUMENT:
                         media = types.InputDocument(
                             int(snip.media_id),
                             int(snip.media_access_hash),
-                            snip.media_file_reference
+                            snip.media_file_reference,
                         )
                     else:
                         media = None
-                    message_id = event.message.id
+                    event.message.id
                     if event.reply_to_msg_id:
-                        message_id = event.reply_to_msg_id
-                    await event.reply(
-                        snip.reply,
-                        file=media
-                    )
+                        event.reply_to_msg_id
+                    await event.reply(snip.reply, file=media)
                     if _id not in last_triggered_filters_4:
                         last_triggered_filters_4[_id] = []
                     last_triggered_filters_4[_id].append(name)
@@ -211,6 +206,7 @@ if H4:
 
 
 if H5:
+
     @H5.on(events.NewMessage(incoming=True))
     async def on_snip(event):
         global last_triggered_filters_5
@@ -231,23 +227,20 @@ if H5:
                         media = types.InputPhoto(
                             int(snip.media_id),
                             int(snip.media_access_hash),
-                            snip.media_file_reference
+                            snip.media_file_reference,
                         )
                     elif snip.snip_type == TYPE_DOCUMENT:
                         media = types.InputDocument(
                             int(snip.media_id),
                             int(snip.media_access_hash),
-                            snip.media_file_reference
+                            snip.media_file_reference,
                         )
                     else:
                         media = None
-                    message_id = event.message.id
+                    event.message.id
                     if event.reply_to_msg_id:
-                        message_id = event.reply_to_msg_id
-                    await event.reply(
-                        snip.reply,
-                        file=media
-                    )
+                        event.reply_to_msg_id
+                    await event.reply(snip.reply, file=media)
                     if _id not in last_triggered_filters_5:
                         last_triggered_filters_5[_id] = []
                     last_triggered_filters_5[_id].append(name)
@@ -262,24 +255,37 @@ async def on_snip_save(event):
     ForGo10God, _, hell_mention = await client_id(event)
     _id = event.chat_id
     if msg:
-        snip = {'type': TYPE_TEXT, 'text': msg.message or ''}
+        snip = {"type": TYPE_TEXT, "text": msg.message or ""}
         if msg.media:
             media = None
             if isinstance(msg.media, types.MessageMediaPhoto):
                 media = ut.get_input_photo(msg.media.photo)
-                snip['type'] = TYPE_PHOTO
+                snip["type"] = TYPE_PHOTO
             elif isinstance(msg.media, types.MessageMediaDocument):
                 media = ut.get_input_document(msg.media.document)
-                snip['type'] = TYPE_DOCUMENT
+                snip["type"] = TYPE_DOCUMENT
             if media:
-                snip['id'] = media.id
-                snip['hash'] = media.access_hash
-                snip['fr'] = media.file_reference
-        add_filter(_id, name, snip['text'], snip['type'], snip.get('id'), snip.get('hash'), snip.get('fr'))
+                snip["id"] = media.id
+                snip["hash"] = media.access_hash
+                snip["fr"] = media.file_reference
+        add_filter(
+            _id,
+            name,
+            snip["text"],
+            snip["type"],
+            snip.get("id"),
+            snip.get("hash"),
+            snip.get("fr"),
+        )
         addgvar(f"FILTER_{ForGo10God}_{str(_id)[1:]}", "TRUE")
-        await eod(event, f"**Filter Saved!** \n\n__• Client:__ {hell_mention} \n__• Keyword:__ {name}")
+        await eod(
+            event,
+            f"**Filter Saved!** \n\n__• Client:__ {hell_mention} \n__• Keyword:__ {name}",
+        )
     else:
-        await eod(event, f"Reply to a message with `{hl}filter keyword` to save the filter")
+        await eod(
+            event, f"Reply to a message with `{hl}filter keyword` to save the filter"
+        )
 
 
 @hell_cmd(pattern="filters$")
@@ -304,7 +310,7 @@ async def on_snip_list(event):
                 force_document=True,
                 allow_cache=False,
                 caption="Available Filters in the Current Chat",
-                reply_to=event
+                reply_to=event,
             )
             await event.delete()
     else:
@@ -320,7 +326,10 @@ async def on_snip_delete(event):
         return await eod(event, "There aren't any filter in chat!")
     try:
         remove_filter(_id, name)
-        await eod(event, f"**Filter Deleted!** \n\n__• Client:__ {hell_mention} \n__• Keyword:__ {name}")
+        await eod(
+            event,
+            f"**Filter Deleted!** \n\n__• Client:__ {hell_mention} \n__• Keyword:__ {name}",
+        )
     except Exception as e:
         await eod(event, f"**ERROR !!** \n\n`{e}`")
 
@@ -340,15 +349,15 @@ async def on_all_snip_delete(event):
 
 
 CmdHelp("filter").add_command(
-  "filter", "reply to a msg with keyword", "Saves the replied msg as a reply to keyword. The bot will reply that msg wheneverthe keyword is mentioned."
+    "filter",
+    "reply to a msg with keyword",
+    "Saves the replied msg as a reply to keyword. The bot will reply that msg wheneverthe keyword is mentioned.",
+).add_command("filters", None, "Lists all the filters in chat").add_command(
+    "rmallfilters", None, "Deletes all the filter saved in a chat."
 ).add_command(
-  "filters", None, "Lists all the filters in chat"
-).add_command(
-  "rmallfilters", None, "Deletes all the filter saved in a chat."
-).add_command(
-  "stop", "keyword of saved filter", "Stops reply to the keyword mentioned."
+    "stop", "keyword of saved filter", "Stops reply to the keyword mentioned."
 ).add_info(
-  "Save Filters."
+    "Save Filters."
 ).add_warning(
-  "✅ Harmless Module."
+    "✅ Harmless Module."
 ).add()

@@ -1,19 +1,29 @@
-import emoji
 import html
-
 from datetime import datetime
 from math import sqrt
 from os import remove
 
 from telethon import events
-from telethon.errors import ChannelInvalidError, ChannelPrivateError, ChannelPublicGroupNaError, ChatAdminRequiredError
+from telethon.errors import (
+    ChannelInvalidError,
+    ChannelPrivateError,
+    ChannelPublicGroupNaError,
+    ChatAdminRequiredError,
+)
 from telethon.errors.rpcerrorlist import MessageTooLongError, YouBlockedUserError
-from telethon.tl.functions.channels import GetFullChannelRequest, GetParticipantsRequest, LeaveChannelRequest
+from telethon.tl.functions.channels import GetFullChannelRequest, GetParticipantsRequest
 from telethon.tl.functions.messages import GetFullChatRequest, GetHistoryRequest
 from telethon.tl.functions.photos import GetUserPhotosRequest
 from telethon.tl.functions.users import GetFullUserRequest
-from telethon.tl.types import ChannelParticipantAdmin, ChannelParticipantCreator, ChannelParticipantsAdmins, ChannelParticipantsBots, MessageActionChannelMigrateFrom, MessageEntityMentionName
-from telethon.utils import pack_bot_file_id, get_input_location
+from telethon.tl.types import (
+    ChannelParticipantAdmin,
+    ChannelParticipantCreator,
+    ChannelParticipantsAdmins,
+    ChannelParticipantsBots,
+    MessageActionChannelMigrateFrom,
+    MessageEntityMentionName,
+)
+from telethon.utils import get_input_location, pack_bot_file_id
 
 from . import *
 
@@ -228,8 +238,8 @@ async def get_chatinfo(event):
             await eor(event, "`Invalid channel/group`")
             return None
         except ChannelPrivateError:
-            await eor(event, 
-                "`This is a private channel/group or I am banned from there`"
+            await eor(
+                event, "`This is a private channel/group or I am banned from there`"
             )
             return None
         except ChannelPublicGroupNaError:
@@ -447,7 +457,7 @@ async def fetch_info(chat, event):
             caption += "\n"
     if hasattr(chat_obj_info, "scam") and chat_obj_info.scam:
         caption += "📍 Scam : <b>Yes</b>\n\n"
-    if hasattr(chat_obj_info, "verified"): 
+    if hasattr(chat_obj_info, "verified"):
         caption += f"💟 Verified by Telegram : {verified}\n\n"
     if description:
         caption += f"📝 Description : \n<code>{description}</code>\n"
@@ -566,7 +576,9 @@ async def _(event):
             await event.edit(str(e))
             return None
     try:
-        async for x in event.client.iter_participants(chat, filter=ChannelParticipantsBots):
+        async for x in event.client.iter_participants(
+            chat, filter=ChannelParticipantsBots
+        ):
             if isinstance(x.participant, ChannelParticipantAdmin):
                 mentions += "\n ⚜️ [{}](tg://user?id={}) `{}`".format(
                     x.first_name, x.id, x.id
@@ -578,8 +590,8 @@ async def _(event):
     except Exception as e:
         mentions += " " + str(e) + "\n"
     await event.edit(mentions)
-    
-    
+
+
 @hell_cmd(pattern="id$")
 async def _(event):
     hell = await eor(event, "Fetching Ids...")
@@ -604,23 +616,25 @@ async def _(event):
 
 
 CmdHelp("infos").add_command(
-  "admins", None, "Gets the list of admins in current chat along with the crator"
+    "admins", None, "Gets the list of admins in current chat along with the crator"
+).add_command("id", "<reply>", "Gets the user id of the replied user.").add_command(
+    "bots", None, "Gets the list of all the bots in the chat."
 ).add_command(
-  "id", "<reply>", "Gets the user id of the replied user."
+    "info", "<reply / username>", "Fetches the information of the user"
 ).add_command(
-  "bots", None, "Gets the list of all the bots in the chat."
+    "whois", "<reply / username>", "Same as info"
 ).add_command(
-  "info", "<reply / username>", "Fetches the information of the user"
+    "chatinfo",
+    "<username of group>",
+    "Shows you the total information of the required chat",
 ).add_command(
-  "whois", "<reply / username>", "Same as info"
+    "users",
+    "<name of member> (optional)",
+    "Retrives all the (or mentioned) users in the chat",
 ).add_command(
-  "chatinfo", "<username of group>", "Shows you the total information of the required chat"
-).add_command(
-  "users", "<name of member> (optional)", "Retrives all the (or mentioned) users in the chat"
-).add_command(
-  "recognize", "<reply to photo>", "Sends you the details of that replied picture."
+    "recognize", "<reply to photo>", "Sends you the details of that replied picture."
 ).add_info(
-  "Basic Cmds for groups."
+    "Basic Cmds for groups."
 ).add_warning(
-  "✅ Harmless Module."
+    "✅ Harmless Module."
 ).add()

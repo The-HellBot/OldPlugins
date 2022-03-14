@@ -1,11 +1,9 @@
-import json
-import re
-import requests
 import time
 
+import requests
 from bs4 import BeautifulSoup
-from .pasters import telegraph_paste
 
+from .pasters import telegraph_paste
 
 ANIME_DB = {}
 MANGA_DB = {}
@@ -218,6 +216,7 @@ def search_filler(query):
             ret[keys[i]] = index[keys[i]]
     return ret
 
+
 # parse the searched filler episodes
 def parse_filler(filler_id):
     url = "https://www.animefillerlist.com/shows/" + filler_id
@@ -238,7 +237,7 @@ def parse_filler(filler_id):
             "total_ep": ", ".join(total_ep),
             "mixed_ep": mix_ep,
             "filler_ep": filler_ep,
-            "ac_ep": ac_ep
+            "ac_ep": ac_ep,
         }
         return dict_
     if len(all_ep) == 2:
@@ -257,7 +256,7 @@ def parse_filler(filler_id):
             "total_ep": ", ".join(total_ep),
             "mixed_ep": mix_ep,
             "filler_ep": ", ".join(filler_ep),
-            "ac_ep": ac_ep
+            "ac_ep": ac_ep,
         }
         return dict_
     if len(all_ep) == 3:
@@ -279,7 +278,7 @@ def parse_filler(filler_id):
             "total_ep": ", ".join(total_ep),
             "mixed_ep": ", ".join(mix_ep),
             "filler_ep": ", ".join(filler_ep),
-            "ac_ep": ac_ep
+            "ac_ep": ac_ep,
         }
         return dict_
     if len(all_ep) == 4:
@@ -308,6 +307,7 @@ def parse_filler(filler_id):
         }
         return dict_
 
+
 # Gets country of origin
 def cflag(country):
     if country == "JP":
@@ -319,14 +319,16 @@ def cflag(country):
     if country == "TW":
         return "\U0001F1F9\U0001F1FC"
 
+
 # Position format for airing
 def pos_no(no):
     ep_ = list(str(no))
     x = ep_.pop()
-    if ep_ != [] and ep_.pop()=='1':
-        return 'th'
+    if ep_ != [] and ep_.pop() == "1":
+        return "th"
     th = "st" if x == "1" else "nd" if x == "2" else "rd" if x == "3" else "th"
     return th
+
 
 # time stamp for airing
 def make_it_rw(time_stamp):
@@ -343,16 +345,18 @@ def make_it_rw(time_stamp):
     )
     return tmp[:-2]
 
+
 # returns data in json
 async def return_json_senpai(query: str, vars_: dict):
     url = "https://graphql.anilist.co"
     return requests.post(url, json={"query": query, "variables": vars_}).json()
 
+
 # gets anime details from anilist
 async def get_anilist(qdb, page):
     vars_ = {"search": ANIME_DB[qdb], "page": page}
     result = await return_json_senpai(PAGE_QUERY, vars_)
-    if len(result['data']['Page']['media'])==0:
+    if len(result["data"]["Page"]["media"]) == 0:
         return [f"No results Found"]
     data = result["data"]["Page"]["media"][0]
     # pylint: disable=possibly-unused-variable
@@ -372,14 +376,14 @@ async def get_anilist(qdb, page):
     prqlsql = data.get("relations").get("edges")
     adult = data.get("isAdult")
     trailer_link = "N/A"
-    gnrs = ", ".join(data['genres'])
+    gnrs = ", ".join(data["genres"])
     gnrs_ = ""
-    if len(gnrs)!=0:
+    if len(gnrs) != 0:
         gnrs_ = f"\n**✘ GENRES :**  `{gnrs}`"
-    score = data['averageScore']
+    score = data["averageScore"]
     avscd = f"\n**✘ SCORE :**  `{score}%` 🌟" if score is not None else ""
     tags = []
-    for i in data['tags']:
+    for i in data["tags"]:
         tags.append(i["name"])
     tags_ = f"\n**✘ TAGS :** `{', '.join(tags[:5])}`" if tags != [] else ""
     in_ls = False
@@ -409,19 +413,15 @@ async def get_anilist(qdb, page):
             break
     additional = f"{prql}{sql}"
     additional.replace("-", "")
-    dura = (
-        f"\n**✘ DURATION :** `{duration} min/ep`"
-        if duration is not None
-        else ""
-    )
+    dura = f"\n**✘ DURATION :** `{duration} min/ep`" if duration is not None else ""
     air_on = None
     if data["nextAiringEpisode"]:
         nextAir = data["nextAiringEpisode"]["timeUntilAiring"]
-        air_on = make_it_rw(nextAir*1000)
+        air_on = make_it_rw(nextAir * 1000)
         eps = data["nextAiringEpisode"]["episode"]
         th = pos_no(str(eps))
         air_on += f" | {eps}{th} eps"
-    if air_on  is None:
+    if air_on is None:
         eps_ = f"` | `{episodes} eps" if episodes is not None else ""
         status_air = f"**✘ STATUS :** `{status}{eps_}`"
     else:
@@ -446,11 +446,12 @@ async def get_anilist(qdb, page):
         return [f"{kys}"]
     return title_img, [finals_], [idm, in_ls, in_ls_id, str(adult)]
 
+
 # parse manga details
 async def get_manga(qdb, page):
     vars_ = {"search": MANGA_DB[qdb], "asHtml": True, "page": page}
     result = await return_json_senpai(MANGA_QUERY, vars_)
-    if len(result['data']['Page']['media'])==0:
+    if len(result["data"]["Page"]["media"]) == 0:
         return [f"No results Found"]
     data = result["data"]["Page"]["media"][0]
     # Data of all fields in returned json
@@ -475,7 +476,7 @@ async def get_manga(qdb, page):
     name = f"""« {c_flag} » {romaji}
      **‹ {english} ›** 
       `{native}` """
-    if english  is None:
+    if english is None:
         name = f"""« {c_flag} » **{romaji}**
         {native}"""
     banner = f"https://img.anili.st/media/{idm}"
@@ -498,13 +499,18 @@ async def get_manga(qdb, page):
     banner_ = requests.get(banner)
     open(f"{idm}.jpg", "wb").write(banner_.content)
     pic = f"{idm}.jpg"
-    return pic, [finals_, result["data"]["Page"]["pageInfo"]["total"], url], [idm, in_ls, in_ls_id, str(adult)]
+    return (
+        pic,
+        [finals_, result["data"]["Page"]["pageInfo"]["total"], url],
+        [idm, in_ls, in_ls_id, str(adult)],
+    )
+
 
 # parse character details.
 async def get_character(query, page):
     var = {"search": CHARC_DB[query], "page": int(page)}
     result = await return_json_senpai(CHARACTER_QUERY, var)
-    if len(result['data']['Page']['characters'])==0:
+    if len(result["data"]["Page"]["characters"]) == 0:
         return [f"No results Found"]
     data = result["data"]["Page"]["characters"][0]
     # Character Data
@@ -533,6 +539,7 @@ async def get_character(query, page):
     total = result["data"]["Page"]["pageInfo"]["total"]
     return img, [cap_text, total], [id_]
 
+
 # finally formats all the data and gives airing info
 async def get_airing(vars_):
     result = await return_json_senpai(AIR_QUERY, vars_)
@@ -553,13 +560,12 @@ async def get_airing(vars_):
     coverImg = f"{mid}.jpg"
     in_ls = False
     in_ls_id = ""
-    user_data = ""
     air_on = None
     if data["nextAiringEpisode"]:
         nextAir = data["nextAiringEpisode"]["timeUntilAiring"]
         episode = data["nextAiringEpisode"]["episode"]
         th = pos_no(episode)
-        air_on = make_it_rw(nextAir*1000)
+        air_on = make_it_rw(nextAir * 1000)
     title_ = english or romaji
     out = f"[{c_flag}] **{title_}**"
     out += f"\n**✪ ID :** `{mid}`"
@@ -578,14 +584,14 @@ async def get_user(vars_):
         error_sts = error[0].get("message")
         return [f"{error_sts}"]
 
-    data = k['data']['User']
-    xid = data['id']
+    data = k["data"]["User"]
+    xid = data["id"]
     banner = f'https://img.anili.st/user/{data["id"]}?a={time.time()}'
     banner_ = requests.get(banner)
     open(f"{xid}.jpg", "wb").write(banner_.content)
     pic = f"{xid}.jpg"
-    anime = data['statistics']['anime']
-    manga = data['statistics']['manga']
+    anime = data["statistics"]["anime"]
+    manga = data["statistics"]["manga"]
     stats = f"""
 <b><i>✪ <u>Anime Stats</u> :<b><i>
 
@@ -601,7 +607,5 @@ async def get_user(vars_):
 <b><i>✘ Total Chapters Read :</b> {manga['chaptersRead']}</i>
 <b><i>✘ Total Volumes Read :</b> {manga['volumesRead']}</i>
 <b><i>✘ Average Score :</b> {manga['meanScore']}</i>
-""" 
+"""
     return pic, stats
-
-

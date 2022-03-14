@@ -1,22 +1,22 @@
 import asyncio
 import io
-import time
 import os
 import sys
+import time
 import traceback
 
-from . import *
 from ..sql.gvar_sql import gvarstat
+from . import *
 
 
 @hell_cmd(pattern="exec(?:\s|$)([\s\S]*)")
 async def _(event):
     if gvarstat("USE_EVAL") == "TRUE":
-        lg_id = Config.LOGGER_ID
+        Config.LOGGER_ID
         cmd = "".join(event.text.split(maxsplit=1)[1:])
         if not cmd:
             return await eod(event, "`What should i execute?..`")
-        hellevent = await eor(event, "`Executing.....`")
+        await eor(event, "`Executing.....`")
         process = await asyncio.create_subprocess_shell(
             cmd, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
         )
@@ -34,7 +34,10 @@ async def _(event):
             cresult = f"`{curruser}:~$` `{cmd}`\n`{result}`"
         await eor(event, f"**Command :**  `{cmd}`\n**Result :** \n{cresult}")
     else:
-        await eod(event, f"**Eval Is Disbaled !!** \n\n__Do__ `{hl}svar USE_EVAL TRUE` __to enable eval commands.__")
+        await eod(
+            event,
+            f"**Eval Is Disbaled !!** \n\n__Do__ `{hl}svar USE_EVAL TRUE` __to enable eval commands.__",
+        )
 
 
 @hell_cmd(pattern="eval(?:\s|$)([\s\S]*)")
@@ -67,13 +70,28 @@ async def _(event):
         else:
             evaluation = "Success"
         final_output = f"•  Eval : \n`{cmd}` \n\n•  Result : \n`{evaluation}` \n"
-        final_output2 = f"**•  Eval :** \n`{cmd}` \n\n**•  Result :** \n`{evaluation}` \n"
+        final_output2 = (
+            f"**•  Eval :** \n`{cmd}` \n\n**•  Result :** \n`{evaluation}` \n"
+        )
         if len(final_output2) > 4092:
-            await eor(hellevent, final_output, deflink=True, linktext=f"**•  Eval :** \n`{cmd}` \n\n**Pasted:** ")
+            await eor(
+                hellevent,
+                final_output,
+                deflink=True,
+                linktext=f"**•  Eval :** \n`{cmd}` \n\n**Pasted:** ",
+            )
         else:
-            await eor(hellevent, final_output, deflink=True, linktext=f"{final_output2} \n\n**Also Pasted** ")
+            await eor(
+                hellevent,
+                final_output,
+                deflink=True,
+                linktext=f"{final_output2} \n\n**Also Pasted** ",
+            )
     else:
-        await eod(event, f"**Eval Is Disbaled !!** \n\n__Do__ `{hl}svar USE_EVAL TRUE` __to enable eval commands.__")
+        await eod(
+            event,
+            f"**Eval Is Disbaled !!** \n\n__Do__ `{hl}svar USE_EVAL TRUE` __to enable eval commands.__",
+        )
 
 
 async def aexec(code, smessatatus):
@@ -124,16 +142,18 @@ async def _(event):
             )
             await event.delete()
     await eor(event, output)
-    
+
 
 CmdHelp("evaluators").add_command(
-  "eval", "<expr>", "Execute a python script", "eval print('Hello World.')"
+    "eval", "<expr>", "Execute a python script", "eval print('Hello World.')"
 ).add_command(
-  "exec", "<command>", "Execute a Terminal command on HellBot server and shows details"
+    "exec",
+    "<command>",
+    "Execute a Terminal command on HellBot server and shows details",
 ).add_command(
-  "bash", "<query>", "Bash your codes on linux and gives the output in current chat"
+    "bash", "<query>", "Bash your codes on linux and gives the output in current chat"
 ).add_info(
-  "Evaluating Modules."
+    "Evaluating Modules."
 ).add_warning(
-  "🚫 Don't Execute Commands Unknowingly."
+    "🚫 Don't Execute Commands Unknowingly."
 ).add()

@@ -1,11 +1,10 @@
 import asyncio
-import heroku3
-import json
 import os
-import requests
 import sys
-import urllib3
 
+import heroku3
+import requests
+import urllib3
 from git import Repo
 from git.exc import GitCommandError, InvalidGitRepositoryError, NoSuchPathError
 
@@ -23,18 +22,22 @@ NO_HEROKU_APP_CFGD = "No Heroku App Found!"
 HEROKU_GIT_REF_SPEC = "HEAD:refs/heads/master"
 RESTARTING_APP = "Restarting Heroku App..."
 IS_SELECTED_DIFFERENT_BRANCH = "Looks like a custom branch {branch_name} is being used!\nIn this case, updater is unable to identify the branch to be updated. Please check out to an official branch, and re-start the updater."
-hellbot_info = "https://raw.githubusercontent.com/The-HellBot/Plugins/master/hellbot-info.json"
+hellbot_info = (
+    "https://raw.githubusercontent.com/The-HellBot/Plugins/master/hellbot-info.json"
+)
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-requirements_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "requirements.txt")
+requirements_path = os.path.join(
+    os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "requirements.txt"
+)
 
 
 async def hell_info(hellbot_info):
     infos = requests.get(hellbot_info).json()
-    _version = infos['HELLBOT-INFO']['version']
-    _release = infos['HELLBOT-INFO']['release-date']
-    _branch = infos['HELLBOT-INFO']['branch']
-    _author = infos['HELLBOT-INFO']['author']
-    _auturl = infos['HELLBOT-INFO']['author-url']
+    _version = infos["HELLBOT-INFO"]["version"]
+    _release = infos["HELLBOT-INFO"]["release-date"]
+    _branch = infos["HELLBOT-INFO"]["branch"]
+    _author = infos["HELLBOT-INFO"]["author"]
+    _auturl = infos["HELLBOT-INFO"]["author-url"]
     return _version, _release, _branch, _author, _auturl
 
 
@@ -90,7 +93,10 @@ async def update(event, repo, ups_rem, ac_br):
     except GitCommandError:
         repo.git.reset("--hard", "FETCH_HEAD")
     await update_requirements()
-    await eor(event, "✅ Successfully updated Hêllẞø†!\n\nBot is restarting please wait for a minute.")
+    await eor(
+        event,
+        "✅ Successfully updated Hêllẞø†!\n\nBot is restarting please wait for a minute.",
+    )
     args = [sys.executable, "-m", "hellbot"]
     os.execle(sys.executable, *args, os.environ)
     return
@@ -103,7 +109,9 @@ async def upstream(event):
     off_repo = UPSTREAM_REPO_URL
     force_update = False
     if HEROKU_API_KEY is None or HEROKU_APP_NAME is None:
-        return await eod(event, "Set  `HEROKU_APP_NAME`  and  `HEROKU_API_KEY`  to update your bot 🥴")
+        return await eod(
+            event, "Set  `HEROKU_APP_NAME`  and  `HEROKU_API_KEY`  to update your bot 🥴"
+        )
     txt = "😕 `Updater cannot continue due to some problems occured`\n\n**LOGTRACE:**\n"
     try:
         repo = Repo()
@@ -154,12 +162,12 @@ async def upstream(event):
     if conf == "" and not force_update:
         await print_changelogs(event, ac_br, changelog)
         await event.delete()
-        return await event.respond(f"🌚 Do `{hl}update build` to update your **Hêllẞø†** !!")
+        return await event.respond(
+            f"🌚 Do `{hl}update build` to update your **Hêllẞø†** !!"
+        )
 
     if force_update:
-        await event.edit(
-            "`Force-Updating Hêllẞø†. Please wait...`"
-        )
+        await event.edit("`Force-Updating Hêllẞø†. Please wait...`")
     if conf == "now":
         await event.edit("`Update In Progress! Please Wait....`")
         await update(event, repo, ups_rem, ac_br)
@@ -172,9 +180,7 @@ async def deploy(event, repo, ups_rem, ac_br, txt):
         heroku_app = None
         heroku_applications = heroku.apps()
         if HEROKU_APP_NAME is None:
-            await event.edit(
-                "**Please set up**  `HEROKU_APP_NAME`  **to update!"
-            )
+            await event.edit("**Please set up**  `HEROKU_APP_NAME`  **to update!")
             repo.__del__()
             return
         for app in heroku_applications:
@@ -182,12 +188,14 @@ async def deploy(event, repo, ups_rem, ac_br, txt):
                 heroku_app = app
                 break
         if heroku_app is None:
-            await event.edit(
-                f"{txt}\n" "`Invalid Heroku vars for updating."
-            )
+            await event.edit(f"{txt}\n" "`Invalid Heroku vars for updating.")
             return repo.__del__()
         _version, _release, _branch, _author, _auturl = await hell_info(hellbot_info)
-        await event.edit(f"<b><i>Hêllẞø† Docker Build In Progress !!!</b></i> \n\n<b><i><u>Update Information :</b></i></u> \n<b>• Branch :</b> {_branch} \n<b>• Release Date :</b> {_release} \n<b>• Version :</b> {_version} \n<b>• Author :</b> <a href='{_auturl}'>{_author}</a>", link_preview=False, parse_mode="HTML")
+        await event.edit(
+            f"<b><i>Hêllẞø† Docker Build In Progress !!!</b></i> \n\n<b><i><u>Update Information :</b></i></u> \n<b>• Branch :</b> {_branch} \n<b>• Release Date :</b> {_release} \n<b>• Version :</b> {_version} \n<b>• Author :</b> <a href='{_auturl}'>{_author}</a>",
+            link_preview=False,
+            parse_mode="HTML",
+        )
         ups_rem.fetch(ac_br)
         repo.git.reset("--hard", "FETCH_HEAD")
         heroku_git_url = heroku_app.git_url.replace(
@@ -205,20 +213,25 @@ async def deploy(event, repo, ups_rem, ac_br, txt):
             return repo.__del__()
         build_status = app.builds(order_by="created_at", sort="desc")[0]
         if build_status.status == "failed":
-            await event.edit(
-                "`Build failed ⚠️`"
-            )
+            await event.edit("`Build failed ⚠️`")
             await asyncio.sleep(5)
             return await event.delete()
-        await event.edit(f"**Your Hêllẞø† Is UpToDate**\n\n**Version :**  __{hell_ver}__\n**Oɯɳҽɾ :**  {hell_mention}")
+        await event.edit(
+            f"**Your Hêllẞø† Is UpToDate**\n\n**Version :**  __{hell_ver}__\n**Oɯɳҽɾ :**  {hell_mention}"
+        )
     else:
-        await event.edit("**Please set up**  `HEROKU_API_KEY`  **from heroku to update!**")
+        await event.edit(
+            "**Please set up**  `HEROKU_API_KEY`  **from heroku to update!**"
+        )
     return
 
 
 @hell_cmd(pattern="update build$")
 async def upstream(event):
-    event = await eor(event, "`Hard-Update In Progress... \nPlease wait until docker build is finished...`")
+    event = await eor(
+        event,
+        "`Hard-Update In Progress... \nPlease wait until docker build is finished...`",
+    )
     off_repo = "https://github.com/The-HellBot/HellBot"
     os.chdir("/app")
     git_hell = f"rm -rf .git"
@@ -250,18 +263,26 @@ async def upstream(event):
     ups_rem = repo.remote("upstream")
     ups_rem.fetch(ac_br)
     _version, _release, _branch, _author, _auturl = await hell_info(hellbot_info)
-    await event.edit(f"<b><i>Hêllẞø† Docker Build In Progress !!</b></i> \n\n<b><i><u>Update Information :</b></i></u> \n<b>• Branch :</b> {_branch} \n<b>• Release Date :</b> {_release} \n<b>• Version :</b> {_version} \n<b>• Author :</b> <a href='{_auturl}'>{_author}</a>", link_preview=False, parse_mode="HTML")
+    await event.edit(
+        f"<b><i>Hêllẞø† Docker Build In Progress !!</b></i> \n\n<b><i><u>Update Information :</b></i></u> \n<b>• Branch :</b> {_branch} \n<b>• Release Date :</b> {_release} \n<b>• Version :</b> {_version} \n<b>• Author :</b> <a href='{_auturl}'>{_author}</a>",
+        link_preview=False,
+        parse_mode="HTML",
+    )
     await deploy(event, repo, ups_rem, ac_br, txt)
 
 
 CmdHelp("update").add_command(
-  "update", None, "Checks if any new update is available."
+    "update", None, "Checks if any new update is available."
 ).add_command(
-  "update now", None, "Soft-Update Your Hêllẞø†. Basically if you restart dyno it will go back to previous deploy."
+    "update now",
+    None,
+    "Soft-Update Your Hêllẞø†. Basically if you restart dyno it will go back to previous deploy.",
 ).add_command(
-  "update build", None, "Hard-Update Your Hêllẞø†. This won't take you back to your previous deploy. This will be triggered even if there is no changelog."
+    "update build",
+    None,
+    "Hard-Update Your Hêllẞø†. This won't take you back to your previous deploy. This will be triggered even if there is no changelog.",
 ).add_info(
-  "Hêllẞø† Updater."
+    "Hêllẞø† Updater."
 ).add_warning(
-  "✅ Harmless Module."
+    "✅ Harmless Module."
 ).add()

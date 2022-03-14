@@ -1,11 +1,13 @@
 import asyncio
-import time
 import random
+import time
+
 from telethon.errors import FloodWaitError
 from telethon.tl import functions
 from telethon.tl.functions.channels import GetAdminedPublicChannelsRequest
 
-from hellbot.sql.gvar_sql import addgvar, delgvar, gvarstat
+from hellbot.sql.gvar_sql import gvarstat
+
 from . import *
 
 DEL_TIME_OUT = 60
@@ -16,18 +18,16 @@ async def _(event):
     hell = await eor(event, "`Starting AutoName Please Wait`")
     _id, HELL_USER, _ment = await client_id(event)
     await hell.edit(f"Auto Name has been started my Master")
-    await event.client.send_message(Config.LOGGER_ID, "#AUTONAME \n\nAutoname Started!!")
+    await event.client.send_message(
+        Config.LOGGER_ID, "#AUTONAME \n\nAutoname Started!!"
+    )
     while True:
         HB = time.strftime("%d-%m-%y")
         HE = time.strftime("%H:%M")
         name = f"🕒{HE} ⚡{HELL_USER}⚡ 📅{HB}"
         logger.info(name)
         try:
-            await event.client(
-                functions.account.UpdateProfileRequest(
-                    first_name=name
-                )
-            )
+            await event.client(functions.account.UpdateProfileRequest(first_name=name))
         except FloodWaitError as ex:
             logger.warning(str(e))
             await asyncio.sleep(ex.seconds)
@@ -40,18 +40,14 @@ async def _(event):
     await hell.edit("AutoBio Activated...")
     await event.client.send_message(Config.LOGGER_ID, "#AUTOBIO \n\nAutoBio Started!!")
     while True:
-        DMY = time.strftime("%d.%m.%Y")
+        time.strftime("%d.%m.%Y")
         HM = time.strftime("%H:%M:%S")
         bio_ = gvarstat("BIO_MSG") or random.choice(bio_msgs)
         DEFAULTUSERBIO = bio_[:66]
         bio = f"“ {DEFAULTUSERBIO} ”"
         logger.info(bio)
         try:
-            await event.client(
-                functions.account.UpdateProfileRequest(
-                    about=bio
-                )
-            )
+            await event.client(functions.account.UpdateProfileRequest(about=bio))
         except FloodWaitError as ex:
             logger.warning(str(e))
             await asyncio.sleep(ex.seconds)
@@ -68,13 +64,15 @@ async def mine(event):
 
 
 CmdHelp("auto_profile").add_command(
-  'autobio', None, 'Changes your bio with random quotes. You can set your own bio by setting up gvar BIO_MSG.'
-).add_command(
-  'autoname', None, 'Changes your name with time.'
-).add_command(
-  'reserved', None, 'Gives the list of usernames reserved by you. In short gives the list of public groups or channels that you are owner in.'
+    "autobio",
+    None,
+    "Changes your bio with random quotes. You can set your own bio by setting up gvar BIO_MSG.",
+).add_command("autoname", None, "Changes your name with time.").add_command(
+    "reserved",
+    None,
+    "Gives the list of usernames reserved by you. In short gives the list of public groups or channels that you are owner in.",
 ).add_info(
-  "Manage Profiles"
+    "Manage Profiles"
 ).add_warning(
-  "🚫 Potentially Harmful"
+    "🚫 Potentially Harmful"
 ).add()

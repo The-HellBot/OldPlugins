@@ -1,5 +1,7 @@
 import functools
+
 from telethon import events
+
 from hellbot import *
 
 bothandler = Config.BOT_HANDLER
@@ -73,7 +75,9 @@ def allowed_users():
             if event.sender_id in minna:
                 await func(event)
             else:
-                await event.reply("This command can only be used by Owner and Sudo Users..")
+                await event.reply(
+                    "This command can only be used by Owner and Sudo Users.."
+                )
 
         return wrapper
 

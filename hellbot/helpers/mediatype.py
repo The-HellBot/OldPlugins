@@ -1,5 +1,5 @@
-from .progress import humanbytes
 from .formats import yaml_format
+from .progress import humanbytes
 
 
 async def mediadata(e_media):
@@ -58,4 +58,3 @@ def media_type(message):
     if message and message.document:
         return "Document"
     return None
-

@@ -1,7 +1,5 @@
-from telethon import events
-
 from hellbot.sql.autopost_sql import add_post, get_all_post, is_post, remove_post
-from hellbot.sql.gvar_sql import gvarstat, addgvar, delgvar
+from hellbot.sql.gvar_sql import addgvar, delgvar, gvarstat
 
 from . import *
 
@@ -17,19 +15,26 @@ async def _(event):
     cli_ = ForGo10God
     checker = gvarstat(f"AUTOPOST_{str(cli_)}")
     if hel_ == "":
-        return await eod(hell, f"Give correct command for working of autopost. \n`{hl}autopost channel_id`")
+        return await eod(
+            hell,
+            f"Give correct command for working of autopost. \n`{hl}autopost channel_id`",
+        )
     if str(hel_).startswith("-100"):
         kk = str(hel_).replace("-100", "")
     else:
         kk = hel_
     if not kk.isdigit():
         return await eod(hell, "**Please Give Channel ID !!**")
-    if is_post(kk , event.chat_id):
+    if is_post(kk, event.chat_id):
         if checker and checker == "True":
-            return await hell.edit("This channel is already in this client's autopost database.")
+            return await hell.edit(
+                "This channel is already in this client's autopost database."
+            )
         else:
             addgvar(f"AUTOPOST_{str(cli_)}", "True")
-            return await hell.edit(f"**📍 Started AutoPosting from** `{hel_}` for `{cli_}`")
+            return await hell.edit(
+                f"**📍 Started AutoPosting from** `{hel_}` for `{cli_}`"
+            )
     add_post(kk, event.chat_id)
     addgvar(f"AUTOPOST_{str(cli_)}", "True")
     await hell.edit(f"**📍 Started AutoPosting from** `{hel_}` for `{cli_}`")
@@ -46,7 +51,10 @@ async def _(event):
     cli_ = ForGo10God
     checker = gvarstat(f"AUTOPOST_{str(cli_)}")
     if hel_ == "":
-        return await eod(hell, f"Give correct command for removing autopost. \n`{hl}autopost channel_id`")
+        return await eod(
+            hell,
+            f"Give correct command for removing autopost. \n`{hl}autopost channel_id`",
+        )
     if str(hel_).startswith("-100"):
         kk = str(hel_).replace("-100", "")
     else:
@@ -61,13 +69,15 @@ async def _(event):
             delgvar(f"AUTOPOST_{str(cli_)}")
             return await eod(hell, f"Removed `{hel_}` from `{cli_}` autopost database.")
         else:
-            return await eod(hell, f"This channel is not in `{cli_}` autopost database.")
+            return await eod(
+                hell, f"This channel is not in `{cli_}` autopost database."
+            )
 
 
 @hell_handler()
 async def _(event):
     chat_id = str(event.chat_id).replace("-100", "")
-    channels_set  = get_all_post(chat_id)
+    channels_set = get_all_post(chat_id)
     if channels_set == []:
         return
     cid = await client_id(event)
@@ -83,11 +93,14 @@ async def _(event):
 
 
 CmdHelp("autopost").add_command(
-  "autopost", "<channel id>", "Auto Posts every new post from targeted channel to your channel.", "autopost <channelid> [in your channel]"
+    "autopost",
+    "<channel id>",
+    "Auto Posts every new post from targeted channel to your channel.",
+    "autopost <channelid> [in your channel]",
 ).add_command(
-  "rmautopost", "<channel id>", "Stops AutoPost from targeted autoposting channel."
+    "rmautopost", "<channel id>", "Stops AutoPost from targeted autoposting channel."
 ).add_info(
-  "AutoPost From One Channel To Another."
+    "AutoPost From One Channel To Another."
 ).add_warning(
-  "✅ Harmless Module."
+    "✅ Harmless Module."
 ).add()

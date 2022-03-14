@@ -1,12 +1,9 @@
 import datetime
-import json
 import logging
 import os
 import re
-import requests
 
-from requests import exceptions, get
-from telethon import events
+import requests
 from telethon.utils import get_extension
 
 from . import *
@@ -14,6 +11,7 @@ from . import *
 logging.basicConfig(
     format="[%(levelname) 5s/%(asctime)s] %(name)s: %(message)s", level=logging.WARNING
 )
+
 
 def progress(current, total):
     logger.info(
@@ -49,7 +47,9 @@ async def _(event):
         if reply.text:
             text_to_print = reply.raw_text
         else:
-            return await eod(evnt, "`Reply to a file or msg or give a text to paste...`")
+            return await eod(
+                evnt, "`Reply to a file or msg or give a text to paste...`"
+            )
     if extension and extension.startswith("."):
         extension = extension[1:]
     try:
@@ -122,11 +122,11 @@ async def _(event):
 
 
 CmdHelp("paste").add_command(
-  "paste", "<text/reply>", "Create a paste or a shortened url using pasty.lus.pm"
+    "paste", "<text/reply>", "Create a paste or a shortened url using pasty.lus.pm"
 ).add_command(
-  "neko", "<reply>", "Create a paste or a shortened url using nekobin"
+    "neko", "<reply>", "Create a paste or a shortened url using nekobin"
 ).add_info(
-  "Paste Things to Neko."
+    "Paste Things to Neko."
 ).add_warning(
-  "✅ Harmless Module."
+    "✅ Harmless Module."
 ).add()

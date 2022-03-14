@@ -1,4 +1,3 @@
-import asyncio
 import datetime
 import os
 
@@ -49,5 +48,5 @@ async def _(event):
 
 
 CmdHelp("time").add_command(
-  "time", None, "Gives current time in a cool sticker format."
+    "time", None, "Gives current time in a cool sticker format."
 ).add()

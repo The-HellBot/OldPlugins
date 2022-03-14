@@ -34,6 +34,7 @@ def run_sync(func, *args, **kwargs):
 def run_async(loop, coro):
     return asyncio.run_coroutine_threadsafe(coro, loop).result()
 
+
 async def reload_hellbot():
     executable = sys.executable.replace(" ", "\\ ")
     args = [executable, "-m", "hellbot"]

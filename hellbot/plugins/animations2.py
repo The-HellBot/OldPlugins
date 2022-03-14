@@ -74,13 +74,17 @@ async def _(event):
 
 @hell_cmd(pattern="gnt$")
 async def gn(event):
-    await eor(event, "｡♥｡･ﾟ♡ﾟ･｡♥｡･｡･｡･｡♥｡･\n╱╱╱╱╱╱╱╭╮╱╱╱╭╮╱╭╮╭╮\n╭━┳━┳━┳╯┃╭━┳╋╋━┫╰┫╰╮\n┃╋┃╋┃╋┃╋┃┃┃┃┃┃╋┃┃┃╭┫\n┣╮┣━┻━┻━╯╰┻━┻╋╮┣┻┻━╯\n╰━╯╱╱╱╱╱╱╱╱╱╱╰━╯\n｡♥｡･ﾟ♡ﾟ･｡♥° ♥｡･ﾟ♡ﾟ･"
+    await eor(
+        event,
+        "｡♥｡･ﾟ♡ﾟ･｡♥｡･｡･｡･｡♥｡･\n╱╱╱╱╱╱╱╭╮╱╱╱╭╮╱╭╮╭╮\n╭━┳━┳━┳╯┃╭━┳╋╋━┫╰┫╰╮\n┃╋┃╋┃╋┃╋┃┃┃┃┃┃╋┃┃┃╭┫\n┣╮┣━┻━┻━╯╰┻━┻╋╮┣┻┻━╯\n╰━╯╱╱╱╱╱╱╱╱╱╱╰━╯\n｡♥｡･ﾟ♡ﾟ･｡♥° ♥｡･ﾟ♡ﾟ･",
     )
 
 
 @hell_cmd(pattern="gmg$")
 async def gm(event):
-    await eor(event, "｡♥｡･ﾟ♡ﾟ･｡♥｡･｡･｡･｡♥｡･｡♥｡･ﾟ♡ﾟ･\n╱╱╱╱╱╱╱╭╮╱╱╱╱╱╱╱╱╱╱╭╮\n╭━┳━┳━┳╯┃╭━━┳━┳┳┳━┳╋╋━┳┳━╮\n┃╋┃╋┃╋┃╋┃┃┃┃┃╋┃╭┫┃┃┃┃┃┃┃╋┃\n┣╮┣━┻━┻━╯╰┻┻┻━┻╯╰┻━┻┻┻━╋╮┃\n╰━╯╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╰━╯\n｡♥｡･ﾟ♡ﾟ･｡♥｡･｡･｡･｡♥｡･｡♥｡･ﾟ♡ﾟ･"
+    await eor(
+        event,
+        "｡♥｡･ﾟ♡ﾟ･｡♥｡･｡･｡･｡♥｡･｡♥｡･ﾟ♡ﾟ･\n╱╱╱╱╱╱╱╭╮╱╱╱╱╱╱╱╱╱╱╭╮\n╭━┳━┳━┳╯┃╭━━┳━┳┳┳━┳╋╋━┳┳━╮\n┃╋┃╋┃╋┃╋┃┃┃┃┃╋┃╭┫┃┃┃┃┃┃┃╋┃\n┣╮┣━┻━┻━╯╰┻┻┻━┻╯╰┻━┻┻┻━╋╮┃\n╰━╯╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╰━╯\n｡♥｡･ﾟ♡ﾟ･｡♥｡･｡･｡･｡♥｡･｡♥｡･ﾟ♡ﾟ･",
     )
 
 
@@ -266,7 +270,7 @@ async def _(event):
     for i in animation_ttl:
         await asyncio.sleep(animation_interval)
         await event.edit(animation_chars[i % 15])
-        
+
 
 @hell_cmd(pattern="candy$")
 async def _(event):
@@ -302,7 +306,9 @@ async def _(event):
 async def _(event):
     animation_interval = 0.1
     animation_ttl = range(0, 36)
-    event = await eor(event, "┏━━━┓╋╋╋╋┏━━━┓ \n┃┏━┓┃╋╋╋╋┃┏━┓┃ \n┃┃╋┃┣┓┏┓┏┫┃╋┃┃ \n┃┃╋┃┃┗┛┗┛┃┃╋┃┃ \n┃┗━┛┣┓┏┓┏┫┗━┛┃ \n┗━━━┛┗┛┗┛┗━━━┛"
+    event = await eor(
+        event,
+        "┏━━━┓╋╋╋╋┏━━━┓ \n┃┏━┓┃╋╋╋╋┃┏━┓┃ \n┃┃╋┃┣┓┏┓┏┫┃╋┃┃ \n┃┃╋┃┃┗┛┗┛┃┃╋┃┃ \n┃┗━┛┣┓┏┓┏┫┗━┛┃ \n┗━━━┛┗┛┗┛┗━━━┛",
     )
     animation_chars = [
         "╭━━━╮╱╱╱╭━╮ \n┃╭━╮┃╱╱╱┃╭╯ \n┃┃╱┃┣━━┳╯╰╮ \n┃┃╱┃┃╭╮┣╮╭╯ \n┃╰━╯┃╰╯┃┃┃ \n╰━━━┻━━╯╰╯ ",
@@ -437,40 +443,36 @@ async def _(event):
         await event.edit(animation_chars[i % 4])
 
 
-CmdHelp("animations2").add_command(
-  "charging", None, "Use and See."
+CmdHelp("animations2").add_command("charging", None, "Use and See.").add_command(
+    "bigoof", None, "Use and See."
+).add_command("gangasta", None, "Use and See.").add_command(
+    "candy", None, "Use and See."
 ).add_command(
-  "bigoof", None, "Use and See."
+    "dick", None, "Use and See."
 ).add_command(
-  "gangasta", None, "Use and See."
+    "hypno", None, "Use and See."
 ).add_command(
-  "candy", None, "Use and See."
+    "ding", None, "Use and See."
 ).add_command(
-  "dick", None, "Use and See."
+    "wtf", None, "Use and See."
 ).add_command(
-  "hypno", None, "Use and See."
+    "kill", None, "Use and See."
 ).add_command(
-  "ding", None, "Use and See."
+    "call", None, "Use and See."
 ).add_command(
-  "wtf", None, "Use and See."
+    "bombs", None, "Use and See."
 ).add_command(
-  "kill", None, "Use and See."
+    "gmg", None, "Use and See."
 ).add_command(
-  "call", None, "Use and See."
+    "gnt", None, "Use and See."
 ).add_command(
-  "bombs", None, "Use and See."
+    "evil", None, "Use and See."
 ).add_command(
-  "gmg", None, "Use and See."
+    "stupid", None, "Use and See."
 ).add_command(
-  "gnt", None, "Use and See."
-).add_command(
-  "evil", None, "Use and See."
-).add_command(
-  "stupid", None, "Use and See."
-).add_command(
-  "indflag", None, "Use and See."
+    "indflag", None, "Use and See."
 ).add_info(
-  "Fun Animations Part 2"
+    "Fun Animations Part 2"
 ).add_warning(
-  "✅ Harmless Module. May give flood wait."
+    "✅ Harmless Module. May give flood wait."
 ).add()

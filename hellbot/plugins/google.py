@@ -1,18 +1,17 @@
-import asyncio
-import datetime
 import os
-import requests
+from shutil import rmtree
 
+import requests
 from bs4 import BeautifulSoup
 from geopy.geocoders import Nominatim
 from search_engine_parser import GoogleSearch
 from search_engine_parser.core.exceptions import NoResultsOrTrafficError as GoglError
-from shutil import rmtree
 from telethon.tl import types
 from wikipedia import summary
 from wikipedia.exceptions import DisambiguationError, PageError
 
 from . import *
+
 
 def progress(current, total):
     logger.info(
@@ -46,16 +45,10 @@ async def _(event):
                 f"`{i}`\n" if lineno > 1 else f"**{i}**\n"
                 for lineno, i in enumerate(error, start=1)
             )
-            return await eor(
-                event, f"**DISAMBIGUATED PAGE !!**\n\n{result}"
-            )
+            return await eor(event, f"**DISAMBIGUATED PAGE !!**\n\n{result}")
         except PageError:
-            return await eod(
-                event, f"**Sorry i Can't find any results for **`{match}`"
-            )
-    await eor(
-        event, "**Search :**\n`" + match + "`\n\n**Result:**\n" + f"__{result}__"
-    )
+            return await eod(event, f"**Sorry i Can't find any results for **`{match}`")
+    await eor(event, "**Search :**\n`" + match + "`\n\n**Result:**\n" + f"__{result}__")
 
 
 @hell_cmd(pattern="google(?:\s|$)([\s\S]*)")
@@ -80,7 +73,10 @@ async def google(event):
 »» <b>Results :</b>
 {output}"""
     paste = await telegraph_paste(f"Google Search Query “ {input_str} ”", res)
-    await hell.edit(f"**Google Search For** `{input_str}` \n[📌 See Results Here]({paste})", link_preview=False)
+    await hell.edit(
+        f"**Google Search For** `{input_str}` \n[📌 See Results Here]({paste})",
+        link_preview=False,
+    )
 
 
 @hell_cmd(pattern="img(?:\s|$)([\s\S]*)")
@@ -170,24 +166,28 @@ async def gps(event):
     if geoloc:
         lon = geoloc.longitude
         lat = geoloc.latitude
-        await reply_to_id.reply(input_str, file=types.InputMediaGeoPoint(types.InputGeoPoint(lat, lon)))
+        await reply_to_id.reply(
+            input_str, file=types.InputMediaGeoPoint(types.InputGeoPoint(lat, lon))
+        )
         await hell.delete()
     else:
         await eod(hell, "I coudn't find it😫")
 
 
 CmdHelp("google").add_command(
-  "google", "<query>", "Does a google search for the query provided"
+    "google", "<query>", "Does a google search for the query provided"
 ).add_command(
-  "img", "<query>", "Does a image search for the query provided"
+    "img", "<query>", "Does a image search for the query provided"
 ).add_command(
-  "reverse", "<reply to a sticker/pic>", "Does a reverse image search on google and provides the similar images"
+    "reverse",
+    "<reply to a sticker/pic>",
+    "Does a reverse image search on google and provides the similar images",
 ).add_command(
-  "gps", "<place>", "Gives the location of the given place/city/state."
+    "gps", "<place>", "Gives the location of the given place/city/state."
 ).add_command(
-  "wiki", "<query>", "Searches for the query on Wikipedia."
+    "wiki", "<query>", "Searches for the query on Wikipedia."
 ).add_info(
-  "Google Search."
+    "Google Search."
 ).add_warning(
-  "✅ Harmless Module."
+    "✅ Harmless Module."
 ).add()

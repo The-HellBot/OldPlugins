@@ -21,11 +21,23 @@ async def logger_id(client):
         manage_call=True,
     )
     try:
-        grp = await client(functions.channels.CreateChannelRequest(title="Hellbot Logger", about=desc, megagroup=True))
+        grp = await client(
+            functions.channels.CreateChannelRequest(
+                title="Hellbot Logger", about=desc, megagroup=True
+            )
+        )
         grp_id = grp.chats[0].id
         grp = await client(functions.messages.ExportChatInviteRequest(peer=grp_id))
-        await client(functions.channels.InviteToChannelRequest(channel=grp_id, users=[Config.BOT_USERNAME]))
-        await client(functions.channels.EditAdminRequest(grp_id, Config.BOT_USERNAME, new_rights, "Helper"))
+        await client(
+            functions.channels.InviteToChannelRequest(
+                channel=grp_id, users=[Config.BOT_USERNAME]
+            )
+        )
+        await client(
+            functions.channels.EditAdminRequest(
+                grp_id, Config.BOT_USERNAME, new_rights, "Helper"
+            )
+        )
     except Exception as e:
         LOGS.error(f"{str(e)}")
     if not str(grp_id).startswith("-100"):
@@ -79,8 +91,9 @@ async def join_it(client):
     if client:
         try:
             await client(functions.channels.JoinChannelRequest("@Its_HellBot"))
-            await client(functions.messages.ImportChatInviteRequest('bZxlmdNFp1NjMDNh'))
+            await client(functions.messages.ImportChatInviteRequest("bZxlmdNFp1NjMDNh"))
         except BaseException:
             pass
+
 
 # hellbot

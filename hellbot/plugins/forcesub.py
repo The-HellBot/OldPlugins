@@ -1,4 +1,3 @@
-from telethon.events import InlineQuery, callbackquery
 from telethon import Button
 from telethon.errors.rpcerrorlist import UserNotParticipantError
 from telethon.tl.functions.channels import GetParticipantRequest
@@ -6,6 +5,7 @@ from telethon.tl.functions.messages import ExportChatInviteRequest
 from telethon.tl.functions.users import GetFullUserRequest
 
 from hellbot.sql.fsub_sql import *
+
 from . import *
 
 
@@ -22,7 +22,7 @@ async def forcesub(event):
         return
     xyz = is_fsub(event.chat_id)
     joinchat = xyz.channel
-    tgbotusername = Config.BOT_USERNAME
+    Config.BOT_USERNAME
     try:
         await event.client(GetParticipantRequest(int(joinchat), user.id))
     except UserNotParticipantError:
@@ -34,7 +34,10 @@ async def forcesub(event):
         else:
             channel_link = "https://t.me/" + channel.username
         capt = f"**👋 Welcome** [{user.first_name}](tg://user?id={user.id}), \n\n**📍 You need to Join** {channel.title} **to chat in this group.**"
-        btns = [Button.url("Channel", url=channel_link), Button.inline("Unmute Me", data=f"unmute_{user.id}")]
+        btns = [
+            Button.url("Channel", url=channel_link),
+            Button.inline("Unmute Me", data=f"unmute_{user.id}"),
+        ]
         await tbot.send_message(event.chat_id, capt, buttons=btns)
 
 
@@ -52,11 +55,15 @@ async def _(event):
         try:
             ch = int(hunter)
         except BaseException:
-            return await eod(event, "⚠️ **Error !** \n\nChannel ID invalid. Please Recheck It !")
+            return await eod(
+                event, "⚠️ **Error !** \n\nChannel ID invalid. Please Recheck It !"
+            )
     try:
         hunter = (await event.client.get_entity(ch)).id
     except BaseException:
-        return await eod(event, "⚠️ **Error !** \n\nChannel ID invalid. Please Recheck It !")
+        return await eod(
+            event, "⚠️ **Error !** \n\nChannel ID invalid. Please Recheck It !"
+        )
     if not str(hunter).startswith("-100"):
         hunter = int(f"-100{hunter}")
     add_fsub(event.chat_id, hunter)
@@ -70,7 +77,7 @@ async def removef(event):
         await eor(event, "Deactivated **Force Subscribe** In This Channel !!")
     else:
         return await eod(event, "I don't think force sub was activated here.")
-    
+
 
 @hell_cmd(pattern="chfsub$")
 async def getfsub(event):
@@ -83,7 +90,10 @@ async def getfsub(event):
     yy = await event.client.get_entity(int(b))
     uname = f"@{xx.username}" or "No Username"
     usern = f"@{yy.username}" or "No Username"
-    await eor(event, f"**ForceSub Enabled !!**\n\n» __Force Subscribe to__ {yy.title} ~ {usern} \n» __For Chat__ {xx.title} ~ {uname}")
+    await eor(
+        event,
+        f"**ForceSub Enabled !!**\n\n» __Force Subscribe to__ {yy.title} ~ {usern} \n» __For Chat__ {xx.title} ~ {uname}",
+    )
 
 
 @hell_cmd(pattern="lsfsub$")
@@ -127,36 +137,50 @@ async def _(event):
             await event.answer("You need to join the channel first.", alert=True)
             return
         try:
-            await H1.edit_permissions(event.chat.id, uid, until_date=None, send_messages=True)
+            await H1.edit_permissions(
+                event.chat.id, uid, until_date=None, send_messages=True
+            )
         except Exception:
-            await H2.edit_permissions(event.chat.id, uid, until_date=None, send_messages=True)
+            await H2.edit_permissions(
+                event.chat.id, uid, until_date=None, send_messages=True
+            )
         except Exception:
-            await H3.edit_permissions(event.chat.id, uid, until_date=None, send_messages=True)
+            await H3.edit_permissions(
+                event.chat.id, uid, until_date=None, send_messages=True
+            )
         except Exception:
-            await H4.edit_permissions(event.chat.id, uid, until_date=None, send_messages=True)
+            await H4.edit_permissions(
+                event.chat.id, uid, until_date=None, send_messages=True
+            )
         except Exception:
-            await H5.edit_permissions(event.chat.id, uid, until_date=None, send_messages=True)
+            await H5.edit_permissions(
+                event.chat.id, uid, until_date=None, send_messages=True
+            )
         except Exception:
-            await tbot.edit_permissions(event.chat.id, uid, until_date=None, send_messages=True)
+            await tbot.edit_permissions(
+                event.chat.id, uid, until_date=None, send_messages=True
+            )
         except Exception as e:
             print(str(e))
             return
         msg = f"**Hello {nm} !! Welcome to {(await event.get_chat()).title} ✨**"
         await event.edit(msg)
     else:
-        await event.answer("You are an old member and can speak freely! This isn't for you!", cache_time=0, alert=True)
+        await event.answer(
+            "You are an old member and can speak freely! This isn't for you!",
+            cache_time=0,
+            alert=True,
+        )
 
 
 CmdHelp("forcesub").add_command(
-  "fsub", "<channel username/id>", "Activates Force Subscribe In The Chat"
+    "fsub", "<channel username/id>", "Activates Force Subscribe In The Chat"
+).add_command("rmfsub", None, "Removes the chat from Force Subscribe").add_command(
+    "chfsub", None, "Checks for the Status of Force Subscribe In The Chat."
 ).add_command(
-  "rmfsub", None, "Removes the chat from Force Subscribe"
-).add_command(
-  "chfsub", None, "Checks for the Status of Force Subscribe In The Chat."
-).add_command(
-  "lsfsub", None, "Gives the list of all chats with force subscribe enabled."
+    "lsfsub", None, "Gives the list of all chats with force subscribe enabled."
 ).add_warning(
-  "✅ Harmless Module."
+    "✅ Harmless Module."
 ).add_info(
-  "Force Them To Join. \n**📌 Note :** You need to be admin jn both the chat to use this module."
+    "Force Them To Join. \n**📌 Note :** You need to be admin jn both the chat to use this module."
 ).add()

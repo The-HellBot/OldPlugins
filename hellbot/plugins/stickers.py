@@ -5,18 +5,24 @@ import os
 import random
 import textwrap
 import urllib.request
-
 from os import remove
+
 from PIL import Image, ImageDraw, ImageFont
 from telethon import Button, events
 from telethon.errors import PackShortNameOccupiedError
 from telethon.errors.rpcerrorlist import YouBlockedUserError
 from telethon.tl import functions, types
 from telethon.tl.functions.messages import GetStickerSetRequest
-from telethon.tl.types import DocumentAttributeFilename, DocumentAttributeSticker, InputStickerSetID, MessageMediaPhoto, InputMessagesFilterDocument
+from telethon.tl.types import (
+    DocumentAttributeFilename,
+    DocumentAttributeSticker,
+    InputMessagesFilterDocument,
+    InputStickerSetID,
+)
 from telethon.utils import get_input_document
 
 from hellbot.sql.gvar_sql import addgvar, gvarstat
+
 from . import *
 
 KANGING_STR = [
@@ -65,7 +71,9 @@ async def kang(event):
                 emojibypass = True
         elif "tgsticker" in message.media.document.mime_type:
             hell = await eor(event, f"`{random.choice(KANGING_STR)}`")
-            await event.client.download_file(message.media.document, "AnimatedSticker.tgs")
+            await event.client.download_file(
+                message.media.document, "AnimatedSticker.tgs"
+            )
 
             attributes = message.media.document.attributes
             for attribute in attributes:
@@ -79,14 +87,16 @@ async def kang(event):
                 attributes = message.media.document.attributes
                 for attribute in attributes:
                     if isinstance(attribute, DocumentAttributeSticker):
-                        hell = await eor(event, f"Oow! A video sticker... **[ ENCODING ]**")
-                        VS = await VSticker(event, message)
+                        hell = await eor(
+                            event, f"Oow! A video sticker... **[ ENCODING ]**"
+                        )
+                        await VSticker(event, message)
                         await eor(hell, f"`{random.choice(KANGING_STR)}`")
                         emoji = attribute.alt
                         emojibypass = True
             elif message.media.document.mime_type == "video/mp4":
                 hell = await eor(event, "Oow! A video... **[ Converting ]**")
-                VS = await VSticker(event, message)
+                await VSticker(event, message)
                 await eor(hell, f"`{random.choice(KANGING_STR)}`")
             is_vid = True
             photo = 1
@@ -131,7 +141,9 @@ async def kang(event):
             packnick += " (Video)"
             cmd = "/newvideo"
 
-        response = urllib.request.urlopen(urllib.request.Request(f"http://t.me/addstickers/{packname}"))
+        response = urllib.request.urlopen(
+            urllib.request.Request(f"http://t.me/addstickers/{packname}")
+        )
         htmlstr = response.read().decode("utf8").split("\n")
 
         if (
@@ -148,9 +160,13 @@ async def kang(event):
                     while "120" in x.text:
                         pack += 1
                         packname = f"Hellbot_{un_}_{pack}"
-                        packnick = f"{hellbot}" if hellbot else f"{un}'s Hêllẞø† Vol.{pack}"
+                        packnick = (
+                            f"{hellbot}" if hellbot else f"{un}'s Hêllẞø† Vol.{pack}"
+                        )
                         cmd = "/newpack"
-                        await hell.edit(f"`Switching to Pack {str(pack)} due to insufficient space`")
+                        await hell.edit(
+                            f"`Switching to Pack {str(pack)} due to insufficient space`"
+                        )
                         await conv.send_message(packname)
                         x = await conv.get_response()
                         if x.text == "Invalid set selected.":
@@ -176,13 +192,18 @@ async def kang(event):
                             await event.client.send_read_acknowledge(conv.chat_id)
                             await conv.get_response()
                             await event.client.send_read_acknowledge(conv.chat_id)
-                            await hell.edit(f"**Sticker added in a Different Pack !**\nThis Pack is Newly created!\nYour pack can be found [here](t.me/addstickers/{packname})")
+                            await hell.edit(
+                                f"**Sticker added in a Different Pack !**\nThis Pack is Newly created!\nYour pack can be found [here](t.me/addstickers/{packname})"
+                            )
                             return
                     file.seek(0)
                     await conv.send_file(file, force_document=True)
                     rsp = await conv.get_response()
                     if "Sorry, the file type is invalid." in rsp.text:
-                        return await eod(hell, "`Failed to add sticker, use` @Stickers `bot to add the sticker manually.`")
+                        return await eod(
+                            hell,
+                            "`Failed to add sticker, use` @Stickers `bot to add the sticker manually.`",
+                        )
                     await conv.send_message(emoji)
                     await event.client.send_read_acknowledge(conv.chat_id)
                     await conv.get_response()
@@ -192,7 +213,11 @@ async def kang(event):
 
                 if is_anim:
                     packname = f"Hellbot_{un_}_{pack}_anim"
-                    packnick = f"{hellbot}" if hellbot else f"{un}'s Hêllẞø† Vol.{pack} (Animated)"
+                    packnick = (
+                        f"{hellbot}"
+                        if hellbot
+                        else f"{un}'s Hêllẞø† Vol.{pack} (Animated)"
+                    )
                     cmd = "/newanimated"
                     await conv.send_message("/addsticker")
                     await conv.get_response()
@@ -201,7 +226,9 @@ async def kang(event):
                     x = await conv.get_response()
                     while "50" in x.text:
                         pack += 1
-                        await hell.edit(f"`Switching to Pack {str(pack)} due to insufficient space`")
+                        await hell.edit(
+                            f"`Switching to Pack {str(pack)} due to insufficient space`"
+                        )
                         await conv.send_message(packname)
                         x = await conv.get_response()
                         if x.text == "Invalid set selected.":
@@ -229,13 +256,18 @@ async def kang(event):
                             await event.client.send_read_acknowledge(conv.chat_id)
                             await conv.get_response()
                             await event.client.send_read_acknowledge(conv.chat_id)
-                            await hell.edit(f"**Sticker added in a Different Pack !**\nThis Pack is Newly created!\nYour pack can be found [here](t.me/addstickers/{packname})")
+                            await hell.edit(
+                                f"**Sticker added in a Different Pack !**\nThis Pack is Newly created!\nYour pack can be found [here](t.me/addstickers/{packname})"
+                            )
                             return
                     await conv.send_file("AnimatedSticker.tgs")
                     remove("AnimatedSticker.tgs")
                     rsp = await conv.get_response()
                     if "Sorry, the file type is invalid." in rsp.text:
-                        return await eod(hell, "`Failed to add sticker, use` @Stickers `bot to add the sticker manually.`")
+                        return await eod(
+                            hell,
+                            "`Failed to add sticker, use` @Stickers `bot to add the sticker manually.`",
+                        )
                     await conv.send_message(emoji)
                     await event.client.send_read_acknowledge(conv.chat_id)
                     await conv.get_response()
@@ -258,9 +290,15 @@ async def kang(event):
                     xy = await conv.get_response()
                     if "50" in xy.text:
                         pack += 1
-                        return await eod(hell, f"This Video sticker pack is already full. Use `{hl}kang {pack}` to add new stickers.")
+                        return await eod(
+                            hell,
+                            f"This Video sticker pack is already full. Use `{hl}kang {pack}` to add new stickers.",
+                        )
                     elif "Sorry, the file type is invalid." in xy.text:
-                        return await eod(hell, "`Failed to add sticker, use` @Stickers `bot to add the sticker manually.`")
+                        return await eod(
+                            hell,
+                            "`Failed to add sticker, use` @Stickers `bot to add the sticker manually.`",
+                        )
                     await conv.send_message(emoji)
                     await event.client.send_read_acknowledge(conv.chat_id)
                     await conv.get_response()
@@ -285,7 +323,10 @@ async def kang(event):
                     await conv.send_file(file, force_document=True)
                     rsp = await conv.get_response()
                     if "Sorry, the file type is invalid." in rsp.text:
-                        return await eod(hell, "`Failed to add sticker, use` @Stickers `bot to add the sticker manually.`")
+                        return await eod(
+                            hell,
+                            "`Failed to add sticker, use` @Stickers `bot to add the sticker manually.`",
+                        )
                     await conv.send_message(emoji)
                     await conv.get_response()
                     await event.client.send_read_acknowledge(conv.chat_id)
@@ -298,10 +339,14 @@ async def kang(event):
                     await conv.send_message(packname)
                     await conv.get_response()
                     await event.client.send_read_acknowledge(conv.chat_id)
-            
+
                 if is_anim:
                     packname = f"Hellbot_{un_}_{pack}_anim"
-                    packnick = f"{hellbot}" if hellbot else f"{un}'s Hêllẞø† Vol.{pack} (Animated)"
+                    packnick = (
+                        f"{hellbot}"
+                        if hellbot
+                        else f"{un}'s Hêllẞø† Vol.{pack} (Animated)"
+                    )
                     cmd = "/newanimated"
                     await conv.send_message(cmd)
                     await conv.get_response()
@@ -313,7 +358,10 @@ async def kang(event):
                     remove("AnimatedSticker.tgs")
                     rsp = await conv.get_response()
                     if "Sorry, the file type is invalid." in rsp.text:
-                        return await eod(hell, "`Failed to add sticker, use` @Stickers `bot to add the sticker manually.`")
+                        return await eod(
+                            hell,
+                            "`Failed to add sticker, use` @Stickers `bot to add the sticker manually.`",
+                        )
                     await conv.send_message(emoji)
                     await conv.get_response()
                     await event.client.send_read_acknowledge(conv.chat_id)
@@ -344,7 +392,10 @@ async def kang(event):
                     remove("VideoSticker.webm")
                     rsp = await conv.get_response()
                     if "Sorry, the file type is invalid." in rsp.text:
-                        return await eod(hell, "`Failed to add sticker, use` @Stickers `bot to add the sticker manually.`")
+                        return await eod(
+                            hell,
+                            "`Failed to add sticker, use` @Stickers `bot to add the sticker manually.`",
+                        )
                     await conv.send_message(emoji)
                     await conv.get_response()
                     await event.client.send_read_acknowledge(conv.chat_id)
@@ -363,7 +414,10 @@ async def kang(event):
             f"#KANG #STICKER \n\n**A sticker has been kanged into the pack of {hell_mention}. Click below to see the pack!**",
             buttons=[[Button.url("View Pack", f"t.me/addstickers/{packname}")]],
         )
-        await eod(hell, f"⚡** This Sticker iz [kanged](t.me/addstickers/{packname}) successfully to your pack **⚡")
+        await eod(
+            hell,
+            f"⚡** This Sticker iz [kanged](t.me/addstickers/{packname}) successfully to your pack **⚡",
+        )
 
 
 async def resize_photo(photo):
@@ -555,11 +609,21 @@ async def _(event):
                 )
             )
             addgvar("PKANG", str(pack))
-        await tbot.send_message(Config.LOGGER_ID,
-                                f"#PKANG #STICKER \n\n**A sticker pack has been kanged by {hell_mention}. Click below to see the pack!**",
-                                buttons=[[Button.url("View Pack", f"t.me/addstickers/{create_st.set.short_name}")]],
-                            )
-        await eod(hel_, f"⚡** This Sticker Pack iz [kanged](t.me/addstickers/{create_st.set.short_name}) successfully **⚡")
+        await tbot.send_message(
+            Config.LOGGER_ID,
+            f"#PKANG #STICKER \n\n**A sticker pack has been kanged by {hell_mention}. Click below to see the pack!**",
+            buttons=[
+                [
+                    Button.url(
+                        "View Pack", f"t.me/addstickers/{create_st.set.short_name}"
+                    )
+                ]
+            ],
+        )
+        await eod(
+            hel_,
+            f"⚡** This Sticker Pack iz [kanged](t.me/addstickers/{create_st.set.short_name}) successfully **⚡",
+        )
     else:
         await hel_.edit("Unsupported File. Please Reply to a sticker only.")
 
@@ -597,7 +661,6 @@ async def sticklet(event):
     image_stream.name = "Hellbot.webp"
     image.save(image_stream, "WebP")
     image_stream.seek(0)
-
 
     await event.client.send_message(
         event.chat_id,
@@ -645,21 +708,28 @@ async def waifu(event):
 
 
 CmdHelp("stickers").add_command(
-  "kang", "<emoji> <number>", "Adds the sticker to desired pack with a custom emoji of your choice. If emoji is not mentioned then default is 😎. And if number is not mentioned then Pack will go on serial wise. \n  ✓(1 pack = 120 static stickers)\n  ✓(1 pack = 50 animated & video stickers)"
+    "kang",
+    "<emoji> <number>",
+    "Adds the sticker to desired pack with a custom emoji of your choice. If emoji is not mentioned then default is 😎. And if number is not mentioned then Pack will go on serial wise. \n  ✓(1 pack = 120 static stickers)\n  ✓(1 pack = 50 animated & video stickers)",
 ).add_command(
-  "stkrinfo", "<reply to sticker>", "Gets all the infos of the sticker pack"
+    "stkrinfo", "<reply to sticker>", "Gets all the infos of the sticker pack"
 ).add_command(
-  "delst", "<reply to sticker>", "Deletes The Replied Sticker from your pack."
+    "delst", "<reply to sticker>", "Deletes The Replied Sticker from your pack."
 ).add_command(
-  "editst", "<reply to sticker> <new emoji>", "Edits the emoji of replied sticker of your pack."
+    "editst",
+    "<reply to sticker> <new emoji>",
+    "Edits the emoji of replied sticker of your pack.",
 ).add_command(
-  "text", "<word>", "Sends the written text in sticker format."
+    "text", "<word>", "Sends the written text in sticker format."
 ).add_command(
-  "waifu", "<word>", "Waifu writes the word for you."
+    "waifu", "<word>", "Waifu writes the word for you."
 ).add_command(
-  "pkang", "<reply to a sticker> <pack name>", "Kangs all the stickers in replied pack to your pack. Also supports custom pack name. Just give name after command.", "pkang My kang pack"
+    "pkang",
+    "<reply to a sticker> <pack name>",
+    "Kangs all the stickers in replied pack to your pack. Also supports custom pack name. Just give name after command.",
+    "pkang My kang pack",
 ).add_info(
-  "Everything about Sticker."
+    "Everything about Sticker."
 ).add_warning(
-  "✅ Harmless Module."
+    "✅ Harmless Module."
 ).add()

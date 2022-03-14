@@ -1,6 +1,7 @@
 import io
 import sys
 import traceback
+
 from . import *
 
 
@@ -43,9 +44,5 @@ async def aexec(code, event):
 
 
 CmdHelp("calculator").add_command(
-  "calc", "Your expression", "Sopves the given maths equation by BODMAS rule"
-).add_info(
-  "Calculator"
-).add_warning(
-  "✅ Harmless Module."
-).add()
+    "calc", "Your expression", "Sopves the given maths equation by BODMAS rule"
+).add_info("Calculator").add_warning("✅ Harmless Module.").add()

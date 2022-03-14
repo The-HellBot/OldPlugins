@@ -52,29 +52,27 @@ async def square(event):
 
 @hell_cmd(pattern="cube(?:\s|$)([\s\S]*)")
 async def cube(event):
-    input_str = float(event.text[6:])  
+    input_str = float(event.text[6:])
     output = input_str * input_str * input_str
     await eor(event, f"**Cube of** `{input_str}`==\n`{output}`")
 
 
 CmdHelp("maths").add_command(
-  "cube", "<query>", "Gives the cube of given number"
+    "cube", "<query>", "Gives the cube of given number"
+).add_command("square", "<query>", "Gives the square of given number").add_command(
+    "cot", "<query>", "Gives the cot of given query"
 ).add_command(
-  "square", "<query>", "Gives the square of given number"
+    "sec", "<query>", "Gives the sec of given query"
 ).add_command(
-  "cot", "<query>", "Gives the cot of given query"
+    "cosec", "<query>", "Gives the cosec of given query"
 ).add_command(
-  "sec", "<query>", "Gives the sec of given query"
+    "tan", "<query>", "Gives the tan of given query"
 ).add_command(
-  "cosec", "<query>", "Gives the cosec of given query"
+    "sin", "<query>", "Gives the sin of given query"
 ).add_command(
-  "tan", "<query>", "Gives the tan of given query"
-).add_command(
-  "sin", "<query>", "Gives the sin of given query"
-).add_command(
-  "cos", "<query>", "Gives the cos of given query"
+    "cos", "<query>", "Gives the cos of given query"
 ).add_info(
-  "A Plugin On Mathematics."
+    "A Plugin On Mathematics."
 ).add_warning(
-  "✅ Harmlesss Module."
+    "✅ Harmlesss Module."
 ).add()

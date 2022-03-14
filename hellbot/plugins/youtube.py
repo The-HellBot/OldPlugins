@@ -1,12 +1,20 @@
 import asyncio
 import json
 import os
-import re
 import time
 
 from telethon.tl.types import DocumentAttributeAudio
 from youtube_dl import YoutubeDL
-from youtube_dl.utils import ContentTooShortError, DownloadError, ExtractorError, GeoRestrictedError, MaxDownloadsReached, PostProcessingError, UnavailableVideoError, XAttrMetadataError
+from youtube_dl.utils import (
+    ContentTooShortError,
+    DownloadError,
+    ExtractorError,
+    GeoRestrictedError,
+    MaxDownloadsReached,
+    PostProcessingError,
+    UnavailableVideoError,
+    XAttrMetadataError,
+)
 
 from . import *
 
@@ -35,8 +43,9 @@ async def download_video(event):
         await eod(event, "`The download content was too short.`")
         return
     except GeoRestrictedError:
-        await eod(event, 
-            "`Video is not available from your geographic location due to geographic restrictions imposed by a website.`"
+        await eod(
+            event,
+            "`Video is not available from your geographic location due to geographic restrictions imposed by a website.`",
         )
         return
     except MaxDownloadsReached:
@@ -59,10 +68,11 @@ async def download_video(event):
         return
     c_time = time.time()
     if song:
-        await eor(event, 
+        await eor(
+            event,
             f"📤 `Preparing to upload audio:`\
         \n\n**{ytdl_data['title']}**\
-        \nby *{ytdl_data['uploader']}*"
+        \nby *{ytdl_data['uploader']}*",
         )
         await event.client.send_file(
             event.chat_id,
@@ -84,10 +94,11 @@ async def download_video(event):
         os.remove(f"{ytdl_data['id']}.mp3")
         await event.delete()
     elif video:
-        await eor(event, 
+        await eor(
+            event,
             f"`Preparing to upload video:`\
         \n\n**{ytdl_data['title']}**\
-        \nby *{ytdl_data['uploader']}*"
+        \nby *{ytdl_data['uploader']}*",
         )
         await event.client.send_file(
             event.chat_id,
@@ -116,18 +127,24 @@ async def hmm(event):
         return await eod(event, "Unable to find relevant search queries...")
     output = f"**Search Query:**\n`{query}`\n\n**Results:**\n\n"
     for i in results["videos"]:
-        output += (f"--> `{i['title']}`\nhttps://www.youtube.com{i['url_suffix']}\n\n")
+        output += f"--> `{i['title']}`\nhttps://www.youtube.com{i['url_suffix']}\n\n"
     await event.edit(output, link_preview=False)
 
 
 CmdHelp("youtube").add_command(
-  "yta", "<yt link>", "Extracts the audio from given youtube link and uploads it to telegram"
+    "yta",
+    "<yt link>",
+    "Extracts the audio from given youtube link and uploads it to telegram",
 ).add_command(
-  "ytv", "<yt link>", "Extracts the video from given youtube link and uploads it to telegram"
+    "ytv",
+    "<yt link>",
+    "Extracts the video from given youtube link and uploads it to telegram",
 ).add_command(
-  "ytlink", "<search keyword>", "Extracts 7 links from youtube based on the given search query"
+    "ytlink",
+    "<search keyword>",
+    "Extracts 7 links from youtube based on the given search query",
 ).add_info(
-  "Youthoob ki duniya."
+    "Youthoob ki duniya."
 ).add_warning(
-  "✅ Harmless Module."
+    "✅ Harmless Module."
 ).add()

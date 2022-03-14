@@ -1,27 +1,16 @@
-import asyncio
-import datetime
 import importlib
-import inspect
 import logging
-import math
 import os
-import re
 import sys
-import time
-import traceback
 from pathlib import Path
-from time import gmtime, strftime
 
-from telethon import events
-from telethon.tl.functions.channels import GetParticipantRequest
-from telethon.tl.types import ChannelParticipantAdmin, ChannelParticipantCreator, InputMessagesFilterDocument
+from telethon.tl.types import InputMessagesFilterDocument
 
 from hellbot import *
 from hellbot.clients import *
-from hellbot.helpers import *
 from hellbot.config import *
+from hellbot.helpers import *
 from hellbot.utils import *
-
 
 # ENV
 ENV = bool(os.environ.get("ENV", False))
@@ -113,7 +102,9 @@ async def plug_channel(client, channel):
     if channel:
         LOGS.info("⚡ Hêllẞø† ⚡ - PLUGIN CHANNEL DETECTED.")
         LOGS.info("⚡ Hêllẞø† ⚡ - Starting to load extra plugins.")
-        plugs = await client.get_messages(channel, None, filter=InputMessagesFilterDocument)
+        plugs = await client.get_messages(
+            channel, None, filter=InputMessagesFilterDocument
+        )
         total = int(plugs.total)
         for plugins in range(total):
             plug_id = plugs[plugins].id

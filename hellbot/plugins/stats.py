@@ -97,9 +97,5 @@ def user_full_name(user):
 
 
 CmdHelp("stats").add_command(
-  'stats', None, 'Shows you the count of your groups, channels, private chats, etc.'
-).add_info(
-  'Statistics Of Account'
-).add_warning(
-  '✅ Harmless Module.'
-).add()
+    "stats", None, "Shows you the count of your groups, channels, private chats, etc."
+).add_info("Statistics Of Account").add_warning("✅ Harmless Module.").add()

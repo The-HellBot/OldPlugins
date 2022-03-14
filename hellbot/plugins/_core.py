@@ -1,21 +1,15 @@
 import asyncio
-import io
 import os
-
-from datetime import datetime
 from pathlib import Path
-
-from telethon import events, functions, types
-from telethon.tl.types import InputMessagesFilterDocument
 
 from . import *
 
 
 @hell_cmd(pattern="cmds$")
 async def kk(event):
-    reply_to_id = event.message.id
+    event.message.id
     if event.reply_to_msg_id:
-        reply_to_id = event.reply_to_msg_id
+        event.reply_to_msg_id
     cids = await client_id(event)
     ForGo10God, HELL_USER, hell_mention = cids[0], cids[1], cids[2]
     cmd = "ls hellbot/plugins"
@@ -72,9 +66,11 @@ async def install(event):
     hell = await eor(event, "__Installing.__")
     if event.reply_to_msg_id:
         try:
-            downloaded_file_name = await event.client.download_media(  # pylint:disable=E0602
-                await event.get_reply_message(),
-                "./hellbot/plugins/"  # pylint:disable=E0602
+            downloaded_file_name = (
+                await event.client.download_media(  # pylint:disable=E0602
+                    await event.get_reply_message(),
+                    "./hellbot/plugins/",  # pylint:disable=E0602
+                )
             )
             if owo != "-f":
                 op = open(downloaded_file_name, "r")
@@ -84,7 +80,9 @@ async def install(event):
                     for harm in HARMFUL:
                         if harm in rd:
                             os.remove(downloaded_file_name)
-                            return await hell.edit(f"**⚠️ WARNING !!** \n\n__Replied plugin file contains some harmful codes. Please consider checking the file. If you still want to install then use__ `{hl}install -f`. \n\n**Codes Detected :** \n• {harm}")
+                            return await hell.edit(
+                                f"**⚠️ WARNING !!** \n\n__Replied plugin file contains some harmful codes. Please consider checking the file. If you still want to install then use__ `{hl}install -f`. \n\n**Codes Detected :** \n• {harm}"
+                            )
                 except BaseException:
                     pass
             if "(" not in downloaded_file_name:
@@ -92,9 +90,11 @@ async def install(event):
                 shortname = path1.stem
                 load_module(shortname.replace(".py", ""))
                 if shortname in CMD_LIST:
-                    string = "**Commands found in** `{}`\n".format((os.path.basename(downloaded_file_name)))
+                    string = "**Commands found in** `{}`\n".format(
+                        (os.path.basename(downloaded_file_name))
+                    )
                     for i in CMD_LIST[shortname]:
-                        string += "  •  `" + i 
+                        string += "  •  `" + i
                         string += "`\n"
                         if b == 1:
                             a = "__Installing..__"
@@ -103,12 +103,20 @@ async def install(event):
                             a = "__Installing...__"
                             b = 1
                         await hell.edit(a)
-                    return await hell.edit(f"✅ **Installed module** :- `{shortname}` \n✨ BY :- {hell_mention}\n\n{string}\n\n        ⚡ **[ʟɛɢɛռɖaʀʏ ᴀғ ɦɛʟʟɮօt]({chnl_link})** ⚡", link_preview=False)
-                return await hell.edit(f"Installed module `{os.path.basename(downloaded_file_name)}`")
+                    return await hell.edit(
+                        f"✅ **Installed module** :- `{shortname}` \n✨ BY :- {hell_mention}\n\n{string}\n\n        ⚡ **[ʟɛɢɛռɖaʀʏ ᴀғ ɦɛʟʟɮօt]({chnl_link})** ⚡",
+                        link_preview=False,
+                    )
+                return await hell.edit(
+                    f"Installed module `{os.path.basename(downloaded_file_name)}`"
+                )
             else:
                 os.remove(downloaded_file_name)
-                return await eod(hell, f"**Failed to Install** \n`Error`\nModule already installed or unknown format")
-        except Exception as e: 
+                return await eod(
+                    hell,
+                    f"**Failed to Install** \n`Error`\nModule already installed or unknown format",
+                )
+        except Exception as e:
             await eod(hell, f"**Failed to Install** \n`Error`\n{str(e)}")
             return os.remove(downloaded_file_name)
 
@@ -119,7 +127,7 @@ async def uninstall(event):
     if ".py" in shortname:
         shortname = shortname.replace(".py", "")
     hell = await eor(event, f"__Trying to uninstall plugin__ `{shortname}` ...")
-    dir_path =f"./hellbot/plugins/{shortname}.py"
+    dir_path = f"./hellbot/plugins/{shortname}.py"
     try:
         remove_plugin(shortname)
         os.remove(dir_path)
@@ -136,9 +144,7 @@ async def unload(event):
         await event.edit(f"Successfully unloaded `{shortname}`")
     except Exception as e:
         await event.edit(
-            "Successfully unloaded {shortname}\n{}".format(
-                shortname, str(e)
-            )
+            "Successfully unloaded {shortname}\n{}".format(shortname, str(e))
         )
 
 
@@ -157,26 +163,35 @@ async def load(event):
             f"Sorry, could not load {shortname} because of the following error.\n{str(e)}"
         )
 
+
 CmdHelp("core").add_command(
-  "install", "<reply to a .py file>", "Installs the replied python file if suitable to Hêllẞø†'s codes.`\n**🚩 Flags :** `-f"
+    "install",
+    "<reply to a .py file>",
+    "Installs the replied python file if suitable to Hêllẞø†'s codes.`\n**🚩 Flags :** `-f",
 ).add_command(
-  "uninstall", "<plugin name>", "Uninstalls the given plugin from Hêllẞø†. To get that again do .restart", "uninstall alive"
+    "uninstall",
+    "<plugin name>",
+    "Uninstalls the given plugin from Hêllẞø†. To get that again do .restart",
+    "uninstall alive",
 ).add_command(
-  "load", "<plugin name>", "Loades the unloaded plugin to your userbot", "load alive"
+    "load", "<plugin name>", "Loades the unloaded plugin to your userbot", "load alive"
 ).add_command(
-  "unload", "<plugin name>", "Unloads the plugin from your userbot", "unload alive"
+    "unload", "<plugin name>", "Unloads the plugin from your userbot", "unload alive"
 ).add_command(
-  "send", "<file name>", "Sends the given file from your userbot server, if any.", "send alive"
+    "send",
+    "<file name>",
+    "Sends the given file from your userbot server, if any.",
+    "send alive",
 ).add_command(
-  "cmds", None, "Gives out the list of modules in HellBot."
+    "cmds", None, "Gives out the list of modules in HellBot."
 ).add_command(
-  "repo", None, "Gives HellBot's Github repo link."
+    "repo", None, "Gives HellBot's Github repo link."
 ).add_command(
-  "help", None, "Shows inline help menu."
+    "help", None, "Shows inline help menu."
 ).add_command(
-  "plinfo", "<plugin name>", "Shows the detailed information of given plugin."
+    "plinfo", "<plugin name>", "Shows the detailed information of given plugin."
 ).add_command(
-  "cmdinfo", "<cmd name>", "Shows the information of given command."
+    "cmdinfo", "<cmd name>", "Shows the information of given command."
 ).add_warning(
-  "❌ Install External Plugin On Your Own Risk. We won't help if anything goes wrong after installing a plugin."
+    "❌ Install External Plugin On Your Own Risk. We won't help if anything goes wrong after installing a plugin."
 ).add()

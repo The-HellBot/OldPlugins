@@ -1,8 +1,5 @@
 import logging
-import os
-import sys
 
-from telethon.events import NewMessage
 from . import *
 
 logging.basicConfig(
@@ -44,7 +41,9 @@ async def monito_p_m_s(event):
         if lg_id is not None:
             if chat.id not in NO_PM_LOG_USERS and chat.id != ForGo10God:
                 try:
-                    await event.client.forward_messages(lg_id, event.message, silent=True)
+                    await event.client.forward_messages(
+                        lg_id, event.message, silent=True
+                    )
                 except Exception as e:
                     print(e)
 
@@ -72,13 +71,15 @@ async def set_no_log_p_m(event):
 
 
 CmdHelp("pm_logger").add_command(
-  "save", "<reply>", "Saves the replied message to your pm logger group/channel"
+    "save", "<reply>", "Saves the replied message to your pm logger group/channel"
 ).add_command(
-  "elog", "<chat>", "Enables logging pm messages from the selected chat."
+    "elog", "<chat>", "Enables logging pm messages from the selected chat."
 ).add_command(
-  "nlog", "<chat>", "Disables logging pm messages from the selected chat. Use .elog to enable it again."
+    "nlog",
+    "<chat>",
+    "Disables logging pm messages from the selected chat. Use .elog to enable it again.",
 ).add_info(
-  "PM logging."
+    "PM logging."
 ).add_warning(
-  "✅ Harmless Module."
+    "✅ Harmless Module."
 ).add()

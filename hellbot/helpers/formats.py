@@ -1,4 +1,3 @@
-import io
 import datetime
 import string
 
@@ -9,6 +8,7 @@ from telethon.utils import add_surrogate
 PRINTABLE_SET = set(bytes(string.printable, "ascii"))
 STR_LEN_MAX = 256
 BYTE_LEN_MAX = 64
+
 
 def parse_pre(text):
     text = text.strip()
@@ -79,4 +79,3 @@ def yaml_format(obj, indent=0):
         result.append(repr(obj))
 
     return "".join(result)
-

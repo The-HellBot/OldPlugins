@@ -1,9 +1,8 @@
-import asyncio
 import datetime
-import emoji
 import os
 import subprocess
 
+import emoji
 from googletrans import Translator
 from gtts import gTTS
 
@@ -20,7 +19,10 @@ async def _(event):
     elif "-" in input_str:
         lan, text = input_str.split("-")
     else:
-        await eod(event, f"`{hl}trt LanguageCode - message`  or  `{hl}trt LanguageCode as reply to a message.`\n\nTry `{hl}trc` to get all language codes")
+        await eod(
+            event,
+            f"`{hl}trt LanguageCode - message`  or  `{hl}trt LanguageCode as reply to a message.`\n\nTry `{hl}trc` to get all language codes",
+        )
         return
     text = emoji.demojize(text.strip())
     lan = lan.strip()
@@ -28,14 +30,21 @@ async def _(event):
     try:
         translated = translator.translate(text, dest=lan)
         after_tr_text = translated.text
-        output_str = "**Translated From** __{}__ **to** __{}__\n\n`{}`".format(translated.src, lan, after_tr_text)
+        output_str = "**Translated From** __{}__ **to** __{}__\n\n`{}`".format(
+            translated.src, lan, after_tr_text
+        )
         await eor(event, output_str)
     except Exception as exc:
         await eor(event, str(exc))
 
+
 @hell_cmd(pattern="trc$")
 async def _(hell):
-    await eor(hell, "**All The Language Codes Can Be Found** ⚡ [Here](https://telegra.ph/SfMæisér--𐌷𐌴ࠋࠋ𐌱𐍈𐌸-𐌾𐌰𐍀𐌾-06-04) ⚡", link_preview=False)
+    await eor(
+        hell,
+        "**All The Language Codes Can Be Found** ⚡ [Here](https://telegra.ph/SfMæisér--𐌷𐌴ࠋࠋ𐌱𐍈𐌸-𐌾𐌰𐍀𐌾-06-04) ⚡",
+        link_preview=False,
+    )
 
 
 @hell_cmd(pattern="voice(?:\s|$)([\s\S]*)")
@@ -50,7 +59,10 @@ async def _(event):
     elif "-" in input_str:
         lan, text = input_str.split("-")
     else:
-        await eod(hell, f"Invalid Syntax. Module stopping. Check out `{hl}plinfo google_asst` for help.")
+        await eod(
+            hell,
+            f"Invalid Syntax. Module stopping. Check out `{hl}plinfo google_asst` for help.",
+        )
         return
     text = text.strip()
     lan = lan.strip()
@@ -100,13 +112,18 @@ async def _(event):
 
 
 CmdHelp("google_asst").add_command(
-  "voice", "<reply to a msg> <lang code>", "Sends the replied msg content in audio format."
+    "voice",
+    "<reply to a msg> <lang code>",
+    "Sends the replied msg content in audio format.",
 ).add_command(
-    "trt", "<lang code> <reply to msg>", "Translates the replied message to desired language code. Type '.trc' to get all the language codes", f"trt en - hello | {hl}trt en <reply to msg>"
+    "trt",
+    "<lang code> <reply to msg>",
+    "Translates the replied message to desired language code. Type '.trc' to get all the language codes",
+    f"trt en - hello | {hl}trt en <reply to msg>",
 ).add_command(
-  "trc", None, "Gets all the possible language codes for google translate module"
+    "trc", None, "Gets all the possible language codes for google translate module"
 ).add_info(
-  "Google Assistant"
+    "Google Assistant"
 ).add_warning(
-  "✅ Harmless Module."
+    "✅ Harmless Module."
 ).add()

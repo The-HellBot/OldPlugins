@@ -2,11 +2,11 @@ import asyncio
 import io
 import os
 import time
-import requests
-
-from bs4 import BeautifulSoup
 from asyncio import create_subprocess_exec as asyncrunapp
 from asyncio.subprocess import PIPE as asyncPIPE
+
+import requests
+from bs4 import BeautifulSoup
 
 from . import *
 
@@ -38,7 +38,8 @@ async def _(event):
             "https://www.fileext.com/ responded with {} for query: {}".format(
                 status_code, input_str
             ),
-        )    
+        )
+
 
 @hell_cmd(pattern="pips(?:\s|$)([\s\S]*)")
 async def pipcheck(pip):
@@ -179,12 +180,11 @@ async def _(event):
     else:
         await event.client.send_message(Config.LOGGER_ID, f"#ENV \n\n{OUTPUT}")
         await eor(event, "ENV sent to LOGGER")
-        
 
 
 @hell_cmd(pattern="speed$")
 async def _(event):
-    hell = await eor(event, "calculating...")
+    await eor(event, "calculating...")
     PROCESS_RUN_TIME = 100
     cmd = "speedtest-cli"
     eply_to_id = event.message.id
@@ -214,19 +214,19 @@ async def _(event):
 
 
 CmdHelp("execmod").add_command(
-  "pips", "<query>", "Gives the result of your query"
+    "pips", "<query>", "Gives the result of your query"
+).add_command("suicide", None, "Suicide").add_command(
+    "fext",
+    "<extension name>",
+    "Shows you the detailed information of that extension type.",
 ).add_command(
-  "suicide", None, "Suicide"
+    "date", None, "Shows current date and time"
 ).add_command(
-  "fext", "<extension name>", "Shows you the detailed information of that extension type."
+    "env", None, "Shows Environment veriables of your HellBot"
 ).add_command(
-  "date", None, "Shows current date and time"
-).add_command(
-  "env", None, "Shows Environment veriables of your HellBot"
-).add_command(
-  "speed", None, "Shows server speed of your HellBot"
+    "speed", None, "Shows server speed of your HellBot"
 ).add_info(
-  "Exec Modules."
+    "Exec Modules."
 ).add_warning(
-  "✅ Harmless Module."
+    "✅ Harmless Module."
 ).add()

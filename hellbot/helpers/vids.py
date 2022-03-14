@@ -1,24 +1,19 @@
 import asyncio
 import os
-import re
-import requests
 import time
 import zipfile
-
-from bs4 import BeautifulSoup
-import PIL.ImageOps
-from PIL import Image
-from validators.url import url
 
 from telethon.errors.rpcerrorlist import YouBlockedUserError
 from telethon.tl import functions
 from telethon.utils import get_input_document
 
-from hellbot import LOGS, bot
+from hellbot import LOGS
+
 
 # generate thumbnail from audio...
 async def thumb_from_audio(audio_path, output):
     await runcmd(f"ffmpeg -i {audio_path} -filter:v scale=500:500 -an {output}")
+
 
 # take a frame from video
 async def take_screen_shot(video_file, output_directory, ttl):
@@ -51,6 +46,7 @@ async def take_screen_shot(video_file, output_directory, ttl):
         logger.info(e_response)
         logger.info(t_response)
         return None
+
 
 # trim vids
 async def cult_small_video(video_file, output_directory, start_time, end_time):
@@ -86,6 +82,7 @@ async def cult_small_video(video_file, output_directory, start_time, end_time):
         logger.info(e_response)
         logger.info(t_response)
         return None
+
 
 #####################################
 # for animated sticker to gif.....

@@ -6,9 +6,10 @@ from telethon.errors import ChatSendInlineForbiddenError as noin
 from telethon.errors.rpcerrorlist import BotMethodInvalidError as dedbot
 
 from hellbot.sql.gvar_sql import gvarstat
+
 from . import *
 
-#-------------------------------------------------------------------------------
+# -------------------------------------------------------------------------------
 
 ALIVE_TEMP = """
 <b><i>🔥🔥ɦɛʟʟɮօt ɨs օռʟɨռɛ🔥🔥</b></i>
@@ -31,7 +32,8 @@ msg = """{}\n
 <b>Abuse ≈</b>  <i>{}</i>
 <b>Sudo ≈</b>  <i>{}</i>
 """
-#-------------------------------------------------------------------------------
+# -------------------------------------------------------------------------------
+
 
 @hell_cmd(pattern="alive$")
 async def up(event):
@@ -52,10 +54,13 @@ async def up(event):
         PIC = "https://telegra.ph/file/ea9e11f7c9db21c1b8d5e.mp4"
     end = datetime.datetime.now()
     ling = (end - start).microseconds / 1000
-    omk = ALIVE_TEMP.format(ForGo10God, HELL_USER, tel_ver, hell_ver, is_sudo, uptime, ling)
-    await event.client.send_file(event.chat_id, file=PIC, caption=omk, parse_mode="HTML")
+    omk = ALIVE_TEMP.format(
+        ForGo10God, HELL_USER, tel_ver, hell_ver, is_sudo, uptime, ling
+    )
+    await event.client.send_file(
+        event.chat_id, file=PIC, caption=omk, parse_mode="HTML"
+    )
     await hell.delete()
-
 
 
 @hell_cmd(pattern="hell$")
@@ -70,13 +75,15 @@ async def hell_a(event):
         if event.sender_id == ForGo10God:
             await event.delete()
     except (noin, dedbot):
-        await eor(event, msg.format(am, tel_ver, hell_ver, uptime, abuse_m, is_sudo), parse_mode="HTML")
+        await eor(
+            event,
+            msg.format(am, tel_ver, hell_ver, uptime, abuse_m, is_sudo),
+            parse_mode="HTML",
+        )
 
 
 CmdHelp("alive").add_command(
-  "alive", None, "Shows the Default Alive Message"
-).add_command(
-  "hell", None, "Shows Inline Alive Menu with more details."
-).add_warning(
-  "✅ Harmless Module"
+    "alive", None, "Shows the Default Alive Message"
+).add_command("hell", None, "Shows Inline Alive Menu with more details.").add_warning(
+    "✅ Harmless Module"
 ).add()

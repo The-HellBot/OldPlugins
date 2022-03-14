@@ -1,18 +1,17 @@
 import asyncio
+import datetime
 import os
 import shutil
 import tarfile
 import time
 import zipfile
-import datetime
-import patoolib
 
+import patoolib
 from hachoir.metadata import extractMetadata
 from hachoir.parser import createParser
 from telethon.tl.types import DocumentAttributeVideo
 
 from . import *
-
 
 thumb_image_path = Config.TMP_DOWNLOAD_DIRECTORY + "/thumb_image.jpg"
 extracted = Config.TMP_DOWNLOAD_DIRECTORY + "extracted/"
@@ -149,13 +148,11 @@ async def _(event):
             await mone.edit(str(e))
     elif input_str:
         directory_name = input_str
-        await mone.edit(
-            "Local file compressed to `{}`".format(directory_name + ".rar")
-        )
+        await mone.edit("Local file compressed to `{}`".format(directory_name + ".rar"))
 
 
 @hell_cmd(pattern="7z ([\s\S]*)")
-async def _(event): 
+async def _(event):
     input_str = event.pattern_match.group(1)
     mone = await eor(event, "Processing ...")
     if not os.path.isdir(Config.TMP_DOWNLOAD_DIRECTORY):
@@ -548,23 +545,21 @@ def get_lst_of_files(input_directory, output_lst):
 
 
 CmdHelp("archiver").add_command(
-  "zip", "Reply to file/media", "It will zip the file/media"
+    "zip", "Reply to file/media", "It will zip the file/media"
+).add_command("rar", "Reply to file/media", "It will rar the file/media").add_command(
+    "7z", "Reply to file/media", "It will 7z the file/media"
 ).add_command(
-  "rar", "Reply to file/media", "It will rar the file/media"
+    "tar", "Reply to file/media", "It will tar the file/media"
 ).add_command(
-  "7z", "Reply to file/media", "It will 7z the file/media"
+    "unzip", "Reply to zip file", "It will unzip the zip file"
 ).add_command(
-  "tar", "Reply to file/media", "It will tar the file/media"
+    "unrar", "Reply to rar file", "It will unrar the rar file"
 ).add_command(
-  "unzip", "Reply to zip file", "It will unzip the zip file"
+    "untar", "Reply to tar file", "It will untar the tar file"
 ).add_command(
-  "unrar", "Reply to rar file", "It will unrar the rar file"
-).add_command(
-  "untar", "Reply to tar file", "It will untar the tar file"
-).add_command(
-  "compress", "Reply to file/media", "It will compress the replied media/file"
+    "compress", "Reply to file/media", "It will compress the replied media/file"
 ).add_info(
-  "Better Archiver"
+    "Better Archiver"
 ).add_warning(
-  "✅ Harmless Module."
+    "✅ Harmless Module."
 ).add()

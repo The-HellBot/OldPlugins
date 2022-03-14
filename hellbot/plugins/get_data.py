@@ -1,5 +1,4 @@
 import io
-import string
 
 from . import *
 
@@ -38,11 +37,13 @@ async def _(event):
 
 
 CmdHelp("get_data").add_command(
-  "yaml", "<reply>", "Gives out Data of replied msg."
+    "yaml", "<reply>", "Gives out Data of replied msg."
 ).add_command(
-  "json", "<reply>", "Gets the json data of the replied msg/media from a user/bot/channel"
+    "json",
+    "<reply>",
+    "Gets the json data of the replied msg/media from a user/bot/channel",
 ).add_info(
-  "Data Snatch in YAML & JSON"
+    "Data Snatch in YAML & JSON"
 ).add_warning(
-  "✅ Harmless Module."
+    "✅ Harmless Module."
 ).add()

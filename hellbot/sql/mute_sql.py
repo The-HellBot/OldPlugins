@@ -1,6 +1,6 @@
-from . import BASE, SESSION
-
 from sqlalchemy import Column, String
+
+from . import BASE, SESSION
 
 
 class Mute(BASE):

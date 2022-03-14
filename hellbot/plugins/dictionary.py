@@ -1,8 +1,8 @@
 import aiohttp
 
-# from PyDictionary import PyDictionary
-
 from . import *
+
+# from PyDictionary import PyDictionary
 
 
 class AioHttp:
@@ -47,9 +47,5 @@ async def _(event):
 """
 
 CmdHelp("dictionary").add_command(
-  'ud', 'query', 'Fetches meaning of given word from Urban Dictionary.'
-).add_info(
-  'Dictionary 📕'
-).add_warning(
-  '✅ Harmless Module.'
-).add()
+    "ud", "query", "Fetches meaning of given word from Urban Dictionary."
+).add_info("Dictionary 📕").add_warning("✅ Harmless Module.").add()

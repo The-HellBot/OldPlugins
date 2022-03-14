@@ -1,15 +1,10 @@
-import datetime
 import inspect
-import os
 import re
-import sys
-
 from pathlib import Path
 
-from telethon import TelegramClient, events
-from telethon.errors import MessageIdInvalidError, MessageNotModifiedError
+from telethon import events
 
-from hellbot import LOGS, bot, tbot
+from hellbot import bot
 from hellbot.clients import H2, H3, H4, H5
 from hellbot.config import Config
 from hellbot.helpers import *
@@ -67,7 +62,7 @@ def admin_cmd(pattern=None, command=None, **args):
     elif "incoming" in args and not args["incoming"]:
         args["outgoing"] = True
 
-    # blacklisted chats. 
+    # blacklisted chats.
     # hellbot will not respond in these chats.
     args["blacklist_chats"] = True
     black_list_chats = list(Config.BL_CHAT)
@@ -80,7 +75,7 @@ def admin_cmd(pattern=None, command=None, **args):
         del args["allow_edited_updates"]
 
     # plugin check for outgoing commands
-    
+
     return events.NewMessage(**args)
 
 
@@ -154,6 +149,7 @@ def on(**args):
     def decorator(func):
         async def wrapper(event):
             await func(event)
+
         bot.add_event_handler(wrapper, events.NewMessage(**args))
         if H2:
             H2.add_event_handler(wrapper, events.NewMessage(**args))
@@ -312,5 +308,6 @@ def command(**args):
         return func
 
     return decorator
+
 
 # hellbot

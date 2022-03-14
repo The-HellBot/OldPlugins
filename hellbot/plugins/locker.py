@@ -3,6 +3,7 @@ from telethon.tl.types import ChatBannedRights
 
 from . import *
 
+
 def lock(event):
     if event == "all":
         rights = ChatBannedRights(
@@ -137,9 +138,16 @@ async def _(event):
         return await eod(hell, "Need something to lock...")
     locker = lock(text)
     if not locker:
-        return await eod(hell, f"**🤐 Invalid lock type:** {text} \nDo `{hl}ltype` to get all lock types.")
+        return await eod(
+            hell,
+            f"**🤐 Invalid lock type:** {text} \nDo `{hl}ltype` to get all lock types.",
+        )
     await event.client(EditChatDefaultBannedRightsRequest(event.chat_id, locker))
-    await event.client.send_file(event.chat_id, restlo, caption=f"{hell_mention} Locked `{text}` \n__Cause its Rest Time !!__")
+    await event.client.send_file(
+        event.chat_id,
+        restlo,
+        caption=f"{hell_mention} Locked `{text}` \n__Cause its Rest Time !!__",
+    )
     await hell.delete()
 
 
@@ -153,25 +161,37 @@ async def _(event):
         return await eod(hell, "Need something to unlock...")
     unlocker = unlock(text)
     if not unlocker:
-        return await eod(hell, f"**🤐 Invalid unlock type:** {text} \nDo `{hl}ltype` to get all unlock types.")
+        return await eod(
+            hell,
+            f"**🤐 Invalid unlock type:** {text} \nDo `{hl}ltype` to get all unlock types.",
+        )
     await event.client(EditChatDefaultBannedRightsRequest(event.chat_id, unlocker))
-    await event.client.send_file(event.chat_id, shuru, caption=f"**{hell_mention} unlocked** `{text}`")
+    await event.client.send_file(
+        event.chat_id, shuru, caption=f"**{hell_mention} unlocked** `{text}`"
+    )
     await hell.delete()
 
 
 @hell_cmd(pattern="ltype$")
 async def _(event):
-    await eor(event, "**Following are the lock types :** \n\n• all\n• msg\n• media\n• sticker\n• gif\n• game\n• inline\n• poll\n• invite\n• pin\n• info\n")
+    await eor(
+        event,
+        "**Following are the lock types :** \n\n• all\n• msg\n• media\n• sticker\n• gif\n• game\n• inline\n• poll\n• invite\n• pin\n• info\n",
+    )
 
 
 CmdHelp("locker").add_command(
-  "lock", "<lock type>", "Locks the mentioned lock type in current chat. You can Get all lock type by using '.ltype'."
+    "lock",
+    "<lock type>",
+    "Locks the mentioned lock type in current chat. You can Get all lock type by using '.ltype'.",
 ).add_command(
-  "unlock", "<lock type>", "Unlocks the mentioned lock type in current chat. You can Get all lock types by using '.ltype'."
+    "unlock",
+    "<lock type>",
+    "Unlocks the mentioned lock type in current chat. You can Get all lock types by using '.ltype'.",
 ).add_command(
-  "ltype", None, "Use this to get the list of lock types..."
+    "ltype", None, "Use this to get the list of lock types..."
 ).add_info(
-  "Chat Locker."
+    "Chat Locker."
 ).add_warning(
-  "✅ Harmless Module."
+    "✅ Harmless Module."
 ).add()

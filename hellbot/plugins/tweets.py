@@ -11,13 +11,16 @@ async def nope(kraken):
         else:
             await eod(okvai, "I need some text to make a tweet🚶")
             return
-    tweeter = await event.client.inline_query("TwitterStatusBot", f"{(deEmojify(hell))}")
+    tweeter = await event.client.inline_query(
+        "TwitterStatusBot", f"{(deEmojify(hell))}"
+    )
     owo = await tweeter[0].click(Config.LOGGER_ID)
     stcr = await event.client.send_message(kraken.chat_id, owo)
     await okvai.delete()
     await owo.delete()
     await unsave_stcr(stcr)
     await unsave_stcr(owo)
+
 
 @hell_cmd(pattern="trump(?:\s|$)([\s\S]*)")
 async def nekobot(event):
@@ -156,6 +159,7 @@ async def nekobot(event):
     await event.client.send_file(event.chat_id, eventfile, reply_to=reply_to_id)
     await event.delete()
 
+
 @hell_cmd(pattern="johhny(?:\s|$)([\s\S]*)")
 async def nekobot(event):
     text = event.text[8:]
@@ -177,6 +181,7 @@ async def nekobot(event):
     eventfile = await sinstweet(text)
     await event.client.send_file(event.chat_id, eventfile, reply_to=reply_to_id)
     await event.delete()
+
 
 @hell_cmd(pattern="gandhi(?:\s|$)([\s\S]*)")
 async def nekobot(event):
@@ -200,6 +205,7 @@ async def nekobot(event):
     await event.client.send_file(event.chat_id, eventfile, reply_to=reply_to_id)
     await event.delete()  # bancho kitni baar bolu no offence
 
+
 @hell_cmd(pattern="cmm(?:\s|$)([\s\S]*)")
 async def nekobot(event):
     text = event.text[5:]
@@ -221,6 +227,7 @@ async def nekobot(event):
     eventfile = await changemymind(text)
     await event.client.send_file(event.chat_id, eventfile, reply_to=reply_to_id)
     await event.delete()
+
 
 @hell_cmd(pattern="kanna(?:\s|$)([\s\S]*)")
 async def nekobot(event):
@@ -246,29 +253,27 @@ async def nekobot(event):
 
 
 CmdHelp("tweets").add_command(
-  "kanna", "<text>/<reply to text>", "Kanna writes for you"
+    "kanna", "<text>/<reply to text>", "Kanna writes for you"
+).add_command("cmm", "<text>/<reply>", "Get a banner of Change My Mind").add_command(
+    "johhny", "<text>/<reply>", "Tweet with Johhny Sins"
 ).add_command(
-  "cmm", "<text>/<reply>", "Get a banner of Change My Mind"
+    "sunny", "<text>/<reply>", "Tweet with Sunny Leone"
 ).add_command(
-  "johhny", "<text>/<reply>", "Tweet with Johhny Sins"
+    "gandhi", "<text>/<reply>", "Tweet with Mahatma Gandhi"
 ).add_command(
-  "sunny", "<text>/<reply>", "Tweet with Sunny Leone"
+    "pappu", "<text>/<reply>", "Tweet with pappu A.K.A Rahul Gandhi"
 ).add_command(
-  "gandhi", "<text>/<reply>", "Tweet with Mahatma Gandhi"
+    "mia", "<text>/<reply>", "Tweet with Mia Khalifa 😍"
 ).add_command(
-  "pappu", "<text>/<reply>", "Tweet with pappu A.K.A Rahul Gandhi"
+    "trump", "<text>/<reply>", "Tweet with Mr. DooLand Trump"
 ).add_command(
-  "mia", "<text>/<reply>", "Tweet with Mia Khalifa 😍"
+    "modi", "<text>/<reply>", "Tweet with Sir Narendra Modi"
 ).add_command(
-  "trump", "<text>/<reply>", "Tweet with Mr. DooLand Trump"
+    "tweet", "<text>/<reply>", "Tweets in your name"
 ).add_command(
-  "modi", "<text>/<reply>", "Tweet with Sir Narendra Modi"
-).add_command(
-  "tweet", "<text>/<reply>", "Tweets in your name"
-).add_command(
-  "dani", "<text>/<reply>", "Tweet with Dani Daniels 😍🥰"
+    "dani", "<text>/<reply>", "Tweet with Dani Daniels 😍🥰"
 ).add_info(
-  "Lets Tweet."
+    "Lets Tweet."
 ).add_warning(
-  "✅ Harmless Module."
+    "✅ Harmless Module."
 ).add()

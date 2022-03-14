@@ -1,6 +1,6 @@
+import datetime
 import os
 import time
-import datetime
 
 from github import Github
 
@@ -70,7 +70,10 @@ async def git_commit(file_name, path, branch, hellbot):
         print(file_name)
         try:
             repo.create_file(
-                path, f"Uploaded file {file_name} by Hêllẞø†", commit_data, branch=branch
+                path,
+                f"Uploaded file {file_name} by Hêllẞø†",
+                commit_data,
+                branch=branch,
             )
             print("Committed File")
             ccess = Config.GIT_REPO_NAME
@@ -123,11 +126,14 @@ Profile Created: {}""".format(
 
 
 CmdHelp("github").add_command(
-  "commit", "<reply to a file> <path>|<branch>", "Uploads the file on github repo as provided in Heroku Config GIT_REPO_NAME. In short makes a commit to git repo from Userbot", "commit ./hellbot/plugins/example.py|master"
+    "commit",
+    "<reply to a file> <path>|<branch>",
+    "Uploads the file on github repo as provided in Heroku Config GIT_REPO_NAME. In short makes a commit to git repo from Userbot",
+    "commit ./hellbot/plugins/example.py|master",
 ).add_command(
-  "github", "<git username>", "Fetches the details of the given git username"
+    "github", "<git username>", "Fetches the details of the given git username"
 ).add_info(
-  "Github Hecks.."
+    "Github Hecks.."
 ).add_warning(
-  "✅ Harmless Module."
+    "✅ Harmless Module."
 ).add()

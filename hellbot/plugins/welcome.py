@@ -1,7 +1,13 @@
 from telethon import events
 
-from hellbot.sql.welcome_sql import get_current_welcome, add_welcome, rm_welcome, update_welcome
-from hellbot.sql.gvar_sql import gvarstat, addgvar, delgvar
+from hellbot.sql.gvar_sql import addgvar, delgvar, gvarstat
+from hellbot.sql.welcome_sql import (
+    add_welcome,
+    get_current_welcome,
+    rm_welcome,
+    update_welcome,
+)
+
 from . import *
 
 
@@ -70,6 +76,7 @@ async def _(event):
 
 
 if H2:
+
     @H2.on(events.ChatAction)
     async def _(event):
         lg_id = Config.LOGGER_ID
@@ -135,6 +142,7 @@ if H2:
 
 
 if H3:
+
     @H3.on(events.ChatAction)
     async def _(event):
         lg_id = Config.LOGGER_ID
@@ -200,6 +208,7 @@ if H3:
 
 
 if H4:
+
     @H4.on(events.ChatAction)
     async def _(event):
         lg_id = Config.LOGGER_ID
@@ -265,6 +274,7 @@ if H4:
 
 
 if H5:
+
     @H5.on(events.ChatAction)
     async def _(event):
         lg_id = Config.LOGGER_ID
@@ -365,7 +375,7 @@ async def save_welcome(event):
 
 @hell_cmd(pattern="cleanwelcome$")
 async def del_welcome(event):
-    lg_id = Config.LOGGER_ID
+    Config.LOGGER_ID
     ForGo10God, HELL_USER, hell_mention = await client_id(event)
     if gvarstat(f"WELCOME_{ForGo10God}_{str(event.chat_id)[1:]}"):
         if rm_welcome(event.chat_id) is True:
@@ -387,9 +397,7 @@ async def getwelcome(event):
     if not cws:
         return await eod(event, "`No welcome message saved here.`")
     if cws.f_mesg_id:
-        msg_o = await event.client.get_messages(
-            entity=lg_id, ids=int(cws.f_mesg_id)
-        )
+        msg_o = await event.client.get_messages(entity=lg_id, ids=int(cws.f_mesg_id))
         await eor(event, "Welcome note in this chat is...")
         await event.reply(msg_o.message, file=msg_o.media)
     elif cws.reply:
@@ -403,15 +411,19 @@ async def note(event):
 
 
 CmdHelp("welcome").add_command(
-  "savewelcome", "<reply>/<text>", "Sets the replied message as welcome note of that group"
+    "savewelcome",
+    "<reply>/<text>",
+    "Sets the replied message as welcome note of that group",
 ).add_command(
-  "cleanwelcome", None, "Cleans the current welcome message of that chat."
+    "cleanwelcome", None, "Cleans the current welcome message of that chat."
 ).add_command(
-  "showwelcome", None, "Gets your current welcome message for that chat."
+    "showwelcome", None, "Gets your current welcome message for that chat."
 ).add_command(
-  "welcome_note", None, "Gives you a message containing all the formatting of welcome message."
+    "welcome_note",
+    None,
+    "Gives you a message containing all the formatting of welcome message.",
 ).add_info(
-  "Welcome Greetings."
+    "Welcome Greetings."
 ).add_warning(
-  "✅ Harmless Module."
+    "✅ Harmless Module."
 ).add()

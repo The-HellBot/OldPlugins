@@ -1,10 +1,9 @@
-from telethon import events
-
 from hellbot.sql import snip_sql as sq
+
 from . import *
 
 
-@hell_cmd(pattern=r'\#(\S+)')
+@hell_cmd(pattern=r"\#(\S+)")
 async def incom_note(event):
     lg_id = Config.LOGGER_ID
     if not lg_id:
@@ -50,35 +49,45 @@ async def add_snip(event):
     cht_id = None
     trigger = trigger.lower()
     if cht and not stri:
-        await event.client.send_message(lg_id, f"#NOTE \n\nAdded Note with  `#{trigger}`. Below message is the output. \n**DO NOT DELETE IT**")
+        await event.client.send_message(
+            lg_id,
+            f"#NOTE \n\nAdded Note with  `#{trigger}`. Below message is the output. \n**DO NOT DELETE IT**",
+        )
         cht_o = await event.client.forward_messages(
             entity=lg_id, messages=cht, from_peer=event.chat_id, silent=True
         )
         cht_id = cht_o.id
     elif cht:
-        return await eod(event, f"**ERROR** \nReply to a message with `{hl}snip <trigger>` to add snips...")
+        return await eod(
+            event,
+            f"**ERROR** \nReply to a message with `{hl}snip <trigger>` to add snips...",
+        )
     if not cht:
         if stri:
-            await event.client.send_message(lg_id, f"#NOTE \n\nAdded Note with  `#{trigger}`. Below message is the output. \n**DO NOT DELETE IT**")
+            await event.client.send_message(
+                lg_id,
+                f"#NOTE \n\nAdded Note with  `#{trigger}`. Below message is the output. \n**DO NOT DELETE IT**",
+            )
             cht_o = await event.client.send_message(lg_id, stri)
             cht_id = cht_o.id
             stri = None
         else:
-            return await eod(event, f"Invalid Syntax. Check  `{hl}plinfo snips`  to get proper Syntax.")
+            return await eod(
+                event,
+                f"Invalid Syntax. Check  `{hl}plinfo snips`  to get proper Syntax.",
+            )
     success = "**Successfully {} snip with trigger**  `#{}` "
     if sq.add_note(trigger, stri, cht_id) is False:
         sq.rm_note(trigger)
         if sq.add_note(trigger, stri, cht_id) is False:
-            return await edit_or_reply(
-                event, f"Error Adding Snip.."
-            )
+            return await edit_or_reply(event, f"Error Adding Snip..")
         return await eor(event, success.format("updated", trigger))
     return await eor(event, success.format("added", trigger))
 
 
 @hell_cmd(pattern="rmsnip(?:\s|$)([\s\S]*)")
 async def _(event):
-    lg_id = Config.LOGGER_ID
+    Config.LOGGER_ID
     input_str = (event.pattern_match.group(1)).lower()
     if not input_str:
         return await eod(e, "I need a snip name to remove...")
@@ -93,7 +102,7 @@ async def _(event):
 
 @hell_cmd(pattern="listsnip$")
 async def lsnote(event):
-    lg_id = Config.LOGGER_ID
+    Config.LOGGER_ID
     all_snips = sq.get_notes()
     OUT_STR = "Available Snips:\n"
     if len(all_snips) > 0:
@@ -110,7 +119,7 @@ async def lsnote(event):
                 force_document=True,
                 allow_cache=False,
                 caption="Available Snips",
-                reply_to=event
+                reply_to=event,
             )
             await event.delete()
     else:
@@ -118,7 +127,9 @@ async def lsnote(event):
 
 
 CmdHelp("snips").add_command(
-    "snip", "<reply> <trigger>", "Saves the replied message as a note with given trigger."
+    "snip",
+    "<reply> <trigger>",
+    "Saves the replied message as a note with given trigger.",
 ).add_command(
     "rmsnip", "<trigger>", "Removes the snip from your database."
 ).add_command(

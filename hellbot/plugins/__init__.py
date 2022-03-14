@@ -1,15 +1,16 @@
 import datetime
 import time
 
+from telethon import version
+
 from hellbot import *
 from hellbot.clients import *
 from hellbot.config import Config
 from hellbot.helpers import *
-from hellbot.utils import *
 from hellbot.random_strings import *
-from hellbot.version import __hell__
 from hellbot.sql.gvar_sql import gvarstat
-from telethon import version
+from hellbot.utils import *
+from hellbot.version import __hell__
 
 hell_logo = "./hellbot/resources/pics/hellbot_logo.jpg"
 cjb = "./hellbot/resources/pics/cjb.jpg"
@@ -21,6 +22,7 @@ shl = Config.SUDO_HANDLER
 hell_ver = __hell__
 tel_ver = version.__version__
 
+
 async def get_user_id(ids):
     if str(ids).isdigit():
         userid = int(ids)
@@ -28,13 +30,14 @@ async def get_user_id(ids):
         userid = (await bot.get_entity(ids)).id
     return userid
 
+
 is_sudo = "True" if gvarstat("SUDO_USERS") else "False"
 
 abus = Config.ABUSE
 if abus == "ON":
     abuse_m = "Enabled"
 else:
-    abuse_m ="Disabled"
+    abuse_m = "Disabled"
 
 
 my_channel = Config.MY_CHANNEL or "Its_HellBot"

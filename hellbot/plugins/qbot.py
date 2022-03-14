@@ -28,8 +28,8 @@ async def _(event):
     async with event.client.conversation(chat) as conv:
         try:
             first = await conv.send_message(f"/qcolor {colour}")
-            second = await conv.get_response()
-            third = await event.client.forward_messages(chat, to_quote, event.chat_id)
+            await conv.get_response()
+            await event.client.forward_messages(chat, to_quote, event.chat_id)
             fourth = await conv.get_response()
         except YouBlockedUserError:
             await hell.edit("Please unblock @QuotLyBot and try again!!")
@@ -44,9 +44,8 @@ async def _(event):
 
 
 CmdHelp("qbot").add_command(
-  "ss", "<reply to msg> '<bg colour>' <number of msgs>", "Makes the sticker of the replied text, sticker, pic till next given count msgs.", "ss 'black' 05 <reply to a msg>"
-).add_info(
-  "Makes Quoted Sticker."
-).add_warning(
-  "✅ Harmless Module."
-).add()
+    "ss",
+    "<reply to msg> '<bg colour>' <number of msgs>",
+    "Makes the sticker of the replied text, sticker, pic till next given count msgs.",
+    "ss 'black' 05 <reply to a msg>",
+).add_info("Makes Quoted Sticker.").add_warning("✅ Harmless Module.").add()

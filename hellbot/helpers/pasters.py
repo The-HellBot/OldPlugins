@@ -1,6 +1,6 @@
 import json
-import requests
 
+import requests
 from html_telegraph_poster import TelegraphPoster
 
 from hellbot import *
@@ -45,7 +45,9 @@ async def space_paste(message, extension=None):
     if extension is None:
         extension == "txt"
     try:
-        response = requests.post(site, data={"content": message, "extension": extension})
+        response = requests.post(
+            site, data={"content": message, "extension": extension}
+        )
     except Exception as e:
         return {"error": str(e)}
     if response.ok:

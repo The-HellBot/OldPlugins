@@ -1,5 +1,4 @@
 import html
-import logging
 
 from telethon.tl.functions.photos import GetUserPhotosRequest
 from telethon.tl.functions.users import GetFullUserRequest
@@ -16,7 +15,11 @@ async def _(event):
     if replied_user is None:
         await hell.edit(str(error_i_a))
         return False
-    replied_user_profile_photos = await event.client(GetUserPhotosRequest(user_id=replied_user.user.id, offset=42, max_id=0, limit=80))
+    replied_user_profile_photos = await event.client(
+        GetUserPhotosRequest(
+            user_id=replied_user.user.id, offset=42, max_id=0, limit=80
+        )
+    )
     replied_user_profile_photos_count = "NaN"
     try:
         replied_user_profile_photos_count = replied_user_profile_photos.count
@@ -29,7 +32,7 @@ async def _(event):
     user_bio = replied_user.about
     if user_bio is not None:
         user_bio = html.escape(replied_user.about)
-    common_chats = replied_user.common_chats_count
+    replied_user.common_chats_count
     try:
         dc_id, location = get_input_location(replied_user.profile_photo)
     except Exception as e:
@@ -116,7 +119,9 @@ async def get_full_user(event):
             except Exception as e:
                 return None, e
 
+
 name = "Profile Photos"
+
 
 @hell_cmd(pattern="poto(?:\s|$)([\s\S]*)")
 async def potocmd(event):
@@ -171,11 +176,15 @@ async def potocmd(event):
 
 
 CmdHelp("getpfp").add_command(
-  "poto", "<all> / <desired pfp number>", f"Reply to user to get his/her profile pic. Use {hl}poto <number> to get desired profile pic else use {hl}poto all to get all profile pic(s). If you dont reply to a user then it gets group pics."
+    "poto",
+    "<all> / <desired pfp number>",
+    f"Reply to user to get his/her profile pic. Use {hl}poto <number> to get desired profile pic else use {hl}poto all to get all profile pic(s). If you dont reply to a user then it gets group pics.",
 ).add_command(
-  "getpic", "<reply> <username>", "Gets the user's 1st profile pic. But this time with a caption. Try it yourself..."
+    "getpic",
+    "<reply> <username>",
+    "Gets the user's 1st profile pic. But this time with a caption. Try it yourself...",
 ).add_info(
-  "Steal Profile Pictures."
+    "Steal Profile Pictures."
 ).add_warning(
-  "✅ Harmless Module."
+    "✅ Harmless Module."
 ).add()

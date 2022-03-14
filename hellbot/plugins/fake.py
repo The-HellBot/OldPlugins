@@ -1,11 +1,12 @@
 import asyncio
 import os
-import requests
 
+import requests
 from telethon.tl.functions.users import GetFullUserRequest
 from telethon.tl.types import ChannelParticipantsAdmins
 
 from . import *
+
 
 @hell_cmd(pattern="fpic$")
 async def _(event):
@@ -15,13 +16,15 @@ async def _(event):
     response = requests.get(url)
     hell = await eor(event, "`Creating a fake face...`")
     if response.status_code == 200:
-      with open("HELLBOT.jpg", 'wb') as f:
-        f.write(response.content)
+        with open("HELLBOT.jpg", "wb") as f:
+            f.write(response.content)
     else:
         return await eod(hell, "Failed to create Fake Face! Try again later.")
     captin = f"Fake Image By {hell_mention}"
     fole = "HELLBOT.jpg"
-    await event.client.send_file(event.chat_id, fole, caption=captin, force_document=False)
+    await event.client.send_file(
+        event.chat_id, fole, caption=captin, force_document=False
+    )
     await hell.delete()
     os.system("rm /root/hellbot/HELLBOT.jpg ")
 
@@ -46,7 +49,9 @@ async def gbun(event):
     hell = await eor(event, "** Nikal Lawde❗️⚜️☠️**")
     asyncio.sleep(3.5)
     chat = await event.get_input_chat()
-    async for x in event.client.iter_participants(chat, filter=ChannelParticipantsAdmins):
+    async for x in event.client.iter_participants(
+        chat, filter=ChannelParticipantsAdmins
+    ):
         mentions += f""
     reply_message = None
     if event.reply_to_msg_id:
@@ -56,7 +61,10 @@ async def gbun(event):
         usname = replied_user.user.username
         idd = reply_message.sender_id
         if idd == 1432756163:
-            await hell.edit("`Wait a second, This is my master!`\n**How dare you threaten to ban my master nigger!**\n\n__Your account has been hacked! Pay 69$ to my master__ [HellBoy](https://t.me/ForGo10God) __to release your account__😏", link_preview=False)
+            await hell.edit(
+                "`Wait a second, This is my master!`\n**How dare you threaten to ban my master nigger!**\n\n__Your account has been hacked! Pay 69$ to my master__ [HellBoy](https://t.me/ForGo10God) __to release your account__😏",
+                link_preview=False,
+            )
         else:
             jnl = (
                 "`Warning!! `"
@@ -82,13 +90,13 @@ async def gbun(event):
 
 
 CmdHelp("fake").add_command(
-  'fake', '<action>', 'This shows the fake action in the group  the actions are typing, contact, game ,location, voice, round, video, photo, document.'
-).add_command(
-  'gbam', '<reason> (optional)', 'Fake gban. Just for fun🤓'
-).add_command(
-  'picgen', None, 'Gives a fake face image'
+    "fake",
+    "<action>",
+    "This shows the fake action in the group  the actions are typing, contact, game ,location, voice, round, video, photo, document.",
+).add_command("gbam", "<reason> (optional)", "Fake gban. Just for fun🤓").add_command(
+    "picgen", None, "Gives a fake face image"
 ).add_info(
-  'Fake Actions.'
+    "Fake Actions."
 ).add_warning(
-  '✅ Harmless Module.'
+    "✅ Harmless Module."
 ).add()

@@ -1,14 +1,13 @@
-import heroku3
 import os
 import sys
 import time
-
 from distutils.util import strtobool as sb
 from logging import DEBUG, INFO, basicConfig, getLogger
 
+import heroku3
+
 from hellbot.clients.session import H2, H3, H4, H5, Hell, HellBot
 from hellbot.config import Config
-
 
 StartTime = time.time()
 CONSOLE_LOGGER_VERBOSE = sb(os.environ.get("CONSOLE_LOGGER_VERBOSE", "False"))
@@ -20,8 +19,9 @@ if CONSOLE_LOGGER_VERBOSE:
         level=DEBUG,
     )
 else:
-    basicConfig(format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-                level=INFO)
+    basicConfig(
+        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=INFO
+    )
 
 
 LOGS = getLogger(__name__)
@@ -43,14 +43,14 @@ if not Config.APP_ID:
 if not Config.BOT_TOKEN:
     LOGS.warning("Please fill var BOT_TOKEN to continue.")
     quit(1)
-    
-    
+
+
 # if not Config.BOT_USERNAME:
 #     LOGS.warning("Please fill var BOT USERNAME to continue.")
 #     quit(1)
-    
 
-if not Config.DB_URI:    
+
+if not Config.DB_URI:
     LOGS.warning("Please fill var DATABASE_URL to continue.")
     quit(1)
 

@@ -1,13 +1,12 @@
+import datetime
 import os
 import subprocess
 import time
-import datetime
 
 from hachoir.metadata import extractMetadata
 from hachoir.parser import createParser
 from telethon.tl.types import DocumentAttributeVideo
 
-from hellbot.sql.gvar_sql import addgvar, delgvar, gvarstat
 from . import *
 
 thumb_image_path = Config.THUMB_IMG
@@ -57,12 +56,17 @@ async def _(event):
         end = datetime.datetime.now()
         ms = (end - start).seconds
         if os.path.exists(downloaded_file_name):
-            await hell.edit("Downloaded to `{}` in {} seconds.".format(downloaded_file_name, ms)
+            await hell.edit(
+                "Downloaded to `{}` in {} seconds.".format(downloaded_file_name, ms)
             )
         else:
             await eod(hell, "Error Occurred\n {}".format(input_str))
     else:
-        await eod(hell, f"**Syntax Wrong !!** \n\n• `{hl}rename new file name` as reply to a Telegram file")
+        await eod(
+            hell,
+            f"**Syntax Wrong !!** \n\n• `{hl}rename new file name` as reply to a Telegram file",
+        )
+
 
 @hell_cmd(pattern="rnupload(?:\s|$)([\s\S]*)")
 async def _(event):
@@ -100,11 +104,16 @@ async def _(event):
             end_two = datetime.datetime.now()
             os.remove(downloaded_file_name)
             ms_two = (end_two - end).seconds
-            await hell.edit("Downloaded in {} seconds. Uploaded in {} seconds.".format(ms_one, ms_two))
+            await hell.edit(
+                "Downloaded in {} seconds. Uploaded in {} seconds.".format(
+                    ms_one, ms_two
+                )
+            )
         else:
             await eod(event, "File Not Found {}".format(input_str))
     else:
         await hell.edit(f"**Syntax Wrong !!** \n\n• `{hl}rnupload new file name`")
+
 
 @hell_cmd(pattern="rnsupload(?:\s|$)([\s\S]*)")
 async def _(event):
@@ -127,10 +136,11 @@ async def _(event):
         if os.path.exists(downloaded_file_name):
             thumb = None
             if not downloaded_file_name.endswith((".mkv", ".mp4", ".mp3", ".flac")):
-                await eor(event, 
+                await eor(
+                    event,
                     "Sorry. But I don't think {} is a streamable file. Please try again.\n**Supported Formats**: MKV, MP4, MP3, FLAC".format(
                         downloaded_file_name
-                    )
+                    ),
                 )
                 return False
             if os.path.exists(thumb_image_path):
@@ -176,24 +186,33 @@ async def _(event):
                 end = datetime.datetime.now()
                 os.remove(downloaded_file_name)
                 ms_two = (end - end_one).seconds
-                await hell.edit("Downloaded in {} seconds. Uploaded in {} seconds.".format(
+                await hell.edit(
+                    "Downloaded in {} seconds. Uploaded in {} seconds.".format(
                         ms_one, ms_two
                     )
                 )
         else:
             await eod(hell, "File Not Found {}".format(input_str))
     else:
-        await hell.edit(f"**Syntax Wrong !!** \n\n• `{hl}rnsupload new file name` as reply to a Telegram file")
+        await hell.edit(
+            f"**Syntax Wrong !!** \n\n• `{hl}rnsupload new file name` as reply to a Telegram file"
+        )
 
 
 CmdHelp("rename").add_command(
-  "rename", "<reply to media> <new name>", "Renames the replied media and downloads it to userbot local storage"
+    "rename",
+    "<reply to media> <new name>",
+    "Renames the replied media and downloads it to userbot local storage",
 ).add_command(
-  "rnupload", "<reply to media> <new name>", "Renames the replied media and directly uploads it to the chat"
+    "rnupload",
+    "<reply to media> <new name>",
+    "Renames the replied media and directly uploads it to the chat",
 ).add_command(
-  "rnsupload", "<reply to media> <new name>", "Renames the replied media and directly upload in streamable format."
+    "rnsupload",
+    "<reply to media> <new name>",
+    "Renames the replied media and directly upload in streamable format.",
 ).add_info(
-  "Rename Yiur Files."
+    "Rename Yiur Files."
 ).add_warning(
-  "✅ Harmless Module."
+    "✅ Harmless Module."
 ).add()

@@ -108,6 +108,7 @@ async def _(event):
         await event.edit("".join(deq))
         deq.rotate(1)
 
+
 @hell_cmd(pattern="lovestory$")
 async def _(event):
     animation_interval = 3
@@ -132,6 +133,7 @@ async def _(event):
     for i in animation_ttl:
         await asyncio.sleep(animation_interval)
         await event.edit(animation_chars[i % 103])
+
 
 @hell_cmd(pattern="smoon$")
 async def _(event):
@@ -364,52 +366,48 @@ async def _(event):
         await event.edit(animation_chars[i % 18])
 
 
-CmdHelp("animoji").add_command(
-  'think', None, 'Use and see'
+CmdHelp("animoji").add_command("think", None, "Use and see").add_command(
+    "ccry", None, "Use and see"
+).add_command("fap", None, "Use and see").add_command(
+    "lmao", None, "Use and see"
 ).add_command(
-  'ccry', None, 'Use and see'
+    "nothappy", None, "Use and see"
 ).add_command(
-  'fap', None, 'Use and see'
+    "clock", None, "Use and see"
 ).add_command(
-  'lmao', None, 'Use and see'
+    "muah", None, "Use and see"
 ).add_command(
-  'nothappy', None, 'Use and see'
+    "heart", None, "Use and see"
 ).add_command(
-  'clock', None, 'Use and see'
+    "gym", None, "Use and see"
 ).add_command(
-  'muah', None, 'Use and see'
+    "earth", None, "Use and see"
 ).add_command(
-  'heart', None, 'Use and see'
+    "moon", None, "Use and see"
 ).add_command(
-  'gym', None, 'Use and see'
+    "lovestory", None, "Turu Lob"
 ).add_command(
-  'earth', None, 'Use and see'
+    "smoon", None, "Use and see"
 ).add_command(
-  'moon', None, 'Use and see'
+    "tmoon", None, "Use and see"
 ).add_command(
-  'lovestory', None, 'Turu Lob'
+    "hart", None, "Use and see"
 ).add_command(
-  'smoon', None, 'Use and see'
+    "anim", None, "Use and see"
 ).add_command(
-  'tmoon', None, 'Use and see'
+    "fuck", None, "Use and see"
 ).add_command(
-  'hart', None, 'Use and see'
+    "sux", None, "Use and see"
 ).add_command(
-  'anim', None, 'Use and see'
+    "kiss", None, "Kya dekh rha h jhopdike."
 ).add_command(
-  'fuck', None, 'Use and see'
+    "fnl", None, "Use and See."
 ).add_command(
-  'sux', None, 'Use and see'
+    "monkey", None, "Use and see."
 ).add_command(
-  'kiss', None, 'Kya dekh rha h jhopdike.'
+    "hand", None, "Use and See."
 ).add_command(
-  'fnl', None, 'Use and See.'
+    "gsg", None, "Use and See."
 ).add_command(
-  'monkey', None, 'Use and see.'
-).add_command(
-  'hand', None, 'Use and See.'
-).add_command(
-  'gsg', None, 'Use and See.'
-).add_command(
-  'theart', None, 'Hearts Animation.'
+    "theart", None, "Hearts Animation."
 ).add()
