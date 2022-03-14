@@ -169,6 +169,14 @@ CmdHelp("core").add_command(
   "send", "<file name>", "Sends the given file from your userbot server, if any.", "send alive"
 ).add_command(
   "cmds", None, "Gives out the list of modules in HellBot."
+).add_command(
+  "repo", None, "Gives HellBot's Github repo link."
+).add_command(
+  "help", None, "Shows inline help menu."
+).add_command(
+  "plinfo", "<plugin name>", "Shows the detailed information of given plugin."
+).add_command(
+  "cmdinfo", "<cmd name>", "Shows the information of given command."
 ).add_warning(
   "❌ Install External Plugin On Your Own Risk. We won't help if anything goes wrong after installing a plugin."
 ).add()

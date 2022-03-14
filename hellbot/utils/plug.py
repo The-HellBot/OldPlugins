@@ -14,7 +14,7 @@ from time import gmtime, strftime
 
 from telethon import events
 from telethon.tl.functions.channels import GetParticipantRequest
-from telethon.tl.types import ChannelParticipantAdmin, ChannelParticipantCreator
+from telethon.tl.types import ChannelParticipantAdmin, ChannelParticipantCreator, InputMessagesFilterDocument
 
 from hellbot import *
 from hellbot.clients import *
@@ -107,5 +107,29 @@ def remove_plugin(shortname):
                     del bot._event_builders[i]
     except BaseException:
         raise ValueError
+
+
+async def plug_channel(client, channel):
+    if channel:
+        LOGS.info("⚡ Hêllẞø† ⚡ - PLUGIN CHANNEL DETECTED.")
+        LOGS.info("⚡ Hêllẞø† ⚡ - Starting to load extra plugins.")
+        plugs = await client.get_messages(channel, None, filter=InputMessagesFilterDocument)
+        total = int(plugs.total)
+        for plugins in range(total):
+            plug_id = plugs[plugins].id
+            plug_name = plugs[plugins].file.name
+            if os.path.exists(f"hellbot/plugins/{plug_name}"):
+                return
+            downloaded_file_name = await client.download_media(
+                await client.get_messages(channel, ids=plug_id),
+                "hellbot/plugins/",
+            )
+            path1 = Path(downloaded_file_name)
+            shortname = path1.stem
+            try:
+                load_module(shortname.replace(".py", ""))
+            except Exception as e:
+                LOGS.error(str(e))
+
 
 # hellbot

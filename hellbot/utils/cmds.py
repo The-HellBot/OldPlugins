@@ -1,6 +1,6 @@
 import os
-from hellbot import CMD_HELP, CMD_HELP_BOT
-from hellbot.config import Config
+from .. import CMD_HELP, CMD_HELP_BOT, CMD_INFO
+from ..config import Config
 
 HANDLER = Config.HANDLER
 
@@ -86,6 +86,7 @@ class CmdHelp:
                 result += (
                     f"**⌨️ For Example :**  `{HANDLER[:1]}{command['example']}`\n\n"
                 )
+            CMD_INFO[f"{command['command']}"] = {"info": command['usage']}
         return result
 
     def add(self):

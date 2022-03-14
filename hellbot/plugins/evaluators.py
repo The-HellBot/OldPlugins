@@ -34,7 +34,7 @@ async def _(event):
             cresult = f"`{curruser}:~$` `{cmd}`\n`{result}`"
         await eor(event, f"**Command :**  `{cmd}`\n**Result :** \n{cresult}")
     else:
-        await eod(event, "**Eval Is Disbaled !!** \n\n__Do__ `{hl}svar USE_EVAL TRUE` __to enable eval commands.__")
+        await eod(event, f"**Eval Is Disbaled !!** \n\n__Do__ `{hl}svar USE_EVAL TRUE` __to enable eval commands.__")
 
 
 @hell_cmd(pattern="eval(?:\s|$)([\s\S]*)")

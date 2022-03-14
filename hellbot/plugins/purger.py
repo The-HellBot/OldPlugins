@@ -3,8 +3,6 @@ from telethon.errors import rpcbaseerrors
 
 from . import *
 
-lg_id = Config.LOGGER_ID
-
 
 @hell_cmd(pattern="del$")
 @errors_handler
@@ -21,6 +19,7 @@ async def delete_it(event):
 @hell_cmd(pattern="purge$")
 @errors_handler
 async def fastpurger(event):
+    lg_id = Config.LOGGER_ID
     chat = await event.get_input_chat()
     msgs = []
     count = 0
@@ -44,17 +43,16 @@ async def fastpurger(event):
         lg_id, 
         "#PURGE\n\nPurged `" + str(count) + "` messages."
         )
-    await sleep(4)
+    await sleep(5)
     await done.delete()
 
 
-@hell_cmd(pattern="purgeme$")
+@hell_cmd(pattern="purgeme(?:\s|$)([\s\S]*)")
 @errors_handler
 async def purgeme(event):
-    message = event.text
-    count = int(message[9:])
+    lg_id = Config.LOGGER_ID
+    count = int(event.text[9:])
     i = 1
-
     async for message in event.client.iter_messages(event.chat_id, from_user="me"):
         if i > count + 1:
             break
@@ -68,7 +66,7 @@ async def purgeme(event):
     await event.client.send_message(
         lg_id, "#PURGE \nSelf Purged  `" + str(count) + "`  messages."
     )
-    await sleep(4)
+    await sleep(5)
     i = 1
     await smsg.delete()
 
@@ -76,6 +74,7 @@ async def purgeme(event):
 @hell_cmd(pattern="sd$")
 @errors_handler
 async def selfdestruct(event):
+    lg_id = Config.LOGGER_ID
     message = event.text[4:]
     splt = message.split("|")
     counter = int(splt[0])

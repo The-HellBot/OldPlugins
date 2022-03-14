@@ -9,7 +9,7 @@ from telethon.utils import get_peer_id
 from hellbot import LOGS, bot, tbot
 from hellbot.clients.session import Hell, H2, H3, H4, H5
 from hellbot.config import Config
-from hellbot.utils import join_it, load_module, logger_check, start_msg, update_sudo
+from hellbot.utils import join_it, load_module, logger_check, start_msg, update_sudo, plug_channel
 from hellbot.version import __hell__ as hellver
 
 hl = Config.HANDLER
@@ -31,14 +31,17 @@ async def hells(session=None, client=None, session_name="Main"):
         return 0
 
 
-# Load all plugins
+# Load plugins based on config UNLOAD
 async def plug_load(path):
     files = glob.glob(path)
     for name in files:
         with open(name) as hell:
             path1 = Path(hell.name)
             shortname = path1.stem
-            load_module(shortname.replace(".py", ""))
+            if shortname.replace(".py", "") in Config.UNLOAD:
+                os.remove(Path(f"hellbot/plugins/{shortname}.py"))
+            else:
+                load_module(shortname.replace(".py", ""))      
 
 
 # Final checks after startup
@@ -70,6 +73,7 @@ async def start_hellbot():
         LOGS.info("••• HellBot Startup Completed •••")
         LOGS.info("••• Starting to load Plugins •••")
         await plug_load("hellbot/plugins/*.py")
+        await plug_channel(bot, Config.PLUGIN_CHANNEL)
         LOGS.info("⚡ Your HellBot Is Now Working ⚡")
         LOGS.info("Head to @Its_HellBot for Updates. Also join chat group to get help regarding to HellBot.")
         LOGS.info(f"» Total Clients = {str(total)} «")
