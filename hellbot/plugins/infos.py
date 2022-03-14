@@ -4,25 +4,22 @@ from math import sqrt
 from os import remove
 
 from telethon import events
-from telethon.errors import (
-    ChannelInvalidError,
-    ChannelPrivateError,
-    ChannelPublicGroupNaError,
-    ChatAdminRequiredError,
-)
-from telethon.errors.rpcerrorlist import MessageTooLongError, YouBlockedUserError
-from telethon.tl.functions.channels import GetFullChannelRequest, GetParticipantsRequest
-from telethon.tl.functions.messages import GetFullChatRequest, GetHistoryRequest
+from telethon.errors import (ChannelInvalidError, ChannelPrivateError,
+                             ChannelPublicGroupNaError, ChatAdminRequiredError)
+from telethon.errors.rpcerrorlist import (MessageTooLongError,
+                                          YouBlockedUserError)
+from telethon.tl.functions.channels import (GetFullChannelRequest,
+                                            GetParticipantsRequest)
+from telethon.tl.functions.messages import (GetFullChatRequest,
+                                            GetHistoryRequest)
 from telethon.tl.functions.photos import GetUserPhotosRequest
 from telethon.tl.functions.users import GetFullUserRequest
-from telethon.tl.types import (
-    ChannelParticipantAdmin,
-    ChannelParticipantCreator,
-    ChannelParticipantsAdmins,
-    ChannelParticipantsBots,
-    MessageActionChannelMigrateFrom,
-    MessageEntityMentionName,
-)
+from telethon.tl.types import (ChannelParticipantAdmin,
+                               ChannelParticipantCreator,
+                               ChannelParticipantsAdmins,
+                               ChannelParticipantsBots,
+                               MessageActionChannelMigrateFrom,
+                               MessageEntityMentionName)
 from telethon.utils import get_input_location, pack_bot_file_id
 
 from . import *

@@ -1,12 +1,8 @@
 from telethon import events
 
 from hellbot.sql.gvar_sql import addgvar, delgvar, gvarstat
-from hellbot.sql.welcome_sql import (
-    add_welcome,
-    get_current_welcome,
-    rm_welcome,
-    update_welcome,
-)
+from hellbot.sql.welcome_sql import (add_welcome, get_current_welcome,
+                                     rm_welcome, update_welcome)
 
 from . import *
 

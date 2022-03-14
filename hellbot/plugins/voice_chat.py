@@ -1,10 +1,8 @@
 from telethon.tl.functions.channels import GetFullChannelRequest
-from telethon.tl.functions.phone import (
-    CreateGroupCallRequest,
-    DiscardGroupCallRequest,
-    GetGroupCallRequest,
-    InviteToGroupCallRequest,
-)
+from telethon.tl.functions.phone import (CreateGroupCallRequest,
+                                         DiscardGroupCallRequest,
+                                         GetGroupCallRequest,
+                                         InviteToGroupCallRequest)
 
 
 async def getvc(event):

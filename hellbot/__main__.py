@@ -6,14 +6,8 @@ from pathlib import Path
 from hellbot import LOGS, bot, tbot
 from hellbot.clients.session import H2, H3, H4, H5
 from hellbot.config import Config
-from hellbot.utils import (
-    join_it,
-    load_module,
-    logger_check,
-    plug_channel,
-    start_msg,
-    update_sudo,
-)
+from hellbot.utils import (join_it, load_module, logger_check, plug_channel,
+                           start_msg, update_sudo)
 from hellbot.version import __hell__ as hellver
 
 hl = Config.HANDLER

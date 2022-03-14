@@ -1,24 +1,16 @@
 from asyncio import sleep
 
-from telethon.errors import (
-    BadRequestError,
-    ImageProcessFailedError,
-    PhotoCropSizeSmallError,
-)
-from telethon.errors.rpcerrorlist import UserAdminInvalidError, UserIdInvalidError
-from telethon.tl.functions.channels import (
-    EditAdminRequest,
-    EditBannedRequest,
-    EditPhotoRequest,
-)
+from telethon.errors import (BadRequestError, ImageProcessFailedError,
+                             PhotoCropSizeSmallError)
+from telethon.errors.rpcerrorlist import (UserAdminInvalidError,
+                                          UserIdInvalidError)
+from telethon.tl.functions.channels import (EditAdminRequest,
+                                            EditBannedRequest,
+                                            EditPhotoRequest)
 from telethon.tl.functions.users import GetFullUserRequest
-from telethon.tl.types import (
-    ChannelParticipantsAdmins,
-    ChatAdminRights,
-    ChatBannedRights,
-    MessageEntityMentionName,
-    MessageMediaPhoto,
-)
+from telethon.tl.types import (ChannelParticipantsAdmins, ChatAdminRights,
+                               ChatBannedRights, MessageEntityMentionName,
+                               MessageMediaPhoto)
 
 from hellbot.sql.mute_sql import is_muted, mute, unmute
 

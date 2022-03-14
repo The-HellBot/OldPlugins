@@ -13,12 +13,9 @@ from telethon.errors import PackShortNameOccupiedError
 from telethon.errors.rpcerrorlist import YouBlockedUserError
 from telethon.tl import functions, types
 from telethon.tl.functions.messages import GetStickerSetRequest
-from telethon.tl.types import (
-    DocumentAttributeFilename,
-    DocumentAttributeSticker,
-    InputMessagesFilterDocument,
-    InputStickerSetID,
-)
+from telethon.tl.types import (DocumentAttributeFilename,
+                               DocumentAttributeSticker,
+                               InputMessagesFilterDocument, InputStickerSetID)
 from telethon.utils import get_input_document
 
 from hellbot.sql.gvar_sql import addgvar, gvarstat

@@ -1,4 +1,5 @@
-from hellbot.sql.autopost_sql import add_post, get_all_post, is_post, remove_post
+from hellbot.sql.autopost_sql import (add_post, get_all_post, is_post,
+                                      remove_post)
 from hellbot.sql.gvar_sql import addgvar, delgvar, gvarstat
 
 from . import *

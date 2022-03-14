@@ -5,12 +5,8 @@ from telethon import events
 from telethon import utils as ut
 from telethon.tl import types
 
-from ..sql.filter_sql import (
-    add_filter,
-    get_all_filters,
-    remove_all_filters,
-    remove_filter,
-)
+from ..sql.filter_sql import (add_filter, get_all_filters, remove_all_filters,
+                              remove_filter)
 from ..sql.gvar_sql import addgvar, delgvar, gvarstat
 from . import *
 

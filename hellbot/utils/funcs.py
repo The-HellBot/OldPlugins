@@ -1,6 +1,7 @@
 from telethon import events
 from telethon.tl.functions.channels import GetParticipantRequest
-from telethon.tl.types import ChannelParticipantAdmin, ChannelParticipantCreator
+from telethon.tl.types import (ChannelParticipantAdmin,
+                               ChannelParticipantCreator)
 
 from hellbot import *
 from hellbot.helpers import *

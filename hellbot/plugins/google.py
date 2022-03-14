@@ -5,7 +5,8 @@ import requests
 from bs4 import BeautifulSoup
 from geopy.geocoders import Nominatim
 from search_engine_parser import GoogleSearch
-from search_engine_parser.core.exceptions import NoResultsOrTrafficError as GoglError
+from search_engine_parser.core.exceptions import \
+    NoResultsOrTrafficError as GoglError
 from telethon.tl import types
 from wikipedia import summary
 from wikipedia.exceptions import DisambiguationError, PageError

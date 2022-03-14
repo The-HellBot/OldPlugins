@@ -4,7 +4,8 @@ from asyncio import sleep
 import requests
 from bs4 import BeautifulSoup
 
-from hellbot.sql.husb_sql import add_hus_grp, get_all_hus_grp, is_husb, rm_hus_grp
+from hellbot.sql.husb_sql import (add_hus_grp, get_all_hus_grp, is_husb,
+                                  rm_hus_grp)
 from hellbot.sql.waifu_sql import add_grp, get_all_grp, is_harem, rm_grp
 
 from . import *
