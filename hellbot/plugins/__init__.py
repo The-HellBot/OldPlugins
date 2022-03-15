@@ -1,7 +1,7 @@
 import datetime
 import time
 
-from telethon import version
+from telethon.version import __version__
 
 from hellbot import *
 from hellbot.clients import *
@@ -20,7 +20,7 @@ shhh = "./hellbot/resources/pics/chup_madarchod.jpeg"
 hl = Config.HANDLER
 shl = Config.SUDO_HANDLER
 hell_ver = __hell__
-tel_ver = version.__version__
+tel_ver = __version__
 
 
 async def get_user_id(ids):
