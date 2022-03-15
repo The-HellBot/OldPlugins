@@ -272,7 +272,7 @@ async def kang(event):
                     await conv.get_response()
                     await event.client.send_read_acknowledge(conv.chat_id)
 
-                 elif is_vid:
+                elif is_vid:
                     packname = f"Hellbot_{un_}_{pack}_vid"
                     packnick = f"{hellbot}" if hellbot else f"{un}'s Hêllẞø† (Video)"
                     cmd = "/newvideo"
