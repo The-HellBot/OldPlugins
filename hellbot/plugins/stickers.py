@@ -286,27 +286,11 @@ async def kang(event):
                     remove("VideoSticker.webm")
                     xy = await conv.get_response()
                     if "50" in xy.text:
-                        await conv.send_message("/cancel")
-                        xy = await conv.get_response()
-                        if "cancelled" in xy.txt:
-                            while "50" in xy.text:
-                                pack += 1
-                                await conv.send_message(cmd)
-                                await conv.send_messsage("/addsticker")
-                                await conv.get_response()
-                                await event.client.send_read_acknowledge(conv.chat_id)
-                                packname = f"Hellbot_{un_}_{pack}_vid"
-                                packnick = f"{hellbot}" if hellbot else f"{un}'s Hêllẞø† (Video)"
-                                await conv.send_message(packname)
-                                await conv.get_response()
-                                await event.client.send_read_acknowledge(conv.chat_id)
-                                await conv.send_file("VideoSticker.webm")
-                                xy = await conv.get_response()
-                        else:
-                            pack += 1
-                            return await eod(hell, f"This Video sticker pack is already full...and an error occured during making new pack. Use `{hl}kang {pack}` to add new stickers.")
-                        
-                        
+                        pack += 1
+                        return await eod(
+                            hell,
+                            f"This Video sticker pack is already full. Use `{hl}kang {pack}` to add new stickers.",
+                        )
                     elif "Sorry, the file type is invalid." in xy.text:
                         return await eod(
                             hell,
