@@ -48,6 +48,7 @@ twentytwo = "卂 乃 匚 ᗪ 乇 千 Ꮆ 卄 丨 ﾌ Ҝ ㄥ 爪 几 ㄖ 卩 Ɋ �
 
 twentythree = "ﾑ 乃 ᄃ り 乇 ｷ ム ん ﾉ ﾌ ズ ﾚ ﾶ 刀 の ｱ ゐ 尺 丂 ｲ ひ √ W ﾒ ﾘ 乙"
 
+twentyfour = "ą ც ƈ ɖ ɛ ʄ ɠ ɧ ı ʝ ƙ Ɩ ɱ ŋ ơ ℘ զ ཞ ʂ ɬ ų ۷ ῳ ҳ ყ ʑ"
 
 @hell_cmd(pattern="font(?:\s|$)([\s\S]*)")
 async def font(event):
@@ -218,6 +219,13 @@ async def font(event):
             await hell.edit(prev)
         case 23:
             to_ = twentythree.split(" ")
+            for normal in prev:
+                if normal in normie:
+                    new = to_[normie.index(normal)]
+                    prev = prev.replace(normal, new)
+            await hell.edit(prev)
+        case 24:
+            to_ = twentyfour.split(" ")
             for normal in prev:
                 if normal in normie:
                     new = to_[normie.index(normal)]
