@@ -103,6 +103,9 @@ async def cmdinfo(event):
     cmd = (event.text[9:]).lower()
     try:
         info = CMD_INFO[cmd]["info"]
-        await eor(event, f"**• {cmd}:** \n» __{info}__")
+        file = CMD_INFO[cmd]["plugin"]
+        exam = CMD_INFO[cmd]["example"]
     except KeyError:
-        await eod(event, f"**• No command named:** `{cmd}`")
+        return await eod(event, f"**• No command named:** `{cmd}`")
+    await eor(event, f"**• File:** \n» __{file}__ \n\n**• {cmd}:** \n» __{info}__ \n\n**• Example:** \n» `{str(exam)}`")
+
