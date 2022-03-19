@@ -1,5 +1,8 @@
 import asyncio
+import os
+import requests
 import time
+import yt_dlp
 
 from telethon.errors.rpcerrorlist import YouBlockedUserError
 from telethon.tl.types import DocumentAttributeAudio
@@ -13,10 +16,64 @@ from . import *
 
 
 @hell_cmd(pattern="song(?:\s|$)([\s\S]*)")
+async def songs(event):
+    ForGo10God, HELL_USER, hell_mention = await client_id(event)
+    query = event.text[6:]
+    reply = await event.get_reply_message()
+    if not query:
+        return await eod(event, "Give something to search and download 😑")
+    hell = await eor(event, f"<b><i>Searching for {query} ...</i></b>", parse_mode="HTML")
+    ydl_opts = {"format": "bestaudio[ext=m4a]"}
+    try:
+        results = Hell_YTS(query, max_results=1).to_dict()
+        link = f"https://youtube.com{results[0]['url_suffix']}"
+        title = results[0]["title"]
+        thumbnail = results[0]["thumbnails"][0]
+        thumb_name = f'thumb{ForGo10God}.jpg'
+        thumb = requests.get(thumbnail, allow_redirects=True)
+        open(thumb_name, 'wb').write(thumb.content)
+        duration = results[0]["duration"]
+        url_suffix = results[0]["url_suffix"]
+        views = results[0]["views"]
+    except Exception as e:
+        await hell.edit(
+            f"<b><i>ERROR !!</b></i> \n\n<i>No song found. Maybe give different name or check spelling.</i> \n\n<code>{str(e)}</code>",
+            parse_mode="HTML",
+        )
+        return
+    try:
+        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+            info_dict = ydl.extract_info(link, download=False)
+            audio_file = ydl.prepare_filename(info_dict)
+            ydl.process_info(info_dict)
+        c_time = time.time()
+        await event.client.send_file(
+            event.chat_id,
+            audio_file,
+            supports_streaming=True,
+            caption=f"**✘ Song -** `{title}` \n**✘ Views -** `{views}` \n**✘ Duration -** `{duration}` \n\n**✘ By :** {hell_mention}",
+            thumb=thumb_name,
+            reply_to=reply,
+            attributes=[
+                DocumentAttributeAudio(
+                    duration=int(info_dict['duration']),
+                    title=str(info_dict['title']),
+                    performer=perf,
+                )
+            ],
+        )
+        await hell.delete()
+        os.remove(audio_file)
+        os.remove(thumb_name)
+    except Exception as e:
+        await eod(hell, str(e))
+
+
+@hell_cmd(pattern="ysong(?:\s|$)([\s\S]*)")
 async def _(event):
     xyz = await client_id(event)
     ForGo10God, hell_mention = xyz[0], xyz[2]
-    query = event.text[6:]
+    query = event.text[7:]
     max_results = 1
     if query == "":
         return await eod(event, "__Please give a song name to search.__")
@@ -245,15 +302,15 @@ async def _(event):
 
 
 CmdHelp("songs").add_command(
-    "song", "<song name>", "Downloads the song from YouTube."
+    "song", "<song name>", "Downloads the song from YouTube. [ FASTER ]"
+).add_command(
+    "ysong", "<song name>", "Downloads the sing from YouTube. [ SLOWER BUT BETTER QUALITY ]"
 ).add_command(
     "vsong", "<song name>", "Downloads the Video Song from YouTube."
 ).add_command(
     "lsong", "<song name>", "Sends the searched song in current chat.", "lsong Alone"
 ).add_command(
-    "wsong",
-    "<reply to a song file>",
-    "Searches for the details of replied mp3 song file and uploads it's details.",
+    "wsong", "<reply to a song file>", "Searches for the details of replied mp3 song file and uploads it's details."
 ).add_command(
     "lyrics", "<song name>", "Gives the lyrics of that song.."
 ).add_command(
