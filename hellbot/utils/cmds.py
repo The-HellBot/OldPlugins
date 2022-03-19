@@ -85,11 +85,11 @@ class CmdHelp:
                 result += (
                     f"**⌨️ For Example :**  `{HANDLER[:1]}{command['example']}`\n\n"
                 )
-                example = command["example"] or None
+
             CMD_INFO[f"{command['command']}"] = {
                 "info": command["usage"],
                 "plugin": self.FILE,
-                "example": example,
+                "example": command["example"],
             }
         return result
 
