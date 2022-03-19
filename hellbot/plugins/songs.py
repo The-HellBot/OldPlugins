@@ -1,6 +1,5 @@
 import asyncio
 import os
-import time
 
 import requests
 import yt_dlp
