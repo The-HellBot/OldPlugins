@@ -1,9 +1,9 @@
 import asyncio
 import os
-import requests
 import time
-import yt_dlp
 
+import requests
+import yt_dlp
 from telethon.errors.rpcerrorlist import YouBlockedUserError
 from telethon.tl.types import DocumentAttributeAudio
 from youtube_dl import YoutubeDL
@@ -33,7 +33,7 @@ async def songs(event):
         thumb = requests.get(thumbnail, allow_redirects=True)
         open(thumb_name, 'wb').write(thumb.content)
         duration = results[0]["duration"]
-        url_suffix = results[0]["url_suffix"]
+        results[0]["url_suffix"]
         views = results[0]["views"]
     except Exception as e:
         await hell.edit(
@@ -46,7 +46,7 @@ async def songs(event):
             info_dict = ydl.extract_info(link, download=False)
             audio_file = ydl.prepare_filename(info_dict)
             ydl.process_info(info_dict)
-        c_time = time.time()
+        time.time()
         await event.client.send_file(
             event.chat_id,
             audio_file,
