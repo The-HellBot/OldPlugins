@@ -6,11 +6,6 @@ import requests
 import yt_dlp
 from telethon.errors.rpcerrorlist import YouBlockedUserError
 from telethon.tl.types import DocumentAttributeAudio
-from youtube_dl import YoutubeDL
-from youtube_dl.utils import (ContentTooShortError, DownloadError,
-                              ExtractorError, GeoRestrictedError,
-                              MaxDownloadsReached, PostProcessingError,
-                              UnavailableVideoError, XAttrMetadataError)
 
 from . import *
 
@@ -22,7 +17,7 @@ async def songs(event):
     reply = await event.get_reply_message()
     if not query:
         return await eod(event, "Give something to search and download 😑")
-    hell = await eor(event, f"<b><i>Searching for {query} ...</i></b>", parse_mode="HTML")
+    hell = await eor(event, f"<b><i>Searching “ {query} ”</i></b>", parse_mode="HTML")
     ydl_opts = {"format": "bestaudio[ext=m4a]"}
     try:
         results = Hell_YTS(query, max_results=1).to_dict()
@@ -33,25 +28,20 @@ async def songs(event):
         thumb = requests.get(thumbnail, allow_redirects=True)
         open(thumb_name, 'wb').write(thumb.content)
         duration = results[0]["duration"]
-        results[0]["url_suffix"]
         views = results[0]["views"]
     except Exception as e:
-        await hell.edit(
-            f"<b><i>ERROR !!</b></i> \n\n<i>No song found. Maybe give different name or check spelling.</i> \n\n<code>{str(e)}</code>",
-            parse_mode="HTML",
-        )
-        return
+        return await eod(hell, f"<b><i>ERROR !!</b></i> \n\n<i>No song found. Maybe give different name or check spelling.</i> \n\n<code>{str(e)}</code>", parse_mode="HTML")
     try:
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             info_dict = ydl.extract_info(link, download=False)
             audio_file = ydl.prepare_filename(info_dict)
             ydl.process_info(info_dict)
-        time.time()
+        await hell.edit(f"**••• Uploading Song •••** \n\n__» {info_dict['title']}__\n__»» {info_dict['uploader']}__")
         await event.client.send_file(
             event.chat_id,
             audio_file,
             supports_streaming=True,
-            caption=f"**✘ Song -** `{title}` \n**✘ Views -** `{views}` \n**✘ Duration -** `{duration}` \n\n**✘ By :** {hell_mention}",
+            caption=f"**✘ Song -** `{title}` \n**✘ Views -** `{views}` \n**✘ Duration -** `{duration}` \n\n**« ✘ »** {hell_mention}",
             thumb=thumb_name,
             reply_to=reply,
             attributes=[
@@ -69,127 +59,56 @@ async def songs(event):
         await eod(hell, str(e))
 
 
-@hell_cmd(pattern="ysong(?:\s|$)([\s\S]*)")
-async def _(event):
-    xyz = await client_id(event)
-    ForGo10God, hell_mention = xyz[0], xyz[2]
-    query = event.text[7:]
-    max_results = 1
-    if query == "":
-        return await eod(event, "__Please give a song name to search.__")
-    hell = await eor(event, f"__Searching for__ `{query}`")
-    hel_ = await song_search(event, query, max_results, details=True)
-    x, title, views, duration, thumb = hel_[0], hel_[1], hel_[2], hel_[3], hel_[4]
-    thumb_name = f"thumb{ForGo10God}.jpg"
-    thumbnail = requests.get(thumb, allow_redirects=True)
-    open(thumb_name, "wb").write(thumbnail.content)
-    url = x.replace("\n", "")
-    try:
-        await hell.edit("**Fetching Song**")
-        with YoutubeDL(song_opts) as somg:
-            hell_data = somg.extract_info(url)
-    except DownloadError as DE:
-        return await eod(hell, f"`{str(DE)}`")
-    except ContentTooShortError:
-        return await eod(hell, "`The download content was too short.`")
-    except GeoRestrictedError:
-        return await eod(
-            hell,
-            "`Video is not available from your geographic location due to geographic restrictions imposed by a website.`",
-        )
-    except MaxDownloadsReached:
-        return await eod(hell, "`Max-downloads limit has been reached.`")
-    except PostProcessingError:
-        return await eod(hell, "`There was an error during post processing.`")
-    except UnavailableVideoError:
-        return await eod(hell, "`Media is not available in the requested format.`")
-    except XAttrMetadataError as XAME:
-        return await eod(hell, f"`{XAME.code}: {XAME.msg}\n{XAME.reason}`")
-    except ExtractorError:
-        return await eod(hell, "`There was an error during info extraction.`")
-    except Exception as e:
-        return await eod(hell, f"{str(type(e)): {str(e)}}")
-    c_time = time.time()
-    await hell.edit(
-        f"**🎶 Preparing to upload song 🎶 :** \n\n{hell_data['title']} \n**By :** {hell_data['uploader']}"
-    )
-    await event.client.send_file(
-        event.chat_id,
-        f"{hell_data['id']}.mp3",
-        supports_streaming=True,
-        caption=f"**✘ Song -** `{title}` \n**✘ Views -** `{views}` \n**✘ Duration -** `{duration}` \n\n**✘ By :** {hell_mention}",
-        thumb=thumb_name,
-        attributes=[
-            DocumentAttributeAudio(
-                duration=int(hell_data["duration"]),
-                title=str(hell_data["title"]),
-                performer=perf,
-            )
-        ],
-        progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
-            progress(d, t, event, c_time, "Uploading..", f"{hell_data['title']}.mp3")
-        ),
-    )
-    await hell.delete()
-    os.remove(f"{hell_data['id']}.mp3")
-
-
 @hell_cmd(pattern="vsong(?:\s|$)([\s\S]*)")
-async def _(event):
-    xyz = await client_id(event)
-    ForGo10God, hell_mention = xyz[0], xyz[2]
+async def vsong(event):
+    ForGo10God, HELL_USER, hell_mention = await client_id(event)
     query = event.text[7:]
-    max_results = 1
-    if query == "":
-        return await eod(event, "__Please give a song name to search.__")
-    hell = await eor(event, f"__Searching for__ `{query}`")
-    hel_ = await song_search(event, query, max_results, details=True)
-    x, title, views, duration, thumb = hel_[0], hel_[1], hel_[2], hel_[3], hel_[4]
-    thumb_name = f"thumb{ForGo10God}.jpg"
-    thumbnail = requests.get(thumb, allow_redirects=True)
-    open(thumb_name, "wb").write(thumbnail.content)
-    url = x.replace("\n", "")
+    reply = await event.get_reply_message()
+    if not query:
+        return await eod(event, "Give something to search and download 😑")
+    hell = await eor(event, f"<b><i>Searching “ {query} ”</i></b>", parse_mode="HTML")
+    ydl_opts = {
+        "format": "best",
+        "addmetadata": True,
+        "key": "FFmpegMetadata",
+        "prefer_ffmpeg": True,
+        "geo_bypass": True,
+        "nocheckcertificate": True,
+        "postprocessors": [{"key": "FFmpegVideoConvertor", "preferedformat": "mp4"}],
+        "outtmpl": "%(id)s.mp4",
+        "logtostderr": False,
+        "quiet": True,
+    }
     try:
-        await hell.edit("**Fetching Video**")
-        with YoutubeDL(video_opts) as somg:
-            hell_data = somg.extract_info(url)
-    except DownloadError as DE:
-        return await eod(hell, f"`{str(DE)}`")
-    except ContentTooShortError:
-        return await eod(hell, "`The download content was too short.`")
-    except GeoRestrictedError:
-        return await eod(
-            hell,
-            "`Video is not available from your geographic location due to geographic restrictions imposed by a website.`",
-        )
-    except MaxDownloadsReached:
-        return await eod(hell, "`Max-downloads limit has been reached.`")
-    except PostProcessingError:
-        return await eod(hell, "`There was an error during post processing.`")
-    except UnavailableVideoError:
-        return await eod(hell, "`Media is not available in the requested format.`")
-    except XAttrMetadataError as XAME:
-        return await eod(hell, f"`{XAME.code}: {XAME.msg}\n{XAME.reason}`")
-    except ExtractorError:
-        return await eod(hell, "`There was an error during info extraction.`")
+        results = Hell_YTS(query, max_results=1).to_dict()
+        link = f"https://youtube.com{results[0]['url_suffix']}"
+        title = results[0]["title"][:40]
+        thumbnail = results[0]["thumbnails"][0]
+        thumb_name = f'thumb{ForGo10God}.jpg'
+        thumb = requests.get(thumbnail, allow_redirects=True)
+        open(thumb_name, 'wb').write(thumb.content)
+        duration = results[0]["duration"]
+        views = results[0]["views"]
     except Exception as e:
-        return await eod(hell, f"{str(type(e)): {str(e)}}")
-    c_time = time.time()
-    await hell.edit(
-        f"**📺 Preparing to upload video 📺 :** \n\n{hell_data['title']}\n**By :** {hell_data['uploader']}"
-    )
-    await event.client.send_file(
-        event.chat_id,
-        f"{hell_data['id']}.mp4",
-        supports_streaming=True,
-        caption=f"**✘ Video :** `{title}` \n\n**✘ By :** {hell_mention}",
-        thumb=thumb_name,
-        progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
-            progress(d, t, event, c_time, "Uploading..", f"{hell_data['title']}.mp4")
-        ),
-    )
-    await hell.delete()
-    os.remove(f"{hell_data['id']}.mp4")
+        return await eod(hell, f"<b><i>ERROR !!</b></i> \n\n<i>No song found. Maybe give different name or check spelling.</i> \n\n<code>{str(e)}</code>", parse_mode="HTML")
+    try:
+        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+            vid_file = ydl.extract_info(link, download=True)
+        file_ = f"{vid_file['id']}.mp4"
+        await hell.edit(f"**••• Uploading video •••** \n\n__» {vid_file['title']}__\n__»» {vid_file['uploader']}__")
+        await event.client.send_file(
+            event.chat_id,
+            open(file_, "rb"),
+            supports_streaming=True,
+            caption=f"**✘ Video -** `{title}` \n**✘ Views -** `{views}` \n**✘ Duration -** `{duration}` \n\n**« ✘ »** {hell_mention}",
+            thumb=thumb_name,
+            reply_to=reply,
+        )
+        await hell.delete()
+        os.remove(file_)
+        os.remove(thumb_name)
+    except Exception as e:
+        await eod(hell, str(e))
 
 
 @hell_cmd(pattern="lyrics(?: |$)(.*)")
@@ -302,9 +221,7 @@ async def _(event):
 
 
 CmdHelp("songs").add_command(
-    "song", "<song name>", "Downloads the song from YouTube. [ FASTER ]"
-).add_command(
-    "ysong", "<song name>", "Downloads the sing from YouTube. [ SLOWER BUT BETTER QUALITY ]"
+    "song", "<song name>", "Downloads the song from YouTube."
 ).add_command(
     "vsong", "<song name>", "Downloads the Video Song from YouTube."
 ).add_command(
