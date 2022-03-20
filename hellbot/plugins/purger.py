@@ -24,11 +24,11 @@ async def fastpurger(event):
     what = hell.split(" ", 1)[0]
 
     if what == "-me":
-        count = int(hell.split(" ", 1)[1])
+        count = hell.split(" ", 1)[1]
         if count:
             i = 1
             async for message in event.client.iter_messages(event.chat_id, from_user="me", min_id=event.reply_to_msg_id):
-                if i > count + 1:
+                if i > int(count) + 1:
                     break
                 i += 1
                 await message.delete()
@@ -51,7 +51,7 @@ async def fastpurger(event):
         await done.delete()
 
     elif what == "-user":
-        count = int(hell.split(" ", 1)[1])
+        count = hell.split(" ", 1)[1]
         user_ = (await event.get_reply_message()).from_id.user_id
         user = await event.client.get_entity(user_)
         if not user:
@@ -59,7 +59,7 @@ async def fastpurger(event):
         if count:
             i = 1
             async for message in event.client.iter_messages(event.chat_id, from_user=user.id, min_id=event.reply_to_msg_id):
-                if i > count + 1:
+                if i > int(count) + 1:
                     break
                 i += 1
                 await message.delete()
