@@ -19,6 +19,7 @@ async def spam(event, msg, count, reply_to, delay, bspam, uspam, media):
                 count += 1
                 continue
             await event.client.send_message(event.chat_id, msg, reply_to=reply_to)
+        count = "∞"
     elif bspam:
         what = "BREAK_SPAM"
         x = int(count % 100)
