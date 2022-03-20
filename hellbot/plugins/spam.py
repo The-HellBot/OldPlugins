@@ -1,6 +1,6 @@
 import asyncio
 
-from ..sql.gvar_sql import gvarstat, addgvar, delgvar
+from ..sql.gvar_sql import addgvar, delgvar, gvarstat
 from . import *
 
 
