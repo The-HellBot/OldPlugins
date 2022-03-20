@@ -23,10 +23,13 @@ async def fastpurger(event):
     what = hell.split(" ", 1)[0]
 
     if what == "-me":
-        count = hell.split(" ", 1)[1]
+        try:
+            count = hell.split(" ", 1)[1]
+        except:
+            count = None
         if count:
             i = 1
-            async for message in event.client.iter_messages(event.chat_id, from_user="me", min_id=event.reply_to_msg_id):
+            async for message in event.client.iter_messages(event.chat_id, from_user="me"):
                 if i > int(count) + 1:
                     break
                 i += 1
@@ -50,7 +53,10 @@ async def fastpurger(event):
         await done.delete()
 
     elif what == "-user":
-        count = hell.split(" ", 1)[1]
+        try:
+            count = hell.split(" ", 1)[1]
+        except:
+            count = None
         user_ = (await event.get_reply_message()).from_id.user_id
         user = await event.client.get_entity(user_)
         if not user:
@@ -83,15 +89,15 @@ async def fastpurger(event):
     else:
         msgs = []
         count = 0
-        async for msg in event.client.iter_messages(chat, min_id=event.reply_to_msg_id):
+        async for msg in event.client.iter_messages(event.chat_id, min_id=event.reply_to_msg_id):
             msgs.append(msg)
             count = count + 1
             msgs.append(event.reply_to_msg_id)
             if len(msgs) == 100:
-                await event.client.delete_messages(chat, msgs)
+                await event.client.delete_messages(event.chat_id, msgs)
                 msgs = []
         if msgs:
-            await event.client.delete_messages(chat, msgs)
+            await event.client.delete_messages(event.chat_id, msgs)
         done = await event.client.send_message(event.chat_id, f"**Purge Completed!** \nPurged `{str(count)}` messages.")
         await event.client.send_message(Config.LOGGER_ID, f"#PURGE\n\nPurged `{str(count)}` messages.")
         await sleep(5)
