@@ -18,7 +18,6 @@ async def delete_it(event):
 
 
 @hell_cmd(pattern="purge(?:\s|$)([\s\S]*)")
-@errors_handler
 async def fastpurger(event):
     hell = event.text[7:]
     what = hell.split(" ", 1)[0]
