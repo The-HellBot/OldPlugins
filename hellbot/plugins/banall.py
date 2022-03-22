@@ -2,14 +2,24 @@ import asyncio
 from time import sleep
 
 from telethon.tl import functions
+from telethon.tl.types import (
+    ChannelParticipantsAdmins,
+    ChannelParticipantsKicked,
+    ChatBannedRights,
+    UserStatusEmpty,
+    UserStatusLastMonth,
+    UserStatusLastWeek,
+    UserStatusOffline,
+    UserStatusOnline,
+    UserStatusRecently,
+)
+
+from telethon.errors import ChatAdminRequiredError, UserAdminInvalidError
+from telethon.tl import functions
 from telethon.tl.functions.channels import EditBannedRequest
-from telethon.tl.types import (ChannelParticipantsAdmins,
-                               ChannelParticipantsKicked, ChatBannedRights,
-                               UserStatusEmpty, UserStatusLastMonth,
-                               UserStatusLastWeek, UserStatusOffline,
-                               UserStatusOnline, UserStatusRecently)
 
 from . import *
+
 
 BANNED_RIGHTS = ChatBannedRights(
     until_date=None,
@@ -23,14 +33,15 @@ BANNED_RIGHTS = ChatBannedRights(
     embed_links=True,
 )
 
-
-@hell_cmd(pattern="kickall$", allow_sudo=False)
+@hell_cmd(pattern="kickall$")
 async def _(event):
     result = await event.client(
         functions.channels.GetParticipantRequest(event.chat_id, event.client.uid)
     )
     if not result.participant.admin_rights.ban_users:
-        return await eod(event, "No immunity for this action!!")
+        return await eod(
+            event, "No immunity for this action!!"
+        )
     hell = await eor(event, "**Bleck Magik Started...**")
     admins = await event.client.get_participants(
         event.chat_id, filter=ChannelParticipantsAdmins
@@ -48,20 +59,24 @@ async def _(event):
         except Exception as e:
             LOGS.info(str(e))
             await asyncio.sleep(0.5)
-    await hell.edit("**Bleck Magik Done...**")
+    await hell.edit(
+        "**Bleck Magik Done...**"
+    )
     await event.client.send_message(
         Config.LOGGER_ID,
-        f"#KICKALL \n\nKicked Out  `{success}`  of  `{total}`  members",
+        f"#KICKALL \n\nKicked Out  `{success}`  of  `{total}`  members"
     )
 
 
-@hell_cmd(pattern="banall$", allow_sudo=False)
+@hell_cmd(pattern="banall$")
 async def _(event):
     result = await event.client(
         functions.channels.GetParticipantRequest(event.chat_id, event.client.uid)
     )
     if not result:
-        return await eod(event, "Immunity Low!!")
+        return await eod(
+            event, "Immunity Low!!"
+        )
     hell = await eor(event, "**Bleck Magik Begins..**")
     admins = await event.client.get_participants(
         event.chat_id, filter=ChannelParticipantsAdmins
@@ -81,7 +96,9 @@ async def _(event):
         except Exception as e:
             LOGS.info(str(e))
             await asyncio.sleep(0.5)
-    await hell.edit("**Bleck Magik Completed...**")
+    await hell.edit(
+        "**Bleck Magik Completed...**"
+    )
     await event.client.send_message(
         Config.LOGGER_ID,
         f"#BANALL \n\nSucessfully banned  `{success}`  out of  `{total}`  members!!",
@@ -257,15 +274,15 @@ async def ban_user(chat_id, i, rights):
 
 
 CmdHelp("banall").add_command(
-    "ikuck",
-    None,
-    "Gives the data of group. Deleted accounts, Last seen, Offline, Online, Recently, Bots, Etc.",
-).add_command("unbanall", None, "Unbans all the user in the chat.").add_command(
-    "banall", None, "Bans all the user in the chat.."
+  "ikuck", None, "Gives the data of group. Deleted accounts, Last seen, Offline, Online, Recently, Bots, Etc."
 ).add_command(
-    "kickall", None, "Kicks all the users in the chat..."
+  "unbanall", None, "Unbans all the user in the chat."
+).add_command(
+  "banall", None, "Bans all the user in the chat.."
+).add_command(
+  "kickall", None, "Kicks all the users in the chat..."
 ).add_info(
-    "⚠️ Group Destroyer"
+  "⚠️ Group Destroyer"
 ).add_warning(
-    "✅ Harmless Module."
+  "✅ Harmless Module."
 ).add()
