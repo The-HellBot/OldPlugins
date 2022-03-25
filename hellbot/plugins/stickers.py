@@ -183,7 +183,7 @@ async def kang(event):
                         await conv.send_message("/done")
                         await conv.get_response()
                         await event.client.send_read_acknowledge(conv.chat_id)
-                elif is_anim:
+                if is_anim:
                     await conv.send_message("/addsticker")
                     await conv.get_response()
                     await event.client.send_read_acknowledge(conv.chat_id)
@@ -234,7 +234,7 @@ async def kang(event):
                         await conv.get_response()
                         await event.client.send_read_acknowledge(conv.chat_id)
                     remove("AnimatedSticker.tgs")
-                elif is_vid:
+                if is_vid:
                     await conv.send_message("/addsticker")
                     await conv.get_response()
                     await event.client.send_read_acknowledge(conv.chat_id)
@@ -317,7 +317,7 @@ async def kang(event):
                     await conv.send_message(packname)
                     await conv.get_response()
                     await event.client.send_read_acknowledge(conv.chat_id)
-                elif is_anim:
+                if is_anim:
                     await conv.send_message("/newanimated")
                     await conv.get_response()
                     await event.client.send_read_acknowledge(conv.chat_id)
@@ -345,7 +345,7 @@ async def kang(event):
                     await conv.get_response()
                     await event.client.send_read_acknowledge(conv.chat_id)
                     remove("AnimatedSticker.tgs")
-                elif is_vid:
+                if is_vid:
                     await conv.send_message("/newvideo")
                     await conv.get_response()
                     await event.client.send_read_acknowledge(conv.chat_id)
