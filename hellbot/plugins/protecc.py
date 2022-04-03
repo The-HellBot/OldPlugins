@@ -26,7 +26,7 @@ def progress(current, total):
 async def _(event):
     BASE_URL = "http://images.google.com"
     if event.reply_to_msg_id:
-        hell = await eor(event, "Hmm..")
+        hell = await eor(event, "Etoo..")
         previous_message = await event.get_reply_message()
         previous_message_text = previous_message.message
         if previous_message.media:
