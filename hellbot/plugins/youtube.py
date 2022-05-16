@@ -2,13 +2,9 @@ import asyncio
 import json
 import os
 import time
+import yt_dlp
 
 from telethon.tl.types import DocumentAttributeAudio
-from youtube_dl import YoutubeDL
-from youtube_dl.utils import (ContentTooShortError, DownloadError,
-                              ExtractorError, GeoRestrictedError,
-                              MaxDownloadsReached, PostProcessingError,
-                              UnavailableVideoError, XAttrMetadataError)
 
 from . import *
 
@@ -17,7 +13,9 @@ from . import *
 async def download_video(event):
     url = event.text[5:]
     type_ = event.text[3:4]
-    event = await eor(event, "`Preparing to download...`")
+    reply = await event.get_reply_message()
+    ForGo10God, HELL_USER, hell_mention = await client_id(event)
+    hell = await eor(event, "`Preparing to download...`")
     if type_ == "a":
         opts = song_opts
         video = False
@@ -26,87 +24,61 @@ async def download_video(event):
         opts = video_opts
         song = False
         video = True
-    try:
-        await event.edit("**Fetching YT link...**")
-        with YoutubeDL(opts) as ytdl:
-            ytdl_data = ytdl.extract_info(url)
-    except DownloadError as DE:
-        await eod(event, f"`{str(DE)}`")
-        return
-    except ContentTooShortError:
-        await eod(event, "`The download content was too short.`")
-        return
-    except GeoRestrictedError:
-        await eod(
-            event,
-            "`Video is not available from your geographic location due to geographic restrictions imposed by a website.`",
-        )
-        return
-    except MaxDownloadsReached:
-        await eod(event, "`Max-downloads limit has been reached.`")
-        return
-    except PostProcessingError:
-        await eod(event, "`There was an error during post processing.`")
-        return
-    except UnavailableVideoError:
-        await eod(event, "`Media is not available in the requested format.`")
-        return
-    except XAttrMetadataError as XAME:
-        await eod(event, f"`{XAME.code}: {XAME.msg}\n{XAME.reason}`")
-        return
-    except ExtractorError:
-        await eod(event, "`There was an error during info extraction.`")
-        return
-    except Exception as e:
-        await eod(event, f"{str(type(e)): {str(e)}}", 10)
-        return
-    c_time = time.time()
     if song:
-        await eor(
-            event,
-            f"📤 `Preparing to upload audio:`\
-        \n\n**{ytdl_data['title']}**\
-        \nby *{ytdl_data['uploader']}*",
-        )
-        await event.client.send_file(
-            event.chat_id,
-            f"{ytdl_data['id']}.mp3",
-            supports_streaming=True,
-            attributes=[
-                DocumentAttributeAudio(
-                    duration=int(ytdl_data["duration"]),
-                    title=str(ytdl_data["title"]),
-                    performer=perf,
-                )
-            ],
-            progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
-                progress(
-                    d, t, event, c_time, "Uploading..", f"{ytdl_data['title']}.mp3"
-                )
-            ),
-        )
-        os.remove(f"{ytdl_data['id']}.mp3")
-        await event.delete()
+        try:
+            await hell.edit("**Fetching YT link...**")
+            with yt_dlp.YoutubeDL(opts) as ytdl:
+                ytdl_data = ytdl.extract_info(url)
+                audio_file = ytdl.prepare_filename(ytdl_data)
+                ytdl.process_info(ytdl_data)
+            c_time = time.time()
+            await hell.edit(f"**••• Uploading Audio •••** \n\n__» {ytdl_data['title']}__\n__»» {ytdl_data['uploader']}__")
+            await event.client.send_file(
+                event.chat_id,
+                audio_file,
+                supports_streaming=True,
+                caption=f"**✘ Audio -** `{ytdl_data['title']}` \n**✘ Views -** `{ytdl_data['views']}` \n\n**« ✘ »** {hell_mention}",
+                reply_to=reply,
+                attributes=[
+                    DocumentAttributeAudio(
+                        duration=int(ytdl_data["duration"]),
+                        title=str(ytdl_data["title"]),
+                        performer=perf,
+                    )
+                ],
+                progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
+                    progress(
+                        d, t, event, c_time, "Uploading..", f"{ytdl_data['title']}.mp3"
+                    )
+                ),
+            )
+            os.remove(audio_file)
+            await hell.delete()
+        except Exception as e:
+            return await eod(hell, f"**ERROR:** \n`{str(e)}`")
     elif video:
-        await eor(
-            event,
-            f"`Preparing to upload video:`\
-        \n\n**{ytdl_data['title']}**\
-        \nby *{ytdl_data['uploader']}*",
-        )
-        await event.client.send_file(
-            event.chat_id,
-            f"{ytdl_data['id']}.mp4",
-            supports_streaming=True,
-            caption=ytdl_data["title"],
-            progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
-                progress(
-                    d, t, event, c_time, "Uploading..", f"{ytdl_data['title']}.mp4"
-                )
-            ),
-        )
-        os.remove(f"{ytdl_data['id']}.mp4")
-        await event.delete()
+        try:
+            await hell.edit("**Fetching YT link...**")
+            with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+                vid_file = ydl.extract_info(url, download=True)
+            file_ = f"{vid_file['id']}.mp4"
+            await hell.edit(f"**••• Uploading Video •••** \n\n__» {vid_file['title']}__\n__»» {vid_file['uploader']}__")
+            await event.client.send_file(
+                event.chat_id,
+                open(file_, "rb"),
+                supports_streaming=True,
+                caption=f"**✘ Video -** `{vid_file['title']}` \n**✘ Views -** `{vid_file['views']}` \n\n**« ✘ »** {hell_mention}",
+                reply_to=reply,
+                progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
+                    progress(
+                        d, t, event, c_time, "Uploading..", f"{vid_file['title']}.mp4"
+                    )
+                ),
+            )
+            os.remove(file_)
+            await hell.delete()
+        except Exception as e:
+            await eod(hell, f"**ERROR:** \n`{str(e)}`")
 
 
 @hell_cmd(pattern="ytlink(?:\s|$)([\s\S]*)")
@@ -126,19 +98,13 @@ async def hmm(event):
 
 
 CmdHelp("youtube").add_command(
-    "yta",
-    "<yt link>",
-    "Extracts the audio from given youtube link and uploads it to telegram",
+    "yta", "<yt link>", "Extracts the audio from given youtube link and uploads it to telegram"
 ).add_command(
-    "ytv",
-    "<yt link>",
-    "Extracts the video from given youtube link and uploads it to telegram",
+    "ytv", "<yt link>", "Extracts the video from given youtube link and uploads it to telegram"
 ).add_command(
-    "ytlink",
-    "<search keyword>",
-    "Extracts 7 links from youtube based on the given search query",
+    "ytlink", "<search keyword>", "Extracts 7 links from youtube based on the given search query"
 ).add_info(
-    "Youthoob ki duniya."
+    "YouTube Utilities"
 ).add_warning(
     "✅ Harmless Module."
 ).add()
