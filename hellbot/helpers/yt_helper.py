@@ -128,11 +128,15 @@ video_opts = {
     "format": "best",
     "addmetadata": True,
     "key": "FFmpegMetadata",
-    "age_limit": 25,
     "prefer_ffmpeg": True,
     "geo_bypass": True,
     "nocheckcertificate": True,
-    "postprocessors": [{"key": "FFmpegVideoConvertor", "preferedformat": "mp4"}],
+    "postprocessors": [
+        {
+            "key": "FFmpegVideoConvertor",
+            "preferedformat": "mp4",
+        }
+    ],
     "outtmpl": "%(id)s.mp4",
     "logtostderr": False,
     "quiet": True,
