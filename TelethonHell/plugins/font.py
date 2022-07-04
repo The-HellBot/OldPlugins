@@ -237,6 +237,10 @@ async def font(event):
 
 CmdHelp("fonts").add_command(
     "font", "<font number>", "Changes the replied text to desired font.", "font 07"
-).add_extra("📌 Font Numbers", "01 to 23").add_info("Font Changer.").add_warning(
+).add_extra(
+    "📌 Font Numbers", "01 to 23"
+).add_info(
+    "Font Changer."
+).add_warning(
     "✅ Harmless Module"
 ).add()
