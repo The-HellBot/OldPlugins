@@ -2,7 +2,7 @@ import asyncio
 import os
 import re
 
-from HellConfig.config import Config
+from HellConfig import Config
 from TelethonHell.helpers.pasters import pasty
 
 
