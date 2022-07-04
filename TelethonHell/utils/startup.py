@@ -2,7 +2,7 @@ from telethon import Button
 from telethon.tl import functions
 from telethon.tl.types import ChatAdminRights
 
-from HellConfig.config import Config
+from HellConfig import Config
 from TelethonHell import LOGS
 from TelethonHell.helpers.int_str import make_int
 from TelethonHell.DB.gvar_sql import addgvar, gvarstat
