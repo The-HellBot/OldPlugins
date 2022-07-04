@@ -19,7 +19,7 @@ async def install(event):
     for ixo in total_doxx:
         mxo = documentss[ixo].id
         downloaded_file_name = await event.client.download_media(
-            await event.client.get_messages(chat, ids=mxo), "hellbot/plugins/"
+            await event.client.get_messages(chat, ids=mxo), "TelethonHell/plugins/"
         )
         if "(" not in downloaded_file_name:
             path1 = Path(downloaded_file_name)
@@ -48,7 +48,7 @@ async def install(event):
     for ixo in total_doxx:
         mxo = documentss[ixo].id
         downloaded_file_name = await event.client.download_media(
-            await event.client.get_messages(chat, ids=mxo), "hellbot/plugins/"
+            await event.client.get_messages(chat, ids=mxo), "TelethonHell/plugins/"
         )
         if "(" not in downloaded_file_name:
             path1 = Path(downloaded_file_name)
@@ -65,13 +65,9 @@ async def install(event):
 
 
 CmdHelp("extra_py").add_command(
-    "extdl",
-    None,
-    "Installs all plugins from the channal which id is in PLUGIN_CHANNEL Configiable",
+    "extdl", None, "Installs all plugins from the channal which id is in PLUGIN_CHANNEL Config"
 ).add_command(
-    "installall",
-    "<channel/grp username>",
-    "Installs all the plugins in provided channel / group. (May get floodwait error)",
+    "installall", "<channel/grp username>", "Installs all the plugins in provided channel / group. (May get floodwait error)"
 ).add_info(
     "Extra Plugins."
 ).add_warning(
