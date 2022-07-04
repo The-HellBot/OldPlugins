@@ -546,7 +546,9 @@ def get_lst_of_files(input_directory, output_lst):
 
 CmdHelp("archiver").add_command(
     "zip", "Reply to file/media", "It will zip the file/media"
-).add_command("rar", "Reply to file/media", "It will rar the file/media").add_command(
+).add_command(
+    "rar", "Reply to file/media", "It will rar the file/media"
+).add_command(
     "7z", "Reply to file/media", "It will 7z the file/media"
 ).add_command(
     "tar", "Reply to file/media", "It will tar the file/media"
