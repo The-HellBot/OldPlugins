@@ -14,7 +14,7 @@ from TelethonHell.utils import *
 # ENV
 ENV = bool(os.environ.get("ENV", False))
 if ENV:
-    from HellConfig.config import Config
+    from HellConfig import Config
 else:
     if os.path.exists("config.py"):
         from config import Development as Config
