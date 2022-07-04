@@ -2,10 +2,10 @@ import math
 import re
 import time
 
-from hellbot import *
-from hellbot.config import Config
-from hellbot.helpers import *
-from hellbot.utils import *
+from HellConfig import Config
+from TelethonHell import *
+from TelethonHell.helpers import *
+from TelethonHell.utils import *
 
 
 async def reply_id(event):
