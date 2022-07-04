@@ -73,9 +73,7 @@ async def endecrypt(event):
 
 
 CmdHelp("base64").add_command(
-    "hash",
-    "<query>",
-    "Finds the md5, sha1, sha256, sha512 of the string when written into a txt file",
+    "hash", "<query>", "Finds the md5, sha1, sha256, sha512 of the string when written into a txt file"
 ).add_command(
     "b64 en", "<query>", "Finds the base64 encoding of the given string"
 ).add_command(
