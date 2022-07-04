@@ -116,9 +116,13 @@ async def metoo(e):
     await eor(e, txt)
 
 
-CmdHelp("edits").add_command("hehe", None, "Use and see").add_command(
+CmdHelp("edits").add_command(
+    "hehe", None, "Use and see"
+).add_command(
     "wavee", None, "Use and see"
-).add_command("wut", None, "Use and see").add_command(
+).add_command(
+    "wut", None, "Use and see"
+).add_command(
     "lobb", None, "Use and see"
 ).add_command(
     "confused", None, "Use and see"
@@ -135,9 +139,7 @@ CmdHelp("edits").add_command("hehe", None, "Use and see").add_command(
 ).add_command(
     "type", "<word>", "Animates the given word into a typewriter."
 ).add_command(
-    "emoji",
-    None,
-    "Available cmnds are:-\n• shrug\n• apple\n• :/\n• -_-\n Add .emoji in front of all cmds.",
+    "emoji", None, "Available cmnds are:-\n• shrug\n• apple\n• :/\n• -_-\n Add .emoji in front of all cmds."
 ).add_info(
     "Bass Bakchodi hai ye."
 ).add_warning(
