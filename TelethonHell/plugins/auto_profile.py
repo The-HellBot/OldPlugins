@@ -6,7 +6,7 @@ from telethon.errors import FloodWaitError
 from telethon.tl import functions
 from telethon.tl.functions.channels import GetAdminedPublicChannelsRequest
 
-from hellbot.sql.gvar_sql import gvarstat
+from TelethonHell.DB.gvar_sql import gvarstat
 
 from . import *
 
@@ -64,13 +64,11 @@ async def mine(event):
 
 
 CmdHelp("auto_profile").add_command(
-    "autobio",
-    None,
-    "Changes your bio with random quotes. You can set your own bio by setting up gvar BIO_MSG.",
-).add_command("autoname", None, "Changes your name with time.").add_command(
-    "reserved",
-    None,
-    "Gives the list of usernames reserved by you. In short gives the list of public groups or channels that you are owner in.",
+    "autobio", None, "Changes your bio with random quotes. You can set your own bio by setting up gvar BIO_MSG."
+).add_command(
+    "autoname", None, "Changes your name with time."
+).add_command(
+    "reserved", None, "Gives the list of usernames reserved by you. In short gives the list of public groups or channels that you are owner in."
 ).add_info(
     "Manage Profiles"
 ).add_warning(
