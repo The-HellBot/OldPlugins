@@ -291,25 +291,15 @@ CmdHelp("convert").add_command(
 ).add_command(
     "ftoi", "<reply to a image file", "Converts the replied file image to normal image"
 ).add_command(
-    "itof",
-    "<reply to a image/sticker>",
-    "Converts the replied image or sticker into file.",
+    "itof", "<reply to a image/sticker>", "Converts the replied image or sticker into file."
 ).add_command(
-    "stog",
-    "<reply to a animated sticker>",
-    "Converts the replied animated sticker into gif",
+    "stog", "<reply to a animated sticker>", "Converts the replied animated sticker into gif"
 ).add_command(
-    "ttf",
-    "<reply to text>",
-    "Converts the given text message to required file(given file name)",
+    "ttf", "<reply to text>", "Converts the given text message to required file(given file name)"
 ).add_command(
-    "nfc voice",
-    "<reply to media to extract voice>",
-    "Converts the replied media file to voice",
+    "nfc voice", "<reply to media to extract voice>", "Converts the replied media file to voice"
 ).add_command(
-    "nfc mp3",
-    "<reply to media to extract mp3>",
-    "Converts the replied media file to mp3",
+    "nfc mp3", "<reply to media to extract mp3>", "Converts the replied media file to mp3"
 ).add_info(
     "Converter."
 ).add_warning(
