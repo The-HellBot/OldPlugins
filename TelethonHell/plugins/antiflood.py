@@ -3,7 +3,7 @@ import asyncio
 from telethon.tl.functions.channels import EditBannedRequest
 from telethon.tl.types import ChatBannedRights
 
-from hellbot.sql import antiflood_sql as sq
+from TelethonHell.DB import antiflood_sql as sq
 
 from . import *
 
@@ -69,7 +69,9 @@ async def _(event):
 
 
 CmdHelp("antiflood").add_command(
-    "setflood",
-    "<number>",
-    "Warns the user if he/she spams the chat and if you are an admin then it mutes him/her in the grp",
-).add_info("Anti Spammer").add_warning("✅ Harmless Module.").add()
+    "setflood", "<number>", "Warns the user if he/she spams the chat and if you are an admin then it mutes him/her in the grp"
+).add_info(
+    "Anti Spammer"
+).add_warning(
+    "✅ Harmless Module."
+).add()
