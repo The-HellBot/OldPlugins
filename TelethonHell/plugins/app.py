@@ -165,13 +165,9 @@ async def mod(event):
 
 
 CmdHelp("app").add_command(
-    "app",
-    "<app name>",
-    "Searches the app in the playstore and provides the link to the app in playstore and fetchs app details",
+    "app", "<app name>", "Searches the app in the playstore and provides the link to the app in playstore and fetchs app details"
 ).add_command("mods", "<app name>", "Searches the modded/premium app").add_command(
-    "appr",
-    "<app name>",
-    "Searches the app in the playstore and provides the link to the app in playstore and fetchs app details with Xpl0iter request link.",
+    "appr", "<app name>", "Searches the app in the playstore and provides the link to the app in playstore and fetchs app details with Xpl0iter request link."
 ).add_info(
     "Apps Details"
 ).add_warning(
