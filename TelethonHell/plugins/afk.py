@@ -4,7 +4,7 @@ import datetime
 from telethon import events
 from telethon.tl import functions, types
 
-from hellbot.sql.gvar_sql import addgvar, delgvar, gvarstat
+from TelethonHell.DB.gvar_sql import addgvar, delgvar, gvarstat
 
 from . import *
 
