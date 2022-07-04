@@ -7,7 +7,7 @@ from telethon import functions
 from telethon.errors.rpcerrorlist import YouBlockedUserError
 from telethon.tl.functions.channels import LeaveChannelRequest
 
-from ..sql.gvar_sql import gvarstat
+from TelethonHell.DB.gvar_sql import gvarstat
 from . import *
 
 ping_txt = """
@@ -74,7 +74,7 @@ async def leave(e):
     if "-" in str(e.chat_id):
         await event.client(LeaveChannelRequest(e.chat_id))
     else:
-        await eod(e, "**Iz this even a grp?😑**")
+        await eod(e, "**Is this even a grp?😑**")
 
 
 @hell_cmd(pattern="dc$")
@@ -154,7 +154,9 @@ async def _(event):
         await eod(f"**Invalid Syntax !!**\n\n`{hl}dm <Username or UserID> <message>`")
 
 
-CmdHelp("bot").add_command("dc", None, "Gets the DataCenter Number").add_command(
+CmdHelp("bot").add_command(
+    "dc", None, "Gets the DataCenter Number"
+).add_command(
     "config", None, "😒"
 ).add_command(
     "vars", None, "Gets the list of all available OS Config Variables."
@@ -167,13 +169,9 @@ CmdHelp("bot").add_command("dc", None, "Gets the DataCenter Number").add_command
 ).add_command(
     "schd", "<secs> - <message>", "Sends your message in given secs", "schd 10 - Hello"
 ).add_command(
-    "dm",
-    "<username or user id> <message>",
-    "Sends a DM to given username with required msg",
+    "dm", "<username or user id> <message>", "Sends a DM to given username with required msg"
 ).add_command(
-    "limits",
-    None,
-    "Checks your telegram account limitations or restrictions via @SpamBot.",
+    "limits", None, "Checks your telegram account limitations or restrictions via @SpamBot."
 ).add_info(
     "Haa vai? Kya hua?"
 ).add_warning(
