@@ -4,7 +4,7 @@ from pathlib import Path
 
 from telethon import events
 
-from HellConfig.config import Config
+from HellConfig import Config
 from TelethonHell import bot
 from TelethonHell.clients import H2, H3, H4, H5
 from TelethonHell.helpers import *
