@@ -5,7 +5,7 @@ import sys
 import time
 import traceback
 
-from ..sql.gvar_sql import gvarstat
+from TelethonHell.DB.gvar_sql import gvarstat
 from . import *
 
 
@@ -147,9 +147,7 @@ async def _(event):
 CmdHelp("evaluators").add_command(
     "eval", "<expr>", "Execute a python script", "eval print('Hello World.')"
 ).add_command(
-    "exec",
-    "<command>",
-    "Execute a Terminal command on HellBot server and shows details",
+    "exec", "<command>", "Execute a Terminal command on HellBot server and shows details"
 ).add_command(
     "bash", "<query>", "Bash your codes on linux and gives the output in current chat"
 ).add_info(
