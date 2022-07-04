@@ -2,8 +2,8 @@ import asyncio
 import os
 import re
 
-from hellbot.config import Config
-from hellbot.helpers.pasters import pasty
+from HellConfig.config import Config
+from TelethonHell.helpers.pasters import pasty
 
 
 # either edit or reply that msg
