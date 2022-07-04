@@ -2,24 +2,16 @@ from telethon import Button
 from telethon.tl import functions
 from telethon.tl.types import ChatAdminRights
 
-from hellbot import LOGS
-from hellbot.config import Config
-from hellbot.helpers.int_str import make_int
-from hellbot.sql.gvar_sql import addgvar, gvarstat
+from HellConfig.config import Config
+from TelethonHell import LOGS
+from TelethonHell.helpers.int_str import make_int
+from TelethonHell.DB.gvar_sql import addgvar, gvarstat
+from TelethonHell.version import __telever__
 
 
 # Creates the logger group on first deploy and adds the helper bot
 async def logger_id(client):
     desc = "A Bot Logger Group For Hellbot. DO NOT LEAVE THIS GROUP!!"
-    new_rights = ChatAdminRights(
-        add_admins=True,
-        invite_users=True,
-        change_info=True,
-        ban_users=True,
-        delete_messages=True,
-        pin_messages=True,
-        manage_call=True,
-    )
     try:
         grp = await client(
             functions.channels.CreateChannelRequest(
@@ -27,6 +19,23 @@ async def logger_id(client):
             )
         )
         grp_id = grp.chats[0].id
+    except Exception as e:
+        LOGS.error(f"{str(e)}")
+        return
+    
+    if not str(grp_id).startswith("-100"):
+        grp_id = int("-100" + str(grp_id))
+    
+    try:
+        new_rights = ChatAdminRights(
+            add_admins=True,
+            invite_users=True,
+            change_info=True,
+            ban_users=True,
+            delete_messages=True,
+            pin_messages=True,
+            manage_call=True,
+        )
         grp = await client(functions.messages.ExportChatInviteRequest(peer=grp_id))
         await client(
             functions.channels.InviteToChannelRequest(
@@ -40,8 +49,7 @@ async def logger_id(client):
         )
     except Exception as e:
         LOGS.error(f"{str(e)}")
-    if not str(grp_id).startswith("-100"):
-        grp_id = int("-100" + str(grp_id))
+
     return grp_id
 
 
@@ -74,6 +82,7 @@ async def start_msg(client, pic, version, total):
 <b><i>Version :</b></i> <code>{version}</code>
 <b><i>Clients :</b></i> <code>{str(total)}</code>
 <b><i>Sudo :</b></i> <code>{is_sudo}</code>
+<b><i>Library :</b></i> <code>Telethon - {__telever__}</code>
 
 <b><i>»» <u><a href='https://t.me/Its_HellBot'>†hê Hêllẞø†</a></u> ««</i></b>
 """
