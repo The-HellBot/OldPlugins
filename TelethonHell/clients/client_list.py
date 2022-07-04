@@ -1,7 +1,7 @@
 from telethon.tl.functions.users import GetFullUserRequest
 from telethon.utils import get_peer_id
 
-from hellbot.sql.gvar_sql import gvarstat
+from TelethonHell.DB.gvar_sql import gvarstat
 
 from .session import H2, H3, H4, H5, Hell
 
