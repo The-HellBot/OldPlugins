@@ -8,9 +8,10 @@ from typing import Optional
 import lottie
 from PIL import Image
 
-from .. import LOGS
-from ..config import Config
-from ..utils.extras import edit_or_reply as eor
+from HellConfig.config import Config
+from TelethonHell import LOGS
+from TelethonHell.utils.extras import edit_or_reply as eor
+
 from .progress import *
 from .runner import runcmd
 
