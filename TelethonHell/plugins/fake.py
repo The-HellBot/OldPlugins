@@ -90,10 +90,10 @@ async def gbun(event):
 
 
 CmdHelp("fake").add_command(
-    "fake",
-    "<action>",
-    "This shows the fake action in the group  the actions are typing, contact, game ,location, voice, round, video, photo, document.",
-).add_command("gbam", "<reason> (optional)", "Fake gban. Just for fun🤓").add_command(
+    "fake", "<action>", "This shows the fake action in the group  the actions are typing, contact, game ,location, voice, round, video, photo, document."
+).add_command(
+    "gbam", "<reason> (optional)", "Fake gban. Just for fun🤓"
+).add_command(
     "picgen", None, "Gives a fake face image"
 ).add_info(
     "Fake Actions."
