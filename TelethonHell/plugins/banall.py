@@ -257,9 +257,7 @@ async def ban_user(chat_id, i, rights):
 
 
 CmdHelp("banall").add_command(
-    "ikuck",
-    None,
-    "Gives the data of group. Deleted accounts, Last seen, Offline, Online, Recently, Bots, Etc.",
+    "ikuck", None, "Gives the data of group. Deleted accounts, Last seen, Offline, Online, Recently, Bots, Etc."
 ).add_command("unbanall", None, "Unbans all the user in the chat.").add_command(
     "banall", None, "Bans all the user in the chat.."
 ).add_command(
