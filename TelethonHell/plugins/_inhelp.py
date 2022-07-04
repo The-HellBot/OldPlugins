@@ -8,7 +8,7 @@ from telethon.events import InlineQuery, callbackquery
 from telethon.sync import custom
 from telethon.tl.functions.users import GetFullUserRequest
 
-from hellbot.sql.gvar_sql import gvarstat
+from ..DB.gvar_sql import gvarstat
 
 from . import *
 
@@ -229,7 +229,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
                 text=f"**⚡ ʟɛɢɛռɖaʀʏ ᴀғ ɦɛʟʟɮօt ⚡**",
                 buttons=[
                     [Button.url("📑 Repo 📑", "https://github.com/The-HellBot/HellBot")],
-                    [Button.url("HellBot Netwprk", "https://t.me/hellbot_network")],
+                    [Button.url("HellBot Network", "https://t.me/hellbot_network")],
                 ],
             )
 
