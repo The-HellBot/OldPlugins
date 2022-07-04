@@ -7,7 +7,7 @@ from telethon.errors.rpcerrorlist import YouBlockedUserError
 from telethon.tl import functions
 from telethon.utils import get_input_document
 
-from hellbot import LOGS
+from TelethonHell import LOGS
 
 
 # generate thumbnail from audio...
