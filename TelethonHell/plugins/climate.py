@@ -197,13 +197,11 @@ async def _(event):
 
 
 CmdHelp("climate").add_command(
-    "climate",
-    "Name of state/country",
-    "Gets the weather of a city. By default it is Delhi, change it by setcity",
-).add_command("setcity", "<city>/<country>", "Sets your default city.").add_command(
-    "wttr",
-    "<city>",
-    "Shows you the climate data of 3 days from today in a image format.",
+    "climate", "Name of state/country", "Gets the weather of a city. By default it is Delhi, change it by setcity"
+).add_command(
+    "setcity", "<city>/<country>", "Sets your default city."
+).add_command(
+    "wttr", "<city>", "Shows you the climate data of 3 days from today in a image format."
 ).add_info(
     "Climates And Weathers."
 ).add_warning(
