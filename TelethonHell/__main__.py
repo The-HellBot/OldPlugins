@@ -9,10 +9,9 @@ from TelethonHell.clients.session import H2, H3, H4, H5
 from TelethonHell.utils import (join_it, load_module, 
                                 logger_check, plug_channel, 
                                 start_msg, update_sudo)
-from TelethonHell.version import __hell__ as hellver
+from TelethonHell.version import __hellver__
 
 # Global Variables #
-hl = Config.HANDLER
 HELL_PIC = "https://telegra.ph/file/cb0bd62632a3a2b6b2726.jpg"
 
 
@@ -47,7 +46,7 @@ async def plug_load(path):
 async def hell_is_on(total):
     await update_sudo()
     await logger_check(bot)
-    await start_msg(tbot, HELL_PIC, hellver, total)
+    await start_msg(tbot, HELL_PIC, __hellver__, total)
     await join_it(bot)
     await join_it(H2)
     await join_it(H3)
