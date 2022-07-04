@@ -12,7 +12,7 @@ async def kk(event):
         event.reply_to_msg_id
     cids = await client_id(event)
     ForGo10God, HELL_USER, hell_mention = cids[0], cids[1], cids[2]
-    cmd = "ls hellbot/plugins"
+    cmd = "ls TelethonHell/plugins"
     process = await asyncio.create_subprocess_shell(
         cmd, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
     )
@@ -41,7 +41,7 @@ async def send(event):
     thumb = hell_logo
     input_str = event.pattern_match.group(1)
     omk = f"**• Plugin name ≈** `{input_str}`\n**• Uploaded by ≈** {hell_mention}\n\n⚡ **[ʟɛɢɛռɖaʀʏ ᴀғ ɦɛʟʟɮօt]({chnl_link})** ⚡"
-    the_plugin_file = "./hellbot/plugins/{}.py".format(input_str.lower())
+    the_plugin_file = "./TelethonHell/plugins/{}.py".format(input_str.lower())
     if os.path.exists(the_plugin_file):
         await event.client.send_file(
             event.chat_id,
@@ -69,7 +69,7 @@ async def install(event):
             downloaded_file_name = (
                 await event.client.download_media(  # pylint:disable=E0602
                     await event.get_reply_message(),
-                    "./hellbot/plugins/",  # pylint:disable=E0602
+                    "./TelethonHell/plugins/",  # pylint:disable=E0602
                 )
             )
             if owo != "-f":
@@ -127,7 +127,7 @@ async def uninstall(event):
     if ".py" in shortname:
         shortname = shortname.replace(".py", "")
     hell = await eor(event, f"__Trying to uninstall plugin__ `{shortname}` ...")
-    dir_path = f"./hellbot/plugins/{shortname}.py"
+    dir_path = f"./TelethonHell/plugins/{shortname}.py"
     try:
         remove_plugin(shortname)
         os.remove(dir_path)
@@ -165,23 +165,15 @@ async def load(event):
 
 
 CmdHelp("core").add_command(
-    "install",
-    "<reply to a .py file>",
-    "Installs the replied python file if suitable to Hêllẞø†'s codes.`\n**🚩 Flags :** `-f",
+    "install", "<reply to a .py file>", "Installs the replied python file if suitable to Hêllẞø†'s codes.`\n**🚩 Flags :** `-f"
 ).add_command(
-    "uninstall",
-    "<plugin name>",
-    "Uninstalls the given plugin from Hêllẞø†. To get that again do .restart",
-    "uninstall alive",
+    "uninstall", "<plugin name>", "Uninstalls the given plugin from Hêllẞø†. To get that again do .restart", "uninstall alive"
 ).add_command(
     "load", "<plugin name>", "Loades the unloaded plugin to your userbot", "load alive"
 ).add_command(
     "unload", "<plugin name>", "Unloads the plugin from your userbot", "unload alive"
 ).add_command(
-    "send",
-    "<file name>",
-    "Sends the given file from your userbot server, if any.",
-    "send alive",
+    "send", "<file name>", "Sends the given file from your userbot server, if any.", "send alive"
 ).add_command(
     "cmds", None, "Gives out the list of modules in HellBot."
 ).add_command(
