@@ -7,7 +7,7 @@ from logging import DEBUG, INFO, basicConfig, getLogger
 import heroku3
 
 from TelethonHell.clients.session import H2, H3, H4, H5, Hell, HellBot
-from HellConfig.config import Config
+from HellConfig import Config
 
 
 CONSOLE_LOGGER_VERBOSE = sb(os.environ.get("CONSOLE_LOGGER_VERBOSE", "False"))
