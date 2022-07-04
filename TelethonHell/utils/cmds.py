@@ -1,9 +1,10 @@
+from HellConfig.config import Config
 from .. import CMD_HELP, CMD_HELP_BOT, CMD_INFO
-from ..config import Config
 
 HANDLER = Config.HANDLER
 
-# Made this class for help menu
+
+# Help Menu Builder Class
 class CmdHelp:
     FILE = ""
     ORIGINAL_FILE = ""
@@ -104,14 +105,6 @@ class CmdHelp:
         }
         CMD_HELP[self.FILE] = self.get_result()
         return True
-
-    def getText(self, text: str):
-        if text == "REPLY_OR_USERNAME":
-            return "<user name> <user name/answer >"
-        elif text == "OR":
-            return "or"
-        elif text == "USERNAMES":
-            return "<user name (s)>"
 
 
 # hellbot
