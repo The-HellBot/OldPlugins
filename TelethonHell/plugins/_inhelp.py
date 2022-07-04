@@ -349,6 +349,25 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
         else:
             reply_pop_up_alert = "You are not authorized to use me! \n© Hêllẞø† ™"
             await event.answer(reply_pop_up_alert, cache_time=0, alert=True)
+            
+    @tgbot.on(callbackquery.CallbackQuery(data=compile(b"send_(.+?)")))
+    async def send(event):
+        plugin = event.data.split("_")[1]
+        ForGo10God, HELL_USER, hell_mention = await client_id(event)
+        thumb = hell_logo
+        omk = f"**• Plugin name ≈** `{plugin}`\n**• Uploaded by ≈** {hell_mention}\n\n⚡ **[ʟɛɢɛռɖaʀʏ ᴀғ ɦɛʟʟɮօt]({chnl_link})** ⚡"
+        the_plugin_file = "./TelethonHell/plugins/{}.py".format(plugin.lower())
+        if os.path.exists(the_plugin_file):
+            await event.client.send_file(
+                event.chat_id,
+                the_plugin_file,
+                thumb=thumb,
+                caption=omk,
+                force_document=True,
+                allow_cache=False,
+            )
+        else:
+            await event.answer("Unable to access file!", cache_time=0, alert=True)
 
     @tgbot.on(callbackquery.CallbackQuery(data=compile(b"page\((.+?)\)")))
     async def page(event):
@@ -396,13 +415,8 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
             )
 
         buttons = [buttons[i : i + 2] for i in range(0, len(buttons), 2)]
-        buttons.append(
-            [
-                custom.Button.inline(
-                    f"{hell_emoji} Main Menu {hell_emoji}", data=f"page({page})"
-                )
-            ]
-        )
+        buttons.append([custom.Button.inline(f" Send Plugin ", data=f"send_{commands}")])
+        buttons.append([custom.Button.inline(f"{hell_emoji} Main Menu {hell_emoji}", data=f"page({page})")])
         if event.query.user_id in auth:
             await event.edit(
                 f"**📗 File :**  `{commands}`\n**🔢 Number of commands :**  `{len(CMD_HELP_BOT[commands]['commands'])}`",
