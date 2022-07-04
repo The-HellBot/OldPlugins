@@ -244,7 +244,9 @@ async def claptext(memereview):
 
 CmdHelp("fun").add_command(
     "insult", None, "Sends some random insulting lines"
-).add_command("piro", None, "Sends some random lines for 'piro' guys").add_command(
+).add_command(
+    "piro", None, "Sends some random lines for 'piro' guys"
+).add_command(
     "gey", None, "Sends some random lines for geys (°^°)"
 ).add_command(
     "abuse", None, "Abuse the cunts"
