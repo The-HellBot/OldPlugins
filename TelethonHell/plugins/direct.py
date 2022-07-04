@@ -341,7 +341,11 @@ def useragent():
 
 
 CmdHelp("direct").add_command(
-    "direct",
-    "link",
-    "Reply to a link or paste a URL to generate a direct download link.\nList of supported URLs:-\n• Google Drive\n•Cloud mail\n• Yandex.Disk\n• AFH\n• Zippy Share\n• Media fire\n• SourceForge\n• OSDN\n• Github",
-).add_info("Direct Links").add_warning("✅ Harmless Module.").add()
+    "direct", "link", "Reply to a link or paste a URL to generate a direct download link."
+).add_extra(
+    "List of supported URLs", "• Google Drive\n•Cloud mail\n• Yandex.Disk\n• AFH\n• Zippy Share\n• Media fire\n• SourceForge\n• OSDN\n• Github"
+).add_info(
+    "Direct Links"
+).add_warning(
+    "✅ Harmless Module."
+).add()
