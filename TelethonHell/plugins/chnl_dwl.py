@@ -60,14 +60,9 @@ async def get_media(event):
 
 
 CmdHelp("chnl_dwl").add_command(
-    "geta",
-    "channel username",
-    "will download all media from channel into your bot server but there is limit of 3000 to prevent API limits.",
+    "geta", "channel username", "will download all media from channel into your bot server but there is limit of 3000 to prevent API limits.",
 ).add_command(
-    "getc",
-    "<limit> <channel username>",
-    "will download latest given number of media from channel into your bot server",
-    "getc 1000 @Its_HellBot",
+    "getc", "<limit> <channel username>", "will download latest given number of media from channel into your bot server", "getc 1000 @Its_HellBot",
 ).add_info(
     "Channel Media Download"
 ).add_warning(
