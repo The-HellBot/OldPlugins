@@ -215,10 +215,10 @@ async def _(event):
 
 CmdHelp("execmod").add_command(
     "pips", "<query>", "Gives the result of your query"
-).add_command("suicide", None, "Suicide").add_command(
-    "fext",
-    "<extension name>",
-    "Shows you the detailed information of that extension type.",
+).add_command(
+    "suicide", None, "Suicide"
+).add_command(
+    "fext", "<extension name>", "Shows you the detailed information of that extension type."
 ).add_command(
     "date", None, "Shows current date and time"
 ).add_command(
