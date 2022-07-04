@@ -106,7 +106,9 @@ async def _(event):
 
 
 CmdHelp("adultzone").add_command(
-    "nekos",
-    "<category>",
-    "Searches and sends some SFW & NSFW neko images/gifs according to category mentioned or sends a random NSFW/SFW image/gif.",
-).add_info("Some NSFW Content.").add_warning("🔞 NSFW content.").add()
+    "nekos", "<category>", "Searches and sends some SFW & NSFW neko images/gifs according to category mentioned or sends a random NSFW/SFW image/gif."
+).add_info(
+    "Some NSFW Content."
+).add_warning(
+    "🔞 NSFW"
+).add()
