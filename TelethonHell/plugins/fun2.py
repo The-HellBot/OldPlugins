@@ -263,9 +263,13 @@ async def hmm(hell):
     await eor(hell, facthell)
 
 
-CmdHelp("fun2").add_command("join", None, "Use and see").add_command(
+CmdHelp("fun2").add_command(
+    "join", None, "Use and see"
+).add_command(
     "bf", None, "Use and see"
-).add_command("push", None, "Use and see").add_command(
+).add_command(
+    "push", None, "Use and see"
+).add_command(
     "lovestory", None, "Use and see"
 ).add_command(
     "session", None, "Use and see"
