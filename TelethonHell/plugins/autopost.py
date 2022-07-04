@@ -1,6 +1,5 @@
-from hellbot.sql.autopost_sql import (add_post, get_all_post, is_post,
-                                      remove_post)
-from hellbot.sql.gvar_sql import addgvar, delgvar, gvarstat
+from TelethonHell.DB.autopost_sql import add_post, get_all_post, is_post, remove_post
+from TelethonHell.DB.gvar_sql import addgvar, delgvar, gvarstat
 
 from . import *
 
@@ -94,10 +93,7 @@ async def _(event):
 
 
 CmdHelp("autopost").add_command(
-    "autopost",
-    "<channel id>",
-    "Auto Posts every new post from targeted channel to your channel.",
-    "autopost <channelid> [in your channel]",
+    "autopost", "<channel id>", "Auto Posts every new post from targeted channel to your channel.", "autopost <channelid> [in your channel]"
 ).add_command(
     "rmautopost", "<channel id>", "Stops AutoPost from targeted autoposting channel."
 ).add_info(
