@@ -1,9 +1,4 @@
 import os
-
-try:
-    pass
-except:
-    os.system("pip install colour")
 import requests
 from PIL import Image
 from validators.url import url
