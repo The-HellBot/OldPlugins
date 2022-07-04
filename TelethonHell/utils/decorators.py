@@ -4,10 +4,10 @@ from pathlib import Path
 
 from telethon import events
 
-from hellbot import bot
-from hellbot.clients import H2, H3, H4, H5
-from hellbot.config import Config
-from hellbot.helpers import *
+from HellConfig.config import Config
+from TelethonHell import bot
+from TelethonHell.clients import H2, H3, H4, H5
+from TelethonHell.helpers import *
 
 
 # admin cmd or normal user cmd
