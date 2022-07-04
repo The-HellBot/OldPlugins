@@ -3,8 +3,8 @@ from telethon.tl.functions.channels import GetParticipantRequest
 from telethon.tl.types import (ChannelParticipantAdmin,
                                ChannelParticipantCreator)
 
-from hellbot import *
-from hellbot.helpers import *
+from TelethonHell import *
+from TelethonHell.helpers import *
 
 
 # just a small shit for big works
@@ -21,9 +21,7 @@ async def is_admin(client, chat_id, user_id):
     try:
         hellboy = await client(GetParticipantRequest(channel=chat_id, user_id=user_id))
         chat_participant = hellboy.participant
-        if isinstance(
-            chat_participant, (ChannelParticipantCreator, ChannelParticipantAdmin)
-        ):
+        if isinstance(chat_participant, (ChannelParticipantCreator, ChannelParticipantAdmin)):
             return True
     except Exception:
         return False
