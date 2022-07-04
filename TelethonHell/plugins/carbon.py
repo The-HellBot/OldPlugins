@@ -534,7 +534,9 @@ async def carbon_api(e):
 
 CmdHelp("carbon").add_command(
     "carbon", "<your text>", "Carbonize your text. (Fixed style)"
-).add_command("krb", "<your text>", "Carbonize your text.(Random Style)").add_command(
+).add_command(
+    "krb", "<your text>", "Carbonize your text.(Random Style)"
+).add_command(
     "kar1", "<your text>", "Carbonize your text.(Fixed style)"
 ).add_command(
     "kar2", "<your text>", "Carbonize your text.(Fixed style)"
