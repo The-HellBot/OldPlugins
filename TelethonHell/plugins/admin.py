@@ -1,18 +1,14 @@
 from asyncio import sleep
 
-from telethon.errors import (BadRequestError, ImageProcessFailedError,
-                             PhotoCropSizeSmallError)
-from telethon.errors.rpcerrorlist import (UserAdminInvalidError,
-                                          UserIdInvalidError)
-from telethon.tl.functions.channels import (EditAdminRequest,
-                                            EditBannedRequest,
-                                            EditPhotoRequest)
+from telethon.errors import BadRequestError, ImageProcessFailedError, PhotoCropSizeSmallError
+from telethon.errors.rpcerrorlist import UserAdminInvalidError, UserIdInvalidError
+from telethon.tl.functions.channels import EditAdminRequest, EditBannedRequest, EditPhotoRequest
 from telethon.tl.functions.users import GetFullUserRequest
 from telethon.tl.types import (ChannelParticipantsAdmins, ChatAdminRights,
                                ChatBannedRights, MessageEntityMentionName,
                                MessageMediaPhoto)
 
-from hellbot.sql.mute_sql import is_muted, mute, unmute
+from TelethonHell.DB.mute_sql import is_muted, mute, unmute
 
 from . import *
 
@@ -50,7 +46,6 @@ UNBAN_RIGHTS = ChatBannedRights(
     send_inline=None,
     embed_links=None,
 )
-
 
 MUTE_RIGHTS = ChatBannedRights(until_date=None, send_messages=True)
 UNMUTE_RIGHTS = ChatBannedRights(until_date=None, send_messages=False)
@@ -666,9 +661,7 @@ async def get_user_from_id(user, event):
 CmdHelp("admins").add_command(
     "setgpic", "<reply to image>", "Changes the groups display picture"
 ).add_command(
-    "promote",
-    "<username/reply> <custom rank (optional)>",
-    "Provides admins right to a person in the chat.",
+    "promote", "<username/reply> <custom rank (optional)>", "Provides admins right to a person in the chat."
 ).add_command(
     "demote", "<username/reply>", "Revokes the person admin permissions in the chat."
 ).add_command(
@@ -676,20 +669,13 @@ CmdHelp("admins").add_command(
 ).add_command(
     "unban", "<username/reply>", "Removes the ban from the person in the chat."
 ).add_command(
-    "mute",
-    "<reply>/<userid or username>",
-    "Mutes mentioned user in current PM/Group. Mutes non-admins by restricting their rights and mutes admins by deleting their new messages.",
+    "mute", "<reply>/<userid or username>", "Mutes mentioned user in current PM/Group. Mutes non-admins by restricting their rights and mutes admins by deleting their new messages."
 ).add_command(
-    "unmute",
-    "<reply>/<userid or username>",
-    "Unmutes the person muted in that PM/Group.",
+    "unmute", "<reply>/<userid or username>", "Unmutes the person muted in that PM/Group."
 ).add_command(
     "pin", "<reply> loud", "Pins the replied message in Group", "pin loud"
 ).add_command(
-    "unpin",
-    "<reply> or 'all'",
-    "Unpins the replied message or unpins all pinned messages.",
-    "unpin all/<reply>",
+    "unpin", "<reply> or 'all'", "Unpins the replied message or unpins all pinned messages.", "unpin all/<reply>"
 ).add_command(
     "kick", "<username/reply>", "kick the person off your chat"
 ).add_command(
