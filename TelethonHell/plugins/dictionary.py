@@ -48,4 +48,8 @@ async def _(event):
 
 CmdHelp("dictionary").add_command(
     "ud", "query", "Fetches meaning of given word from Urban Dictionary."
-).add_info("Dictionary 📕").add_warning("✅ Harmless Module.").add()
+).add_info(
+    "Dictionary 📕"
+).add_warning(
+    "✅ Harmless Module."
+).add()
