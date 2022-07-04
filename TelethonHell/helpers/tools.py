@@ -1,6 +1,6 @@
 import functools
 
-from hellbot import bot
+from TelethonHell import bot
 
 
 # forward check
