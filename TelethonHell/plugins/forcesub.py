@@ -4,7 +4,7 @@ from telethon.tl.functions.channels import GetParticipantRequest
 from telethon.tl.functions.messages import ExportChatInviteRequest
 from telethon.tl.functions.users import GetFullUserRequest
 
-from hellbot.sql.fsub_sql import *
+from TelethonHell.DB.fsub_sql import *
 
 from . import *
 
@@ -175,7 +175,9 @@ async def _(event):
 
 CmdHelp("forcesub").add_command(
     "fsub", "<channel username/id>", "Activates Force Subscribe In The Chat"
-).add_command("rmfsub", None, "Removes the chat from Force Subscribe").add_command(
+).add_command(
+    "rmfsub", None, "Removes the chat from Force Subscribe"
+).add_command(
     "chfsub", None, "Checks for the Status of Force Subscribe In The Chat."
 ).add_command(
     "lsfsub", None, "Gives the list of all chats with force subscribe enabled."
