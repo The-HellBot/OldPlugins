@@ -3,8 +3,8 @@ import asyncio
 from telethon import events
 from telethon.utils import get_peer_id
 
-from hellbot.sql.echo_sql import addecho, get_all_echos, is_echo, remove_echo
-from hellbot.sql.gvar_sql import addgvar, gvarstat
+from TelethonHell.DB.echo_sql import addecho, get_all_echos, is_echo, remove_echo
+from TelethonHell.DB.gvar_sql import addgvar, gvarstat
 
 from . import *
 
@@ -71,7 +71,6 @@ async def samereply(event):
 
 
 if H2:
-
     @H2.on(events.NewMessage(incoming=True))
     async def samereply(event):
         if event.chat_id in Config.BL_CHAT:
@@ -86,7 +85,6 @@ if H2:
 
 
 if H3:
-
     @H3.on(events.NewMessage(incoming=True))
     async def samereply(event):
         if event.chat_id in Config.BL_CHAT:
@@ -101,7 +99,6 @@ if H3:
 
 
 if H4:
-
     @H4.on(events.NewMessage(incoming=True))
     async def samereply(event):
         if event.chat_id in Config.BL_CHAT:
@@ -116,7 +113,6 @@ if H4:
 
 
 if H5:
-
     @H5.on(events.NewMessage(incoming=True))
     async def samereply(event):
         if event.chat_id in Config.BL_CHAT:
