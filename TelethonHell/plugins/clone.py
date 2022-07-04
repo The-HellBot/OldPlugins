@@ -5,7 +5,7 @@ from telethon.tl import functions
 from telethon.tl.functions.users import GetFullUserRequest
 from telethon.tl.types import MessageEntityMentionName
 
-from hellbot.sql.gvar_sql import addgvar, gvarstat
+from TelethonHell.DB.gvar_sql import addgvar, gvarstat
 
 from . import *
 
@@ -125,13 +125,11 @@ async def get_full_user(event):
 CmdHelp("clone").add_command(
     "clone", "username/reply to user", "Steals others profile including dp, name, bio."
 ).add_command(
-    "revert",
-    None,
-    "To get back to your profile but it will show ALIVE_NAME instead of your current name and DEFAULT_BIO instead of your current bio",
+    "revert", None, "To get back to your profile but it will show ALIVE_NAME instead of your current name and DEFAULT_BIO instead of your current bio"
 ).add_extra(
     "📌 Note", "You need to setup YOUR_NAME and BIO_MSG to use this command properly."
 ).add_info(
-    "Cloner."
+    "Clone & Revert"
 ).add_warning(
     "✅ Harmless Module."
 ).add()
