@@ -180,32 +180,17 @@ async def quote(event):
 
 
 CmdHelp("anime").add_command(
-    "anime",
-    "<anime name>",
-    "Searches for the given anime and sends the details.",
-    "anime Darling in the franxx",
+    "anime", "<anime name>", "Searches for the given anime and sends the details.", "anime Darling in the franxx"
 ).add_command(
-    "manga",
-    "<manga name>",
-    "Searches for the given manga and sends the details.",
-    "manga Jujutsu kaisen",
+    "manga", "<manga name>", "Searches for the given manga and sends the details.", "manga Jujutsu kaisen"
 ).add_command(
-    "character",
-    "<character name>",
-    "Searches for the given anime character and sends the details.",
-    "character Mai Sakurajima",
+    "character", "<character name>", "Searches for the given anime character and sends the details.", "character Mai Sakurajima"
 ).add_command(
-    "aniuser",
-    "<anilist username>",
-    "Searches for the Anilist Stats of the given user.",
-    "aniuser meizhellboy",
+    "aniuser", "<anilist username>", "Searches for the Anilist Stats of the given user.", "aniuser meizhellboy"
 ).add_command(
     "airing", "<anime name>", "Searches for the airing info of given anime."
 ).add_command(
-    "fillers",
-    "<anime name>",
-    "Searches for the filler episodes of given Anime.",
-    "fillers Naruto",
+    "fillers", "<anime name>", "Searches for the filler episodes of given Anime.", "fillers Naruto"
 ).add_command(
     "aniquote", None, "Gives a random quote from Anime."
 ).add_info(
