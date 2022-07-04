@@ -94,7 +94,9 @@ async def _(event):
 
 CmdHelp("federation").add_command(
     "newfed", "<newfed name>", "Makes a federation of Rose bot"
-).add_command("renamefed", "<new name>", "Renames the fed of Rose Bot").add_command(
+).add_command(
+    "renamefed", "<new name>", "Renames the fed of Rose Bot"
+).add_command(
     "fstat", "<username/id>", "Gets the fban stats of the user from rose bot federation"
 ).add_command(
     "fedinfo", "<fed id>", "Gives details of the given fed id"
