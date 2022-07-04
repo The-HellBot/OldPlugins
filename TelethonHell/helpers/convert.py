@@ -8,7 +8,7 @@ from typing import Optional
 import lottie
 from PIL import Image
 
-from HellConfig.config import Config
+from HellConfig import Config
 from TelethonHell import LOGS
 from TelethonHell.utils.extras import edit_or_reply as eor
 
