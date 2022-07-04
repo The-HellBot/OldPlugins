@@ -4,7 +4,7 @@ from telethon import TelegramClient
 from telethon.network.connection.tcpabridged import ConnectionTcpAbridged
 from telethon.sessions import StringSession
 
-from HellConfig.config import Config
+from HellConfig import Config
 
 if Config.HELLBOT_SESSION:
     session = StringSession(str(Config.HELLBOT_SESSION))
