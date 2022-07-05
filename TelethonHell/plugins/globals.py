@@ -4,9 +4,9 @@ from telethon import events
 from telethon.tl.functions.channels import EditAdminRequest
 from telethon.tl.types import ChatAdminRights, MessageEntityMentionName
 
-from hellbot.sql import gmute_sql as gsql
-from hellbot.sql.gban_sql import all_gbanned, gbaner, is_gbanned, ungbaner
-from hellbot.sql.gvar_sql import gvarstat
+from TelethonHell.DB import gmute_sql as gsql
+from TelethonHell.DB.gban_sql import all_gbanned, gbaner, is_gbanned, ungbaner
+from TelethonHell.DB.gvar_sql import gvarstat
 
 from . import *
 
@@ -536,9 +536,7 @@ async def watcher(event):
 
 
 CmdHelp("globals").add_command(
-    "gban",
-    "<reply>/<userid>",
-    "Globally Bans the mentioned user in 'X' chats you are admin with ban permission.",
+    "gban", "<reply>/<userid>", "Globally Bans the mentioned user in 'X' chats you are admin with ban permission."
 ).add_command(
     "ungban", "<reply>/<userid>", "Globally Unbans the user in 'X' chats you are admin!"
 ).add_command(
@@ -550,13 +548,9 @@ CmdHelp("globals").add_command(
 ).add_command(
     "ungmute", "<reply> or <userid>", "Globally Unmutes the gmutes user."
 ).add_command(
-    "gpro",
-    "<reply> or <username>",
-    "Globally Promotes the mentioned user in all the chats you are admin with Add Admins permission.",
+    "gpro", "<reply> or <username>", "Globally Promotes the mentioned user in all the chats you are admin with Add Admins permission."
 ).add_command(
-    "gdem",
-    "<reply> or <username>",
-    "Globally Demotes the mentioned user in all the chats you have rights to demoted that user.",
+    "gdem", "<reply> or <username>", "Globally Demotes the mentioned user in all the chats you have rights to demoted that user."
 ).add_info(
     "Global Admin Tool."
 ).add_warning(
