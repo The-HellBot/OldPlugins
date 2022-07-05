@@ -126,10 +126,7 @@ Profile Created: {}""".format(
 
 
 CmdHelp("github").add_command(
-    "commit",
-    "<reply to a file> <path>|<branch>",
-    "Uploads the file on github repo as provided in Heroku Config GIT_REPO_NAME. In short makes a commit to git repo from Userbot",
-    "commit ./hellbot/plugins/example.py|master",
+    "commit", "<reply to a file> <path>|<branch>", "Uploads the file on github repo as provided in Heroku Config GIT_REPO_NAME. In short makes a commit to git repo from Userbot", "commit ./hellbot/plugins/example.py|master"
 ).add_command(
     "github", "<git username>", "Fetches the details of the given git username"
 ).add_info(
