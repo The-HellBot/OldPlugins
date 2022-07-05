@@ -79,10 +79,11 @@ async def _(event):
 # This is a bad way. but works just fine (*﹏*;)
 
 CmdHelp("gcast").add_command(
-    "gcast",
-    "<text/reply> <flag>",
-    "Globally Broadcast the replied or given message based on flag given.",
-    f"gcast Hello -all / {hl}gcast Hello -grp / {hl}gcast Hello -pvt",
-).add_info("Global Broadcast.").add_extra("🚩 Flags", "-all, -pvt, -grp").add_warning(
+    "gcast", "<text/reply> <flag>", "Globally Broadcast the replied or given message based on flag given.", f"gcast Hello -all / {hl}gcast Hello -grp / {hl}gcast Hello -pvt"
+).add_info(
+    "Global Broadcast."
+).add_extra(
+    "🚩 Flags", "-all, -pvt, -grp"
+).add_warning(
     "✅ Harmless Module."
 ).add()
