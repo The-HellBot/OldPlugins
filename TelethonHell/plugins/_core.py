@@ -159,9 +159,7 @@ async def load(event):
         load_module(shortname)
         await event.edit(f"Successfully loaded `{shortname}`")
     except Exception as e:
-        await event.edit(
-            f"Sorry, could not load {shortname} because of the following error.\n{str(e)}"
-        )
+        await event.edit(f"Sorry, could not load {shortname} because of the following error.\n{str(e)}")
 
 
 CmdHelp("core").add_command(
