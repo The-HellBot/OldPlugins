@@ -357,11 +357,13 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
         thumb = hell_logo
         omk = f"**• Plugin name ≈** `{plugin}`\n**• Uploaded by ≈** {hell_mention}\n\n⚡ **[ʟɛɢɛռɖaʀʏ ᴀғ ɦɛʟʟɮօt]({chnl_link})** ⚡"
         the_plugin_file = "./TelethonHell/plugins/{}.py".format(plugin.lower())
+        butt = custom.Button.inline(f"{hell_emoji} Main Menu {hell_emoji}", data="reopen")
         if os.path.exists(the_plugin_file):
             await event.edit(
                 file=the_plugin_file,
                 thumb=thumb,
                 text=omk,
+                buttons=butt,
             )
         else:
             await event.answer("Unable to access file!", cache_time=0, alert=True)
