@@ -7,7 +7,6 @@ from logging import DEBUG, INFO, basicConfig, getLogger
 import heroku3
 
 from TelethonHell.clients.session import H2, H3, H4, H5, Hell, HellBot
-from TelethonHell.utils.extras import edit_or_reply as eor
 from HellConfig import Config
 
 
@@ -56,21 +55,6 @@ try:
         HEROKU_APP = None
 except Exception:
     HEROKU_APP = None
-
-Heroku = heroku3.from_key(Config.HEROKU_API_KEY)
-
-async def restart(event):
-    if Config.HEROKU_APP_NAME and Config.HEROKU_API_KEY:
-        try:
-            Heroku
-        except BaseException:
-            return await eor(event, "`HEROKU_API_KEY` is wrong. Re-Check in config vars.")
-        await eor(event, f"✅ **Restarted Dynos** \n**Type** `{hl}ping` **after 1 minute to check if I am working !**")
-        app = Heroku.apps()[HEROKU_APP_NAME]
-        app.restart()
-    else:
-        await eor(event, f"✅ **Restarted Hêllẞø†** \n**Type** `{hl}ping` **after 1 minute to check if I am working !**")
-        await event.client.disconnect()
 
     
 # Immportant Global Variables #
