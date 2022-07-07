@@ -7,6 +7,7 @@ from logging import DEBUG, INFO, basicConfig, getLogger
 import heroku3
 
 from TelethonHell.clients.session import H2, H3, H4, H5, Hell, HellBot
+from TelethonHell.utils.extras import edit_or_reply as eor
 from HellConfig import Config
 
 
