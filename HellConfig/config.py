@@ -32,7 +32,7 @@ class Config(object):
     if GBAN_LOG_GROUP:
         GBAN_LOG_GROUP = int(GBAN_LOG_GROUP)
     GDRIVE_FOLDER_ID = os.environ.get("GDRIVE_FOLDER_ID", None)
-    GIT_REPO_NAME = os.environ.get("GIT_REPO_NAME", None)
+    GIT_REPO_NAME = os.environ.get("GIT_REPO", None)
     GITHUB_ACCESS_TOKEN = os.environ.get("GITHUB_ACCESS_TOKEN", None)
     GOOGLE_CHROME_BIN = os.environ.get("GOOGLE_CHROME_BIN", "/app/.apt/usr/bin/google-chrome")
     HANDLER = os.environ.get("HANDLER", ".")
