@@ -429,7 +429,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
             )
 
         buttons = [buttons[i : i + 2] for i in range(0, len(buttons), 2)]
-        buttons.append([custom.Button.inline(f" Send Plugin ", data=f"send({commands})")])
+        buttons.append([custom.Button.inline(f"📎 Send Plugin 📎", data=f"send({commands})")])
         buttons.append([custom.Button.inline(f"{hell_emoji} Main Menu {hell_emoji}", data=f"page({page})")])
         if event.query.user_id in auth:
             await event.edit(
