@@ -8,8 +8,8 @@ jobs:
       - name: Find and Replace
         uses: jacobtomlinson/gha-find-replace@master
         with:
-          find: "from hellbot.sql"
-          replace: "from TelethonHell.DB"
+          find: "TelethonHell.sql"
+          replace: "TelethonHell.DB"
       - name: Pull All Updates
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
