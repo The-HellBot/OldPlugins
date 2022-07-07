@@ -658,7 +658,7 @@ async def get_user_from_id(user, event):
     return user_obj
 
 
-CmdHelp("admins").add_command(
+CmdHelp("admin").add_command(
     "setgpic", "<reply to image>", "Changes the groups display picture"
 ).add_command(
     "promote", "<username/reply> <custom rank (optional)>", "Provides admins right to a person in the chat."

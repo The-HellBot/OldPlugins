@@ -323,11 +323,26 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
             for x in CMD_LIST.values():
                 for y in x:
                     apn.append(y)
-            await event.edit(
-                f"🔰 **{hell_mention}**\n\n📜 __No.of Plugins__ : `{len(CMD_HELP)}` \n🗂️ __Commands__ : `{len(apn)}`\n🗒️ __Page__ : 1/{veriler[0]}",
-                buttons=simp[1],
-                link_preview=False,
-            )
+            a = gvarstat("HELP_PIC")
+            if a:
+                help_pic = a.split(" ")[0]
+            else:
+                help_pic = "https://telegra.ph/file/3a48c5756d2a9763eafaf.jpg"
+
+            if help_pic == "DISABLE":
+                await event.edit(
+                    text=f"🔰 **{hell_mention}**\n\n📜 __No.of Plugins__ : `{len(CMD_HELP)}` \n🗂️ __Commands__ : `{len(apn)}`\n🗒️ __Page__ : 1/{veriler[0]}",
+                    buttons=simp[1],
+                    link_preview=False,
+                    file=None,
+                )
+            else:
+                await event.edit(
+                    text=f"🔰 **{hell_mention}**\n\n📜 __No.of Plugins__ : `{len(CMD_HELP)}` \n🗂️ __Commands__ : `{len(apn)}`\n🗒️ __Page__ : 1/{veriler[0]}",
+                    buttons=simp[1],
+                    link_preview=False,
+                    file=help_pic,
+                )
         else:
             reply_pop_up_alert = "You are not authorized to use me! \n© Hêllẞø† ™"
             await event.answer(reply_pop_up_alert, cache_time=0, alert=True)
@@ -353,18 +368,17 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
     @tgbot.on(callbackquery.CallbackQuery(data=compile(b"send\((.+?)\)")))
     async def send(event):
         plugin = event.data_match.group(1).decode("UTF-8")
-        ForGo10God, HELL_USER, hell_mention = await client_id(event)
+        ForGo10God, HELL_USER, hell_mention = await client_id(event, event.query.user_id)
         thumb = hell_logo
         omk = f"**• Plugin name ≈** `{plugin}`\n**• Uploaded by ≈** {hell_mention}\n\n⚡ **[ʟɛɢɛռɖaʀʏ ᴀғ ɦɛʟʟɮօt]({chnl_link})** ⚡"
         the_plugin_file = "./TelethonHell/plugins/{}.py".format(plugin.lower())
+        butt = custom.Button.inline(f"{hell_emoji} Main Menu {hell_emoji}", data="reopen")
         if os.path.exists(the_plugin_file):
-            await event.client.send_file(
-                event.chat_id,
-                the_plugin_file,
+            await event.edit(
+                file=the_plugin_file,
                 thumb=thumb,
-                caption=omk,
-                force_document=True,
-                allow_cache=False,
+                text=omk,
+                buttons=butt,
             )
         else:
             await event.answer("Unable to access file!", cache_time=0, alert=True)
@@ -415,7 +429,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
             )
 
         buttons = [buttons[i : i + 2] for i in range(0, len(buttons), 2)]
-        buttons.append([custom.Button.inline(f" Send Plugin ", data=f"send({commands})")])
+        buttons.append([custom.Button.inline(f"📎 Send Plugin 📎", data=f"send({commands})")])
         buttons.append([custom.Button.inline(f"{hell_emoji} Main Menu {hell_emoji}", data=f"page({page})")])
         if event.query.user_id in auth:
             await event.edit(

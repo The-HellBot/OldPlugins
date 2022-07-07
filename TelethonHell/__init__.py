@@ -56,6 +56,7 @@ try:
 except Exception:
     HEROKU_APP = None
 
+    
 # Immportant Global Variables #
 CMD_LIST = {}
 CMD_HELP = {}
