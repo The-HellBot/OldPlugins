@@ -353,12 +353,12 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
     @tgbot.on(callbackquery.CallbackQuery(data=compile(b"send\((.+?)\)")))
     async def send(event):
         plugin = event.data_match.group(1).decode("UTF-8")
-        ForGo10God, HELL_USER, hell_mention = await client_id(event)
+        ForGo10God, HELL_USER, hell_mention = await client_id(event, event.query.user_id)
         thumb = hell_logo
         omk = f"**• Plugin name ≈** `{plugin}`\n**• Uploaded by ≈** {hell_mention}\n\n⚡ **[ʟɛɢɛռɖaʀʏ ᴀғ ɦɛʟʟɮօt]({chnl_link})** ⚡"
         the_plugin_file = "./TelethonHell/plugins/{}.py".format(plugin.lower())
         if os.path.exists(the_plugin_file):
-            await event.client.send_file(
+            await event.query.send_file(
                 event.chat_id,
                 the_plugin_file,
                 thumb=thumb,
