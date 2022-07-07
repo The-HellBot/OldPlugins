@@ -361,7 +361,7 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
             await event.edit(
                 file=the_plugin_file,
                 thumb=thumb,
-                caption=omk,
+                text=omk,
             )
         else:
             await event.answer("Unable to access file!", cache_time=0, alert=True)
