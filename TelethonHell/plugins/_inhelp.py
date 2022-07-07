@@ -358,9 +358,8 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
         omk = f"**• Plugin name ≈** `{plugin}`\n**• Uploaded by ≈** {hell_mention}\n\n⚡ **[ʟɛɢɛռɖaʀʏ ᴀғ ɦɛʟʟɮօt]({chnl_link})** ⚡"
         the_plugin_file = "./TelethonHell/plugins/{}.py".format(plugin.lower())
         if os.path.exists(the_plugin_file):
-            await event.query.send_file(
-                event.chat_id,
-                the_plugin_file,
+            await event.query.reply(
+                file=the_plugin_file,
                 thumb=thumb,
                 caption=omk,
                 force_document=True,
