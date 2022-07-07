@@ -323,11 +323,26 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
             for x in CMD_LIST.values():
                 for y in x:
                     apn.append(y)
-            await event.edit(
-                f"🔰 **{hell_mention}**\n\n📜 __No.of Plugins__ : `{len(CMD_HELP)}` \n🗂️ __Commands__ : `{len(apn)}`\n🗒️ __Page__ : 1/{veriler[0]}",
-                buttons=simp[1],
-                link_preview=False,
-            )
+            a = gvarstat("HELP_PIC")
+            if a:
+                help_pic = a.split(" ")[0]
+            else:
+                help_pic = "https://telegra.ph/file/3a48c5756d2a9763eafaf.jpg"
+
+            if help_pic == "DISABLE":
+                await event.edit(
+                    text=f"🔰 **{hell_mention}**\n\n📜 __No.of Plugins__ : `{len(CMD_HELP)}` \n🗂️ __Commands__ : `{len(apn)}`\n🗒️ __Page__ : 1/{veriler[0]}",
+                    buttons=simp[1],
+                    link_preview=False,
+                    file=None,
+                )
+            else:
+                await event.edit(
+                    text=f"🔰 **{hell_mention}**\n\n📜 __No.of Plugins__ : `{len(CMD_HELP)}` \n🗂️ __Commands__ : `{len(apn)}`\n🗒️ __Page__ : 1/{veriler[0]}",
+                    buttons=simp[1],
+                    link_preview=False,
+                    file=help_pic,
+                )
         else:
             reply_pop_up_alert = "You are not authorized to use me! \n© Hêllẞø† ™"
             await event.answer(reply_pop_up_alert, cache_time=0, alert=True)
