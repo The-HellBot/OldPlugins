@@ -8,7 +8,7 @@ import heroku3
 import requests
 import urllib3
 
-from ..sql.gvar_sql import addgvar, delgvar, gvarstat
+from TelethonHell.DB.gvar_sql import addgvar, delgvar, gvarstat
 from . import *
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -24,20 +24,12 @@ async def restart(event):
         try:
             Heroku
         except BaseException:
-            return await eor(
-                event, "`HEROKU_API_KEY` is wrong. Re-Check in config vars."
-            )
-        await eor(
-            event,
-            f"✅ **Restarted Dynos** \n**Type** `{hl}ping` **after 1 minute to check if I am working !**",
-        )
+            return await eor(event, "`HEROKU_API_KEY` is wrong. Re-Check in config vars.")
+        await eor(event, f"✅ **Restarted Dynos** \n**Type** `{hl}ping` **after 1 minute to check if I am working !**")
         app = Heroku.apps()[HEROKU_APP_NAME]
         app.restart()
     else:
-        await eor(
-            event,
-            f"✅ **Restarted Hêllẞø†** \n**Type** `{hl}ping` **after 1 minute to check if I am working !**",
-        )
+        await eor(event, f"✅ **Restarted Hêllẞø†** \n**Type** `{hl}ping` **after 1 minute to check if I am working !**")
         await event.client.disconnect()
 
 
@@ -62,9 +54,7 @@ async def rel(event):
 async def down(hell):
     event = await eor(hell, "`Turing Off Hêllẞø†...`")
     await asyncio.sleep(2)
-    await event.edit(
-        "**[ ⚠️ ]** \n**Hêllẞø† is now turned off. Manually turn it on to start again.**"
-    )
+    await event.edit("**[ ⚠️ ]** \n**Hêllẞø† is now turned off. Manually turn it on to start again.**")
     if HEROKU_APP is not None:
         HEROKU_APP.process_formation()["worker"].scale(0)
     else:
@@ -362,32 +352,17 @@ def prettyjson(obj, indent=2, maxlinelength=80):
 
 
 CmdHelp("power").add_command(
-    "restart",
-    None,
-    "Restarts your userbot. Redtarting Bot may result in better functioning of bot when its laggy",
+    "restart", None, "Restarts your userbot. Redtarting Bot may result in better functioning of bot when its laggy"
 ).add_command(
-    "reload",
-    None,
-    "Reloads the bot DB and SQL variables without deleting any external plugins if installed.",
+    "reload", None, "Reloads the bot DB and SQL variables without deleting any external plugins if installed."
 ).add_command(
-    "shutdown",
-    None,
-    "Turns off Hêllẞø†. Userbot will stop working unless you manually turn it on.",
+    "shutdown", None, "Turns off Hêllẞø†. Userbot will stop working unless you manually turn it on."
 ).add_command(
-    "svar",
-    "<variable name> <variable value>",
-    "Sets the variable to SQL variables without restarting the bot.",
-    "svar ALIVE_PIC https://telegra.ph/file/57bfe195c88c5c127a653.jpg",
+    "svar", "<variable name> <variable value>", "Sets the variable to SQL variables without restarting the bot.", "svar ALIVE_PIC https://telegra.ph/file/57bfe195c88c5c127a653.jpg"
 ).add_command(
-    "gvar",
-    "<variable name>",
-    "Gets the info of mentioned variable from both SQL & OS.",
-    "gvar ALIVE_PIC",
+    "gvar", "<variable name>", "Gets the info of mentioned variable from both SQL & OS.", "gvar ALIVE_PIC"
 ).add_command(
-    "dvar",
-    "<variable name>",
-    "Deletes the mentioned variable from SQL variables without restarting the bot.",
-    "dvar ALIVE_PIC",
+    "dvar", "<variable name>", "Deletes the mentioned variable from SQL variables without restarting the bot.", "dvar ALIVE_PIC"
 ).add_info(
     "Power Switch For Bot"
 ).add_warning(
@@ -397,15 +372,11 @@ CmdHelp("power").add_command(
 CmdHelp("heroku").add_command(
     "usage", None, "Check your heroku dyno hours status."
 ).add_command(
-    "set var",
-    "<Var Name> <value>",
-    "Add new variable or update existing value/variable\nAfter setting a variable bot will restart so stay calm for 1 minute.",
+    "set var", "<Var Name> <value>", "Add new variable or update existing value/variable\nAfter setting a variable bot will restart so stay calm for 1 minute."
 ).add_command(
     "get var", "<Var Name>", "Gets the variable and its value (if any) from heroku."
 ).add_command(
-    "del var",
-    "<Var Name>",
-    "Deletes the variable from heroku. Bot will restart after deleting the variable. So be calm for a minute 😃",
+    "del var", "<Var Name>", "Deletes the variable from heroku. Bot will restart after deleting the variable. So be calm for a minute 😃"
 ).add_command(
     "logs", None, "Gets the app log of 100 lines of your bot directly from heroku."
 ).add_info(
