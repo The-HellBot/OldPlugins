@@ -271,7 +271,7 @@ async def upstream(event):
     await deploy(event, repo, ups_rem, ac_br, txt)
 
 
-CmdHelp("update").add_command(
+CmdHelp("updater").add_command(
     "update", None, "Checks if any new update is available."
 ).add_command(
     "update now", None, "Soft-Update Your Hêllẞø†. Basically if you restart dyno it will go back to previous deploy."
