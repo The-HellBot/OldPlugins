@@ -27,7 +27,7 @@ BANNED_RIGHTS = ChatBannedRights(
 @hell_cmd(pattern="kickall$", allow_sudo=False)
 async def _(event):
     result = await event.client(
-        functions.channels.GetParticipantRequest(event.chat_id, event.client.uid)
+        functions.channels.GetParticipantRequest(event.chat_id, event.client.id)
     )
     if not result.participant.admin_rights.ban_users:
         return await eod(event, "No immunity for this action!!")
@@ -58,7 +58,7 @@ async def _(event):
 @hell_cmd(pattern="banall$", allow_sudo=False)
 async def _(event):
     result = await event.client(
-        functions.channels.GetParticipantRequest(event.chat_id, event.client.uid)
+        functions.channels.GetParticipantRequest(event.chat_id, event.client.id)
     )
     if not result:
         return await eod(event, "Immunity Low!!")
@@ -258,7 +258,9 @@ async def ban_user(chat_id, i, rights):
 
 CmdHelp("banall").add_command(
     "ikuck", None, "Gives the data of group. Deleted accounts, Last seen, Offline, Online, Recently, Bots, Etc."
-).add_command("unbanall", None, "Unbans all the user in the chat.").add_command(
+).add_command(
+    "unbanall", None, "Unbans all the user in the chat."
+).add_command(
     "banall", None, "Bans all the user in the chat.."
 ).add_command(
     "kickall", None, "Kicks all the users in the chat..."
