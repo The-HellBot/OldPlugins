@@ -99,7 +99,8 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 ------
 ## Credits
 
-- 💖 [Lonami](https://github.com/Lonami) for [Telethon](https://github.com/LonamiWebs/Telethon)
+- 💖 [Telethon](https://github.com/LonamiWebs/Telethon)
+- 💖 [Pyrogram](https://github.com/Pyrogram/Pyrogram)
 - 💖 Team Hellbot
 
 ------
