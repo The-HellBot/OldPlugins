@@ -6,7 +6,7 @@ from HellConfig import Config
 
 
 InstaGram = Client()
-settings = "settings.json" if os.path.exists("insta/settings.json") else None
+settings = "insta/settings.json" if os.path.exists("insta/settings.json") else None
 
 if Config.IG_USERNAME and IG_PASSWORD:
     if settings:
