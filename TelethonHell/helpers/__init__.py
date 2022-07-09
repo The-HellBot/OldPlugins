@@ -5,6 +5,7 @@ from .formats import *
 from .gdriver import *
 from .google import *
 from .image import *
+from .instaAPI import *
 from .int_str import *
 from .mediatype import *
 from .mmf import *
