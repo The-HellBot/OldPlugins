@@ -1,44 +1,34 @@
-import requests
-import json
+import re
 
 from . import *
 
 
 @hell_cmd(pattern="insta(?:\s|$)([\s\S]*)")
 async def download(event):
+    insta_regex = r"(?:https?:\/\/)?(?:www\.)?instagram\.com\/(?:p|tv|reel)\/.+\/?"
     ForGo10God, HELL_USER, hell_mention = await client_id(event)
     url = event.text[7:]
     is_video = None
+    result = re.search(insta_regex, url)
     hell = await eor(event, "Downloading IG post...")
-    if "instagram.com" in url:
-        url_code = url.split("/")[4]
-        url = f"https://instagram.com/p/{url_code}?__a=1"
-        try:
-            visit = requests.get(url).json()
-            is_video = visit['graphql']['shortcode_media']['is_video']
-        except:
-            return await eod(hell, "Only public instagram posts are allowed.")
+    
+    if not result:
+        return await eod(hell, "Need a instagram post link to download!")
+    
+    try:
+        video = InstaGram.VideoURL(result.group(0))
+    except LoginError as e:
+        return await eod(hell, f"**ERROR !!** \n\n`{e}`")
         
-        if is_video == True:
-            try:
-                video_url = visit['graphql']['shortcode_media']['video_url']
-                await event.client.send_file(event.chat_id, file=video_url, caption=f"📥 InstaGram Video Downloaded By :- {hell_mention}")
-                await hell.delete()
-            except Exception as e:
-                LOGS.info(str(e))
-
-        elif is_video == False:
-            try:
-                post_url = visit['graphql']['shortcode_media']['display_url']
-                await event.client.send_file(event.chat_id, file=post_url, caption=f"📥 InstaGram Post Downloaded By :- {hell_mention}")
-                await hell.delete()
-            except Exception as e:
-                LOGS.info(str(e))
-        else:
-            await eod(hell, "Only public instagram posts are allowed.")
+    if video is not None:
+        await event.client.send_file(
+            event.chat_id,
+            file=video,
+            caption=f"📥 InstaGram Post Downloaded By :- {hell_mention}",
+        )
     else:
-        await eod(hell, "Only public instagram posts are allowed.")
-
+        await hell.edit(f"Unable to upload video! \n\nOUTPUT: {video}")
+ 
 
 CmdHelp("instagram").add_command(
     "insta", "<link>", "Downloads the provided instagram video/pic from link.", "insta www.instagram.com/yeuehiwnwiqo"
