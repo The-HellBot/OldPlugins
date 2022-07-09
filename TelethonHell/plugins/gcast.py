@@ -4,57 +4,45 @@ from . import *
 @hell_cmd(pattern="gcast(?:\s|$)([\s\S]*)")
 async def _(event):
     reply_msg = await event.get_reply_message()
-    flag = event.text[-4:]
+    flag = str(event.text.split(" ", 2)[1])
     if reply_msg:
         OwO = reply_msg.text
         file = reply_msg.media
     else:
-        OwO = str(event.text[7:])
+        OwO = str(event.text.split(" ", 2)[2])
         file = None
-    if OwO == "":
+    if not OwO:
         return await eod(event, "I need something to Gcast.")
     hel_ = await eor(event, "`Gcasting message...`")
     sed = 0
     owo = 0
-    if "-all" in flag:
+    if flag.lower() == "-all":
         async for allhell in event.client.iter_dialogs():
             chat = allhell.id
             try:
-                hell = OwO.replace("-all", "")
-            except:
-                pass
-            try:
                 if chat != -1001496036895:
-                    await event.client.send_message(chat, hell, file=file)
+                    await event.client.send_message(chat, text=OwO, file=file)
                     owo += 1
                 elif chat == -1001496036895:
                     pass
             except BaseException:
                 sed += 1
-    elif "-pvt" in flag:
+    elif flag.lower() == "-pvt":
         async for pvthell in event.client.iter_dialogs():
             if pvthell.is_user and not pvthell.entity.bot:
                 chat = pvthell.id
                 try:
-                    hell = OwO.replace("-pvt", "")
-                except:
-                    pass
-                try:
-                    await event.client.send_message(chat, hell, file=file)
+                    await event.client.send_message(chat, text=OwO, file=file)
                     owo += 1
                 except BaseException:
                     sed += 1
-    elif "-grp" in flag:
+    elif flag.lower() == "-grp":
         async for ghell in event.client.iter_dialogs():
             if ghell.is_group:
                 chat = ghell.id
                 try:
-                    hell = OwO.replace("-grp", "")
-                except:
-                    pass
-                try:
                     if chat != -1001496036895:
-                        await event.client.send_message(chat, hell, file=file)
+                        await event.client.send_message(chat, text=OwO, file=file)
                         owo += 1
                     elif chat == -1001496036895:
                         pass
@@ -65,21 +53,20 @@ async def _(event):
             "Please give a flag to Gcast message. \n\n**Available flags are :** \n• -all : To Gcast in all chats. \n• -pvt : To Gcast in private chats. \n• -grp : To Gcast in groups."
         )
     UwU = sed + owo
-    if flag == "-all":
+    if flag.lower() == "-all":
         omk = "Chats"
-    elif flag == "-pvt":
+    elif flag.lower() == "-pvt":
         omk = "PM"
-    elif flag == "-grp":
+    elif flag.lower() == "-grp":
         omk = "Groups"
-    await hel_.edit(
-        f"**Gcast Executed Successfully !!** \n\n**📍 Sent in :** `{owo} {omk}`\n**📍 Failed in :** `{sed} {omk}`\n**📍 Total :** `{UwU} {omk}`"
-    )
+        
+    text_to_send = f"**📍 Sent in :** `{owo} {omk}`\n**📍 Failed in :** `{sed} {omk}`\n**📍 Total :** `{UwU} {omk}`"
+    await hel_.edit(f"**Gcast Executed Successfully !!** \n\n{text_to_send}")
+    await event.client.send_message(Config.LOGGER_ID, f"#GCAST #{flag[1:].upper()} \n\n{text_to_send}")
 
-
-# This is a bad way. but works just fine (*﹏*;)
 
 CmdHelp("gcast").add_command(
-    "gcast", "<text/reply> <flag>", "Globally Broadcast the replied or given message based on flag given.", f"gcast Hello -all / {hl}gcast Hello -grp / {hl}gcast Hello -pvt"
+    "gcast", "<flag> <text/reply>", "Globally Broadcast the replied or given message based on flag given.", f"gcast -all Hello / {hl}gcast -grp Hello / {hl}gcast -pvt Hello"
 ).add_info(
     "Global Broadcast."
 ).add_extra(
