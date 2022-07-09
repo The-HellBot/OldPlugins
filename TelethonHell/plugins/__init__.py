@@ -19,7 +19,7 @@ hl = Config.HANDLER
 shl = Config.SUDO_HANDLER
 hell_ver = __hellver__
 tel_ver = __telever__
-
+InstaGram = Insta()
 
 async def get_user_id(ids):
     if str(ids).isdigit():
