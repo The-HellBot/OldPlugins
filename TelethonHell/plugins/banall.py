@@ -26,8 +26,9 @@ BANNED_RIGHTS = ChatBannedRights(
 
 @hell_cmd(pattern="kickall$", allow_sudo=False)
 async def _(event):
+    ForGo10God, _, _ = await client_id(event)
     result = await event.client(
-        functions.channels.GetParticipantRequest(event.chat_id, event.client.id)
+        functions.channels.GetParticipantRequest(event.chat_id, ForGo10God)
     )
     if not result.participant.admin_rights.ban_users:
         return await eod(event, "No immunity for this action!!")
@@ -57,8 +58,9 @@ async def _(event):
 
 @hell_cmd(pattern="banall$", allow_sudo=False)
 async def _(event):
+    ForGo10God, _, _ = await client_id(event)
     result = await event.client(
-        functions.channels.GetParticipantRequest(event.chat_id, event.client.id)
+        functions.channels.GetParticipantRequest(event.chat_id, ForGo10God)
     )
     if not result:
         return await eod(event, "Immunity Low!!")
