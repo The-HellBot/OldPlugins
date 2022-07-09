@@ -38,8 +38,8 @@ class Config(object):
     HANDLER = os.environ.get("HANDLER", ".")
     HEROKU_API_KEY = os.environ.get("HEROKU_API_KEY", None)
     HEROKU_APP_NAME = os.environ.get("HEROKU_APP_NAME", None)
-    IG_PASSWORD = os.environ.get("INSTAGRAM_PASSWORD", None)
-    IG_USERNAME = os.environ.get("INSTAGRAM_USERNAME", None)
+    IG_PASSWORD = os.environ.get("INSTAGRAM_PASSWORD", "")
+    IG_USERNAME = os.environ.get("INSTAGRAM_USERNAME", "")
     INSTANT_BLOCK = os.environ.get("INSTANT_BLOCK", None)
     LOGGER_ID = os.environ.get("LOGGER_ID", None)
     if LOGGER_ID:
