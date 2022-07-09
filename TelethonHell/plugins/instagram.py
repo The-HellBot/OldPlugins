@@ -24,7 +24,7 @@ async def download(event):
         if not result:
             return await eod(hell, "Need a instagram post/story link to download!")
         try:
-            IGDL(event, result.group(0))
+            await IGDL(event, result.group(0))
         except Exception as e:
             return await eod(hell, f"**ERROR !!** \n\n`{e}`")
 
