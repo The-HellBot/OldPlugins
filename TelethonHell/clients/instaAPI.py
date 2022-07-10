@@ -4,7 +4,7 @@ from instagrapi import Client
 from instagrapi.exceptions import LoginRequired, ChallengeRequired
 
 from HellConfig import Config
-from TelethonHell import bot, tbot
+from TelethonHell import bot, tbot, LOGS
 from .client_list import client_id
 
 settings = "insta/settings.json" if os.path.exists("insta/settings.json") else None
