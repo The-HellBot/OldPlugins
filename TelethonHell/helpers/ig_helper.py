@@ -1,6 +1,7 @@
 import os
 import re
 
+from TelethonHell import LOGS
 from TelethonHell.clients.instaAPI import InstaGram
 
 insta_regex = r"(?:https?:\/\/)?(?:www\.)?instagram\.com\/(?:p|tv|reel|s|stories)\/.+\/?"
