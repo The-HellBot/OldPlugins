@@ -4,7 +4,7 @@ TODO:
 2. instagram story downloader - igdl -s <link>
 3. recent 10 feed - .igdl -feed
 4. hashtag's top 10 posts download - .igdl -ht <hashtag>
-5. upload video/pic in instagram - .igup -p <reply>
+5. upload video/pic in instagram - .igup -reel <reply>
 6. upload stories in instagram - .igup -s <reply>
 """
 import os
@@ -24,7 +24,7 @@ async def download(event):
         if not result:
             return await eod(hell, "Need a instagram post/story link to download!")
         try:
-            await IGDL(event, result.group(0))
+            file, caption = await IGDL(event, result.group(0))
         except Exception as e:
             return await eod(hell, f"**ERROR !!** \n\n`{e}`")
 
@@ -65,7 +65,7 @@ async def download(event):
     if HELL_MEDIA not in ["Photo", "Gif", "Video"]:
         return await eod(hell, "Reply to a media to upload on instagram.")
 
-    if flag.lower() == "-p":
+    if flag.lower() == "-reel":
         caption = event.message.message or "#Uploaded By HellBot"
         file = await event.client.download_media()
         await hell.edit("**Downloaded!** \n\nNow uploading to instagram...")
@@ -91,9 +91,9 @@ CmdHelp("instagram").add_command(
 ).add_command(
     "igup", "<flag> <reply>", "Upload posts on Instagram from Telegram. Replied video/pic is uploaded with caption."
 ).add_extra(
-    "🚩 Flags", "-p, -s, -feed(igdl only), -ht(igdl only)"
+    "🚩 Flags", "-p, -s, -feed(igdl only), -ht(igdl only), -reel(igup only)"
 ).add_info(
-    "Insta Downloader."
+    "Instagram API for Telegram."
 ).add_warning(
     "✅ Harmless Module"
 ).add()
