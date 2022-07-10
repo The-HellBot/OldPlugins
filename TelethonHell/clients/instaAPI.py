@@ -1,5 +1,4 @@
 import asyncio
-import json
 import os
 
 from instagrapi import Client
@@ -9,44 +8,41 @@ from HellConfig import Config
 from TelethonHell import bot, tbot, LOGS
 from .client_list import client_id
 
-settings = "insta/settings.json" if os.path.exists("insta/settings.json") else None
+settings = "insta/settings.json" if os.path.exists("insta/settings.json") else {}
 
 
-class INSTAGRAM:
-	def __init__(self):
-		self.username = Config.IG_USERNAME
-		self.password = Config.IG_PASSWORD
-
-		if settings:
-			self.session = json.load(open("insta/settings.json", "r"))
-			LOGS.info("Instagram Account Setting Loaded !!")
-		else:
-			self.session = {}
-
-		self.client = Client(settings=self.session)
-		self.client.challenge_code_handler = self.CodeChallenge
-		self.client.login(self.username, self.password)
-
-		with open('insta/settings.json', 'w') as f:
-			json.dump(self.client.get_settings(), f)
-
-		self.session = json.load(open("insta/settings.json", "r"))
-		LOGS.info("Logged in to Instagram Account")
-
-	async def CodeChallenge(self, username, choice):
-		LOGS.info("Starting OTP verification !!")
-		_id = (await bot.get_me()).id
-		async with tbot.conversation(_id, timeout=60*2) as conv:
-			await conv.send_message(f"2-Factor Authentication is anabled in the account `{Config.IG_USERNAME}`.\n\nSend the OTP received on your registered Email/Phone. \n\n Send /cancel to stop verification.")
-			otp = await conv.get_response()
-			while not otp.text.isdigit():
-				if otp.message == "/cancel":
-					return await conv.send_message("Instagram Verification Canceled!")
-				await conv.send_message("Only 6 digit integer value is accepted! Try sending OTP again:")
-				otp = await conv.get_response()
-			return otp
+async def InstaGram(event):
+    if Config.IG_USERNAME and Config.IG_PASSWORD:
+        cl = Client(settings)
+        cl.challenge_code_handler = asyncio.create_task(challenge_code())
+        try:
+            cl.login(Config.IG_USERNAME, Config.IG_PASSWORD)
+        except ChallengeRequired:
+            await event.edit(f"Need to configure instagram! Go to @{Config.BOT_USERNAME}'s dm and finish the process!")
+            # cl.challenge_code_handler = challenge_code_handler
+        except LoginRequired:
+            return await InstaGram(event)
+        except Exception as e:
+            LOGS.info(e)
+            # return False
+        cl.dump_settings("insta/settings.json")
+        return cl
+    else:
+        await event.edit("Fillup `INSTAGRAM_USERNAME` and `INSTAGRAM_PASSWORD` for functioning of IG API.")
+        return
 
 
-InstaGram = INSTAGRAM()
+async def challenge_code():
+    _id = (await bot.get_me()).id
+    async with tbot.conversation(_id, timeout=60*2) as conv:
+        await conv.send_message(f"2-Factor Authentication is anabled in the account `{Config.IG_USERNAME}`.\n\nSend the OTP received on your registered Email/Phone. \n\n Send /cancel to stop verification.")
+        otp = await conv.get_response()
+        while not otp.text.isdigit():
+            if otp.message == "/cancel":
+                return await conv.send_message("Instagram Verification Canceled!")
+            await conv.send_message("Only 6 digit integer value is accepted! Try sending OTP again:")
+            otp = conv.get_response()
+        return otp.text
+
 
 # hellbot
