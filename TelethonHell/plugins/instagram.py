@@ -55,7 +55,7 @@ async def download(event):
     flag, url = await get_flag(event)
     hell = await eor(event, "IG uploader in action...")
     reply = await event.get_reply_message()
-    IG = InstaGram(event)
+    IG = await InstaGram(event)
 
     if not reply:
         return await eod(hell, "Reply to a media to upload on instagram.")
