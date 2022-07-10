@@ -14,10 +14,11 @@ async def IGDL(event, url):
     
     caption, file = None, None
     type = url.split("/")[3]
+    IG = InstaGram(e)
 
     try:
-        pk = InstaGram.media_pk_from_url(url)
-        info = InstaGram.media_info(pk).dict()
+        pk = IG.media_pk_from_url(url)
+        info = IG.media_info(pk).dict()
     except Exception as e:
         LOGS.info(str(e))
         return file, caption
@@ -25,49 +26,49 @@ async def IGDL(event, url):
     if type == "p":
         if info['media_type'] == 8:
             try:
-                file = InstaGram.album_download(pk, folder=dl_path)
+                file = IG.album_download(pk, folder=dl_path)
             except Exception as e:
                 LOGS.info(str(e))
                 file = None
 
         elif info['media_type'] == 1:
             try:
-                file = InstaGram.photo_download(pk, folder=dl_path)
+                file = IG.photo_download(pk, folder=dl_path)
             except Exception as e:
                 LOGS.info(str(e))
                 file = None
 
         elif info['media_type'] == 2 and info['product_type'] == "feed":
             try:
-                file = InstaGram.video_download(pk, folder=dl_path)
+                file = IG.video_download(pk, folder=dl_path)
             except Exception as e:
                 LOGS.info(str(e))
                 file = None
 
     elif type == "tv":
         try:
-            file = InstaGram.igtv_download(pk, folder=dl_path)
+            file = IG.igtv_download(pk, folder=dl_path)
         except Exception as e:
             LOGS.info(str(e))
             file = None
 
     elif type == "reel":
         try:
-            file = InstaGram.clip_download(pk, folder=dl_path)
+            file = IG.clip_download(pk, folder=dl_path)
         except Exception as e:
             LOGS.info(str(e))
             file = None
     
     elif type == "stories":
         try:
-            file = InstaGram.story_download(pk, folder=dl_path)
+            file = IG.story_download(pk, folder=dl_path)
         except Exception as e:
             LOGS.info(str(e))
             file = None
 
     elif type == "s" and "story_media_id" in url:
         try:
-            file = InstaGram.story_download(pk, folder=dl_path)
+            file = IG.story_download(pk, folder=dl_path)
         except Exception as e:
             LOGS.info(str(e))
             file = None
