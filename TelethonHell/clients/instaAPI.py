@@ -1,3 +1,4 @@
+import asyncio
 import os
 
 from instagrapi import Client
