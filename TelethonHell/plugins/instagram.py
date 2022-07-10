@@ -55,6 +55,7 @@ async def download(event):
     flag, url = await get_flag(event)
     hell = await eor(event, "IG uploader in action...")
     reply = await event.get_reply_message()
+    IG = InstaGram(e)
 
     if not reply:
         return await eod(hell, "Reply to a media to upload on instagram.")
@@ -70,7 +71,7 @@ async def download(event):
         file = await event.client.download_media()
         await hell.edit("**Downloaded!** \n\nNow uploading to instagram...")
         try:
-            video = InstaGram.clip_upload(file, caption=caption)
+            video = IG.clip_upload(file, caption=caption)
         except Exception as e:
             os.remove(file)
             return await eod(hell, f"**ERROR !!** \n\n`{str(e)}`")
