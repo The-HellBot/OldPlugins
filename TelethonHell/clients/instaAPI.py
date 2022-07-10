@@ -41,7 +41,7 @@ def challenge_code(username, choice):
         while not otp.text.isdigit():
             if otp.message == "/cancel":
                 return conv.send_message("Instagram Verification Canceled!")
-            await conv.send_message("Only 6 digit integer value is accepted! Try sending OTP again:")
+            conv.send_message("Only 6 digit integer value is accepted! Try sending OTP again:")
             otp = conv.get_response()
         return otp.text
 
