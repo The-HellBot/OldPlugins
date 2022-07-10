@@ -17,14 +17,14 @@ async def InstaGram(event):
         cl.challenge_code_handler = await challenge_code()
         try:
             cl.login(Config.IG_USERNAME, Config.IG_PASSWORD)
-        # except ChallengeRequired:
-            # await event.edit(f"Need to configure instagram! Go to @{Config.BOT_USERNAME}'s dm and finish the process!")
-            # cl.challenge_code_handler = challenge_code_handler
+        except ChallengeRequired:
+            await event.edit(f"Need to configure instagram! Go to @{Config.BOT_USERNAME}'s dm and finish the process!")
+            cl.challenge_code_handler = await challenge_code()
         except LoginRequired:
             return await InstaGram(event)
-        # except Exception as e:
-            # LOGS.info(e)
-            # return False
+        except Exception as e:
+            LOGS.info(f"ERROR: {e}")
+            return False
         cl.dump_settings("insta/settings.json")
         return cl
     else:
