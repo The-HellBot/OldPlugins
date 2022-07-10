@@ -35,7 +35,7 @@ async def InstaGram(event):
 
 def challenge_code(username, choice):
     _id = (bot.get_me()).id
-    async with tbot.conversation(_id, timeout=60*2) as conv:
+    with tbot.conversation(_id, timeout=60*2) as conv:
         conv.send_message(f"2-Factor Authentication is anabled in the account `{username}`.\n\nSend the OTP received on your registered Email/Phone. \n\n Send /cancel to stop verification.")
         otp = conv.get_response()
         while not otp.text.isdigit():
