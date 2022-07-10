@@ -25,7 +25,7 @@ async def InstaGram(event):
             return await InstaGram(event)
         except Exception as e:
             LOGS.info(e)
-            return False
+            return cl
         cl.dump_settings("insta/settings.json")
         return cl
     else:
