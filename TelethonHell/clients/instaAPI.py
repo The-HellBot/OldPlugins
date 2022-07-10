@@ -36,15 +36,15 @@ class INSTAGRAM:
 	async def CodeChallenge(self, username, choice):
 		LOGS.info("Starting OTP verification !!")
 		_id = (await bot.get_me()).id
-        async with tbot.conversation(_id, timeout=60*2) as conv:
-            await conv.send_message(f"2-Factor Authentication is anabled in the account `{Config.IG_USERNAME}`.\n\nSend the OTP received on your registered Email/Phone. \n\n Send /cancel to stop verification.")
-            otp = await conv.get_response()
-            while not otp.text.isdigit():
-                if otp.message == "/cancel":
-                    return await conv.send_message("Instagram Verification Canceled!")
-                await conv.send_message("Only 6 digit integer value is accepted! Try sending OTP again:")
-                otp = await conv.get_response()
-		    return otp
+        	async with tbot.conversation(_id, timeout=60*2) as conv:
+            	await conv.send_message(f"2-Factor Authentication is anabled in the account `{Config.IG_USERNAME}`.\n\nSend the OTP received on your registered Email/Phone. \n\n Send /cancel to stop verification.")
+            	otp = await conv.get_response()
+            	while not otp.text.isdigit():
+                	if otp.message == "/cancel":
+                    	return await conv.send_message("Instagram Verification Canceled!")
+                	await conv.send_message("Only 6 digit integer value is accepted! Try sending OTP again:")
+                	otp = await conv.get_response()
+		    	return otp
 
 
 InstaGram = INSTAGRAM()
