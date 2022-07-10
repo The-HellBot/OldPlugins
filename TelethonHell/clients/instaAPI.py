@@ -15,12 +15,14 @@ async def InstaGram(event):
         cl = Client()
         if settings:
             cl.load_settings(settings)
-        cl.challenge_code_handler = await challenge_code(Config.IG_USERNAME, 1)
+        def challenge_code_handler():
+            asyncio.run(challenge_code())
+        cl.challenge_code_handler = challenge_code_handler
         try:
             cl.login(Config.IG_USERNAME, Config.IG_PASSWORD)
         except ChallengeRequired:
             await event.edit(f"Need to configure instagram! Go to @{Config.BOT_USERNAME}'s dm and finish the process!")
-            cl.challenge_code_handler = await challenge_code(Config.IG_USERNAME, 1)
+            cl.challenge_code_handler = challenge_code_handler
         except LoginRequired:
             return await InstaGram(event)
         except Exception as e:
@@ -31,12 +33,12 @@ async def InstaGram(event):
     else:
         await event.edit("Fillup `INSTAGRAM_USERNAME` and `INSTAGRAM_PASSWORD` for functioning of IG API.")
         return
-    
 
-async def challenge_code(username, choice):
+
+async def challenge_code():
     _id = (await bot.get_me()).id
     async with tbot.conversation(_id, timeout=60*2) as conv:
-        await conv.send_message(f"2-Factor Authentication is anabled in the account `{username}`.\n\nSend the OTP received on your registered Email/Phone. \n\n Send /cancel to stop verification.")
+        await conv.send_message(f"2-Factor Authentication is anabled in the account `{Config.IG_USERNAME}`.\n\nSend the OTP received on your registered Email/Phone. \n\n Send /cancel to stop verification.")
         otp = await conv.get_response()
         while not otp.text.isdigit():
             if otp.message == "/cancel":
