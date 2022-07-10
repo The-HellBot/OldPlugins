@@ -8,7 +8,7 @@ from HellConfig import Config
 InstaGram = Client()
 settings = "insta/settings.json" if os.path.exists("insta/settings.json") else None
 
-if Config.IG_USERNAME and IG_PASSWORD:
+if Config.IG_USERNAME and Config.IG_PASSWORD:
     if settings:
         InstaGram.load_settings(settings)
         InstaGram.login(Config.IG_USERNAME, Config.IG_PASSWORD)
