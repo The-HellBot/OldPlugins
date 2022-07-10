@@ -1,12 +1,10 @@
 import os
 
 from instagrapi import Client
-from instagrapi.exceptions import LoginRequired, ManualInputRequired
-from telethon import Button
-from telethon.events import callbackquery
+from instagrapi.exceptions import LoginRequired, ChallengeRequired
 
 from HellConfig import Config
-from TelethonHell import tbot
+from TelethonHell import bot, tbot
 from .client_list import client_id
 
 settings = "insta/settings.json" if os.path.exists("insta/settings.json") else None
@@ -20,9 +18,9 @@ async def InstaGram(event):
                 cl.load_settings(settings)
             cl.challenge_code_handler = challenge_code_handler
             cl.login(Config.IG_USERNAME, Config.IG_PASSWORD)
-        except ManualInputRequired:
+        except ChallengeRequired:
             await event.edit(f"Need to configure instagram! Go to @{BOT_USERNAME}'s dm and finish the process!")
-            await challenge_code_handler(event, Config.IG_USERNAME)
+            await challenge_code_handler(Config.IG_USERNAME, 1)
         except LoginRequired:
             return await InstaGram(event)
         except Exception as e:
@@ -35,9 +33,9 @@ async def InstaGram(event):
         return
     
 
-async def challenge_code_handler(event, username):
-    ForGo10God, _, hell_mention = await client_id(event)
-    async with tbot.conversation(ForGo10God, timeout=60) as conv:
+async def challenge_code_handler(username, choice=1):
+    _id = (await bot.get_me()).id
+    async with tbot.conversation(_id, timeout=60*2) as conv:
         await conv.send_message(f"2-Factor Authentication is anabled in the account `{username}`.\n\nSend the OTP received on your registered Email/Phone. \n\n Send /cancel to stop verification.")
         otp = await conv.get_response()
         while not otp.text.isdigit():
