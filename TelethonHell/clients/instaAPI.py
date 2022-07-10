@@ -13,7 +13,7 @@ settings = "insta/settings.json" if os.path.exists("insta/settings.json") else N
 
 
 class INSTAGRAM:
-        def __init__(self):
+	def __init__(self):
 		self.username = Config.IG_USERNAME
 		self.password = Config.IG_PASSWORD
 
