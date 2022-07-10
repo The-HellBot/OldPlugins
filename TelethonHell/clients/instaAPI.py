@@ -15,12 +15,12 @@ async def InstaGram(event):
         cl = Client()
         if settings:
             cl.load_settings(settings)
-        cl.challenge_code_handler = challenge_code_handler
+        cl.challenge_code_handler = challenge_code
         try:
             cl.login(Config.IG_USERNAME, Config.IG_PASSWORD)
         except ChallengeRequired:
             await event.edit(f"Need to configure instagram! Go to @{Config.BOT_USERNAME}'s dm and finish the process!")
-            await challenge_code_handler(cl, Config.IG_USERNAME, Config.IG_PASSWORD)
+            await challenge_code(cl, Config.IG_USERNAME, Config.IG_PASSWORD)
         except LoginRequired:
             return await InstaGram(event)
         except Exception as e:
@@ -33,7 +33,7 @@ async def InstaGram(event):
         return
     
 
-async def challenge_code_handler(username, choice):
+async def challenge_code(username, choice):
     _id = (await bot.get_me()).id
     async with tbot.conversation(_id, timeout=60*2) as conv:
         await conv.send_message(f"2-Factor Authentication is anabled in the account `{username}`.\n\nSend the OTP received on your registered Email/Phone. \n\n Send /cancel to stop verification.")
