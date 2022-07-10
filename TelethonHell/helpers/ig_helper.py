@@ -14,7 +14,7 @@ async def IGDL(event, url):
     
     caption, file = None, None
     type = url.split("/")[3]
-    IG = InstaGram(event)
+    IG = await InstaGram(event)
 
     try:
         pk = IG.media_pk_from_url(url)
