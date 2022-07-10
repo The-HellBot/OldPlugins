@@ -14,7 +14,7 @@ settings = "insta/settings.json" if os.path.exists("insta/settings.json") else {
 async def InstaGram(event):
     if Config.IG_USERNAME and Config.IG_PASSWORD:
         cl = Client(settings)
-        cl.challenge_code_handler = asyncio.create_task(challenge_code())
+        cl.challenge_code_handler = await challenge_code()
         try:
             cl.login(Config.IG_USERNAME, Config.IG_PASSWORD)
         except ChallengeRequired:
@@ -35,7 +35,7 @@ async def InstaGram(event):
 async def challenge_code():
     _id = (await bot.get_me()).id
     async with tbot.conversation(_id, timeout=60*2) as conv:
-        await conv.send_message(f"2-Factor Authentication is anabled in the account `{Config.IG_USERNAME}`.\n\nSend the OTP received on your registered Email/Phone. \n\n Send /cancel to stop verification.")
+        await conv.send_message(f"2-Factor Authentication is enabled in the account `{Config.IG_USERNAME}`.\n\nSend the OTP received on your registered Email/Phone. \n\n Send /cancel to stop verification.")
         otp = await conv.get_response()
         while not otp.text.isdigit():
             if otp.message == "/cancel":
