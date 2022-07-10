@@ -13,14 +13,14 @@ settings = "insta/settings.json" if os.path.exists("insta/settings.json") else N
 async def InstaGram(event):
     if Config.IG_USERNAME and Config.IG_PASSWORD:
         cl = Client()
+        if settings:
+            cl.load_settings(settings)
+        cl.challenge_code_handler = challenge_code_handler
         try:
-            if settings:
-                cl.load_settings(settings)
             cl.login(Config.IG_USERNAME, Config.IG_PASSWORD)
-            cl.challenge_code_handler = await challenge_code_handler(Config.IG_USERNAME, 1)
         except ChallengeRequired:
-            await event.edit(f"Need to configure instagram! Go to @{BOT_USERNAME}'s dm and finish the process!")
-            await challenge_code_handler(Config.IG_USERNAME, 1)
+            await event.edit(f"Need to configure instagram! Go to @{Config.BOT_USERNAME}'s dm and finish the process!")
+            await challenge_code_handler(cl, Config.IG_USERNAME, Config.IG_PASSWORD)
         except LoginRequired:
             return await InstaGram(event)
         except Exception as e:
@@ -33,7 +33,7 @@ async def InstaGram(event):
         return
     
 
-async def challenge_code_handler(username, choice=1):
+async def challenge_code_handler(username, choice):
     _id = (await bot.get_me()).id
     async with tbot.conversation(_id, timeout=60*2) as conv:
         await conv.send_message(f"2-Factor Authentication is anabled in the account `{username}`.\n\nSend the OTP received on your registered Email/Phone. \n\n Send /cancel to stop verification.")
