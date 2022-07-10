@@ -38,7 +38,7 @@ async def download(event):
                     caption=f"📥 InstaGram Post Downloaded By :- {hell_mention}",
                 )
         else:
-            await hell.edit(f"Unable to upload video!")
+            await hell.edit(f"Unable to upload video! Setup `INSTAGRAM_PASSWORD` & `INSTAGRAM_USERNAME` for better functionality.")
 
     elif flag.lower() == "-feed":
         await eod(hell, "soon")
