@@ -15,7 +15,7 @@ async def InstaGram(event):
         cl = Client()
         if settings:
             cl.load_settings(settings)
-        cl.challenge_code_handler = await challenge_code
+        cl.challenge_code_handler = await challenge_code(Config.IG_USERNAME, 1)
         try:
             cl.login(Config.IG_USERNAME, Config.IG_PASSWORD, False, cl.challenge_code_handler)
         except ChallengeRequired:
