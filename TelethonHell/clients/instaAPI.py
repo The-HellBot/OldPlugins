@@ -13,16 +13,14 @@ settings = "insta/settings.json" if os.path.exists("insta/settings.json") else N
 async def InstaGram(event):
     if Config.IG_USERNAME and Config.IG_PASSWORD:
         cl = Client()
-        global _id
-        _id = (await bot.get_me()).id
         if settings:
             cl.load_settings(settings)
-        cl.challenge_code_handler = challenge_code
+        cl.challenge_code_handler = await challenge_code
         try:
             cl.login(Config.IG_USERNAME, Config.IG_PASSWORD, False, cl.challenge_code_handler)
         except ChallengeRequired:
             await event.edit(f"Need to configure instagram! Go to @{Config.BOT_USERNAME}'s dm and finish the process!")
-            cl.challenge_code_handler = challenge_code(Config.IG_USERNAME, 1)
+            cl.challenge_code_handler = await challenge_code(Config.IG_USERNAME, 1)
         except LoginRequired:
             return await InstaGram(event)
         except Exception as e:
@@ -35,14 +33,15 @@ async def InstaGram(event):
         return
     
 
-def challenge_code(username, choice):
-    with tbot.conversation(_id, timeout=60*2) as conv:
-        conv.send_message(f"2-Factor Authentication is anabled in the account `{username}`.\n\nSend the OTP received on your registered Email/Phone. \n\n Send /cancel to stop verification.")
-        otp = conv.get_response()
+async def challenge_code(username, choice):
+    _id = (await bot.get_me()).id
+    async with tbot.conversation(_id, timeout=60*2) as conv:
+        await conv.send_message(f"2-Factor Authentication is anabled in the account `{username}`.\n\nSend the OTP received on your registered Email/Phone. \n\n Send /cancel to stop verification.")
+        otp = await conv.get_response()
         while not otp.text.isdigit():
             if otp.message == "/cancel":
-                return conv.send_message("Instagram Verification Canceled!")
-            conv.send_message("Only 6 digit integer value is accepted! Try sending OTP again:")
+                return await conv.send_message("Instagram Verification Canceled!")
+            await conv.send_message("Only 6 digit integer value is accepted! Try sending OTP again:")
             otp = conv.get_response()
         return otp.text
 
