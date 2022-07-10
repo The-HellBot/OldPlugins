@@ -15,7 +15,7 @@ async def InstaGram(event):
         cl = Client()
         if settings:
             cl.load_settings(settings)
-        def challenge_code_handler():
+        def challenge_code_handler(Config.IG_USERNAME, 1):
             asyncio.run(challenge_code())
         cl.challenge_code_handler = challenge_code_handler
         try:
@@ -27,7 +27,7 @@ async def InstaGram(event):
             return await InstaGram(event)
         except Exception as e:
             LOGS.info(e)
-            return False
+#            return False
         cl.dump_settings("insta/settings.json")
         return cl
     else:
