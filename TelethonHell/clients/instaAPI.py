@@ -15,8 +15,6 @@ async def InstaGram(event):
         cl = Client()
         if settings:
             cl.load_settings(settings)
-        def challenge_code_handler(Config.IG_USERNAME, 1):
-            asyncio.run(challenge_code())
         cl.challenge_code_handler = challenge_code_handler
         try:
             cl.login(Config.IG_USERNAME, Config.IG_PASSWORD)
@@ -33,6 +31,10 @@ async def InstaGram(event):
     else:
         await event.edit("Fillup `INSTAGRAM_USERNAME` and `INSTAGRAM_PASSWORD` for functioning of IG API.")
         return
+
+
+def challenge_code_handler(username, choice):
+    asyncio.run(challenge_code())
 
 
 async def challenge_code():
