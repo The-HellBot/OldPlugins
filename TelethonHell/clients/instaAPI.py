@@ -12,8 +12,8 @@ from .client_list import client_id
 settings = "insta/settings.json" if os.path.exists("insta/settings.json") else None
 
 
-class InstaGram:
-	def __init__(self):
+class INSTAGRAM:
+    def __init__(self):
 		self.username = Config.IG_USERNAME
 		self.password = Config.IG_PASSWORD
 
@@ -46,5 +46,7 @@ class InstaGram:
                 otp = await conv.get_response()
 		    return otp
 
+
+InstaGram = INSTAGRAM()
 
 # hellbot
