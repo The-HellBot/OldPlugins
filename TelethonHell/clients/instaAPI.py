@@ -13,6 +13,8 @@ settings = "insta/settings.json" if os.path.exists("insta/settings.json") else N
 async def InstaGram(event):
     if Config.IG_USERNAME and Config.IG_PASSWORD:
         cl = Client()
+        global _id
+        _id = (await bot.get_me()).id
         if settings:
             cl.load_settings(settings)
         cl.challenge_code_handler = challenge_code
@@ -34,7 +36,6 @@ async def InstaGram(event):
     
 
 def challenge_code(username, choice):
-    _id = (bot.get_me()).id
     with tbot.conversation(_id, timeout=60*2) as conv:
         conv.send_message(f"2-Factor Authentication is anabled in the account `{username}`.\n\nSend the OTP received on your registered Email/Phone. \n\n Send /cancel to stop verification.")
         otp = conv.get_response()
