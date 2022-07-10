@@ -34,7 +34,7 @@ async def InstaGram(event):
 
 
 def challenge_code_handler(username, choice):
-    otp = await challenge_code()
+    otp = challenge_code()
     return otp
 
 
