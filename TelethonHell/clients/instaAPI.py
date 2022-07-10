@@ -1,3 +1,4 @@
+import asyncio
 import os
 
 from instagrapi import Client
@@ -34,8 +35,7 @@ async def InstaGram(event):
 
 
 def challenge_code_handler(username, choice):
-    otp = challenge_code()
-    return otp
+    return asyncio.create_task(challenge_code())
 
 
 async def challenge_code():
