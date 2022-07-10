@@ -16,8 +16,8 @@ async def InstaGram(event):
         try:
             if settings:
                 cl.load_settings(settings)
-            cl.challenge_code_handler = await challenge_code_handler(Config.IG_USERNAME, 1)
             cl.login(Config.IG_USERNAME, Config.IG_PASSWORD)
+            cl.challenge_code_handler = await challenge_code_handler(Config.IG_USERNAME, 1)
         except ChallengeRequired:
             await event.edit(f"Need to configure instagram! Go to @{BOT_USERNAME}'s dm and finish the process!")
             await challenge_code_handler(Config.IG_USERNAME, 1)
