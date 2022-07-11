@@ -15,7 +15,8 @@ async def IGDL(event, url):
     caption, file = None, None
     type = url.split("/")[3]
     IG = await InstaGram(event)
-
+    if not IG:
+        return await event.edit("INSTAGRAM_SESSION not configured or Expired !")
     try:
         pk = IG.media_pk_from_url(url)
         info = IG.media_info(pk).dict()
