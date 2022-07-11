@@ -1,7 +1,7 @@
 import datetime
 import time
 
-from HellConfig import Config
+from HellConfig import Config, db_config, os_config
 from TelethonHell import *
 from TelethonHell.clients import *
 from TelethonHell.DB.gvar_sql import gvarstat
