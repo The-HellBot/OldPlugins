@@ -35,7 +35,7 @@ async def download(event):
                 await event.client.send_message(
                     event.chat_id, 
                     file=file, 
-                    caption=f"📥 InstaGram Post Downloaded By :- {hell_mention}",
+                    text=f"📥 InstaGram Post Downloaded By :- {hell_mention}",
                 )
         else:
             await hell.edit(f"Unable to upload video! Setup `INSTAGRAM_PASSWORD` & `INSTAGRAM_USERNAME` for better functionality.")
