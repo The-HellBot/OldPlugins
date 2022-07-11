@@ -37,6 +37,7 @@ async def download(event):
                     file=file, 
                     message=f"📥 InstaGram Post Downloaded By :- {hell_mention}",
                 )
+                os.remove(f"./insta/dl/{i}")
         else:
             await hell.edit(f"Unable to upload video! Setup `INSTAGRAM_PASSWORD` & `INSTAGRAM_USERNAME` for better functionality.")
 
