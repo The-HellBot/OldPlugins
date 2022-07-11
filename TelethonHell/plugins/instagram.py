@@ -69,7 +69,7 @@ async def download(event):
 
     if flag.lower() == "-reel":
         caption = event.message.message or "#Uploaded By HellBot"
-        file = await event.client.download_media()
+        file = await event.client.download_media(reply)
         await hell.edit("**Downloaded!** \n\nNow uploading to instagram...")
         try:
             video = IG.clip_upload(file, caption=caption)
