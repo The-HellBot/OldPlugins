@@ -29,6 +29,7 @@ async def download(event):
             return await eod(hell, f"**ERROR !!** \n\n`{e}`")
 
         items_list = os.listdir("./insta/dl")
+        count = 0
         if items_list != []:
             for i in items_list:
                 file = open(f"./insta/dl/{i}", "rb")
@@ -38,6 +39,8 @@ async def download(event):
                     message=f"📥 InstaGram Post Downloaded By :- {hell_mention}",
                 )
                 os.remove(f"./insta/dl/{i}")
+                count += 1
+            await eod(hell, f"**Downloaded Instagram Post!** \n\n__Total:__ `{count} posts.`")
         else:
             await hell.edit(f"Unable to upload video! Setup `INSTAGRAM_PASSWORD` & `INSTAGRAM_USERNAME` for better functionality.")
 
