@@ -39,7 +39,7 @@ async def download(event):
                 count += 1
             await eod(hell, f"**Downloaded Instagram Post!** \n\n__Total:__ `{count} posts.`")
         else:
-            await hell.edit(f"Unable to upload video! Setup `INSTAGRAM_PASSWORD` & `INSTAGRAM_USERNAME` for better functionality.")
+            await hell.edit(f"Unable to upload video! Setup `INSTAGRAM_SESSION` and try again.")
 
     elif flag.lower() == "-feed":
         await eod(hell, "soon")
