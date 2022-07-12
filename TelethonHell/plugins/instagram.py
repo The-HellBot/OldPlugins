@@ -30,11 +30,17 @@ async def download(event):
         if items_list != []:
             for i in items_list:
                 file = open(f"./insta/dl/{i}", "rb")
-                await event.client.send_message(
+                x = await event.client.send_message(
                     event.chat_id, 
                     file=file, 
                     message=f"📥 InstaGram Post Downloaded By :- {hell_mention}",
                 )
+                if caption:
+                    await event.client.send_message(
+                        event.chat_id,
+                        message=caption,
+                        reply_to=x,
+                    )
                 os.remove(f"./insta/dl/{i}")
                 count += 1
             await eod(hell, f"**Downloaded Instagram Post!** \n\n__Total:__ `{count} posts.`")
