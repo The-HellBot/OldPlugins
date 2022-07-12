@@ -60,16 +60,18 @@ async def IGDL(event, url):
             LOGS.info(str(e))
             file = None
     
-    elif type == "stories": # error: raise invalid media id
+    elif type == "stories":
         try:
-            file = IG.story_download(pk, folder=dl_path)
+            spk = IG.story_pk_from_url(url)
+            file = IG.story_download(spk, folder=dl_path)
         except Exception as e:
             LOGS.info(str(e))
             file = None
 
-    elif type == "s" and "story_media_id" in url: # error: raise invalid media id
+    elif type == "s" and "story_media_id" in url:
         try:
-            file = IG.story_download(pk, folder=dl_path)
+            spk = IG.story_pk_from_url(url)
+            file = IG.story_download(spk, folder=dl_path)
         except Exception as e:
             LOGS.info(str(e))
             file = None
