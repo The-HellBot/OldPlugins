@@ -56,7 +56,8 @@ async def download(event):
     flag, url = await get_flag(event)
     hell = await eor(event, "IG uploader in action...")
     reply = await event.get_reply_message()
-    caption = reply.message or "#Uploaded By HellBot"
+    caption = f"{reply.message} \n\n" if reply.message else ""
+    caption += "• #UploadedByHellBot"
     HELL_MEDIA = media_type(reply)
 
     try:
