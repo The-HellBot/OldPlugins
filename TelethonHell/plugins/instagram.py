@@ -225,7 +225,7 @@ async def userinfo(event):
         await event.client.send_message(
             event.chat_id,
             output[:1024], # as 1024 is telegram limit for media captions
-            file=profile_pic,
+            file=image,
             force_document=False,
             parse_mode="HTML",
             link_preview=False,
