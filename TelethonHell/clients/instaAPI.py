@@ -11,6 +11,10 @@ settings = "insta/settings.json" if os.path.exists("insta/settings.json") else {
 
 async def InstaGram(event):
     if Config.IG_SESSION:
+        settings_path = os.path.join("insta", "settings.json")
+        if not os.path.exists("insta"):
+            os.makedirs("insta")
+
         cl = Client(settings)
         try:
             cl.login_by_sessionid(Config.IG_SESSION)
