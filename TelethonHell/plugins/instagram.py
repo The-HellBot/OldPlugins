@@ -216,7 +216,7 @@ async def userinfo(event):
             bio,
         )
         await hell.edit(
-            message=output[:1024], # as 1024 is telegram limit for media captions
+            output[:1024], # as 1024 is telegram limit for media captions
             file=profile_pic,
             force_document=False,
             parse_mode="HTML",
