@@ -187,7 +187,7 @@ async def userinfo(event):
 <b>• Email:</b> <code>{}</code>
 <b>• Bio:</b> <code>{}</code>
 
-<a href={}>Link To Profile 🔗</a>
+<a href='https://www.instagram.com/{}/'>Link To Profile 🔗</a>
 """
     IG = await InstaGram(event)
     if IG:
@@ -216,6 +216,7 @@ async def userinfo(event):
             business,
             email,
             bio,
+            username,
         )
         await event.client.send_message(
             event.chat_id,
