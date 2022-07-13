@@ -1,9 +1,3 @@
-"""
-TODO:
-1. instagram story downloader - igdl -s <link>
-2. recent 10 feed - .igdl -feed
-3. hashtag's top 10 posts download - .igdl -ht <hashtag>
-"""
 import os
 import re
 
@@ -45,20 +39,35 @@ async def download(event):
                 count += 1
             await eod(hell, f"**Downloaded Instagram Post!** \n\n__Total:__ `{count} posts.`")
         else:
-            await hell.edit(f"Unable to upload video! Setup `INSTAGRAM_SESSION` and try again.")
+            await hell.edit(f"Unable to upload video! Check LOGS and try again!")
 
-    elif flag.lower() == "-feed":
-        await eod(hell, "soon")
-        #### Recent 10 posts from feed
     elif flag.lower() == "-htag":
-        await eod(hell, "soon")
-        #### top 10 posts of hashtag
+        # TODO: No.of posts given by user and not default to 10
+        if url and url.startswith("#"):
+            await hell.edit(f"IG downloader in action... \n\nUploading top 10 posts of `#{url}`")
+            try:
+                await IG_Htag_DL(event, url[1:], 10)
+                items_list = os.listdir("./insta/dl")
+                count = 0
+                for i in items_list:
+                    file = open(f"./insta/dl/{i}", "rb")
+                    await event.client.send_message(
+                        event.chat_id, 
+                        file=file,
+                    )
+                    os.remove(f"./insta/dl/{i}")
+                    count += 1
+                await hell.edit(f"**Downloaded top posts of** `{url}` \n\n__Total:__ `{count} posts.`")
+            except Exception as e:
+                return await eod(hell, f"**ERROR:** \n\n`{str(e)}`")
+        else:
+            return await eod(hell, f"**SYNTAX EXAMPLE:** \n\n`{hl}igdl -htag #amvs`\n\nThis will give top 10 IG posts of hashtag `#amvs`.")
     else:
         await eod(hell, f"Give proper flag. Check `{hl}plinfo instagram` for details.")
     
 
 @hell_cmd(pattern="igup(?:\s|$)([\s\S]*)")
-async def download(event):
+async def upload(event):
     flag, url = await get_flag(event)
     hell = await eor(event, "IG uploader in action...")
     reply = await event.get_reply_message()
@@ -158,13 +167,73 @@ async def download(event):
         await eod(hell, f"Give proper flag. Check `{hl}plinfo instagram` for details.")
     
 
+@hell_cmd(pattern="iguser(?:\s|$)([\s\S]*)")
+async def userinfo(event):
+    uname = event.text.split(" ", 2)[1]
+    username = uname.replace("@", "") if "@" in uname else uname
+    hell = await eor(event, f"Searching `{username}` on Instagram...")
+    info_str = """
+<b><i><u>Instagram User Details:</b></i></u>
+    
+<b>Username:</b> <code>{}<code>
+<b>Full Name:</b> <code>{}<code>
+<b>Private:</b> <code>{}<code>
+<b>Verified:</b> <code>{}<code>
+<b>Posts:</b> <code>{}<code>
+<b>Followers:</b> <code>{}<code>
+<b>Followings:</b> <code>{}<code>
+<b>Website:</b> <code>{}<code>
+<b>Business:</b> <code>{}<code>
+<b>Email:</b> <code>{}<code>
+<b>Bio:</b> <code>{}<code>
+"""
+    IG = await InstaGram(event)
+    if IG:
+        info = IG.user_info_by_username(username).dict()
+        username = info['username'] if info['username'] else "No Username"
+        full_name = info['full_name'] if info['full_name'] else "No Fullname"
+        private = info['is_private']
+        profile_pic = info['profile_pic_url_hd'] if info['profile_pic_url_hd'] else info['profile_pic_url']
+        verified = info['is_verified']
+        posts = info['media_count']
+        followers = info['follower_count']
+        following = info['following_count']
+        bio = info['biography'] if info['biography'] else "No Bio"
+        url = info['external_url'] if info['external_url'] else "No Website"
+        business = info['is_business']
+        email = info['public_email'] if info['public_email'] else "No Email"
+        output = info_str.format(
+            username,
+            full_name,
+            private,
+            verified,
+            posts,
+            followers,
+            following,
+            url,
+            business,
+            email,
+            bio,
+        )
+        await hell.edit(
+            message=output[:1024], # as 1024 is telegram limit for media captions
+            file=profile_pic,
+            force_document=False,
+            parse_mode="HTML",
+            link_preview=False,
+        )
+    else:
+        await eod(hell, "INSTAGRAM_SESSION not configured or Expired !")
+
 
 CmdHelp("instagram").add_command(
     "igdl", "<flag> <link>", "Download posts/reels/stories from Instagram. Requires INSTAGRAM_SESSION to work."
 ).add_command(
+    "iguser", "<username>", "Extracts the data of given username from Instagram."
+).add_command(
     "igup", "<flag> <reply>", "Upload replied media on Instagram with caption from Telegram."
 ).add_extra(
-    "🚩 Flags [igdl]", "-post, -story, -feed, -htag"
+    "🚩 Flags [igdl]", "-post, -story, -htag"
 ).add_extra(
     "🚩 Flags [igup]", "-reel, -tv, -vid, -pic, -story"
 ).add_info(
