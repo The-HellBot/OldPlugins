@@ -231,6 +231,7 @@ async def userinfo(event):
             link_preview=False,
         )
         await hell.delete()
+        os.remove(f"{username}.jpg")
     else:
         await eod(hell, "INSTAGRAM_SESSION not configured or Expired !")
 
