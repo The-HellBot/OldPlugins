@@ -1,5 +1,6 @@
 import os
 import re
+import requests
 
 from . import *
 
@@ -204,6 +205,9 @@ async def userinfo(event):
         url = info['external_url'] if info['external_url'] else "No Website"
         business = info['is_business']
         email = info['public_email'] if info['public_email'] else "No Email"
+        ppic = requests.get(profile_pic)
+        open(f"{username}.jpg", "wb").write(ppic.content)
+        image = f"{username}.jpg"
         output = info_str.format(
             username,
             full_name,
