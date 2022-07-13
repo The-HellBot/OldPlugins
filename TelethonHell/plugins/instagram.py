@@ -173,19 +173,21 @@ async def userinfo(event):
     username = uname.replace("@", "") if "@" in uname else uname
     hell = await eor(event, f"Searching `{username}` on Instagram...")
     info_str = """
-<b><i><u>Instagram User Details:</b></i></u>
+<b><i><u>•×• Instagram User Details •×•</b></i></u>
     
-<b>Username:</b> <code>{}</code>
-<b>Full Name:</b> <code>{}</code>
-<b>Private:</b> <code>{}</code>
-<b>Verified:</b> <code>{}</code>
-<b>Posts:</b> <code>{}</code>
-<b>Followers:</b> <code>{}</code>
-<b>Followings:</b> <code>{}</code>
-<b>Website:</b> <code>{}</code>
-<b>Business:</b> <code>{}</code>
-<b>Email:</b> <code>{}</code>
-<b>Bio:</b> <code>{}</code>
+<b>• Username:</b> <code>{}</code>
+<b>• Full Name:</b> <code>{}</code>
+<b>• Private:</b> <code>{}</code>
+<b>• Verified:</b> <code>{}</code>
+<b>• Posts:</b> <code>{}</code>
+<b>• Followers:</b> <code>{}</code>
+<b>• Followings:</b> <code>{}</code>
+<b>• Website:</b> <code>{}</code>
+<b>• Business:</b> <code>{}</code>
+<b>• Email:</b> <code>{}</code>
+<b>• Bio:</b> <code>{}</code>
+
+<a href={}>Link To Profile 🔗</a>
 """
     IG = await InstaGram(event)
     if IG:
@@ -215,7 +217,7 @@ async def userinfo(event):
             email,
             bio,
         )
-        await event.client.send_messagee(
+        await event.client.send_message(
             event.chat_id,
             output[:1024], # as 1024 is telegram limit for media captions
             file=profile_pic,
