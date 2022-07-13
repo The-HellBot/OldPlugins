@@ -175,17 +175,17 @@ async def userinfo(event):
     info_str = """
 <b><i><u>Instagram User Details:</b></i></u>
     
-<b>Username:</b> <code>{}<code>
-<b>Full Name:</b> <code>{}<code>
-<b>Private:</b> <code>{}<code>
-<b>Verified:</b> <code>{}<code>
-<b>Posts:</b> <code>{}<code>
-<b>Followers:</b> <code>{}<code>
-<b>Followings:</b> <code>{}<code>
-<b>Website:</b> <code>{}<code>
-<b>Business:</b> <code>{}<code>
-<b>Email:</b> <code>{}<code>
-<b>Bio:</b> <code>{}<code>
+<b>Username:</b> <code>{}</code>
+<b>Full Name:</b> <code>{}</code>
+<b>Private:</b> <code>{}</code>
+<b>Verified:</b> <code>{}</code>
+<b>Posts:</b> <code>{}</code>
+<b>Followers:</b> <code>{}</code>
+<b>Followings:</b> <code>{}</code>
+<b>Website:</b> <code>{}</code>
+<b>Business:</b> <code>{}</code>
+<b>Email:</b> <code>{}</code>
+<b>Bio:</b> <code>{}</code>
 """
     IG = await InstaGram(event)
     if IG:
@@ -215,13 +215,15 @@ async def userinfo(event):
             email,
             bio,
         )
-        await hell.edit(
+        await event.client.send_messagee(
+            event.chat_id,
             output[:1024], # as 1024 is telegram limit for media captions
             file=profile_pic,
             force_document=False,
             parse_mode="HTML",
             link_preview=False,
         )
+        await hell.delete()
     else:
         await eod(hell, "INSTAGRAM_SESSION not configured or Expired !")
 
