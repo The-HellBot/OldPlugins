@@ -21,7 +21,11 @@ async def _(event):
             cmd, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
         )
         stdout, stderr = await process.communicate()
-        result = str(stdout.decode().strip()) + str(stderr.decode().strip())
+        _out_ = str(stdout.decode().strip()) + str(stderr.decode().strip())
+        try:
+            result = await env_safe_clean(_out_, HARMFUL)
+        except:
+            result = _out_
         helluser = await event.client.get_me()
         if helluser.username:
             curruser = helluser.username
