@@ -4,12 +4,14 @@ import requests
 from . import *
 
 
-@hell_cmd(pattern="app ([\s\S]*)")
+@hell_cmd(pattern="app(?:\s|$)([\s\S]*)")
 async def apk(event):
-    app_name = event.text[5:]
+    lists = event.text.split(" ", 1)
+    if not len(lists) == 2:
+        return await eod(event, "Invalid syntax.")
+    app_name = lists[1]
     event = await eor(event, f"Searching for {app_name}...")
-    xyz = await client_id(event)
-    HELL_USER = xyz[1]
+    _, HELL_USER, _ = await client_id(event)
     try:
         remove_space = app_name.split(" ")
         final_name = "+".join(remove_space)
@@ -75,7 +77,7 @@ async def apk(event):
         await event.edit("Exception Occured:- " + str(err))
 
 
-@hell_cmd(pattern="appr ([\s\S]*)")
+@hell_cmd(pattern="appr(?:\s|$)([\s\S]*)")
 async def apkr(event):
     app_name = event.text[6:]
     event = await eor(event, f"Searching for {app_name}...")
@@ -145,28 +147,9 @@ async def apkr(event):
         await event.edit("Exception Occured:- " + str(err))
 
 
-@hell_cmd(pattern="mods ([\s\S]*)")
-async def mod(event):
-    hell = event.text[6:]
-    if not hell:
-        if event.is_reply:
-            (await event.get_reply_message()).message
-        else:
-            await eod(uwu, "Give name of apk to search mod...")
-            return
-    uwu = await eor(event, f"Searching Mod for  `{hell}` ...")
-    troll = await event.client.inline_query("PremiumAppBot", f"{(deEmojify(hell))}")
-    owo = await troll[0].click(Config.LOGGER_ID)
-    owo_id = owo.id
-    modd = await event.client.get_messages(entity=Config.LOGGER_ID, ids=owo_id)
-    await event.client.send_message(event.chat_id, modd)
-    await uwu.delete()
-    await owo.delete()
-
-
 CmdHelp("app").add_command(
     "app", "<app name>", "Searches the app in the playstore and provides the link to the app in playstore and fetchs app details"
-).add_command("mods", "<app name>", "Searches the modded/premium app").add_command(
+).add_command(
     "appr", "<app name>", "Searches the app in the playstore and provides the link to the app in playstore and fetchs app details with Xpl0iter request link."
 ).add_info(
     "Apps Details"
