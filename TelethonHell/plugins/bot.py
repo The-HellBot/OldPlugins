@@ -6,6 +6,7 @@ from random import choice
 from telethon import functions
 from telethon.errors.rpcerrorlist import YouBlockedUserError
 from telethon.tl.functions.channels import LeaveChannelRequest
+from telethon.tl.functions.messages import SaveDraftRequest
 
 from TelethonHell.DB.gvar_sql import gvarstat
 from . import *
@@ -152,6 +153,24 @@ async def _(event):
         await eod(event, f"**SYNTAX EXAMPLE**\n\n~ `{hl}dm @ForGo10God Hey Hell!` \n~ `{hl}dm @ForGo10God <reply to a msg>`")
 
 
+@hell_cmd(pattern="chain$")
+async def _(event):
+    hell = await eor(event, "Counting...")
+    count = -1
+    message = event.message
+    while message:
+        reply = await message.get_reply_message()
+        if reply is None:
+            await event.client(
+                SaveDraftRequest(
+                    await event.get_input_chat(), "", reply_to_msg_id=message.id
+                )
+            )
+        message = reply
+        count += 1
+    await hell.edit(f"⛓️ **Chain length :**  `{count}`")
+
+
 CmdHelp("bot").add_command(
     "dc", None, "Gets the DataCenter Number"
 ).add_command(
@@ -170,8 +189,10 @@ CmdHelp("bot").add_command(
     "dm", "<username or user id> <message>", "Sends a DM to given username with required msg"
 ).add_command(
     "limits", None, "Checks your telegram account limitations or restrictions via @SpamBot."
+).add_command(
+    "chain", "Reply to a message", "Reply this command to any msg so that it finds chain length of that msg"
 ).add_info(
-    "Haa vai? Kya hua?"
+    "Some bot level commands."
 ).add_warning(
     "✅ Harmless Module."
 ).add()
