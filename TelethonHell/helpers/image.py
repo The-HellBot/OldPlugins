@@ -1,10 +1,5 @@
 import os
 
-try:
-    pass
-except:
-    os.system("pip install colour")
-
 import PIL.ImageOps
 from PIL import Image
 
