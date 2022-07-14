@@ -1,7 +1,7 @@
 from . import *
 
 
-@hell_cmd(pattern="carry ([\s\S]*)")
+@hell_cmd(pattern="carry(?:\s|$)([\s\S]*)")
 async def kraken(carry):
     name = carry.pattern_match.group(1)
     await eor(
@@ -10,10 +10,9 @@ async def kraken(carry):
     )
 
 
-@hell_cmd(pattern="ded ([\s\S]*)")
+@hell_cmd(pattern="ded(?:\s|$)([\s\S]*)")
 async def kraken(event):
-    xyz = await client_id(event)
-    hell_mention = xyz[2]
+    _, _, hell_mention = await client_id(event)
     name = event.pattern_match.group(1)
     await eor(
         event,
@@ -34,10 +33,9 @@ async def kraken(event):
     )
 
 
-@hell_cmd(pattern="sthink ([\s\S]*)")
+@hell_cmd(pattern="sthink(?:\s|$)([\s\S]*)")
 async def kraken(event):
-    xyz = await client_id(event)
-    hell_mention = xyz[2]
+    _, _, hell_mention = await client_id(event)
     name = event.pattern_match.group(1)
     B = (
         f"**{hell_mention} ~> {name} .\n\n**"
@@ -60,10 +58,9 @@ async def kraken(event):
     await eor(event, B)
 
 
-@hell_cmd(pattern="sfrog ([\s\S]*)")
+@hell_cmd(pattern="sfrog(?:\s|$)([\s\S]*)")
 async def kraken(event):
-    xyz = await client_id(event)
-    hell_mention = xyz[2]
+    _, _, hell_mention = await client_id(event)
     name = event.pattern_match.group(1)
     C = (
         f"**{hell_mention} ~> {name} .\n\n**"
@@ -86,10 +83,9 @@ async def kraken(event):
     await eor(event, C)
 
 
-@hell_cmd(pattern="sdead ([\s\S]*)")
+@hell_cmd(pattern="sdead(?:\s|$)([\s\S]*)")
 async def kraken(event):
-    xyz = await client_id(event)
-    hell_mention = xyz[2]
+    _, _, hell_mention = await client_id(event)
     name = event.pattern_match.group(1)
     D = (
         f"**{hell_mention} ~> {name} .\n\n**"
@@ -112,7 +108,7 @@ async def kraken(event):
     await eor(event, D)
 
 
-@hell_cmd(pattern="strump ([\s\S]*)")
+@hell_cmd(pattern="strump(?:\s|$)([\s\S]*)")
 async def kraken(trumpsay):
     name = trumpsay.pattern_match.group(1)
     E = (
@@ -136,7 +132,7 @@ async def kraken(trumpsay):
     await eor(trumpsay, E)
 
 
-@hell_cmd(pattern="schina ([\s\S]*)")
+@hell_cmd(pattern="schina(?:\s|$)([\s\S]*)")
 async def kraken(ckmkb):
     name = ckmkb.pattern_match.group(1)
     F = (
