@@ -3,6 +3,7 @@ import io
 import os
 import requests
 import traceback
+import urllib.request
 
 from bs4 import BeautifulSoup
 from geopy.geocoders import Nominatim
@@ -231,6 +232,22 @@ async def _(event):
         await eod(hell, traceback.format_exc())
 
 
+@hell_cmd(pattern="cricket$")
+async def _(event):
+    score_page = "http://static.cricinfo.com/rss/livescores.xml"
+    page = urllib.request.urlopen(score_page)
+    soup = BeautifulSoup(page, "html.parser")
+    result = soup.find_all("description")
+    final = ""
+    for match in result:
+        final += match.get_text() + "\n\n"
+    await eor(
+        event,
+        f"<b><i><u>Match information gathered successful</b></i></u>\n\n<code>{final}</code>",
+        parse_mode="HTML",
+    )
+
+
 CmdHelp("google").add_command(
     "google", "<query>", "Does a google search for the query provided"
 ).add_command(
@@ -243,6 +260,8 @@ CmdHelp("google").add_command(
     "wiki", "<query>", "Searches for the query on Wikipedia."
 ).add_command(
     "webshot", "<link>", f"Gives out the web screenshot of given link via Google Crome Bin in .png format", "webshot https://github.com/hellboy-op/hellbot"
+).add_command(
+    "cs", None, "Collects all the live cricket scores."
 ).add_info(
     "Google Search."
 ).add_warning(
