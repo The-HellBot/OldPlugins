@@ -154,7 +154,7 @@ async def uploadas(event):
                     event.chat_id,
                     file_name,
                     thumb=thumb,
-                    caption=input_str,
+                    caption=file_name,
                     force_document=False,
                     allow_cache=False,
                     reply_to=reply,
