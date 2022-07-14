@@ -1,73 +1,30 @@
 import random
-
 import nekos
 
 from . import *
 
 neko_category = [
-    "feet",
-    "yuri",
-    "trap",
-    "futanari",
-    "hololewd",
-    "lewdkemo",
-    "solog",
-    "feetg",
-    "cum",
-    "erokemo",
-    "les",
-    "wallpaper",
-    "lewdk",
-    "ngif",
-    "tickle",
-    "lewd",
-    "feed",
-    "gecg",
-    "eroyuri",
-    "eron",
-    "cum_jpg",
-    "bj",
-    "nsfw_neko_gif",
-    "solo",
-    "kemonomimi",
-    "nsfw_avatar",
-    "gasm",
-    "poke",
-    "anal",
-    "slap",
-    "hentai",
-    "avatar",
-    "erofeet",
-    "holo",
-    "keta",
-    "blowjob",
-    "pussy",
-    "tits",
-    "holoero",
-    "lizard",
-    "pussy_jpg",
-    "pwankg",
-    "classic",
-    "kuni",
-    "waifu",
-    "pat",
-    "8ball",
-    "kiss",
-    "femdom",
-    "neko",
-    "spank",
-    "cuddle",
-    "erok",
-    "fox_girl",
-    "boobs",
-    "random_hentai_gif",
-    "smallboobs",
-    "hug",
-    "ero",
-    "smug",
-    "goose",
-    "baka",
-    "woof",
+    'wallpaper',
+    'ngif',
+    'tickle',
+    'feed',
+    'gecg',
+    'gasm',
+    'slap',
+    'avatar',
+    'lizard',
+    'waifu',
+    'pat',
+    '8ball',
+    'kiss',
+    'neko',
+    'spank',
+    'cuddle',
+    'fox_girl',
+    'hug',
+    'smug',
+    'goose',
+    'woof',
 ]
 
 
@@ -99,9 +56,12 @@ async def _(event):
         if link.endswith((".gif")):
             await unsave_gif(event, x)
     else:
+        out = ""
+        for x in neko_category:
+            out += f"• `{x}` \n"
         await eor(
             event,
-            f"**Unmatched argument.** \n\n__Get all the required queries for nekos here__ -> **[Nekos Queries](http://telegra.ph/Nekos-Queries-08-20)**",
+            f"**Invalid Argument. Choose from these:** {out}\n\n ",
         )
 
 
