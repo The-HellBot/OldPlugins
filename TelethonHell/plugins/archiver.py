@@ -6,7 +6,6 @@ import tarfile
 import time
 import zipfile
 
-import patoolib
 from hachoir.metadata import extractMetadata
 from hachoir.parser import createParser
 from telethon.tl.types import DocumentAttributeVideo
@@ -104,96 +103,6 @@ def zipdir(path, ziph):
         for file in files:
             ziph.write(os.path.join(root, file))
             os.remove(os.path.join(root, file))
-
-
-@hell_cmd(pattern="rar ([\s\S]*)")
-async def _(event):
-    input_str = event.pattern_match.group(1)
-    mone = await eor(event, "Processing ...")
-    if not os.path.isdir(Config.TMP_DOWNLOAD_DIRECTORY):
-        os.makedirs(Config.TMP_DOWNLOAD_DIRECTORY)
-    if event.reply_to_msg_id:
-        reply_message = await event.get_reply_message()
-        try:
-            c_time = time.time()
-            downloaded_file_name = await event.client.download_media(
-                reply_message,
-                Config.TMP_DOWNLOAD_DIRECTORY,
-                progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
-                    progress(d, t, mone, c_time, "trying to download")
-                ),
-            )
-            directory_name = downloaded_file_name
-            await mone.edit("creating rar archive, please wait..")
-            patoolib.create_archive(
-                directory_name + ".rar", (directory_name, Config.TMP_DOWNLOAD_DIRECTORY)
-            )
-            await event.client.send_file(
-                event.chat_id,
-                directory_name + ".rar",
-                caption="rarred By HellBot",
-                force_document=True,
-                allow_cache=False,
-                reply_to=event.message.id,
-            )
-            try:
-                os.remove(directory_name + ".rar")
-                os.remove(directory_name)
-            except:
-                pass
-            await mone.edit("Task Completed")
-            await asyncio.sleep(3)
-            await mone.delete()
-        except Exception as e:
-            await mone.edit(str(e))
-    elif input_str:
-        directory_name = input_str
-        await mone.edit("Local file compressed to `{}`".format(directory_name + ".rar"))
-
-
-@hell_cmd(pattern="7z ([\s\S]*)")
-async def _(event):
-    input_str = event.pattern_match.group(1)
-    mone = await eor(event, "Processing ...")
-    if not os.path.isdir(Config.TMP_DOWNLOAD_DIRECTORY):
-        os.makedirs(Config.TMP_DOWNLOAD_DIRECTORY)
-    if event.reply_to_msg_id:
-        reply_message = await event.get_reply_message()
-        try:
-            c_time = time.time()
-            downloaded_file_name = await event.client.download_media(
-                reply_message,
-                Config.TMP_DOWNLOAD_DIRECTORY,
-                progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
-                    progress(d, t, mone, c_time, "trying to download")
-                ),
-            )
-            directory_name = downloaded_file_name
-            await mone.edit("creating 7z archive, please wait..")
-            patoolib.create_archive(
-                directory_name + ".7z", (directory_name, Config.TMP_DOWNLOAD_DIRECTORY)
-            )
-            await event.client.send_file(
-                event.chat_id,
-                directory_name + ".7z",
-                caption="7z archived By HellBot",
-                force_document=True,
-                allow_cache=False,
-                reply_to=event.message.id,
-            )
-            try:
-                os.remove(directory_name + ".7z")
-                os.remove(directory_name)
-            except:
-                pass
-            await mone.edit("Task Completed")
-            await asyncio.sleep(3)
-            await mone.delete()
-        except Exception as e:
-            await mone.edit(str(e))
-    elif input_str:
-        directory_name = input_str
-        await mone.edit("Local file compressed to `{}`".format(directory_name + ".7z"))
 
 
 @hell_cmd(pattern="tar ([\s\S]*)")
@@ -360,91 +269,6 @@ async def _(event):
         os.remove(downloaded_file_name)
 
 
-@hell_cmd(pattern="unrar$")
-async def _(event):
-    mone = await eor(event, "Processing ...")
-    if not os.path.isdir(Config.TMP_DOWNLOAD_DIRECTORY):
-        os.makedirs(Config.TMP_DOWNLOAD_DIRECTORY)
-    if event.reply_to_msg_id:
-        start = datetime.datetime.now()
-        reply_message = await event.get_reply_message()
-        try:
-            c_time = time.time()
-            downloaded_file_name = await event.client.download_media(
-                reply_message,
-                Config.TMP_DOWNLOAD_DIRECTORY,
-                progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
-                    progress(d, t, mone, c_time, "trying to download")
-                ),
-            )
-        except Exception as e:
-            await mone.edit(str(e))
-        else:
-            end = datetime.datetime.now()
-            ms = (end - start).seconds
-            await mone.edit(
-                "Stored the rar to `{}` in {} seconds.".format(downloaded_file_name, ms)
-            )
-
-        patoolib.extract_archive(downloaded_file_name, outdir=extracted)
-        filename = sorted(get_lst_of_files(extracted, []))
-        await mone.edit("Unraring now")
-        for single_file in filename:
-            if os.path.exists(single_file):
-                caption_rts = os.path.basename(single_file)
-                force_document = True
-                supports_streaming = False
-                document_attributes = []
-                if single_file.endswith((".mp4", ".mp3", ".flac", ".webm")):
-                    metadata = extractMetadata(createParser(single_file))
-                    duration = 0
-                    width = 0
-                    height = 0
-                    if metadata.has("duration"):
-                        duration = metadata.get("duration").seconds
-                    if os.path.exists(thumb_image_path):
-                        metadata = extractMetadata(createParser(thumb_image_path))
-                        if metadata.has("width"):
-                            width = metadata.get("width")
-                        if metadata.has("height"):
-                            height = metadata.get("height")
-                    document_attributes = [
-                        DocumentAttributeVideo(
-                            duration=duration,
-                            w=width,
-                            h=height,
-                            round_message=False,
-                            supports_streaming=True,
-                        )
-                    ]
-                try:
-                    await event.client.send_file(
-                        event.chat_id,
-                        single_file,
-                        caption=f"UnRarred `{caption_rts}`",
-                        force_document=force_document,
-                        supports_streaming=supports_streaming,
-                        allow_cache=False,
-                        reply_to=event.message.id,
-                        attributes=document_attributes,
-                        progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
-                            progress(d, t, event, c_time, "trying to upload")
-                        ),
-                    )
-                    await mone.edit("DONE!!!")
-                    await asyncio.sleep(5)
-                    await mone.delete()
-                except Exception as e:
-                    await event.client.send_message(
-                        event.chat_id,
-                        "{} caused `{}`".format(caption_rts, str(e)),
-                        reply_to=event.message.id,
-                    )
-                    continue
-                os.remove(single_file)
-        os.remove(downloaded_file_name)
-
-
 @hell_cmd(pattern="untar$")
 async def _(event):
     mone = await eor(event, "Processing ...")
@@ -547,15 +371,9 @@ def get_lst_of_files(input_directory, output_lst):
 CmdHelp("archiver").add_command(
     "zip", "Reply to file/media", "It will zip the file/media"
 ).add_command(
-    "rar", "Reply to file/media", "It will rar the file/media"
-).add_command(
-    "7z", "Reply to file/media", "It will 7z the file/media"
-).add_command(
     "tar", "Reply to file/media", "It will tar the file/media"
 ).add_command(
     "unzip", "Reply to zip file", "It will unzip the zip file"
-).add_command(
-    "unrar", "Reply to rar file", "It will unrar the rar file"
 ).add_command(
     "untar", "Reply to tar file", "It will untar the tar file"
 ).add_command(
