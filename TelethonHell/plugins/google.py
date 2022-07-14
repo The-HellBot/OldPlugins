@@ -1,18 +1,18 @@
-import os
-from shutil import rmtree
 import datetime
 import io
-import traceback
+import os
 import requests
+import traceback
+
 from bs4 import BeautifulSoup
 from geopy.geocoders import Nominatim
 from search_engine_parser import GoogleSearch
-from search_engine_parser.core.exceptions import \
-    NoResultsOrTrafficError as GoglError
+from search_engine_parser.core.exceptions import NoResultsOrTrafficError as GoglError
+from selenium import webdriver
+from shutil import rmtree
 from telethon.tl import types
 from wikipedia import summary
 from wikipedia.exceptions import DisambiguationError, PageError
-from selenium import webdriver
 
 from . import *
 
