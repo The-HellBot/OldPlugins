@@ -240,7 +240,7 @@ async def labstack(event):
         t_response = subprocess.check_output(command_to_exec, stderr=subprocess.STDOUT)
     except subprocess.CalledProcessError as exc:
         logger.info("Status : FAIL", exc.returncode, exc.output)
-        await eod(hell, f"**ERROR !!** \n\n`{exc.output.decode("UTF-8")}`")
+        await eod(hell, f"**ERROR !!** \n\n`{exc.output.decode('UTF-8')}`")
         return
     else:
         logger.info(t_response)
