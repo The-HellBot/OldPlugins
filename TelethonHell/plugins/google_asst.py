@@ -1,12 +1,35 @@
+import aiohttp
 import datetime
 import os
 import subprocess
-
 import emoji
+
 from googletrans import Translator
 from gtts import gTTS
 
 from . import *
+
+
+class AioHttp:
+    @staticmethod
+    async def get_json(link):
+        async with aiohttp.ClientSession() as session:
+            async with session.get(link) as resp:
+                return await resp.json()
+
+
+@hell_cmd(pattern="ud ([\s\S]*)")
+async def _(event):
+    word = event.text[4:]
+    try:
+        response = await AioHttp().get_json(f"http://api.urbandictionary.com/v0/define?term={word}")
+        word = response["list"][0]["word"]
+        definition = response["list"][0]["definition"]
+        example = response["list"][0]["example"]
+        result = f"**Text : {word}**\n**Meaning :**\n`{definition}`\n\n**Example :**\n`{example}`"
+        await eor(event, result)
+    except Exception as e:
+        await eod(event, f"**Error !!** \n\n`{e}`")
 
 
 @hell_cmd(pattern="trt(?:\s|$)([\s\S]*)")
@@ -117,6 +140,8 @@ CmdHelp("google_asst").add_command(
     "trt", "<lang code> <reply to msg>", "Translates the replied message to desired language code. Type '.trc' to get all the language codes", f"trt en - hello | {hl}trt en <reply to msg>"
 ).add_command(
     "trc", None, "Gets all the possible language codes for google translate module"
+).add_command(
+    "meaning", "query", "Fetches meaning of given word from Urban Dictionary."
 ).add_info(
     "Google Assistant"
 ).add_warning(
