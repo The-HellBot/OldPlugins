@@ -1,6 +1,5 @@
 DEVLIST = ["1432756163", "1777340882"]
 
-
 HARMFUL = [
     "SESSION",
     "HEROKU_API_KEY",
@@ -15,3 +14,5 @@ HARMFUL = [
     "HELLBOT_SESSION",
     "session.save()",
 ]
+
+INVALID_UPLOAD = ["Hell-TBot.session-journal", "Hell-TBot.session"]
