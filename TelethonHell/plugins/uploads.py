@@ -223,7 +223,7 @@ async def labstack(event):
     }
     r2 = requests.post("https://up.labstack.com/api/v1/links", json=files2, headers=headers2)
     r2json = json.loads(r2.text)
-    url = f"https://up.labstack.com/api/v1/links/{r2json["code"]}/send"
+    url = f"https://up.labstack.com/api/v1/links/{r2json['code']}/send"
     max_days = 7
     command_to_exec = [
         "curl",
@@ -244,7 +244,7 @@ async def labstack(event):
         return
     else:
         logger.info(t_response)
-        t_response_arry = f"https://up.labstack.com/api/v1/links/{r2json["code"]}/receive"
+        t_response_arry = f"https://up.labstack.com/api/v1/links/{r2json['code']}/receive"
     await eor(hell, f"{t_response_arry} \nMax Days: {str(max_days)}", link_preview=False)
 
 
