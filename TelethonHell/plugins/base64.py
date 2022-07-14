@@ -53,17 +53,20 @@ async def gethash(event):
 @hell_cmd(pattern="b64(?:\s|$)([\s\S]*)")
 @errors_handler
 async def endecrypt(event):
-    lists = event.text.spli(" ", 2)
-    if len(lists) <= 2:
-        return await eod(event, f"**WRONG SYNTAX !!** \n\n`{hl}b64 <en/de> <your text>`")
-    if lists[1] == "en":
-        lething = str(base64.b64encode(bytes(lists[2], "utf-8")))[2:]
-        await eor(event, "**Encoded :** \n\n`" + lething[:-1] + "`")
-    elif lists[1] == "de":
-        lething = str(base64.b64decode(bytes(lists[2], "utf-8"), validate=True))[2:]
-        await eor(event, "**Decoded :**\n\n`" + lething[:-1] + "`")
-    else:
-        await eod(event, f"**WRONG SYNTAX !!** \n\n`{hl}b64 <en/de> <your text>`")
+    if event.pattern_match.group(1) == "en":
+        lething = str(base64.b64encode(bytes(event.pattern_match.group(2), "utf-8")))[
+            2:
+        ]
+        await event.reply("**Encoded :** \n\n`" + lething[:-1] + "`")
+        await event.delete()
+    elif event.pattern_match.group(1) == "de":
+        lething = str(
+            base64.b64decode(
+                bytes(event.pattern_match.group(2), "utf-8"), validate=True
+            )
+        )[2:]
+        await event.reply("**Decoded :**\n\n`" + lething[:-1] + "`")
+        await event.delete()
 
 
 CmdHelp("base64").add_command(
