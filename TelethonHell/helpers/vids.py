@@ -15,6 +15,32 @@ async def thumb_from_audio(audio_path, output):
     await runcmd(f"ffmpeg -i {audio_path} -filter:v scale=500:500 -an {output}")
 
 
+# generate thumbnail from video
+def get_video_thumb(file, output=None, width=90)
+    metadata = extractMetadata(createParser(file))
+    popen = subprocess.Popen(
+        [
+            "ffmpeg",
+            "-i",
+            file,
+            "-ss",
+            str(
+                int((0, metadata.get("duration").seconds)[metadata.has("duration")] / 2)
+            ),
+            "-filter:v",
+            "scale={}:-1".format(width),
+            "-vframes",
+            "1",
+            output,
+        ],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.DEVNULL,
+    )
+    if not popen.returncode and os.path.lexists(file):
+        return output
+    return None
+
+
 # take a frame from video
 async def take_screen_shot(video_file, output_directory, ttl):
     # https://stackoverflow.com/a/13891070/4723940
