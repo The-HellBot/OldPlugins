@@ -1,6 +1,8 @@
 import os
 from shutil import rmtree
-
+import datetime
+import io
+import traceback
 import requests
 from bs4 import BeautifulSoup
 from geopy.geocoders import Nominatim
@@ -10,6 +12,7 @@ from search_engine_parser.core.exceptions import \
 from telethon.tl import types
 from wikipedia import summary
 from wikipedia.exceptions import DisambiguationError, PageError
+from selenium import webdriver
 
 from . import *
 
@@ -175,6 +178,58 @@ async def gps(event):
         await eod(hell, "I coudn't find it😫")
 
 
+@hell_cmd(pattern="webshot ([\s\S]*)")
+async def _(event):
+    if Config.GOOGLE_CHROME_BIN is None:
+        return await eod(event, "need to install Google Chrome. Module Stopping.")
+    hell = await eor(event, "Webshot in action...")
+    start = datetime.datetime.now()
+    try:
+        chrome_options = webdriver.ChromeOptions()
+        chrome_options.add_argument("--ignore-certificate-errors")
+        chrome_options.add_argument("--test-type")
+        chrome_options.add_argument("--headless")
+        chrome_options.add_argument("--no-sandbox")
+        chrome_options.add_argument("--disable-dev-shm-usage")
+        chrome_options.binary_location = Config.GOOGLE_CHROME_BIN
+        await hell.edit("Starting Google Chrome BIN")
+        driver = webdriver.Chrome(chrome_options=chrome_options)
+        input_str = event.pattern_match.group(1)
+        driver.get(input_str)
+        await hell.edit("Calculating Page Dimensions")
+        height = driver.execute_script(
+            "return Math.max(document.body.scrollHeight, document.body.offsetHeight, document.documentElement.clientHeight, document.documentElement.scrollHeight, document.documentElement.offsetHeight);"
+        )
+        width = driver.execute_script(
+            "return Math.max(document.body.scrollWidth, document.body.offsetWidth, document.documentElement.clientWidth, document.documentElement.scrollWidth, document.documentElement.offsetWidth);"
+        )
+        await hell.edit("Painting web-page")
+        driver.set_window_size(width + 100, height + 100)
+        im_png = driver.get_screenshot_as_png()
+        driver.close()
+        await hell.edit("Stopping Google Chrome BIN")
+        message_id = event.message.id
+        if event.reply_to_msg_id:
+            message_id = event.reply_to_msg_id
+        end = datetime.datetime.now()
+        ms = (end - start).seconds
+        caption = f"**Webshot Completed !!** \n\n**URL:** {input_str} \n**Time Taken:** `{ms} seconds`\n**By:** {hell_mention}"
+        with io.BytesIO(im_png) as out_file:
+            out_file.name = "Hell_Capture.PNG"
+            await event.client.send_file(
+                event.chat_id,
+                out_file,
+                caption=caption,
+                force_document=True,
+                reply_to=message_id,
+                allow_cache=False,
+                silent=True,
+            )
+            await hell.delete()
+    except Exception:
+        await eod(hell, traceback.format_exc())
+
+
 CmdHelp("google").add_command(
     "google", "<query>", "Does a google search for the query provided"
 ).add_command(
@@ -185,6 +240,8 @@ CmdHelp("google").add_command(
     "gps", "<place>", "Gives the location of the given place/city/state."
 ).add_command(
     "wiki", "<query>", "Searches for the query on Wikipedia."
+).add_command(
+    "webshot", "<link>", f"Gives out the web screenshot of given link via Google Crome Bin in .png format", "webshot https://github.com/hellboy-op/hellbot"
 ).add_info(
     "Google Search."
 ).add_warning(
