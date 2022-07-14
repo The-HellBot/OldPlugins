@@ -182,6 +182,7 @@ async def gps(event):
 async def _(event):
     if Config.GOOGLE_CHROME_BIN is None:
         return await eod(event, "need to install Google Chrome. Module Stopping.")
+    _, _, hell_mention = await client_id(event)
     hell = await eor(event, "Webshot in action...")
     start = datetime.datetime.now()
     try:
