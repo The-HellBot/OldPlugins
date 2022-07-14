@@ -1,5 +1,8 @@
 import asyncio
+import json
 import os
+import requests
+import subprocess
 import time
 
 from hachoir.metadata import extractMetadata
