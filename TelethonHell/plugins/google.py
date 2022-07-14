@@ -261,7 +261,7 @@ CmdHelp("google").add_command(
 ).add_command(
     "webshot", "<link>", f"Gives out the web screenshot of given link via Google Crome Bin in .png format", "webshot https://github.com/hellboy-op/hellbot"
 ).add_command(
-    "cs", None, "Collects all the live cricket scores."
+    "cricket", None, "Collects all the live cricket scores."
 ).add_info(
     "Google Search."
 ).add_warning(
