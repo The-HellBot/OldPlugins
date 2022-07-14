@@ -61,7 +61,7 @@ async def _(event):
             out += f"• `{x}` \n"
         await eor(
             event,
-            f"**Invalid Argument. Choose from these:** {out}\n\n ",
+            f"**Invalid Argument. Choose from these:**\n\n{out}",
         )
 
 
