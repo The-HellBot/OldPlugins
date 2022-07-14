@@ -42,4 +42,15 @@ async def reload_hellbot():
     os._exit(143)
 
 
+async def env_safe_clean(text, harm):
+    cmd = text.split()
+    output = ""
+    for x in cmd:
+        if x.split("=")[0] in harm:
+            pass
+        else:
+            output += f"{x}\n"
+
+    return output
+
 # hellbot
