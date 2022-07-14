@@ -12,7 +12,6 @@ from telethon.tl.types import DocumentAttributeVideo
 
 from . import *
 
-thumb_image_path = Config.TMP_DOWNLOAD_DIRECTORY + "/thumb_image.jpg"
 extracted = Config.TMP_DOWNLOAD_DIRECTORY + "extracted/"
 if not os.path.isdir(extracted):
     os.makedirs(extracted)
@@ -23,7 +22,7 @@ async def _(event):
     if not event.is_reply:
         await eod(event, "Reply to a file to compress it. Bruh.")
         return
-    mone = await eor(event, "Processing ...")
+    hell = await eor(event, "Zipping ...")
     if not os.path.isdir(Config.TMP_DOWNLOAD_DIRECTORY):
         os.makedirs(Config.TMP_DOWNLOAD_DIRECTORY)
     if event.reply_to_msg_id:
@@ -34,9 +33,9 @@ async def _(event):
                 Config.TMP_DOWNLOAD_DIRECTORY,
             )
             directory_name = downloaded_file_name
-            await mone.edit(downloaded_file_name)
+            await eod(hell, downloaded_file_name)
         except Exception as e:
-            await mone.edit(str(e))
+            await eod(hell, str(e))
     zipfile.ZipFile(directory_name + ".zip", "w", zipfile.ZIP_DEFLATED).write(
         directory_name
     )
@@ -48,67 +47,12 @@ async def _(event):
         allow_cache=False,
         reply_to=event.message.id,
     )
-    await asyncio.sleep(7)
-    await mone.delete()
 
 
-def zipdir(path, ziph):
-    for root, dirs, files in os.walk(path):
-        for file in files:
-            ziph.write(os.path.join(root, file))
-            os.remove(os.path.join(root, file))
-
-
-@hell_cmd(pattern="compress$")
-async def _(event):
-    if not event.is_reply:
-        await eor(event, "Reply to a file to compress it.")
-        return
-    mone = await eor(event, "Processing ...")
-    if not os.path.isdir(Config.TMP_DOWNLOAD_DIRECTORY):
-        os.makedirs(Config.TMP_DOWNLOAD_DIRECTORY)
-    if event.reply_to_msg_id:
-        reply_message = await event.get_reply_message()
-        try:
-            c_time = time.time()
-            downloaded_file_name = await event.client.download_media(
-                reply_message,
-                Config.TMP_DOWNLOAD_DIRECTORY,
-                progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
-                    progress(d, t, mone, c_time, "trying to download")
-                ),
-            )
-            directory_name = downloaded_file_name
-            await mone.edit(downloaded_file_name)
-        except Exception as e:
-            await mone.edit(str(e))
-    zipfile.ZipFile(directory_name + ".zip", "w", zipfile.ZIP_DEFLATED).write(
-        directory_name
-    )
-    await event.client.send_file(
-        event.chat_id,
-        directory_name + ".zip",
-        caption="Zipped By HellBot",
-        force_document=True,
-        allow_cache=False,
-        reply_to=event.message.id,
-    )
-    await mone.edit("DONE!!!")
-    await asyncio.sleep(5)
-    await mone.delete()
-
-
-def zipdir(path, ziph):
-    for root, dirs, files in os.walk(path):
-        for file in files:
-            ziph.write(os.path.join(root, file))
-            os.remove(os.path.join(root, file))
-
-
-@hell_cmd(pattern="tar ([\s\S]*)")
+@hell_cmd(pattern="tar(?:\s|$)([\s\S]*)")
 async def _(event):
     input_str = event.pattern_match.group(1)
-    mone = await eor(event, "Processing ...")
+    hell = await eor(event, "Processing ...")
     if not os.path.isdir(Config.TMP_DOWNLOAD_DIRECTORY):
         os.makedirs(Config.TMP_DOWNLOAD_DIRECTORY)
     if event.reply_to_msg_id:
@@ -123,7 +67,7 @@ async def _(event):
                 ),
             )
             directory_name = downloaded_file_name
-            await mone.edit("Finish downloading to my local")
+            await hell.edit("Finished downloading to my local")
             to_upload_file = directory_name
             output = await create_archive(to_upload_file)
             is_zip = False
@@ -141,17 +85,11 @@ async def _(event):
             )
             try:
                 os.remove(output)
-                os.remove(output)
             except:
                 pass
-            await mone.edit("Task Completed")
-            await asyncio.sleep(3)
-            await mone.delete()
+            await eod(hell, "Task Completed")
         except Exception as e:
-            await mone.edit(str(e))
-    elif input_str:
-        directory_name = input_str
-        await mone.edit("Local file compressed to `{}`".format(output))
+            await eod(hell, str(e))
 
 
 async def create_archive(input_directory):
@@ -185,7 +123,7 @@ async def create_archive(input_directory):
 
 @hell_cmd(pattern="unzip$")
 async def _(event):
-    mone = await eor(event, "Processing ...")
+    hell = await eor(event, "Processing ...")
     if not os.path.isdir(Config.TMP_DOWNLOAD_DIRECTORY):
         os.makedirs(Config.TMP_DOWNLOAD_DIRECTORY)
     if event.reply_to_msg_id:
@@ -201,18 +139,16 @@ async def _(event):
                 ),
             )
         except Exception as e:
-            await mone.edit(str(e))
+            await eod(hell, str(e))
         else:
             end = datetime.datetime.now()
             ms = (end - start).seconds
-            await mone.edit(
-                "Stored the zip to `{}` in {} seconds.".format(downloaded_file_name, ms)
-            )
+            await hell.edit("Stored the zip to `{}` in {} seconds.".format(downloaded_file_name, ms))
 
         with zipfile.ZipFile(downloaded_file_name, "r") as zip_ref:
             zip_ref.extractall(extracted)
         filename = sorted(get_lst_of_files(extracted, []))
-        await mone.edit("Unzipping now")
+        await hell.edit("Unzipping now")
         for single_file in filename:
             if os.path.exists(single_file):
                 caption_rts = os.path.basename(single_file)
@@ -255,9 +191,7 @@ async def _(event):
                             progress(d, t, event, c_time, "trying to upload")
                         ),
                     )
-                    await mone.edit("DONE!!!")
-                    await asyncio.sleep(5)
-                    await mone.delete()
+                    await eod(hell, "DONE!!!")
                 except Exception as e:
                     await event.client.send_message(
                         event.chat_id,
@@ -271,11 +205,11 @@ async def _(event):
 
 @hell_cmd(pattern="untar$")
 async def _(event):
-    mone = await eor(event, "Processing ...")
+    hell = await eor(event, "Processing ...")
     if not os.path.isdir(Config.TMP_DOWNLOAD_DIRECTORY):
         os.makedirs(Config.TMP_DOWNLOAD_DIRECTORY)
     extracted = Config.TMP_DOWNLOAD_DIRECTORY + "extracted/"
-    thumb_image_path = Config.TMP_DOWNLOAD_DIRECTORY + "/thumb_image.jpg"
+    thumb_image_path = Config.THUMB_IMG
     if not os.path.isdir(extracted):
         os.makedirs(extracted)
     if event.reply_to_msg_id:
@@ -291,17 +225,15 @@ async def _(event):
                 ),
             )
         except Exception as e:
-            await mone.edit(str(e))
+            await eod(hell, str(e))
         else:
             end = datetime.datetime.now()
             ms = (end - start).seconds
-            await mone.edit(
-                "Stored the tar to `{}` in {} seconds.".format(downloaded_file_name, ms)
-            )
+            await hell.edit(f"Stored the tar to `{downloaded_file_name}` in {ms} seconds.")
         with tarfile.TarFile.open(downloaded_file_name, "r") as tar_file:
             tar_file.extractall(path=extracted)
         filename = sorted(get_lst_of_files(extracted, []))
-        await mone.edit("Untarring now")
+        await hell.edit("Untarring now")
         for single_file in filename:
             if os.path.exists(single_file):
                 caption_rts = os.path.basename(single_file)
@@ -344,13 +276,11 @@ async def _(event):
                             progress(d, t, event, c_time, "trying to upload")
                         ),
                     )
-                    await mone.edit("DONE!!!")
-                    await asyncio.sleep(5)
-                    await mone.delete()
+                    await eod(hell, "DONE!!!")
                 except Exception as e:
                     await event.client.send_message(
                         event.chat_id,
-                        "{} caused `{}`".format(caption_rts, str(e)),
+                        f"{caption_rts} caused `{str(e)}`",
                         reply_to=event.message.id,
                     )
                     continue
