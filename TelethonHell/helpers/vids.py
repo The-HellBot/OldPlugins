@@ -2,7 +2,10 @@ import asyncio
 import os
 import time
 import zipfile
+import subprocess
 
+from hachoir.metadata import extractMetadata
+from hachoir.parser import createParser
 from telethon.errors.rpcerrorlist import YouBlockedUserError
 from telethon.tl import functions
 from telethon.utils import get_input_document
