@@ -167,16 +167,7 @@ async def _(event):
 async def quote(event):
     hell = await eor(event, "(ﾉ◕ヮ◕)ﾉ*.✧")
     q = requests.get("https://animechan.vercel.app/api/random").json()
-    await asyncio.sleep(1.5)
-    await hell.edit(
-        "`"
-        + q["quote"]
-        + "`\n\n—  **"
-        + q["character"]
-        + "** (From __"
-        + q["anime"]
-        + "__)"
-    )  # dimag ka bhosda hogya bc yha pe (*﹏*;)
+    await hell.edit(f"`{q['quote']}`\n\n—  **{q['character']}** (From __{q['anime']}__)")  # dimag ka bhosda hogya bc yha pe (*﹏*;)
 
 
 CmdHelp("anime").add_command(
