@@ -23,45 +23,34 @@ async def on_new_message(event):
 @hell_cmd(pattern="addblacklist(?:\s|$)([\s\S]*)")
 async def on_add_black_list(event):
     text = event.pattern_match.group(1)
-    to_blacklist = list(
-        {trigger.strip() for trigger in text.split("\n") if trigger.strip()}
-    )
-
+    to_blacklist = list({trigger.strip() for trigger in text.split("\n") if trigger.strip()})
     for trigger in to_blacklist:
         sq.add_to_blacklist(event.chat_id, trigger.lower())
-    await eor(
-        event,
-        "Added {} triggers to the blacklist in the current chat".format(
-            len(to_blacklist)
-        ),
-    )
+    await eor(event, f"__Added__ `{to_blacklist}` __triggers to the blacklist in the current chat.__")
 
 
 @hell_cmd(pattern="rmblacklist(?:\s|$)([\s\S]*)")
 async def on_delete_blacklist(event):
     text = event.pattern_match.group(1)
-    to_unblacklist = list(
-        {trigger.strip() for trigger in text.split("\n") if trigger.strip()}
-    )
-
+    to_unblacklist = list({trigger.strip() for trigger in text.split("\n") if trigger.strip()})
     successful = sum(
         1
         for trigger in to_unblacklist
         if sq.rm_from_blacklist(event.chat_id, trigger.lower())
     )
-    await eor(event, f"Removed {successful} / {len(to_unblacklist)} from the blacklist")
+    await eor(event, f"__Removed__ `{successful} / {len(to_unblacklist)}` __from the blacklist.__")
 
 
 @hell_cmd(pattern="listblacklist$")
 async def on_view_blacklist(event):
     all_blacklisted = sq.get_chat_blacklist(event.chat_id)
-    OUT_STR = "Blacklists in the Current Chat:\n"
     if len(all_blacklisted) > 0:
+        OUT_STR = "**Blacklists in the Current Chat:**\n"
         for trigger in all_blacklisted:
-            OUT_STR += f"👉 {trigger} \n"
+            OUT_STR += f"👉 `{trigger}` \n"
     else:
-        OUT_STR = "No Blacklists found. Start saving using `.addblacklist`"
-    if len(OUT_STR) > Config.MAX_MESSAGE_SIZE_LIMIT:
+        OUT_STR = f"__No Blacklists found. Start saving using__`{hl}addblacklist`"
+    if len(OUT_STR) > 4095:
         with io.BytesIO(str.encode(OUT_STR)) as out_file:
             out_file.name = "blacklist.text"
             await event.client.send_file(
