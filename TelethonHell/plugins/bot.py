@@ -20,7 +20,7 @@ ping_txt = """
 
 
 @hell_cmd(pattern="ping$")
-async def pong(hell):
+async def pong(event):
     start = datetime.datetime.now()
     a = gvarstat("PING_PIC")
     pic_list = []
@@ -32,9 +32,8 @@ async def pong(hell):
         PIC = choice(pic_list)
     else:
         PIC = None
-    event = await eor(hell, "`·.·★ ℘ıŋɠ ★·.·´")
-    cid = await client_id(event)
-    ForGo10God, HELL_USER = cid[0], cid[1]
+    hell = await eor(event, "`·.·★ ℘ıŋɠ ★·.·´")
+    ForGo10God, HELL_USER, _ = await client_id(event)
     hell_mention = f"<a href='tg://user?id={ForGo10God}'>{HELL_USER}</a>"
     uptime = await get_time((time.time() - StartTime))
     end = datetime.datetime.now()
@@ -46,9 +45,9 @@ async def pong(hell):
             caption=ping_txt.format(ms, uptime, hell_mention),
             parse_mode="HTML",
         )
-        await event.delete()
+        await hell.delete()
     else:
-        await event.edit(ping_txt.format(ms, uptime, hell_mention), parse_mode="HTML")
+        await hell.edit(ping_txt.format(ms, uptime, hell_mention), parse_mode="HTML")
 
 
 @hell_cmd(pattern="limits$")
@@ -68,13 +67,13 @@ async def is_limited(event):
 
 
 @hell_cmd(pattern="kickme$")
-async def leave(e):
-    await e.edit("😪 **KThnxBye** See u all in hell!!")
+async def leave(event):
+    hell = await eor(event, "😪 **KThnxBye** See u all in hell!!")
     time.sleep(1)
-    if "-" in str(e.chat_id):
-        await event.client(LeaveChannelRequest(e.chat_id))
+    if "-" in str(event.chat_id):
+        await event.client(LeaveChannelRequest(event.chat_id))
     else:
-        await eod(e, "**Is this even a grp?😑**")
+        await eod(hell, "**Is this even a group?😑**")
 
 
 @hell_cmd(pattern="dc$")
@@ -129,29 +128,28 @@ async def _(event):
 
 @hell_cmd(pattern="dm(?:\s|$)([\s\S]*)")
 async def _(event):
-    if len(event.text) > 3:
-        if not event.text[3] == " ":
-            return
-    d = event.pattern_match.group(1)
-    c = d.split(" ")
-    try:
-        chat_id = await get_user_id(c[0])
-    except Exception as e:
-        return await eod(event, f"`{e}`")
-    msg = ""
-    hunter = await event.get_reply_message()
-    if event.reply_to_msg_id:
-        await event.client.send_message(chat_id, hunter)
-        await eod(event, "**[Done]**")
-    for i in c[1:]:
-        msg += i + " "
-    if msg == "":
-        return
-    try:
-        await event.client.send_message(chat_id, msg)
-        await eod(event, "**[Done]**")
-    except BaseException:
-        await eod(f"**Invalid Syntax !!**\n\n`{hl}dm <Username or UserID> <message>`")
+    lists = event.text.split(" ", 2)
+    reply = await event.get_reply_message()
+    if reply and len(lists) >= 2:
+        try:
+            chat_id = await get_user_id(lists[1])
+            to_send = reply
+            await event.client.send_message(chat_id, to_send)
+            await eod(event, "**[Done]**")
+        except Exception as e:
+            return await eod(event, f"**ERROR:** \n\n`{e}`")
+    
+    elif len(lists) == 3:
+        try:
+            chat_id = await get_user_id(lists[1])
+            to_send = lists[2]
+            await event.client.send_message(chat_id, to_send)
+            await eod(event, "**[Done]**")
+        except Exception as e:
+            return await eod(event, f"**ERROR:** \n\n`{e}`")
+    
+    else:
+        await eod(event, f"**SYNTAX EXAMPLE**\n\n~ `{hl}dm @ForGo10God Hey Hell!` \n~ `{hl}dm @ForGo10God <reply to a msg>`")
 
 
 CmdHelp("bot").add_command(
