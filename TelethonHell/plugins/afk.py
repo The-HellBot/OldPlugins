@@ -194,6 +194,7 @@ async def _(event):
                     pass
             except Exception as e:
                 logger.warn(str(e))
+    await event.delete()
 
 
 if H2:
@@ -341,6 +342,7 @@ if H2:
                         pass
                 except Exception as e:
                     logger.warn(str(e))
+        await event.delete()
 
 
 if H3:
@@ -488,6 +490,7 @@ if H3:
                         pass
                 except Exception as e:
                     logger.warn(str(e))
+        await event.delete()
 
 
 if H4:
@@ -635,6 +638,7 @@ if H4:
                         pass
                 except Exception as e:
                     logger.warn(str(e))
+        await event.delete()
 
 
 if H5:
@@ -782,13 +786,11 @@ if H5:
                         pass
                 except Exception as e:
                     logger.warn(str(e))
+        await event.delete()
 
 
 CmdHelp("afk").add_command(
-    "afk",
-    "<reply to media>/<reason>",
-    "Marks you AFK with reason also shows afk time. Media also supported.",
-    "afk <reason>`",
+    "afk", "<reply to media>/<reason>", "Marks you AFK with reason also shows afk time. Media also supported.", "afk <reason>`"
 ).add_extra(
     "📌 Exception", "Use # in a msg to stay in afk mode while chatting."
 ).add_info(
