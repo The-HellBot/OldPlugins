@@ -16,7 +16,7 @@ async def thumb_from_audio(audio_path, output):
 
 
 # generate thumbnail from video
-def get_video_thumb(file, output=None, width=90)
+def get_video_thumb(file, output=None, width=90):
     metadata = extractMetadata(createParser(file))
     popen = subprocess.Popen(
         [
