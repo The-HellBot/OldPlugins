@@ -111,8 +111,8 @@ async def take_ss(video_file: str, duration: int, path: str = "") -> Optional[st
 
 async def tgs_to_gif(file):
     cmd = f"lottie_convert.py '{file}' 'hellbot.gif'"
-    out, err = await runcmd(cmd)
-    return out, err
+    out = (await runcmd(cmd))[0]
+    return out
 
 
 # deal with it...
