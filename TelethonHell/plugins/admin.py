@@ -91,7 +91,7 @@ async def set_group_photo(event):
                 lg_id,
                 "#GROUPPIC\n"
                 f"\nGroup profile pic changed "
-                f"CHAT: {event.chat.title}(`{event.chat_id}`)",
+                f"\n**CHAT:** {event.chat.title}(`{event.chat_id}`)",
             )
 
 
@@ -132,8 +132,8 @@ async def promote(event):
     await event.client.send_message(
         lg_id,
         "#PROMOTE\n"
-        f"\nUSER: [{user.first_name}](tg://user?id={user.id})\n"
-        f"CHAT: {event.chat.title}(`{event.chat_id}`)",
+        f"\n**USER:** [{user.first_name}](tg://user?id={user.id})"
+        f"\n**CHAT:** {event.chat.title}(`{event.chat_id}`)",
     )
 
 
@@ -174,8 +174,8 @@ async def demote(event):
     await event.client.send_message(
         lg_id,
         "#DEMOTE\n"
-        f"\nUSER: [{user.first_name}](tg://user?id={user.id})\n"
-        f"CHAT: {event.chat.title}(`{event.chat_id}`)",
+        f"\n**USER:** [{user.first_name}](tg://user?id={user.id})"
+        f"\n**CHAT:** {event.chat.title}(`{event.chat_id}`)",
     )
 
 
@@ -263,8 +263,8 @@ async def muth(event):
         await event.client.send_message(
             lg_id,
             "#MUTE\n"
-            f"\nUSER:  [{name}](tg://user?id={userid})\n"
-            f"CHAT:  {chat.title}",
+            f"\n**USER:**  [{name}](tg://user?id={userid})"
+            f"\n**CHAT:**  {chat.title}",
         )
 
 
@@ -338,8 +338,8 @@ async def nomuth(event):
         await event.client.send_message(
             lg_id,
             "#UNMUTE\n"
-            f"\nUSER:  [{name}](tg://user?id={userid})\n"
-            f"CHAT:  {chat.title}",
+            f"\n**USER:**  [{name}](tg://user?id={userid})"
+            f"\n**CHAT:**  {chat.title}",
         )
 
 
@@ -383,8 +383,8 @@ async def ban(event):
     await event.client.send_message(
         lg_id,
         "#BAN\n"
-        f"\nUSER: [{user.first_name}](tg://user?id={user.id})\n"
-        f"CHAT: {event.chat.title}(`{event.chat_id}`)",
+        f"\n**USER:** [{user.first_name}](tg://user?id={user.id})"
+        f"\n**CHAT:** {event.chat.title}(`{event.chat_id}`)",
     )
 
 
@@ -412,8 +412,8 @@ async def nothanos(event):
         await event.client.send_message(
             lg_id,
             "#UNBAN\n"
-            f"\nUSER: [{user.first_name}](tg://user?id={user.id})\n"
-            f"CHAT: {event.chat.title}(`{event.chat_id}`)",
+            f"\n**USER:** [{user.first_name}](tg://user?id={user.id})\n"
+            f"**CHAT:** {event.chat.title}(`{event.chat_id}`)",
         )
     except UserIdInvalidError:
         await hellevent.edit("Invalid UserId!! Please Recheck it!!")
@@ -451,9 +451,9 @@ async def pin(event):
         await event.client.send_message(
             lg_id,
             "#PIN\n"
-            f"\nADMIN: [{user.first_name}](tg://user?id={user.id})\n"
-            f"CHAT: {event.chat.title}(`{event.chat_id}`)\n"
-            f"LOUD: {not is_silent}",
+            f"\n**ADMIN:** [{user.first_name}](tg://user?id={user.id})\n"
+            f"**CHAT:** {event.chat.title}(`{event.chat_id}`)\n"
+            f"**LOUD:** {not is_silent}",
         )
     elif event.is_private:
         await eod(event, "**📍 Pinned successfully !!**")
@@ -535,8 +535,8 @@ async def kick(event):
     await event.client.send_message(
         lg_id,
         "#KICK\n"
-        f"\nUSER: [{user.first_name}](tg://user?id={user.id})\n"
-        f"CHAT: {event.chat.title}(`{event.chat_id}`)\n",
+        f"\n**USER:** [{user.first_name}](tg://user?id={user.id})\n"
+        f"**CHAT:** {event.chat.title}(`{event.chat_id}`)\n",
     )
 
 
@@ -586,7 +586,7 @@ async def rm_deletedacc(event):
         lg_id,
         f"#ZOMBIES\
         \n{del_status}\
-       \nCHAT: {event.chat.title}(`{event.chat_id}`)",
+       \n**CHAT:** {event.chat.title}(`{event.chat_id}`)",
     )
 
 

@@ -22,7 +22,6 @@ async def forcesub(event):
         return
     xyz = is_fsub(event.chat_id)
     joinchat = xyz.channel
-    Config.BOT_USERNAME
     try:
         await event.client(GetParticipantRequest(int(joinchat), user.id))
     except UserNotParticipantError:
@@ -184,5 +183,7 @@ CmdHelp("forcesub").add_command(
 ).add_warning(
     "✅ Harmless Module."
 ).add_info(
-    "Force Them To Join. \n**📌 Note :** You need to be admin jn both the chat to use this module."
+    "Force Them To Join."
+).add_extra(
+    "📌 Note", "You need to be admin in both the chat to use this module."
 ).add()

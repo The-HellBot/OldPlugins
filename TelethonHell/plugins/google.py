@@ -1,12 +1,16 @@
+import datetime
+import io
 import os
-from shutil import rmtree
-
 import requests
+import traceback
+import urllib.request
+
 from bs4 import BeautifulSoup
 from geopy.geocoders import Nominatim
 from search_engine_parser import GoogleSearch
-from search_engine_parser.core.exceptions import \
-    NoResultsOrTrafficError as GoglError
+from search_engine_parser.core.exceptions import NoResultsOrTrafficError as GoglError
+from selenium import webdriver
+from shutil import rmtree
 from telethon.tl import types
 from wikipedia import summary
 from wikipedia.exceptions import DisambiguationError, PageError
@@ -62,7 +66,7 @@ async def google(event):
     try:
         got = await gos.async_search(f"{input_str}", cache=False)
     except GoglError as e:
-        return await eod(event, str(e), 10)
+        return await eod(hell, str(e), 10)
     output = ""
     for i in range(len(got["links"])):
         text = got["titles"][i]
@@ -175,6 +179,75 @@ async def gps(event):
         await eod(hell, "I coudn't find it😫")
 
 
+@hell_cmd(pattern="webshot ([\s\S]*)")
+async def _(event):
+    if Config.GOOGLE_CHROME_BIN is None:
+        return await eod(event, "need to install Google Chrome. Module Stopping.")
+    _, _, hell_mention = await client_id(event)
+    hell = await eor(event, "Webshot in action...")
+    start = datetime.datetime.now()
+    try:
+        chrome_options = webdriver.ChromeOptions()
+        chrome_options.add_argument("--ignore-certificate-errors")
+        chrome_options.add_argument("--test-type")
+        chrome_options.add_argument("--headless")
+        chrome_options.add_argument("--no-sandbox")
+        chrome_options.add_argument("--disable-dev-shm-usage")
+        chrome_options.binary_location = Config.GOOGLE_CHROME_BIN
+        await hell.edit("Starting Google Chrome BIN")
+        driver = webdriver.Chrome(chrome_options=chrome_options)
+        input_str = event.pattern_match.group(1)
+        driver.get(input_str)
+        await hell.edit("Calculating Page Dimensions")
+        height = driver.execute_script(
+            "return Math.max(document.body.scrollHeight, document.body.offsetHeight, document.documentElement.clientHeight, document.documentElement.scrollHeight, document.documentElement.offsetHeight);"
+        )
+        width = driver.execute_script(
+            "return Math.max(document.body.scrollWidth, document.body.offsetWidth, document.documentElement.clientWidth, document.documentElement.scrollWidth, document.documentElement.offsetWidth);"
+        )
+        await hell.edit("Painting web-page")
+        driver.set_window_size(width + 100, height + 100)
+        im_png = driver.get_screenshot_as_png()
+        driver.close()
+        await hell.edit("Stopping Google Chrome BIN")
+        message_id = event.message.id
+        if event.reply_to_msg_id:
+            message_id = event.reply_to_msg_id
+        end = datetime.datetime.now()
+        ms = (end - start).seconds
+        caption = f"**Webshot Completed !!** \n\n**URL:** {input_str} \n**Time Taken:** `{ms} seconds`\n**By:** {hell_mention}"
+        with io.BytesIO(im_png) as out_file:
+            out_file.name = "Hell_Capture.PNG"
+            await event.client.send_file(
+                event.chat_id,
+                out_file,
+                caption=caption,
+                force_document=True,
+                reply_to=message_id,
+                allow_cache=False,
+                silent=True,
+            )
+            await hell.delete()
+    except Exception:
+        await eod(hell, traceback.format_exc())
+
+
+@hell_cmd(pattern="cricket$")
+async def _(event):
+    score_page = "http://static.cricinfo.com/rss/livescores.xml"
+    page = urllib.request.urlopen(score_page)
+    soup = BeautifulSoup(page, "html.parser")
+    result = soup.find_all("description")
+    final = ""
+    for match in result:
+        final += match.get_text() + "\n\n"
+    await eor(
+        event,
+        f"<b><i><u>Match information gathered successful</b></i></u>\n\n<code>{final}</code>",
+        parse_mode="HTML",
+    )
+
+
 CmdHelp("google").add_command(
     "google", "<query>", "Does a google search for the query provided"
 ).add_command(
@@ -185,6 +258,10 @@ CmdHelp("google").add_command(
     "gps", "<place>", "Gives the location of the given place/city/state."
 ).add_command(
     "wiki", "<query>", "Searches for the query on Wikipedia."
+).add_command(
+    "webshot", "<link>", f"Gives out the web screenshot of given link via Google Crome Bin in .png format", "webshot https://github.com/hellboy-op/hellbot"
+).add_command(
+    "cricket", None, "Collects all the live cricket scores."
 ).add_info(
     "Google Search."
 ).add_warning(

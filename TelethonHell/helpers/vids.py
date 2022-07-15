@@ -2,7 +2,10 @@ import asyncio
 import os
 import time
 import zipfile
+import subprocess
 
+from hachoir.metadata import extractMetadata
+from hachoir.parser import createParser
 from telethon.errors.rpcerrorlist import YouBlockedUserError
 from telethon.tl import functions
 from telethon.utils import get_input_document
@@ -13,6 +16,32 @@ from TelethonHell import LOGS
 # generate thumbnail from audio...
 async def thumb_from_audio(audio_path, output):
     await runcmd(f"ffmpeg -i {audio_path} -filter:v scale=500:500 -an {output}")
+
+
+# generate thumbnail from video
+def get_video_thumb(file, output=None, width=90):
+    metadata = extractMetadata(createParser(file))
+    popen = subprocess.Popen(
+        [
+            "ffmpeg",
+            "-i",
+            file,
+            "-ss",
+            str(
+                int((0, metadata.get("duration").seconds)[metadata.has("duration")] / 2)
+            ),
+            "-filter:v",
+            "scale={}:-1".format(width),
+            "-vframes",
+            "1",
+            output,
+        ],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.DEVNULL,
+    )
+    if not popen.returncode and os.path.lexists(file):
+        return output
+    return None
 
 
 # take a frame from video

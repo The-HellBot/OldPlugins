@@ -10,26 +10,26 @@ from . import *
 
 @hell_cmd(pattern="fpic$")
 async def _(event):
-    cid = await client_id(event)
-    hell_mention = cid[2]
+    _, _, hell_mention = await client_id(event)
+    hell = await eor(event, "`Creating a fake face...`")
     url = "https://thispersondoesnotexist.com/image"
     response = requests.get(url)
-    hell = await eor(event, "`Creating a fake face...`")
     if response.status_code == 200:
         with open("HELLBOT.jpg", "wb") as f:
             f.write(response.content)
     else:
         return await eod(hell, "Failed to create Fake Face! Try again later.")
-    captin = f"Fake Image By {hell_mention}"
-    fole = "HELLBOT.jpg"
     await event.client.send_file(
-        event.chat_id, fole, caption=captin, force_document=False
+        event.chat_id,
+        "HELLBOT.jpg",
+        caption=f"**Fake Image By {hell_mention}**",
+        force_document=False,
     )
     await hell.delete()
-    os.system("rm /root/hellbot/HELLBOT.jpg ")
+    os.system("HELLBOT.jpg")
 
 
-@hell_cmd(pattern="fake ([\s\S]*)")
+@hell_cmd(pattern="fake(?:\s|$)([\s\S]*)")
 async def _(event):
     await event.delete()
     input_str = event.pattern_match.group(1)
@@ -47,7 +47,6 @@ async def gbun(event):
     mentions = "`Warning!! User 𝙂𝘽𝘼𝙉𝙉𝙀𝘿 By Admin...\n`"
     no_reason = "**Reason:**  __Madarchod Saala__"
     hell = await eor(event, "** Nikal Lawde❗️⚜️☠️**")
-    asyncio.sleep(3.5)
     chat = await event.get_input_chat()
     async for x in event.client.iter_participants(
         chat, filter=ChannelParticipantsAdmins
@@ -90,7 +89,7 @@ async def gbun(event):
 
 
 CmdHelp("fake").add_command(
-    "fake", "<action>", "This shows the fake action in the group  the actions are typing, contact, game ,location, voice, round, video, photo, document."
+    "fake", "<action>", "This shows the fake action in the group. The actions are typing, contact, game, location, voice, round, video, photo, document."
 ).add_command(
     "gbam", "<reason> (optional)", "Fake gban. Just for fun🤓"
 ).add_command(

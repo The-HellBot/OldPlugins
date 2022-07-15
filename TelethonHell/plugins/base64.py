@@ -5,10 +5,10 @@ from subprocess import run as runapp
 from . import *
 
 
-@hell_cmd(pattern="hash ([\s\S]*)")
+@hell_cmd(pattern="hash(?:\s|$)([\s\S]*)")
 @errors_handler
 async def gethash(event):
-    event = await eor(event, "Processing...")
+    hell = await eor(event, "Processing...")
     hashtxt_ = event.pattern_match.group(1)
     hashtxt = open("hashdis.txt", "w+")
     hashtxt.write(hashtxt_)
@@ -47,8 +47,7 @@ async def gethash(event):
         )
         runapp(["rm", "hashes.txt"], stdout=PIPE)
     else:
-        await event.reply(ans)
-        await event.delete()
+        await hell.edit(ans)
 
 
 @hell_cmd(pattern="b64 (en|de) ([\s\S]*)")
@@ -68,8 +67,6 @@ async def endecrypt(event):
         )[2:]
         await event.reply("**Decoded :**\n\n`" + lething[:-1] + "`")
         await event.delete()
-    else:
-        await eod(event, f"You should check out `{hl}plinfo base64` !!")
 
 
 CmdHelp("base64").add_command(

@@ -109,14 +109,10 @@ async def take_ss(video_file: str, duration: int, path: str = "") -> Optional[st
     return thumb_image_path if os.path.exists(thumb_image_path) else None
 
 
-def tgs_to_gif(sticker_path: str, quality: int = 256) -> str:
-    semx = os.path.join(dwlpath, "hellbottgs.gif")
-    with open(semx, "wb") as t_g:
-        lottie.exporters.gif.export_gif(
-            lottie.parsers.tgs.parse_tgs(sticker_path), t_g, quality, 1
-        )
-    os.remove(sticker_path)
-    return semx
+async def tgs_to_gif(file):
+    cmd = f"lottie_convert.py '{file}' 'hellbot.gif'"
+    out = (await runcmd(cmd))[0]
+    return out
 
 
 # deal with it...

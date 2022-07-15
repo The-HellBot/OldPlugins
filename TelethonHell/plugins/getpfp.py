@@ -120,9 +120,6 @@ async def get_full_user(event):
                 return None, e
 
 
-name = "Profile Photos"
-
-
 @hell_cmd(pattern="poto(?:\s|$)([\s\S]*)")
 async def potocmd(event):
     uid = "".join(event.raw_text.split(maxsplit=1)[1:])

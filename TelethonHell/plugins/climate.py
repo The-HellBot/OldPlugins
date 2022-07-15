@@ -25,19 +25,17 @@ async def get_tz(con):
         return
 
 
-@hell_cmd(pattern="climate ([\s\S]*)")
-async def get_weather(weather):
+@hell_cmd(pattern="climate(?:\s|$)([\s\S]*)")
+async def get_weather(event):
     if not OWM_API:
-        return await eod(
-            weather, "**Get an API key from** https://openweathermap.org/ **first.**"
-        )
+        return await eod(event, "**Get an API key from** https://openweathermap.org/ **first.**")
     APPID = OWM_API
-    if not weather.pattern_match.group(1):
+    if not event.pattern_match.group(1):
         CITY = DEFCITY
         if not CITY:
-            return await eod(weather, "`Please specify a city or set one as default.`")
+            return await eod(event, "`Please specify a city or set one as default.`")
     else:
-        CITY = weather.pattern_match.group(1)
+        CITY = event.pattern_match.group(1)
 
     timezone_countries = {
         timezone: country
@@ -54,7 +52,7 @@ async def get_weather(weather):
             try:
                 countrycode = timezone_countries[f"{country}"]
             except KeyError:
-                await eod(weather, "`Invalid country.`")
+                await eod(event, "`Invalid country.`")
                 return
             CITY = newcity[0].strip() + "," + countrycode.strip()
 
@@ -63,7 +61,7 @@ async def get_weather(weather):
     result = json.loads(request.text)
 
     if request.status_code != 200:
-        return await eod(weather, f"`Invalid country.`")
+        return await eod(event, "`Invalid country.`")
 
     cityname = result["name"]
     curtemp = result["main"]["temp"]
@@ -103,10 +101,8 @@ async def get_weather(weather):
         xx = datetime.datetime.fromtimestamp(unix, tz=ctimezone).strftime("%I:%M %p")
         return xx
 
-    cid = await client_id(weather)
-    hell_mention = cid[2]
-    await eor(
-        weather,
+    _, _, hell_mention = await client_id(event)
+    await eor(event,
         f"🌡️ **Temperature :** `{celsius(curtemp)}°C | {fahrenheit(curtemp)}°F`\n"
         + f"👩‍🏫 **Human Feeling** `{celsius(feel)}°C | {fahrenheit(feel)}°F`\n"
         + f"🌨️ **Min. Temp. :** `{celsius(min_temp)}°C | {fahrenheit(min_temp)}°F`\n"
@@ -126,19 +122,17 @@ async def get_weather(weather):
 
 @hell_cmd(pattern="setcity(?:\s|$)([\s\S]*)")
 @errors_handler
-async def set_default_city(city):
+async def set_default_city(event):
     if not OWM_API:
-        return await eod(
-            city, "**Get an API key from** https://openweathermap.org/ **first.**"
-        )
+        return await eod(event, "**Get an API key from** https://openweathermap.org/ **first.**")
     global DEFCITY
     APPID = OWM_API
-    if not city.pattern_match.group(1):
+    if not event.pattern_match.group(1):
         CITY = DEFCITY
         if not CITY:
-            return await eor(city, "`Please specify a city to set it as default.`")
+            return await eod(event, "`Please specify a city to set it as default.`")
     else:
-        CITY = city.pattern_match.group(1)
+        CITY = event.pattern_match.group(1)
     timezone_countries = {
         timezone: country
         for country, timezones in c_tz.items()
@@ -153,30 +147,27 @@ async def set_default_city(city):
             try:
                 countrycode = timezone_countries[f"{country}"]
             except KeyError:
-                await edit_or_reply(city, "`Invalid country.`")
+                await eod(event, "`Invalid country.`")
                 return
             CITY = newcity[0].strip() + "," + countrycode.strip()
     url = f"https://api.openweathermap.org/data/2.5/weather?q={CITY}&appid={APPID}"
     request = requests.get(url)
     result = json.loads(request.text)
     if request.status_code != 200:
-        return await eor(city, f"`Invalid country.`")
+        return await eod(event, f"`Invalid country.`")
     DEFCITY = CITY
     cityname = result["name"]
     country = result["sys"]["country"]
     fullc_n = c_n[f"{country}"]
-    await eor(city, f"**Set default city as** `{cityname}, {fullc_n}`")
+    await eor(event, f"**Set default city as** `{cityname}, {fullc_n}`")
 
 
-@hell_cmd(pattern="wttr ([\s\S]*)")
+@hell_cmd(pattern="weather(?:\s|$)([\s\S]*)")
 async def _(event):
     global DEFCITY
-    reply_to_id = None
-    if event.reply_to_msg_id:
-        reply_to_id = event.reply_to_msg_id
+    reply = await event.get_reply_message()
     input_str = event.pattern_match.group(1)
-    cid = await client_id(event)
-    hell_mention = cid[2]
+    _, _, hell_mention = await client_id(event)
     if not input_str:
         input_str = DEFCITY
     hell = await eor(event, "Collecting Weather Reports...")
@@ -186,14 +177,12 @@ async def _(event):
         response_api = await response_api_zero.read()
         with io.BytesIO(response_api) as out_file:
             await event.client.send_message(
+                event.chat_id,
                 f"**City :** `{input_str}` \n**By :** {hell_mention}",
                 file=out_file,
-                reply_to=reply_to_id,
+                reply_to=reply,
             )
-    try:
-        await hell.delete()
-    except:
-        pass
+    await hell.delete()
 
 
 CmdHelp("climate").add_command(
@@ -201,7 +190,7 @@ CmdHelp("climate").add_command(
 ).add_command(
     "setcity", "<city>/<country>", "Sets your default city."
 ).add_command(
-    "wttr", "<city>", "Shows you the climate data of 3 days from today in a image format."
+    "weather", "<city>", "Shows you the climate data of 3 days from today in a image format."
 ).add_info(
     "Climates And Weathers."
 ).add_warning(

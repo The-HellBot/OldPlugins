@@ -344,10 +344,10 @@ async def on_all_snip_delete(event):
 
 
 CmdHelp("filter").add_command(
-    "filter",
-    "reply to a msg with keyword",
-    "Saves the replied msg as a reply to keyword. The bot will reply that msg wheneverthe keyword is mentioned.",
-).add_command("filters", None, "Lists all the filters in chat").add_command(
+    "filter", "reply to a msg with keyword", "Saves the replied msg as a reply to keyword. The bot will reply that msg whenever the keyword is mentioned."
+).add_command(
+    "filters", None, "Lists all the filters in chat"
+).add_command(
     "rmallfilters", None, "Deletes all the filter saved in a chat."
 ).add_command(
     "stop", "keyword of saved filter", "Stops reply to the keyword mentioned."
