@@ -14,9 +14,7 @@ from . import *
 
 lg_id = Config.LOGGER_ID
 PP_TOO_SMOL = "🥴 The image is too small. Just like your crush's feelings"
-PP_ERROR = (
-    "😕 Failure while processing the image. Just like your proposal to your crush."
-)
+PP_ERROR = "😕 Failure while processing the image. Just like your proposal to your crush."
 NO_ADMIN = "😪 I am not an admin here! Chutiya sala"
 NO_PERM = "😐 Lack of Permissions. Just like your crush's feelings for you."
 CHAT_PP_CHANGED = "😉 Chat Picture Changed Successfully"
@@ -55,23 +53,21 @@ UNMUTE_RIGHTS = ChatBannedRights(until_date=None, send_messages=False)
 @errors_handler
 async def set_group_photo(event):
     if not event.is_group:
-        await eor(event, "`I don't think this is a group.`")
-        return
+        return await parse_error(event, "I don't think this is a group.")
     replymsg = await event.get_reply_message()
     chat = await event.get_chat()
     admin = chat.admin_rights
     creator = chat.creator
     photo = None
     if not admin and not creator:
-        await eor(event, NO_ADMIN)
-        return
+        return await parse_error(event, NO_ADMIN)
     if replymsg and replymsg.media:
         if isinstance(replymsg.media, MessageMediaPhoto):
             photo = await event.client.download_media(message=replymsg.photo)
         elif "image" in replymsg.media.document.mime_type.split("/"):
             photo = await event.client.download_file(replymsg.media.document)
         else:
-            await eor(event, INVALID_MEDIA)
+            await parse_error(event, INVALID_MEDIA)
     kraken = None
     if photo:
         try:
@@ -81,11 +77,11 @@ async def set_group_photo(event):
             await eor(event, CHAT_PP_CHANGED)
             kraken = True
         except PhotoCropSizeSmallError:
-            await eor(event, PP_TOO_SMOL)
+            await parse_error(event, PP_TOO_SMOL)
         except ImageProcessFailedError:
-            await eor(event, PP_ERROR)
+            await parse_error(event, PP_ERROR)
         except Exception as e:
-            await eor(event, f"**Error : **`{str(e)}`")
+            await parse_error(event, e)
         if kraken:
             await event.client.send_message(
                 lg_id,
@@ -104,8 +100,7 @@ async def promote(event):
     admin = chat.admin_rights
     creator = chat.creator
     if not admin and not creator:
-        await eor(event, NO_ADMIN)
-        return
+        return await parse_error(event, NO_ADMIN)
     new_rights = ChatAdminRights(
         add_admins=False,
         invite_users=True,
@@ -127,8 +122,7 @@ async def promote(event):
             f"**🔥 Promoted  [{user.first_name}](tg://user?id={user.id})  Successfully In**  `{event.chat.title}`!! \n**Admin Tag :**  `{rank}`"
         )
     except BadRequestError:
-        await hellevent.edit(NO_PERM)
-        return
+        return await parse_error(hellevent, NO_PERM)
     await event.client.send_message(
         lg_id,
         "#PROMOTE\n"
@@ -146,8 +140,7 @@ async def demote(event):
     admin = chat.admin_rights
     creator = chat.creator
     if not admin and not creator:
-        await eor(event, NO_ADMIN)
-        return
+        return await parse_error(event, NO_ADMIN)
     hellevent = await eor(event, "`Demoting User...`")
     rank = "ǟɖʍɨռ"
     user = await get_user_from_event(event)
@@ -166,11 +159,8 @@ async def demote(event):
     try:
         await event.client(EditAdminRequest(event.chat_id, user.id, newrights, rank))
     except BadRequestError:
-        await hellevent.edit(NO_PERM)
-        return
-    await hellevent.edit(
-        f"**😪 Demoted  [{user.first_name}](tg://user?id={user.id})  Successfully In**  `{event.chat.title}`"
-    )
+        return await parse_error(hellevent, NO_PERM)
+    await hellevent.edit(f"**😪 Demoted  [{user.first_name}](tg://user?id={user.id})  Successfully In**  `{event.chat.title}`")
     await event.client.send_message(
         lg_id,
         "#DEMOTE\n"
@@ -197,14 +187,14 @@ async def muth(event):
         await event.get_reply_message()
         await event.client(GetFullUserRequest(event.chat_id))
         if is_muted(event.chat_id, event.chat_id):
-            return await eod(hell, "Nigga is already muted here 🥴")
+            return await eod(hell, "User is already muted here 🥴")
         if event.chat_id == ForGo10God:
-            return await eod(hell, "You can't mute yourself !")
+            return await parse_error(hell, "You can't mute yourself !")
         try:
             mute(event.chat_id, event.chat_id)
             await eod(hell, "**Muted this user !**")
         except Exception as e:
-            return await eod(hell, f"**Error **\n`{str(e)}`")
+            return await parse_error(hell, e)
     elif event.is_group:
         hell = await eor(event, "`Muting...`")
         input_str = event.pattern_match.group(1)
@@ -224,18 +214,18 @@ async def muth(event):
                     userid = input_str
                     name = (await event.client.get_entity(userid)).first_name
                 except ValueError as ve:
-                    return await eod(hell, str(ve))
+                    return await parse_error(hell, ve)
             else:
                 userid = (await event.client.get_entity(input_str)).id
                 name = (await event.client.get_entity(userid)).first_name
         else:
-            return await eod(hell, "I Need a user to mute !!")
+            return await parse_error(hell, "I need an user to mute !!")
         if userid == ForGo10God:
-            return await eod(hell, "You can't mute yourself !")
+            return await parse_error(hell, "You can't mute yourself !")
         if str(userid) in DEVLIST:
-            return await eod(hell, "**Error Muting God**")
+            return await parse_error(hell, "Cant mute my developers !")
         if ForGo10God not in admin_:
-            return await eod(hell, NO_PERM)
+            return await parse_error(hell, NO_PERM)
         if userid in admin_:
             if is_muted(userid, event.chat_id):
                 return await eod(hell, "Admin already muted ♪～(´ε｀ )")
@@ -246,7 +236,7 @@ async def muth(event):
                     f"**🌝 Muted admin** [{name}](tg://user?id={userid}) **in** `{chat.title}` (~‾▿‾)~",
                 )
             except Exception as e:
-                await eod(hell, f"**Error :** \n\n`{e}`")
+                await parse_error(hell, e)
         try:
             await event.client.edit_permissions(
                 chat.id,
@@ -259,7 +249,7 @@ async def muth(event):
                 f"**Successfully Muted**  [{name}](tg://user?id={userid}) **in**  `{chat.title}`",
             )
         except BaseException as be:
-            await eor(hell, f"**Error:** `{str(be)}`")
+            await parse_error(hell, be)
         await event.client.send_message(
             lg_id,
             "#MUTE\n"
@@ -281,7 +271,7 @@ async def nomuth(event):
             unmute(event.chat_id, event.chat_id)
             await eod(hell, "User unmuted successfully !")
         except Exception as e:
-            await eod(hell, f"**Error **\n`{str(e)}`")
+            await parse_error(hell, e)
     elif event.is_group:
         hell = await eod(event, "`Unmuting...`")
         input_str = event.pattern_match.group(1)
@@ -301,14 +291,14 @@ async def nomuth(event):
                     userid = input_str
                     name = (await event.client.get_entity(userid)).first_name
                 except ValueError as ve:
-                    return await eod(hell, str(ve))
+                    return await parse_error(hell, ve)
             else:
                 userid = (await event.client.get_entity(input_str)).id
                 name = (await event.client.get_entity(userid)).first_name
         else:
-            return await eod(hell, "I need a user to unmute!!")
+            return await parse_error(hell, "I need a user to unmute!!")
         if ForGo10God not in admin_:
-            return await eod(hell, NO_PERM)
+            return await parse_error(hell, NO_PERM)
         if userid in admin_:
             if not is_muted(userid, event.chat_id):
                 return await eod(hell, "Not even muted.")
@@ -320,7 +310,7 @@ async def nomuth(event):
                 )
                 return
             except Exception as e:
-                return await eod(hell, f"**Error :** \n\n`{e}`")
+                return await parse_error(hell, e)
         else:
             try:
                 await event.client.edit_permissions(
@@ -334,7 +324,7 @@ async def nomuth(event):
                     f"**Successfully Unmuted**  [{name}](tg://user?id={userid}) **in**  `{chat.title}`",
                 )
             except BaseException as be:
-                await eor(hell, f"`{str(be)}`")
+                await parse_error(hell, be)
         await event.client.send_message(
             lg_id,
             "#UNMUTE\n"
@@ -351,17 +341,17 @@ async def ban(event):
     admin = chat.admin_rights
     creator = chat.creator
     if not admin and not creator:
-        await eor(event, NO_ADMIN)
+        await parse_error(event, NO_ADMIN)
         return
     user, reason = await get_user_from_event(event)
     if not user:
-        return await hellevent.edit("`Reply to a user or give username!!`")
+        return await parse_error(hellevent, "`Reply to a user or give username!!`")
     if str(user.id) in DEVLIST:
-        return await hellevent.edit("**Say again? Ban my creator??**")
+        return await eod(hellevent, "**Say again? Ban my creator??**")
     try:
         await event.client(EditBannedRequest(event.chat_id, user.id, BANNED_RIGHTS))
     except BadRequestError:
-        await hellevent.edit(NO_PERM)
+        await parse_error(hellevent, NO_PERM)
         return
     try:
         reply = await event.get_reply_message()
@@ -397,7 +387,7 @@ async def nothanos(event):
     admin = chat.admin_rights
     creator = chat.creator
     if not admin and not creator:
-        await eor(event, NO_ADMIN)
+        await parse_error(event, NO_ADMIN)
         return
     hellevent = await eor(event, "`Unbanning...`")
     user = await get_user_from_event(event)
@@ -416,7 +406,7 @@ async def nothanos(event):
             f"**CHAT:** {event.chat.title}(`{event.chat_id}`)",
         )
     except UserIdInvalidError:
-        await hellevent.edit("Invalid UserId!! Please Recheck it!!")
+        await parse_error(hellevent, "Invalid UserId!! Please Recheck it!!")
 
 
 @hell_cmd(pattern="pin(?:\s|$)([\s\S]*)")
@@ -427,11 +417,11 @@ async def pin(event):
     admin = chat.admin_rights
     creator = chat.creator
     if not admin and not creator:
-        await eor(event, NO_ADMIN)
+        await parse_error(event, NO_ADMIN)
         return
     to_pin = event.reply_to_msg_id
     if not to_pin:
-        await eor(event, "🥴 Reply to a message to pin it.")
+        await eod(event, "🥴 Reply to a message to pin it.")
         return
     options = event.pattern_match.group(1)
     is_silent = True
@@ -440,7 +430,7 @@ async def pin(event):
     try:
         await event.client.pin_message(event.to_id, to_pin, notify=is_silent)
     except BadRequestError:
-        await eor(event, NO_PERM)
+        await parse_error(event, NO_PERM)
         return
     if not event.is_private:
         await eod(
@@ -498,9 +488,9 @@ async def unpin(event):
                 f"Reply to a msg to unpin it. Do `{hl}unpin all` to unpin all pinned msgs.",
             )
     except BadRequestError:
-        return await eod(event, NO_PERM)
+        return await parse_error(event, NO_PERM)
     except Exception as e:
-        return await eod(event, f"**ERROR !!** \n\n`{e}`")
+        return await parse_error(event, e)
 
 
 @hell_cmd(pattern="kick(?:\s|$)([\s\S]*)")
@@ -510,11 +500,11 @@ async def kick(event):
     admin = chat.admin_rights
     creator = chat.creator
     if not admin and not creator:
-        await eor(event, NO_ADMIN)
+        await parse_error(event, NO_ADMIN)
         return
     user, reason = await get_user_from_event(event)
     if not user:
-        return await eor(event, "`Couldn't fetch user info...`")
+        return await parse_error(event, "Couldn't fetch user info...")
     if str(user.id) in DEVLIST:
         return await eor(event, "**Turn back, Go straight and fuck off!!**")
     hellevent = await eor(event, "`Kicking...`")
@@ -522,7 +512,7 @@ async def kick(event):
         await event.client.kick_participant(event.chat_id, user.id)
         await sleep(0.5)
     except Exception as e:
-        await hellevent.edit(NO_PERM + f"\n`{str(e)}`")
+        await parse_error(hellevent, e)
         return
     if reason:
         await hellevent.edit(
@@ -559,7 +549,7 @@ async def rm_deletedacc(event):
     admin = chat.admin_rights
     creator = chat.creator
     if not admin and not creator:
-        await eod(event, NO_ADMIN)
+        await parse_error(event, NO_ADMIN)
         return
     event = await eor(event, "🧹 Purging out zombies from this group...")
     del_u = 0
@@ -571,7 +561,7 @@ async def rm_deletedacc(event):
                 await sleep(0.5)
                 del_u += 1
             except ChatAdminRequiredError:
-                await edit_or_reply(event, "`I don't have ban rights in this group`")
+                await parse_error(event, "`I don't have ban rights in this group`")
                 return
             except UserAdminInvalidError:
                 del_a += 1
@@ -602,14 +592,9 @@ async def _(event):
             deleted_msg += "\n👉`{}`".format(i.old.message)
         await eor(event, deleted_msg)
     else:
-        await eor(
+        await parse_error(
             event, "`You need administrative permissions in order to do this command`"
         )
-        await sleep(3)
-        try:
-            await event.delete()
-        except:
-            pass
 
 
 async def get_user_from_event(event):
@@ -628,7 +613,7 @@ async def get_user_from_event(event):
         if user.isnumeric():
             user = int(user)
         if not user:
-            await event.edit("`Pass the user's username, id or reply!`")
+            await parse_error(event, "`Pass the user's username, id or reply!`")
             return
         if event.message.entities:
             probable_user_mention_entity = event.message.entities[0]
@@ -640,7 +625,7 @@ async def get_user_from_event(event):
         try:
             user_obj = await event.client.get_entity(user)
         except (TypeError, ValueError):
-            await event.edit("Could not fetch info of that user.")
+            await parse_error(event, "Could not fetch info of that user.")
             return None
     return user_obj, extra
 
