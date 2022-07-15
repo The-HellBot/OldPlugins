@@ -50,7 +50,7 @@ async def gethash(event):
         await hell.edit(ans)
 
 
-@hell_cmd(pattern="b64(?:\s|$)([\s\S]*)")
+@hell_cmd(pattern="b64 (en|de) ([\s\S]*)")
 @errors_handler
 async def endecrypt(event):
     if event.pattern_match.group(1) == "en":
