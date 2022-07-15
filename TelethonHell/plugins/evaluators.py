@@ -16,7 +16,7 @@ async def _(event):
         cmd = "".join(event.text.split(maxsplit=1)[1:])
         if not cmd:
             return await eod(event, "`What should i execute?..`")
-        await eor(event, "`Executing.....`")
+        hell = await eor(event, "`Executing.....`")
         process = await asyncio.create_subprocess_shell(
             cmd, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
         )
@@ -36,7 +36,16 @@ async def _(event):
             cresult = f"`{curruser}:~#` `{cmd}`\n`{result}`"
         else:
             cresult = f"`{curruser}:~$` `{cmd}`\n`{result}`"
-        await eor(event, f"**Command :**  `{cmd}`\n**Result :** \n{cresult}")
+        final_output = f"**Command :**  `{cmd}`\n**Result :** \n{cresult}"
+        if len(final_output) > 4092:
+            await eor(
+                hell,
+                final_output,
+                deflink=True,
+                linktext=f"**Command:** \n`{cmd}` \n\n**Pasted:** ",
+            )
+        else:
+            await hell.edit(final_output)
     else:
         await eod(
             event,
@@ -74,9 +83,7 @@ async def _(event):
         else:
             evaluation = "Success"
         final_output = f"•  Eval : \n`{cmd}` \n\n•  Result : \n`{evaluation}` \n"
-        final_output2 = (
-            f"**•  Eval :** \n`{cmd}` \n\n**•  Result :** \n`{evaluation}` \n"
-        )
+        final_output2 = f"**•  Eval :** \n`{cmd}` \n\n**•  Result :** \n`{evaluation}` \n"
         if len(final_output2) > 4092:
             await eor(
                 hellevent,
