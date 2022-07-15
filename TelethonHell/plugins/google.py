@@ -66,7 +66,7 @@ async def google(event):
     try:
         got = await gos.async_search(f"{input_str}", cache=False)
     except GoglError as e:
-        return await eod(event, str(e), 10)
+        return await eod(hell, str(e), 10)
     output = ""
     for i in range(len(got["links"])):
         text = got["titles"][i]
