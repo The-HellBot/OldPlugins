@@ -9,13 +9,15 @@ from . import *
 @hell_cmd(pattern="extdl$")
 async def install(event):
     chat = Config.PLUGIN_CHANNEL
+    if not chat:
+        return await eod(event, f"Please setup an plugin channel to use this command.")
     documentss = await event.client.get_messages(
         chat, None, filter=InputMessagesFilterDocument
     )
     total = int(documentss.total)
     total_doxx = range(0, total)
-    hell_ = await eor(event, "Installing plugins from Plugin Channel...")
-    hell = "**Installed Plugins :**\n\n"
+    hell_ = await eor(event, "__Installing plugins from Plugin Channel...__")
+    hell = "**⦁ Installed Plugins:**\n\n"
     for ixo in total_doxx:
         mxo = documentss[ixo].id
         downloaded_file_name = await event.client.download_media(
@@ -25,11 +27,11 @@ async def install(event):
             path1 = Path(downloaded_file_name)
             shortname = path1.stem
             load_module(shortname.replace(".py", ""))
-            hell += "• __Installed Plugin__ `{}` __successfully.__\n".format(
+            hell += "__» Installed Plugin__ `{}`\n".format(
                 os.path.basename(downloaded_file_name)
             )
         else:
-            hell += "• __Plugin__ `{}` __has been pre-installed and cannot be installed.__\n".format(
+            hell += "__» Failed to Install__ `{}`\n".format(
                 os.path.basename(downloaded_file_name)
             )
     await hell_.edit(hell)
@@ -38,8 +40,8 @@ async def install(event):
 @hell_cmd(pattern="installall ([\s\S]*)")
 async def install(event):
     chat = event.pattern_match.group(1)
-    hell_ = await eor(event, f"Starting To Install Plugins From {chat} !!")
-    hell = f"**Installed Plugins From {chat} :**\n\n"
+    hell_ = await eor(event, f"**Starting To Install Plugins From {chat} !!**")
+    hell = f"**⦁ Installed Plugins From {chat} :**\n\n"
     documentss = await event.client.get_messages(
         chat, None, filter=InputMessagesFilterDocument
     )
@@ -54,17 +56,17 @@ async def install(event):
             path1 = Path(downloaded_file_name)
             shortname = path1.stem
             load_module(shortname.replace(".py", ""))
-            hell += "• __Installed Plugin__ `{}` __successfully.__\n".format(
+            hell += "__» Installed Plugin__ `{}`\n".format(
                 os.path.basename(downloaded_file_name)
             )
         else:
-            hell += "• __Plugin__ `{}` __has been pre-installed and cannot be installed.__\n".format(
+            hell += "__» Failed to Install__ `{}`\n".format(
                 os.path.basename(downloaded_file_name)
             )
     await hell_.edit(hell)
 
 
-CmdHelp("extra_py").add_command(
+CmdHelp("extra_plugin").add_command(
     "extdl", None, "Installs all plugins from the channal which id is in PLUGIN_CHANNEL Config"
 ).add_command(
     "installall", "<channel/grp username>", "Installs all the plugins in provided channel / group. (May get floodwait error)"
