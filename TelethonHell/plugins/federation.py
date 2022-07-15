@@ -18,7 +18,6 @@ async def _(event):
         except YouBlockedUserError:
             await eod(hell, "`Please unblock` @MissRose_Bot `and try again`")
             return
-
         if response.startswith("You already have a federation"):
             await eod(hell, f"You already have a federation. Do `{hl}renamefed` to rename your current fed.")
         else:
@@ -26,6 +25,7 @@ async def _(event):
             lists = texts.split("/joinfed")
             fedid = lists[1].strip()
             await hell.edit(f"**Newfed Created Successsfully!!** \n\n**Name:** `{hell_input}` \n**FedID:** `{fedid}`")
+        await event.client.delete_messages(conv.chat_id, [first.id, response.id])
 
 
 @hell_cmd(pattern="renamefed(?:\s|$)([\s\S]*)")
