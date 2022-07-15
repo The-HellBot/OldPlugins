@@ -911,9 +911,11 @@ async def _(event):
         await event.edit(animation_chars[i % 12])
 
 
-CmdHelp("animations").add_command("boxs", None, "Use and see").add_command(
-    "kiler", "<text>", "Cool killing animation with name"
-).add_command("eye", None, "Use and see").add_command(
+CmdHelp("animations").add_command(
+    "boxs", None, "Use and see"
+).add_command(
+    "eye", None, "Use and see"
+).add_command(
     "thinking", None, "Use and see"
 ).add_command(
     "snake", None, "Use and see"
@@ -957,6 +959,8 @@ CmdHelp("animations").add_command("boxs", None, "Use and see").add_command(
     "hack", None, "Im a hacker bitch"
 ).add_command(
     "hnd", "<your text>", "A handy animation with the text"
+).add_command(
+    "kiler", "<text>", "Cool killing animation with name"
 ).add_command(
     "padmin", None, "Prank promote a user"
 ).add_command(
