@@ -4,66 +4,17 @@ from math import sqrt
 from os import remove
 
 from telethon import events
-from telethon.errors import (ChannelInvalidError, ChannelPrivateError,
-                             ChannelPublicGroupNaError, ChatAdminRequiredError)
-from telethon.errors.rpcerrorlist import (MessageTooLongError,
-                                          YouBlockedUserError)
-from telethon.tl.functions.channels import (GetFullChannelRequest,
-                                            GetParticipantsRequest)
-from telethon.tl.functions.messages import (GetFullChatRequest,
-                                            GetHistoryRequest)
+from telethon.errors import ChannelInvalidError, ChannelPrivateError, ChannelPublicGroupNaError, ChatAdminRequiredError
+from telethon.errors.rpcerrorlist import MessageTooLongError, YouBlockedUserError
+from telethon.tl.functions.channels import GetFullChannelRequest, GetParticipantsRequest
+from telethon.tl.functions.messages import GetFullChatRequest, GetHistoryRequest
 from telethon.tl.functions.photos import GetUserPhotosRequest
 from telethon.tl.functions.users import GetFullUserRequest
-from telethon.tl.types import (ChannelParticipantAdmin,
-                               ChannelParticipantCreator,
-                               ChannelParticipantsAdmins,
-                               ChannelParticipantsBots,
-                               MessageActionChannelMigrateFrom,
-                               MessageEntityMentionName)
+from telethon.tl.types import (ChannelParticipantAdmin, ChannelParticipantCreator, ChannelParticipantsAdmins,
+                               ChannelParticipantsBots, MessageActionChannelMigrateFrom, MessageEntityMentionName)
 from telethon.utils import get_input_location, pack_bot_file_id
 
 from . import *
-
-
-@hell_cmd(pattern="recognize(?:\s|$)([\s\S]*)")
-async def _(event):
-    if not event.reply_to_msg_id:
-        await eod(event, "Reply to any user's media message.")
-        return
-    reply_message = await event.get_reply_message()
-    if not reply_message.media:
-        await eod(event, "reply to media file")
-        return
-    chat = "@Rekognition_Bot"
-    reply_message.sender
-    if reply_message.sender.bot:
-        await eod(event, "Reply to actual users message.")
-        return
-    hell = await eor(event, "recognizeing this media")
-    async with event.client.conversation(chat) as conv:
-        try:
-            response = conv.wait_event(
-                events.NewMessage(incoming=True, from_users=461083923)
-            )
-            first = await event.client.forward_messages(chat, reply_message)
-            second = await response
-        except YouBlockedUserError:
-            await event.reply("unblock @Rekognition_Bot and try again")
-            await hell.delete()
-            return
-        if second.text.startswith("See next message."):
-            response = conv.wait_event(
-                events.NewMessage(incoming=True, from_users=461083923)
-            )
-            third = await response
-            hell = third.message.message
-            await eor(event, hell)
-            await event.client.delete_messages(
-                conv.chat_id, [first.id, second.id, third.id]
-            )
-
-        else:
-            await eod(event, "sorry, I couldnt find it")
 
 
 @hell_cmd(pattern="info(?:\s|$)([\s\S]*)")
@@ -522,8 +473,7 @@ async def _(event):
         try:
             chat = await event.client.get_entity(input_str)
         except Exception as e:
-            await eor(event, str(e))
-            return None
+            return await eod(event, f"**ERROR !!** \n\n`{str(e)}`")
     else:
         chat = to_write_chat
         if not event.is_group:
@@ -570,8 +520,7 @@ async def _(event):
         try:
             chat = await event.client.get_entity(input_str)
         except Exception as e:
-            await event.edit(str(e))
-            return None
+            return await eod(event, f"**ERROR !!** \n\n`{str(e)}`")
     try:
         async for x in event.client.iter_participants(
             chat, filter=ChannelParticipantsBots
@@ -586,7 +535,7 @@ async def _(event):
                 )
     except Exception as e:
         mentions += " " + str(e) + "\n"
-    await event.edit(mentions)
+    await eor(event, mentions)
 
 
 @hell_cmd(pattern="id$")
