@@ -145,7 +145,7 @@ async def devices_specifications(request):
             i["href"] for i in all_brands if brand == i.text.strip().lower()
         ][0]
     except IndexError:
-        await eor(request, f"`{brand} is unknown brand!`")
+        await parse_error(request, f"{brand} is unknown brand!")
         return
     devices = BeautifulSoup(get(brand_page_url).content, "lxml").findAll(
         "div", {"class": "model-listing-container-80"}
@@ -158,7 +158,7 @@ async def devices_specifications(request):
             if device in i.text.strip().lower()
         ]
     except IndexError:
-        await eor(request, f"`can't find {device}!`")
+        await parse_error(request, f"Can't find {device}!")
         return
     if len(device_page_url) > 2:
         device_page_url = device_page_url[:2]
@@ -196,7 +196,7 @@ async def twrp(request):
     url = get(f"https://dl.twrp.me/{device}/")
     if url.status_code == 404:
         reply = f"`Couldn't find twrp downloads for {device}!`\n"
-        await eor(request, reply)
+        await parse_error(request, reply)
         return
     page = BeautifulSoup(url.content, "lxml")
     download = page.find("table").find("tr").find("a")
@@ -212,7 +212,9 @@ async def twrp(request):
     await eor(request, reply)
 
 
-CmdHelp("android").add_command("magisk", None, "Get latest magisk release").add_command(
+CmdHelp("android").add_command(
+    "magisk", None, "Get latest magisk release"
+).add_command(
     "device", "<codename>", "Get info about android device codename or model"
 ).add_command(
     "codename", "<brand> <device>", "Search for android device codename"
