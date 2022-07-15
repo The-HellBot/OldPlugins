@@ -50,7 +50,7 @@ async def _(event):
                     sixth = await conv.get_response()
                     await bot.send_read_acknowledge(conv.chat_id)
                 except YouBlockedUserError:
-                    return await parse_error(hell, "Unblock` @Botfather `first.")
+                    return await parse_error(hell, "__Unblock__ @Botfather __first.__")
                 await eod(hell, f"**Turned On Inline Mode Successfully.** \n\nDo `{hl}help` again to get the help menu.")
             await bot.delete_messages(
                 conv.chat_id,
@@ -64,7 +64,7 @@ async def _(event):
                 ],
             )
     else:
-        await parse_error(event, "`__Please Re-Check__ `BOT_TOKEN` __on Heroku.__`")
+        await parse_error(event, "__Please Re-Check__ `BOT_TOKEN` __on Heroku.__")
 
 
 @hell_cmd(pattern="plinfo(?:\s|$)([\s\S]*)")
@@ -102,6 +102,6 @@ async def cmdinfo(event):
         file = CMD_INFO[cmd]["plugin"]
         exam = CMD_INFO[cmd]["example"]
     except KeyError:
-        return await parse_error(event, f"`__• No command named:__ `{cmd}``")
+        return await parse_error(event, f"__• No command named:__ `{cmd}`")
     await eor(event, f"**• File:** \n» __{file}__ \n\n**• {cmd}:** \n» __{info}__ \n\n**• Example:** \n» `{str(exam)}`")
 
