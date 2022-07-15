@@ -1,8 +1,6 @@
-from telethon.errors import (ChannelInvalidError, ChannelPrivateError,
-                             ChannelPublicGroupNaError)
+from telethon.errors import ChannelInvalidError, ChannelPrivateError, ChannelPublicGroupNaError
 from telethon.tl import functions
-from telethon.tl.functions.channels import (GetFullChannelRequest,
-                                            InviteToChannelRequest)
+from telethon.tl.functions.channels import GetFullChannelRequest, InviteToChannelRequest
 from telethon.tl.functions.messages import GetFullChatRequest
 
 from . import *
@@ -56,18 +54,11 @@ def user_full_name(user):
 async def get_users(event):
     hel_ = event.text[11:]
     hell_chat = hel_.lower()
-    restricted = ["@hellbot_chat", "@its_hellbot"]
     hell = await eor(event, f"__Inviting members from__ {hel_}")
-    if hell_chat in restricted:
-        await hell.edit("You can't Invite Members from there.")
-        await event.client.send_message(
-            -1001496036895, "Sorry for inviting members from here."
-        )
-        return
     kraken = await get_chatinfo(event)
     chat = await event.get_chat()
     if event.is_private:
-        return await hell.edit("`Sorry, Cant add users here`")
+        return await eod(hell, "Nice try you fool!")
     s = 0
     f = 0
     error = "None"
@@ -106,7 +97,6 @@ async def _(event):
                     )
                 except Exception as e:
                     await event.reply(str(e))
-            await eor(event, "Invited User...")
         else:
             for user_id in to_add_users.split(" "):
                 try:
@@ -116,8 +106,8 @@ async def _(event):
                         )
                     )
                 except Exception as e:
-                    await event.reply(str(e))
-            await eod(event, "Added user to the chat..")
+                    return await parse_error(event, e)
+    await eod(event, "Added user to the chat..")
 
 
 CmdHelp("invite").add_command(
