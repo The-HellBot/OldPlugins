@@ -22,15 +22,13 @@ Glitched = Config.TMP_DOWNLOAD_DIRECTORY + "glitch.gif"
 async def glitch_(event):
     hell = await eor(event, "`Trying to glitch this ...`")
     replied = await event.get_reply_message()
-    inp = event.text[8:]
-    if not (
-        replied and (replied.photo or replied.sticker or replied.video or replied.gif)
-    ):
-        return await hell.edit("```Media not found...```")
-    if inp != "":
-        if not inp.isdigit():
+    lists = event.text.split(" ", 2)
+    if not (replied and (replied.photo or replied.sticker or replied.video or replied.gif)):
+        return await eod(hell, "Reply to a pic/video/gif/sticker only.")
+    if len(lists) >= 2:
+        if not lists[1].isdigit():
             return await eod(hell, "**Invalid Input !!** \n\nPlease enter digits only.")
-        input_ = int(inp)
+        input_ = int(lists[1])
         if not 0 < input_ < 9:
             return await eod(hell, "**Invalid Range !!** \n\n**Valid Range** - 1 to 8")
         args = input_
