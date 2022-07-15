@@ -46,10 +46,13 @@ async def env_safe_clean(text, harm):
     cmd = text.split()
     output = ""
     for x in cmd:
-        if x.split("=")[0] in harm:
+        xx = x.split("=")
+        if xx and xx[0] in harm:
             pass
-        else:
+        elif xx and xx not in harm:
             output += f"{x}\n"
+        else:
+            output += f"{x} "
 
     return output
 
