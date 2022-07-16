@@ -24,9 +24,7 @@ async def variable(hell):
     if Config.HEROKU_APP_NAME is not None:
         app = Heroku.app(Config.HEROKU_APP_NAME)
     else:
-        return await eor(
-            hell, "**[ HEROKU ]:**\n__Please setup your__ `HEROKU_APP_NAME`"
-        )
+        return await parse_error(hell, "`HEROKU_APP_NAME` is not configured.", False)
     exe = hell.pattern_match.group(1)
     heroku_var = app.config()
     if exe == "get":
@@ -41,7 +39,7 @@ async def variable(hell):
                     event,
                     f"This is a SQL based variable. Do `{hl}gvar {variable}` to get variable info.",
                 )
-            if variable in ("HELLBOT_SESSION", "BOT_TOKEN", "HEROKU_API_KEY"):
+            if variable in ("HELLBOT_SESSION", "BOT_TOKEN", "HEROKU_API_KEY", "INSTAGRAM_SESSION"):
                 if Config.ABUSE == "ON":
                     await event.client.send_file(hell.chat_id, cjb, caption=cap)
                     await event.delete()
@@ -60,10 +58,7 @@ async def variable(hell):
                     f"**Heroku Var:** \n\n`{variable}` = `{heroku_var[variable]}`\n"
                 )
             else:
-                return await eod(
-                    event,
-                    "**Heroku Var:** \n\n__Error:__\n-> I doubt `{variable}` exists!",
-                )
+                return await parse_error(event, f"No variable named `{variable}`", False)
         except IndexError:
             configs = prettyjson(heroku_var.to_dict(), indent=2)
             with open("configs.json", "w") as fp:
@@ -128,7 +123,7 @@ async def variable(hell):
             await event.edit(f"**Successfully Deleted** \n`{variable}`")
             del heroku_var[variable]
         else:
-            return await eod(event, f"`{variable}`  **does not exists**")
+            return await parse_error(event, f"`{variable}` __does not exists__", False)
 
 
 @hell_cmd(pattern="usage$")
@@ -189,19 +184,12 @@ async def dyno_usage(hell):
 @hell_cmd(pattern="logs$")
 async def _(event):
     if (HEROKU_APP_NAME is None) or (HEROKU_API_KEY is None):
-        return await eor(
-            event,
-            f"Make Sure Your HEROKU_APP_NAME & HEROKU_API_KEY are filled correct. Visit {hell_grp} for help.",
-            link_preview=False,
-        )
+        return await parse_error(event, f"Either `HEROKU_APP_NAME` or `HEROKU_API_KEY` are filled incorrect.", False)
     try:
         Heroku = heroku3.from_key(HEROKU_API_KEY)
         app = Heroku.app(HEROKU_APP_NAME)
     except BaseException:
-        return await event.reply(
-            f"Make Sure Your Heroku AppName & API Key are filled correct. Visit {hell_grp} for help.",
-            link_preview=False,
-        )
+        return await parse_error(event, f"Either `HEROKU_APP_NAME` or `HEROKU_API_KEY` are filled incorrect.", False)
     cid = await client_id(event)
     hell_mention = cid[2]
     hell_data = app.get_log()
