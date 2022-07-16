@@ -12,7 +12,7 @@ async def _(event):
         OwO = str(event.text.split(" ", 2)[2])
         file = None
     if not OwO:
-        return await eod(event, "I need something to Gcast.")
+        return await parse_error(event, "Nothing given to Gcast.")
     hel_ = await eor(event, "`Gcasting message...`")
     sed = 0
     owo = 0
