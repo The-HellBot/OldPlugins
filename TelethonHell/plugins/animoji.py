@@ -366,9 +366,13 @@ async def _(event):
         await event.edit(animation_chars[i % 18])
 
 
-CmdHelp("animoji").add_command("think", None, "Use and see").add_command(
+CmdHelp("animoji").add_command(
+    "think", None, "Use and see"
+).add_command(
     "ccry", None, "Use and see"
-).add_command("fap", None, "Use and see").add_command(
+).add_command(
+    "fap", None, "Use and see"
+).add_command(
     "lmao", None, "Use and see"
 ).add_command(
     "nothappy", None, "Use and see"
