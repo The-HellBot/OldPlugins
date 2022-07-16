@@ -24,13 +24,13 @@ async def glitch_(event):
     replied = await event.get_reply_message()
     lists = event.text.split(" ", 2)
     if not (replied and (replied.photo or replied.sticker or replied.video or replied.gif)):
-        return await eod(hell, "Reply to a pic/video/gif/sticker only.")
+        return await parse_error(hell, "Invalid media format.")
     if len(lists) >= 2:
         if not lists[1].isdigit():
-            return await eod(hell, "**Invalid Input !!** \n\nPlease enter digits only.")
+            return await parse_error(hell, "Input type is not digits.")
         input_ = int(lists[1])
         if not 0 < input_ < 9:
-            return await eod(hell, "**Invalid Range !!** \n\n**Valid Range** - 1 to 8")
+            return await parse_error(hell, "Input range beyond 1 - 8")
         args = input_
     else:
         args = 2
@@ -45,21 +45,21 @@ async def glitch_(event):
         cmd = f"lottie_convert.py --frame 0 -if lottie -of png {dls_loc} {file_1}"
         stdout, stderr = (await runcmd(cmd))[:2]
         if not os.path.lexists(file_1):
-            await eod(hell, "```Sticker not found...```")
+            await parse_error(hell, "Sticker not found.")
             raise Exception(stdout + stderr)
         glitch_file = file_1
     elif dls.endswith(".webp"):
         file_2 = os.path.join(Config.TMP_DOWNLOAD_DIRECTORY, "glitch.png")
         os.rename(dls_loc, file_2)
         if not os.path.lexists(file_2):
-            await eod(hell, "```Sticker not found...```")
+            await parse_error(hell, "Sticker not found.")
             return
         glitch_file = file_2
     elif replied.gif or replied.video:
         file_3 = os.path.join(Config.TMP_DOWNLOAD_DIRECTORY, "glitch.png")
         await take_ss(dls_loc, 0, file_3)
         if not os.path.lexists(file_3):
-            await eod(hell, "```Sticker not found...```")
+            await parse_error(hell, "Sticker not found.")
             return
         glitch_file = file_3
     if glitch_file is None:
