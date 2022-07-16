@@ -30,7 +30,7 @@ async def _(event):
                 ),
             )
         except Exception as e:  # pylint:disable=C0103,W0703
-            await eod(hell, f"**ERROR:** \n\n`{str(e)}`")
+            await parse_error(hell, e)
         else:
             end = datetime.datetime.now()
             ms = (end - start).seconds
@@ -83,7 +83,7 @@ async def _(event):
                 f"**Downloading Completed !!**\n**• Downloaded to:** `{downloaded_file_name}`\n**Time Taken:** `{ms} seconds` \n**• Downloaded by:** {hell_mention}"
             )
         else:
-            await eod(hell, f"**Incorrect URL:** {input_str}")
+            await parse_error(hell, f"__Incorrect URL:__ {input_str}", False)
     else:
         await eod(hell, f"**WRONG SYNTAX:** \n\n`{hl}download <reply or url>`")
 
