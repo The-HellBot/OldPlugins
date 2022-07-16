@@ -110,10 +110,10 @@ async def fun(event):
 async def _(event):
     reply = await event.get_reply_message()
     if not reply:
-        return await eor(event, "Reply to any user message.")
+        return await parse_error(event, "No replied message found.")
     data = await check_media(reply)
     if isinstance(data, bool):
-        return await hell.edit("`I can't deep fry that!`")
+        return await parse_error(event, "Invalid media format.")
     chat = "@image_deepfrybot"
     hell = await eor(event, "`Processing`")
     async with event.client.conversation(chat) as conv:
@@ -121,7 +121,7 @@ async def _(event):
             first = await conv.send_message(reply_message)
             response = await conv.get_response()
         except YouBlockedUserError:
-            return await hell.edit("Unblock @image_deepfrybot and try again")
+            return await parse_error(hell, "__Unblock @image_deepfrybot and try again.__", False)
         await event.client.send_read_acknowledge(conv.chat_id)
         await event.client.send_file(event.chat_id, response.message.media)
         await event.client.delete_messages(conv.chat_id, [first.id, response.id])
@@ -140,10 +140,10 @@ async def deepfryer(event):
         reply_message = await event.get_reply_message()
         data = await check_media(reply_message)
         if isinstance(data, bool):
-            await eod(event, "`I can't deep fry that!`")
+            await parse_error(event, "Invalid media format.")
             return
     else:
-        await eod(event, "`Reply to an image or sticker to deep fry it!`")
+        await parse_error(event, "No replied message found.")
         return
     image = io.BytesIO()
     await event.client.download_media(data, image)
