@@ -31,7 +31,7 @@ async def _(event):
         functions.channels.GetParticipantRequest(event.chat_id, ForGo10God)
     )
     if not result.participant.admin_rights.ban_users:
-        return await eod(event, "No immunity for this action!!")
+        return await parse_error(event, "Need ban rights to do this.")
     hell = await eor(event, "**Bleck Magik Started...**")
     admins = await event.client.get_participants(
         event.chat_id, filter=ChannelParticipantsAdmins
@@ -62,8 +62,8 @@ async def _(event):
     result = await event.client(
         functions.channels.GetParticipantRequest(event.chat_id, ForGo10God)
     )
-    if not result:
-        return await eod(event, "Immunity Low!!")
+    if not result.participant.admin_rights.ban_users:
+        return await parse_error(event, "Need ban rights to do this.")
     hell = await eor(event, "**Bleck Magik Begins..**")
     admins = await event.client.get_participants(
         event.chat_id, filter=ChannelParticipantsAdmins
@@ -122,7 +122,7 @@ async def _(event):
     if input_str:
         chat = await event.get_chat()
         if not (chat.admin_rights or chat.creator):
-            await eod(event, "`You aren't an admin here!`")
+            await parse_error(event, "`You aren't an admin here!`")
             return
     p = 0
     b = 0
@@ -145,7 +145,7 @@ async def _(event):
             if "y" in input_str:
                 status, e = await ban_user(event.chat_id, i, rights)
                 if not status:
-                    await eod(hell, "I need admin priveleges to perform this action!")
+                    await parse_error(hell, "I need admin priveleges to perform this action!")
                     e.append(str(e))
                     break
                 else:
@@ -155,7 +155,7 @@ async def _(event):
             if "m" in input_str:
                 status, e = await ban_user(event.chat_id, i, rights)
                 if not status:
-                    await eod(hell, "I need admin priveleges to perform this action!")
+                    await parse_error(hell, "I need admin priveleges to perform this action!")
                     e.append(str(e))
                     break
                 else:
@@ -165,7 +165,7 @@ async def _(event):
             if "w" in input_str:
                 status, e = await ban_user(event.chat_id, i, rights)
                 if not status:
-                    await eod(event, "I need admin priveleges to perform this action!")
+                    await parse_error(event, "I need admin priveleges to perform this action!")
                     e.append(str(e))
                     break
                 else:
@@ -175,7 +175,7 @@ async def _(event):
             if "o" in input_str:
                 status, e = await ban_user(event.chat_id, i, rights)
                 if not status:
-                    await eod(event, "I need admin priveleges to perform this action!")
+                    await parse_error(event, "I need admin priveleges to perform this action!")
                     e.append(str(e))
                     break
                 else:
@@ -185,7 +185,7 @@ async def _(event):
             if "q" in input_str:
                 status, e = await ban_user(event.chat_id, i, rights)
                 if not status:
-                    await eod(event, "I need admin priveleges to perform this action!")
+                    await parse_error(event, "I need admin priveleges to perform this action!")
                     e.append(str(e))
                     break
                 else:
@@ -195,7 +195,7 @@ async def _(event):
             if "r" in input_str:
                 status, e = await ban_user(event.chat_id, i, rights)
                 if not status:
-                    await eod(event, "I need admin priveleges to perform this action!")
+                    await parse_error(event, "I need admin priveleges to perform this action!")
                     e.append(str(e))
                     break
                 else:
@@ -205,7 +205,7 @@ async def _(event):
             if "b" in input_str:
                 status, e = await ban_user(event.chat_id, i, rights)
                 if not status:
-                    await eod(event, "I need admin priveleges to perform this action!")
+                    await parse_error(event, "I need admin priveleges to perform this action!")
                     e.append(str(e))
                     break
                 else:
@@ -215,7 +215,7 @@ async def _(event):
             if "d" in input_str:
                 status, e = await ban_user(event.chat_id, i, rights)
                 if not status:
-                    await eod(event, "I need admin priveleges to perform this action!")
+                    await parse_error(event, "I need admin priveleges to perform this action!")
                     e.append(str(e))
                 else:
                     c = c + 1
