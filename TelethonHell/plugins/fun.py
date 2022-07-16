@@ -17,7 +17,7 @@ async def who(event):
     try:
         await eor(event, caption)
     except:
-        await eor(event, "`Can't slap this nibba !!`")
+        await eod(event, "`Can't slap this nibba !!`")
 
 
 async def get_user(event):
@@ -48,7 +48,7 @@ async def get_user(event):
             replied_user = await event.client(GetFullUserRequest(user_object.id))
 
         except (TypeError, ValueError):
-            await eor(event, "`I don't slap strangers !!`")
+            await eod(event, "`I don't slap strangers !!`")
             return None
 
     return replied_user
@@ -234,7 +234,7 @@ async def claptext(memereview):
         elif textx:
             message = textx.text
         else:
-            await eor(memereview, "`Hah, I don't clap pointlessly!`")
+            await eod(memereview, "`Hah, I don't clap pointlessly!`")
             return
         reply_text = "👏 "
         reply_text += message.replace(" ", " 👏 ")
