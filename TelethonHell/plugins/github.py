@@ -12,10 +12,10 @@ GIT_TEMP_DIR = "./github/"
 @hell_cmd(pattern="commit(?:\s|$)([\s\S]*)")
 async def download(event):
     if Config.GITHUB_ACCESS_TOKEN is None:
-        await eod(event, "Please add proper access token from github.com")
+        await parse_error(event, "`GITHUB_ACCESS_TOKEN` not configured.", False)
         return
     if Config.GIT_REPO_NAME is None:
-        await eod(event, "`Please add proper Github Repo Name.`")
+        await parse_error(event, "`GIT_REPO_NAME` not configured.", False)
         return
     txts = event.text[8:]
     splt = txts.split("|")
@@ -33,7 +33,7 @@ async def download(event):
             reply_message.media, GIT_TEMP_DIR
         )
     except Exception as e:
-        await eod(hellbot, str(e))
+        await parse_error(hellbot, e)
     else:
         end = datetime.datetime.now()
         ms = (end - start).seconds
@@ -83,9 +83,9 @@ async def git_commit(file_name, path, branch, hellbot):
             )
         except:
             print("Cannot Create Plugin")
-            await eod(hellbot, "Cannot Upload File")
+            await parse_error(hellbot, "Cannot Upload File")
     else:
-        return await eod(hellbot, "`Committed Suicide`")
+        return await parse_error(hellbot, "Committed Suicide")
 
 
 @hell_cmd(pattern="github(?:\s|$)([\s\S]*)")
