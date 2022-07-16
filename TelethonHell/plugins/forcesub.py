@@ -43,7 +43,7 @@ async def forcesub(event):
 @hell_cmd(pattern="fsub(?:\s|$)([\s\S]*)")
 async def _(event):
     if event.is_private:
-        await eor(event, "This is meant to be used in groups only!!")
+        await parse_error(event, "This is meant to be used in groups only!!")
         return
     hunter = event.pattern_match.group(1)
     if not hunter:
@@ -54,15 +54,11 @@ async def _(event):
         try:
             ch = int(hunter)
         except BaseException:
-            return await eod(
-                event, "⚠️ **Error !** \n\nChannel ID invalid. Please Recheck It !"
-            )
+            return await parse_error(event, "Channel ID invalid.")
     try:
         hunter = (await event.client.get_entity(ch)).id
     except BaseException:
-        return await eod(
-            event, "⚠️ **Error !** \n\nChannel ID invalid. Please Recheck It !"
-        )
+        return await parse_error(event, "Channel ID invalid.")
     if not str(hunter).startswith("-100"):
         hunter = int(f"-100{hunter}")
     add_fsub(event.chat_id, hunter)
