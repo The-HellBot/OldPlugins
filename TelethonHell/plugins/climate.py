@@ -28,7 +28,7 @@ async def get_tz(con):
 @hell_cmd(pattern="climate(?:\s|$)([\s\S]*)")
 async def get_weather(event):
     if not OWM_API:
-        return await eod(event, "**Get an API key from** https://openweathermap.org/ **first.**")
+        return await parse_error(event, "__No API key found. Get an API from [here](https://openweathermap.org/) first.__", False)
     APPID = OWM_API
     if not event.pattern_match.group(1):
         CITY = DEFCITY
@@ -61,7 +61,7 @@ async def get_weather(event):
     result = json.loads(request.text)
 
     if request.status_code != 200:
-        return await eod(event, "`Invalid country.`")
+        return await parse_error(event, "Invalid country.")
 
     cityname = result["name"]
     curtemp = result["main"]["temp"]
@@ -124,7 +124,7 @@ async def get_weather(event):
 @errors_handler
 async def set_default_city(event):
     if not OWM_API:
-        return await eod(event, "**Get an API key from** https://openweathermap.org/ **first.**")
+        return await parse_error(event, "__No API key found. Get an API from [here](https://openweathermap.org/) first.__", False)
     global DEFCITY
     APPID = OWM_API
     if not event.pattern_match.group(1):
@@ -147,14 +147,14 @@ async def set_default_city(event):
             try:
                 countrycode = timezone_countries[f"{country}"]
             except KeyError:
-                await eod(event, "`Invalid country.`")
+                await parse_error(event, "Invalid country.")
                 return
             CITY = newcity[0].strip() + "," + countrycode.strip()
     url = f"https://api.openweathermap.org/data/2.5/weather?q={CITY}&appid={APPID}"
     request = requests.get(url)
     result = json.loads(request.text)
     if request.status_code != 200:
-        return await eod(event, f"`Invalid country.`")
+        return await parse_error(event, f"Invalid country.")
     DEFCITY = CITY
     cityname = result["name"]
     country = result["sys"]["country"]
