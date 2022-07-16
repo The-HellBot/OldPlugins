@@ -65,7 +65,7 @@ async def _(event):
             "Antiflood updated to {} in the current chat".format(input_str)
         )
     except Exception as e:
-        await event.edit(str(e))
+        await parse_error(event, e)
 
 
 CmdHelp("antiflood").add_command(
