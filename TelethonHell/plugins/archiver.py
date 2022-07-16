@@ -20,7 +20,7 @@ if not os.path.isdir(extracted):
 @hell_cmd(pattern="zip$")
 async def _(event):
     if not event.is_reply:
-        await eod(event, "Reply to a file to compress it. Bruh.")
+        await parse_error(event, "Reply to a file to compress it.")
         return
     hell = await eor(event, "Zipping ...")
     if not os.path.isdir(Config.TMP_DOWNLOAD_DIRECTORY):
@@ -35,7 +35,7 @@ async def _(event):
             directory_name = downloaded_file_name
             await eod(hell, downloaded_file_name)
         except Exception as e:
-            await eod(hell, str(e))
+            await parse_error(hell, e)
     zipfile.ZipFile(directory_name + ".zip", "w", zipfile.ZIP_DEFLATED).write(
         directory_name
     )
@@ -89,7 +89,7 @@ async def _(event):
                 pass
             await eod(hell, "Task Completed")
         except Exception as e:
-            await eod(hell, str(e))
+            await parse_error(hell, e)
 
 
 async def create_archive(input_directory):
@@ -139,7 +139,7 @@ async def _(event):
                 ),
             )
         except Exception as e:
-            await eod(hell, str(e))
+            await parse_error(hell, e)
         else:
             end = datetime.datetime.now()
             ms = (end - start).seconds
@@ -225,7 +225,7 @@ async def _(event):
                 ),
             )
         except Exception as e:
-            await eod(hell, str(e))
+            await parse_error(hell, e)
         else:
             end = datetime.datetime.now()
             ms = (end - start).seconds
