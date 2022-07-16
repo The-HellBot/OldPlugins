@@ -61,7 +61,7 @@ async def is_limited(event):
             response = await conv.get_response()
             await event.client.send_read_acknowledge(conv.chat_id)
         except YouBlockedUserError:
-            await msg.edit("User Blocked!! Please Unblock @Spambot and try again...")
+            await parse_error(msg, "`__Unblock__ @Spambot __and try again.__", False)
             return
         await msg.edit(response.text)
         await event.client.delete_messages(conv.chat_id, [first.id, response.id])
@@ -124,7 +124,7 @@ async def _(event):
         await asyncio.sleep(int(ttl))
         await event.respond(message)
     else:
-        await eor(event, message)
+        await eod(event, message)
 
 
 @hell_cmd(pattern="dm(?:\s|$)([\s\S]*)")
@@ -138,7 +138,7 @@ async def _(event):
             await event.client.send_message(chat_id, to_send)
             await eod(event, "**[Done]**")
         except Exception as e:
-            return await eod(event, f"**ERROR:** \n\n`{e}`")
+            return await parse_error(event, e)
     
     elif len(lists) == 3:
         try:
@@ -147,7 +147,7 @@ async def _(event):
             await event.client.send_message(chat_id, to_send)
             await eod(event, "**[Done]**")
         except Exception as e:
-            return await eod(event, f"**ERROR:** \n\n`{e}`")
+            return await parse_error(event, e)
     
     else:
         await eod(event, f"**SYNTAX EXAMPLE**\n\n~ `{hl}dm @ForGo10God Hey Hell!` \n~ `{hl}dm @ForGo10God <reply to a msg>`")
