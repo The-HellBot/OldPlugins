@@ -25,7 +25,7 @@ async def get_full_user(event):
         if user.isnumeric():
             user = int(user)
         if not user:
-            await eor(event, "Need a user to do this...")
+            await parse_error(event, "Need a user to do this.")
             return
         if event.message.entities is not None:
             probable_user_mention_entity = event.message.entities[0]
@@ -36,7 +36,7 @@ async def get_full_user(event):
         try:
             user_obj = await event.client.get_entity(user)
         except Exception as err:
-            return await eor(event, f"**ERROR !!**\n\n`{str(err)}`")
+            return await parse_error(event, err)
     return user_obj, extra
 
 
@@ -46,7 +46,7 @@ async def get_user_from_id(user, event):
     try:
         user_obj = await event.client.get_entity(user)
     except (TypeError, ValueError) as err:
-        await event.edit(str(err))
+        await parse_error(event, err)
         return None
     return user_obj
 
@@ -72,9 +72,9 @@ async def _(event):
     elif event.is_group:
         user, rank = await get_full_user(event)
     else:
-        return await eod(hell, "Use in groups or PMs only!")
+        return await parse_error(hell, "Can be used in Group and PMs only.")
     if ForGo10God == user:
-        return await eod(hell, "You can't promote yourself...")
+        return await parse_error(hell, "Cant promote self.")
     if not rank:
         rank = "ǟɖʍɨռ"
     if user:
@@ -90,7 +90,7 @@ async def _(event):
             except BadRequestError:
                 sed += 1
     else:
-        await eod(hell, f"Need a user to gpromote!")
+        await parse_error(hell, f"No user defined.")
 
     text_to_send = f"📍 <b>Promoted:</b> <a href='tg://user?id={user.id}'>{user.first_name}</a> \n📍 <b>Success:</b> <code>{yup}</code> \n📍 <b>Failed:</b> <code>{sed}</code>"
     await hell.edit(f"<b><i>🔥 GPromote Completed !!</b></i> \n\n{text_to_send}", parse_mode="HTML")
@@ -122,9 +122,9 @@ async def _(event):
     elif event.is_group:
         user, _ = await get_full_user(event)
     else:
-        return await eod(hell, "Use in groups or PMs only!")
+        return await parse_error(hell, "can be used in groups or PMs only!")
     if ForGo10God == user:
-        return await eod(hell, "You can't demote yourself...")
+        return await parse_error(hell, "Can't demote self.")
     if user:
         total_ch = [
             x.entity.id
@@ -138,7 +138,7 @@ async def _(event):
             except BadRequestError:
                 sed += 1
     else:
-        await eod(hell, f"Need a user to gdemote!")
+        await parse_error(hell, f"No user defined.")
 
     text_to_send = f"📍 <b>Demoted:</b> <a href='tg://user?id={user.id}'>{user.first_name}</a> \n📍 <b>Success:</b> <code>{yup}</code> \n📍 <b>Failed:</b> <code>{sed}</code>"
     await hell.edit(f"<b><i>🔥 GDemote Completed !!</b></i> \n\n{text_to_send}", parse_mode="HTML")
@@ -174,7 +174,7 @@ async def _(event):
         except IndexError:
             reason = ""
     else:
-        return await eod(hell, "**To gban a user i need a userid or reply to his/her message!!**")
+        return await parse_error(hell, "No user mentioned.")
     name = (await event.client.get_entity(userid)).first_name
     chats = 0
     if userid == ForGo10God:
@@ -216,9 +216,10 @@ async def _(event):
         ogmsg += f"\n**📍 Reason:** `{reason}`"
     
     if Config.ABUSE == "ON":
-        await hell.edit(file=gbpic, text=gmsg)
+        await event.client.send_message(event.chat_id, gmsg, file=gbpic)
     else:
-        await hell.edit(file=gbpic, text=f"__**🔥 GBan Completed !!**__ \n\n{ogmsg}")
+        await event.client.send_message(event.chat_id, f"__**🔥 GBan Completed !!**__ \n\n{ogmsg}", file=gbpic)
+    await hell.delete()
     await event.client.send_message(
         Config.LOGGER_ID,
         f"#GBAN \n\n{ogmsg}",
@@ -236,7 +237,7 @@ async def _(event):
     elif event.is_private:
         userid = (await event.get_chat()).id
     else:
-        return await eod(hell, "`Reply to a user or give their userid... `")
+        return await parse_error(hell, "No user mentioned.")
     name = (await event.client.get_entity(userid)).first_name
     chats = 0
     if not is_gbanned(userid):
@@ -424,7 +425,7 @@ async def gkick(event):
         except IndexError:
             reason = ""
     else:
-        return await eod(hell, "`Need a user to gkick.`")
+        return await parse_error(hell, "No user mentioned.")
     name = (await event.client.get_entity(userid)).first_name
     chats = 0
     if userid == ForGo10God:
@@ -453,7 +454,8 @@ async def gkick(event):
         gbpic = cjb
     
     gkmsg = f"**📍 Victim:** [{name}](tg://user?id={userid}) \n**📍 Chats:** `{chats}` \n**📍 GKick By:** {hell_mention}"
-    await hell.edit(file=gbpic, text=f"__**🔥 GKick Completed !!**__ \n\n{gkmsg}")
+    await event.client.send_message(event.chat_id, f"__**🔥 GKick Completed !!**__ \n\n{gkmsg}", file=gbpic)
+    await hell.delete()
     await event.client.send_message(
         Config.LOGGER_ID,
         f"#GKICK \n\n{gkmsg}",
@@ -471,7 +473,7 @@ async def gm(event):
     elif event.is_private:
         userid = (await event.get_chat()).id
     else:
-        return await eod(hell, "**Need a user to gmute.**")
+        return await parse_error(hell, "No user mentioned.")
     name = (await event.client.get_entity(userid)).first_name
     reply = await event.get_reply_message()
     if userid == ForGo10God:
@@ -485,7 +487,8 @@ async def gm(event):
     try:
         gsql.gmute(userid, "gmute")
         if Config.ABUSE == "ON":
-            await hell.edit(file=shhh, text=f"Chup [Madarchod](tg://user?id={userid})")
+            await event.client.send_message(event.chat_id, f"Chup [Madarchod](tg://user?id={userid})", file=shhh)
+            await hell.delete()
         else:
             await hell.edit(f"__**🔥 GMute Completed !!**__ \n\n{ogmsg}")
         await event.client.send_message(
@@ -493,7 +496,7 @@ async def gm(event):
             f"#GMUTE \n\n{ogmsg}",
         )
     except Exception as e:
-        await eod(hell, "Error occured!\nError is " + str(e))
+        await parse_error(hell, e)
 
 
 @hell_cmd(pattern="ungmute(?:\s|$)([\s\S]*)")
@@ -507,7 +510,7 @@ async def endgmute(event):
     elif event.is_private:
         userid = (await event.get_chat()).id
     else:
-        return await eod(hell, "**Need a user to ungmute**")
+        return await parse_error(hell, "No user mentioned.")
     name = (await event.client.get_entity(userid)).first_name
     if not gsql.is_gmuted(userid, "gmute"):
         return await eod(hell, "User not found in Gmute DB.")
@@ -520,7 +523,7 @@ async def endgmute(event):
             f"#UNGMUTE \n\n{ogmsg}",
         )
     except Exception as e:
-        await eod(hell, "Error occured!\nError is " + str(e))
+        await parse_error(hell, e)
 
 
 @hell_handler()
