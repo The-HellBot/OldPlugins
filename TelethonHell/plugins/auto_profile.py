@@ -29,7 +29,7 @@ async def _(event):
         try:
             await event.client(functions.account.UpdateProfileRequest(first_name=name))
         except FloodWaitError as ex:
-            logger.warning(str(e))
+            logger.warning(str(ex))
             await asyncio.sleep(ex.seconds)
         await asyncio.sleep(DEL_TIME_OUT)
 
@@ -49,7 +49,7 @@ async def _(event):
         try:
             await event.client(functions.account.UpdateProfileRequest(about=bio))
         except FloodWaitError as ex:
-            logger.warning(str(e))
+            logger.warning(str(ex))
             await asyncio.sleep(ex.seconds)
         await asyncio.sleep(DEL_TIME_OUT)
 

@@ -443,9 +443,13 @@ async def _(event):
         await event.edit(animation_chars[i % 4])
 
 
-CmdHelp("animations2").add_command("charging", None, "Use and See.").add_command(
+CmdHelp("animations2").add_command(
+    "charging", None, "Use and See."
+).add_command(
     "bigoof", None, "Use and See."
-).add_command("gangasta", None, "Use and See.").add_command(
+).add_command(
+    "gangasta", None, "Use and See."
+).add_command(
     "candy", None, "Use and See."
 ).add_command(
     "dick", None, "Use and See."

@@ -8,7 +8,7 @@ from . import *
 async def apk(event):
     lists = event.text.split(" ", 1)
     if not len(lists) == 2:
-        return await eod(event, "Invalid syntax.")
+        return await parse_error(event, "Invalid syntax.")
     app_name = lists[1]
     event = await eor(event, f"Searching for {app_name}...")
     _, HELL_USER, _ = await client_id(event)
@@ -72,9 +72,9 @@ async def apk(event):
         app_details += f"\n\n==> {HELL_USER} <=="
         await event.edit(app_details, link_preview=True, parse_mode="HTML")
     except IndexError:
-        await event.edit("No result found in search. Please enter **Valid app name**")
+        await parse_error(event, "No result found in search. Please enter **Valid app name**")
     except Exception as err:
-        await event.edit("Exception Occured:- " + str(err))
+        await parse_error(event, err)
 
 
 @hell_cmd(pattern="appr(?:\s|$)([\s\S]*)")
@@ -142,9 +142,9 @@ async def apkr(event):
         app_details += "\n\n===> @Xpl0iter <==="
         await event.edit(app_details, link_preview=True, parse_mode="HTML")
     except IndexError:
-        await event.edit("No result found in search. Please enter **Valid app name**")
+        await parse_error(event, "No result found in search. Please enter **Valid app name**")
     except Exception as err:
-        await event.edit("Exception Occured:- " + str(err))
+        await parse_error(event, err)
 
 
 CmdHelp("app").add_command(

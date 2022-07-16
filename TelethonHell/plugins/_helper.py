@@ -39,10 +39,7 @@ async def _(event):
             )
             await event.delete()
         except noinline:
-            hell = await eor(
-                event,
-                "**Inline Mode is disabled.** \n__Turning it on, please wait for a minute...__",
-            )
+            hell = await eor(event, "**Inline Mode is disabled.** \n__Turning it on, please wait for a minute...__")
             async with bot.conversation(chat) as conv:
                 try:
                     first = await conv.send_message("/setinline")
@@ -53,19 +50,21 @@ async def _(event):
                     sixth = await conv.get_response()
                     await bot.send_read_acknowledge(conv.chat_id)
                 except YouBlockedUserError:
-                    return await hell.edit("Unblock @Botfather first.")
-                await hell.edit(
-                    f"**Turned On Inline Mode Successfully.** \n\nDo `{hl}help` again to get the help menu."
-                )
+                    return await parse_error(hell, "__Unblock__ @Botfather __first.__", False)
+                await eod(hell, f"**Turned On Inline Mode Successfully.** \n\nDo `{hl}help` again to get the help menu.")
             await bot.delete_messages(
                 conv.chat_id,
-                [first.id, second.id, third.id, fourth.id, fifth.id, sixth.id],
+                [
+                    first.id,
+                    second.id,
+                    third.id,
+                    fourth.id,
+                    fifth.id,
+                    sixth.id,
+                ],
             )
     else:
-        await eor(
-            event,
-            "**⚠️ ERROR !!** \nPlease Re-Check BOT_TOKEN & BOT_USERNAME on Heroku.",
-        )
+        await parse_error(event, "__Please Re-Check__ `BOT_TOKEN` __on Heroku.__", False)
 
 
 @hell_cmd(pattern="plinfo(?:\s|$)([\s\S]*)")
@@ -75,7 +74,7 @@ async def hellbott(event):
         if args in CMD_HELP:
             await eor(event, str(CMD_HELP[args]))
         else:
-            await eod(event, "**⚠️ Error !** \nNeed a module name to show plugin info.")
+            await parse_error(event, "Need a module name to show plugin info.")
     else:
         string = ""
         sayfa = [
@@ -92,10 +91,7 @@ async def hellbott(event):
                 else:
                     string += "`, "
             string += "\n"
-        await eor(
-            event,
-            "Please Specify A Module Name Of Which You Want Info" + "\n\n" + string,
-        )
+        await eor(event, "Please Specify A Module Name Of Which You Want Info" + "\n\n" + string)
 
 
 @hell_cmd(pattern="cmdinfo(?:\s|$)([\s\S]*)")
@@ -106,6 +102,6 @@ async def cmdinfo(event):
         file = CMD_INFO[cmd]["plugin"]
         exam = CMD_INFO[cmd]["example"]
     except KeyError:
-        return await eod(event, f"**• No command named:** `{cmd}`")
+        return await parse_error(event, f"__• No command named:__ `{cmd}`", False)
     await eor(event, f"**• File:** \n» __{file}__ \n\n**• {cmd}:** \n» __{info}__ \n\n**• Example:** \n» `{str(exam)}`")
 

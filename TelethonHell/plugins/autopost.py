@@ -7,7 +7,7 @@ from . import *
 @hell_cmd(pattern="autopost(?:\s|$)([\s\S]*)")
 async def _(event):
     if event.is_private:
-        return await eod(event, "AutoPost Can Only Be Used For Channels & Groups.")
+        return await parse_error(event, "AutoPost Can Only Be Used For Channels & Groups.")
     hell = await eor(event, "Trying to start autoposting from here...")
     cid = await client_id(event)
     ForGo10God = cid[0]
@@ -24,12 +24,10 @@ async def _(event):
     else:
         kk = hel_
     if not kk.isdigit():
-        return await eod(hell, "**Please Give Channel ID !!**")
+        return await parse_error(hell, "Only channel ID is supported.")
     if is_post(kk, event.chat_id):
         if checker and checker == "True":
-            return await hell.edit(
-                "This channel is already in this client's autopost database."
-            )
+            return await eod(hell, "This channel is already in this client's autopost database.")
         else:
             addgvar(f"AUTOPOST_{str(cli_)}", "True")
             return await hell.edit(
@@ -43,7 +41,7 @@ async def _(event):
 @hell_cmd(pattern="rmautopost(?:\s|$)([\s\S]*)")
 async def _(event):
     if event.is_private:
-        return await eod(event, "AutoPost Can Only Be Used For Channels.")
+        return await parse_error(event, "AutoPost Can Only Be Used For Channels.")
     hell = await eor(event, "Removing autopost...")
     cid = await client_id(event)
     ForGo10God = cid[0]
@@ -60,7 +58,7 @@ async def _(event):
     else:
         kk = hel_
     if not kk.isdigit():
-        return await eod(event, "**Please Give Channel ID !!**")
+        return await parse_error(event, "Only channel ID is supported.")
     if not is_post(kk, event.chat_id):
         return await eod(event, "I don't think this channel is in AutoPost Database.")
     if is_post(kk, event.chat_id):

@@ -6,10 +6,10 @@ from . import *
 @hell_cmd(pattern="ascii(?:\s|$)([\s\S]*)")
 async def _(event):
     if not event.reply_to_msg_id:
-        return await eor(event, "Reply to any user message.😒🤐")
+        return await eod(event, "Reply to any user message.😒🤐")
     reply_message = await event.get_reply_message()
     if not reply_message.media:
-        return await eor(event, "Reply to media message😒🤐")
+        return await eod(event, "Reply to media message😒🤐")
     bot = "@asciiart_bot"
     cid = await client_id(event)
     hell_mention = cid[2]
@@ -22,9 +22,7 @@ async def _(event):
             output_op = await conv.get_response()
             await event.client.send_read_acknowledge(conv.chat_id)
         except YouBlockedUserError:
-            await kraken.edit(
-                "User Blocked!! Please Unblock @asciiart_bot and try again..."
-            )
+            await parse_error(event, "Unblock @asciiart_bot and try again.", False)
             return
     await event.client.send_file(
         event.chat_id,
@@ -41,11 +39,11 @@ async def _(event):
 @hell_cmd(pattern="line(?:\s|$)([\s\S]*)")
 async def _(event):
     if not event.reply_to_msg_id:
-        await eor(event, "Reply to any user message.😒🤐")
+        await eod(event, "Reply to any user message.😒🤐")
         return
     reply_message = await event.get_reply_message()
     if not reply_message.media:
-        await eor(event, "Reply to media message😒🤐")
+        await eod(event, "Reply to media message😒🤐")
         return
     bot = "@lines50bot"
     cid = await client_id(event)
@@ -59,9 +57,7 @@ async def _(event):
             output_op = await conv.get_response()
             await event.client.send_read_acknowledge(conv.chat_id)
         except YouBlockedUserError:
-            await kraken.edit(
-                "User Blocked!! Please Unblock @Lines50Bot and try again..."
-            )
+            await parse_error(event, "Unblock @Lines50Bot and try again.", False)
             return
     await event.client.send_file(
         event.chat_id,

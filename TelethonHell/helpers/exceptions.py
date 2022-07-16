@@ -8,11 +8,17 @@ class CancelProcess(Exception):
     """
 
 
-async def parse_error(event, error, delete=False, time=10):
+async def parse_error(event, error, auto_parse=True, delete=True, time=10):
     if delete:
-        await eod(event, f"**ERROR !!** \n\n`{error}`", time)
+        if auto_parse:
+            await eod(event, f"**ERROR !!** \n\n`{error}`", time)
+        else:
+            await eod(event, f"**ERROR !!** \n\n{error}", time)
     else:
-        await eor(event, f"**ERROR !!** \n\n`{error}`")
+        if auto_parse:
+            await eor(event, f"**ERROR !!** \n\n`{error}`")
+        else:
+            await eor(event, f"**ERROR !!** \n\n{error}")
 
 
 # hellbot
