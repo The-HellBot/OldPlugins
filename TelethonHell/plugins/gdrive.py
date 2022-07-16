@@ -6,7 +6,7 @@ async def g_download(event):
     hell = await eor(event, "Accessing gdrive...")
     lists = event.text.split(" ", 2)
     if len(lists) <= 1:
-        return await eod(hell, "Give a link to download")
+        return await parse_error(hell, "No link to download")
     drive_link = lists[1]
     await hell.edit(f"**Drive Link :** `{drive_link}`")
     file_id = await get_id(drive_link)
