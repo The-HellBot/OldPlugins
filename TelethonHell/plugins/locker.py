@@ -13,52 +13,52 @@ def lock(event):
             pin_messages=True,
             change_info=True,
         )
-    if event == "msg":
+    elif event == "msg":
         rights = ChatBannedRights(
             until_date=None,
             send_messages=True,
         )
-    if event == "media":
+    elif event == "media":
         rights = ChatBannedRights(
             until_date=None,
             send_media=True,
         )
-    if event == "sticker":
+    elif event == "sticker":
         rights = ChatBannedRights(
             until_date=None,
             send_stickers=True,
         )
-    if event == "gif":
+    elif event == "gif":
         rights = ChatBannedRights(
             until_date=None,
             send_gifs=True,
         )
-    if event == "game":
+    elif event == "game":
         rights = ChatBannedRights(
             until_date=None,
             send_games=True,
         )
-    if event == "inline":
+    elif event == "inline":
         rights = ChatBannedRights(
             until_date=None,
             send_inline=True,
         )
-    if event == "poll":
+    elif event == "poll":
         rights = ChatBannedRights(
             until_date=None,
             send_polls=True,
         )
-    if event == "invite":
+    elif event == "invite":
         rights = ChatBannedRights(
             until_date=None,
             invite_users=True,
         )
-    if event == "pin":
+    elif event == "pin":
         rights = ChatBannedRights(
             until_date=None,
             pin_messages=True,
         )
-    if event == "info":
+    elif event == "info":
         rights = ChatBannedRights(
             until_date=None,
             change_info=True,
@@ -75,52 +75,52 @@ def unlock(event):
             pin_messages=False,
             change_info=False,
         )
-    if event == "msg":
+    elif event == "msg":
         rights = ChatBannedRights(
             until_date=None,
             send_messages=False,
         )
-    if event == "media":
+    elif event == "media":
         rights = ChatBannedRights(
             until_date=None,
             send_media=False,
         )
-    if event == "sticker":
+    elif event == "sticker":
         rights = ChatBannedRights(
             until_date=None,
             send_stickers=False,
         )
-    if event == "gif":
+    elif event == "gif":
         rights = ChatBannedRights(
             until_date=None,
             send_gifs=False,
         )
-    if event == "game":
+    elif event == "game":
         rights = ChatBannedRights(
             until_date=None,
             send_games=False,
         )
-    if event == "inline":
+    elif event == "inline":
         rights = ChatBannedRights(
             until_date=None,
             send_inline=False,
         )
-    if event == "poll":
+    elif event == "poll":
         rights = ChatBannedRights(
             until_date=None,
             send_polls=False,
         )
-    if event == "invite":
+    elif event == "invite":
         rights = ChatBannedRights(
             until_date=None,
             invite_users=False,
         )
-    if event == "pin":
+    elif event == "pin":
         rights = ChatBannedRights(
             until_date=None,
             pin_messages=False,
         )
-    if event == "info":
+    elif event == "info":
         rights = ChatBannedRights(
             until_date=None,
             change_info=False,
@@ -135,7 +135,7 @@ async def _(event):
     hell_mention = cid[2]
     hell = await eor(event, f"Trying to lock `{text}`")
     if text == "":
-        return await eod(hell, "Need something to lock...")
+        return await parse_error(hell, "Nothing given to lock in chat.")
     locker = lock(text)
     if not locker:
         return await eod(
@@ -158,7 +158,7 @@ async def _(event):
     hell_mention = cid[2]
     hell = await eor(event, f"Trying to unlock `{text}`")
     if text == "":
-        return await eod(hell, "Need something to unlock...")
+        return await parse_error(hell, "Nothing given to unlock in chat.")
     unlocker = unlock(text)
     if not unlocker:
         return await eod(
