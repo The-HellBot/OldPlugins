@@ -26,6 +26,7 @@ async def lst(event):
         await eor(event, msg)
     else:
         msg = msg.replace("`", "")
+        msg = msg.replace("*", "")
         out = "filesList.txt"
         with open(out, "w") as f:
             f.write(f)
@@ -34,7 +35,7 @@ async def lst(event):
             out,
             force_document=True,
             allow_cache=False,
-            caption="`Output is huge. Sending as a file...`",
+            caption="Output was huge. Here's the file.",
         )
         await event.delete()
 
