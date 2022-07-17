@@ -14,11 +14,11 @@ async def download(event):
     if flag.lower() in ["-post", "-story"]:
         result = re.search(insta_regex, url)
         if not result:
-            return await eod(hell, "Need a instagram post/story link to download!")
+            return await parse_error(hell, "No link to download.")
         try:
             file, caption = await IGDL(event, result.group(0))
         except Exception as e:
-            return await eod(hell, f"**ERROR !!** \n\n`{e}`")
+            return await parse_error(hell, e)
 
         items_list = os.listdir("./insta/dl")
         count = 0
@@ -40,7 +40,7 @@ async def download(event):
                 count += 1
             await eod(hell, f"**Downloaded Instagram Post!** \n\n__Total:__ `{count} posts.`")
         else:
-            await hell.edit(f"Unable to upload video! Check LOGS and try again!")
+            await parse_error(hell, "Unable to upload video! Check LOGS and try again!")
 
     elif flag.lower() == "-htag":
         # TODO: No.of posts given by user and not default to 10
@@ -60,7 +60,7 @@ async def download(event):
                     count += 1
                 await hell.edit(f"**Downloaded top posts of** `{url}` \n\n__Total:__ `{count} posts.`")
             except Exception as e:
-                return await eod(hell, f"**ERROR:** \n\n`{str(e)}`")
+                return await parse_error(hell, e)
         else:
             return await eod(hell, f"**SYNTAX EXAMPLE:** \n\n`{hl}igdl -htag #amvs`\n\nThis will give top 10 IG posts of hashtag `#amvs`.")
     else:
@@ -79,7 +79,7 @@ async def upload(event):
     try:
         IG = await InstaGram(event)
     except Exception as e:
-        return await eod(hell, f"**ERROR:** \n\n`{str(e)}`")
+        return await parse_error(hell, e)
 
     if not reply:
         return await eod(hell, "Reply to a media to upload on instagram.")
@@ -95,7 +95,7 @@ async def upload(event):
             video = IG.clip_upload(path=file, caption=caption)
         except Exception as e:
             os.remove(file)
-            return await eod(hell, f"**ERROR !!** \n\n`{str(e)}`")
+            return await parse_error(hell, e)
         await hell.edit(f"**Uploaded Reel to Instagram!** \n\n[See Post From Here](https://instagram.com/p/{video.code})", link_preview=False)
         os.remove(file)
     
@@ -108,7 +108,7 @@ async def upload(event):
             video = IG.igtv_upload(path=file, title=caption, caption=caption)
         except Exception as e:
             os.remove(file)
-            return await eod(hell, f"**ERROR !!** \n\n`{str(e)}`")
+            return await parse_error(hell, e)
         await hell.edit(f"**Uploaded IGTV to Instagram!** \n\n[See Post From Here](https://instagram.com/p/{video.code})", link_preview=False)
         os.remove(file)
     
@@ -121,7 +121,7 @@ async def upload(event):
             video = IG.video_upload(path=file, caption=caption)
         except Exception as e:
             os.remove(file)
-            return await eod(hell, f"**ERROR !!** \n\n`{str(e)}`")
+            return await parse_error(hell, e)
         await hell.edit(f"**Uploaded Video to Instagram!** \n\n[See Post From Here](https://instagram.com/p/{video.code})", link_preview=False)
         os.remove(file)
 
@@ -134,7 +134,7 @@ async def upload(event):
             video = IG.photo_upload(path=file, caption=caption)
         except Exception as e:
             os.remove(file)
-            return await eod(hell, f"**ERROR !!** \n\n`{str(e)}`")
+            return await parse_error(hell, e)
         await hell.edit(f"**Uploaded Photo to Instagram!** \n\n[See Post From Here](https://instagram.com/p/{video.code})", link_preview=False)
         os.remove(file)
 
@@ -146,7 +146,7 @@ async def upload(event):
                 video = IG.video_upload_to_story(path=file, caption=caption)
             except Exception as e:
                 os.remove(file)
-                return await eod(hell, f"**ERROR !!** \n\n`{str(e)}`")
+                return await parse_error(hell, e)
             await hell.edit(f"**Uploaded Story to Instagram!** \n\n[See Story From Here](https://instagram.com/p/{video.code})", link_preview=False)
             os.remove(file)
 
@@ -157,12 +157,12 @@ async def upload(event):
                 video = IG.photo_upload_to_story(path=file, caption=caption)
             except Exception as e:
                 os.remove(file)
-                return await eod(hell, f"**ERROR !!** \n\n`{str(e)}`")
+                return await parse_error(hell, e)
             await hell.edit(f"**Uploaded Story to Instagram!** \n\n[See Story From Here](https://instagram.com/p/{video.code})", link_preview=False)
             os.remove(file)
         
         else:
-            return await eod(hell, "Invalid media format. Only Videos, Pictures, GIF are supported to upload story.")
+            return await parse_error(hell, "Invalid media format. Only Videos, Pictures, GIF are supported to upload story.")
 
     else:
         await eod(hell, f"Give proper flag. Check `{hl}plinfo instagram` for details.")
@@ -233,7 +233,7 @@ async def userinfo(event):
         await hell.delete()
         os.remove(f"{username}.jpg")
     else:
-        await eod(hell, "INSTAGRAM_SESSION not configured or Expired !")
+        await parse_error(hell, "`INSTAGRAM_SESSION` __not configured or Expired !__", False)
 
 
 CmdHelp("instagram").add_command(

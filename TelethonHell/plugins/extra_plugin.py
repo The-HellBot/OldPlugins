@@ -10,7 +10,7 @@ from . import *
 async def install(event):
     chat = Config.PLUGIN_CHANNEL
     if not chat:
-        return await eod(event, f"Please setup an plugin channel to use this command.")
+        return await parse_error(event, f"PLUGIN_CHANNEL not configured.")
     documentss = await event.client.get_messages(
         chat, None, filter=InputMessagesFilterDocument
     )

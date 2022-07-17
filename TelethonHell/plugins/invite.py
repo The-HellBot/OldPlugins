@@ -27,18 +27,16 @@ async def get_chatinfo(event):
         try:
             chat_info = await event.client(GetFullChannelRequest(chat))
         except ChannelInvalidError:
-            await event.reply("`Invalid channel/group`")
+            await parse_error(event, "Invalid channel/group")
             return None
         except ChannelPrivateError:
-            await event.reply(
-                "`This is a private channel/group or I am banned from there`"
-            )
+            await parse_error(event, "Unaccessable channel.")
             return None
         except ChannelPublicGroupNaError:
-            await event.reply("`Channel or supergroup doesn't exist`")
+            await parse_error(event, "Channel or supergroup doesn't exist")
             return None
         except (TypeError, ValueError):
-            await event.reply("`Invalid channel/group`")
+            await parse_error(event, "Invalid channel/group")
             return None
     return chat_info
 

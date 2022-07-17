@@ -8,7 +8,7 @@ from . import *
 async def _(event):
     type_of_group = event.pattern_match.group(1)
     group_name = event.pattern_match.group(2)
-    hell = await eor(event, "Creating wait sar.....")
+    hell = await eor(event, "Creating ...")
     if type_of_group == "b":
         try:
             result = await event.client(
@@ -34,7 +34,7 @@ async def _(event):
                 )
             )
         except Exception as e:
-            await hell.edit(str(e))
+            await parse_error(hell, e)
     elif type_of_group in ["g", "c"]:
         try:
             r = await event.client(
@@ -57,7 +57,7 @@ async def _(event):
                 )
             )
         except Exception as e:
-            await event.edit(str(e))
+            await parse_error(hell, e)
     else:
         await hell.edit(f"Read `{hl}plinfo create` to know how to use me")
 

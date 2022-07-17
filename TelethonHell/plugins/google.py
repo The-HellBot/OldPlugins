@@ -38,7 +38,7 @@ async def _(event):
             f"`{i}`\n" if lineno > 1 else f"**{i}**\n"
             for lineno, i in enumerate(error, start=1)
         )
-        return await eor(event, f"**DISAMBIGUATED PAGE !!.**\n\n{result}")
+        return await parse_error(event, f"__DISAMBIGUATED PAGE:__\n{result}", False)
     except PageError:
         pass
     if not result:
@@ -50,7 +50,7 @@ async def _(event):
                 f"`{i}`\n" if lineno > 1 else f"**{i}**\n"
                 for lineno, i in enumerate(error, start=1)
             )
-            return await eor(event, f"**DISAMBIGUATED PAGE !!**\n\n{result}")
+            return await parse_error(event, f"__DISAMBIGUATED PAGE:__\n{result}", False)
         except PageError:
             return await eod(event, f"**Sorry i Can't find any results for **`{match}`")
     await eor(event, "**Search :**\n`" + match + "`\n\n**Result:**\n" + f"__{result}__")
@@ -60,13 +60,13 @@ async def _(event):
 async def google(event):
     input_str = event.pattern_match.group(1)
     if not input_str:
-        return await eod(event, "`Give something to search..`")
+        return await parse_error(event, "Nothing given to search.")
     hell = await eor(event, "Searching...")
     gos = GoogleSearch()
     try:
         got = await gos.async_search(f"{input_str}", cache=False)
     except GoglError as e:
-        return await eod(hell, str(e), 10)
+        return await parse_error(hell, e)
     output = ""
     for i in range(len(got["links"])):
         text = got["titles"][i]
@@ -88,7 +88,7 @@ async def google(event):
 async def img(event):
     sim = event.pattern_match.group(1)
     if not sim:
-        return await eod(event, "`Give something to search...`")
+        return await parse_error(event, "Nothing given to search.")
     hell = await eor(event, f"Searching for `{sim}`...")
     if ";" in sim:
         try:
@@ -116,7 +116,7 @@ async def img(event):
 async def _(event):
     reply = await event.get_reply_message()
     if not reply:
-        return await eod(event, "`Reply to an Image or stciker...`")
+        return await parse_error(event, "Reply to an image or sticker.")
     hell = await eor(event, "`Processing...`")
     dl = await reply.download_media()
     file = {"encoded_image": (dl, open(dl, "rb"))}
@@ -182,7 +182,7 @@ async def gps(event):
 @hell_cmd(pattern="webshot ([\s\S]*)")
 async def _(event):
     if Config.GOOGLE_CHROME_BIN is None:
-        return await eod(event, "need to install Google Chrome. Module Stopping.")
+        return await parse_error(event, "Google chrome not installed.")
     _, _, hell_mention = await client_id(event)
     hell = await eor(event, "Webshot in action...")
     start = datetime.datetime.now()
@@ -229,7 +229,7 @@ async def _(event):
             )
             await hell.delete()
     except Exception:
-        await eod(hell, traceback.format_exc())
+        await parse_error(hell, traceback.format_exc())
 
 
 @hell_cmd(pattern="cricket$")

@@ -326,7 +326,7 @@ async def on_snip_delete(event):
             f"**Filter Deleted!** \n\n__• Client:__ {hell_mention} \n__• Keyword:__ {name}",
         )
     except Exception as e:
-        await eod(event, f"**ERROR !!** \n\n`{e}`")
+        await parse_error(event, e)
 
 
 @hell_cmd(pattern="rmallfilters$")
@@ -340,7 +340,7 @@ async def on_all_snip_delete(event):
         remove_all_filters(_id)
         await eod(event, f"**All the Filters in current chat deleted successfully**")
     except Exception as e:
-        await eod(event, f"**ERORR !!** \n\n{str(e)}")
+        await parse_error(event, e)
 
 
 CmdHelp("filter").add_command(

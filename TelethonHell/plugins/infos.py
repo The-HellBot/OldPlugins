@@ -158,7 +158,7 @@ async def info(event):
         await hell.edit(caption, parse_mode="HTML")
     except Exception as e:
         print("Exception:", e)
-        await eod(hell, "`An unexpected error has occurred.`")
+        await parse_error(hell, "An unexpected error has occurred.")
     return
 
 
@@ -183,18 +183,16 @@ async def get_chatinfo(event):
         try:
             chat_info = await event.client(GetFullChannelRequest(chat))
         except ChannelInvalidError:
-            await eor(event, "`Invalid channel/group`")
+            await parse_error(event, "Invalid channel/group")
             return None
         except ChannelPrivateError:
-            await eor(
-                event, "`This is a private channel/group or I am banned from there`"
-            )
+            await parse_error(event, "Unaccessable channel or group.")
             return None
         except ChannelPublicGroupNaError:
-            await eor(event, "`Channel or supergroup doesn't exist`")
+            await parse_error(event, "Channel or supergroup doesn't exist")
             return None
         except (TypeError, ValueError) as err:
-            await eor(event, str(err))
+            await parse_error(event, err)
             return None
     return chat_info
 
@@ -415,7 +413,7 @@ async def fetch_info(chat, event):
 @hell_cmd(pattern="users(?:\s|$)([\s\S]*)")
 async def get_users(show):
     if not show.is_group:
-        await eod(show, "Are you sure this is a group?")
+        await parse_error(show, "Not a group.")
         return
     info = await show.client.get_entity(show.chat_id)
     title = info.title if info.title else "this chat"
@@ -473,11 +471,11 @@ async def _(event):
         try:
             chat = await event.client.get_entity(input_str)
         except Exception as e:
-            return await eod(event, f"**ERROR !!** \n\n`{str(e)}`")
+            return await parse_error(event, e)
     else:
         chat = to_write_chat
         if not event.is_group:
-            await eod(event, "I dont think this is a group🚶")
+            await parse_error(event, "Not a group")
             return
     try:
         async for x in event.client.iter_participants(
@@ -520,7 +518,7 @@ async def _(event):
         try:
             chat = await event.client.get_entity(input_str)
         except Exception as e:
-            return await eod(event, f"**ERROR !!** \n\n`{str(e)}`")
+            return await parse_error(event, e)
     try:
         async for x in event.client.iter_participants(
             chat, filter=ChannelParticipantsBots

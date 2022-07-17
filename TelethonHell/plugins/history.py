@@ -6,7 +6,7 @@ from . import *
 @hell_cmd(pattern="history(?:\s|$)([\s\S]*)")
 async def _(hellevent):
     if not hellevent.reply_to_msg_id:
-        await eod(hellevent, "`Please reply to a user to get his history`")
+        await parse_error(hellevent, "No user mentioned!")
         return
     reply_message = await hellevent.get_reply_message()
     chat = "Sangmatainfo_bot"
@@ -22,7 +22,7 @@ async def _(hellevent):
             response2 = await conv.get_response()
             response3 = await conv.get_response()
         except YouBlockedUserError:
-            await eod(hellevent, "Please unblock @Sangmatainfo_bot")
+            await parse_error(hellevent, "__Unblock @Sangmatainfo_bot and try again.__", False)
             return
         if response1.text.startswith("Name History"):
             await hell.edit(response1.text)
@@ -46,7 +46,7 @@ async def _(hellevent):
 @hell_cmd(pattern="unh(?:\s|$)([\s\S]*)")
 async def _(hellevent):
     if not hellevent.reply_to_msg_id:
-        await eod(hellevent, "`Please Reply To A User To Get This Module Work`")
+        await parse_error(hellevent, "No user mentioned.")
         return
     reply_message = await hellevent.get_reply_message()
     chat = "Sangmatainfo_bot"
@@ -62,7 +62,7 @@ async def _(hellevent):
             response2 = await conv.get_response()
             response3 = await conv.get_response()
         except YouBlockedUserError:
-            await eod(hellevent, "Please unblock @Sangmatainfo_bot")
+            await parse_error(hellevent, "__Unblock @Sangmatainfo_bot and try again.__", False)
             return
         if response1.text.startswith("Username History"):
             await hell.edit(response1.text)

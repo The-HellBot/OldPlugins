@@ -18,7 +18,7 @@ async def _(event):
         with open("HELLBOT.jpg", "wb") as f:
             f.write(response.content)
     else:
-        return await eod(hell, "Failed to create Fake Face! Try again later.")
+        return await parse_error(hell, "Failed to create Fake Face! Try again later.")
     await event.client.send_file(
         event.chat_id,
         "HELLBOT.jpg",

@@ -16,7 +16,7 @@ async def _(event):
             first = await conv.send_message(f"/newfed {hell_input}")
             response = await conv.get_response()
         except YouBlockedUserError:
-            await eod(hell, "`Please unblock` @MissRose_Bot `and try again`")
+            await parse_error(hell, "__Unblock @MissRose_Bot and try again__", False)
             return
         if response.startswith("You already have a federation"):
             await eod(hell, f"You already have a federation. Do `{hl}renamefed` to rename your current fed.")
@@ -41,7 +41,7 @@ async def _(event):
             await hell.edit(f"{response}")
             await event.client.delete_messages(conv.chat_id, [first.id, response.id])
         except YouBlockedUserError:
-            await eod(hell, "Please Unblock @MissRose_Bot")
+            await parse_error(hell, "__Unblock @MissRose_Bot and try again.__", False)
             return
 
 
@@ -67,7 +67,7 @@ async def _(event):
                 await hell.edit(response)
                 await event.client.delete_messages(conv.chat_id, [first.id, response.id])
             except YouBlockedUserError:
-                await eod(hell, "`Please Unblock` @MissRose_Bot")
+                await parse_error(hell, "__Unblock @MissRose_Bot and try again.__", False)
 
 
 @hell_cmd(pattern="fedinfo(?:\s|$)([\s\S]*)")
@@ -82,7 +82,7 @@ async def _(event):
             await hell.edit(response.text + "\n\n**ʟɛɢɛռɖaʀʏ_ᴀғ_ɦɛʟʟɮօt**")
             await event.client.delete_messages(conv.chat_id, [first.id, response.id])
         except YouBlockedUserError:
-            await hell.edit("`Please Unblock` @MissRose_Bot")
+            await parse_error(hell, "__Unblock @MissRose_Bot and try again.__", False)
 
 
 CmdHelp("federation").add_command(

@@ -17,7 +17,7 @@ if not os.path.isdir("./temp"):
 @hell_cmd(pattern="stog(?:\s|$)([\s\S]*)")
 async def _(event):
     if not event.reply_to_msg_id:
-        return await eod(event, "Reply to animated sticker to make gif.")
+        return await parse_error(event, "Reply to animated sticker to make gif.")
     hell = await eor(event, "Converting...")
     if event.pattern_match.group(1):
         quality = event.pattern_match.group(1)
@@ -57,9 +57,9 @@ async def _(hell):
             os.remove(downloaded_file_name)
             await event.delete()
         else:
-            await eod(event, "Can't Convert")
+            await parse_error(event, "Can't Convert")
     else:
-        await event.edit(f"Syntax : `{hl}stoi` reply to a Telegram normal sticker")
+        await eod(event, f"Syntax : `{hl}stoi` reply to a Telegram normal sticker")
 
 
 @hell_cmd(pattern="itos$")
@@ -89,9 +89,9 @@ async def _(hell):
             os.remove(downloaded_file_name)
             await event.delete()
         else:
-            await eod(event, "Can't Convert")
+            await parse_error(event, "Can't Convert")
     else:
-        await event.edit(f"Syntax : `{hl}itos` reply to a Telegram normal sticker")
+        await eod(event, f"Syntax : `{hl}itos` reply to a Telegram normal sticker")
 
 
 @hell_cmd(pattern="ttf(?:\s|$)([\s\S]*)")
@@ -171,19 +171,19 @@ async def _(hell):
             os.remove(downloaded_file_name)
             await event.delete()
         else:
-            await eod(event, "Can't Convert")
+            await parse_error(event, "Can't Convert")
     else:
-        await event.edit(f"Syntax : `{hl}itof` reply to a sticker/image")
+        await eod(event, f"Syntax : `{hl}itof` reply to a sticker/image")
 
 
 @hell_cmd(pattern="nfc(?:\s|$)([\s\S]*)")
 async def _(event):
     if not event.reply_to_msg_id:
-        await eod(event, "```Reply to any media file.```")
+        await parse_error(event, "Reply to any media file.")
         return
     reply_message = await event.get_reply_message()
     if not reply_message.media:
-        await eod(event, "reply to media file")
+        await parse_error(event, "Reply to media file")
         return
     input_str = event.pattern_match.group(1)
     if input_str is None:
@@ -201,7 +201,7 @@ async def _(event):
             reply_message,
             Config.TMP_DOWNLOAD_DIRECTORY,
             progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
-                progress(d, t, event, c_time, "trying to download")
+                progress(d, t, event, c_time, "Downloading ...")
             ),
         )
     except Exception as e:
@@ -253,7 +253,7 @@ async def _(event):
             voice_note = False
             supports_streaming = True
         else:
-            await event.edit("not supported")
+            await parse_error(event, "Not supported")
             os.remove(downloaded_file_name)
             return
         logger.info(command_to_run)
@@ -277,7 +277,7 @@ async def _(event):
                 voice_note=voice_note,
                 supports_streaming=supports_streaming,
                 progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
-                    progress(d, t, event, c_time, "trying to upload")
+                    progress(d, t, event, c_time, "Uploading ...")
                 ),
             )
             os.remove(new_required_file_name)

@@ -54,7 +54,7 @@ async def send(event):
         )
         await event.delete()
     else:
-        await eod(event, "File not found..... Kek")
+        await parse_error(event, f"No plugin named {input_str.lower()}")
 
 
 @hell_cmd(pattern="install(?:\s|$)([\s\S]*)")
@@ -112,12 +112,9 @@ async def install(event):
                 )
             else:
                 os.remove(downloaded_file_name)
-                return await eod(
-                    hell,
-                    f"**Failed to Install** \n`Error`\nModule already installed or unknown format",
-                )
+                return await parse_error(hell, f"Module already installed or unknown format.")
         except Exception as e:
-            await eod(hell, f"**Failed to Install** \n`Error`\n{str(e)}")
+            await parse_error(hell, e)
             return os.remove(downloaded_file_name)
 
 
@@ -133,7 +130,7 @@ async def uninstall(event):
         os.remove(dir_path)
         await eod(hell, f"**Uninstalled plugin** `{shortname}` **successfully.**")
     except OSError as e:
-        await eod(hell, f"**Error !!** \n\n`{dir_path}` : __{e.strerror}__")
+        await parse_error(hell, f"`{dir_path}` : __{e.strerror}__", False)
 
 
 @hell_cmd(pattern="unload ([\s\S]*)")
@@ -141,11 +138,9 @@ async def unload(event):
     shortname = event.pattern_match["shortname"]
     try:
         remove_plugin(shortname)
-        await event.edit(f"Successfully unloaded `{shortname}`")
+        await eod(event, f"Successfully unloaded `{shortname}`")
     except Exception as e:
-        await event.edit(
-            "Successfully unloaded {shortname}\n{}".format(shortname, str(e))
-        )
+        await parse_error(event, e)
 
 
 @hell_cmd(pattern="load ([\s\S]*)")
@@ -157,9 +152,9 @@ async def load(event):
         except BaseException:
             pass
         load_module(shortname)
-        await event.edit(f"Successfully loaded `{shortname}`")
+        await eod(event, f"Successfully loaded `{shortname}`")
     except Exception as e:
-        await event.edit(f"Sorry, could not load {shortname} because of the following error.\n{str(e)}")
+        await parse_error(event, e)
 
 
 CmdHelp("core").add_command(

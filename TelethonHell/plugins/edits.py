@@ -148,7 +148,7 @@ async def figlet(event):
         try:
             font = CMD_FIG[cmd]
         except KeyError:
-            await eod(event, "Invalid selected font.")
+            await parse_error(event, "Invalid selected font.")
             return
         result = pyfiglet.figlet_format(text, font=font)
     else:

@@ -157,10 +157,10 @@ async def potocmd(event):
         try:
             uid = int(uid)
             if uid <= 0:
-                await eod(hell, "`Number Invalid!` **Are you komedy Me ?**")
+                await parse_error(hell, "Invalid Numbers.")
                 return
         except BaseException:
-            await eod(hell, "Are you komedy me ?")
+            await parse_error(hell, "Unexpected Error!")
             return
         if int(uid) <= (len(photos)):
             send_photos = await event.client.download_media(photos[uid - 1])

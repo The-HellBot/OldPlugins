@@ -18,9 +18,9 @@ class AioHttp:
                 return await resp.json()
 
 
-@hell_cmd(pattern="ud ([\s\S]*)")
+@hell_cmd(pattern="meaning ([\s\S]*)")
 async def _(event):
-    word = event.text[4:]
+    word = event.text[9:]
     try:
         response = await AioHttp().get_json(f"http://api.urbandictionary.com/v0/define?term={word}")
         word = response["list"][0]["word"]
@@ -29,7 +29,7 @@ async def _(event):
         result = f"**Text : {word}**\n**Meaning :**\n`{definition}`\n\n**Example :**\n`{example}`"
         await eor(event, result)
     except Exception as e:
-        await eod(event, f"**Error !!** \n\n`{e}`")
+        await parse_error(event, e)
 
 
 @hell_cmd(pattern="trt(?:\s|$)([\s\S]*)")
@@ -58,7 +58,7 @@ async def _(event):
         )
         await eor(event, output_str)
     except Exception as exc:
-        await eor(event, str(exc))
+        await parse_error(event, exc)
 
 
 @hell_cmd(pattern="trc$")
@@ -131,7 +131,7 @@ async def _(event):
         os.remove(required_file_name)
         await hell.delete()
     except Exception as e:
-        await eod(hell, str(e))
+        await parse_error(hell, e)
 
 
 CmdHelp("google_asst").add_command(
