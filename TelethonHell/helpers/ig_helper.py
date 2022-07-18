@@ -64,7 +64,13 @@ async def IGDL(event, url):
     elif type == "stories":
         try:
             spk = IG.story_pk_from_url(url)
-            file = IG.story_download(spk, folder=dl_path)
+            info =  IG.story_info(pk).dict()
+            if info['video_url']:
+                file = IG.story_download_by_url(info['video_url'], folder=dl_path)
+            elif info['thumbnail_url']:
+                file = IG.story_download_by_url(info['thumbnail_url'], folder=dl_path)
+            else:
+                file = None
         except Exception as e:
             LOGS.info(str(e))
             file = None
@@ -72,7 +78,13 @@ async def IGDL(event, url):
     elif type == "s" and "story_media_id" in url:
         try:
             spk = IG.story_pk_from_url(url)
-            file = IG.story_download(spk, folder=dl_path)
+            info =  IG.story_info(pk).dict()
+            if info['video_url']:
+                file = IG.story_download_by_url(info['video_url'], folder=dl_path)
+            elif info['thumbnail_url']:
+                file = IG.story_download_by_url(info['thumbnail_url'], folder=dl_path)
+            else:
+                file = None
         except Exception as e:
             LOGS.info(str(e))
             file = None
