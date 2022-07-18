@@ -130,7 +130,29 @@ async def _(event):
             os.remove(files)
 
 
-CmdHelp("img_memes").add_command(
+@hell_cmd(pattern="audiomeme(?:\s|$)([\s\S]*)")
+async def _(event):
+    lists = event.text.split(" ", 1)
+    reply = await event.get_reply_message()
+    if len(lists) != 2:
+        return await parse_error(event, "Nothing given to search.")
+    meme = await event.client.inline_query("Myinstantsbot", f"{(deEmojify(lists[1]))}")
+    if meme:
+        await event.delete()
+        hell = await meme[0].click(Config.LOGGER_ID)
+        if hell:
+            await event.client.send_file(
+                event.chat_id,
+                hell,
+                caption="",
+                reply_to=reply,
+            )
+        await hell.delete()
+    else:
+        await parse_error(event, "__404:__  Not Found", False)
+
+
+CmdHelp("memes").add_command(
     "ytc", "<reply to a msg>", "Makes a fake youtube comment."
 ).add_command(
     "pix", "<reply to a img>", "Pixilates the replied image."
@@ -140,8 +162,10 @@ CmdHelp("img_memes").add_command(
     "trigger", "<reply to a img>", "Makes a triggered gif of replied image."
 ).add_command(
     "thug", "<reply to a img>", "Adds a thug life glasses and cigar to face detected in replied image."
+).add_command(
+    "audiomeme", "<query>", "Searches the given meme and sends audio if found."
 ).add_info(
-    "Come let's do some komedy"
+    "Audio and Image memes."
 ).add_warning(
     "✅ Harmless Module."
 ).add()
