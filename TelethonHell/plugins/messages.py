@@ -22,14 +22,12 @@ async def all_groups_id(hell):
 @hell_cmd(pattern="frwd$")
 async def _(event):
     if Config.LOGGER_ID is None:
-        await eod(
-            event, "Please set the required config `LOGGER_ID` for this plugin to work"
-        )
+        await parse_error(event, "`LOGGER_ID` not configured.", False)
         return
     try:
         e = await event.client.get_entity(Config.LOGGER_ID)
-    except Exception as e:
-        await eor(event, str(e))
+    except Exception as err:
+        await parse_error(event, err)
     else:
         re_message = await event.get_reply_message()
         fwd_message = await event.client.forward_messages(e, re_message, silent=True)
@@ -40,19 +38,17 @@ async def _(event):
 @hell_cmd(pattern="resend$")
 async def _(event):
     m = await event.get_reply_message()
-    if not m:
-        return
-    await event.respond(m)
     await event.delete()
+    if m:
+        await event.respond(m)
 
 
 @hell_cmd(pattern="copy$")
 async def _(event):
     m = await event.get_reply_message()
-    if not m:
-        return
-    await event.client.send_message(event.chat_id, m, reply_to=m.id)
     await event.delete()
+    if m:
+        await event.client.send_message(event.chat_id, m, reply_to=m.id)
 
 
 @hell_cmd(pattern="fpost(?:\s|$)([\s\S]*)")
@@ -81,14 +77,14 @@ async def _(event):
         await event.client.forward_messages(destination, msg_cache[c])
 
 
-CmdHelp("msgs").add_command(
-    "fpost", "<your msg>", "Checks all your groups and sends the msg matching the given keyword"
+CmdHelp("messages").add_command(
+    "fpost", "<your msg>", "Checks all your groups and sends the message matching the given keyword."
 ).add_command(
-    "frwd", "<reply to a msg>", "Enables seen counter in replied msg. To know how many users have seen your msg."
+    "frwd", "<reply to a msg>", "Enables seen counter in replied msg. To know how many users have seen your message."
 ).add_command(
-    "resend", "<reply to a msg>", "Just resends the replied msg"
+    "resend", "<reply to a msg>", "Just resends the replied message."
 ).add_command(
-    "copy", "<reply to a msg>", "Resends the replied msg by replying to the original msg."
+    "copy", "<reply to a msg>", "Resends the replied message by replying to the original message."
 ).add_info(
     "Messages tools."
 ).add_warning(
