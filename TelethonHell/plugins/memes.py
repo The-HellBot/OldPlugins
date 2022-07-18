@@ -134,7 +134,7 @@ async def _(event):
 async def _(event):
     lists = event.text.split(" ", 1)
     reply = await event.get_reply_message()
-    if len(lists) != 2:
+    if not len(lists) == 2:
         return await parse_error(event, "Nothing given to search.")
     meme = await event.client.inline_query("Myinstantsbot", f"{(deEmojify(lists[1]))}")
     if meme:
@@ -152,6 +152,86 @@ async def _(event):
         await parse_error(event, "__404:__  Not Found", False)
 
 
+@hell_cmd(pattern="doge(?:\s|$)([\s\S]*)")
+async def nope(event):
+    lists = event.text.split(" ", 1)
+    if not len(lists) == 2:
+        return await parse_error(event, "Nothing given to search.")
+    meme = await event.client.inline_query("DogeStickerBot", f"{(deEmojify(lists[1]))}")
+    if meme:
+        await event.delete()
+        hell = await meme[0].click(Config.LOGGER_ID)
+        if hell:
+            await event.client.send_file(
+                event.chat_id,
+                hell,
+                caption="",
+            )
+        await hell.delete()
+    else:
+        await parse_error(event, "__404:__ Not Found", False)
+
+
+@hell_cmd(pattern="glax(?:\s|$)([\s\S]*)")
+async def nope(event):
+    lists = event.text.split(" ", 1)
+    if not len(lists) == 2:
+        return await parse_error(event, "Nothing given to search.")
+    meme = await event.client.inline_query("GooglaxBot", f"{(deEmojify(lists[1]))}")
+    if meme:
+        await event.delete()
+        hell = await meme[0].click(Config.LOGGER_ID)
+        if hell:
+            await event.client.send_file(
+                event.chat_id,
+                hell,
+                caption="",
+            )
+        await hell.delete()
+    else:
+        await parse_error(event, "__404:__ Not Found", False)
+
+
+@hell_cmd(pattern="honka(?:\s|$)([\s\S]*)")
+async def nope(event):
+    lists = event.text.split(" ", 1)
+    if not len(lists) == 2:
+        return await parse_error(event, "Nothing given to search.")
+    meme = await event.client.inline_query("honka_says_bot", f"{(deEmojify(lists[1]))}.")
+    if meme:
+        await event.delete()
+        hell = await meme[0].click(Config.LOGGER_ID)
+        if hell:
+            await event.client.send_file(
+                event.chat_id,
+                hell,
+                caption="",
+            )
+        await hell.delete()
+    else:
+        await parse_error(event, "__404:__ Not Found", False)
+
+
+@hell_cmd(pattern="gogl(?:\s|$)([\s\S]*)")
+async def nope(event):
+    lists = event.text.split(" ", 1)
+    if not len(lists) == 2:
+        return await parse_error(event, "Nothing given to search.")
+    meme = await event.client.inline_query("Stickerizerbot", f"{(deEmojify(lists[1]))}")
+    if meme:
+        await event.delete()
+        hell = await meme[0].click(Config.LOGGER_ID)
+        if hell:
+            await event.client.send_file(
+                event.chat_id,
+                hell,
+                caption="",
+            )
+        await hell.delete()
+    else:
+        await parse_error(event, "__404:__ Not Found", False)
+
+
 CmdHelp("memes").add_command(
     "ytc", "<reply to a msg>", "Makes a fake youtube comment."
 ).add_command(
@@ -164,6 +244,14 @@ CmdHelp("memes").add_command(
     "thug", "<reply to a img>", "Adds a thug life glasses and cigar to face detected in replied image."
 ).add_command(
     "audiomeme", "<query>", "Searches the given meme and sends audio if found."
+).add_command(
+    "doge", "<text>", "Makes A Sticker of Doge with given text.", "doge Hello"
+).add_command(
+    "gogl", "<text>", "Makes google search sticker.", "gogl Hello"
+).add_command(
+    "glax", "<text>", "Makes google search sticker.", "glax Hello"
+).add_command(
+    "honka", "<text>", "Makes a sticker with honka revealing given text.", "honka Hello"
 ).add_info(
     "Audio and Image memes."
 ).add_warning(
