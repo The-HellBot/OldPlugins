@@ -15,7 +15,7 @@ async def _(event):
     hell = await eor(event, "`Processing.....`")
     text = event.text[6:]
     if text == "":
-        await eod(hell, "**Give some text to make a logo !!**")
+        await parse_error(hell, "No text given.")
         return
     cid = await client_id(event)
     hell_mention = cid[2]
@@ -25,8 +25,8 @@ async def _(event):
         rply = await event.get_reply_message()
         try:
             logo_ = await rply.download_media()
-        except:
-            pass
+        except Exception as e:
+            return await parse_error(hell, e)
     else:
         await hell.edit("Picked a Logo BG...")
         async for i in event.client.iter_messages(

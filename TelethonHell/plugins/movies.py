@@ -10,14 +10,14 @@ logo = "https://telegra.ph/file/2c546060b20dfd7c1ff2d.jpg"
 
 @hell_cmd(pattern="imdb(?:\s|$)([\s\S]*)")
 async def _(event):
-    reply_to = await reply_id(event)
-    hel_ = await eor(event, "`Processing ...`")
+    reply = await event.get_reply_message()
+    lists = event.text.split(" ", 1)
+    if not len(lists) == 2:
+        return await parse_error(event, "Nothing given to search.")
+    hell = await eor(event, f"Searching `{lists[1]}` in IMDb...")
     try:
-        hell = event.pattern_match.group(1)
-        await hel_.edit("__Searching for__ `{}`".format(hell))
-        # Credits to catuserbot.
-        # Ported to Hellbot and beautifications by @ForGo10God.
-        movies = imdb.search_movie(hell)
+        # IB: catuserbot.
+        movies = imdb.search_movie(lists[1])
         movieid = movies[0].movieID
         movie = imdb.get_movie(movieid)
         moviekeys = list(movie.keys())
@@ -97,38 +97,46 @@ async def _(event):
             while not downloader.isFinished():
                 pass
         telegraph_ = f"<img src='{imageurl}'/> \n{resulttext} \n<img src='{logo}'/>"
-        paste = await telegraph_paste(f"IMDb Movie Result for “ {hell} ”", telegraph_)
+        paste = await telegraph_paste(f"IMDb Movie Result for “ {lists[1]} ”", telegraph_)
         omk = f"{omk_}\n\n<u><b><a href='{paste}'>📌 Get more details here.</a></b></u>"
         if os.path.exists(moviepath):
             await event.client.send_file(
                 event.chat_id,
                 moviepath,
                 caption=omk,
-                reply_to=reply_to,
+                reply_to=reply,
                 parse_mode="HTML",
             )
             os.remove(moviepath)
-            return await hel_.delete()
-        await hel_.edit(
+            return await hell.delete()
+        await hell.edit(
             omk,
             link_preview=False,
             parse_mode="HTML",
         )
     except IndexError:
-        await hel_.edit(f"__No movie found with name {hell}.__")
+        await parse_error(hell, f"__No movie found with name__ `{lists[1]}`", False)
     except Exception as e:
-        await hel_.edit(f"**Error:**\n__{e}__")
+        await parse_error(hell, e)
 
 
 @hell_cmd(pattern="watch(?:\s|$)([\s\S]*)")
 async def _(event):
     query = event.pattern_match.group(1)
-    await eor(event, "Finding Sites...")
+    hell = await eor(event, "Finding Sites...")
     streams = get_stream_data(query)
     title = streams["title"]
+
     thumb_link = streams["movie_thumb"]
+    title_img = None
+    if thumb_link:
+        banner = requests.get(thumb_link)
+        open("hellbot_watch.jpg", "wb").write(banner.content)
+        title_img = "hellbot_watch.jpg"
+
     release_year = streams["release_year"]
     release_date = streams["release_date"]
+
     scores = streams["score"]
     try:
         imdb_score = scores["imdb"]
@@ -159,12 +167,12 @@ async def _(event):
     await event.client.send_file(
         event.chat_id,
         caption=output_,
-        file=thumb_link,
+        file=title_img,
         force_document=False,
         allow_cache=False,
         silent=True,
     )
-    await event.delete()
+    await hell.delete()
 
 
 CmdHelp("movies").add_command(

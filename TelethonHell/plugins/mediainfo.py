@@ -9,15 +9,15 @@ async def mediainfo(event):
     reply = await event.get_reply_message()
     logo = "https://telegra.ph/file/2c546060b20dfd7c1ff2d.jpg"
     if not reply:
-        return await eod(event, "Reply to a media to fetch info...")
+        return await parse_error(event, "No replied media file found.")
     if not reply.media:
-        return await eod(event, "Reply to a media file to fetch info...")
+        return await parse_error(event, "No replied media file found.")
     hell = await eor(event, "`Fetching media info...`")
     HELL_MEDIA = reply.file.mime_type
     if not HELL_MEDIA:
-        return await hell.edit("Reply to a media file to fetch info...")
+        return await parse_error(hell, "Need media files to fetch mediainfo.")
     elif HELL_MEDIA.startswith(("text")):
-        return await hell.edit("Reply to a media file to fetch info ...")
+        return await parse_error(hell, "Need media files to fetch mediainfo.")
     hel_ = await mediadata(reply)
     file_path = await reply.download_media(Config.TMP_DOWNLOAD_DIRECTORY)
     out, err, ret, pid = await runcmd(f"mediainfo '{file_path}'")

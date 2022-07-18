@@ -11,14 +11,14 @@ if not os.path.isdir(path):
     os.makedirs(path)
 
 
-@hell_cmd(pattern="mmf(?:\s|$)([\s\S]*)")
+@hell_cmd(pattern="mms(?:\s|$)([\s\S]*)")
 async def _(event):
     _reply = await event.get_reply_message()
     msg = event.pattern_match.group(1)
     if not (_reply and (_reply.media)):
         await eod(event, "`Can't memify this 🥴`")
         return
-    hel_ = await eor(event, "**Memifying 🌚🌝**")
+    hel_ = await eor(event, "__Memifying ...__")
     hell = await _reply.download_media()
     if hell and hell.endswith((".tgs")):
         await hel_.edit("OwO animated sticker...")
@@ -54,14 +54,14 @@ async def _(event):
         pass
 
 
-@hell_cmd(pattern="mms(?:\s|$)([\s\S]*)")
+@hell_cmd(pattern="mmf(?:\s|$)([\s\S]*)")
 async def _(event):
     _reply = await event.get_reply_message()
     msg = event.pattern_match.group(1)
     if not (_reply and (_reply.media)):
         await eod(event, "`Can't memify this 🥴`")
         return
-    hel_ = await eor(event, "**Memifying 🌚🌝**")
+    hel_ = await eor(event, "__Memifying ...__")
     hell = await _reply.download_media()
     if hell and hell.endswith((".tgs")):
         await hel_.edit("OwO animated sticker...")
@@ -97,128 +97,12 @@ async def _(event):
     os.remove(pic)
 
 
-@hell_cmd(pattern="doge(?:\s|$)([\s\S]*)")
-async def nope(event):
-    hell = event.text[6:]
-    if not hell:
-        if event.is_reply:
-            (await event.get_reply_message()).message
-        else:
-            if Config.ABUSE == "ON":
-                return await eor(event, "Abe chumtiye kuch likhne ke liye de")
-            else:
-                return await eor(event, "Doge need some text to make sticker.")
-
-    troll = await event.client.inline_query("DogeStickerBot", f"{(deEmojify(hell))}")
-    if troll:
-        await event.delete()
-        hel_ = await troll[0].click(Config.LOGGER_ID)
-        if hel_:
-            await event.client.send_file(
-                event.chat_id,
-                hel_,
-                caption="",
-            )
-        await hel_.delete()
-    else:
-        await eod(event, "Error 404:  Not Found")
-
-
-@hell_cmd(pattern="gg(?:\s|$)([\s\S]*)")
-async def nope(event):
-    hell = event.text[4:]
-    if not hell:
-        if event.is_reply:
-            (await event.get_reply_message()).message
-        else:
-            if Config.ABUSE == "ON":
-                return await eor(event, "Abe chumtiye kuch likhne ke liye de")
-            else:
-                return await eor(event, "Googlax need some text to make sticker.")
-
-    troll = await event.client.inline_query("GooglaxBot", f"{(deEmojify(hell))}")
-    if troll:
-        await event.delete()
-        hel_ = await troll[0].click(Config.LOGGER_ID)
-        if hel_:
-            await event.client.send_file(
-                event.chat_id,
-                hel_,
-                caption="",
-            )
-        await hel_.delete()
-    else:
-        await eod(event, "Error 404:  Not Found")
-
-
-@hell_cmd(pattern="honk(?:\s|$)([\s\S]*)")
-async def nope(event):
-    hell = event.text[6:]
-    if not hell:
-        if event.is_reply:
-            (await event.get_reply_message()).message
-        else:
-            if Config.ABUSE == "ON":
-                return await eor(event, "Abe chumtiye kuch likhne ke liye de")
-            else:
-                return await eor(event, "Honka need some text to make sticker.")
-
-    troll = await event.client.inline_query("honka_says_bot", f"{(deEmojify(hell))}.")
-    if troll:
-        await event.delete()
-        hel_ = await troll[0].click(Config.LOGGER_ID)
-        if hel_:
-            await event.client.send_file(
-                event.chat_id,
-                hel_,
-                caption="",
-            )
-        await hel_.delete()
-    else:
-        await eod(event, "Error 404:  Not Found")
-
-
-@hell_cmd(pattern="gogl(?:\s|$)([\s\S]*)")
-async def nope(event):
-    hell = event.text[6:]
-    if not hell:
-        if event.is_reply:
-            (await event.get_reply_message()).message
-        else:
-            if Config.ABUSE == "ON":
-                return await eor(event, "Abe chumtiye kuch likhne ke liye de")
-            else:
-                return await eor(event, "Need some text...")
-
-    troll = await event.client.inline_query("stickerizerbot", f"#12{(deEmojify(hell))}")
-    if troll:
-        await event.delete()
-        hel_ = await troll[0].click(Config.LOGGER_ID)
-        if hel_:
-            await event.client.send_file(
-                event.chat_id,
-                hel_,
-                caption="",
-            )
-        await hel_.delete()
-    else:
-        await eod(event, "Error 404:  Not Found")
-
-
 CmdHelp("memify").add_command(
-    "mmf", "<reply to a img/stcr/gif> <upper text> ; <lower text>", "Memifies the replied image/gif/sticker with your text and sends output in sticker format.", "mmf <reply to a img/stcr/gif> hii ; hello"
+    "mms", "<reply to a img/stcr/gif> <upper text> ; <lower text>", "Memifies the replied image/gif/sticker with your text and sends output in sticker format.", "mms <reply to a img/stcr/gif> hii ; hello"
 ).add_command(
-    "mms", "<reply to a img/stcr/gif> <upper text> ; <lower text>", "Memifies the replied image/gif/sticker with your text and sends output in image format.", "mms <reply to a img/stcr/gif> hii ; hello"
-).add_command(
-    "doge", "<text>", "Makes A Sticker of Doge with given text.", "doge Hello"
-).add_command(
-    "gogl", "<text>", "Makes google search sticker.", "gogl Hello"
-).add_command(
-    "gg", "<text>", "Makes google search sticker.", "gg Hello"
-).add_command(
-    "honk", "<text>", "Makes a sticker with honka revealing given text.", "honk Hello"
+    "mmf", "<reply to a img/stcr/gif> <upper text> ; <lower text>", "Memifies the replied image/gif/sticker with your text and sends output in image format.", "mmf <reply to a img/stcr/gif> hii ; hello"
 ).add_info(
-    "Make Memes on telegram 😉"
+    "Memify images and stickers."
 ).add_warning(
     "✅ Harmless Module."
 ).add()
