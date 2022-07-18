@@ -1,22 +1,12 @@
 from . import *
 
-# Credits to @ForGo10God developer of HellBot.
-# This is my first plugin that I made when I released first HellBot.
-# Modified to work in groups with inline mode disabled.
-# Added error msg if no voice is found.
-# So please dont remove credit.
-# You can use it in your repo. But dont remove these lines...
-
 
 @hell_cmd(pattern="mev(?:\s|$)([\s\S]*)")
 async def _(event):
     hell = event.text[5:]
     rply = await event.get_reply_message()
     if not hell:
-        if event.is_reply:
-            rply.message
-        else:
-            return await eod(event, "`Sir please give some query to search and download it for you..!`")
+        return await parse_error(event, "Nothing given to search.")
     troll = await event.client.inline_query("TrollVoiceBot", f"{(deEmojify(hell))}")
     if troll:
         await event.delete()
@@ -30,18 +20,15 @@ async def _(event):
             )
         await hel_.delete()
     else:
-        await eod(event, "**Error 404:**  Not Found")
+        await parse_error(event, "__404:__ Not Found", False)
 
 
-@hell_cmd(pattern="meev(?:\s|$)([\s\S]*)")
+@hell_cmd(pattern="mev2(?:\s|$)([\s\S]*)")
 async def _(event):
     hell = event.text[6:]
     rply = await event.get_reply_message()
     if not hell:
-        if event.is_reply:
-            rply.message
-        else:
-            return await eod(event, "`Sir please give some query to search and download it for you..!`")
+        return await parse_error(event, "Nothing given to search.")
     troll = await event.client.inline_query("Myinstantsbot", f"{(deEmojify(hell))}")
     if troll:
         await event.delete()
@@ -55,13 +42,13 @@ async def _(event):
             )
         await hel_.delete()
     else:
-        await eod(event, "**Error 404:**  Not Found")
+        await parse_error(event, "__404:__  Not Found", False)
 
 
 CmdHelp("memevoice").add_command(
     "mev", "<query>", "Searches the given meme and sends audio if found."
 ).add_command(
-    "meev", "<query>", "Same as {hl}mev"
+    "mev2", "<query>", f"Same as {hl}mev but with different bot server."
 ).add_info(
     "Audio Memes."
 ).add_warning(
