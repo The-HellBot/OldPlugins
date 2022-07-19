@@ -15,12 +15,16 @@ async def _(event):
     reply = await event.get_reply_message()
     if not reply and not len(lists) == 2:
         return await parse_error(hell, "Nothing given to paste.")
-    ext = re.findall(r"~\w+", lists[1])
-    input_str = lists[1]
-    try:
-        extension = ext[0].replace("~", "")
-        input_str = lists[1].replace(ext[0], "").strip()
-    except IndexError:
+    if len(lists) == 2:
+        ext = re.findall(r"~\w+", lists[1])
+        input_str = lists[1]
+        try:
+            extension = ext[0].replace("~", "")
+            input_str = lists[1].replace(ext[0], "").strip()
+        except IndexError:
+            extension = None
+    else:
+        input_str = None
         extension = None
     text_to_print = ""
     if input_str:
