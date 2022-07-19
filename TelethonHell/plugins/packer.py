@@ -7,14 +7,15 @@ from . import *
 @hell_cmd(pattern="unpack$")
 async def _(event):
     hell = await eor(event, "**Unpacking...**")
-    b = await event.client.download_media(await event.get_reply_message())
+    reply = await event.get_reply_message()
+    b = await event.client.download_media(reply)
     a = open(b, "r")
     c = a.read()
     a.close()
     if len(c) > 4095:
         await parse_error(hell, "Telegram Word Limit Of 4095 words exceeded.")
     else:
-        await event.client.send_message(event.chat_id, f"{c}", parse_mode=None)
+        await event.client.send_message(event.chat_id, f"{c}", parse_mode=None, reply_to=reply)
         await hell.delete()
     os.remove(b)
 
