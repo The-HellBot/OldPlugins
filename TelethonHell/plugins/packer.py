@@ -29,7 +29,7 @@ async def _(event):
     b.write(str(a.message))
     b.close()
     await hell.edit(f"Uploading `{input_str}`")
-    await event.client.send_file(event.chat_id, input_str)
+    await event.client.send_file(event.chat_id, input_str, reply_to=a)
     await hell.delete()
     os.remove(input_str)
 
