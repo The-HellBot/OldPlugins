@@ -81,7 +81,7 @@ async def _(event):
         else:
             message = reply.message
     else:
-        return await parse_error(hell, "Nothing given to paste.)
+        return await parse_error(hell, "Nothing given to paste.")
     if downloaded_file_name.endswith(".py"):
         data = message
         key = (
