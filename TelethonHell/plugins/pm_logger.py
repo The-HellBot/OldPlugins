@@ -1,81 +1,109 @@
-import logging
-
+from TelethonHell.DB.pmlogger_sql import add_nolog, del_nolog, get_all_nolog, is_nolog
 from . import *
 
-logging.basicConfig(
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.WARN
-)
-NO_PM_LOG_USERS = []
 lg_id = Config.PM_LOG_ID
 
 
 @hell_cmd(pattern="save(?:\s|$)([\s\S]*)")
-async def log(event):
+async def _(event):
     if f"{hl}savewelcome" in event.text:
         return
-    if lg_id is not None:
+    ForGo10God, _, _ = await client_id(event)
+    if lg_id:
         if event.reply_to_msg_id:
             reply_msg = await event.get_reply_message()
             await reply_msg.forward_to(lg_id)
         elif event.pattern_match.group(1):
-            user = f"#LOG / Chat ID: {event.chat_id}\n\n"
+            user = f"#LOG | Chat ID: `{event.chat_id}`\n\n"
             textx = user + event.pattern_match.group(1)
             await event.client.send_message(lg_id, textx)
         else:
-            await eod(event, "`What am I supposed to save?`")
+            await parse_error(event, "Nothing given to save !")
             return
         await eod(event, "`Saved Successfully`")
     else:
-        await eod(event, "`This feature requires Logging to be enabled!`")
+        if event.reply_to_msg_id:
+            reply_msg = await event.get_reply_message()
+            await reply_msg.forward_to(ForGo10God)
+        elif event.pattern_match.group(1):
+            user = f"#LOG | Chat ID: `{event.chat_id}`\n\n"
+            textx = user + event.pattern_match.group(1)
+            await event.client.send_message(ForGo10God, textx)
+        else:
+            await parse_error(event, "Nothing given to save !")
+            return
+        await eod(event, "`Saved Successfully`")
 
 
 @hell_handler(func=lambda e: e.is_private)
-async def monito_p_m_s(event):
+async def _(event):
     if lg_id is None:
         return
-    cid = await client_id(event)
-    ForGo10God = cid[0]
+    ForGo10God, _, _ = await client_id(event)
     sender = await event.get_sender()
     if not sender.bot:
         chat = await event.get_chat()
-        if lg_id is not None:
-            if chat.id not in NO_PM_LOG_USERS and chat.id != ForGo10God:
-                try:
-                    await event.client.forward_messages(
-                        lg_id, event.message, silent=True
-                    )
-                except Exception as e:
-                    print(e)
+        if lg_id:
+            if not is_nolog(str(chat.id)):
+                if chat.id != ForGo10God:
+                    try:
+                        await event.client.forward_messages(
+                            lg_id, event.message, silent=True
+                        )
+                    except Exception as e:
+                        LOGS.info(str(e))
 
 
-@hell_cmd(pattern="elog(?:\s|$)([\s\S]*)")
-async def set_no_log_p_m(event):
-    if Config.PM_LOG_ID is not None:
-        event.pattern_match.group(1)
+@hell_cmd(pattern="elog$")
+async def _(event):
+    if lg_id:
         chat = await event.get_chat()
         if event.is_private:
-            if chat.id in NO_PM_LOG_USERS:
-                NO_PM_LOG_USERS.remove(chat.id)
+            if is_nolog(str(chat.id)):
+                del_nolog(str(chat.id))
                 await eod(event, "Will Log Messages from this chat")
+            else:
+                await eod(event, "Already loging messages from here.")
+        else:
+            await parse_error(event, "Chat is not a PM.")
+    else:
+        await parse_error(event, "`PM_LOG_ID` is not configured.", False)
 
 
-@hell_cmd(pattern="nlog(?:\s|$)([\s\S]*)")
-async def set_no_log_p_m(event):
-    if Config.PM_LOG_ID is not None:
-        event.pattern_match.group(1)
+@hell_cmd(pattern="nlog$")
+async def _(event):
+    if lg_id:
         chat = await event.get_chat()
         if event.is_private:
-            if chat.id not in NO_PM_LOG_USERS:
-                NO_PM_LOG_USERS.append(chat.id)
+            if is_nolog(str(chat.id)):
+                add_nolog(str(chat.id))
                 await eod(event, "Won't Log Messages from this chat")
+            else:
+                await eod(event, "Already logging is disabled for this chat.")
+        else:
+            await parse_error(event, "Chat is not a PM.")
+    else:
+        await parse_error(event, "`PM_LOG_ID` is not configured.", False)
+
+
+@hell_cmd(pattern="allnolog$")
+async def _(event):
+    text = "**Not logging messages from:**\n"
+    all_nolog = get_all_nolog()
+    for i in all_nolog:
+        chat = i.chat_id
+        text += f"\n•  `{chat}`"
+    await eor(event, text)
 
 
 CmdHelp("pm_logger").add_command(
     "save", "<reply>", "Saves the replied message to your pm logger group/channel"
 ).add_command(
-    "elog", "<chat>", "Enables logging pm messages from the selected chat."
+    "elog", None, "Enables logging pm messages from the selected chat."
 ).add_command(
-    "nlog", "<chat>", "Disables logging pm messages from the selected chat. Use .elog to enable it again."
+    "nlog", None, f"Disables logging pm messages from the selected chat. Use {hl}elog to enable it again."
+).add_command(
+    "allnolog", None, "Get the list of all groups with pm logging disabled."
 ).add_info(
     "PM logging."
 ).add_warning(
