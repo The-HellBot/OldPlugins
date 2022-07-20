@@ -1,5 +1,4 @@
 import os
-
 import requests
 from PIL import Image
 
@@ -9,26 +8,22 @@ from . import *
 @hell_cmd(pattern="rmbg(?:\s|$)([\s\S]*)")
 async def _(event):
     if Config.REMOVE_BG_API is None:
-        return await eod(
-            event, "You need to set  `REMOVE_BG_API`  for this module to work..."
-        )
+        return await parse_error(event, "`REMOVE_BG_API` __is not configured.__", False)
     txt = event.text[6:]
     try:
         input_str = txt.replace("-s", "")
     except:
         input_str = txt
     flag = event.text[-2:]
-    cid = await client_id(event)
-    hell_memtion = cid[2]
+    _, _, hell_memtion = await client_id(event)
+    reply_message = await event.get_reply_message()
     if event.reply_to_msg_id and input_str == "":
-        reply_message = await event.get_reply_message()
         hell = await eor(event, "`Analysing...`")
         file_name = "./remove_bg/rmbg.png"
         try:
             await event.client.download_media(reply_message, file_name)
         except Exception as e:
-            await eod(hell, f"**ERROR !!** \n\n`{str(e)}`")
-            return
+            return await parse_error(hell, e)
         else:
             await hell.edit("`Removing background of this media`")
             file_name = toimage(file_name)
@@ -36,21 +31,16 @@ async def _(event):
             os.remove(file_name)
     elif input_str:
         hell = await eor(event, "`Removing Background of this media`")
-        response = ReTrieveURL(input_str)
+        response = ReTrieveURL(input_str.strip())
     else:
-        await eod(
-            event,
-            f"Reply to a image/sticker with `{hl}rmbg` or give image link to remove background.",
-        )
-        return
+        return await eod(event, f"Reply to a image/sticker with `{hl}rmbg` or give image link to remove background.")
     contentType = response.headers.get("content-type")
     remove_bg_image = "HellBot.png"
     if "image" in contentType:
         with open("HellBot.png", "wb") as removed_bg_file:
             removed_bg_file.write(response.content)
     else:
-        await eod(hell, f"`{response.content.decode('UTF-8')}`")
-        return
+        return await eod(hell, f"`{response.content.decode('UTF-8')}`")
     if flag and flag == "-s":
         file = tosticker(remove_bg_image, filename="HellBot.webp")
         await event.client.send_file(
