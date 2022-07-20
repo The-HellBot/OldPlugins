@@ -14,6 +14,7 @@ from . import *
 
 hell_row = Config.BUTTONS_IN_HELP
 hell_emoji = Config.EMOJI_IN_HELP
+
 PM_WARNS = {}
 PREV_REPLY_MESSAGE = {}
 
@@ -22,10 +23,8 @@ if mybot.startswith("@"):
     botname = mybot
 else:
     botname = f"@{mybot}"
+
 LOG_GP = Config.LOGGER_ID
-USER_BOT_WARN_ZERO = (
-    "Enough Of Your Flooding In My Master's PM!! \n\n**🚫 Blocked and Reported**"
-)
 
 alive_txt = """{}\n
 <b><i>🏅 𝙱𝚘𝚝 𝚂𝚝𝚊𝚝𝚞𝚜 🏅</b></i>
@@ -171,16 +170,15 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
                 )
 
         elif event.query.user_id in auth and query == "pm_warn":
-            CSTM_PMP = (
-                gvarstat("CUSTOM_PMPERMIT")
-                or "**You Have Trespassed To My Master's PM!\nThis Is Illegal And Regarded As Crime.**"
-            )
-            HELL_FIRST = "**🔥 Hêllẞø† Prîvã†é Sêçürïty Prø†öçõl 🔥**\n\nHello!! Welcome to {}'s PM. This is an automated message.\n\n{}".format(
-                hell_mention, CSTM_PMP
-            )
+            CSTM_PMP = gvarstat("CUSTOM_PMPERMIT") or None
+            HELL_FIRST = f"🔥 𝙃𝙚𝙡𝙡𝘽𝙤𝙩 𝙋𝙈 𝙎𝙚𝙘𝙪𝙧𝙞𝙩𝙮 🔥\n\nHello!! This is an automated message on behalf of {hell_mention}."
+            if CSTM_PMP:
+                HELL_FIRST += f"\n\n{CSTM_PMP}"
             a = gvarstat("PMPERMIT_PIC")
             pic_list = []
-            if a:
+            if a and a == "DISABLE":
+                PIC = None
+            elif a:
                 b = a.split(" ")
                 if len(b) >= 1:
                     for c in b:
