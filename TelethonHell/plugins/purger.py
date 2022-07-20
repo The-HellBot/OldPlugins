@@ -7,14 +7,14 @@ from . import *
 
 @hell_cmd(pattern="del$")
 @errors_handler
-async def delete_it(event):
-    msg_src = await event.get_reply_message()
-    if event.reply_to_msg_id:
+async def delete(event):
+    reply = await event.get_reply_message()
+    if reply:
         try:
-            await msg_src.delete()
-            await event.delete()
+            await reply.delete()
         except rpcbaseerrors.BadRequestError:
             pass
+    await event.delete()
 
 
 @hell_cmd(pattern="purge(?:\s|$)([\s\S]*)")
@@ -47,7 +47,6 @@ async def fastpurger(event):
             if msg:
                 await event.client.delete_messages(event.chat_id, msg)
         done = await event.client.send_message(event.chat_id, f"**Self Purge Completed!!** Purged `{str(count)}` messages.")
-
         await event.client.send_message(Config.LOGGER_ID, f"#PURGE \nSelf Purged `{str(count)}` messages.")
         await sleep(5)
         await done.delete()
@@ -104,21 +103,21 @@ async def fastpurger(event):
         await done.delete()
 
 
-@hell_cmd(pattern="sd$")
+@hell_cmd(pattern="sd(?:\s|$)([\s\S]*)")
 @errors_handler
 async def selfdestruct(event):
     lg_id = Config.LOGGER_ID
     message = event.text[4:]
     splt = message.split("|")
-    counter = int(splt[0])
-    text = str(splt[1])
+    counter = int(splt[0].strip())
+    text = str(splt[1].strip())
     await event.delete()
     smsg = await event.client.send_message(event.chat_id, text)
     await sleep(counter)
     await smsg.delete()
     await event.client.send_message(
         lg_id,
-        f"#SELF_DESTRUCT \n\nSelf Destruct message query done successfully!\n\n**SD Msg :**  `{text}`",
+        f"#SELF_DESTRUCT \n\nSelf Destructed message successfully!\n\n**SD Msg :**  `{text}` \n**Time:** `{counter}`",
     )
 
 

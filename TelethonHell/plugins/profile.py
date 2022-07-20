@@ -10,28 +10,13 @@ from telethon.tl.types import Channel, Chat, InputPhoto, User
 
 from . import *
 
-# ====================== CONSTANT ===============================
-INVALID_MEDIA = "⚠️ Targeted Media **Invalid !!**"
-PP_CHANGED = "**📍 Profile picture changed successfully.**"
-PP_TOO_SMOL = "🖼️ Image size is small. Use a bigger picture."
-PP_ERROR = "🥴 Failure occured while processing image."
-BIO_SUCCESS = "🌟 Bio Message Edited Successfully."
-NAME_OK = "~~Kimi No Nawa~~ **Your Name Changed to**  {}.."
-USERNAME_SUCCESS = "🌝 Successfully Changed Your Username."
-USERNAME_TAKEN = "😬 This Username is already taken. Try another one."
-OFFLINE_TAG = "[ • OFFLINE • ]"
-ONLINE_TAG = "[ • ONLINE • ]"
-PROFILE_IMAGE = "https://telegra.ph/file/9f0638dbfa028162a8682.jpg"
-# ===============================================================
-
 
 @hell_cmd(pattern="offline$")
 async def _(event):
-    user_it = "me"
-    user = await event.client.get_entity(user_it)
-    if user.first_name.startswith(OFFLINE_TAG):
-        await eod(event, "**Already in Offline Mode.**")
-        return
+    ForGo10God, HELL_USER, hell_mention = await client_id(event)
+    user = await event.client.get_entity(ForGo10God)
+    if HELL_USER.startswith("[ • OFFLINE • ]"):
+        return await eod(event, "**Already in Offline Mode.**")
     hell = await eor(event, "**Changing Profile to Offline...**")
     if not os.path.isdir(Config.TMP_DOWNLOAD_DIRECTORY):
         os.makedirs(Config.TMP_DOWNLOAD_DIRECTORY)
@@ -44,15 +29,15 @@ async def _(event):
         try:
             await event.client(functions.photos.UploadProfilePhotoRequest(file))
         except Exception as e:
-            await eod(hell, str(e))
+            return await parse_error(hell, e)
         else:
-            await eod(hell, "**Changed profile to OffLine.**")
+            await eor(hell, "**Changed profile to OffLine.**")
     try:
-        os.system("rm -fr donottouch.jpg")
+        os.remove("donottouch.jpg")
     except Exception as e:
         LOGS.warn(str(e))
     last_name = ""
-    first_name = OFFLINE_TAG
+    first_name = "[ • OFFLINE • ]"
     try:
         await event.client(
             functions.account.UpdateProfileRequest(
@@ -60,37 +45,36 @@ async def _(event):
             )
         )
         result = "**`{} {}`\nI am Offline now.**".format(first_name, last_name)
-        await eod(hell, result)
+        await eor(hell, result)
     except Exception as e:
-        await eod(hell, str(e))
+        await parse_error(hell, e)
 
 
 @hell_cmd(pattern="online$")
 async def _(event):
-    user_it = "me"
-    user = await event.client.get_entity(user_it)
-    if user.first_name.startswith(OFFLINE_TAG):
+    ForGo10God, HELL_USER, hell_mention = await client_id(event)
+    user = await event.client.get_entity(ForGo10God)
+    if HELL_USER.startswith("[ • OFFLINE • ]"):
         await eor(event, "**Changing Profile to Online...**")
     else:
-        await eod(event, "**Already Online.**")
-        return
+        return await eod(event, "**Already Online.**")
     if not os.path.isdir(Config.TMP_DOWNLOAD_DIRECTORY):
         os.makedirs(Config.TMP_DOWNLOAD_DIRECTORY)
-    urllib.request.urlretrieve(PROFILE_IMAGE, "donottouch.jpg")
+    urllib.request.urlretrieve("https://telegra.ph/file/9f0638dbfa028162a8682.jpg", "donottouch.jpg")
     photo = "donottouch.jpg"
     if photo:
         file = await event.client.upload_file(photo)
         try:
             await event.client(functions.photos.UploadProfilePhotoRequest(file))
         except Exception as e:
-            await eod(hell, str(e))
+            return await parse_error(hell, e)
         else:
-            await eod(hell, "**Changed profile to Online.**")
+            await eor(hell, "**Changed profile to Online.**")
     try:
-        os.system("rm -fr donottouch.jpg")
+        os.remove("donottouch.jpg")
     except Exception as e:
         LOGS.warn(str(e))
-    first_name = ONLINE_TAG
+    first_name = "[ • ONLINE • ]"
     last_name = ""
     try:
         await event.client(
@@ -99,62 +83,68 @@ async def _(event):
             )
         )
         result = "**`{} {}`\nI am Online !**".format(first_name, last_name)
-        await eod(hell, result)
+        await eor(hell, result)
     except Exception as e:
-        await eod(hell, str(e))
+        await parse_error(hell, e)
 
 
 @hell_cmd(pattern="pbio(?:\s|$)([\s\S]*)")
 async def _(event):
-    bio = event.text[6:]
+    lists = event.text.split(" ", 1)
+    if len(lists) != 2:
+        return await parse_error(event, "Nothing given to update bio in profile.")
+    bio = lists[1].strip()
     try:
         await event.client(functions.account.UpdateProfileRequest(about=bio))
-        await eor(event, BIO_SUCCESS)
+        await eor(event, "🌟 Bio Message Edited Successfully.")
     except Exception as e:
-        await eor(event, str(e))
+        await parse_error(event, e)
 
 
 @hell_cmd(pattern="pname(?:\s|$)([\s\S]*)")
 async def _(event):
-    names = event.text[7:]
-    first_name = names
+    lists = event.text.split(" ", 1)
+    if len(lists) != 2:
+        return await parse_error(event, "Nothing given to update name in profile.")
+    names = lists[1].strip().split("|", 1)
+    first_name = ""
     last_name = ""
-    if "-" in names:
-        first_name, last_name = names.split("-", 1)
+    if len(names) == 2:
+        first_name = names[0].strip()
+        last_name = names[1].strip()
+    else:
+        first_name = names[0].strip()
     try:
         await event.client(
             functions.account.UpdateProfileRequest(
                 first_name=first_name, last_name=last_name
             )
         )
-        await eor(event, NAME_OK.format(names))
+        await eor(event, f"**✅ Profile name changed!** \n\n__First Name:__ {first_name} \n__Last Name:__ {last_name}")
     except Exception as e:
-        await eor(event, str(e))
+        await parse_error(event, e)
 
 
 @hell_cmd(pattern="ppic$")
 async def _(event):
-    reply_message = await event.get_reply_message()
-    hell = await eor(event, "Downloading Profile Picture to my local ...")
+    reply = await event.get_reply_message()
+    hell = await eor(event, "Changing profile picture ...")
     if not os.path.isdir(Config.TMP_DOWNLOAD_DIRECTORY):
         os.makedirs(Config.TMP_DOWNLOAD_DIRECTORY)
     photo = None
     try:
-        photo = await event.client.download_media(
-            reply_message, Config.TMP_DOWNLOAD_DIRECTORY
-        )
+        photo = await event.client.download_media(reply, Config.TMP_DOWNLOAD_DIRECTORY)
     except Exception as e:
-        await hell.edit(str(e))
+        await parse_error(hell, e)
     else:
         if photo:
-            await hell.edit("Uploading profile picture...")
             file = await event.client.upload_file(photo)
             try:
                 await event.client(functions.photos.UploadProfilePhotoRequest(file))
             except Exception as e:
-                await hell.edit(str(e))
+                await parse_error(hell, e)
             else:
-                await eod(hell, PP_CHANGED)
+                await eod(hell, "**📍 Profile picture changed successfully.**")
     try:
         os.remove(photo)
     except Exception as e:
@@ -163,14 +153,17 @@ async def _(event):
 
 @hell_cmd(pattern="username(?:\s|$)([\s\S]*)")
 async def update_username(event):
-    newusername = event.text[10:]
+    lists = event.text.split(" ", 2)
+    if len(lists) < 2:
+        return await parse_error(event, "Nothing given to change username.")
+    newusername = lists[1].strip()
     try:
         await event.client(UpdateUsernameRequest(newusername))
-        await eod(event, USERNAME_SUCCESS)
+        await eod(event, "🌝 Successfully Changed Your Username.")
     except UsernameOccupiedError:
-        await eod(event, USERNAME_TAKEN)
+        await eod(event, "😬 This Username is already taken. Try another one.")
     except Exception as e:
-        await eod(event, f"**ERROR !!** \n\n`{e}`")
+        await parse_error(event, e)
 
 
 @hell_cmd(pattern="count$")
@@ -218,9 +211,9 @@ async def remove_profilepic(event):
         lim = int(group)
     else:
         lim = 1
-
+    ForGo10God, _, _ = await client_id(event)
     pfplist = await event.client(
-        GetUserPhotosRequest(user_id=delpfp.sender_id, offset=0, max_id=0, limit=lim)
+        GetUserPhotosRequest(user_id=ForGo10God, offset=0, max_id=0, limit=lim)
     )
     input_photos = []
     for sep in pfplist.photos:
@@ -234,17 +227,18 @@ async def remove_profilepic(event):
     await event.client(DeletePhotosRequest(id=input_photos))
     await eod(
         event,
-        f"🗑️ **Successfully deleted**  `{len(input_photos)}`  **profile picture(s).**",
+        f"🗑️ **Deleted Profile Picture(s)!** \n\n__Total:__ `{len(input_photos)}`",
     )
 
 
 @hell_cmd(pattern="myusernames$")
 async def _(event):
+    _, _, hell_mention = await client_id(event)
     result = await event.client(GetAdminedPublicChannelsRequest())
-    output_str = ""
+    output_str = f"**Usernames reserved by:** {hell_mention}\n\n"
     for channel_obj in result.chats:
-        output_str += f"• {channel_obj.title} @{channel_obj.username} \n"
-    await event.edit(output_str)
+        output_str += f"• {channel_obj.title} ~ @{channel_obj.username} \n"
+    await eor(event, output_str)
 
 
 CmdHelp("profile").add_command(
@@ -258,15 +252,13 @@ CmdHelp("profile").add_command(
 ).add_command(
     "ppic", "<reply to image>", "Changes your Telegram profie picture with the one you replied to"
 ).add_command(
-    "pname", "<firstname> or <firstname - lastname>", "Changes Your Telegram account name"
+    "pname", "<firstname> or <firstname | lastname>", "Changes Your Telegram account name"
 ).add_command(
     "username", "<new username>", "Changes your Telegram Account Username"
 ).add_command(
     "online", None, "Remove Offline Tag from your name and change profile pic to vars PROFILE_IMAGE."
 ).add_command(
     "offline", None, "Add an offline tag in your name and change profile pic to black."
-).add_command(
-    "kickme", None, "Gets out of the grp..."
 ).add_info(
     "🌝 Managing Profile was never so easy."
 ).add_warning(
