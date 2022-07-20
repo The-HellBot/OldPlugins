@@ -8,7 +8,7 @@ if Config.TAG_LOGGER:
     tagger = int(Config.TAG_LOGGER)
 
 if Config.TAG_LOGGER:
-    @hell_handler(func=lambda e: (e.mentioned))
+    @hell_handler(func=lambda e: (e.mentioned), incoming=True)
     async def all_messages_catcher(event):
         ammoca_message = ""
         __, _, hell_men = await client_id(event)
