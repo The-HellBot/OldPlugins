@@ -231,15 +231,6 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
                 ],
             )
 
-        elif query.startswith("http"):
-            part = query.split(" ")
-            result = builder.article(
-                "File uploaded",
-                text=f"**File uploaded successfully to {part[2]} site.\n\nUpload Time : {part[1][:3]} second\n[‏‏‎ ‎]({part[0]})",
-                buttons=[[custom.Button.url("URL", part[0])]],
-                link_preview=True,
-            )
-
         else:
             result = builder.article(
                 "@Its_HellBot",
