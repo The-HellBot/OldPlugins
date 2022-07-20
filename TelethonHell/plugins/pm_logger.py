@@ -35,7 +35,7 @@ async def _(event):
         await eod(event, "`Saved Successfully`")
 
 
-@hell_handler(func=lambda e: e.is_private)
+@hell_handler(func=lambda e: e.is_private, incoming=True)
 async def _(event):
     if lg_id is None:
         return
