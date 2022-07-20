@@ -103,7 +103,7 @@ async def fastpurger(event):
         await done.delete()
 
 
-@hell_cmd(pattern="sd$")
+@hell_cmd(pattern="sd(?:\s|$)([\s\S]*)")
 @errors_handler
 async def selfdestruct(event):
     lg_id = Config.LOGGER_ID
