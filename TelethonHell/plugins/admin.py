@@ -169,7 +169,7 @@ async def demote(event):
     )
 
 
-@hell_handler()
+@hell_handler(incoming=True)
 async def watcher(event):
     if is_muted(event.sender_id, event.chat_id):
         try:
