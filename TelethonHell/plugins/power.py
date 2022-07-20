@@ -8,14 +8,12 @@ from TelethonHell.DB.gvar_sql import addgvar, delgvar, gvarstat
 from . import *
 
 
-Heroku = heroku3.from_key(Config.HEROKU_API_KEY)
-
 async def restart(event):
     if Config.HEROKU_APP_NAME and Config.HEROKU_API_KEY:
         try:
-            Heroku
+            Heroku = heroku3.from_key(Config.HEROKU_API_KEY)
         except BaseException:
-            return await eor(event, "`HEROKU_API_KEY` is wrong. Re-Check in config vars.")
+            return await parse_error(event, "`HEROKU_API_KEY` is wrong. Re-Check in config vars.", False)
         await eor(event, f"✅ **Restarted Dynos** \n**Type** `{hl}ping` **after 1 minute to check if I am working !**")
         app = Heroku.apps()[Config.HEROKU_APP_NAME]
         app.restart()
@@ -37,15 +35,13 @@ async def re(hell):
 
 @hell_cmd(pattern="reload$")
 async def rel(event):
-    await eor(event, "Reloading Hêllẞø†... Wait for few seconds...")
+    await eor(event, "**Reloaded HellBot!** \n\n__This might take a minute.__")
     await reload_hellbot()
 
 
 @hell_cmd(pattern="shutdown$")
-async def down(hell):
-    event = await eor(hell, "`Turing Off Hêllẞø†...`")
-    await asyncio.sleep(2)
-    await event.edit("**[ ⚠️ ]** \n**Hêllẞø† is now turned off. Manually turn it on to start again.**")
+async def down(event):
+    await eor(event, "**[ ⚠️ ]** \n**Hêllẞø† is now turned off. Manually turn it on to start again.**")
     if HEROKU_APP is not None:
         HEROKU_APP.process_formation()["worker"].scale(0)
     else:
@@ -54,57 +50,64 @@ async def down(hell):
 
 @hell_cmd(pattern="svar(?:\s|$)([\s\S]*)")
 async def sett(event):
-    hel_ = event.pattern_match.group(1)
-    var_ = hel_.split(" ")[0].upper()
-    val_ = hel_.split(" ")[1:]
-    valu = " ".join(val_)
-    hell = await eor(event, f"**Setting variable** `{var_}` **as** `{valu}`")
-    if var_ == "":
-        return await eod(hell, f"**Invalid Syntax !!** \n\nTry: `{hl}svar VARIABLE_NAME variable_value`")
-    elif valu == "":
-        return await eod(hell, f"**Invalid Syntax !!** \n\nTry: `{hl}svar VARIABLE_NAME variable_value`")
-    if var_ not in db_config:
-        return await eod(hell, f"__There isn't any DB variable named__ `{var_}`. __Check spelling or get full list by__ `{hl}vars`")
+    lists = event.text.split(" ", 2)
+    if len(lists) != 3:
+        return await parse_error(event, f"__Invalid Syntax !!__ \n__Try:__ `{hl}svar VARIABLE_NAME variable value`", False)
+    var = lists[1].strip().upper()
+    val = lists[2].strip()
+    hell = await eor(event, f"**Setting variable** `{var}` **as** `{val}`")
+    if var == "":
+        return await parse_error(hell, f"__Invalid Syntax !!__ \n__Try:__ `{hl}svar VARIABLE_NAME variable_value`", False)
+    elif val == "":
+        return await parse_error(hell, f"__Invalid Syntax !!__ \n__Try:__ `{hl}svar VARIABLE_NAME variable_value`", False)
+    if var not in db_config:
+        return await parse_error(hell, f"__No DB Variable:__ `{var}`. \n__Check spelling or get full list by__ `{hl}vars -db`", False)
     try:
-        addgvar(var_, valu)
+        addgvar(var, val)
     except Exception as e:
-        return await eod(hell, f"**ERROR !!** \n\n`{e}`")
-    await eod(hell, f"**Variable Added Successfully!!** \n\n**• Variable:** `{var_}` \n**» Value:** `{valu}`")
+        return await parse_error(hell, e)
+    await eod(hell, f"**Variable Added Successfully!!** \n\n**• Variable:** `{var}` \n**» Value:** `{val}`")
 
 
 @hell_cmd(pattern="gvar(?:\s|$)([\s\S]*)")
 async def gett(event):
-    var_ = event.pattern_match.group(1).upper()
-    hell = await eor(event, f"**Getting variable** `{var_}`")
-    if var_ == "":
-        return await eod(hell, f"**Invalid Syntax !!** \n\nTry: `{hl}gvar VARIABLE_NAME`")
-    if var_ not in db_config:
-        return await eod(hell, f"__There isn't any variable named__ `{var_}`. __Check spelling or get full list by `{hl}vars`")
+    lists = event.text.split(" ", 2)
+    if len(lists) < 2:
+        return await parse_error(event, f"__Invalid Syntax !!__ \n__Try:__ `{hl}gvar VARIABLE_NAME`", False)
+    var = lists[1].strip().upper()
+    hell = await eor(event, f"**Getting variable** `{var}`")
+    if var == "":
+        return await parse_error(hell, f"__Invalid Syntax !!__ \n__Try:__ `{hl}gvar VARIABLE_NAME`", False)
+    if var not in db_config:
+        return await parse_error(hell, f"__No DB Variable:__ `{var}`. \n__Check spelling or get full list by__ `{hl}vars -db`", False)
     try:
-        sql_v = gvarstat(var_)
-        os_v = os.environ.get(var_) or "None"
+        db_v = gvarstat(var) or "None"
+        os_v = os.environ.get(var) or "None"
     except Exception as e:
-        return await eod(hell, f"**ERROR !!** \n\n`{e}`")
-    await hell.edit(f"**• OS VARIABLE:** `{var_}`\n**» OS VALUE :** `{os_v}`\n------------------\n**• DB VARIABLE:** `{var_}`\n**» DB VALUE :** `{sql_v}`\n")
+        return await parse_error(hell, e)
+    await hell.edit(f"**• OS VARIABLE:** `{var}`\n**» OS VALUE :** `{os_v}`\n\n**• DB VARIABLE:** `{var}`\n**» DB VALUE :** `{db_v}`\n")
 
 
 @hell_cmd(pattern="dvar(?:\s|$)([\s\S]*)")
 async def dell(event):
-    var_ = event.pattern_match.group(1).upper()
-    hell = await eor(event, f"**Deleting Variable** `{var_}`")
-    if var_ == "":
-        return await eod(hell, f"**Invalid Syntax !!** \n\nTry: `{hl}dvar VARIABLE_NAME`")
-    if var_ not in db_config:
-        return await eod(hell, f"__There isn't any variable named__ `{var_}`. Check spelling or get full list by `{hl}vars`")
-    if gvarstat(var_):
+    lists = event.text.split(" ", 2)
+    if len(lists) < 2:
+        return await parse_error(event, f"__Invalid Syntax !!__ \n__Try:__ `{hl}dvar VARIABLE_NAME`", False)
+    var = lists[1].strip().upper()
+    hell = await eor(event, f"**Deleting Variable** `{var}`")
+    if var == "":
+        return await parse_error(hell, f"__Invalid Syntax !!__ \n__Try:__ `{hl}dvar VARIABLE_NAME`", False)
+    if var not in db_config:
+        return await parse_error(hell, f"__No DB Variable:__ `{var}`. \n__Check spelling or get full list by__ `{hl}vars -db`", False)
+    if gvarstat(var):
         try:
-            x = gvarstat(var_)
-            delgvar(var_)
-            await eod(hell, f"**Deleted Variable Successfully!!** \n\n**• Variable:** `{var_}` \n**» Value:** `{x}`")
+            x = gvarstat(var)
+            delgvar(var)
+            await eod(hell, f"**Deleted Variable Successfully!!** \n\n**• Variable:** `{var}` \n**» Value:** `{x}`")
         except Exception as e:
-            await eod(hell, f"**ERROR !!** \n\n`{e}`")
+            await parse_error(hell, e)
     else:
-        await eod(hell, f"**No variable named** `{var_}`")
+        await parse_error(hell, f"`{var}` __does not exists.__", False)
 
 
 CmdHelp("power").add_command(

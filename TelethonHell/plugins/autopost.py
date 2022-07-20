@@ -72,7 +72,7 @@ async def _(event):
             )
 
 
-@hell_handler()
+@hell_handler(incoming=True)
 async def _(event):
     chat_id = str(event.chat_id).replace("-100", "")
     channels_set = get_all_post(chat_id)

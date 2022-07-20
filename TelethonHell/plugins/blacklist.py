@@ -5,7 +5,7 @@ from TelethonHell.DB import blacklist_sql as sq
 from . import *
 
 
-@hell_handler()
+@hell_handler(incoming=True)
 async def on_new_message(event):
     name = event.raw_text
     snips = sq.get_chat_blacklist(event.chat_id)

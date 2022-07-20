@@ -169,7 +169,7 @@ async def demote(event):
     )
 
 
-@hell_handler()
+@hell_handler(incoming=True)
 async def watcher(event):
     if is_muted(event.sender_id, event.chat_id):
         try:
@@ -262,9 +262,8 @@ async def muth(event):
 async def nomuth(event):
     x = await client_id(event)
     ForGo10God = x[0]
+    hell = await eor(event, "`Unmuting ...`")
     if event.is_private:
-        hell = await eor(event, "`Unmuting ...`")
-        await event.client(GetFullUserRequest(event.chat_id))
         if not is_muted(event.chat_id, event.chat_id):
             return await eod(hell, "Not even muted !!")
         try:
@@ -273,7 +272,6 @@ async def nomuth(event):
         except Exception as e:
             await parse_error(hell, e)
     elif event.is_group:
-        hell = await eod(event, "`Unmuting...`")
         input_str = event.pattern_match.group(1)
         chat = await event.get_chat()
         admin_ = []
@@ -283,8 +281,10 @@ async def nomuth(event):
             x = admins.id
             admin_.append(x)
         if event.reply_to_msg_id:
-            userid = (await event.get_reply_message()).sender_id
-            name = (await event.client.get_entity(userid)).first_name
+            reply = await event.get_reply_message()
+            userid = reply.sender_id
+            getuser = await event.client(GetFullUserRequest(reply.sender_id))
+            name = getuser.user.first_name
         elif input_str:
             if input_str.isdigit():
                 try:
@@ -323,7 +323,7 @@ async def nomuth(event):
                     hell,
                     f"**Successfully Unmuted**  [{name}](tg://user?id={userid}) **in**  `{chat.title}`",
                 )
-            except BaseException as be:
+            except Exception as be:
                 await parse_error(hell, be)
         await event.client.send_message(
             lg_id,

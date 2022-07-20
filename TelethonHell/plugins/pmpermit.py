@@ -10,86 +10,67 @@ from . import *
 
 PM_WARNS = {}
 PREV_REPLY_MESSAGE = {}
-PM_ON_OFF = Config.PM_PERMIT
-HELL_ZERO = "Go get some sleep retard. \n\n**Blocked !!**"
+PM_ON_OFF = Config.PM_PERMIT or "True"
+PM_PARAMS = ['DISABLE', 'Disable', 'disable', 'OFF', 'Off', 'off', 'NO', 'No', 'no', 'FALSE', 'False', 'false']
+
+@hell_cmd(pattern="block$")
+async def block(event):
+    if event.is_private:
+        getuser = await event.client(
+            GetFullUserRequest(await event.get_input_chat())
+        )
+        firstname = getuser.user.first_name
+        if str(event.chat_id) in DEVLIST:
+            return await eod(event, "**I can't block my creator !!**")
+        if pm_sql.is_approved(event.chat_id):
+            pm_sql.disapprove(event.chat_id)
+        await eor(event, f"**Blocked:** [{firstname}](tg://user?id={event.chat_id})")
+        await event.client(functions.contacts.BlockRequest(event.chat_id))
+    elif event.is_group:
+        reply = await event.get_reply_message()
+        if not reply:
+            return await eod(event, "Reply to someone to block them.")
+        getuser = await event.client(GetFullUserRequest(reply.sender_id))
+        firstname = getuser.user.first_name
+        if str(reply.sender_id) in DEVLIST:
+            return await eod(event, "**I can't block my creator !!**")
+        if pm_sql.is_approved(event.chat_id):
+            pm_sql.disapprove(event.chat_id)
+        await eor(event, f"**Blocked:** [{firstname}](tg://user?id={reply.sender_id})")
+        await event.client(functions.contacts.BlockRequest(reply_s.sender_id))
+    else:
+        return await parse_error(event, "Only groups and PMs supported.")
 
 
 @hell_cmd(pattern="unblock$")
-async def unb(event):
+async def unblock(event):
     if event.is_private:
-        replied_user = await event.client(
+        getuser = await event.client(
             GetFullUserRequest(await event.get_input_chat())
         )
-        firstname = replied_user.user.first_name
-        await eor(
-            event, f"**Unblocked [{firstname}](tg://user?id={event.chat_id}) !!**"
-        )
+        firstname = getuser.user.first_name
+        await eor(event, f"**Unblocked:** [{firstname}](tg://user?id={event.chat_id})")
         await event.client(functions.contacts.UnblockRequest(event.chat_id))
     elif event.is_group:
-        reply_s = await event.get_reply_message()
-        if not reply_s:
-            await eod(event, "Reply to someone to unblock them..")
-            return
-        replied_user = await event.client(GetFullUserRequest(reply_s.sender_id))
-        firstname = replied_user.user.first_name
-        await eor(
-            event, f"**Unblocked [{firstname}](tg://user?id={reply_s.sender_id}) !!**"
-        )
-        await event.client(functions.contacts.UnblockRequest(reply_s.sender_id))
+        reply = await event.get_reply_message()
+        if not reply:
+            return await eod(event, "Reply to someone to unblock them.")
+        getuser = await event.client(GetFullUserRequest(reply.sender_id))
+        firstname = getuser.user.first_name
+        await eor(event, f"**Unblocked:** [{firstname}](tg://user?id={reply.sender_id})")
+        await event.client(functions.contacts.UnblockRequest(reply.sender_id))
+    else:
+        return await parse_error(event, "Only groups and PMs supported.")
 
 
-@hell_cmd(pattern="block$")
-async def approve_p_m(event):
-    if event.is_private:
-        replied_user = await event.client(
-            GetFullUserRequest(await event.get_input_chat())
-        )
-        firstname = replied_user.user.first_name
-        if str(event.chat_id) in DEVLIST:
-            await eod(event, "**I can't block my creator !!**")
-            return
-        if pm_sql.is_approved(event.chat_id):
-            pm_sql.disapprove(event.chat_id)
-        await eor(
-            event,
-            "Go Get Some Sleep Retard !! \n\n**Blocked** [{}](tg://user?id={})".format(
-                firstname, event.chat_id
-            ),
-        )
-        await event.client(functions.contacts.BlockRequest(event.chat_id))
-    elif event.is_group:
-        reply_s = await event.get_reply_message()
-        if not reply_s:
-            await eod(event, "Reply to someone to block them..")
-            return
-        replied_user = await event.client(GetFullUserRequest(reply_s.sender_id))
-        firstname = replied_user.user.first_name
-        if str(reply_s.sender_id) in DEVLIST:
-            await eod(event, "**I can't Block My Creator !!**")
-            return
-        if pm_sql.is_approved(event.chat_id):
-            pm_sql.disapprove(event.chat_id)
-        await eor(
-            event,
-            "Go fuck yourself !! \n\n**Blocked** [{}](tg://user?id={})".format(
-                firstname, reply_s.sender_id
-            ),
-        )
-        await event.client(functions.contacts.BlockRequest(reply_s.sender_id))
-
-
-if PM_ON_OFF != "DISABLE":
-
-    @H1.on(events.NewMessage(outgoing=True))
+if PM_ON_OFF and PM_ON_OFF not in PM_PARAMS:
+    @hell_handler(outgoing=True)
     async def _(event):
         if not event.is_private:
             return
-        cid = await client_id(event)
-        ForGo10God = cid[0]
-        chat_ids = event.chat_id
+        ForGo10God, _, _ = await client_id(event)
         sender = await event.client(GetFullUserRequest(await event.get_input_chat()))
-        sender.user.first_name
-        if chat_ids == ForGo10God:
+        if str(event.chat_id) == str(ForGo10God):
             return
         if sender.user.bot:
             return
@@ -101,18 +82,19 @@ if PM_ON_OFF != "DISABLE":
             if not event.chat_id in PM_WARNS:
                 pm_sql.approve(event.chat_id, "outgoing")
                 x = await event.client.send_message(
-                    event.chat_id, "**Auto Approved because outgoing message.**"
+                    event.chat_id,
+                    "**Auto Approved because outgoing message.**",
                 )
-                await asyncio.sleep(4)
+                await asyncio.sleep(5)
                 await x.delete()
 
-    @H1.on(admin_cmd(pattern="(a|approve|allow)$"))
+    @hell_cmd(pattern="(a|approve|allow)$")
     async def approve(event):
         if event.is_private:
-            replied_user = await event.client(
+            getuser = await event.client(
                 GetFullUserRequest(await event.get_input_chat())
             )
-            firstname = replied_user.user.first_name
+            firstname = getuser.user.first_name
             if not pm_sql.is_approved(event.chat_id):
                 if event.chat_id in PM_WARNS:
                     del PM_WARNS[event.chat_id]
@@ -120,94 +102,70 @@ if PM_ON_OFF != "DISABLE":
                     await PREV_REPLY_MESSAGE[event.chat_id].delete()
                     del PREV_REPLY_MESSAGE[event.chat_id]
                 pm_sql.approve(event.chat_id, "Approved")
-                await eod(
-                    event,
-                    "Approved to pm [{}](tg://user?id={})".format(
-                        firstname, event.chat_id
-                    ),
-                )
+                await eod(event, f"**Approved:** [{firstname}](tg://user?id={event.chat_id})")
             elif pm_sql.is_approved(event.chat_id):
-                await eod(event, "Already In Approved List!!")
+                await eod(event, "Already in approved list.")
         elif event.is_group:
-            reply_s = await event.get_reply_message()
-            if not reply_s:
-                await eod(event, "Reply to someone to approve them !!")
-                return
-            if not pm_sql.is_approved(reply_s.sender_id):
-                replied_user = await event.client(GetFullUserRequest(reply_s.sender_id))
-                firstname = replied_user.user.first_name
-                pm_sql.approve(reply_s.sender_id, "Approved")
-                await eod(
-                    event,
-                    "Approved to pm [{}](tg://user?id={})".format(
-                        firstname, reply_s.sender_id
-                    ),
-                )
-            elif pm_sql.is_approved(reply_s.sender_id):
-                await eod(event, "User Already Approved !")
+            reply = await event.get_reply_message()
+            if not reply:
+                return await eod(event, "Reply to someone to approve them !!")
+            if not pm_sql.is_approved(reply.sender_id):
+                getuser = await event.client(GetFullUserRequest(reply.sender_id))
+                firstname = getuser.user.first_name
+                pm_sql.approve(reply.sender_id, "Approved")
+                await eod(event, f"**Approved:** [{firstname}](tg://user?id={reply.sender_id})")
+            elif pm_sql.is_approved(reply.sender_id):
+                await eod(event, "User already approved !")
+        else:
+            return await parse_error(event, "Only groups and PMs supported.")
 
-    @H1.on(admin_cmd(pattern="(da|disapprove|disallow)$"))
-    async def dapprove(event):
+    @hell_cmd(pattern="(da|disapprove|disallow)$")
+    async def disapprove(event):
         if event.is_private:
-            replied_user = await event.client(
+            getuser = await event.client(
                 GetFullUserRequest(await event.get_input_chat())
             )
-            firstname = replied_user.user.first_name
+            firstname = getuser.user.first_name
             if str(event.chat_id) in DEVLIST:
-                await eod(
-                    event, "**Unable to disapprove this user. Seems like God !!**"
-                )
-                return
+                return await eod(event, "Can't disapprove my developer!")
             if pm_sql.is_approved(event.chat_id):
                 pm_sql.disapprove(event.chat_id)
-                await eod(
-                    event,
-                    "Disapproved User [{}](tg://user?id={})".format(
-                        firstname, event.chat_id
-                    ),
-                )
+                await eod(event, f"**Disapproved:** [{firstname}](tg://user?id={event.chat_id})")
             elif not pm_sql.is_approved(event.chat_id):
-                await eod(event, "I don't think he was approved !!")
+                await eod(event, "User was not approved.")
         elif event.is_group:
-            reply_s = await event.get_reply_message()
-            if not reply_s:
-                await eod(event, "Reply to someone to Disapprove them !!")
-                return
-            if str(reply_s.sender_id) in DEVLIST:
-                await eod(
-                    event, "**Unable to disapprove this user. Seems like God !!**"
-                )
-                return
-            if pm_sql.is_approved(reply_s.sender_id):
-                replied_user = await event.client(GetFullUserRequest(reply_s.sender_id))
-                firstname = replied_user.user.first_name
-                pm_sql.disapprove(reply_s.sender_id)
-                await eod(
-                    event,
-                    "Disapproved User [{}](tg://user?id={})".format(
-                        firstname, reply_s.sender_id
-                    ),
-                )
-            elif not pm_sql.is_approved(reply_s.sender_id):
-                await eod(event, "Not even in my approved list.")
+            reply = await event.get_reply_message()
+            if not reply:
+                return await eod(event, "Reply to someone to disapprove them !!")
+            if str(reply.sender_id) in DEVLIST:
+                return await eod(event, "Can't disapprove my developer!")
+            if pm_sql.is_approved(reply.sender_id):
+                getuser = await event.client(GetFullUserRequest(reply.sender_id))
+                firstname = getuser.user.first_name
+                pm_sql.disapprove(reply.sender_id)
+                await eod(event, f"**Disapproved:** [{firstname}](tg://user?id={reply.sender_id})")
+            elif not pm_sql.is_approved(reply.sender_id):
+                await eod(event, "User was not approved.")
+        else:
+            return await parse_error(event, "Only groups and PMs supported.")
 
-    @H1.on(admin_cmd(pattern="listapproved$"))
-    async def approve_p_m(event):
+    @hell_cmd(pattern="listapproved$")
+    async def allapproved(event):
         approved_users = pm_sql.get_all_approved()
         APPROVED_PMs = "Current Approved PMs\n"
         if len(approved_users) > 0:
-            for a_user in approved_users:
-                if a_user.reason:
-                    APPROVED_PMs += f"👉 [{a_user.chat_id}](tg://user?id={a_user.chat_id}) for {a_user.reason}\n"
+            for user in approved_users:
+                if user.reason:
+                    APPROVED_PMs += f"👉 [{user.chat_id}](tg://user?id={user.chat_id}) :: `{user.reason}`\n"
                 else:
                     APPROVED_PMs += (
-                        f"👉 [{a_user.chat_id}](tg://user?id={a_user.chat_id})\n"
+                        f"👉 [{user.chat_id}](tg://user?id={user.chat_id})\n"
                     )
         else:
-            APPROVED_PMs = "no Approved PMs (yet)"
+            APPROVED_PMs = "No PM approved yet."
         if len(APPROVED_PMs) > 4095:
             with io.BytesIO(str.encode(APPROVED_PMs)) as out_file:
-                out_file.name = "approved.pms.txt"
+                out_file.name = "approved_pms.txt"
                 await event.client.send_file(
                     event.chat_id,
                     out_file,
@@ -220,59 +178,46 @@ if PM_ON_OFF != "DISABLE":
         else:
             await eor(event, APPROVED_PMs)
 
-    @H1.on(events.NewMessage(incoming=True))
-    async def on_new_private_message(event):
+    @hell_handler(incoming=True)
+    async def new_pm(event):
         if not event.is_private:
             return
-        cid = await client_id(event)
-        ForGo10God, hell_mention = cid[0], cid[2]
-        CSTM_PMP = (
-            gvarstat("CUSTOM_PMPERMIT")
-            or "**You Have Trespassed To My Master's PM!\nThis Is Illegal And Regarded As Crime.**"
-        )
-        HELL_FIRST = "**🔥 Hêllẞø† Prîvã†é Sêçürïty Prø†öçõl 🔥**\n\nHello!! Welcome to {}'s PM. This is an automated message.\n\n{}".format(
-            hell_mention, CSTM_PMP
-        )
+        ForGo10God, _, hell_mention = await client_id(event)
+        CSTM_PMP = gvarstat("CUSTOM_PMPERMIT") or None
+        HELL_FIRST = f"🔥 𝙃𝙚𝙡𝙡𝘽𝙤𝙩 𝙋𝙈 𝙎𝙚𝙘𝙪𝙧𝙞𝙩𝙮 🔥\n\nHello!! This is an automated message on behalf of {hell_mention}."
+        if CSTM_PMP:
+             HELL_FIRST += f"\n\n{CSTM_PMP}"
         if event.sender_id == ForGo10God:
             return
         if str(event.sender_id) in DEVLIST:
             return
-        if Config.LOGGER_ID is None:
-            await event.client.send_message(
-                ForGo10God, "Please Set `LOGGER_ID` For Working Of Pm Permit"
-            )
-            return
         message_text = event.message.raw_text
-        chat_ids = event.sender_id
         if HELL_FIRST == message_text:
             return
         sender = await event.client.get_entity(await event.get_input_chat())
-        if chat_ids == ForGo10God:
+        if str(event.chat_id) == str(ForGo10God):
             return
         if sender.bot:
             return
         if sender.verified:
             return
-        if PM_ON_OFF == "DISABLE":
+        if PM_ON_OFF in PM_PARAMS:
             return
-        if pm_sql.is_approved(chat_ids):
+        if pm_sql.is_approved(event.chat_id):
             return
-        if not pm_sql.is_approved(chat_ids):
-            await do_pm_permit_action(chat_ids, event)
+        if not pm_sql.is_approved(event.chat_id):
+            await do_pm_permit_action(event.chat_id, event)
 
     async def do_pm_permit_action(chat_ids, event):
         if chat_ids not in PM_WARNS:
             PM_WARNS.update({chat_ids: 0})
         if PM_WARNS[chat_ids] == Config.MAX_SPAM:
-            r = await event.reply(HELL_ZERO)
+            r = await event.reply("Enough of your spamming PM. \n\n**Blocked !!**")
             await event.client(functions.contacts.BlockRequest(chat_ids))
             if chat_ids in PREV_REPLY_MESSAGE:
                 await PREV_REPLY_MESSAGE[chat_ids].delete()
             PREV_REPLY_MESSAGE[chat_ids] = r
-            the_message = ""
-            the_message += "#BLOCK\n\n"
-            the_message += f"[User](tg://user?id={chat_ids}): {chat_ids}\n"
-            the_message += f"Message Counts: {PM_WARNS[chat_ids]}\n"
+            the_message = f"#BLOCK \n\n[User](tg://user?id={chat_ids}): `{chat_ids}` \n__Message Counts:__ `{PM_WARNS[chat_ids]}`\n"
             try:
                 await event.client.send_message(
                     Config.LOGGER_ID,
@@ -281,35 +226,32 @@ if PM_ON_OFF != "DISABLE":
                     silent=True,
                 )
                 return
-            except BaseException:
+            except:
                 pass
-
         tap = await event.client.inline_query(Config.BOT_USERNAME, "pm_warn")
-        hel_ = await tap[0].click(event.chat_id)
+        hell = await tap[0].click(event.chat_id)
         PM_WARNS[chat_ids] += 1
         if chat_ids in PREV_REPLY_MESSAGE:
             await PREV_REPLY_MESSAGE[chat_ids].delete()
-        PREV_REPLY_MESSAGE[chat_ids] = hel_
+        PREV_REPLY_MESSAGE[chat_ids] = hell
 
 
 if Config.INSTANT_BLOCK == "ENABLE":
-
-    @H1.on(events.NewMessage(incoming=True))
-    async def on_new_private_message(event):
-        chat_id = event.chat_id
-        sender = await event.client.get_entity(chat_id)
-        cid = await client_id(event)
-        ForGo10God = cid[0]
-        if chat_id == ForGo10God:
+    @hell_handler(incoming=True)
+    async def instant(event):
+        sender = await event.client.get_entity(event.chat_id)
+        ForGo10God, _, _ = await client_id(event)
+        if event.chat_id == ForGo10God:
             return
-        if str(chat_id) in DEVLIST:
+        if str(event.chat_id) in DEVLIST:
             return
         if sender.bot:
             return
         if sender.verified:
             return
-        if not pmpermit_sql.is_approved(chat_id):
-            await event.client(functions.contacts.BlockRequest(chat_id))
+        if pm_sql.is_approved(event.chat_id):
+            return
+        await event.client(functions.contacts.BlockRequest(event.chat_id))
 
 
 CmdHelp("pm_permit").add_command(
