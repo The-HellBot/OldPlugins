@@ -11,7 +11,7 @@ from . import *
 PM_WARNS = {}
 PREV_REPLY_MESSAGE = {}
 PM_ON_OFF = Config.PM_PERMIT
-PM_PARAMS = ['DISABLE', 'Disable', 'disable', 'OFF', 'Off', 'off', 'NO', "No', 'no']
+PM_PARAMS = ['DISABLE', 'Disable', 'disable', 'OFF', 'Off', 'off', 'NO', 'No', 'no']
 
 @hell_cmd(pattern="block$")
 async def block(event):
