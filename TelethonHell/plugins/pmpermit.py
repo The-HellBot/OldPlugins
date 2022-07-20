@@ -149,7 +149,7 @@ if PM_ON_OFF and PM_ON_OFF not in PM_PARAMS:
         else:
             return await parse_error(event, "Only groups and PMs supported.")
 
-    @hell_cmd(pattern="listapproved$"))
+    @hell_cmd(pattern="listapproved$")
     async def allapproved(event):
         approved_users = pm_sql.get_all_approved()
         APPROVED_PMs = "Current Approved PMs\n"
