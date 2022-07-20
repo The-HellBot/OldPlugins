@@ -298,7 +298,16 @@ if Config.BOT_USERNAME is not None and tgbot is not None:
             await event.answer(reply_pop_up_alert, cache_time=0, alert=True)
         else:
             await event.edit(f"As you wish. **BLOCKED !!**")
-            await H1(functions.contacts.BlockRequest(event.query.user_id))
+            if H1:
+                await H1(functions.contacts.BlockRequest(event.query.user_id))
+            if H2:
+                await H2(functions.contacts.BlockRequest(event.query.user_id))
+            if H3:
+                await H3(functions.contacts.BlockRequest(event.query.user_id))
+            if H4:
+                await H4(functions.contacts.BlockRequest(event.query.user_id))
+            if H5:
+                await H5(functions.contacts.BlockRequest(event.query.user_id))
             target = await event.client(GetFullUserRequest(event.query.user_id))
             first_name = html.escape(target.user.first_name)
             if first_name is not None:
