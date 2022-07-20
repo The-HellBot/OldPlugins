@@ -34,7 +34,7 @@ async def _(event):
             second = await conv.get_response()
             third = await conv.send_message(f"/qcolor {colour}")
             fourth = await conv.get_response()
-            await conv.forward_messages(to_quote, event.chat_id)
+            await event.client.forward_messages(to_quote, event.chat_id)
             fifth = await conv.get_response()
         except YouBlockedUserError:
             return await parse_error(hell, "__Unblock @QuotLyBot and try again.__", False)
