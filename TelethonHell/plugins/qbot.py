@@ -4,12 +4,17 @@ from telethon.errors.rpcerrorlist import YouBlockedUserError
 @hell_cmd(pattern="ss(?:\s|$)([\s\S]*)")
 async def _(event):
     if not event.reply_to_msg_id:
-        await eod(event, "```Reply to any user's message.```")
-        return
+        return await parse_error(event, "Reply to a message to quote it.")
+    hell = await eor(event, "`Making a Quote ...`")
     reply_message = await event.get_reply_message()
     clr = event.text[4:]
-    colour = clr.replace("'", "")
-    limit = event.text[-2:]
+    colour = "#292232"
+    limit = None
+    if "'" in clr:
+        lists = clr.split("'")
+        colour = lists[1].strip()
+        limit = lists[2].strip() or None
+    limit = event.text[-2:].strip()
     to_quote = []
     if limit and limit.isnumeric():
         to_quote.append(reply_message.id)
@@ -23,23 +28,22 @@ async def _(event):
                 to_quote.append(to_qt.id)
     else:
         to_quote.append(reply_message.id)
-    chat = "@QuotLyBot"
-    hell = await eor(event, "```Making a Quote...```")
-    async with event.client.conversation(chat) as conv:
+    async with event.client.conversation("@QuotLyBot") as conv:
         try:
-            first = await conv.send_message(f"/qcolor {colour}")
-            await conv.get_response()
-            await event.client.forward_messages(chat, to_quote, event.chat_id)
+            first = await conv.send_message(f"/qemoji 👻")
+            second = await conv.get_response()
+            third = await conv.send_message(f"/qcolor {colour}")
             fourth = await conv.get_response()
+            await conv.forward_messages(to_quote, event.chat_id)
+            fifth = await conv.get_response()
         except YouBlockedUserError:
-            await hell.edit("Please unblock @QuotLyBot and try again!!")
-            return
+            return await parse_error(hell, "__Unblock @QuotLyBot and try again.__", False)
         await hell.delete()
-        await event.client.send_message(event.chat_id, fourth, reply_to=reply_message)
-    q_d = []
-    async for qdel in event.client.iter_messages(chat, min_id=first.id):
-        q_d.append(first.id)
-        q_d.append(qdel)
+        await event.client.send_message(event.chat_id, fifth, reply_to=reply_message)
+        q_d = []
+        async for qdel in event.client.iter_messages("@QuotLyBot", min_id=first.id):
+            q_d.append(first.id)
+            q_d.append(qdel)
         await event.client.delete_messages(conv.chat_id, q_d)
 
 
