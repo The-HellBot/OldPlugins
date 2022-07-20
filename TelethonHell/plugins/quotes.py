@@ -84,7 +84,7 @@ async def quote_search(event):
     if response is not None:
         await hell.edit(f"`{response['text']}`")
     else:
-        await eod(hell, "`Sorry Zero results found`")
+        await parse_error(hell, "No quote found! Try again later.")
 
 
 CmdHelp("quotes").add_command(
