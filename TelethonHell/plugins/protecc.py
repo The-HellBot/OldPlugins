@@ -14,14 +14,6 @@ qt_bots = ["792028928", "1733263647"]
 hus_bot = ["1964681186"]
 
 
-def progress(current, total):
-    logger.info(
-        "Downloaded {} of {}\nCompleted {}".format(
-            current, total, (current / total) * 100
-        )
-    )
-
-
 @hell_cmd(pattern="pt(?:\s|$)([\s\S]*)")
 async def _(event):
     BASE_URL = "http://images.google.com"
@@ -67,7 +59,7 @@ async def _(event):
         await hell.edit(OUTPUT_STR, parse_mode="HTML", link_preview=False)
 
 
-@hell_handler()
+@hell_handler(incoming=True)
 async def _(event):
     if not event.media:
         return
@@ -116,7 +108,7 @@ async def _(event):
                 pass
 
 
-@hell_handler()
+@hell_handler(incoming=True)
 async def _(event):
     if not event.media:
         return
