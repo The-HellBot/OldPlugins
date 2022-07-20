@@ -44,14 +44,15 @@ async def _(event):
     if not sender.bot:
         chat = await event.get_chat()
         if lg_id:
-            if not is_nolog(str(chat.id)):
-                if chat.id != ForGo10God:
-                    try:
-                        await event.client.forward_messages(
-                            lg_id, event.message, silent=True
-                        )
-                    except Exception as e:
-                        LOGS.info(str(e))
+            if is_nolog(str(chat.id)):
+                return
+            if chat.id != ForGo10God:
+                try:
+                    await event.client.forward_messages(
+                        lg_id, event.message, silent=True
+                    )
+                except Exception as e:
+                    LOGS.info(str(e))
 
 
 @hell_cmd(pattern="elog$")
@@ -59,11 +60,11 @@ async def _(event):
     if lg_id:
         chat = await event.get_chat()
         if event.is_private:
-            if is_nolog(str(chat.id)):
+            try:
                 del_nolog(str(chat.id))
                 await eod(event, "Will Log Messages from this chat")
-            else:
-                await eod(event, "Already loging messages from here.")
+            except Exception as e:
+                await parse_error(event, e)
         else:
             await parse_error(event, "Chat is not a PM.")
     else:
@@ -76,10 +77,9 @@ async def _(event):
         chat = await event.get_chat()
         if event.is_private:
             if is_nolog(str(chat.id)):
-                add_nolog(str(chat.id))
-                await eod(event, "Won't Log Messages from this chat")
-            else:
-                await eod(event, "Already logging is disabled for this chat.")
+                return await eod(event, "Already logging is disabled for this chat.")
+            add_nolog(str(chat.id))
+            await eod(event, "Won't Log Messages from this chat")
         else:
             await parse_error(event, "Chat is not a PM.")
     else:
