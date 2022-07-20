@@ -61,7 +61,7 @@ async def sett(event):
     elif val == "":
         return await parse_error(hell, f"__Invalid Syntax !!__ \n__Try:__ `{hl}svar VARIABLE_NAME variable_value`", False)
     if var not in db_config:
-        return await parse_error(hell, f"__No DB Variable:__ `{var}`. \n__Check spelling or get full list by__ `{hl}vars`", False)
+        return await parse_error(hell, f"__No DB Variable:__ `{var}`. \n__Check spelling or get full list by__ `{hl}vars -db`", False)
     try:
         addgvar(var, val)
     except Exception as e:
@@ -79,13 +79,13 @@ async def gett(event):
     if var == "":
         return await parse_error(hell, f"__Invalid Syntax !!__ \n__Try:__ `{hl}gvar VARIABLE_NAME`", False)
     if var not in db_config:
-        return await parse_error(hell, f"__No DB Variable:__ `{var}`. \n__Check spelling or get full list by__ `{hl}vars`", False)
+        return await parse_error(hell, f"__No DB Variable:__ `{var}`. \n__Check spelling or get full list by__ `{hl}vars -db`", False)
     try:
         db_v = gvarstat(var) or "None"
         os_v = os.environ.get(var) or "None"
     except Exception as e:
         return await parse_error(hell, e)
-    await hell.edit(f"**• OS VARIABLE:** `{var}`\n**» OS VALUE :** `{os_v}`\n------------------\n**• DB VARIABLE:** `{var}`\n**» DB VALUE :** `{db_v}`\n")
+    await hell.edit(f"**• OS VARIABLE:** `{var}`\n**» OS VALUE :** `{os_v}`\n\n**• DB VARIABLE:** `{var}`\n**» DB VALUE :** `{db_v}`\n")
 
 
 @hell_cmd(pattern="dvar(?:\s|$)([\s\S]*)")
@@ -98,7 +98,7 @@ async def dell(event):
     if var == "":
         return await parse_error(hell, f"__Invalid Syntax !!__ \n__Try:__ `{hl}dvar VARIABLE_NAME`", False)
     if var not in db_config:
-        return await parse_error(hell, f"__No DB Variable:__ `{var}`. \n__Check spelling or get full list by__ `{hl}vars`", False)
+        return await parse_error(hell, f"__No DB Variable:__ `{var}`. \n__Check spelling or get full list by__ `{hl}vars -db`", False)
     if gvarstat(var):
         try:
             x = gvarstat(var)
