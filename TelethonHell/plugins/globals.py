@@ -526,7 +526,7 @@ async def endgmute(event):
         await parse_error(hell, e)
 
 
-@hell_handler()
+@hell_handler(incoming=True)
 async def watcher(event):
     if gsql.is_gmuted(event.sender_id, "gmute"):
         await event.delete()
