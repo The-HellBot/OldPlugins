@@ -10,12 +10,6 @@ from telethon.tl.types import Channel, Chat, InputPhoto, User
 
 from . import *
 
-# ====================== CONSTANT ===============================
-INVALID_MEDIA = "⚠️ Targeted Media **Invalid !!**"
-PP_TOO_SMOL = "🖼️ Image size is small. Use a bigger picture."
-PP_ERROR = "🥴 Failure occured while processing image."
-# ===============================================================
-
 
 @hell_cmd(pattern="offline$")
 async def _(event):
@@ -217,9 +211,9 @@ async def remove_profilepic(event):
         lim = int(group)
     else:
         lim = 1
-
+    ForGo10God, _, _ = await client_id(event)
     pfplist = await event.client(
-        GetUserPhotosRequest(user_id=delpfp.sender_id, offset=0, max_id=0, limit=lim)
+        GetUserPhotosRequest(user_id=ForGo10God, offset=0, max_id=0, limit=lim)
     )
     input_photos = []
     for sep in pfplist.photos:
