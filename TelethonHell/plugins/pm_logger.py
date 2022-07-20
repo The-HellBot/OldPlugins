@@ -76,7 +76,7 @@ async def _(event):
     if lg_id:
         chat = await event.get_chat()
         if event.is_private:
-            if not is_nolog(str(chat.id)):
+            if is_nolog(str(chat.id)):
                 return await eod(event, "Already logging is disabled for this chat.")
             add_nolog(str(chat.id))
             await eod(event, "Won't Log Messages from this chat")
