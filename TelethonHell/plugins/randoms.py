@@ -9,7 +9,7 @@ async def _(e):
     await eor(e, txt)
 
 
-@hell_cmd(pattern="hps$")
+@hell_cmd(pattern="hpotter$")
 async def _(e):
     txt = random.choice(HARRY)
     await eor(e, txt)
