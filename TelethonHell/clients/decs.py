@@ -129,7 +129,7 @@ def hell_cmd(
 
 
 def hell_handler(**args):
-    args["func"] = lambda e: e.via_bot_id is None
+#     args["func"] = lambda e: e.via_bot_id is None
     def decorator(func):
         bot.add_event_handler(func, events.NewMessage(**args))
         if H2:
