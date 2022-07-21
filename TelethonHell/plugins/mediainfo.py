@@ -1,4 +1,6 @@
+import asyncio
 import os
+import time
 
 from . import *
 
@@ -19,7 +21,20 @@ async def mediainfo(event):
     elif HELL_MEDIA.startswith(("text")):
         return await parse_error(hell, "Need media files to fetch mediainfo.")
     hel_ = await mediadata(reply)
-    file_path = await reply.download_media(Config.TMP_DOWNLOAD_DIRECTORY)
+    c_time = time.time()
+    file_path = await event.client.download_media(
+        reply,
+        Config.TMP_DOWNLOAD_DIRECTORY,
+        progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
+            progress(
+                d,
+                t,
+                hell,
+                c_time,
+                "Downloading ...",
+            )
+        ),
+    )
     out, err, ret, pid = await runcmd(f"mediainfo '{file_path}'")
     if not out:
         out = "Unknown Format !!"
