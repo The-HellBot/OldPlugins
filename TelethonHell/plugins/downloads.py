@@ -26,7 +26,7 @@ async def _(event):
                 reply,
                 Config.TMP_DOWNLOAD_DIRECTORY,
                 progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
-                    progress(d, t, event, c_time, "Downloading ...")
+                    progress(d, t, hell, c_time, "Downloading ...")
                 ),
             )
         except Exception as e:  # pylint:disable=C0103,W0703
