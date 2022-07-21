@@ -3,6 +3,7 @@ import os
 import requests
 import yt_dlp
 
+from lyricsgenius import Genius
 from telethon.errors.rpcerrorlist import YouBlockedUserError
 from telethon.tl.types import DocumentAttributeAudio
 
@@ -112,9 +113,43 @@ async def vsong(event):
         await parse_error(hell, e)
 
 
-@hell_cmd(pattern="lyrics(?: |$)(.*)")
-async def nope(kraken):
-    # TODO
+@hell_cmd(pattern="lyrics(?:\s|$)([\s\S]*)")
+async def lyrics(event):
+    if not Config.LYRICS_API:
+        return await parse_error(event, "`LYRICS_API` is not configured!", False)
+    lists = event.text.split(" ", 1)
+    if not len(lists) == 2:
+        return await parse_error(event, "Nothing given to search.")
+    _input_ = lists[1].strip()
+    query = _input_.split("-", 1)
+    if len(query) == 2:
+        song = query[0].strip()
+        artist = query[1].strip()
+    else:
+        song = query[0].strip()
+        artist = ""
+    text = f"**Searching lyrics ...** \n\n__Song:__ `{song}`"
+    if artist != "":
+        text += f"\n__Artist:__ `{artist}`"
+    hell = await eor(event, text)
+    client = Genius(Config.LYRICS_API)
+    results = client.search_song(song, artist)
+    if results:
+        result = results.to_dict()
+        title = result['full_title']
+        artist = result['artist_names']
+        image = result['song_art_image_url']
+        lyrics = result['lyrics']
+        final = f"<b><i>• Song:</b></i> <code>{title}</code> \n<b><i>• Artist:</b></i> <code>{artist}</code> \n<b><i>• Lyrics:</b></i> \n<code>{lyrics}</code>"
+        if len(final) >= 4095:
+            page_name = f"{title} by {artist}"
+            to_paste = f"<img src='{image}'/> \n{final} \n<img src='https://telegra.ph/file/2c546060b20dfd7c1ff2d.jpg'/>"
+            await telegraph_paste(page_name, to_paste)
+            await hell.delete()
+        else:
+            await hell.edit(final, parse_mode="HTML")
+    else:
+        await parse_error(hell, "Unexpected Error Occured.")
 
 
 @hell_cmd(pattern="wsong(?:\s|$)([\s\S]*)")
@@ -160,7 +195,7 @@ CmdHelp("songs").add_command(
 ).add_command(
     "wsong", "<reply to a song file>", "Searches for the details of replied mp3 song file and uploads it's details."
 ).add_command(
-    "lyrics", "<song name>", "Gives the lyrics of that song.."
+    "lyrics", "<song - artist>", "Gives the lyrics of that song. Give arists name to get accurate results."
 ).add_command(
     "spotify", "<song name>", "Downloads the song from Spotify."
 ).add_info(
