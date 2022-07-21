@@ -12,10 +12,6 @@ from telethon.tl.types import DocumentAttributeVideo
 
 from . import *
 
-extracted = Config.TMP_DOWNLOAD_DIRECTORY + "extracted/"
-if not os.path.isdir(extracted):
-    os.makedirs(extracted)
-
 
 @hell_cmd(pattern="zip$")
 async def _(event):
@@ -63,7 +59,7 @@ async def _(event):
                 reply_message,
                 Config.TMP_DOWNLOAD_DIRECTORY,
                 progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
-                    progress(d, t, mone, c_time, "trying to download")
+                    progress(d, t, hell, c_time, "Downloading ...")
                 ),
             )
             directory_name = downloaded_file_name
@@ -135,7 +131,7 @@ async def _(event):
                 reply_message,
                 Config.TMP_DOWNLOAD_DIRECTORY,
                 progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
-                    progress(d, t, mone, c_time, "trying to download")
+                    progress(d, t, hell, c_time, "Downloading ...")
                 ),
             )
         except Exception as e:
@@ -188,7 +184,7 @@ async def _(event):
                         reply_to=event.message.id,
                         attributes=document_attributes,
                         progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
-                            progress(d, t, event, c_time, "trying to upload")
+                            progress(d, t, hell, c_time, "Uploading ...")
                         ),
                     )
                     await eod(hell, "DONE!!!")
@@ -209,9 +205,9 @@ async def _(event):
     if not os.path.isdir(Config.TMP_DOWNLOAD_DIRECTORY):
         os.makedirs(Config.TMP_DOWNLOAD_DIRECTORY)
     extracted = Config.TMP_DOWNLOAD_DIRECTORY + "extracted/"
-    thumb_image_path = Config.THUMB_IMG
     if not os.path.isdir(extracted):
         os.makedirs(extracted)
+    thumb_image_path = Config.THUMB_IMG
     if event.reply_to_msg_id:
         start = datetime.datetime.now()
         reply_message = await event.get_reply_message()
@@ -221,7 +217,7 @@ async def _(event):
                 reply_message,
                 Config.TMP_DOWNLOAD_DIRECTORY,
                 progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
-                    progress(d, t, mone, c_time, "trying to download")
+                    progress(d, t, hell, c_time, "Downloading ...")
                 ),
             )
         except Exception as e:
@@ -273,7 +269,7 @@ async def _(event):
                         reply_to=event.message.id,
                         attributes=document_attributes,
                         progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
-                            progress(d, t, event, c_time, "trying to upload")
+                            progress(d, t, hell, c_time, "Uploading ...")
                         ),
                     )
                     await eod(hell, "DONE!!!")
