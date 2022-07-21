@@ -21,23 +21,21 @@ async def download(event):
             return await parse_error(hell, e)
 
         items_list = os.listdir("./insta/dl")
-        count = 0
         if items_list != []:
-            for i in items_list:
-                file = open(f"./insta/dl/{i}", "rb")
-                x = await event.client.send_message(
-                    event.chat_id, 
-                    file=file, 
-                    message=f"📥 InstaGram Post Downloaded By :- {hell_mention}",
+            x = await event.client.send_file(
+                event.chat_id,
+                items_list,
+                caption=f"📥 InstaGram Post Downloaded By :- {hell_mention}",
+                album=True,
+            )
+            if caption:
+                await event.client.send_message(
+                    event.chat_id,
+                    message=caption,
+                    reply_to=x,
                 )
-                if caption:
-                    await event.client.send_message(
-                        event.chat_id,
-                        message=caption,
-                        reply_to=x,
-                    )
-                os.remove(f"./insta/dl/{i}")
-                count += 1
+            count = len(items_list)
+            os.remove("./insta/dl")
             await eod(hell, f"**Downloaded Instagram Post!** \n\n__Total:__ `{count} posts.`")
         else:
             await parse_error(hell, "Unable to upload video! Check LOGS and try again!")
@@ -49,15 +47,15 @@ async def download(event):
             try:
                 await IG_Htag_DL(event, url[1:], 10)
                 items_list = os.listdir("./insta/dl")
-                count = 0
-                for i in items_list:
-                    file = open(f"./insta/dl/{i}", "rb")
+                if items_list != []:
                     await event.client.send_message(
                         event.chat_id, 
-                        file=file,
+                        items_list,
+                        caption=f"📥 InstaGram Post Downloaded By :- {hell_mention}",
+                        album=True,
                     )
-                    os.remove(f"./insta/dl/{i}")
-                    count += 1
+                    count = len(items_list)
+                    os.remove(f"./insta/dl")
                 await hell.edit(f"**Downloaded top posts of** `{url}` \n\n__Total:__ `{count} posts.`")
             except Exception as e:
                 return await parse_error(hell, e)
