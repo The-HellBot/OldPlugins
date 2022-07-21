@@ -61,64 +61,6 @@ async def _(event):
         await eod(event, "Something went wrong. Please try again later.")
 
 
-@hell_cmd(pattern="var(?:\s|$)([\s\S]*)")
-async def _(event):
-    if event.fwd_from:
-        return
-    input_str = event.pattern_match.group(1)
-    sample_url = (
-        "https://da.gd/s?url=https://dashboard.heroku.com/apps/{}/settings".format(
-            input_str.replace(" ", "+")
-        )
-    )
-    response_api = requests.get(sample_url).text
-    if response_api:
-        await eor(
-            event,
-            "Let me **var** that for you:\n👉 [{}]({})\n`Thank me later 😉` ".format(
-                input_str, response_api.rstrip()
-            ),
-        )
-    else:
-        await eod(event, "Something went wrong. Please try again later.")
-
-
-@hell_cmd(pattern="lmlog(?:\s|$)([\s\S]*)")
-async def _(event):
-    input_str = event.pattern_match.group(1)
-    sample_url = "https://da.gd/s?url=https://dashboard.heroku.com/apps/{}/logs".format(
-        input_str.replace(" ", "+")
-    )
-    response_api = requests.get(sample_url).text
-    if response_api:
-        await eor(
-            event,
-            "Let me **log** that for you:\n👉 [{}]({})\n`Thank me later 😉` ".format(
-                input_str, response_api.rstrip()
-            ),
-        )
-    else:
-        await eod(event, "Something went wrong. Please try again later.")
-
-
-@hell_cmd(pattern="hacc(?:\s|$)([\s\S]*)")
-async def _(event):
-    input_str = event.pattern_match.group(1)
-    sample_url = "https://da.gd/s?url=https://dashboard.heroku.com/account/{}".format(
-        input_str.replace(" ", "+")
-    )
-    response_api = requests.get(sample_url).text
-    if response_api:
-        await eor(
-            event,
-            "Let me **Heroku Account** that for you:\n👉 [{}]({})\n`Thank me later 😉` ".format(
-                input_str, response_api.rstrip()
-            ),
-        )
-    else:
-        await eod(event, "Something went wrong. Please try again later.")
-
-
 @hell_cmd(pattern="lmkp(?:\s|$)([\s\S]*)")
 async def _(event):
     input_str = event.pattern_match.group(1)
@@ -179,12 +121,6 @@ CmdHelp("search").add_command(
     "gem", "<query>", "Gives you the link of given query from Government e-Marketplace (gem.gov.in)"
 ).add_command(
     "lmkp", "<query>", "Gives you the link of given query from Indiankanoon.org"
-).add_command(
-    "hacc", None, "Redirects you to your heroku account"
-).add_command(
-    "lmlog", None, "Redirects you to your app's log page"
-).add_command(
-    "var", None, "Redirects you to your app's var section"
 ).add_command(
     "ytube", "<query>", "Gives you the link of given query from youthube"
 ).add_command(
