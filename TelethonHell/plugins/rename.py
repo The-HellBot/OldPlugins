@@ -111,7 +111,7 @@ async def _(event):
                 reply_to=event.message.id,
                 thumb=thumb,
                 progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
-                    progress(d, t, hell, c_time, "Uploading ...", downloaded_file_path)
+                    progress(d, t, hell, c_time, "Uploading ...", downloaded_file_name)
                 ),
             )
             end_two = datetime.datetime.now()
@@ -190,7 +190,7 @@ async def _(event):
                         )
                     ],
                     progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
-                        progress(d, t, hell, c_time, "Uploading ...", downloaded_file_path)
+                        progress(d, t, hell, c_time, "Uploading ...", downloaded_file_name)
                     ),
                 )
             except Exception as e:
