@@ -144,8 +144,8 @@ async def lyrics(event):
         if len(final) >= 4095:
             page_name = f"{title} by {artist}"
             to_paste = f"<img src='{image}'/> \n{final} \n<img src='https://telegra.ph/file/2c546060b20dfd7c1ff2d.jpg'/>"
-            await telegraph_paste(page_name, to_paste)
-            await hell.delete()
+            link = await telegraph_paste(page_name, to_paste)
+            await hell.edit(f"**Lyrics too big! Get it from here:** \n[{title} By {artist}]({link})", link_preview=False)
         else:
             await hell.edit(final, parse_mode="HTML")
     else:
