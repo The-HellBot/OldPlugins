@@ -30,6 +30,7 @@ async def songs(event):
         thumb = requests.get(thumbnail, allow_redirects=True)
         open(thumb_name, 'wb').write(thumb.content)
         views = results[0]["views"]
+        duration = results[0]["duration"]
     except Exception as e:
         return await parse_error(hell, f"__No song found. Maybe give different name or check spelling.__ \n`{str(e)}`", False)
     try:
@@ -42,7 +43,7 @@ async def songs(event):
             event.chat_id,
             audio_file,
             supports_streaming=True,
-            caption=f"**✘ Song -** `{info_dict['title']}` \n**✘ Views -** `{views}` \n**✘ Duration -** `{info_dict['duration']}` \n\n**« ✘ »** {hell_mention}",
+            caption=f"**✘ Song -** `{info_dict['title']}` \n**✘ Views -** `{views}` \n**✘ Duration -** `{duration}` \n\n**« ✘ »** {hell_mention}",
             thumb=thumb_name,
             reply_to=reply,
             attributes=[
@@ -91,6 +92,7 @@ async def vsong(event):
         thumb = requests.get(thumbnail, allow_redirects=True)
         open(thumb_name, 'wb').write(thumb.content)
         views = results[0]["views"]
+        duration = results[0]["duration"]
     except Exception as e:
         return await parse_error(hell, f"__No song found. Maybe give different name or check spelling.__ \n`{str(e)}`", False)
     try:
@@ -102,7 +104,7 @@ async def vsong(event):
             event.chat_id,
             open(file_, "rb"),
             supports_streaming=True,
-            caption=f"**✘ Video -** `{vid_file['title']}` \n**✘ Views -** `{views}` \n**✘ Duration -** `{info_dict['duration']}` \n\n**« ✘ »** {hell_mention}",
+            caption=f"**✘ Video -** `{vid_file['title']}` \n**✘ Views -** `{views}` \n**✘ Duration -** `{duration}` \n\n**« ✘ »** {hell_mention}",
             thumb=thumb_name,
             reply_to=reply,
         )
