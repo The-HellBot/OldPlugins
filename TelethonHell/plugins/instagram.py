@@ -55,7 +55,7 @@ async def download(event):
                 if items_list != []:
                     for single in items_list:
                         try:
-                            await event.client.send_message(
+                            await event.client.send_file(
                                 event.chat_id, 
                                 single,
                                 caption=f"📥 InstaGram Post Downloaded By :- {hell_mention}",
@@ -230,7 +230,7 @@ async def userinfo(event):
         )
         await event.client.send_message(
             event.chat_id,
-            output[:1024], # as 1024 is telegram limit for media captions
+            output[:1024],
             file=image,
             force_document=False,
             parse_mode="HTML",
