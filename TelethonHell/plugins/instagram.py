@@ -21,22 +21,26 @@ async def download(event):
             return await parse_error(hell, e)
 
         items_list = [os.path.join('./insta/dl', file) for file in os.listdir('./insta/dl')]
+        count = 0
         if items_list != []:
-            x = await event.client.send_file(
-                event.chat_id,
-                items_list,
-                caption=f"📥 InstaGram Post Downloaded By :- {hell_mention}",
-                album=True,
-            )
+            for single in items_list:
+                try:
+                    await event.client.send_file(
+                        event.chat_id,
+                        single,
+                        caption=f"📥 InstaGram Post Downloaded By :- {hell_mention}",
+                    )
+                    count += 1
+                except Exception as e:
+                    LOGS.info(str(e))
+                os.remove(single)
             if caption:
                 await event.client.send_message(
                     event.chat_id,
                     message=caption,
-                    reply_to=x,
+                    reply_to=hell,
                 )
-            count = len(items_list)
-            [os.remove(file) for file in items_list]
-            await eod(hell, f"**Downloaded Instagram Post!** \n\n__Total:__ `{count} posts.`")
+            await eor(hell, f"**Downloaded Instagram Post!** \n\n__Total:__ `{count} posts.`")
         else:
             await parse_error(hell, "Unable to upload video! Check LOGS and try again!")
 
@@ -47,15 +51,19 @@ async def download(event):
             try:
                 await IG_Htag_DL(event, url[1:], 10)
                 items_list = [os.path.join('./insta/dl', file) for file in os.listdir('./insta/dl')]
+                count = 0
                 if items_list != []:
-                    await event.client.send_message(
-                        event.chat_id, 
-                        items_list,
-                        caption=f"📥 InstaGram Post Downloaded By :- {hell_mention}",
-                        album=True,
-                    )
-                    count = len(items_list)
-                    [os.remove(file) for file in items_list]
+                    for single in items_list:
+                        try:
+                            await event.client.send_message(
+                                event.chat_id, 
+                                single,
+                                caption=f"📥 InstaGram Post Downloaded By :- {hell_mention}",
+                            )
+                            count += 1
+                        except Exception as e:
+                            LOGS.info(str(e))
+                        os.remove(single)
                 await hell.edit(f"**Downloaded top posts of** `{url}` \n\n__Total:__ `{count} posts.`")
             except Exception as e:
                 return await parse_error(hell, e)
