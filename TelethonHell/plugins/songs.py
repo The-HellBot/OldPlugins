@@ -139,15 +139,14 @@ async def lyrics(event):
     if results:
         result = results.to_dict()
         title = result['full_title']
-        artist = result['artist_names']
         image = result['song_art_image_url']
         lyrics = result['lyrics']
-        final = f"<b><i>• Song:</b></i> <code>{title}</code> \n<b><i>• Artist:</b></i> <code>{artist}</code> \n<b><i>• Lyrics:</b></i> \n<code>{lyrics}</code>"
+        final = f"<b><i>• Song:</b></i> <code>{title}</code> \n<b><i>• Lyrics:</b></i> \n<code>{lyrics}</code>"
         if len(final) >= 4095:
-            page_name = f"{title} by {artist}"
+            page_name = f"{title}"
             to_paste = f"<img src='{image}'/> \n{final} \n<img src='https://telegra.ph/file/2c546060b20dfd7c1ff2d.jpg'/>"
             link = await telegraph_paste(page_name, to_paste)
-            await hell.edit(f"**Lyrics too big! Get it from here:** \n[{title} By {artist}]({link})", link_preview=False)
+            await hell.edit(f"**Lyrics too big! Get it from here:** \n\n• [{title}]({link})", link_preview=False)
         else:
             await hell.edit(final, parse_mode="HTML")
     else:
