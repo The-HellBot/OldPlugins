@@ -47,7 +47,7 @@ async def download(event):
     elif flag.lower() == "-htag":
         # TODO: No.of posts given by user and not default to 10
         if url and url.startswith("#"):
-            await hell.edit(f"IG downloader in action... \n\nUploading top 10 posts of `#{url}`")
+            await hell.edit(f"IG downloader in action... \n\nUploading top 10 posts of `{url}`")
             try:
                 await IG_Htag_DL(event, url[1:], 10)
                 items_list = [os.path.join('./insta/dl', file) for file in os.listdir('./insta/dl')]
