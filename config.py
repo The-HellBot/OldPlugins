@@ -5,22 +5,31 @@ from hellbot.config.hell_config import Config
 
 class Development(Config):
   # get these values from my.telegram.org. 
-  APP_ID = 6    # 6 is a placeholder. Fill your 6 digit api id
-  API_HASH = "eb06d4abfb49dc3eeb1aeb98ae0f581e"   # replace this with your api hash
+  ENV = "ANYTHING"
+
+ABUSE = "ON"
+
+HANDLER = "."
+
+APP_ID = "2791256"
+
+API_HASH = "cd2fb4cdc795334aee3fbbc83da463ce"
+
+BOT_TOKEN = "5006643023:AAFuiTBrxHQWRNAO6i-XKCe0mQ4zlg6RtDM"
+
+HELLBOT_SESSION = ""
 
   # create any PostgreSQL database.
   # I recommend to use elephantsql and paste that link here
-  DB_URI = "Your value"
+  DB_URI = "mongodb+srv://erichdaniken:erichdaniken@cluster0.c13qk.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
 
   # After cloning the repo and installing requirements...
   # Do `python string.py` and fill the on screen prompts.
   # String session will be saved in your saved message of telegram.
   # Put that string here.
-  HELLBOT_SESSION = "Your value"
 
   # Create a bot in @BotFather
   # And fill the following values with bot token and username.
-  BOT_TOKEN = "Your value" #token
 
   # Custom Command Handler. 
   HANDLER = "."
