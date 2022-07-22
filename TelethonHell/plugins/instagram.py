@@ -46,7 +46,7 @@ async def download(event):
             await hell.edit(f"IG downloader in action... \n\nUploading top 10 posts of `#{url}`")
             try:
                 await IG_Htag_DL(event, url[1:], 10)
-                items_list = os.listdir("./insta/dl")
+                items_list = [os.path.join('./insta/dl', file) for file in os.listdir('./insta/dl')]
                 if items_list != []:
                     await event.client.send_message(
                         event.chat_id, 
@@ -55,7 +55,7 @@ async def download(event):
                         album=True,
                     )
                     count = len(items_list)
-                    os.remove(f"./insta/dl")
+                    [os.remove(file) for file in items_list]
                 await hell.edit(f"**Downloaded top posts of** `{url}` \n\n__Total:__ `{count} posts.`")
             except Exception as e:
                 return await parse_error(hell, e)
