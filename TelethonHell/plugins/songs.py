@@ -185,6 +185,7 @@ async def _(event):
 
 @hell_cmd(pattern="spotify(?:\s|$)([\s\S]*)")
 async def _(event):
+    await eor(event, "TO-DO")
     # TODO
 
 
