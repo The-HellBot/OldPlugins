@@ -20,7 +20,7 @@ async def download(event):
         except Exception as e:
             return await parse_error(hell, e)
 
-        items_list = os.listdir("./insta/dl")
+        items_list = [os.path.join('./insta/dl', file) for file in os.listdir('./insta/dl')]
         if items_list != []:
             x = await event.client.send_file(
                 event.chat_id,
@@ -35,7 +35,7 @@ async def download(event):
                     reply_to=x,
                 )
             count = len(items_list)
-            os.remove("./insta/dl")
+            [os.remove(file) for file in items_list]
             await eod(hell, f"**Downloaded Instagram Post!** \n\n__Total:__ `{count} posts.`")
         else:
             await parse_error(hell, "Unable to upload video! Check LOGS and try again!")
