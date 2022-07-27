@@ -9,7 +9,7 @@ async def _(e):
     await eor(e, txt)
 
 
-@hell_cmd(pattern="hps$")
+@hell_cmd(pattern="hpotter$")
 async def _(e):
     txt = random.choice(HARRY)
     await eor(e, txt)
@@ -95,7 +95,7 @@ async def _(e):
 CmdHelp("randoms").add_command(
     "sing", None, "Sings a song"
 ).add_command(
-    "hps", None, "Random harry porter character"
+    "hpotter", None, "Random harry porter character"
 ).add_command(
     "gott", None, "Sends a random thought"
 ).add_command(

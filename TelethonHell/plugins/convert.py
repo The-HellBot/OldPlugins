@@ -10,9 +10,6 @@ from telethon.tl.functions.messages import SendMediaRequest
 
 from . import *
 
-if not os.path.isdir("./temp"):
-    os.makedirs("./temp")
-
 
 @hell_cmd(pattern="stog(?:\s|$)([\s\S]*)")
 async def _(event):
@@ -179,21 +176,17 @@ async def _(hell):
 @hell_cmd(pattern="nfc(?:\s|$)([\s\S]*)")
 async def _(event):
     if not event.reply_to_msg_id:
-        await parse_error(event, "Reply to any media file.")
-        return
+        return await parse_error(event, "Reply to any media file.")
     reply_message = await event.get_reply_message()
     if not reply_message.media:
-        await parse_error(event, "Reply to media file")
-        return
+        return await parse_error(event, "Reply to any media file.")
     input_str = event.pattern_match.group(1)
     if input_str is None:
-        await eod(event, f"Try `{hl}nfc voice` or `{hl}nfc mp3`")
-        return
+        return await eod(event, f"Try `{hl}nfc voice` or `{hl}nfc mp3`")
     if input_str in ["mp3", "voice"]:
-        event = await eor(event, "converting...")
+        hell = await eor(event, "Converting ...")
     else:
-        await eod(event, f"Try `{hl}nfc voice` or `{hl}nfc mp3`")
-        return
+        return await eod(event, f"Try `{hl}nfc voice` or `{hl}nfc mp3`")
     try:
         start = datetime.datetime.now()
         c_time = time.time()
@@ -201,17 +194,15 @@ async def _(event):
             reply_message,
             Config.TMP_DOWNLOAD_DIRECTORY,
             progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
-                progress(d, t, event, c_time, "Downloading ...")
+                progress(d, t, hell, c_time, "Downloading ...")
             ),
         )
     except Exception as e:
-        await event.edit(str(e))
+        await parse_error(hell, e)
     else:
         end = datetime.datetime.now()
         ms = (end - start).seconds
-        await eor(
-            event, "Downloaded to `{}` in {} seconds.".format(downloaded_file_name, ms)
-        )
+        await hell.edit(f"__Downloaded:__ `{downloaded_file_name}` \n__Time taken:__ `{ms} seconds`")
         new_required_file_name = ""
         new_required_file_caption = ""
         command_to_run = []
@@ -253,10 +244,9 @@ async def _(event):
             voice_note = False
             supports_streaming = True
         else:
-            await parse_error(event, "Not supported")
+            await parse_error(hell, "Not supported")
             os.remove(downloaded_file_name)
             return
-        logger.info(command_to_run)
         process = await asyncio.create_subprocess_exec(
             *command_to_run,
             stdout=asyncio.subprocess.PIPE,
@@ -277,7 +267,7 @@ async def _(event):
                 voice_note=voice_note,
                 supports_streaming=supports_streaming,
                 progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
-                    progress(d, t, event, c_time, "Uploading ...")
+                    progress(d, t, hell, c_time, "Uploading ...")
                 ),
             )
             os.remove(new_required_file_name)

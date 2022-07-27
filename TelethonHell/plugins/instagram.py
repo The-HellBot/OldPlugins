@@ -20,44 +20,50 @@ async def download(event):
         except Exception as e:
             return await parse_error(hell, e)
 
-        items_list = os.listdir("./insta/dl")
+        items_list = [os.path.join('./insta/dl', file) for file in os.listdir('./insta/dl')]
         count = 0
         if items_list != []:
-            for i in items_list:
-                file = open(f"./insta/dl/{i}", "rb")
-                x = await event.client.send_message(
-                    event.chat_id, 
-                    file=file, 
-                    message=f"📥 InstaGram Post Downloaded By :- {hell_mention}",
-                )
-                if caption:
-                    await event.client.send_message(
+            for single in items_list:
+                try:
+                    await event.client.send_file(
                         event.chat_id,
-                        message=caption,
-                        reply_to=x,
+                        single,
+                        caption=f"📥 InstaGram Post Downloaded By :- {hell_mention}",
                     )
-                os.remove(f"./insta/dl/{i}")
-                count += 1
-            await eod(hell, f"**Downloaded Instagram Post!** \n\n__Total:__ `{count} posts.`")
+                    count += 1
+                except Exception as e:
+                    LOGS.info(str(e))
+                os.remove(single)
+            if caption:
+                await event.client.send_message(
+                    event.chat_id,
+                    message=caption,
+                    reply_to=hell,
+                )
+            await eor(hell, f"**Downloaded Instagram Post!** \n\n__Total:__ `{count} posts.`")
         else:
             await parse_error(hell, "Unable to upload video! Check LOGS and try again!")
 
     elif flag.lower() == "-htag":
         # TODO: No.of posts given by user and not default to 10
         if url and url.startswith("#"):
-            await hell.edit(f"IG downloader in action... \n\nUploading top 10 posts of `#{url}`")
+            await hell.edit(f"IG downloader in action... \n\nUploading top 10 posts of `{url}`")
             try:
                 await IG_Htag_DL(event, url[1:], 10)
-                items_list = os.listdir("./insta/dl")
+                items_list = [os.path.join('./insta/dl', file) for file in os.listdir('./insta/dl')]
                 count = 0
-                for i in items_list:
-                    file = open(f"./insta/dl/{i}", "rb")
-                    await event.client.send_message(
-                        event.chat_id, 
-                        file=file,
-                    )
-                    os.remove(f"./insta/dl/{i}")
-                    count += 1
+                if items_list != []:
+                    for single in items_list:
+                        try:
+                            await event.client.send_file(
+                                event.chat_id, 
+                                single,
+                                caption=f"📥 InstaGram Post Downloaded By :- {hell_mention}",
+                            )
+                            count += 1
+                        except Exception as e:
+                            LOGS.info(str(e))
+                        os.remove(single)
                 await hell.edit(f"**Downloaded top posts of** `{url}` \n\n__Total:__ `{count} posts.`")
             except Exception as e:
                 return await parse_error(hell, e)
@@ -224,7 +230,7 @@ async def userinfo(event):
         )
         await event.client.send_message(
             event.chat_id,
-            output[:1024], # as 1024 is telegram limit for media captions
+            output[:1024],
             file=image,
             force_document=False,
             parse_mode="HTML",

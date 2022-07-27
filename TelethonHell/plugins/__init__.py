@@ -6,7 +6,7 @@ from TelethonHell import *
 from TelethonHell.clients import *
 from TelethonHell.DB.gvar_sql import gvarstat
 from TelethonHell.helpers import *
-from TelethonHell.random_strings import *
+from TelethonHell.strings import *
 from TelethonHell.utils import *
 from TelethonHell.version import __hellver__, __telever__
 
@@ -65,6 +65,5 @@ WELCOME_FORMAT = """**Use these fomats in your welcome note to make them attract
   {my_mention} : To mention myself
   {my_username} : To use my username
 """
-# will add more soon
 
 # TelethonHell

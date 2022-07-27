@@ -3,6 +3,7 @@ import os
 import requests
 import yt_dlp
 
+from lyricsgenius import Genius
 from telethon.errors.rpcerrorlist import YouBlockedUserError
 from telethon.tl.types import DocumentAttributeAudio
 
@@ -12,24 +13,26 @@ from . import *
 @hell_cmd(pattern="song(?:\s|$)([\s\S]*)")
 async def songs(event):
     ForGo10God, HELL_USER, hell_mention = await client_id(event)
-    query = event.text[6:]
+    lists = event.text.split(" ", 1)
+    if len(lists) != 2:
+        return await parse_error(event, "Nothing given to search.")
     reply = await event.get_reply_message()
+    query = lists[1].strip()
     if not query:
-        return await eod(event, "Give something to search and download 😑")
+        return await parse_error(event, "Nothing given to search.")
     hell = await eor(event, f"<b><i>Searching “ {query} ”</i></b>", parse_mode="HTML")
     ydl_opts = {"format": "bestaudio[ext=m4a]"}
     try:
         results = Hell_YTS(query, max_results=1).to_dict()
         link = f"https://youtube.com{results[0]['url_suffix']}"
-        title = results[0]["title"]
         thumbnail = results[0]["thumbnails"][0]
         thumb_name = f'thumb{ForGo10God}.jpg'
         thumb = requests.get(thumbnail, allow_redirects=True)
         open(thumb_name, 'wb').write(thumb.content)
-        duration = results[0]["duration"]
         views = results[0]["views"]
+        duration = results[0]["duration"]
     except Exception as e:
-        return await eod(hell, f"<b><i>ERROR !!</b></i> \n\n<i>No song found. Maybe give different name or check spelling.</i> \n\n<code>{str(e)}</code>", parse_mode="HTML")
+        return await parse_error(hell, f"__No song found. Maybe give different name or check spelling.__ \n`{str(e)}`", False)
     try:
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             info_dict = ydl.extract_info(link, download=False)
@@ -40,7 +43,7 @@ async def songs(event):
             event.chat_id,
             audio_file,
             supports_streaming=True,
-            caption=f"**✘ Song -** `{title}` \n**✘ Views -** `{views}` \n**✘ Duration -** `{duration}` \n\n**« ✘ »** {hell_mention}",
+            caption=f"**✘ Song -** `{info_dict['title']}` \n**✘ Views -** `{views}` \n**✘ Duration -** `{duration}` \n\n**« ✘ »** {hell_mention}",
             thumb=thumb_name,
             reply_to=reply,
             attributes=[
@@ -55,16 +58,19 @@ async def songs(event):
         os.remove(audio_file)
         os.remove(thumb_name)
     except Exception as e:
-        await eod(hell, str(e))
+        await parse_error(hell, e)
 
 
 @hell_cmd(pattern="vsong(?:\s|$)([\s\S]*)")
 async def vsong(event):
     ForGo10God, HELL_USER, hell_mention = await client_id(event)
-    query = event.text[7:]
+    lists = event.text.split(" ", 1)
+    if len(lists) != 2:
+        return await parse_error(event, "Nothing given to search.")
     reply = await event.get_reply_message()
+    query = lists[1].strip()
     if not query:
-        return await eod(event, "Give something to search and download 😑")
+        return await parse_error(event, "Nothing given to search.")
     hell = await eor(event, f"<b><i>Searching “ {query} ”</i></b>", parse_mode="HTML")
     ydl_opts = {
         "format": "best",
@@ -81,15 +87,14 @@ async def vsong(event):
     try:
         results = Hell_YTS(query, max_results=1).to_dict()
         link = f"https://youtube.com{results[0]['url_suffix']}"
-        title = results[0]["title"][:40]
         thumbnail = results[0]["thumbnails"][0]
         thumb_name = f'thumb{ForGo10God}.jpg'
         thumb = requests.get(thumbnail, allow_redirects=True)
         open(thumb_name, 'wb').write(thumb.content)
-        duration = results[0]["duration"]
         views = results[0]["views"]
+        duration = results[0]["duration"]
     except Exception as e:
-        return await eod(hell, f"<b><i>ERROR !!</b></i> \n\n<i>No song found. Maybe give different name or check spelling.</i> \n\n<code>{str(e)}</code>", parse_mode="HTML")
+        return await parse_error(hell, f"__No song found. Maybe give different name or check spelling.__ \n`{str(e)}`", False)
     try:
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             vid_file = ydl.extract_info(link, download=True)
@@ -99,7 +104,7 @@ async def vsong(event):
             event.chat_id,
             open(file_, "rb"),
             supports_streaming=True,
-            caption=f"**✘ Video -** `{title}` \n**✘ Views -** `{views}` \n**✘ Duration -** `{duration}` \n\n**« ✘ »** {hell_mention}",
+            caption=f"**✘ Video -** `{vid_file['title']}` \n**✘ Views -** `{views}` \n**✘ Duration -** `{duration}` \n\n**« ✘ »** {hell_mention}",
             thumb=thumb_name,
             reply_to=reply,
         )
@@ -107,53 +112,45 @@ async def vsong(event):
         os.remove(file_)
         os.remove(thumb_name)
     except Exception as e:
-        await eod(hell, str(e))
+        await parse_error(hell, e)
 
 
-@hell_cmd(pattern="lyrics(?: |$)(.*)")
-async def nope(kraken):
-    hell = kraken.text[8:]
-    uwu = await eor(kraken, f"Searching lyrics for  `{hell}` ...")
-    if not hell:
-        if kraken.is_reply:
-            (await kraken.get_reply_message()).message
-        else:
-            await eod(uwu, "Give song name to get lyrics...")
-            return
-    try:
-        troll = await event.client.inline_query("iLyricsBot", f"{(deEmojify(hell))}")
-        owo = await troll[0].click(Config.LOGGER_ID)
-        await asyncio.sleep(3)
-        owo_id = owo.id
-        lyri = await event.client.get_messages(entity=Config.LOGGER_ID, ids=owo_id)
-        await event.client.send_message(kraken.chat_id, lyri)
-        await uwu.delete()
-        await owo.delete()
-    except Exception as e:
-        await uwu.edir(f"**ERROR !!** \n\n`{str(e)}`")
-
-
-@hell_cmd(pattern="lsong(?:\s|$)([\s\S]*)")
-async def _(event):
-    hell_ = event.text[6:]
-    xyz = await client_id(event)
-    ForGo10God, hell_mention = xyz[0], xyz[2]
-    if hell_ == "":
-        return await eor(event, "Give a song name to search")
-    hell = await eor(event, f"Searching song `{hell_}`")
-    somg = await event.client.inline_query("Lybot", f"{(deEmojify(hell_))}")
-    if somg:
-        fak = await somg[0].click(Config.LOGGER_ID)
-        if fak:
-            await event.client.send_file(
-                event.chat_id,
-                file=fak,
-                caption=f"**Song by :** {hell_mention}",
-            )
-        await hell.delete()
-        await fak.delete()
+@hell_cmd(pattern="lyrics(?:\s|$)([\s\S]*)")
+async def lyrics(event):
+    if not Config.LYRICS_API:
+        return await parse_error(event, "`LYRICS_API` is not configured!", False)
+    lists = event.text.split(" ", 1)
+    if not len(lists) == 2:
+        return await parse_error(event, "Nothing given to search.")
+    _input_ = lists[1].strip()
+    query = _input_.split("-", 1)
+    if len(query) == 2:
+        song = query[0].strip()
+        artist = query[1].strip()
     else:
-        await hell.edit("**ERROR 404 :** __NOT FOUND__")
+        song = query[0].strip()
+        artist = ""
+    text = f"**Searching lyrics ...** \n\n__Song:__ `{song}`"
+    if artist != "":
+        text += f"\n__Artist:__ `{artist}`"
+    hell = await eor(event, text)
+    client = Genius(Config.LYRICS_API)
+    results = client.search_song(song, artist)
+    if results:
+        result = results.to_dict()
+        title = result['full_title']
+        image = result['song_art_image_url']
+        lyrics = result['lyrics']
+        final = f"<b><i>• Song:</b></i> <code>{title}</code> \n<b><i>• Lyrics:</b></i> \n<code>{lyrics}</code>"
+        if len(final) >= 4095:
+            page_name = f"{title}"
+            to_paste = f"<img src='{image}'/> \n{final} \n<img src='https://telegra.ph/file/2c546060b20dfd7c1ff2d.jpg'/>"
+            link = await telegraph_paste(page_name, to_paste)
+            await hell.edit(f"**Lyrics too big! Get it from here:** \n\n• [{title}]({link})", link_preview=False)
+        else:
+            await hell.edit(final, parse_mode="HTML")
+    else:
+        await parse_error(hell, "Unexpected Error Occured.")
 
 
 @hell_cmd(pattern="wsong(?:\s|$)([\s\S]*)")
@@ -189,34 +186,8 @@ async def _(event):
 
 @hell_cmd(pattern="spotify(?:\s|$)([\s\S]*)")
 async def _(event):
-    text = event.text[9:]
-    chat = "@spotifysavebot"
-    if text == "":
-        return await eod(event, "Give something to download from Spotify.")
-    hell = await eor(event, f"**Trying to download** `{text}` **from Spotify...**")
-    async with event.client.conversation(chat) as conv:
-        try:
-            first = await conv.send_message("/start")
-            second = await conv.get_response()
-            somg = await event.client.inline_query(
-                "spotifysavebot", f"str: {(deEmojify(text))}"
-            )
-            if somg:
-                third = await somg[0].click(chat)
-            else:
-                return await eod(hell, "**ERROR !!** __404 : NOT FOUND__")
-            fourth = await conv.get_response()
-            fifth = await conv.get_response()
-            await event.client.send_read_acknowledge(conv.chat_id)
-        except YouBlockedUserError:
-            return await eod(hell, f"Please unblock {chat} to use Spotify module.")
-        except Exception as e:
-            return await eod(hell, f"**ERROR !!** \n\n{e}")
-        await event.client.send_file(event.chat_id, file=fourth, caption="")
-        await hell.delete()
-        await event.client.delete_messages(
-            conv.chat_id, [first.id, second.id, third.id, fourth.id, fifth.id]
-        )
+    await eor(event, "TO-DO")
+    # TODO
 
 
 CmdHelp("songs").add_command(
@@ -224,11 +195,9 @@ CmdHelp("songs").add_command(
 ).add_command(
     "vsong", "<song name>", "Downloads the Video Song from YouTube."
 ).add_command(
-    "lsong", "<song name>", "Sends the searched song in current chat.", "lsong Alone"
-).add_command(
     "wsong", "<reply to a song file>", "Searches for the details of replied mp3 song file and uploads it's details."
 ).add_command(
-    "lyrics", "<song name>", "Gives the lyrics of that song.."
+    "lyrics", "<song - artist>", "Gives the lyrics of that song. Give arists name to get accurate results."
 ).add_command(
     "spotify", "<song name>", "Downloads the song from Spotify."
 ).add_info(

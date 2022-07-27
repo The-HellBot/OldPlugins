@@ -58,10 +58,7 @@ async def add_snip(event):
         )
         cht_id = cht_o.id
     elif cht:
-        return await eod(
-            event,
-            f"**ERROR** \nReply to a message with `{hl}snip <trigger>` to add snips...",
-        )
+        return await parse_error(event, f"Nothing given to add in snip.")
     if not cht:
         if stri:
             await event.client.send_message(
@@ -80,7 +77,7 @@ async def add_snip(event):
     if sq.add_note(trigger, stri, cht_id) is False:
         sq.rm_note(trigger)
         if sq.add_note(trigger, stri, cht_id) is False:
-            return await edit_or_reply(event, f"Error Adding Snip..")
+            return await eod(event, f"Error Adding Snip..")
         return await eor(event, success.format("updated", trigger))
     return await eor(event, success.format("added", trigger))
 
@@ -90,19 +87,18 @@ async def _(event):
     Config.LOGGER_ID
     input_str = (event.pattern_match.group(1)).lower()
     if not input_str:
-        return await eod(e, "I need a snip name to remove...")
+        return await eod(event, "I need a snip name to remove...")
     if input_str.startswith("#"):
         input_str = input_str.replace("#", "")
     try:
         sq.rm_note(input_str)
-        await eor(event, "Removed  `#{}`  from snips..".format(input_str))
+        await eod(event, "Removed  `#{}`  from snips..".format(input_str))
     except:
-        await eor(event, "No snip saved with this trigger.")
+        await eod(event, "No snip saved with this trigger.")
 
 
 @hell_cmd(pattern="listsnip$")
 async def lsnote(event):
-    Config.LOGGER_ID
     all_snips = sq.get_notes()
     OUT_STR = "Available Snips:\n"
     if len(all_snips) > 0:

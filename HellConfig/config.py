@@ -43,6 +43,7 @@ class Config(object):
     LOGGER_ID = os.environ.get("LOGGER_ID", None)
     if LOGGER_ID:
         LOGGER_ID = int(LOGGER_ID)
+    LYRICS_API = os.environ.get("LYRICS_API", None)
     MAX_MESSAGE_SIZE_LIMIT = 4095
     MAX_SPAM = int(os.environ.get("MAX_SPAM", 3))
     MY_CHANNEL = os.environ.get("YOUR_CHANNEL", "Its_HellBot")
