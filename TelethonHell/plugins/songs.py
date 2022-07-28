@@ -186,6 +186,7 @@ async def _(event):
 
 @hell_cmd(pattern="spotify(?:\s|$)([\s\S]*)")
 async def _(event):
+    _, _, hell_mention = await client_id(event)
     reply = await event.get_reply_message()
     dirs = "./spotify/"
     lists = event.text.split(" ", 1)
