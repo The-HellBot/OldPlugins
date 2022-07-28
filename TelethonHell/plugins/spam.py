@@ -112,7 +112,7 @@ async def spamend(event):
         Spam.spam = False
         await eod(event, "**Spam Terminated !!**")
     else:
-        awair eod(event, "**Nothing is spamming !!**")
+        await eod(event, "**Nothing is spamming !!**")
 
 
 CmdHelp("spam").add_command(
