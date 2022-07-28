@@ -15,36 +15,44 @@ async def spam(event, msg, count, reply_to, delay, bspam, uspam, media):
     chat = (await event.get_chat()).title
     if media:
         what = "MEDIA_SPAM"
-        while Spam.spam == True:
-            for i in range(count):
+        for i in range(count):
+            if Spam.spam == True:
                 await event.client.send_file(event.chat_id, media)
+            else:
+                break
     elif uspam:
         what = "UNLIMITED_SPAM"
         while Spam.spam == True:
             await event.client.send_message(event.chat_id, msg, reply_to=reply_to)
-        count = "∞"
+            count += 1
     elif bspam:
         what = "BREAK_SPAM"
         x = int(count % 100)
         y = int((count - x) / 100)
         a = 30
-        while Spam.spam == True:
-            for i in range(y):
-                for j in range(100):
+        for i in range(y):
+            for j in range(100):
+                if Spam.spam == True:
                     await event.client.send_message(event.chat_id, msg, reply_to=reply_to)
-                a += 2
-                await asyncio.sleep(a)
+                    a += 2
+                    await asyncio.sleep(a)
+                else:
+                    break
     elif delay:
         what = "DELAY_SPAM"
-        while Spam.spam == True:
-            for i in range(count):
+        for i in range(count):
+            if Spam.spam == True:
                 await event.client.send_message(event.chat_id, msg, reply_to=reply_to)
                 await asyncio.sleep(delay)
+            else:
+                break
     else:
         what = "SPAM"
-        while Spam.spam == True:
-            for i in range(count):
+        for i in range(count):
+            if Spam.spam == True:
                 await event.client.send_message(event.chat_id, msg, reply_to=reply_to)
+            else:
+                break
 
     await event.client.send_message(
         Config.LOGGER_ID,
@@ -79,7 +87,7 @@ async def uspam(event):
     hell = event.text[7:]
     msg = hell or reply_to
     Spam.spam = True
-    await spam(event, msg, 69, reply_to, None, None, True, None)
+    await spam(event, msg, 0, reply_to, None, None, True, None)
 
 
 # Special Break Spam Module For HellBot Made By Chirag Bhargava.
