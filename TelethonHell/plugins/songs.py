@@ -1,6 +1,7 @@
 import asyncio
 import os
 import requests
+import shutil
 import yt_dlp
 
 from lyricsgenius import Genius
@@ -209,9 +210,13 @@ async def _(event):
                 reply_to=reply,
                 supports_streaming=True,
             )
-            os.remove(music)
         except Exception as e:
             LOGS.info(str(e))
+    try:
+        shutil.rmtree('spotify')
+        os.remove('.spotdl-cache')
+    except:
+        pass
     await hell.delete()
 
 
