@@ -238,8 +238,11 @@ async def kang(event):
 
     await tbot.send_message(
         Config.LOGGER_ID,
-        f"#KANG #STICKER \n\nA sticker has been kanged into the pack of {hell_mention}. Click below to see the pack!",
-        buttons=[[Button.url("View Pack", f"t.me/addstickers/{packname}")]],
+        f"#KANG #STICKER \n\nA sticker has been kanged into the pack of {HELL_USER}. Click below to see the pack!",
+        buttons=[
+          [Button.url("View Pack", f"t.me/addstickers/{packname}")],
+          [Button.url(HELL_USER, f"tg://user?id={ForGo10God}")],
+        ],
         parse_mode=None,
     )
     await eod(
