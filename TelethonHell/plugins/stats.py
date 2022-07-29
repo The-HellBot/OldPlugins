@@ -50,7 +50,7 @@ async def stats(event):
         unread += dialog.unread_count
     stop_time = time.time() - start_time
     ForGo10God, HELL_USER, _ = await client_id(event)
-    hell_mention = f"<a href='tg://user?id={FotGo10God}'>{HELL_USER}</a>"
+    hell_mention = f"<a href='tg://user?id={ForGo10God}'>{HELL_USER}</a>"
     response = f"<b><i><u>♛ Stats for {hell_mention} ♛</b></i></u>\n\n"
     response += f"<b>◈ Private Chats:</b> <code>{private_chats}</code> \n"
     response += f"    <i>○ Users:</i> <code>{private_chats - bots}</code> \n"
