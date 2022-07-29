@@ -65,7 +65,7 @@ async def stats(event):
     response += f"<b>◈ Unread:</b> <code>{unread}</code> \n"
     response += f"<b>◈ Unread Mentions:</b> <code>{unread_mentions}</code> \n\n"
     response += f"<b><i>⊶ Time Taken: {stop_time:.02f}s ⊷</b></i> \n"
-    await hell.edit(response)
+    await hell.edit(response, parse_mode="HTML", link_preview=False)
 
 
 CmdHelp("stats").add_command(
