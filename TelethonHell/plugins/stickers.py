@@ -235,7 +235,8 @@ async def kang(event):
             await event.client.send_read_acknowledge(conv.chat_id)
             if is_vid and os.path.exists("./VideoSticker.webm"):
                 os.remove("VideoSticker.webm")
-
+    Sticker.emoji = "🍀" # reset
+    Sticker.pack = 1
     await tbot.send_message(
         Config.LOGGER_ID,
         f"#KANG #STICKER \n\nA sticker has been kanged into the pack of {HELL_USER}. Click below to see the pack!",
