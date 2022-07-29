@@ -16,9 +16,9 @@ from . import *
 async def upload(event):
     hell = await eor(event, "Uploader in action ...")
     reply = await event.get_reply_message()
-    lists = event.text.split(" ", 2)
-    if not len(lists) >= 2:
-        return await eod(hell, f"**WRONG SYNTAX !!** \n\n`{hl}upload <path>`")
+    lists = event.text.split(" ", 1)
+    if not len(lists) == 2:
+        return await parse_error(hell, "Upload path not given.")
     file_path = lists[1]
     if file_path in INVALID_UPLOAD:
         return await eod(hell, "For security reasons this file is prohibited for uploading.")
@@ -43,9 +43,9 @@ async def upload(event):
 async def uploadir(event):
     hell = await eor(event, "Uploader in action ...")
     reply = await event.get_reply_message()
-    lists = event.text.split(" ", 2)
-    if not len(lists) >= 2:
-        return await eod(hell, f"**WRONG SYNTAX !!** \n\n`{hl}uploadir <directory path>`")
+    lists = event.text.split(" ", 1)
+    if not len(lists) == 2:
+        return await parse_error(hell, "Upload path not given.")
     file_path = lists[1]
     if os.path.exists(file_path):
         lst_of_files = []
@@ -118,10 +118,10 @@ async def uploadir(event):
 async def uploadas(event):
     hell = await eor(event, "Uploader in action ...")
     reply = await event.get_reply_message()
-    lists = event.text.split(" ", 3)
-    if not len(lists) >= 3:
-        return await eod(hell, f"**WRONG SYNTAX:** \n\n`{hl}uploadas <stm/vnr/all> <path>`")
-    type_of_upload = lists[1]
+    lists = event.text.split(" ", 2)
+    if not len(lists) == 3:
+        return await parse_error(hell, "Upload path or upload type not given.")
+    type_of_upload = lists[1].strip()
     supports_streaming = False
     round_message = False
     spam_big_messages = False
@@ -206,11 +206,11 @@ async def uploadas(event):
 @hell_cmd(pattern="webup(?:\s|$)([\s\S]*)")
 async def labstack(event):
     hell = await eor(event, "Uploader in action ...")
-    lists = event.text.split(" ", 2)
+    lists = event.text.split(" ", 1)
     reply = await event.get_reply_message()
     if reply:
         filebase = await event.client.download_media(reply.media, Config.TMP_DOWNLOAD_DIRECTORY)
-    elif len(lists) >= 2:
+    elif len(lists) == 2:
         filebase = lists[1]
     else:
         return await eod(hell, f"**WRONG SYNTAX:** \n\n`{hl}webup <path or reply>`")

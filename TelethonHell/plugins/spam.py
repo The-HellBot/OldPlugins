@@ -1,7 +1,14 @@
 import asyncio
 
-from TelethonHell.DB.gvar_sql import addgvar, delgvar, gvarstat
 from . import *
+
+
+class SPAM:
+    def __init__(self):
+        self.spam = False
+        self.chat = None
+
+Spam = SPAM()
 
 
 async def spam(event, msg, count, reply_to, delay, bspam, uspam, media):
@@ -9,17 +16,15 @@ async def spam(event, msg, count, reply_to, delay, bspam, uspam, media):
     if media:
         what = "MEDIA_SPAM"
         for i in range(count):
-            if not gvarstat("SPAM"):
-                return
-            await event.client.send_file(event.chat_id, media)
+            if Spam.spam == True:
+                await event.client.send_file(event.chat_id, media)
+            else:
+                break
     elif uspam:
         what = "UNLIMITED_SPAM"
-        while count == 69:
-            if not gvarstat("SPAM"):
-                count += 1
-                continue
+        while Spam.spam == True:
             await event.client.send_message(event.chat_id, msg, reply_to=reply_to)
-        count = "∞"
+            count += 1
     elif bspam:
         what = "BREAK_SPAM"
         x = int(count % 100)
@@ -27,28 +32,32 @@ async def spam(event, msg, count, reply_to, delay, bspam, uspam, media):
         a = 30
         for i in range(y):
             for j in range(100):
-                if not gvarstat("SPAM"):
-                    return
-                await event.client.send_message(event.chat_id, msg, reply_to=reply_to)
-            a += 2
-            await asyncio.sleep(a)
+                if Spam.spam == True:
+                    await event.client.send_message(event.chat_id, msg, reply_to=reply_to)
+                    a += 2
+                    await asyncio.sleep(a)
+                else:
+                    break
     elif delay:
         what = "DELAY_SPAM"
         for i in range(count):
-            if not gvarstat("SPAM"):
-                return
-            await event.client.send_message(event.chat_id, msg, reply_to=reply_to)
-            await asyncio.sleep(delay)
+            if Spam.spam == True:
+                await event.client.send_message(event.chat_id, msg, reply_to=reply_to)
+                await asyncio.sleep(delay)
+            else:
+                break
     else:
         what = "SPAM"
         for i in range(count):
-            if not gvarstat("SPAM"):
-                return
-            await event.client.send_message(event.chat_id, msg, reply_to=reply_to)
+            if Spam.spam == True:
+                await event.client.send_message(event.chat_id, msg, reply_to=reply_to)
+            else:
+                break
 
     await event.client.send_message(
         Config.LOGGER_ID,
-        f"#{what} \n\n**Spammed** `{count}` **messages in** {chat}")
+        f"#{what} \n\n**Spammed** `{count}` **messages in** {chat}",
+    )
 
 
 @hell_cmd(pattern="spam(?:\s|$)([\s\S]*)")
@@ -57,7 +66,7 @@ async def spammer(event):
     hell = event.text[6:]
     count = int(hell.split(" ", 1)[0])
     msg = str(hell.split(" ", 1)[1]) or reply_to
-    addgvar("SPAM", "True")
+    Spam.spam = True
     await spam(event, msg, count, reply_to, None, None, None, None)
 
 
@@ -68,7 +77,7 @@ async def dspam(event):
     delay = int(hell.split(" ", 2)[0])
     count = int(hell.split(" ", 2)[1])
     msg = str(hell.split(" ", 2)[2]) or reply_to
-    addgvar("SPAM", "True")
+    Spam.spam = True
     await spam(event, msg, count, reply_to, delay, None, None, None)
 
 
@@ -77,8 +86,8 @@ async def uspam(event):
     reply_to = await event.get_reply_message()
     hell = event.text[7:]
     msg = hell or reply_to
-    addgvar("SPAM", "True")
-    await spam(event, msg, 69, reply_to, None, None, True, None)
+    Spam.spam = True
+    await spam(event, msg, 0, reply_to, None, None, True, None)
 
 
 # Special Break Spam Module For HellBot Made By Chirag Bhargava.
@@ -89,7 +98,7 @@ async def bspam(event):
     hell = event.text[7:]
     count = int(hell.split(" ", 1)[0])
     msg = str(hell.split(" ", 1)[1]) or reply_to
-    addgvar("SPAM", "True")
+    Spam.spam = True
     await spam(event, msg, count, reply_to, None, True, None, None)
 
 
@@ -101,17 +110,17 @@ async def mspam(event):
     if not reply_to and not reply_to.media:
         return await eod(event, "Reply to a pic/gif/video/sticker to spam.")
     media = reply_to.media
-    addgvar("SPAM", "True")
+    Spam.spam = True
     await spam(event, None, count, reply_to, None, None, None, media)
 
 
 @hell_cmd(pattern="endspam$")
 async def spamend(event):
-    if gvarstat("SPAM"):
-        delgvar("SPAM")
-        await eod(event, "Spam Terminated !!")
+    if Spam.spam == True:
+        Spam.spam = False
+        await eod(event, "**Spam Terminated !!**")
     else:
-        await eod(event, "Nothing is spamming!!")
+        await eod(event, "**Nothing is spamming !!**")
 
 
 CmdHelp("spam").add_command(

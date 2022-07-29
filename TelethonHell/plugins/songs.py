@@ -1,6 +1,7 @@
 import asyncio
 import os
 import requests
+import shutil
 import yt_dlp
 
 from lyricsgenius import Genius
@@ -186,8 +187,37 @@ async def _(event):
 
 @hell_cmd(pattern="spotify(?:\s|$)([\s\S]*)")
 async def _(event):
-    await eor(event, "TO-DO")
-    # TODO
+    _, _, hell_mention = await client_id(event)
+    reply = await event.get_reply_message()
+    dirs = "./spotify/"
+    lists = event.text.split(" ", 1)
+    if not len(lists) == 2:
+        return await parse_error(event, "Nothing given to search on spotify.")
+    query = lists[1].strip()
+    hell = await eor(event, f"__Downloading__ `{query}` __from spotify ...__")
+    cmd = f"spotdl '{query}' --path-template 'spotify" + "/{artist}/{album}/{artist} - {title}.{ext}'"
+    await runcmd(cmd)
+    art_list = os.listdir(dirs)
+    dldirs = [i async for i in absolute_paths(dirs)]
+    if len(dldirs) == 0:
+        return await eod(hell, "Not found anything related to that.")
+    for music in dldirs:
+        try:
+            await event.client.send_file(
+                event.chat_id,
+                file=music,
+                caption=f"**✘ Spotify Song Downloaded !!** \n\n**« ✘ »** {hell_mention}",
+                reply_to=reply,
+                supports_streaming=True,
+            )
+        except Exception as e:
+            LOGS.info(str(e))
+    try:
+        shutil.rmtree('spotify')
+        os.remove('.spotdl-cache')
+    except:
+        pass
+    await hell.delete()
 
 
 CmdHelp("songs").add_command(
