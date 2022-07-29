@@ -4,8 +4,6 @@ from telethon.utils import get_display_name
 
 from . import *
 
-if Config.TAG_LOGGER:
-    tagger = int(Config.TAG_LOGGER)
 
 if Config.TAG_LOGGER:
     @hell_handler(func=lambda e: (e.mentioned), incoming=True)
@@ -23,18 +21,15 @@ if Config.TAG_LOGGER:
             message_link = f"https://t.me/c/{where_.id}/{event.id}"
         else:
             message_link = f"tg://openmessage?chat_id={where_.id}&message_id={event.id}"
-        ammoca_message += f"👆 #TAG\n\n**• Tag By :** {krakenm} \n**• Tag For :** {hell_men} \n**• Chat :** [{where_m}]({message_link})"
-        if tagger is not None:
-            await tbot.forward_messages(tagger, event.message)
-            await tbot.send_message(
-                entity=tagger,
-                message=ammoca_message,
-                link_preview=False,
-                buttons=[[custom.Button.url(button_text, message_link)]],
-                silent=True,
-            )
-        else:
-            return
+        ammoca_message += f"👆 #TAG\n\n**• Tag By:** {krakenm} \n**• Tag For:** {hell_men} \n**• Chat:** [{where_m}]({message_link})"
+        await tbot.forward_messages(tagger, event.message)
+        await tbot.send_message(
+            entity=tagger,
+            message=ammoca_message,
+            link_preview=False,
+            buttons=[[custom.Button.url(button_text, message_link)]],
+            silent=True,
+        )
 
 
 @hell_cmd(pattern="tagall(?:\s|$)([\s\S]*)")
