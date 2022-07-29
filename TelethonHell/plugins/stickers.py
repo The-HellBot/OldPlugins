@@ -176,10 +176,10 @@ async def kang(event):
                             f"**Sticker added in a Different Pack !**\nThis Pack is Newly created!\nYour pack can be found [here](t.me/addstickers/{packname})"
                         )
                         return
-                if is_video:
+                if is_vid:
                     os.remove("VideoSticker.webm")
                     rsp = resp
-                elif is_anim:
+                elif is_ani:
                     await conv.send_file("AnimatedSticker.tgs")
                     os.remove("AnimatedSticker.tgs")
                     rsp = await conv.get_response()
