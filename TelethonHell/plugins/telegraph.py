@@ -9,7 +9,7 @@ from telegraph import Telegraph, exceptions, upload_file
 from . import *
 
 telegraph = Telegraph()
-account = telegraph.create_account(short_name=Config.TELEGRAPH_SHORT_NAME)
+account = telegraph.create_account(short_name=Config.TELEGRAPH_NAME)
 auth_url = account["auth_url"]
 
 def resize_image(image):
