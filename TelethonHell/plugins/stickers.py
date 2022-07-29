@@ -252,6 +252,89 @@ async def kang(event):
     )
 
 
+@hell_cmd(pattern="pkang(?:\s|$)([\s\S]*)")
+async def _(event):
+    hell = await eor(event, "`Preparing pack kang...`")
+    reply = await event.get_reply_message()
+    ForGo10God, HELL_USER, hell_mention = await client_id(event)
+    lists = event.text.split(" ", 1)
+    bot_ = Config.BOT_USERNAME
+    bot_un = bot_.replace("@", "")
+    to_del = await event.client.send_message(bot_, "/start")
+    user = await event.client.get_me()
+    un = f"@{user.username}" if user.username else HELL_USER
+    un_ = user.username if user.username else ForGo10God
+    if not reply:
+        return await eod(hell, "`Reply to a stciker to kang that pack.`")
+    if len(lists) == 1:
+        pname = f"{un}'s Hêllẞø† Pack"
+    else:
+        pname = lists[1].strip()
+    if reply and reply.media and reply.media.document.mime_type == "image/webp":
+        hell_id = reply.media.document.attributes[1].stickerset.id
+        hell_hash = reply.media.document.attributes[1].stickerset.access_hash
+        got_stcr = await event.client(
+            functions.messages.GetStickerSetRequest(
+                stickerset=types.InputStickerSetID(id=hell_id, access_hash=hell_hash)
+            )
+        )
+        stcrs = []
+        for sti in got_stcr.documents:
+            inp = get_input_document(sti)
+            stcrs.append(
+                types.InputStickerSetItem(
+                    document=inp,
+                    emoji=(sti.attributes[1]).alt,
+                )
+            )
+        x = gvarstat("PKANG")
+        if x is None:
+            y = addgvar("PKANG", 0)
+            pack = int(y) + 1
+        else:
+            pack = int(x) + 1
+        await hell.edit("`Starting kang process...`")
+        try:
+            create_st = await tbot(
+                functions.stickers.CreateStickerSetRequest(
+                    user_id=ForGo10God,
+                    title=pname,
+                    short_name=f"hell_{un_}_V{pack}_by_{bot_un}",
+                    stickers=stcrs,
+                )
+            )
+            addgvar("PKANG", pack)
+        except PackShortNameOccupiedError:
+            await asyncio.sleep(1)
+            await hell.edit("`Pack name already occupied... making new pack`")
+            pack = int(pack) + 1
+            create_st = await tbot(
+                functions.stickers.CreateStickerSetRequest(
+                    user_id=ForGo10God,
+                    title=pname,
+                    short_name=f"hell_{un_}_V{pack}_by_{bot_un}",
+                    stickers=stcrs,
+                )
+            )
+            addgvar("PKANG", pack)
+        await tbot.send_message(
+            Config.LOGGER_ID,
+            f"#PKANG #STICKER \n\nA sticker pack has been kanged by {HELL_USER}. Click below to see the pack!",
+            buttons=[
+                [Button.url("View Pack", f"t.me/addstickers/{create_st.set.short_name}")],
+                [Button.url(HELL_USER, f"tg://user?id={ForGo10God}")],
+            ],
+            parse_mode=None,
+        )
+        await eod(
+            hell,
+            f"⚡** This Sticker Pack iz [kanged](t.me/addstickers/{create_st.set.short_name}) successfully **⚡",
+        )
+    else:
+        await hell.edit("Unsupported File. Please Reply to a sticker only.")
+    await to_del.delete()
+
+
 @hell_cmd(pattern="stkrinfo$")
 async def get_pack_info(event):
     reply = await event.get_reply_message()
@@ -334,12 +417,6 @@ async def _(event):
         except YouBlockedUserError:
             return await parse_error(hell, "__Unblock @Stickers and try again.__", False)
         await hell.edit(f"{sixth.text}")
-
-
-@hell_cmd(pattern="pkang(?:\s|$)([\s\S]*)")
-async def _(event):
-    # TO-DO
-    await eor(event, "to do")
 
 
 @hell_cmd(pattern="text(?:\s|$)([\s\S]*)")
