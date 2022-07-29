@@ -20,11 +20,231 @@ from telethon.utils import get_input_document
 from TelethonHell.DB.gvar_sql import addgvar, gvarstat
 from . import *
 
+class STICKER:
+    def __init__(self):
+        self.emoji = "🍀"
+        self.pack = 1
+
+Sticker = STICKER()
+
 
 @hell_cmd(pattern="kang(?:\s|$)([\s\S]*)")
 async def kang(event):
-    await eor(event, "to do")
-    # TO-DO
+    hell = await eor(event, "__**Starting sticker kang process ...**__")
+    reply = await event.get_reply_message()
+    lists = event.text.split(" ", 2)
+
+    if len(lists) == 3:
+        if lists[1].isdigit():
+            Sticker.pack = int(lists[1])
+            Sticker.emoji = lists[2]
+        else:
+            Sticker.emoji = lists[1]
+            Sticker.pack = int(lists[2])
+    elif len(lists) == 2:
+        if lists[1].isdigit():
+            Sticker.pack = int(lists[1])
+        else:
+            Sticker.emoji = lists[1]
+
+    user = await event.client.get_me()
+    ForGo10God, HELL_USER, hell_mention = await client_id(event)
+    nick = f"@{user.username}" if user.username else HELL_USER
+    name = user.username if user.username else ForGo10God
+    custompack = gvarstat("STICKER_PACKNAME")
+    packname = f"HellBot_{name}_{Sticker.pack}"
+    packnick = f"{custompack}" if custompack else f"{nick}'s Hêllẞø† Vol.{Sticker.pack}"
+    is_sta = False
+    is_ani = False
+    is_vid = False
+    photo = None
+
+    if reply and reply.media:
+        if reply.photo:
+            photo = io.BytesIO()
+            photo = await event.client.download_media(reply.photo, photo)
+            is_sta = True
+        elif "image" in reply.media.document.mime_type.split("/"):
+            photo = io.BytesIO()
+            await event.client.download_file(reply.media.document, photo)
+            is_sta = True
+        elif "tgsticker" in reply.media.document.mime_type:
+            await event.client.download_file(reply.media.document, "AnimatedSticker.tgs")
+            is_ani = True
+            photo = 1
+        elif "video" in reply.media.document.mime_type.split("/"):
+            if reply.media.document.mime_type == "video/webm":
+                await hell.edit("__Oow! A video sticker ...__ **[ ENCODING ]**")
+                attributes = reply.media.document.attributes
+                for attribute in attributes:
+                    if isinstance(attribute, DocumentAttributeSticker):
+                        if reply.media.document.size > 261120:
+                            await VSticker(event, reply)
+                        else:
+                            await event.client.download_media(reply.media.document, "VideoSticker.webm")
+            else:
+                await hell.edit("__Oow! A video ...__ **[ CONVERTING ]**")
+                await VSticker(event, reply)
+            is_vid = True
+            photo = 1
+        else:
+            return await eod(hell, "__Can't kang that 🔪__")
+    else:
+        return await eod(hell, "__Can't kang that 🔪__")
+    await hell.edit("__**Adding this sticker to your pack...**__")
+
+    cmd = "/newpack"
+    file = io.BytesIO()
+    if is_vid:
+        cmd = "/newvideo"
+        packname += "_vid"
+        packnick += " (Video)"
+    elif is_ani:
+        cmd = "/newanimated"
+        packname += "_ani"
+        packnick += " (Animated)"
+    else:
+        image = await resize_photo(photo)
+        file.name = "sticker.png"
+        image.save(file, "PNG")
+
+    response = urllib.request.urlopen(urllib.request.Request(f"http://t.me/addstickers/{packname}"))
+    htmlstr = response.read().decode("utf8").split("\n")
+    if (
+        "  A <strong>Telegram</strong> user has created the <strong>Sticker&nbsp;Set</strong>."
+        not in htmlstr
+    ):
+        async with event.client.conversation("@Stickers") as conv:
+            try:
+                await conv.send_message("/addsticker")
+                await conv.get_response()
+                await event.client.send_read_acknowledge(conv.chat_id)
+                await conv.send_message(packname)
+                resp = await conv.get_response()
+                while ("50" in resp.message) or ("120" in resp.message) or is_vid:
+                    if is_vid:
+                        await conv.send_file("VideoSticker.webm")
+                        resp = await conv.get_response()
+                        if "50 video stickers" in resp.message:
+                            await conv.send_message("/addsticker")
+                        else:
+                            break
+                    try:
+                        Sticker.pack += 1
+                    except ValueError:
+                        Sticker.pack = 1
+                    packname = f"HellBot_{name}_{Sticker.pack}"
+                    packnick = f"{custompack}" if custompack else f"{nick}'s Hêllẞø† Vol.{Sticker.pack}"
+                    await hell.edit(f"__**Switching pack due to insufficient space ...**__ \n__Pack:__ `{Sticker.pack}`")
+                    await conv.send_message(packname)
+                    resp = await conv.get_response()
+                    if resp.message == "Invalid set selected.":
+                        await conv.send_message(cmd)
+                        await conv.get_response()
+                        await event.client.send_read_acknowledge(conv.chat_id)
+                        await conv.send_message(packnick)
+                        await conv.get_response()
+                        await event.client.send_read_acknowledge(conv.chat_id)
+                        if is_vid:
+                            await conv.send_file("VideoSticker.webm")
+                        elif is_ani:
+                            await conv.send_file("AnimatedSticker.tgs")
+                            os.remove("AnimatedSticker.tgs")
+                        else:
+                            file.seek(0)
+                            await conv.send_file(file, force_document=True)
+                        rsp = await conv.get_response()
+                        if "Sorry, the file type is invalid." in rsp.text:
+                            return await eod(hell, "`Failed to add sticker, use` @Stickers `bot to add the sticker manually.`")
+                        await conv.send_message(Sticker.emoji)
+                        await event.client.send_read_acknowledge(conv.chat_id)
+                        await conv.get_response()
+                        await conv.send_message("/publish")
+                        if is_ani:
+                            await conv.get_response()
+                            await conv.send_message(f"<{packnick}>")
+                        await conv.get_response()
+                        await event.client.send_read_acknowledge(conv.chat_id)
+                        await conv.send_message("/skip")
+                        await event.client.send_read_acknowledge(conv.chat_id)
+                        await conv.get_response()
+                        await conv.send_message(packname)
+                        await event.client.send_read_acknowledge(conv.chat_id)
+                        await conv.get_response()
+                        await event.client.send_read_acknowledge(conv.chat_id)
+                        await hell.edit(
+                            f"**Sticker added in a Different Pack !**\nThis Pack is Newly created!\nYour pack can be found [here](t.me/addstickers/{packname})"
+                        )
+                        return
+                if is_video:
+                    os.remove("VideoSticker.webm")
+                    rsp = resp
+                elif is_anim:
+                    await conv.send_file("AnimatedSticker.tgs")
+                    os.remove("AnimatedSticker.tgs")
+                    rsp = await conv.get_response()
+                else:
+                    file.seek(0)
+                    await conv.send_file(file, force_document=True)
+                    rsp = await conv.get_response()
+                if "Sorry, the file type is invalid." in rsp.text:
+                    return await eod(hell, "`Failed to add sticker, use` @Stickers `bot to add the sticker manually.`")
+                await conv.send_message(Sticker.emoji)
+                await event.client.send_read_acknowledge(conv.chat_id)
+                await conv.get_response()
+                await conv.send_message("/done")
+                await conv.get_response()
+                await event.client.send_read_acknowledge(conv.chat_id)
+            except YouBlockedUserError:
+                return await parse_error(hell, "__Unblock @Stickers and try again.__", False)
+    else:
+        await hell.edit("__**Preparing a new pack....**__")
+        async with event.client.conversation("@Stickers") as conv:
+            await conv.send_message(cmd)
+            await conv.get_response()
+            await event.client.send_read_acknowledge(conv.chat_id)
+            await conv.send_message(packnick)
+            await conv.get_response()
+            await event.client.send_read_acknowledge(conv.chat_id)
+            if is_vid:
+                await conv.send_file("VideoSticker.webm")
+            elif is_ani:
+                await conv.send_file("AnimatedSticker.tgs")
+                os.remove("AnimatedSticker.tgs")
+            else:
+                file.seek(0)
+                await conv.send_file(file, force_document=True)
+            rsp = await conv.get_response()
+            if "Sorry, the file type is invalid." in rsp.text:
+                return await eod(hell, "`Failed to add sticker, use` @Stickers `bot to add the sticker manually.`")
+            await conv.send_message(Sticker.emoji)
+            await event.client.send_read_acknowledge(conv.chat_id)
+            await conv.get_response()
+            await conv.send_message("/publish")
+            if is_ani:
+                await conv.get_response()
+                await conv.send_message(f"<{packnick}>")
+            await conv.get_response()
+            await event.client.send_read_acknowledge(conv.chat_id)
+            await conv.send_message("/skip")
+            await event.client.send_read_acknowledge(conv.chat_id)
+            await conv.get_response()
+            await conv.send_message(packname)
+            await event.client.send_read_acknowledge(conv.chat_id)
+            await conv.get_response()
+            await event.client.send_read_acknowledge(conv.chat_id)
+            if is_vid and os.path.exists("./VideoSticker.webm"):
+                os.remove("VideoSticker.webm")
+
+    await tbot.send_message(
+        Config.LOGGER_ID,
+        f"#KANG #STICKER \n\n**A sticker has been kanged into the pack of {hell_mention}. Click below to see the pack!**",
+        buttons=[[Button.url("View Pack", f"t.me/addstickers/{packname}")]],
+    )
+    await eod(
+        hell,
+        f"⚡** This Sticker iz [kanged](t.me/addstickers/{packname}) successfully to your pack **⚡",
+    )
 
 
 @hell_cmd(pattern="stkrinfo$")
