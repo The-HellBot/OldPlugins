@@ -59,6 +59,7 @@ os_config = [
     "SUDO_HANDLER",
     "SUDO_USERS",
     "TAG_LOGGER",
+    "TELEGRAPH_NAME",
     "TEMP_DIR",
     "TMP_DOWNLOAD_DIRECTORY",
     "THUMB_IMG",
