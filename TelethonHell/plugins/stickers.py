@@ -289,10 +289,11 @@ async def _(event):
             )
         x = gvarstat("PKANG")
         if x is None:
-            y = addgvar("PKANG", 0)
-            pack = int(y) + 1
+            addgvar("PKANG", 0)
+            x = gvarstat("PKANG")
+            pack = x + 1
         else:
-            pack = int(x) + 1
+            pack = x + 1
         await hell.edit("`Starting kang process...`")
         try:
             create_st = await tbot(
