@@ -26,6 +26,7 @@ os_config = [
     "BUTTONS_IN_HELP",
     "CHROME_BIN",
     "CHROME_DRIVER",
+    "CURRENCY_API",
     "DB_URI",
     "EMOJI_IN_HELP",
     "FBAN_LOG_GROUP",
