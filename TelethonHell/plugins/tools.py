@@ -62,11 +62,9 @@ async def _(event):
 async def parseqr(event):
     if not os.path.isdir(Config.TEMP_DIR):
         os.makedirs(Config.TEMP_DIR)
-    # For .decode command, get QR Code/BarCode content from the replied photo.
     downloaded_file_name = await event.client.download_media(
         await event.get_reply_message(), Config.TMP_DIR
     )
-    # parse the Official ZXing webpage to decode the QRCode
     command_to_exec = [
         "curl",
         "-X",
@@ -77,11 +75,9 @@ async def parseqr(event):
     ]
     process = await asyncio.create_subprocess_exec(
         *command_to_exec,
-        # stdout must a pipe to be accessible as process.stdout
         stdout=asyncio.subprocess.PIPE,
         stderr=asyncio.subprocess.PIPE,
     )
-    # Wait for the subprocess to finish
     stdout, stderr = await process.communicate()
     e_response = stderr.decode().strip()
     t_response = stdout.decode().strip()
@@ -241,7 +237,7 @@ async def currencylist(event):
     value = list(dicts.values())
     output = "<b><i>◈ List of supported currencies are:</b></i> \n\n"
     try:
-        for i in range(len(keys)):
+        for i in range(len(key)):
             output += f"{key[i]} : {value[i]} \n"
         output += "\n<img src='https://telegra.ph/file/2c546060b20dfd7c1ff2d.jpg'/>"
         link = await telegraph_paste("Currency List For HellBot", output)
