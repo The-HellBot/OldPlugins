@@ -235,13 +235,17 @@ async def currencylist(event):
         dicts.setdefault(x, y)
     key = list(dicts.keys())
     value = list(dicts.values())
-    output = "<b><i>◈ List of supported currencies are:</b></i> \n\n"
+    output = "<b><i><u>◈ List of supported currencies are:</b></i></u> \n\n"
     try:
         for i in range(len(key)):
-            output += f"{key[i]} : {value[i]} \n"
+            output += f"<code>▸ {key[i]} : {value[i]}</code> \n"
         output += "\n<img src='https://telegra.ph/file/2c546060b20dfd7c1ff2d.jpg'/>"
         link = await telegraph_paste("Currency List For HellBot", output)
-        await hell.edit(f"**⊹ Supported currency lists are:** \n\n__⊷ (Currency lists)[{link}] ⊶__")
+        await hell.edit(
+            f"<b><i>⊹ Supported currency lists are:</b></i> \n\n<i>⊷ <u><a href='{link}'>Currency Lists</a></u> ⊶</i>",
+            link_preview=False,
+            parse_mode='HTML',
+        )
     except Exception as e:
         await parse_error(hell, e)
 
