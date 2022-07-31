@@ -129,7 +129,7 @@ async def video(event):
         except Exception as e:
             return await parse_error(hell, e)
     else:
-        await return parse_error(hell, f"__Give proper command:__ \n__Example:__ `{hl}vtrim 60 70`", False)
+        return await parse_error(hell, f"__Give proper command:__ \n__Example:__ `{hl}vtrim 60 70`", False)
     end = datetime.datetime.now()
     ms = (end - start).seconds
     await eod(hell, f"**Trimmed!!**\n__Time taken:__ `{ms} seconds`")
@@ -197,7 +197,7 @@ async def audio(event):
         except Exception as e:
             return await parse_error(hell, e)
     else:
-        await return parse_error(hell, f"__Give proper command:__ \n__Example:__ `{hl}atrim 60 70`", False)
+        return await parse_error(hell, f"__Give proper command:__ \n__Example:__ `{hl}atrim 60 70`", False)
     end = datetime.datetime.now()
     ms = (end - start).seconds
     await eod(hell, f"**Trimmed!!**\n__Time taken:__ `{ms} seconds`")
