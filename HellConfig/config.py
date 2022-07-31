@@ -21,6 +21,7 @@ class Config(object):
     BUTTONS_IN_HELP = int(os.environ.get("BUTTONS_IN_HELP", 7))
     CHROME_BIN = os.environ.get("CHROME_BIN", "/app/.apt/usr/bin/google-chrome")
     CHROME_DRIVER = os.environ.get("CHROME_DRIVER", "/app/.chromedriver/bin/chromedriver")
+    CURRENCY_API = os.environ.get("CURRENCY_API", None)
     DB_URI = os.environ.get("DATABASE_URL", None)
     EMOJI_IN_HELP = os.environ.get("EMOJI_IN_HELP", "✧")
     FBAN_LOG_GROUP = os.environ.get("FBAN_LOG_GROUP", None)
