@@ -206,9 +206,9 @@ async def audio(event):
 
 
 CmdHelp("trim").add_command(
-    "vtrim", "<start time> <end time>", "Trims the saved media with specific given time interval and outputs as video. For screenshot given only one time."
+    "vtrim", "<start time> <end time>", "Trimes replied video within given time stamps. To generate a screenshot given single time-stamp."
 ).add_command(
-    "atrim", "<starttime> <endtime>", "Trims the saved media with specific given time interval and output as audio"
+    "atrim", "<starttime> <endtime>", "Trimes replied media within given time stamps and gives audio file as output."
 ).add_info(
     "Trim & Screenshot."
 ).add_warning(
