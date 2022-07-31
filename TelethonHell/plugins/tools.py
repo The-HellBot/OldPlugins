@@ -1,4 +1,5 @@
 import asyncio
+import calendar
 import datetime
 import json
 import os
@@ -57,52 +58,13 @@ async def _(event):
     await eod(event, "Created sticker in {} seconds".format(time_taken_ms))
 
 
-@hell_cmd(pattern="scan(?:\s|$)([\s\S]*)")
-async def _(event):
-    if not event.reply_to_msg_id:
-        await eod(event, "Reply to any user message.")
-        return
-    reply_message = await event.get_reply_message()
-    if not reply_message.media:
-        await eod(event, "Reply to a media message")
-        return
-    chat = "@DrWebBot"
-    hellevent = await eor(event, " `Scanning This media..... wait👀`")
-    async with event.client.conversation(chat) as conv:
-        try:
-            response = conv.wait_event(
-                events.NewMessage(incoming=True, from_users=161163358)
-            )
-            await event.client.forward_messages(chat, reply_message)
-            response = await response
-        except YouBlockedUserError:
-            await eod(hellevent, "`Please unblock `@DrWebBot `and try again`")
-            return
-        if response.text.startswith("Forward"):
-            await eod(
-                hellevent,
-                "Can you kindly disable your forward privacy settings for good?",
-            )
-        else:
-            if response.text.startswith("Select"):
-                await eod(
-                    hellevent, "`Please go to` @DrWebBot `and select your language.`"
-                )
-            else:
-                await hellevent.edit(
-                    f"**Antivirus scan was completed. I got the final results.**\n\n {response.message.message}"
-                )
-
-
 @hell_cmd(pattern="decode$")
 async def parseqr(event):
     if not os.path.isdir(Config.TEMP_DIR):
         os.makedirs(Config.TEMP_DIR)
-    # For .decode command, get QR Code/BarCode content from the replied photo.
     downloaded_file_name = await event.client.download_media(
         await event.get_reply_message(), Config.TMP_DIR
     )
-    # parse the Official ZXing webpage to decode the QRCode
     command_to_exec = [
         "curl",
         "-X",
@@ -113,11 +75,9 @@ async def parseqr(event):
     ]
     process = await asyncio.create_subprocess_exec(
         *command_to_exec,
-        # stdout must a pipe to be accessible as process.stdout
         stdout=asyncio.subprocess.PIPE,
         stderr=asyncio.subprocess.PIPE,
     )
-    # Wait for the subprocess to finish
     stdout, stderr = await process.communicate()
     e_response = stderr.decode().strip()
     t_response = stdout.decode().strip()
@@ -215,74 +175,79 @@ async def make_qr(event):
     await event.delete()
 
 
-@hell_cmd(pattern="cal(?:\s|$)([\s\S]*)")
+@hell_cmd(pattern="calendar(?:\s|$)([\s\S]*)")
 async def _(event):
-    input_str = event.text[5:]
-    hell = await eor(event, "Processing...")
-    input_sgra = input_str.split(".")
-    if len(input_sgra) == 3:
-        yyyy = input_sgra[0]
-        mm = input_sgra[1]
-        dd = input_sgra[2]
-        required_url = "https://calendar.kollavarsham.org/api/years/{}/months/{}/days/{}?lang={}".format(
-            yyyy, mm, dd, "en"
-        )
-        headers = {"Accept": "application/json"}
-        response_content = requests.get(required_url, headers=headers).json()
-        a = ""
-        if "error" not in response_content:
-            current_date_detail_arraays = response_content["months"][0]["days"][0]
-            a = json.dumps(current_date_detail_arraays, sort_keys=True, indent=4)
-        else:
-            a = response_content["error"]
-        await hell.edit(str(a))
-    else:
-        await eod(hell, f"SYNTAX: {hl}calendar YYYY.MM.DD")
+    reply = await event.get_reply_message()
+    lists = event.text.split(" ", 1)
+    year = datetime.datetime.now().year
+    month = datetime.datetime.now().month
+    if len(lists) == 2:
+        query = lists[1].split("/")
+        year = query[0].strip()
+        month = query[1].strip()
+    try:
+        cal = calendar.month(int(year), int(month))
+        await eor(event, f"`{cal}`")
+    except Exception as e:
+        return await parse_error(event, e)
 
 
 @hell_cmd(pattern="currency(?:\s|$)([\s\S]*)")
 async def _(event):
-    input_str = event.pattern_match.group(1)
-    input_sgra = input_str.split(" ")
-    if len(input_sgra) == 3:
-        try:
-            number = float(input_sgra[0])
-            currency_from = input_sgra[1].upper()
-            currency_to = input_sgra[2].upper()
-            request_url = "https://api.exchangeratesapi.io/latest?base={}".format(
-                currency_from
-            )
-            current_response = requests.get(request_url).json()
-            if currency_to in current_response["rates"]:
-                current_rate = float(current_response["rates"][currency_to])
-                rebmun = round(number * current_rate, 2)
-                await edit_or_reply(
-                    event,
-                    "{} {} = {} {}".format(number, currency_from, rebmun, currency_to),
-                )
-            else:
-                await edit_or_reply(
-                    event,
-                    f"Well, Hate to tell yout this but this Currency isn't supported😣 **yet**.\n__Try__ `{hl}currencies` __for a list of supported currencies.__🤐",
-                )
-        except Exception as e:
-            await eod(event, str(e))
+    if not Config.CURRENCY_API:
+        return await parse_error(event, "`CURRENCY_API` __not configured.__", False)
+    lists = event.text.split(" ", 3)
+    if not len(lists) == 4:
+        return await parse_error(event, f"__Give proper command:__ \n__Ex:__`{hl}currency 10 usd inr`", False)
+    if lists[1].strip().isdigit():
+        amnt = lists[1].strip()
+        base = lists[2].strip().upper()
+        into = lists[3].strip().upper()
     else:
-        await edit_or_reply(
-            event,
-            f"**Syntax:**\n{hl}currency amount from to\n**Example:**\n`{hl}currency 10 usd inr`",
-        )
+        return await parse_error(event, f"__Give proper command:__ \n__Ex:__`{hl}currency 10 usd inr`", False)
+    hell = await eor(event, f"**Converting currency:** \n__From:__ `{base}` \n__To:__ `{into}` \n__Amount:__ `{amnt}`")
+    url = f"https://v6.exchangerate-api.com/v6/{Config.CURRENCY_API}/pair/{base}/{into}/{int(amnt)}"
+    data = requests.get(url).json()
+    try:
+        if data['result'] == 'success':
+            base = data['base_code']
+            into = data['target_code']
+            rate = data['conversion_rate']
+            conv = data['conversion_result']
+            output = f"__» From:__ `{amnt} {base}` \n__» To:__ `{into}` \n__» Rate:__ `{rate}` \n__» Result:__ `{conv} {into}`"
+            await hell.edit(f"**Currency Converted !!** \n\n{output}")
+        else:
+            await eod(hell, "Something went wrong. Try again later!")
+    except Exception as e:
+        await parse_error(hell, e)
 
 
 @hell_cmd(pattern="currencies$")
 async def currencylist(event):
-    request_url = "https://api.exchangeratesapi.io/latest?base=USD"
-    current_response = requests.get(request_url).json()
-    dil_wale_puch_de_na_chaaa = current_response["rates"]
-    hmm = ""
-    for key, value in dil_wale_puch_de_na_chaaa.items():
-        hmm += f"`{key}`" + "\t\t\t"
-    await eor(event, f"**List of some currencies:**\n{hmm}\n")
+    if not Config.CURRENCY_API:
+        return await parse_error(event, "`CURRENCY_API` __not configured.__", False)
+    hell = await eor(event, "Fetching supportred currencies lists ...")
+    url = f"https://v6.exchangerate-api.com/v6/{Config.CURRENCY_API}/codes"
+    data = requests.get(url).json()
+    codes = data['supported_codes']
+    dicts = {}
+    for x, y in codes:
+        dicts.setdefault(x, y)
+    key = list(dicts.keys())
+    value = list(dicts.values())
+    output = "<b><i><u>◈ List of supported currencies are:</b></i></u> \n\n"
+    try:
+        for i in range(len(key)):
+            output += f"<code>▸ {key[i]} : {value[i]}</code> \n"
+        output += "\n<img src='https://telegra.ph/file/2c546060b20dfd7c1ff2d.jpg'/>"
+        link = await telegraph_paste("Currency List For HellBot", output)
+        await hell.edit(
+            f"<b><i>⊹ Supported currency lists are:</b></i> \n\n<i>⊷ <u><a href='{link}'>Currency Lists</a></u> ⊶</i>",
+            link_preview=False,
+            parse_mode='HTML',
+        )
+    except Exception as e:
+        await parse_error(hell, e)
 
 
 @hell_cmd(pattern="ifsc(?:\s|$)([\s\S]*)")
@@ -293,7 +258,6 @@ async def _(event):
     if r.status_code == 200:
         b = r.json()
         a = json.dumps(b, sort_keys=True, indent=4)
-        # https://stackoverflow.com/a/9105132/4723940
         await eor(event, str(a))
     else:
         await eor(event, "`{}`: {}".format(input_str, r.text))
@@ -327,10 +291,7 @@ async def _(event):
             os.remove("hell.png")
             await event.delete()
     else:
-        await eod(
-            event,
-            f"**Syntax : **`{hl}color <color_code>` example : `{hl}color #ff0000`",
-        )
+        await parse_error(event, f"__Give proper command:__ \n`{hl}color <color_code>` \n__Example:__ `{hl}color #ff0000`", False)
 
 
 @hell_cmd(pattern="xkcd(?:\s|$)([\s\S]*)")
@@ -454,15 +415,13 @@ CmdHelp("tools").add_command(
 ).add_command(
     "currency", "<amount> <from> <to>", "Currency converter for HellBot", ".currency 10 usd inr"
 ).add_command(
-    "cal", "<year ; month>", "Shows you the calendar of given month and year"
+    "calendar", "<year / month>", "Shows you the calendar of given month and year"
 ).add_command(
     "decode", "<reply to barcode/qrcode>", "To get decoded content of those codes."
 ).add_command(
     "barcode", "<content>", "Make a BarCode from the given content.", ".barcode www.google.com"
 ).add_command(
     "makeqr", "<content>", "Make a Qrcode from the given content.", ".makeqr www.google.com"
-).add_command(
-    "scan", "<reply to media or file>", "It scans the media or file and checks either any virus is in the file or media"
 ).add_info(
     "Some Basic Tools."
 ).add_warning(

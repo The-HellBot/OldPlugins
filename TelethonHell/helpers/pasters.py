@@ -62,14 +62,13 @@ async def space_paste(message, extension=None):
     return {"error": "Unable to reach spacebin."}
 
 
-async def telegraph_paste(page_title, temxt):
+async def telegraph_paste(page_title, temxt, auth="[ †he Hêllẞø† ]", url="https://t.me/its_hellbot"):
     cl1ent = TelegraphPoster(use_api=True)
-    auth = "[ †he Hêllẞø† ]"
     cl1ent.create_api_token(auth)
     post_page = cl1ent.post(
         title=page_title,
         author=auth,
-        author_url="https://t.me/its_hellbot",
+        author_url=url,
         text=temxt,
     )
     return post_page["url"]
