@@ -1,3 +1,5 @@
+import os
+
 from . import *
 
 
@@ -40,6 +42,7 @@ async def nekobot(event):
     tweet = await trumptweet(deEmojify(text))
     await event.client.send_file(event.chat_id, tweet, reply_to=reply)
     await hell.delete()
+    os.remove(tweet)
 
 
 @hell_cmd(pattern="modi(?:\s|$)([\s\S]*)")
@@ -57,6 +60,7 @@ async def nekobot(event):
     tweet = await moditweet(deEmojify(text))
     await event.client.send_file(event.chat_id, tweet, reply_to=reply)
     await hell.delete()
+    os.remove(tweet)
 
 
 @hell_cmd(pattern="mia(?:\s|$)([\s\S]*)")
@@ -74,6 +78,7 @@ async def nekobot(event):
     tweet = await miatweet(deEmojify(text))
     await event.client.send_file(event.chat_id, tweet, reply_to=reply)
     await hell.delete()
+    os.remove(tweet)
 
 
 @hell_cmd(pattern="dani(?:\s|$)([\s\S]*)")
@@ -91,6 +96,7 @@ async def nekobot(event):
     tweet = await dani(deEmojify(text))
     await event.client.send_file(event.chat_id, tweet, reply_to=reply)
     await hell.delete()
+    os.remove(tweet)
 
 
 @hell_cmd(pattern="pappu(?:\s|$)([\s\S]*)")
@@ -108,6 +114,7 @@ async def nekobot(event):
     tweet = await papputweet(deEmojify(text))
     await event.client.send_file(event.chat_id, tweet, reply_to=reply)
     await hell.delete()
+    os.remove(tweet)
 
 
 @hell_cmd(pattern="sunny(?:\s|$)([\s\S]*)")
@@ -125,6 +132,7 @@ async def nekobot(event):
     tweet = await sunnytweet(deEmojify(text))
     await event.client.send_file(event.chat_id, tweet, reply_to=reply)
     await hell.delete()
+    os.remove(tweet)
 
 
 @hell_cmd(pattern="johhny(?:\s|$)([\s\S]*)")
@@ -142,6 +150,7 @@ async def nekobot(event):
     tweet = await sinstweet(deEmojify(text))
     await event.client.send_file(event.chat_id, tweet, reply_to=reply)
     await hell.delete()
+    os.remove(tweet)
 
 
 @hell_cmd(pattern="gandhi(?:\s|$)([\s\S]*)")
@@ -159,6 +168,27 @@ async def nekobot(event):
     tweet = await taklatweet(deEmojify(text))
     await event.client.send_file(event.chat_id, tweet, reply_to=reply)
     await hell.delete()
+    os.remove(tweet)
+
+
+@hell_cmd(pattern="gandhi(?:\s|$)([\s\S]*)")
+async def nekobot(event):
+    lists = event.text.split(" ", 1)
+    reply = await event.get_reply_message()
+    text = None
+    if reply and reply.message:
+        text = reply.message()
+    elif len(lists) == 2:
+        query = lists[1].split("-", 1)
+        username = query[0].strip()
+        text = query[1].strip()
+    else:
+        return await parse_error(event, "No texts were given to tweet.")
+    hell = await eor(event, "Gandhi is making a tweet ...")
+    tweet = await mytweet(username, deEmojify(text))
+    await event.client.send_file(event.chat_id, tweet, reply_to=reply)
+    await hell.delete()
+    os.remove(tweet)
 
 
 @hell_cmd(pattern="cmm(?:\s|$)([\s\S]*)")
@@ -176,6 +206,7 @@ async def nekobot(event):
     mind = await changemymind(deEmojify(text))
     await event.client.send_file(event.chat_id, mind, reply_to=reply)
     await hell.delete()
+    os.remove(mind)
 
 
 @hell_cmd(pattern="kanna(?:\s|$)([\s\S]*)")
@@ -193,6 +224,7 @@ async def nekobot(event):
     kanna = await kannagen(deEmojify(text))
     await event.client.send_file(event.chat_id, kanna, reply_to=reply)
     await hell.delete()
+    os.remove(kanna)
 
 
 CmdHelp("tweets").add_command(
