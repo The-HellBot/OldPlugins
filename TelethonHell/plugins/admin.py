@@ -1,7 +1,7 @@
 from asyncio import sleep
 
 from telethon.errors import BadRequestError, ImageProcessFailedError, PhotoCropSizeSmallError, ChatAdminRequiredError
-from telethon.errors.rpcerrorlist import UserAdminInvalidError, UserIdInvalidError
+from telethon.errors.rpcerrorlist import UserAdminInvalidError, UserIdInvalidError, FloodWaitError
 from telethon.tl.functions.channels import EditAdminRequest, EditBannedRequest, EditPhotoRequest
 from telethon.tl.functions.users import GetFullUserRequest
 from telethon.tl.types import (ChannelParticipantsAdmins, ChatAdminRights,
@@ -532,52 +532,54 @@ async def kick(event):
 
 @hell_cmd(pattern="zombies(?:\s|$)([\s\S]*)")
 async def rm_deletedacc(event):
-    con = event.pattern_match.group(1).lower()
+    lists = event.text.split(" ", 1)
+    action = None
+    if len(lists) == 2:
+        action = lists[1].strip()
     del_u = 0
     del_status = "`No zombies or deleted accounts found in this group, Group is clean`"
-    if con != "clean":
-        event = await eor(event, "**Searching For Zombies...**")
+    if action == "clean":
+        chat = await event.get_chat()
+        admin = chat.admin_rights
+        creator = chat.creator
+        if not admin and not creator:
+            return await parse_error(event, NO_ADMIN)
+        hell = await eor(event, "__🧹 Purging Zombies from here ...__")
+        del_u = 0
+        del_a = 0
+        async for user in event.client.iter_participants(event.chat_id):
+            if user.deleted:
+                try:
+                    await event.client(EditBannedRequest(event.chat_id, user.id, BANNED_RIGHTS))
+#                     await sleep(0.5)
+                    del_u += 1
+                except ChatAdminRequiredError:
+                    return await parse_error(hell, "I don't have ban rights in this group")
+                except UserAdminInvalidError:
+                    del_a += 1
+                except FloodWaitError as fw:
+                    await hell.edit(f"**FlooadWait:**\n\n__Sleeping for {fw.seconds} seconds__")
+                    await sleep(fw.seconds)
+        if del_u > 0:
+            del_status = f"**Zombies Purged!!**\n\n**Cleaned:** `{del_u}`"
+        if del_a > 0:
+            del_status = f"**Zombies Purged!!**\n\n**Cleaned:** `{del_u}`\n\n`{del_a}` **Zombies Holds Immunity!!**"
+        await hell.edit(del_status)
+        await event.client.send_message(
+            lg_id,
+            f"#ZOMBIES\
+            \n{del_status}\
+           \n**CHAT:** {event.chat.title}(`{event.chat_id}`)",
+        )
+    else:
+        hell = await eor(event, "**Searching For Zombies...**")
         async for user in event.client.iter_participants(event.chat_id):
             if user.deleted:
                 del_u += 1
                 await sleep(0.5)
         if del_u > 0:
             del_status = f"**🆘 ALERT !!**\n\n`{del_u}`  **Zombies detected ☣️\nClean them by using**  `{hl}zombies clean`"
-        await event.edit(del_status)
-        return
-    chat = await event.get_chat()
-    admin = chat.admin_rights
-    creator = chat.creator
-    if not admin and not creator:
-        await parse_error(event, NO_ADMIN)
-        return
-    event = await eor(event, "🧹 Purging out zombies from this group...")
-    del_u = 0
-    del_a = 0
-    async for user in event.client.iter_participants(event.chat_id):
-        if user.deleted:
-            try:
-                await event.client(EditBannedRequest(event.chat_id, user.id, BANNED_RIGHTS))
-#                 await sleep(0.5)
-                del_u += 1
-            except ChatAdminRequiredError:
-                await parse_error(event, "`I don't have ban rights in this group`")
-                return
-            except UserAdminInvalidError:
-                del_a += 1
-    if del_u > 0:
-        del_status = f"**Zombies Purged!!**\n\n**Zombies Killed :**  `{del_u}`"
-    if del_a > 0:
-        del_status = (
-            f"**Zombies Killed**  `{del_u}`\n\n`{del_a}`  **Zombies Holds Immunity!!**"
-        )
-    await edit_or_reply(event, del_status)
-    await event.client.send_message(
-        lg_id,
-        f"#ZOMBIES\
-        \n{del_status}\
-       \n**CHAT:** {event.chat.title}(`{event.chat_id}`)",
-    )
+        await hell.edit(del_status)
 
 
 @hell_cmd(pattern="undlt$")
