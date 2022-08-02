@@ -13,22 +13,10 @@ from . import *
 HEROKU_APP_NAME = Config.HEROKU_APP_NAME or None
 HEROKU_API_KEY = Config.HEROKU_API_KEY or None
 Heroku = heroku3.from_key(Config.HEROKU_API_KEY)
-heroku_api = "https://api.heroku.com"
-UPSTREAM_REPO_BRANCH = "master"
+UPSTREAM_REPO_BRANCH = Config.UPSTREAM_REPO_BRANCH
 UPSTREAM_REPO_URL = Config.UPSTREAM_REPO
-REPO_REMOTE_NAME = "temponame"
-IFFUCI_ACTIVE_BRANCH_NAME = "master"
-NO_HEROKU_APP_CFGD = "No Heroku App Found!"
-HEROKU_GIT_REF_SPEC = "HEAD:refs/heads/master"
-RESTARTING_APP = "Restarting Heroku App..."
-IS_SELECTED_DIFFERENT_BRANCH = "Looks like a custom branch {branch_name} is being used!\nIn this case, updater is unable to identify the branch to be updated. Please check out to an official branch, and re-start the updater."
-hellbot_info = (
-    "https://raw.githubusercontent.com/The-HellBot/Plugins/master/hellbot-info.json"
-)
+hellbot_info = "https://raw.githubusercontent.com/The-HellBot/Plugins/master/hellbot-info.json"
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-requirements_path = os.path.join(
-    os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "requirements.txt"
-)
 
 
 async def hell_info(hellbot_info):
@@ -74,6 +62,7 @@ async def print_changelogs(event, ac_br, changelog):
 
 
 async def update_requirements():
+    requirements_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "requirements.txt")
     reqs = str(requirements_path)
     try:
         process = await asyncio.create_subprocess_shell(
@@ -125,10 +114,7 @@ async def upstream(event):
     except InvalidGitRepositoryError as error:
         if conf is None:
             return await hell.edit(
-                f"`The directory {error} "
-                "does not seem to be a git repository.\n"
-                "Fix that by force updating! Using "
-                f"`{hl}update now.`"
+                f"__The directory__ `{error}` __does not seem to be a git repository. Fix that by force updating!__ \n\n__Do__ `{hl}update now`"
             )
         repo = Repo.init()
         origin = repo.create_remote("upstream", off_repo)
