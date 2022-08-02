@@ -3,7 +3,7 @@ import os
 from . import *
 
 
-@hell_cmd(pattern="tweet(?:\s|$)([\s\S]*)")
+@hell_cmd(pattern="mytweet(?:\s|$)([\s\S]*)")
 async def tweet(event):
     lists = event.text.split(" ", 1)
     reply = await event.get_reply_message()
@@ -20,7 +20,7 @@ async def tweet(event):
             "TwitterStatusBot", f"{(deEmojify(text))}"
         )
         owo = await tweeter[0].click(Config.LOGGER_ID)
-        stcr = await event.client.send_message(kraken.chat_id, owo)
+        stcr = await event.client.send_message(event.chat_id, owo)
         await hell.delete()
         await owo.delete()
         await unsave_stcr(stcr)
@@ -171,20 +171,23 @@ async def nekobot(event):
     os.remove(tweet)
 
 
-@hell_cmd(pattern="gandhi(?:\s|$)([\s\S]*)")
+@hell_cmd(pattern="tweet(?:\s|$)([\s\S]*)")
 async def nekobot(event):
     lists = event.text.split(" ", 1)
     reply = await event.get_reply_message()
     text = None
-    if reply and reply.message:
-        text = reply.message()
-    elif len(lists) == 2:
-        query = lists[1].split("-", 1)
-        username = query[0].strip()
-        text = query[1].strip()
+    username = None
+    if len(lists) == 2:
+        if reply and reply.message:
+            text = reply.message()
+            username = lists[1].strip()
+        else:
+            query = lists[1].split("-", 1)
+            username = query[0].strip()
+            text = query[1].strip()
     else:
         return await parse_error(event, "No texts were given to tweet.")
-    hell = await eor(event, "Gandhi is making a tweet ...")
+    hell = await eor(event, f"{username} is making a tweet ...")
     tweet = await mytweet(username, deEmojify(text))
     await event.client.send_file(event.chat_id, tweet, reply_to=reply)
     await hell.delete()
@@ -246,7 +249,9 @@ CmdHelp("tweets").add_command(
 ).add_command(
     "modi", "<text>/<reply>", "Tweet with Sir Narendra Modi"
 ).add_command(
-    "tweet", "<text>/<reply>", "Tweets in your name"
+    "tweet", "<username> - <text/reply to text>", "Tweets in given username."
+).add_command(
+    "mytweet", "<text or reply to text>", "Tweets with your telegram account name."
 ).add_command(
     "dani", "<text>/<reply>", "Tweet with Dani Daniels 😍🥰"
 ).add_info(
