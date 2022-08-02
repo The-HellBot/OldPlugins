@@ -557,8 +557,8 @@ async def rm_deletedacc(event):
     async for user in event.client.iter_participants(event.chat_id):
         if user.deleted:
             try:
-                await event.client.kick_participant(event.chat_id, user.id)
-                await sleep(0.5)
+                await event.client(EditBannedRequest(event.chat_id, user.id, BANNED_RIGHTS))
+#                 await sleep(0.5)
                 del_u += 1
             except ChatAdminRequiredError:
                 await parse_error(event, "`I don't have ban rights in this group`")
