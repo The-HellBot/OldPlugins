@@ -42,6 +42,7 @@ async def up(event):
     reply = await event.get_reply_message()
     hell = await eor(event, "`Building Alive....`")
     uptime = await get_time((time.time() - StartTime))
+    alive_name = gvarstat("ALIVE_NAME") or HELL_USER
     a = gvarstat("ALIVE_PIC")
     pic_list = []
     if a:
@@ -54,7 +55,7 @@ async def up(event):
         PIC = "https://telegra.ph/file/ea9e11f7c9db21c1b8d5e.mp4"
     end = datetime.datetime.now()
     ling = (end - start).microseconds / 1000
-    omk = ALIVE_TEMP.format(ForGo10God, HELL_USER, tel_ver, hell_ver, is_sudo, uptime, ling)
+    omk = ALIVE_TEMP.format(ForGo10God, alive_name, tel_ver, hell_ver, is_sudo, uptime, ling)
     await event.client.send_file(
         event.chat_id,
         file=PIC,
