@@ -54,7 +54,7 @@ async def space_paste(message, extension=None):
             return {"error": response["error"]}
         return {
             "url": f"https://spaceb.in/{response['payload']['id']}",
-            "raw": f"{siteurl}{response['payload']['id']}/raw",
+            "raw": f"{site}{response['payload']['id']}/raw",
             "bin": "Spacebin",
         }
     return {"error": "Unable to reach spacebin."}
