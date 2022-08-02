@@ -66,5 +66,6 @@ os_config = [
     "THUMB_IMG",
     "UNLOAD",
     "UPSTREAM_REPO",
+    "UPSTREAM_REPO_BRANCH",
     "WEATHER_API",
 ]
