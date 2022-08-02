@@ -337,16 +337,20 @@ if H5:
 
 @hell_cmd(pattern="savewelcome(?:\s|$)([\s\S]*)")
 async def save_welcome(event):
-    lg_id = Config.LOGGER_ID
-    msg = await event.get_reply_message()
+    reply = await event.get_reply_message()
     ForGo10God, HELL_USER, hell_mention = await client_id(event)
-    string = "".join(event.text.split(maxsplit=1)[1:])
+    lists = event.text.split(" ", 1)
+    string = None
+    if len(lists) == 2:
+        string = lists[1].strip()
     msg_id = None
-    if msg and msg.media and not string:
+    if not string and not reply:
+        return await parse_error(event, "Nothing given to add in welcome.")
+    elif reply and reply.media and not string:
         await event.client.send_message(
-            lg_id,
+            Config.LOGGER_ID,
             f"#WELCOME\
-            \n**Group id :** {event.chat_id}\
+            \n**Group id:** {event.chat_id}\
             \nThe msg below is welcome note in {event.chat.title}\
             \nDont delete this msg else welcome won't work.",
         )
@@ -354,9 +358,8 @@ async def save_welcome(event):
             entity=lg_id, messages=msg, from_peer=event.chat_id, silent=True
         )
         msg_id = msg_o.id
-    elif event.reply_to_msg_id and not string:
-        rep_msg = await event.get_reply_message()
-        string = rep_msg.text
+    elif reply and not string:
+        string = reply.text
     success = "`Welcome note {} for this chat.`"
     if add_welcome(event.chat_id, 0, string, msg_id) is True:
         addgvar(f"WELCOME_{ForGo10God}_{str(event.chat_id)[1:]}", "TRUE")
@@ -371,7 +374,6 @@ async def save_welcome(event):
 
 @hell_cmd(pattern="cleanwelcome$")
 async def del_welcome(event):
-    Config.LOGGER_ID
     ForGo10God, HELL_USER, hell_mention = await client_id(event)
     if gvarstat(f"WELCOME_{ForGo10God}_{str(event.chat_id)[1:]}"):
         if rm_welcome(event.chat_id) is True:
@@ -385,7 +387,6 @@ async def del_welcome(event):
 
 @hell_cmd(pattern="showwelcome$")
 async def getwelcome(event):
-    lg_id = Config.LOGGER_ID
     ForGo10God, HELL_USER, hell_mention = await client_id(event)
     if not gvarstat(f"WELCOME_{ForGo10God}_{str(event.chat_id)[1:]}"):
         return await eod(event, "No welcome notes here!")
