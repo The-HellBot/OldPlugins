@@ -2,6 +2,7 @@ from .vars import Config
 
 db_config = [
     "ALIVE_MSG",
+    "ALIVE_NAME",
     "ALIVE_PIC",
     "BAN_PIC",
     "BIO_MSG",
@@ -11,7 +12,6 @@ db_config = [
     "PMPERMIT_PIC",
     "STICKER_PACKNAME",
     "USE_EVAL",
-    "YOUR_NAME",
 ]
 
 os_config = [
@@ -66,5 +66,6 @@ os_config = [
     "THUMB_IMG",
     "UNLOAD",
     "UPSTREAM_REPO",
+    "UPSTREAM_REPO_BRANCH",
     "WEATHER_API",
 ]

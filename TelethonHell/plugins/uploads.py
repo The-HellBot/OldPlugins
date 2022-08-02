@@ -31,7 +31,7 @@ async def upload(event):
             allow_cache=False,
             reply_to=reply,
             progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
-                progress(d, t, event, c_time, "Uploading ...", file_path)
+                progress(d, t, hell, c_time, "Uploading ...", file_path)
             ),
         )
         await eod(hell, f"__Uploaded__ `{file_path}` __successfully !!__")
@@ -70,7 +70,7 @@ async def uploadir(event):
                         allow_cache=False,
                         reply_to=reply,
                         progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
-                            progress(d, t, event, c_time, "Uploading ...", single_file)
+                            progress(d, t, hell, c_time, "Uploading ...", single_file)
                         ),
                     )
                 else:
@@ -104,7 +104,7 @@ async def uploadir(event):
                             )
                         ],
                         progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
-                            progress(d, t, event, c_time, "Uploading...", single_file)
+                            progress(d, t, hell, c_time, "Uploading...", single_file)
                         ),
                     )
                 os.remove(single_file)
@@ -168,7 +168,7 @@ async def uploadas(event):
                         )
                     ],
                     progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
-                        progress(d, t, event, c_time, "Uploading...", file_name)
+                        progress(d, t, hell, c_time, "Uploading...", file_name)
                     ),
                 )
             elif round_message:
@@ -190,7 +190,7 @@ async def uploadas(event):
                         )
                     ],
                     progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
-                        progress(d, t, event, c_time, "Uploading...", file_name)
+                        progress(d, t, hell, c_time, "Uploading...", file_name)
                     ),
                 )
             elif spam_big_messages:
@@ -203,51 +203,6 @@ async def uploadas(event):
         await hell.edit("**404:** __File Not Found__")
 
 
-@hell_cmd(pattern="webup(?:\s|$)([\s\S]*)")
-async def labstack(event):
-    hell = await eor(event, "Uploader in action ...")
-    lists = event.text.split(" ", 1)
-    reply = await event.get_reply_message()
-    if reply:
-        filebase = await event.client.download_media(reply.media, Config.TMP_DOWNLOAD_DIRECTORY)
-    elif len(lists) == 2:
-        filebase = lists[1]
-    else:
-        return await eod(hell, f"**WRONG SYNTAX:** \n\n`{hl}webup <path or reply>`")
-    filesize = os.path.getsize(filebase)
-    filename = os.path.basename(filebase)
-    headers2 = {"Up-User-ID": "IZfFbjUcgoo3Ao3m"}
-    files2 = {
-        "ttl": 604800,
-        "files": [{"name": filename, "type": "", "size": filesize}],
-    }
-    r2 = requests.post("https://up.labstack.com/api/v1/links", json=files2, headers=headers2)
-    r2json = json.loads(r2.text)
-    url = f"https://up.labstack.com/api/v1/links/{r2json['code']}/send"
-    max_days = 7
-    command_to_exec = [
-        "curl",
-        "-F",
-        "files=@" + filebase,
-        "-H",
-        "Transfer-Encoding: chunked",
-        "-H",
-        "Up-User-ID: IZfFbjUcgoo3Ao3m",
-        url,
-    ]
-    try:
-        logger.info(command_to_exec)
-        t_response = subprocess.check_output(command_to_exec, stderr=subprocess.STDOUT)
-    except subprocess.CalledProcessError as exc:
-        logger.info("Status : FAIL", exc.returncode, exc.output)
-        await eod(hell, f"**ERROR !!** \n\n`{exc.output.decode('UTF-8')}`")
-        return
-    else:
-        logger.info(t_response)
-        t_response_arry = f"https://up.labstack.com/api/v1/links/{r2json['code']}/receive"
-    await eor(hell, f"{t_response_arry} \nMax Days: {str(max_days)}", link_preview=False)
-
-
 CmdHelp("uploads").add_command(
     "upload", "<path>", "Uploads a locally stored file to the chat"
 ).add_command(
@@ -256,8 +211,6 @@ CmdHelp("uploads").add_command(
     "uploadas vnr", "<path>", "Uploads the locally stored video in video note format."
 ).add_command(
     "uploadir", "<path>", "Uploads all the files in directory"
-).add_command(
-    "webup", "<reply to media>", "Makes a direct download link of the replied media for a limited time"
 ).add_info(
     "File upload from bot's server."
 ).add_warning(

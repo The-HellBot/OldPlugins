@@ -165,11 +165,11 @@ async def unsave_gif(event, hgif):
         LOGS.info(e)
 
 
-async def unsave_stcr(hstcr):
+async def unsave_stcr(event, sticker):
     try:
         await event.client(
             functions.messages.SaveRecentStickerRequest(
-                id=get_input_document(hstcr),
+                id=get_input_document(sticker),
                 unsave=True,
             )
         )

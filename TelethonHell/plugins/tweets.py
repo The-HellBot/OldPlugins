@@ -1,255 +1,233 @@
+import os
+
 from . import *
 
 
-@hell_cmd(pattern="tweet(?:\s|$)([\s\S]*)")
-async def nope(kraken):
-    hell = kraken.text[7:]
-    okvai = await eor(kraken, "Trying to tweet for you...")
-    if not hell:
-        if kraken.is_reply:
-            (await kraken.get_reply_message()).message
-        else:
-            await eod(okvai, "I need some text to make a tweet🚶")
-            return
-    tweeter = await event.client.inline_query(
-        "TwitterStatusBot", f"{(deEmojify(hell))}"
-    )
-    owo = await tweeter[0].click(Config.LOGGER_ID)
-    stcr = await event.client.send_message(kraken.chat_id, owo)
-    await okvai.delete()
-    await owo.delete()
-    await unsave_stcr(stcr)
-    await unsave_stcr(owo)
+@hell_cmd(pattern="mytweet(?:\s|$)([\s\S]*)")
+async def tweet(event):
+    lists = event.text.split(" ", 1)
+    reply = await event.get_reply_message()
+    text = None
+    if reply and reply.message:
+        text = reply.message()
+    elif len(lists) == 2:
+        text = lists[1].strip()
+    else:
+        return await parse_error(event, "No texts were given to tweet.")
+    hell = await eor(event, "Tweeting ...")
+    if text:
+        tweeter = await event.client.inline_query(
+            "TwitterStatusBot", f"{(deEmojify(text))}"
+        )
+        owo = await tweeter[0].click(Config.LOGGER_ID)
+        stcr = await event.client.send_message(event.chat_id, owo)
+        await hell.delete()
+        await owo.delete()
+        await unsave_stcr(event, stcr)
+        await unsave_stcr(event, owo)
 
 
 @hell_cmd(pattern="trump(?:\s|$)([\s\S]*)")
 async def nekobot(event):
-    text = event.text[7:]
-    reply_to_id = event.message
-    if event.reply_to_msg_id:
-        reply_to_id = await event.get_reply_message()
-    if not text:
-        if event.is_reply:
-            if not reply_to_id.media:
-                text = reply_to_id.message
-            else:
-                await eod(event, "Trump needs some text to tweet..")
-                return
-        else:
-            await eod(event, "Trump needs some text to tweet..")
-            return
-    await eor(event, "Requesting trump to tweet...")
-    text = deEmojify(text)
-    eventfile = await trumptweet(text)
-    await event.client.send_file(event.chat_id, eventfile, reply_to=reply_to_id)
-    await event.delete()
+    lists = event.text.split(" ", 1)
+    reply = await event.get_reply_message()
+    text = None
+    if reply and reply.message:
+        text = reply.message()
+    elif len(lists) == 2:
+        text = lists[1].strip()
+    else:
+        return await parse_error(event, "No texts were given to tweet.")
+    hell = await eor(event, "Trump is making a tweet ...")
+    tweet = await trumptweet(deEmojify(text))
+    await event.client.send_file(event.chat_id, tweet, reply_to=reply)
+    await hell.delete()
+    os.remove(tweet)
 
 
 @hell_cmd(pattern="modi(?:\s|$)([\s\S]*)")
 async def nekobot(event):
-    text = event.text[6:]
-    reply_to_id = event.message
-    if event.reply_to_msg_id:
-        reply_to_id = await event.get_reply_message()
-    if not text:
-        if event.is_reply:
-            if not reply_to_id.media:
-                text = reply_to_id.message
-            else:
-                await eod(event, "Send your text to modi so he can tweet.")
-                return
-        else:
-            await eod(event, "send your text to modi so he can tweet.")
-            return
-    await eor(event, "Requesting modi to tweet...")
-    text = deEmojify(text)
-    eventfile = await moditweet(text)
-    await event.client.send_file(event.chat_id, eventfile, reply_to=reply_to_id)
-    await event.delete()
+    lists = event.text.split(" ", 1)
+    reply = await event.get_reply_message()
+    text = None
+    if reply and reply.message:
+        text = reply.message()
+    elif len(lists) == 2:
+        text = lists[1].strip()
+    else:
+        return await parse_error(event, "No texts were given to tweet.")
+    hell = await eor(event, "Modi is making a tweet ...")
+    tweet = await moditweet(deEmojify(text))
+    await event.client.send_file(event.chat_id, tweet, reply_to=reply)
+    await hell.delete()
+    os.remove(tweet)
 
 
 @hell_cmd(pattern="mia(?:\s|$)([\s\S]*)")
 async def nekobot(event):
-    text = event.text[5:]
-    reply_to_id = event.message
-    if event.reply_to_msg_id:
-        reply_to_id = await event.get_reply_message()
-    if not text:
-        if event.is_reply:
-            if not reply_to_id.media:
-                text = reply_to_id.message
-            else:
-                await eod(event, "Send your text to Mia so she can tweet.")
-                return
-        else:
-            await eod(event, "Send your text to Mia so she can tweet.")
-            return
-    await eor(event, "Requesting Mia to tweet...")
-    text = deEmojify(text)
-    eventfile = await miatweet(text)
-    await event.client.send_file(event.chat_id, eventfile, reply_to=reply_to_id)
-    await event.delete()
+    lists = event.text.split(" ", 1)
+    reply = await event.get_reply_message()
+    text = None
+    if reply and reply.message:
+        text = reply.message()
+    elif len(lists) == 2:
+        text = lists[1].strip()
+    else:
+        return await parse_error(event, "No texts were given to tweet.")
+    hell = await eor(event, "Mia is making a tweet ...")
+    tweet = await miatweet(deEmojify(text))
+    await event.client.send_file(event.chat_id, tweet, reply_to=reply)
+    await hell.delete()
+    os.remove(tweet)
 
 
 @hell_cmd(pattern="dani(?:\s|$)([\s\S]*)")
 async def nekobot(event):
-    text = event.text[6:]
-    reply_to_id = event.message
-    if event.reply_to_msg_id:
-        reply_to_id = await event.get_reply_message()
-    if not text:
-        if event.is_reply:
-            if not reply_to_id.media:
-                text = reply_to_id.message
-            else:
-                await eod(event, "Send your text to Dani so she can tweet.")
-                return
-        else:
-            await eod(event, "Send your text to Dani so she can tweet.")
-            return
-    await eor(event, "Requesting Dani to tweet...")
-    text = deEmojify(text)
-    eventfile = await dani(text)
-    await event.client.send_file(event.chat_id, eventfile, reply_to=reply_to_id)
-    await event.delete()
+    lists = event.text.split(" ", 1)
+    reply = await event.get_reply_message()
+    text = None
+    if reply and reply.message:
+        text = reply.message()
+    elif len(lists) == 2:
+        text = lists[1].strip()
+    else:
+        return await parse_error(event, "No texts were given to tweet.")
+    hell = await eor(event, "Dani is making a tweet ...")
+    tweet = await dani(deEmojify(text))
+    await event.client.send_file(event.chat_id, tweet, reply_to=reply)
+    await hell.delete()
+    os.remove(tweet)
 
 
 @hell_cmd(pattern="pappu(?:\s|$)([\s\S]*)")
 async def nekobot(event):
-    text = event.text[7:]
-    reply_to_id = event.message
-    if event.reply_to_msg_id:
-        reply_to_id = await event.get_reply_message()
-    if not text:
-        if event.is_reply:
-            if not reply_to_id.media:
-                text = reply_to_id.message
-            else:
-                await eod(event, "Send a text to Pappu so he can tweet.")
-                return
-        else:
-            await eod(event, "send your text to pappu so he can tweet.")
-            return
-    await eor(event, "Requesting pappu to tweet...")
-    text = deEmojify(text)
-    eventfile = await papputweet(text)
-    await event.client.send_file(event.chat_id, eventfile, reply_to=reply_to_id)
-    await event.delete()
+    lists = event.text.split(" ", 1)
+    reply = await event.get_reply_message()
+    text = None
+    if reply and reply.message:
+        text = reply.message()
+    elif len(lists) == 2:
+        text = lists[1].strip()
+    else:
+        return await parse_error(event, "No texts were given to tweet.")
+    hell = await eor(event, "Pappu is making a tweet ...")
+    tweet = await papputweet(deEmojify(text))
+    await event.client.send_file(event.chat_id, tweet, reply_to=reply)
+    await hell.delete()
+    os.remove(tweet)
 
 
 @hell_cmd(pattern="sunny(?:\s|$)([\s\S]*)")
 async def nekobot(event):
-    text = event.text[7:]
-    reply_to_id = event.message
-    if event.reply_to_msg_id:
-        reply_to_id = await event.get_reply_message()
-    if not text:
-        if event.is_reply:
-            if not reply_to_id.media:
-                text = reply_to_id.message
-            else:
-                await eod(event, "Send a text to Sunny so she can tweet.")
-                return
-        else:
-            await eod(event, "send your text to sunny so she can tweet.")
-            return
-    await eor(event, "Requesting sunny to tweet...🥰")
-    text = deEmojify(text)
-    eventfile = await sunnytweet(text)
-    await event.client.send_file(event.chat_id, eventfile, reply_to=reply_to_id)
-    await event.delete()
+    lists = event.text.split(" ", 1)
+    reply = await event.get_reply_message()
+    text = None
+    if reply and reply.message:
+        text = reply.message()
+    elif len(lists) == 2:
+        text = lists[1].strip()
+    else:
+        return await parse_error(event, "No texts were given to tweet.")
+    hell = await eor(event, "Sunny is making a tweet ...")
+    tweet = await sunnytweet(deEmojify(text))
+    await event.client.send_file(event.chat_id, tweet, reply_to=reply)
+    await hell.delete()
+    os.remove(tweet)
 
 
 @hell_cmd(pattern="johhny(?:\s|$)([\s\S]*)")
 async def nekobot(event):
-    text = event.text[8:]
-    reply_to_id = event.message
-    if event.reply_to_msg_id:
-        reply_to_id = await event.get_reply_message()
-    if not text:
-        if event.is_reply:
-            if not reply_to_id.media:
-                text = reply_to_id.message
-            else:
-                await eod(event, "Send a text to Johhny so he can tweet.")
-                return
-        else:
-            await eod(event, "send your text to Johhny so he can tweet.")
-            return
-    await eor(event, "Requesting johhny to tweet...😆")
-    text = deEmojify(text)
-    eventfile = await sinstweet(text)
-    await event.client.send_file(event.chat_id, eventfile, reply_to=reply_to_id)
-    await event.delete()
+    lists = event.text.split(" ", 1)
+    reply = await event.get_reply_message()
+    text = None
+    if reply and reply.message:
+        text = reply.message()
+    elif len(lists) == 2:
+        text = lists[1].strip()
+    else:
+        return await parse_error(event, "No texts were given to tweet.")
+    hell = await eor(event, "Johhny is making a tweet ...")
+    tweet = await sinstweet(deEmojify(text))
+    await event.client.send_file(event.chat_id, tweet, reply_to=reply)
+    await hell.delete()
+    os.remove(tweet)
 
 
 @hell_cmd(pattern="gandhi(?:\s|$)([\s\S]*)")
 async def nekobot(event):
-    text = event.text[8:]
-    reply_to_id = event.message
-    if event.reply_to_msg_id:
-        reply_to_id = await event.get_reply_message()
-    if not text:
-        if event.is_reply:
-            if not reply_to_id.media:
-                text = reply_to_id.message
-            else:
-                await eod(event, "Send you text to baapu so he can tweet.")
-                return
+    lists = event.text.split(" ", 1)
+    reply = await event.get_reply_message()
+    text = None
+    if reply and reply.message:
+        text = reply.message()
+    elif len(lists) == 2:
+        text = lists[1].strip()
+    else:
+        return await parse_error(event, "No texts were given to tweet.")
+    hell = await eor(event, "Gandhi is making a tweet ...")
+    tweet = await taklatweet(deEmojify(text))
+    await event.client.send_file(event.chat_id, tweet, reply_to=reply)
+    await hell.delete()
+    os.remove(tweet)
+
+
+@hell_cmd(pattern="tweet(?:\s|$)([\s\S]*)")
+async def nekobot(event):
+    lists = event.text.split(" ", 1)
+    reply = await event.get_reply_message()
+    text = None
+    username = None
+    if len(lists) == 2:
+        if reply and reply.message:
+            text = reply.message()
+            username = lists[1].strip()
         else:
-            await eod(event, "send you text to baapu so he can tweet.")
-            return
-    await eor(event, "Requesting baapu to tweet...")
-    text = deEmojify(text)
-    eventfile = await taklatweet(text)
-    await event.client.send_file(event.chat_id, eventfile, reply_to=reply_to_id)
-    await event.delete()  # bancho kitni baar bolu no offence
+            query = lists[1].split("-", 1)
+            username = query[0].strip()
+            text = query[1].strip()
+    else:
+        return await parse_error(event, "No texts were given to tweet.")
+    hell = await eor(event, f"{username} is making a tweet ...")
+    tweet = await mytweet(username, deEmojify(text))
+    await event.client.send_file(event.chat_id, tweet, reply_to=reply)
+    await hell.delete()
+    os.remove(tweet)
 
 
 @hell_cmd(pattern="cmm(?:\s|$)([\s\S]*)")
 async def nekobot(event):
-    text = event.text[5:]
-    reply_to_id = event.message
-    if event.reply_to_msg_id:
-        reply_to_id = await event.get_reply_message()
-    if not text:
-        if event.is_reply:
-            if not reply_to_id.media:
-                text = reply_to_id.message
-            else:
-                await eod(event, "Give text for to write on banner, man")
-                return
-        else:
-            await eod(event, "Give text for to write on banner, man")
-            return
-    await eor(event, "Your banner is under creation wait a sec...")
-    text = deEmojify(text)
-    eventfile = await changemymind(text)
-    await event.client.send_file(event.chat_id, eventfile, reply_to=reply_to_id)
-    await event.delete()
+    lists = event.text.split(" ", 1)
+    reply = await event.get_reply_message()
+    text = None
+    if reply and reply.message:
+        text = reply.message()
+    elif len(lists) == 2:
+        text = lists[1].strip()
+    else:
+        return await parse_error(event, "No texts were given to change my mind.")
+    hell = await eor(event, "Change my mind ...")
+    mind = await changemymind(deEmojify(text))
+    await event.client.send_file(event.chat_id, mind, reply_to=reply)
+    await hell.delete()
+    os.remove(mind)
 
 
 @hell_cmd(pattern="kanna(?:\s|$)([\s\S]*)")
 async def nekobot(event):
-    text = event.text[7:]
-    reply_to_id = event.message
-    if event.reply_to_msg_id:
-        reply_to_id = await event.get_reply_message()
-    if not text:
-        if event.is_reply:
-            if not reply_to_id.media:
-                text = reply_to_id.message
-            else:
-                await eod(event, "what should kanna write give text ")
-                return
-        else:
-            await eod(event, "what should kanna write give text")
-            return
-    await eor(event, "Kanna is writing your text...")
-    text = deEmojify(text)
-    eventfile = await kannagen(text)
-    await event.client.send_file(event.chat_id, eventfile, reply_to=reply_to_id)
-    await event.delete()
+    lists = event.text.split(" ", 1)
+    reply = await event.get_reply_message()
+    text = None
+    if reply and reply.message:
+        text = reply.message()
+    elif len(lists) == 2:
+        text = lists[1].strip()
+    else:
+        return await parse_error(event, "No texts were given to kanna.")
+    hell = await eor(event, "Kanna is writting ...")
+    kanna = await kannagen(deEmojify(text))
+    await event.client.send_file(event.chat_id, kanna, reply_to=reply)
+    await hell.delete()
+    os.remove(kanna)
 
 
 CmdHelp("tweets").add_command(
@@ -271,7 +249,9 @@ CmdHelp("tweets").add_command(
 ).add_command(
     "modi", "<text>/<reply>", "Tweet with Sir Narendra Modi"
 ).add_command(
-    "tweet", "<text>/<reply>", "Tweets in your name"
+    "tweet", "<username> - <text/reply to text>", "Tweets in given username."
+).add_command(
+    "mytweet", "<text or reply to text>", "Tweets with your telegram account name."
 ).add_command(
     "dani", "<text>/<reply>", "Tweet with Dani Daniels 😍🥰"
 ).add_info(

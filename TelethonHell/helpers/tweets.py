@@ -165,9 +165,9 @@ async def taklatweet(text):
 
 
 # make your own tweet
-async def tweets(text1, text2):
+async def mytweet(username, text):
     r = requests.get(
-        f"https://nekobot.xyz/api/imagegen?type=tweet&text={text1}&username={text2}"
+        f"https://nekobot.xyz/api/imagegen?type=tweet&text={text}&username={username}"
     ).json()
     wew = r.get("message")
     hburl = url(wew)

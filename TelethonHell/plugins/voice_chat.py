@@ -18,18 +18,18 @@ def all_users(a, b):
 async def _(event):
     try:
         await event.client(CreateGroupCallRequest(event.chat_id))
-        await eor(event, "**🔊 Voice Chat Started Successfully**")
+        await eod(event, "**🔊 Voice Chat Started Successfully**")
     except Exception as e:
-        await eod(event, f"`{str(e)}`")
+        await parse_error(event, f"`{str(e)}`")
 
 
 @hell_cmd(pattern="endvc$")
 async def _(event):
     try:
         await event.client(DiscardGroupCallRequest(await getvc(event)))
-        await eor(event, "**📍 Voice Chat Ended Successfully !!**")
+        await eod(event, "**📍 Voice Chat Ended Successfully !!**")
     except Exception as e:
-        await eod(event, f"`{str(e)}`")
+        await parse_error(event, f"`{str(e)}`")
 
 
 @hell_cmd(pattern="vcinvite$")
@@ -40,8 +40,8 @@ async def _(event):
     async for j in event.client.iter_participants(event.chat_id):
         if not j.bot:
             users.append(j.id)
-    hel_ = list(all_users(users, 6))
-    for k in hel_:
+    lists = list(all_users(users, 6))
+    for k in lists:
         try:
             await event.client(
                 InviteToGroupCallRequest(call=await getvc(event), users=k)
@@ -49,7 +49,7 @@ async def _(event):
             i += 6
         except BaseException:
             pass
-    await hell.edit(f"**🚀 Invited {i} Users to Voice Chat**")
+    await parse_error(hell, f"**🚀 Invited** `{i}` **users to Voice Chat.**")
 
 
 CmdHelp("voice_chat").add_command(

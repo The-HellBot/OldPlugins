@@ -13,22 +13,10 @@ from . import *
 HEROKU_APP_NAME = Config.HEROKU_APP_NAME or None
 HEROKU_API_KEY = Config.HEROKU_API_KEY or None
 Heroku = heroku3.from_key(Config.HEROKU_API_KEY)
-heroku_api = "https://api.heroku.com"
-UPSTREAM_REPO_BRANCH = "master"
+UPSTREAM_REPO_BRANCH = Config.UPSTREAM_REPO_BRANCH
 UPSTREAM_REPO_URL = Config.UPSTREAM_REPO
-REPO_REMOTE_NAME = "temponame"
-IFFUCI_ACTIVE_BRANCH_NAME = "master"
-NO_HEROKU_APP_CFGD = "No Heroku App Found!"
-HEROKU_GIT_REF_SPEC = "HEAD:refs/heads/master"
-RESTARTING_APP = "Restarting Heroku App..."
-IS_SELECTED_DIFFERENT_BRANCH = "Looks like a custom branch {branch_name} is being used!\nIn this case, updater is unable to identify the branch to be updated. Please check out to an official branch, and re-start the updater."
-hellbot_info = (
-    "https://raw.githubusercontent.com/The-HellBot/Plugins/master/hellbot-info.json"
-)
+hellbot_info = "https://raw.githubusercontent.com/The-HellBot/Plugins/master/hellbot-info.json"
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-requirements_path = os.path.join(
-    os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "requirements.txt"
-)
 
 
 async def hell_info(hellbot_info):
@@ -74,6 +62,7 @@ async def print_changelogs(event, ac_br, changelog):
 
 
 async def update_requirements():
+    requirements_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "requirements.txt")
     reqs = str(requirements_path)
     try:
         process = await asyncio.create_subprocess_shell(
@@ -104,30 +93,28 @@ async def update(event, repo, ups_rem, ac_br):
 
 @hell_cmd(pattern="update(| now)$")
 async def upstream(event):
-    conf = event.pattern_match.group(1).strip()
-    event = await eor(event, "`Checking for new updates...`")
+    lists = event.text.split(" ", 1)
+    conf = None
+    if len(lists) == 2:
+        conf = lists[1].strip()
+    hell = await eor(event, "`Checking for new updates...`")
     off_repo = UPSTREAM_REPO_URL
     force_update = False
     if HEROKU_API_KEY is None or HEROKU_APP_NAME is None:
-        return await eod(
-            event, "Set  `HEROKU_APP_NAME`  and  `HEROKU_API_KEY`  to update your bot 🥴"
-        )
+        return await parse_error(hell, "`HEROKU_API_KEY` __or__ `HEROKU_APP_NAME` __is not configured.__", False)
     txt = "😕 `Updater cannot continue due to some problems occured`\n\n**LOGTRACE:**\n"
     try:
         repo = Repo()
     except NoSuchPathError as error:
-        await event.edit(f"{txt}\n`directory {error}  not found`")
+        await hell.edit(f"{txt}\n`directory {error}  not found`")
         return repo.__del__()
     except GitCommandError as error:
-        await event.edit(f"{txt}\n`Early failure! {error}`")
+        await hell.edit(f"{txt}\n`Early failure! {error}`")
         return repo.__del__()
     except InvalidGitRepositoryError as error:
         if conf is None:
-            return await event.edit(
-                f"`The directory {error} "
-                "does not seem to be a git repository.\n"
-                "Fix that by force updating! Using "
-                f"`{hl}update now.`"
+            return await hell.edit(
+                f"__The directory__ `{error}` __does not seem to be a git repository. Fix that by force updating!__ \n\n__Do__ `{hl}update now`"
             )
         repo = Repo.init()
         origin = repo.create_remote("upstream", off_repo)
@@ -138,10 +125,7 @@ async def upstream(event):
         repo.heads.master.checkout(True)
     ac_br = repo.active_branch.name
     if ac_br != UPSTREAM_REPO_BRANCH:
-        await event.edit(
-            f"`Looks like you are using your own custom git branch ( {ac_br} ). "
-            "Please checkout to official branch that is ( master )`"
-        )
+        await hell.edit(f"__Looks like you are using your own custom git branch__ `{ac_br}`. __Please checkout to official branch that is__ `{UPSTREAM_REPO_BRANCH}`")
         return repo.__del__()
     try:
         repo.create_remote("upstream", off_repo)
@@ -150,26 +134,24 @@ async def upstream(event):
     ups_rem = repo.remote("upstream")
     ups_rem.fetch(ac_br)
     changelog = await gen_chlog(repo, f"HEAD..upstream/{ac_br}")
-    cid = await client_id(event)
-    hell_mention = cid[2]
+    _, _, hell_mention = await client_id(event)
     if changelog == "" and not force_update:
         _version, _release, _branch, _author, _auturl = await hell_info(hellbot_info)
-        output_ = f"**Your Bot Version :** `{hell_ver}` \n**Owner :** {hell_mention} \n\n**Official HellBot Version :** `{_version}` \n**Release Date :** `{_release}` \n**Official Repo Branch :** `{_branch}` \n**Update By :** [{_author}]({_auturl})"
-        if str(_version) not in str(hell_ver):
-            output_ += f"\n\n**Do** `{hl}update build` **to update your HellBot to latest version.**"
-        await event.edit(output_)
+        output_ = f"**◈ Your Bot Version:** `{hell_ver}` \n**◈ Owner:** {hell_mention} \n\n**◈ HellBot Global Version:** `{_version}` \n**◈ Release Date:** `{_release}` \n**◈ Official Repo Branch:** `{_branch}` \n**◈ Update By:** [{_author}]({_auturl})"
+        if str(_version) != str(hell_ver):
+            output_ += f"\n\n__Do__ `{hl}update build` __to update your HellBot to latest version.__"
+        else:
+            output_ += "\n\n__You are already on latest version.__"
+        await hell.edit(output_)
         return repo.__del__()
-    if conf == "" and not force_update:
+    if not conf and not force_update:
         await print_changelogs(event, ac_br, changelog)
-        await event.delete()
-        return await event.respond(
-            f"🌚 Do `{hl}update build` to update your **Hêllẞø†** !!"
-        )
+        return await hell.edit(f"🌚 Do `{hl}update build` to update your **Hêllẞø†** !!")
 
     if force_update:
-        await event.edit("`Force-Updating Hêllẞø†. Please wait...`")
+        await hell.edit("**⥼ Synced Repo ⥽** \n\n__Do__ `{hl}update` __again to start updating ...__")
     if conf == "now":
-        await event.edit("`Update In Progress! Please Wait....`")
+        await hell.edit("`Update In Progress! Please Wait....`")
         await update(event, repo, ups_rem, ac_br)
     return
 
@@ -180,7 +162,7 @@ async def deploy(event, repo, ups_rem, ac_br, txt):
         heroku_app = None
         heroku_applications = heroku.apps()
         if HEROKU_APP_NAME is None:
-            await event.edit("**Please set up**  `HEROKU_APP_NAME`  **to update!")
+            await parse_error(event, "`HEROKU_APP_NAME` __is not configured.__", False)
             repo.__del__()
             return
         for app in heroku_applications:
@@ -188,7 +170,7 @@ async def deploy(event, repo, ups_rem, ac_br, txt):
                 heroku_app = app
                 break
         if heroku_app is None:
-            await event.edit(f"{txt}\n" "`Invalid Heroku vars for updating.")
+            await parse_error(event, f"{txt}__Invalid Heroku Vars.__", False)
             return repo.__del__()
         _version, _release, _branch, _author, _auturl = await hell_info(hellbot_info)
         await event.edit(
@@ -213,26 +195,17 @@ async def deploy(event, repo, ups_rem, ac_br, txt):
             return repo.__del__()
         build_status = app.builds(order_by="created_at", sort="desc")[0]
         if build_status.status == "failed":
-            await event.edit("`Build failed ⚠️`")
-            await asyncio.sleep(5)
-            return await event.delete()
-        await event.edit(
-            f"**Your Hêllẞø† Is UpToDate**\n\n**Version :**  __{hell_ver}__\n**Oɯɳҽɾ :**  {hell_mention}"
-        )
+           return await eod(event, "__Build Failed !!__")
+        await event.edit(f"**Your Hêllẞø† Is UpToDate**\n\n**Version :**  __{hell_ver}__\n**Oɯɳҽɾ :**  {hell_mention}")
     else:
-        await event.edit(
-            "**Please set up**  `HEROKU_API_KEY`  **from heroku to update!**"
-        )
+        await parse_error(event, "`HEROKU_API_KEY` __is not configured.__")
     return
 
 
 @hell_cmd(pattern="update build$")
 async def upstream(event):
-    event = await eor(
-        event,
-        "`Hard-Update In Progress... \nPlease wait until docker build is finished...`",
-    )
-    off_repo = "https://github.com/The-HellBot/HellBot"
+    hell = await eor(event, "`Hard-Update In Progress... \nPlease wait until docker build is finished...`")
+    off_repo = UPSTREAM_REPO_URL
     os.chdir("/app")
     git_hell = f"rm -rf .git"
     try:
@@ -243,10 +216,10 @@ async def upstream(event):
     try:
         repo = Repo()
     except NoSuchPathError as error:
-        await event.edit(f"{txt}\n`directory {error}  not found`")
+        await hell.edit(f"{txt}\n`directory {error}  not found`")
         return repo.__del__()
     except GitCommandError as error:
-        await event.edit(f"{txt}\n`Early failure! {error}`")
+        await hell.edit(f"{txt}\n`Early failure! {error}`")
         return repo.__del__()
     except InvalidGitRepositoryError:
         repo = Repo.init()
