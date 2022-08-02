@@ -7,19 +7,63 @@ from . import *
 
 @hell_cmd(pattern="igdl(?:\s|$)([\s\S]*)")
 async def download(event):
-    flag, url = await get_flag(event)
+    lists = event.text.split(" ", 3)
+    link = None
+    flag = None
+    post = 10
+    if len(lists) == 4:
+        flag = lists[1].strip()
+        link = lists[2].strip()
+        post = lists[3].strip()
+        if post.isdigit():
+            post = int(post)
+        else:
+            post = 10
+    elif len(lists) == 3:
+        flag = lists[1].strip()
+        link = lists[2].strip()
+    elif len(lists) == 2:
+        flag = "-post"
+        link = lists[1].strip()
+    else:
+        return await parse_error(event, "Give proper command.")
+
     _, _, hell_mention = await client_id(event)
     hell = await eor(event, "IG downloader in action...")
-    
-    if flag.lower() in ["-post", "-story"]:
-        result = re.search(insta_regex, url)
+
+    if flag.lower() == "-htag":
+        if link and link.startswith("#"):
+            await hell.edit(f"IG downloader in action... \n\nUploading top {post} posts of `{link}`")
+            try:
+                await IG_Htag_DL(event, link[1:], post)
+                items_list = [os.path.join('./insta/dl', file) for file in os.listdir('./insta/dl')]
+                count = 0
+                if items_list != []:
+                    for single in items_list:
+                        try:
+                            await event.client.send_file(
+                                event.chat_id, 
+                                single,
+                                caption=f"📥 InstaGram Post Downloaded By :- {hell_mention}",
+                            )
+                            count += 1
+                        except Exception as e:
+                            LOGS.info(str(e))
+                        os.remove(single)
+                await hell.edit(f"**Downloaded top posts of** `{link}` \n\n__Total:__ `{count} posts.`")
+            except Exception as e:
+                return await parse_error(hell, e)
+        else:
+            return await eod(hell, f"**SYNTAX EXAMPLE:** \n\n`{hl}igdl -htag #amvs`\n\nThis will give top 10 IG posts of hashtag `#amvs`.")
+    elif link:
+        result = re.search(insta_regex, link)
         if not result:
             return await parse_error(hell, "No link to download.")
         try:
             file, caption = await IGDL(event, result.group(0))
         except Exception as e:
             return await parse_error(hell, e)
-
+        await hell.edit("**Downloaded post.** __Uploading now ...__")
         items_list = [os.path.join('./insta/dl', file) for file in os.listdir('./insta/dl')]
         count = 0
         if items_list != []:
@@ -40,38 +84,12 @@ async def download(event):
                     message=caption,
                     reply_to=hell,
                 )
-            await eor(hell, f"**Downloaded Instagram Post!** \n\n__Total:__ `{count} posts.`")
+            await hell.edit(f"**Downloaded Instagram Post!** \n\n__Total:__ `{count} posts.`")
         else:
             await parse_error(hell, "Unable to upload video! Check LOGS and try again!")
-
-    elif flag.lower() == "-htag":
-        # TODO: No.of posts given by user and not default to 10
-        if url and url.startswith("#"):
-            await hell.edit(f"IG downloader in action... \n\nUploading top 10 posts of `{url}`")
-            try:
-                await IG_Htag_DL(event, url[1:], 10)
-                items_list = [os.path.join('./insta/dl', file) for file in os.listdir('./insta/dl')]
-                count = 0
-                if items_list != []:
-                    for single in items_list:
-                        try:
-                            await event.client.send_file(
-                                event.chat_id, 
-                                single,
-                                caption=f"📥 InstaGram Post Downloaded By :- {hell_mention}",
-                            )
-                            count += 1
-                        except Exception as e:
-                            LOGS.info(str(e))
-                        os.remove(single)
-                await hell.edit(f"**Downloaded top posts of** `{url}` \n\n__Total:__ `{count} posts.`")
-            except Exception as e:
-                return await parse_error(hell, e)
-        else:
-            return await eod(hell, f"**SYNTAX EXAMPLE:** \n\n`{hl}igdl -htag #amvs`\n\nThis will give top 10 IG posts of hashtag `#amvs`.")
     else:
-        await eod(hell, f"Give proper flag. Check `{hl}plinfo instagram` for details.")
-    
+        await parse_error(hell, "Give proper command.")
+
 
 @hell_cmd(pattern="igup(?:\s|$)([\s\S]*)")
 async def upload(event):
@@ -243,13 +261,13 @@ async def userinfo(event):
 
 
 CmdHelp("instagram").add_command(
-    "igdl", "<flag> <link>", "Download posts/reels/stories from Instagram. Requires INSTAGRAM_SESSION to work."
+    "igdl", "<link>", "Download posts/reels/stories from Instagram. Requires INSTAGRAM_SESSION to work."
+).add_command(
+    "igdl -htag", "<hashtag> <count>", "Download top posts of given instagram hashtag limited to given count. Requires INSTAGRAM_SESSION to work."
 ).add_command(
     "iguser", "<username>", "Extracts the data of given username from Instagram."
 ).add_command(
     "igup", "<flag> <reply>", "Upload replied media on Instagram with caption from Telegram."
-).add_extra(
-    "🚩 Flags [igdl]", "-post, -story, -htag"
 ).add_extra(
     "🚩 Flags [igup]", "-reel, -tv, -vid, -pic, -story"
 ).add_info(
