@@ -117,6 +117,13 @@ async def get_full_user(event):
             input_str = event.pattern_match.group(1)
         except IndexError as e:
             return None, e
+        if input_str and input_str.isdigit():
+            try:
+                user_id = int(input_str)
+                replied_user = await event.client(GetFullUserRequest(user_id))
+                return replied_user, None
+            except Exception as e:
+                return None, e
         if event.message.entities is not None:
             mention_entity = event.message.entities
             probable_user_mention_entity = mention_entity[0]
@@ -568,15 +575,13 @@ CmdHelp("infos").add_command(
 ).add_command(
     "info", "<reply / username>", "Fetches the information of the user"
 ).add_command(
-    "whois", "<reply / username>", "Same as info"
-).add_command(
     "chatinfo", "<username of group>", "Shows you the total information of the required chat"
 ).add_command(
     "users", "<name of member> (optional)", "Retrives all the (or mentioned) users in the chat"
 ).add_command(
     "recognize", "<reply to photo>", "Sends you the details of that replied picture."
 ).add_info(
-    "Basic Cmds for groups."
+    "Basic commands for informations."
 ).add_warning(
     "✅ Harmless Module."
 ).add()
