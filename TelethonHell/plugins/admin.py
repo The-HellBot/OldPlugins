@@ -1,6 +1,6 @@
 from asyncio import sleep
 
-from telethon.errors import BadRequestError, ImageProcessFailedError, PhotoCropSizeSmallError
+from telethon.errors import BadRequestError, ImageProcessFailedError, PhotoCropSizeSmallError, ChatAdminRequiredError
 from telethon.errors.rpcerrorlist import UserAdminInvalidError, UserIdInvalidError
 from telethon.tl.functions.channels import EditAdminRequest, EditBannedRequest, EditPhotoRequest
 from telethon.tl.functions.users import GetFullUserRequest
