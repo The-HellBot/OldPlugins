@@ -23,8 +23,8 @@ async def tweet(event):
         stcr = await event.client.send_message(event.chat_id, owo)
         await hell.delete()
         await owo.delete()
-        await unsave_stcr(stcr)
-        await unsave_stcr(owo)
+        await unsave_stcr(event, stcr)
+        await unsave_stcr(event, owo)
 
 
 @hell_cmd(pattern="trump(?:\s|$)([\s\S]*)")
