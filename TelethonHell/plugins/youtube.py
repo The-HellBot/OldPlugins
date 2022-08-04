@@ -35,13 +35,13 @@ async def download_video(event):
                 audio_file = ytdl.prepare_filename(ytdl_data)
                 ytdl.process_info(ytdl_data)
             c_time = time.time()
-            upload_txt = f"**••• Uploading Audio •••** \n\n__» {ytdl_data['title']}__\n__»»__ [{ytdl['uploader']}]({ytdl['uploader_url']})"
+            upload_txt = f"**••• Uploading Audio •••** \n\n__» {ytdl_data['title']}__\n__»»__ [{ytdl_data['uploader']}]({ytdl_data['uploader_url']})"
             await hell.edit(upload_txt)
             await event.client.send_file(
                 event.chat_id,
                 audio_file,
                 supports_streaming=True,
-                caption=f"**✘ Audio:** `{ytdl_data['title']}` \n**✘ Channel:** [{ytdl['uploader']}]({ytdl['uploader_url']}) \n**✘ Views:** `{ytdl_data['view_count']} views` \n\n**« ✘ »** {hell_mention}",
+                caption=f"**✘ Audio:** `{ytdl_data['title']}` \n**✘ Channel:** [{ytdl_data['uploader']}]({ytdl_data['uploader_url']}) \n**✘ Views:** `{ytdl_data['view_count']} views` \n\n**« ✘ »** {hell_mention}",
                 reply_to=reply,
                 attributes=[
                     DocumentAttributeAudio(
@@ -66,6 +66,7 @@ async def download_video(event):
             with yt_dlp.YoutubeDL(opts) as ydl:
                 vid_file = ydl.extract_info(url, download=True)
             file_ = f"{vid_file['id']}.mp4"
+            c_time = time.time()
             upload_txt = f"**••• Uploading Video •••** \n\n__» {vid_file['title']}__\n__»»__ [{vid_file['uploader']}]({vid_file['uploader_url']})"
             await hell.edit(upload_txt)
             await event.client.send_file(
