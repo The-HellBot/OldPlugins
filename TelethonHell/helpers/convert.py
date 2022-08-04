@@ -109,10 +109,13 @@ async def take_ss(video_file: str, duration: int, path: str = "") -> Optional[st
     return thumb_image_path if os.path.exists(thumb_image_path) else None
 
 
-async def tgs_to_gif(file):
-    cmd = f"lottie_convert.py '{file}' 'hellbot.gif'"
-    out = (await runcmd(cmd))[0]
-    return out
+async def tgs_to_gif(file, tgs=False, video=False):
+    if tgs:
+        cmd = f"lottie_convert.py '{file}' 'hellbot.gif'"
+    elif video:
+        cmd = f"ffmpeg -i '{file}' -c copy 'hellbot.gif'"
+    await runcmd(cmd)
+    return 'hellbot.gif'
 
 
 # deal with it...
