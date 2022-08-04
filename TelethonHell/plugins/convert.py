@@ -21,7 +21,7 @@ async def _(event):
     else:
         quality = 512
     rply = await event.get_reply_message()
-    type_ = mediatype(rply)
+    type_ = media_type(rply)
     if type_ == 'Sticker':
         hell_ = await event.client.download_media(rply.media)
         gifs = await tgs_to_gif(hell_, True)
