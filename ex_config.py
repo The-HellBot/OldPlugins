@@ -1,32 +1,28 @@
+# FOR SELF HOST
 # EDIT THIS FILE AND RENAME TO config.py TO MAKE THIS BOT WORKING
 # FILL THESE VALUES ACCORDINGLY.
 
-from hellbot.config.hell_config import Config
+from HellConfig.config import Config
+
 
 class Development(Config):
-  # get these values from my.telegram.org. 
-  APP_ID = 6    # 6 is a placeholder. Fill your 6 digit api id
-  API_HASH = "eb06d4abfb49dc3eeb1aeb98ae0f581e"   # replace this with your api hash
+    # get these values from my.telegram.org.
+    
+    APP_ID = 666666  # 666666 is a placeholder. Fill your 6 digit api id
+    
+    API_HASH = "eb06d4abfb49dc3eeb1aeb98ae0f581e"  # replace this with your api hash
+    
+    BOT_TOKEN = "Your value"  # Create a bot from @BotFather and paste the token here
+    
+    BOT_LIBRARY = "telethon"  # fill 'pyrogram' if you want pyrogram version of hellbot else leave it as it is.
 
-  # create any PostgreSQL database.
-  # I recommend to use elephantsql and paste that link here
-  DB_URI = "Your value"
+    DB_URI = "Your value"  # A postgresql database url from elephantsql
 
-  # After cloning the repo and installing requirements...
-  # Do `python string.py` and fill the on screen prompts.
-  # String session will be saved in your saved message of telegram.
-  # Put that string here.
-  HELLBOT_SESSION = "Your value"
+    HELLBOT_SESSION = "Your value"  # telethon or pyrogram string according to BOT_LIBRARY
 
-  # Create a bot in @BotFather
-  # And fill the following values with bot token and username.
-  BOT_TOKEN = "Your value" #token
+    HANDLER = "."  # Custom Command Handler
 
-  # Custom Command Handler. 
-  HANDLER = "."
-
-  # Custom Command Handler for sudo users.
-  SUDO_HANDLER = "!"
+    SUDO_HANDLER = "!"  # Custom Command Handler for sudo users.
 
 
 # end of required config
