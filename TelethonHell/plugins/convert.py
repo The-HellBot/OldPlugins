@@ -21,10 +21,17 @@ async def _(event):
     else:
         quality = 512
     rply = await event.get_reply_message()
-    hell_ = await event.client.download_media(rply.media)
-    gifs = await tgs_to_gif(hell_)
-    await event.client.send_file(event.chat_id, file=gifs, force_document=False)
-    await hell.delete()
+    type_ = media_type(rply)
+    if type_ == 'Sticker':
+        hell_ = await event.client.download_media(rply.media)
+        gifs = await tgs_to_gif(hell_, True)
+        unsave =  await event.client.send_file(event.chat_id, file=gifs, force_document=False)
+        await unsave_gif(event, unsave)
+        await hell.delete()
+        os.remove(hell_)
+        os.remove("hellbot.gif")
+    else:
+        await parse_error(hell, "Only animated stickers are supported.")
 
 
 @hell_cmd(pattern="stoi$")
