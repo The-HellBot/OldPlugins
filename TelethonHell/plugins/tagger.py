@@ -22,7 +22,7 @@ if Config.TAG_LOGGER:
         else:
             message_link = f"tg://openmessage?chat_id={where_.id}&message_id={event.id}"
         ammoca_message += f"👆 #TAG\n\n**• Tag By:** {krakenm} \n**• Tag For:** {hell_men} \n**• Chat:** [{where_m}]({message_link})"
-        await tbot.forward_messages(Config.TAG_LOGGER, event.message)
+        await tbot.forward_messages(Config.TAG_LOGGER, event.message, event.chat_id)
         await tbot.send_message(
             Config.TAG_LOGGER,
             ammoca_message,

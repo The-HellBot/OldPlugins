@@ -54,14 +54,6 @@ async def _(event):
             file,
             reply_to=reply,
         )
-    else:
-        file = remove_bg_image
-        await event.client.send_file(
-            event.chat_id,
-            file,
-            force_document=False,
-            reply_to=reply,
-        )
     await event.client.send_file(
         event.chat_id,
         file,
