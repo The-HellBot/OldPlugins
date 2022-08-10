@@ -19,28 +19,31 @@ async def _(hellevent):
         try:
             first = await conv.send_message(f"/search_id {victim}")
             response1 = await conv.get_response()
-            response2 = await conv.get_response()
-            response3 = await conv.get_response()
-        except YouBlockedUserError:
-            await parse_error(hellevent, "__Unblock @Sangmatainfo_bot and try again.__", False)
-            return
-        if response1.text.startswith("Name History"):
-            await hell.edit(response1.text)
-            await hellevent.client.delete_messages(
-                conv.chat_id, [first.id, response1.id, response2.id, response3.id]
-            )
-        elif response2.text.startswith("Name History"):
-            await hell.edit(response2.text)
-            await hellevent.client.delete_messages(
-                conv.chat_id, [first.id, response1.id, response2.id, response3.id]
-            )
-        elif response3.text.startswith("Name History"):
-            await hell.edit(response3.text)
-            await hellevent.client.delete_messages(
-                conv.chat_id, [first.id, response1.id, response2.id, response3.id]
-            )
-        else:
+            if response1.text.startswith("Name History"):
+                await hell.edit(response1.text)
+                await hellevent.client.delete_messages(
+                    conv.chat_id, [first.id, response1.id]
+                )
+                return
+            else:
+                response2 = await conv.get_response()
+                if response2.text.startswith("Name History"):
+                    await hell.edit(response1.text)
+                    await hellevent.client.delete_messages(
+                        conv.chat_id, [first.id, response1.id, response2.id]
+                    )
+                    return
+                else:
+                    response3 = await conv.get_response()
+                    if response3.text.startswith("Name History"):
+                        await hell.edit(response1.text)
+                        await hellevent.client.delete_messages(
+                            conv.chat_id, [first.id, response1.id, response2.id, response3.id]
+                        )
+                        return
             await hell.edit("No Records Found !")
+        except YouBlockedUserError:
+            return await parse_error(hellevent, "__Unblock @Sangmatainfo_bot and try again.__", False)
 
 
 @hell_cmd(pattern="unh(?:\s|$)([\s\S]*)")
@@ -59,28 +62,31 @@ async def _(hellevent):
         try:
             first = await conv.send_message(f"/search_id {victim}")
             response1 = await conv.get_response()
-            response2 = await conv.get_response()
-            response3 = await conv.get_response()
-        except YouBlockedUserError:
-            await parse_error(hellevent, "__Unblock @Sangmatainfo_bot and try again.__", False)
-            return
-        if response1.text.startswith("Username History"):
-            await hell.edit(response1.text)
-            await hellevent.client.delete_messages(
-                conv.chat_id, [first.id, response1.id, response2.id, response3.id]
-            )
-        elif response2.text.startswith("Username History"):
-            await hell.edit(response2.text)
-            await hellevent.client.delete_messages(
-                conv.chat_id, [first.id, response1.id, response2.id, response3.id]
-            )
-        elif response3.text.startswith("Username History"):
-            await hell.edit(response3.text)
-            await hellevent.client.delete_messages(
-                conv.chat_id, [first.id, response1.id, response2.id, response3.id]
-            )
-        else:
+            if response1.text.startswith("Username History"):
+                await hell.edit(response1.text)
+                await hellevent.client.delete_messages(
+                    conv.chat_id, [first.id, response1.id]
+                )
+                return
+            else:
+                response2 = await conv.get_response()
+                if response2.text.startswith("Username History"):
+                    await hell.edit(response1.text)
+                    await hellevent.client.delete_messages(
+                        conv.chat_id, [first.id, response1.id, response2.id]
+                    )
+                    return
+                else:
+                    response3 = await conv.get_response()
+                    if response3.text.startswith("Usernames History"):
+                        await hell.edit(response1.text)
+                        await hellevent.client.delete_messages(
+                            conv.chat_id, [first.id, response1.id, response2.id, response3.id]
+                        )
+                        return
             await hell.edit("No Records Found !")
+        except YouBlockedUserError:
+            return await parse_error(hellevent, "__Unblock @Sangmatainfo_bot and try again.__", False)
 
 
 CmdHelp("history").add_command(
