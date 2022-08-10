@@ -62,7 +62,6 @@ async def _(event):
             force_document=False,
             reply_to=reply,
         )
-    file = remove_bg_image
     await event.client.send_file(
         event.chat_id,
         file,
@@ -70,6 +69,7 @@ async def _(event):
         force_document=True,
     )
     await hell.delete()
+    os.remove(file)
 
 
 def ReTrieveFile(input_file_name):
