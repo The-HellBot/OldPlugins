@@ -1,5 +1,6 @@
 import json
 import re
+import requests
 
 from bs4 import BeautifulSoup
 from requests import get
@@ -11,6 +12,36 @@ DEVICES_DATA = (
     "https://raw.githubusercontent.com/androidtrackers/"
     "certified-android-devices/master/devices.json"
 )
+
+
+@hell_cmd(pattern="app(?:\s|$)([\s\S]*)")
+async def apk(event):
+    lists = event.text.split(" ", 1)
+    if not len(lists) == 2:
+        return await parse_error(event, "Invalid syntax.")
+    app_name = lists[1].strip()
+    hell = await eor(event, f"__Searching for__ `{app_name}` __...__")
+    try:
+        final_name = app_name.replace(" ", "+")
+        page = requests.get(f"https://play.google.com/store/search?q={final_name}&c=apps")
+        soup = BeautifulSoup(page.content, "lxml", from_encoding="utf-8")
+        app_name = (soup.find("div", "vWM94c") or soup.find("span", "DdYX5")).text
+        app_dev = (soup.find("div", "LbQbAe") or soup.find("span", "wMUdtb")).text
+        app_rating = (soup.find("div", "TT9eCd") or soup.find("span", "w2kbF")).text.replace("star", "")
+        app_icon = (soup.find("img", "T75of bzqKMd") or soup.find("img", "T75of stzEZd"))["src"].split("=s")[0]
+        app_link = ("https://play.google.com" + (soup.find("a", "Qfxief") or soup.find("a", "Si6A0c Gy4nib"))["href"])
+        app_dev_link = ("https://play.google.com/store/apps/developer?id=" + app_dev.replace(" ", "+"))
+
+        app_details = f"<a href='{app_icon}'>📲&#8203;</a> <b><i>{app_name}</b></i>\n"
+        app_details += f"\n<b>Developer:</b> <a href='{app_dev_link}'>{app_dev}</a>"
+        app_details += f"\n<b>Rating:</b> {app_rating} ⭐"
+        app_details += f"\n<b>Features:</b> <a href='{app_link}'>View in Play Store</a>"
+
+        await hell.edit(app_details, link_preview=True, parse_mode="HTML")
+    except IndexError:
+        await parse_error(hell, "No result found in search. Please enter **Valid app name**", False)
+    except Exception as err:
+        await parse_error(hell, err)
 
 
 @hell_cmd(pattern="magisk$")
@@ -222,8 +253,10 @@ CmdHelp("android").add_command(
     "specs", "<brand> <device>", "Get device specifications info."
 ).add_command(
     "twrp", "<codename>", "Get latest twrp download for android device."
+).add_command(
+    "app", "<app name>", "Searches the app in the playstore and provides the link to the app.", "app instagram"
 ).add_info(
-    "Techy Stuff!"
+    "All about Android!"
 ).add_warning(
     "✅ Harmless Module."
 ).add()

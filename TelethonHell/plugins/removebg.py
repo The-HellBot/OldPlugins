@@ -54,22 +54,22 @@ async def _(event):
             file,
             reply_to=reply,
         )
+        await event.client.send_file(
+            event.chat_id,
+            file,
+            caption=f"**Background removed by** {hell_memtion}",
+            force_document=True,
+        )
     else:
         file = remove_bg_image
         await event.client.send_file(
             event.chat_id,
             file,
-            force_document=False,
-            reply_to=reply,
+            caption=f"**Background removed by** {hell_memtion}",
+            force_document=True,
         )
-    file = remove_bg_image
-    await event.client.send_file(
-        event.chat_id,
-        file,
-        caption=f"**Background removed by** {hell_memtion}",
-        force_document=True,
-    )
     await hell.delete()
+    os.remove(file)
 
 
 def ReTrieveFile(input_file_name):
