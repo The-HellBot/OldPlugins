@@ -21,22 +21,25 @@ async def _(hellevent):
     async with hellevent.client.conversation(chat) as conv:
         try:
             first = await conv.send_message(f"/search_id {victim}")
-            async with timeout(20):
-                response1 = await conv.get_response()
-                if response1 and response1.text.startswith("Name"):
-                    await hell.edit(response1.text)
-                    success = True
-                await hellevent.client.delete_messages(conv.chat_id, [response1.id])
-                response2 = await conv.get_response()
-                if response2 and response2.text.startswith("Name"):
-                    await hell.edit(response2.text)
-                    success = True
-                await hellevent.client.delete_messages(conv.chat_id, [response2.id])
-                response3 = await conv.get_response()
-                if response3 and response3.text.startswith("Name"):
-                    await hell.edit(response3.text)
-                    success = True
-                await hellevent.client.delete_messages(conv.chat_id, [response3.id])
+            try:
+                async with timeout(20):
+                    response1 = await conv.get_response()
+                    if response1 and response1.text.startswith("Name"):
+                        await hell.edit(response1.text)
+                        success = True
+                    await hellevent.client.delete_messages(conv.chat_id, [response1.id])
+                    response2 = await conv.get_response()
+                    if response2 and response2.text.startswith("Name"):
+                        await hell.edit(response2.text)
+                        success = True
+                    await hellevent.client.delete_messages(conv.chat_id, [response2.id])
+                    response3 = await conv.get_response()
+                    if response3 and response3.text.startswith("Name"):
+                        await hell.edit(response3.text)
+                        success = True
+                    await hellevent.client.delete_messages(conv.chat_id, [response3.id])
+            except TimeoutError:
+                pass
             if success == False:
                 await parse_error(hell, "Unexpected Error Occured !!")
             await hellevent.client.delete_messages(conv.chat_id, [first.id])
@@ -59,22 +62,25 @@ async def _(hellevent):
     async with hellevent.client.conversation(chat) as conv:
         try:
             first = await conv.send_message(f"/search_id {victim}")
-            async with timeout(20):
-                response1 = await conv.get_response()
-                if response1 and response1.text.startswith("Username"):
-                    await hell.edit(response1.text)
-                    success = True
-                await hellevent.client.delete_messages(conv.chat_id, [response1.id])
-                response2 = await conv.get_response()
-                if response2 and response2.text.startswith("Username"):
-                    await hell.edit(response2.text)
-                    success = True
-                await hellevent.client.delete_messages(conv.chat_id, [response2.id])
-                response3 = await conv.get_response()
-                if response3 and response3.text.startswith("Username"):
-                    await hell.edit(response3.text)
-                    success = True
-                await hellevent.client.delete_messages(conv.chat_id, [response3.id])
+            try:
+                async with timeout(20):
+                    response1 = await conv.get_response()
+                    if response1 and response1.text.startswith("Username"):
+                        await hell.edit(response1.text)
+                        success = True
+                    await hellevent.client.delete_messages(conv.chat_id, [response1.id])
+                    response2 = await conv.get_response()
+                    if response2 and response2.text.startswith("Username"):
+                        await hell.edit(response2.text)
+                        success = True
+                    await hellevent.client.delete_messages(conv.chat_id, [response2.id])
+                    response3 = await conv.get_response()
+                    if response3 and response3.text.startswith("Username"):
+                        await hell.edit(response3.text)
+                        success = True
+                    await hellevent.client.delete_messages(conv.chat_id, [response3.id])
+            except TimeoutError:
+                pass
             if success == False:
                 await parse_error(hell, "Unexpected Error Occured !!")
             await hellevent.client.delete_messages(conv.chat_id, [first.id])
