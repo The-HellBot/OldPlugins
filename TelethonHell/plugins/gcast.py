@@ -6,7 +6,6 @@ async def _(event):
     reply_msg = await event.get_reply_message()
     flag = str(event.text.split(" ", 2)[1])
     file = None
-    errors = "None"
     if reply_msg:
         OwO = reply_msg.text
         file = reply_msg.media
@@ -15,43 +14,40 @@ async def _(event):
         file = None
     if not OwO:
         return await parse_error(event, "Nothing given to Gcast.")
-    hel_ = await eor(event, "`Gcasting message...`")
+    hell = await eor(event, "`Gcasting message...`")
     sed = 0
     owo = 0
-    if flag.lower() == "-all":
-        async for allhell in event.client.iter_dialogs():
-            chat = allhell.id
+    async for chats in event.client.iter_dialogs():
+        if flag.lower() == "-all":
+            chat = chats.id
             try:
-                await event.client.send_message(chat, text=OwO, file=file)
-                await hel_.edit(f"__Gcasting message...__ \n\n**Error:** `{errors}`")
+                await event.client.send_message(chat, message=OwO, file=file)
                 owo += 1
             except Exception as e:
-                errors = str(e)
+                LOGS.info(str(e))
                 sed += 1
-    elif flag.lower() == "-pvt":
-        async for pvthell in event.client.iter_dialogs():
-            if pvthell.is_user and not pvthell.entity.bot:
-                chat = pvthell.id
+        elif flag.lower() == "-pvt":
+            if chats.is_user and not chats.entity.bot:
+                chat = chats.id
                 try:
-                    await event.client.send_message(chat, text=OwO, file=file)
+                    await event.client.send_message(chat, message=OwO, file=file)
                     owo += 1
                 except Exception as e:
-                    errors = str(e)
+                    LOGS.info(str(e))
                     sed += 1
-    elif flag.lower() == "-grp":
-        async for ghell in event.client.iter_dialogs():
-            if ghell.is_group:
-                chat = ghell.id
+        elif flag.lower() == "-grp":
+            if chats.is_group:
+                chat = chats.id
                 try:
-                    await event.client.send_message(chat, text=OwO, file=file)
+                    await event.client.send_message(chat, message=OwO, file=file)
                     owo += 1
                 except Exception as e:
-                    errors = str(e)
+                    LOGS.info(str(e))
                     sed += 1
-    else:
-        return await hel_.edit(
-            "Please give a flag to Gcast message. \n\n**Available flags are :** \n• -all : To Gcast in all chats. \n• -pvt : To Gcast in private chats. \n• -grp : To Gcast in groups."
-        )
+        else:
+            return await hell.edit(
+                "Please give a flag to Gcast message. \n\n**Available flags are :** \n• -all : To Gcast in all chats. \n• -pvt : To Gcast in private chats. \n• -grp : To Gcast in groups."
+            )
     UwU = sed + owo
     if flag.lower() == "-all":
         omk = "Chats"
@@ -61,7 +57,7 @@ async def _(event):
         omk = "Groups"
         
     text_to_send = f"**📍 Sent in :** `{owo} {omk}`\n**📍 Failed in :** `{sed} {omk}`\n**📍 Total :** `{UwU} {omk}`"
-    await hel_.edit(f"**Gcast Executed Successfully !!** \n\n{text_to_send}")
+    await hell.edit(f"**Gcast Executed Successfully !!** \n\n{text_to_send}")
     await event.client.send_message(Config.LOGGER_ID, f"#GCAST #{flag[1:].upper()} \n\n{text_to_send}")
 
 
