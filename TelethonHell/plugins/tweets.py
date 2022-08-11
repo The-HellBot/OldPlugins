@@ -8,8 +8,8 @@ async def tweet(event):
     lists = event.text.split(" ", 1)
     reply = await event.get_reply_message()
     text = None
-    if reply and reply.message:
-        text = reply.message()
+    if reply:
+        text = reply.message
     elif len(lists) == 2:
         text = lists[1].strip()
     else:
@@ -33,7 +33,7 @@ async def nekobot(event):
     reply = await event.get_reply_message()
     text = None
     if reply and reply.message:
-        text = reply.message()
+        text = reply.message
     elif len(lists) == 2:
         text = lists[1].strip()
     else:
@@ -51,7 +51,7 @@ async def nekobot(event):
     reply = await event.get_reply_message()
     text = None
     if reply and reply.message:
-        text = reply.message()
+        text = reply.message
     elif len(lists) == 2:
         text = lists[1].strip()
     else:
@@ -69,7 +69,7 @@ async def nekobot(event):
     reply = await event.get_reply_message()
     text = None
     if reply and reply.message:
-        text = reply.message()
+        text = reply.message
     elif len(lists) == 2:
         text = lists[1].strip()
     else:
@@ -87,7 +87,7 @@ async def nekobot(event):
     reply = await event.get_reply_message()
     text = None
     if reply and reply.message:
-        text = reply.message()
+        text = reply.message
     elif len(lists) == 2:
         text = lists[1].strip()
     else:
@@ -105,7 +105,7 @@ async def nekobot(event):
     reply = await event.get_reply_message()
     text = None
     if reply and reply.message:
-        text = reply.message()
+        text = reply.message
     elif len(lists) == 2:
         text = lists[1].strip()
     else:
@@ -123,7 +123,7 @@ async def nekobot(event):
     reply = await event.get_reply_message()
     text = None
     if reply and reply.message:
-        text = reply.message()
+        text = reply.message
     elif len(lists) == 2:
         text = lists[1].strip()
     else:
@@ -141,7 +141,7 @@ async def nekobot(event):
     reply = await event.get_reply_message()
     text = None
     if reply and reply.message:
-        text = reply.message()
+        text = reply.message
     elif len(lists) == 2:
         text = lists[1].strip()
     else:
@@ -159,7 +159,7 @@ async def nekobot(event):
     reply = await event.get_reply_message()
     text = None
     if reply and reply.message:
-        text = reply.message()
+        text = reply.message
     elif len(lists) == 2:
         text = lists[1].strip()
     else:
@@ -179,7 +179,7 @@ async def nekobot(event):
     username = None
     if len(lists) == 2:
         if reply and reply.message:
-            text = reply.message()
+            text = reply.message
             username = lists[1].strip()
         else:
             query = lists[1].split("-", 1)
@@ -200,7 +200,7 @@ async def nekobot(event):
     reply = await event.get_reply_message()
     text = None
     if reply and reply.message:
-        text = reply.message()
+        text = reply.message
     elif len(lists) == 2:
         text = lists[1].strip()
     else:
@@ -218,7 +218,7 @@ async def nekobot(event):
     reply = await event.get_reply_message()
     text = None
     if reply and reply.message:
-        text = reply.message()
+        text = reply.message
     elif len(lists) == 2:
         text = lists[1].strip()
     else:

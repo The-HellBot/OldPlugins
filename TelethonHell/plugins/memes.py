@@ -136,7 +136,11 @@ async def _(event):
     reply = await event.get_reply_message()
     if not len(lists) == 2:
         return await parse_error(event, "Nothing given to search.")
-    meme = await event.client.inline_query("Myinstantsbot", f"{(deEmojify(lists[1]))}")
+    if reply:
+        query = reply.message
+    else:
+        query = lists[1].strip()
+    meme = await event.client.inline_query("Myinstantsbot", f"{(deEmojify(query))}")
     if meme:
         await event.delete()
         hell = await meme[0].click(Config.LOGGER_ID)
@@ -144,7 +148,7 @@ async def _(event):
             await event.client.send_file(
                 event.chat_id,
                 hell,
-                caption="",
+                caption=f"◈ `{query}`",
                 reply_to=reply,
             )
         await hell.delete()
@@ -155,9 +159,14 @@ async def _(event):
 @hell_cmd(pattern="doge(?:\s|$)([\s\S]*)")
 async def nope(event):
     lists = event.text.split(" ", 1)
+    reply = await event.get_reply_message()
     if not len(lists) == 2:
         return await parse_error(event, "Nothing given to search.")
-    meme = await event.client.inline_query("DogeStickerBot", f"{(deEmojify(lists[1]))}")
+    if reply:
+        query = reply.message
+    else:
+        query = lists[1].strip()
+    meme = await event.client.inline_query("DogeStickerBot", f"{(deEmojify(query))}")
     if meme:
         await event.delete()
         hell = await meme[0].click(Config.LOGGER_ID)
@@ -175,9 +184,14 @@ async def nope(event):
 @hell_cmd(pattern="glax(?:\s|$)([\s\S]*)")
 async def nope(event):
     lists = event.text.split(" ", 1)
+    reply = await event.get_reply_message()
     if not len(lists) == 2:
         return await parse_error(event, "Nothing given to search.")
-    meme = await event.client.inline_query("GooglaxBot", f"{(deEmojify(lists[1]))}")
+    if reply:
+        query = reply.message
+    else:
+        query = lists[1].strip()
+    meme = await event.client.inline_query("GooglaxBot", f"{(deEmojify(query))}")
     if meme:
         await event.delete()
         hell = await meme[0].click(Config.LOGGER_ID)
@@ -195,9 +209,14 @@ async def nope(event):
 @hell_cmd(pattern="honka(?:\s|$)([\s\S]*)")
 async def nope(event):
     lists = event.text.split(" ", 1)
+    reply = await event.get_reply_message()
     if not len(lists) == 2:
         return await parse_error(event, "Nothing given to search.")
-    meme = await event.client.inline_query("honka_says_bot", f"{(deEmojify(lists[1]))}.")
+    if reply:
+        query = reply.message
+    else:
+        query = lists[1].strip()
+    meme = await event.client.inline_query("honka_says_bot", f"{(deEmojify(query))}.")
     if meme:
         await event.delete()
         hell = await meme[0].click(Config.LOGGER_ID)
@@ -215,9 +234,14 @@ async def nope(event):
 @hell_cmd(pattern="gogl(?:\s|$)([\s\S]*)")
 async def nope(event):
     lists = event.text.split(" ", 1)
+    reply = await event.get_reply_message()
     if not len(lists) == 2:
         return await parse_error(event, "Nothing given to search.")
-    meme = await event.client.inline_query("Stickerizerbot", f"{(deEmojify(lists[1]))}")
+    if reply:
+        query = reply.message
+    else:
+        query = lists[1].strip()
+    meme = await event.client.inline_query("Stickerizerbot", f"{(deEmojify(query))}")
     if meme:
         await event.delete()
         hell = await meme[0].click(Config.LOGGER_ID)
