@@ -134,12 +134,13 @@ async def _(event):
 async def _(event):
     lists = event.text.split(" ", 1)
     reply = await event.get_reply_message()
-    if not len(lists) == 2:
-        return await parse_error(event, "Nothing given to search.")
+    query = None
     if reply:
         query = reply.message
-    else:
+    elif len(lists) == 2:
         query = lists[1].strip()
+    else:
+        return await parse_error(event, "Nothing given to search.")
     meme = await event.client.inline_query("Myinstantsbot", f"{(deEmojify(query))}")
     if meme:
         await event.delete()
@@ -160,12 +161,13 @@ async def _(event):
 async def nope(event):
     lists = event.text.split(" ", 1)
     reply = await event.get_reply_message()
-    if not len(lists) == 2:
-        return await parse_error(event, "Nothing given to search.")
+    query = None
     if reply:
         query = reply.message
-    else:
+    elif len(lists) == 2:
         query = lists[1].strip()
+    else:
+        return await parse_error(event, "Nothing given to search.")
     meme = await event.client.inline_query("DogeStickerBot", f"{(deEmojify(query))}")
     if meme:
         await event.delete()
@@ -185,12 +187,13 @@ async def nope(event):
 async def nope(event):
     lists = event.text.split(" ", 1)
     reply = await event.get_reply_message()
-    if not len(lists) == 2:
-        return await parse_error(event, "Nothing given to search.")
+    query = None
     if reply:
         query = reply.message
-    else:
+    elif len(lists) == 2:
         query = lists[1].strip()
+    else:
+        return await parse_error(event, "Nothing given to search.")
     meme = await event.client.inline_query("GooglaxBot", f"{(deEmojify(query))}")
     if meme:
         await event.delete()
@@ -210,12 +213,13 @@ async def nope(event):
 async def nope(event):
     lists = event.text.split(" ", 1)
     reply = await event.get_reply_message()
-    if not len(lists) == 2:
-        return await parse_error(event, "Nothing given to search.")
+    query = None
     if reply:
         query = reply.message
-    else:
+    elif len(lists) == 2:
         query = lists[1].strip()
+    else:
+        return await parse_error(event, "Nothing given to search.")
     meme = await event.client.inline_query("honka_says_bot", f"{(deEmojify(query))}.")
     if meme:
         await event.delete()
@@ -235,12 +239,13 @@ async def nope(event):
 async def nope(event):
     lists = event.text.split(" ", 1)
     reply = await event.get_reply_message()
-    if not len(lists) == 2:
-        return await parse_error(event, "Nothing given to search.")
+    query = None
     if reply:
         query = reply.message
-    else:
+    elif len(lists) == 2:
         query = lists[1].strip()
+    else:
+        return await parse_error(event, "Nothing given to search.")
     meme = await event.client.inline_query("Stickerizerbot", f"{(deEmojify(query))}")
     if meme:
         await event.delete()
