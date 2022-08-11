@@ -22,7 +22,7 @@ async def _(hellevent):
         try:
             first = await conv.send_message(f"/search_id {victim}")
             try:
-                async with timeout(20):
+                # async with timeout(20):
                     response1 = await conv.get_response()
                     if response1 and response1.text.startswith("Name"):
                         await hell.edit(response1.text)
@@ -63,7 +63,7 @@ async def _(hellevent):
         try:
             first = await conv.send_message(f"/search_id {victim}")
             try:
-                async with timeout(20):
+                # async with timeout(20):
                     response1 = await conv.get_response()
                     if response1 and response1.text.startswith("Username"):
                         await hell.edit(response1.text)
