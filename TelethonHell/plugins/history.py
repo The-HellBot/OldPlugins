@@ -23,36 +23,34 @@ async def _(hellevent):
         try:
             first = await conv.send_message(f"/search_id {victim}")
             try:
+                await hell.delete()
                 response1 = await conv.get_response()
                 if response1 and response1.text.startswith("🔗"):
                     success = False
                 else:
-                    await hellevent.client.send_message(in_chat, response1.text)
+                    await hellevent.client.send_message(in_chat, response1.text, reply_to=reply_message)
                     success = True
                 await hellevent.client.delete_messages(conv.chat_id, [response1.id])
-            except TimeoutError:
-                pass
-            try:
+
                 response2 = await conv.get_response()
                 if response2 and response2.text.startswith("🔗"):
                     success = False
                 else:
-                    await hellevent.client.send_message(in_chat, response2.text)
+                    await hellevent.client.send_message(in_chat, response2.text, reply_to=reply_message)
                     success = True
                 await hellevent.client.delete_messages(conv.chat_id, [response2.id])
-            except TimeoutError:
-                pass
-            try:
+
                 response3 = await conv.get_response()
                 if response3 and response3.text.startswith("🔗"):
                     success = False
                 else:
-                    await hellevent.client.send_message(in_chat, response3.text)
+                    await hellevent.client.send_message(in_chat, response3.text, reply_to=reply_message)
                     success = True
                 await hellevent.client.delete_messages(conv.chat_id, [response3.id])
             except TimeoutError:
                 pass
             if success == False:
+                hell = await hellevent.client.send_message(in_chat, "**ERROR**", reply_to=reply_message)
                 await parse_error(hell, "Unexpected Error Occured !!")
             await hellevent.client.delete_messages(conv.chat_id, [first.id])
         except YouBlockedUserError:
