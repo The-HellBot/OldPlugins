@@ -114,7 +114,7 @@ async def upstream(event):
     except InvalidGitRepositoryError as error:
         if conf is None:
             return await hell.edit(
-                f"__The directory__ `{error}` __does not seem to be a git repository. Fix that by force updating!__ \n\n__Do__ `{hl}update now`"
+                f"__The directory does not seem to be a git repository. Fix that by force updating!\n\nDo__ `{hl}update now`"
             )
         repo = Repo.init()
         origin = repo.create_remote("upstream", off_repo)
@@ -149,7 +149,7 @@ async def upstream(event):
         return await hell.edit(f"🌚 Do `{hl}update build` to update your **Hêllẞø†** !!")
 
     if force_update:
-        await hell.edit("**⥼ Synced Repo ⥽** \n\n__Do__ `{hl}update` __again to start updating ...__")
+        await hell.edit(f"**⥼ Synced Repo ⥽** \n\n__Do__ `{hl}update` __again to start updating ...__")
     if conf == "now":
         await hell.edit("`Update In Progress! Please Wait....`")
         await update(event, repo, ups_rem, ac_br)

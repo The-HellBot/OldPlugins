@@ -9,29 +9,35 @@ from . import *
 async def _(event):
     if Config.REMOVE_BG_API is None:
         return await parse_error(event, "`REMOVE_BG_API` __is not configured.__", False)
-    txt = event.text[6:]
-    try:
-        input_str = txt.replace("-s", "")
-    except:
-        input_str = txt
-    flag = event.text[-2:]
+    lists = event.text.split(" ", 2)
+    flag = None
+    url = None
+    if len(lists) == 3:
+        flag = lists[1].strip()
+        url = lists[2].strip()
+    elif len(lists) == 2:
+        stripped = lists[1].strip()
+        if stripped.startswith("-s"):
+            flag = stripped
+        else:
+            url = stripped
     _, _, hell_memtion = await client_id(event)
-    reply_message = await event.get_reply_message()
-    if event.reply_to_msg_id and input_str == "":
+    reply = await event.get_reply_message()
+    if reply:
         hell = await eor(event, "`Analysing...`")
-        file_name = "./remove_bg/rmbg.png"
+        file_name = "rmbg.png"
         try:
-            await event.client.download_media(reply_message, file_name)
+            await event.client.download_media(reply, file_name)
         except Exception as e:
             return await parse_error(hell, e)
         else:
             await hell.edit("`Removing background of this media`")
-            file_name = toimage(file_name)
+            file_name = toimage(file_name, "temp.jpeg")
             response = ReTrieveFile(file_name)
             os.remove(file_name)
-    elif input_str:
+    elif url:
         hell = await eor(event, "`Removing Background of this media`")
-        response = ReTrieveURL(input_str.strip())
+        response = ReTrieveURL(url)
     else:
         return await eod(event, f"Reply to a image/sticker with `{hl}rmbg` or give image link to remove background.")
     contentType = response.headers.get("content-type")
@@ -40,39 +46,35 @@ async def _(event):
         with open("HellBot.png", "wb") as removed_bg_file:
             removed_bg_file.write(response.content)
     else:
-        return await eod(hell, f"`{response.content.decode('UTF-8')}`")
+        return await parse_error(hell, response.content.decode('UTF-8'))
     if flag and flag == "-s":
         file = tosticker(remove_bg_image, filename="HellBot.webp")
         await event.client.send_file(
             event.chat_id,
             file,
-            reply_to=reply_message,
+            reply_to=reply,
+        )
+        await event.client.send_file(
+            event.chat_id,
+            file,
+            caption=f"**Background removed by** {hell_memtion}",
+            force_document=True,
         )
     else:
         file = remove_bg_image
         await event.client.send_file(
             event.chat_id,
             file,
-            force_document=False,
-            reply_to=reply_message,
+            caption=f"**Background removed by** {hell_memtion}",
+            force_document=True,
         )
-    file = remove_bg_image
-    await event.client.send_file(
-        event.chat_id,
-        file,
-        caption=f"**Background removed by** {hell_memtion}",
-        force_document=True,
-    )
     await hell.delete()
+    os.remove(file)
 
 
 def ReTrieveFile(input_file_name):
-    headers = {
-        "X-API-Key": Config.REMOVE_BG_API,
-    }
-    files = {
-        "image_file": (input_file_name, open(input_file_name, "rb")),
-    }
+    headers = {"X-API-Key": Config.REMOVE_BG_API}
+    files = {"image_file": (input_file_name, open(input_file_name, "rb"))}
     return requests.post(
         "https://api.remove.bg/v1.0/removebg",
         headers=headers,
@@ -83,9 +85,7 @@ def ReTrieveFile(input_file_name):
 
 
 def ReTrieveURL(input_url):
-    headers = {
-        "X-API-Key": Config.REMOVE_BG_API,
-    }
+    headers = {"X-API-Key": Config.REMOVE_BG_API}
     data = {"image_url": input_url}
     return requests.post(
         "https://api.remove.bg/v1.0/removebg",
@@ -117,7 +117,7 @@ def toimage(image, filename=None):
 
 
 CmdHelp("removebg").add_command(
-    "rmbg", "<reply to image/stcr> or <link> <flag>", "`Removes Background of replied image or sticker. Need` REMOVE_BG_API `to be set in Heroku Config Vars.", "rmbg <reply to img> -s"
+    "rmbg", "<flag> <reply to image/stcr or url>", "`Removes Background of replied image or sticker or given url of picture. Need` REMOVE_BG_API `to be set in Heroku Config Vars.", "rmbg -s <reply to img/url>"
 ).add_info(
     "Remove Background."
 ).add_extra(
