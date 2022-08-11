@@ -5,6 +5,8 @@ from . import *
 async def _(event):
     reply_msg = await event.get_reply_message()
     flag = str(event.text.split(" ", 2)[1])
+    file = None
+    errors = "None"
     if reply_msg:
         OwO = reply_msg.text
         file = reply_msg.media
@@ -20,12 +22,11 @@ async def _(event):
         async for allhell in event.client.iter_dialogs():
             chat = allhell.id
             try:
-                if chat != -1001496036895:
-                    await event.client.send_message(chat, text=OwO, file=file)
-                    owo += 1
-                elif chat == -1001496036895:
-                    pass
-            except BaseException:
+                await event.client.send_message(chat, text=OwO, file=file)
+                await hel_.edit(f"__Gcasting message...__ \n\n**Error:** `{errors}`")
+                owo += 1
+            except Exception as e:
+                errors = str(e)
                 sed += 1
     elif flag.lower() == "-pvt":
         async for pvthell in event.client.iter_dialogs():
@@ -34,19 +35,18 @@ async def _(event):
                 try:
                     await event.client.send_message(chat, text=OwO, file=file)
                     owo += 1
-                except BaseException:
+                except Exception as e:
+                    errors = str(e)
                     sed += 1
     elif flag.lower() == "-grp":
         async for ghell in event.client.iter_dialogs():
             if ghell.is_group:
                 chat = ghell.id
                 try:
-                    if chat != -1001496036895:
-                        await event.client.send_message(chat, text=OwO, file=file)
-                        owo += 1
-                    elif chat == -1001496036895:
-                        pass
-                except BaseException:
+                    await event.client.send_message(chat, text=OwO, file=file)
+                    owo += 1
+                except Exception as e:
+                    errors = str(e)
                     sed += 1
     else:
         return await hel_.edit(
