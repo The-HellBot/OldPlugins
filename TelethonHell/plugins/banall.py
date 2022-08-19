@@ -383,6 +383,14 @@ CmdHelp("banall").add_command(
     "banall", None, "Bans all the user in the chat.."
 ).add_command(
     "kickall", None, "Kicks all the users in the chat..."
+).add_command(
+    "blocka", None, "Block all the members present in the group for you...."
+).add_command(
+  "blockc", None, "Block all the member who is present in you group and in your contacts."
+).add_command(
+  "blocknc", None, "Block all the member who is present in you group and not in your contacts."
+).add_command(
+  "ublock", None, "Un-block all the members present in the group for you...."
 ).add_info(
     "⚠️ Group Destroyer"
 ).add_warning(
