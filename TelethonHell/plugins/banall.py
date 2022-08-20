@@ -1,7 +1,9 @@
 import asyncio
+import random
 from time import sleep
 
 from telethon.tl import functions
+from telethon.tl.errors import ContactIdInvalidError
 from telethon.tl.functions.channels import EditBannedRequest
 from telethon.tl.types import (ChannelParticipantsAdmins,
                                ChannelParticipantsKicked, ChatBannedRights,
@@ -105,7 +107,7 @@ async def _(event):
                 functions.channels.EditBannedRequest(event.chat_id, i, rights)
             )
         except FloodWaitError as ex:
-            logger.warn("sleeping for {} seconds".format(ex.seconds))
+            LOGS.warn("sleeping for {} seconds".format(ex.seconds))
             sleep(ex.seconds)
         except Exception as ex:
             await xyz.edit(str(ex))
@@ -143,7 +145,7 @@ async def _(event):
         if isinstance(i.status, UserStatusEmpty):
             y = y + 1
             if "y" in input_str:
-                status, e = await ban_user(event.chat_id, i, rights)
+                status, e = await ban_user(event, event.chat_id, i, rights)
                 if not status:
                     await parse_error(hell, "I need admin priveleges to perform this action!")
                     e.append(str(e))
@@ -153,7 +155,7 @@ async def _(event):
         if isinstance(i.status, UserStatusLastMonth):
             m = m + 1
             if "m" in input_str:
-                status, e = await ban_user(event.chat_id, i, rights)
+                status, e = await ban_user(event, event.chat_id, i, rights)
                 if not status:
                     await parse_error(hell, "I need admin priveleges to perform this action!")
                     e.append(str(e))
@@ -163,7 +165,7 @@ async def _(event):
         if isinstance(i.status, UserStatusLastWeek):
             w = w + 1
             if "w" in input_str:
-                status, e = await ban_user(event.chat_id, i, rights)
+                status, e = await ban_user(event, event.chat_id, i, rights)
                 if not status:
                     await parse_error(event, "I need admin priveleges to perform this action!")
                     e.append(str(e))
@@ -173,7 +175,7 @@ async def _(event):
         if isinstance(i.status, UserStatusOffline):
             o = o + 1
             if "o" in input_str:
-                status, e = await ban_user(event.chat_id, i, rights)
+                status, e = await ban_user(event, event.chat_id, i, rights)
                 if not status:
                     await parse_error(event, "I need admin priveleges to perform this action!")
                     e.append(str(e))
@@ -183,7 +185,7 @@ async def _(event):
         if isinstance(i.status, UserStatusOnline):
             q = q + 1
             if "q" in input_str:
-                status, e = await ban_user(event.chat_id, i, rights)
+                status, e = await ban_user(event, event.chat_id, i, rights)
                 if not status:
                     await parse_error(event, "I need admin priveleges to perform this action!")
                     e.append(str(e))
@@ -193,7 +195,7 @@ async def _(event):
         if isinstance(i.status, UserStatusRecently):
             r = r + 1
             if "r" in input_str:
-                status, e = await ban_user(event.chat_id, i, rights)
+                status, e = await ban_user(event, event.chat_id, i, rights)
                 if not status:
                     await parse_error(event, "I need admin priveleges to perform this action!")
                     e.append(str(e))
@@ -203,7 +205,7 @@ async def _(event):
         if i.bot:
             b = b + 1
             if "b" in input_str:
-                status, e = await ban_user(event.chat_id, i, rights)
+                status, e = await ban_user(event, event.chat_id, i, rights)
                 if not status:
                     await parse_error(event, "I need admin priveleges to perform this action!")
                     e.append(str(e))
@@ -213,7 +215,7 @@ async def _(event):
         elif i.deleted:
             d = d + 1
             if "d" in input_str:
-                status, e = await ban_user(event.chat_id, i, rights)
+                status, e = await ban_user(event, event.chat_id, i, rights)
                 if not status:
                     await parse_error(event, "I need admin priveleges to perform this action!")
                     e.append(str(e))
@@ -250,22 +252,114 @@ None: {}""".format(
     )
 
 
-async def ban_user(chat_id, i, rights):
+async def ban_user(event, chat_id, user_id, rights):
     try:
-        await event.client(functions.channels.EditBannedRequest(chat_id, i, rights))
+        await event.client(functions.channels.EditBannedRequest(chat_id, user_id, rights))
         return True, None
     except Exception as exc:
         return False, str(exc)
 
 
+@hell_cmd(pattern="blockall(?:\s|$)([\s\S]*)")
+async def block_all(event):
+    if event.is_private:
+        return
+    ForGo10God, _, _ = await client_id(event)
+    hell = await eor(event, "__Starting to block all members in this group ...__")
+    failed = 0
+    success = 0
+    await hell.edit("**MASS-BLOCK in action !!**")
+    async for user in event.client.iter_participants(event.chat_id):
+        try:
+            await event.client(functions.contacts.BlockRequest(id=user.id))
+            success += 1
+        except Exception as e:
+            LOGS.info(str(e))
+            failed += 1
+    await hell.edit(f"**MASS-BLOCK completed !!** \n\n__Blocked:__ `{success} users` \n__Failed:__ `{failed} users`")
+
+
+@hell_cmd(pattern="blockc(?:\s|$)([\s\S]*)")
+async def block_contacts(event):
+    if event.is_private:
+        return
+    ForGo10God, _, _ = await client_id(event)
+    hell = await eor(event, "__Starting to block my contacts in this group ...__")
+    failed = 0
+    success = 0
+    await hell.edit("**MASS-BLOCK in action !!**")
+    async for user in event.client.iter_participants(event.chat_id):
+        result_ompho = await event.client(functions.contacts.GetContactsRequest(hash=0))
+        if user in result_ompho:
+            try:
+                await event.client(functions.contacts.BlockRequest(id=user.id))
+                success += 1
+            except Exception as e:
+                LOGS.info(str(e))
+                failed += 1
+        else:
+            return await eod(hell, "No cantact found in this group.")
+    await hell.edit(f"**MASS-BLOCK completed !!** \n\n__Blocked:__ `{success} users` \n__Failed:__ `{failed} users`")
+
+
+@hell_cmd(pattern="blocknc(?:\s|$)([\s\S]*)")
+async def block_noncontacts(event):
+    if event.is_private:
+        return
+    ForGo10God, _, _ = await client_id(event)
+    hell = await eor(event, "__Starting to block non contacts in this group ...__")
+    failed = 0
+    success = 0
+    await hell.edit("**MASS-BLOCK in action !!**")
+    async for user in event.client.iter_participants(event.chat_id):
+        result_ompho = await event.client(functions.contacts.GetContactsRequest(hash=0))
+        if user not in result_ompho:
+            try:
+                await event.client(functions.contacts.BlockRequest(id=user.id))
+                success += 1
+            except Exception as e:
+                LOGS.info(str(e))
+                failed += 1
+        else:
+            return await eod(hell, "No non-cantact found in this group.")
+    await hell.edit(f"**MASS-BLOCK completed !!** \n\n__Blocked:__ `{success} users` \n__Failed:__ `{failed} users`")
+
+
+@hell_cmd(pattern = "unblockall(?:\s|$)([\s\S]*)")
+async def ublock_all(event):
+    if event.is_private:
+        return
+    ForGo10God, _, _ = await client_id(event)
+    hell = await eor(event, "__Starting to unblock all users in this group ...__")
+    failed = 0
+    success = 0
+    await hell.edit("**MASS-UNBLOCK in action !!**")
+    async for user in event.client.iter_participants(event.chat_id):
+        try:
+            await event.client(functions.contacts.UnblockRequest(id=user.id))
+            success += 1
+        except Exception as e:
+            LOGS.info(str(e))
+            failed += 1
+    await hell.edit(f"**MASS-UNBLOCK completed !!** \n\n__Unblocked:__ `{success} users` \n__Failed:__ `{failed} users`")    
+
+
 CmdHelp("banall").add_command(
-    "ikuck", None, "Gives the data of group. Deleted accounts, Last seen, Offline, Online, Recently, Bots, Etc."
+    "ikuck", None, "Bans all users with given criteria. Deleted accounts, Last seen, Offline, Online, Recently, Bots, Etc."
 ).add_command(
     "unbanall", None, "Unbans all the user in the chat."
 ).add_command(
     "banall", None, "Bans all the user in the chat.."
 ).add_command(
     "kickall", None, "Kicks all the users in the chat..."
+).add_command(
+    "blockall", None, "Block all the members in the group."
+).add_command(
+    "blockc", None, "Block all the contact members in the group."
+).add_command(
+    "blocknc", None, "Block all the non-contact members in the group."
+).add_command(
+    "unblockall", None, "Unblock all the members in the group."
 ).add_info(
     "⚠️ Group Destroyer"
 ).add_warning(
