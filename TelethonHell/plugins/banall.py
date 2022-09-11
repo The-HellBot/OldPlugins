@@ -3,7 +3,6 @@ import random
 from time import sleep
 
 from telethon.tl import functions
-from telethon.tl.errors import ContactIdInvalidError
 from telethon.tl.functions.channels import EditBannedRequest
 from telethon.tl.types import (ChannelParticipantsAdmins,
                                ChannelParticipantsKicked, ChatBannedRights,
