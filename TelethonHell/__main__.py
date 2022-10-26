@@ -4,29 +4,28 @@ import sys
 from pathlib import Path
 
 from HellConfig import Config
+
 from TelethonHell import LOGS, bot, tbot
 from TelethonHell.clients.session import H2, H3, H4, H5
-from TelethonHell.utils import (join_it, load_module, 
-                                logger_check, plug_channel, 
-                                start_msg, update_sudo)
+from TelethonHell.utils import (join_it, load_module, logger_check,
+                                plug_channel, start_msg, update_sudo)
 from TelethonHell.version import __hellver__
 
 # Global Variables #
-HELL_PIC = "https://telegra.ph/file/cb0bd62632a3a2b6b2726.jpg"
+HELL_PIC = "https://te.legra.ph/file/cb0bd62632a3a2b6b2726.jpg"
 
 
 # Client Starter
 async def hells(session=None, client=None, session_name="Main"):
+    num = 0
     if session:
         LOGS.info(f"••• Starting Client [{session_name}] •••")
         try:
             await client.start()
-            return 1
+            num = 1
         except:
             LOGS.error(f"Error in {session_name}!! Check & try again!")
-            return 0
-    else:
-        return 0
+    return num
 
 
 # Load plugins based on config UNLOAD
