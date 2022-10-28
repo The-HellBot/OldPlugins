@@ -5,10 +5,9 @@ from distutils.util import strtobool as sb
 from logging import DEBUG, INFO, basicConfig, getLogger
 
 import heroku3
-
-from TelethonHell.clients.session import H2, H3, H4, H5, Hell, HellBot
 from HellConfig import Config
 
+from TelethonHell.clients.session import H2, H3, H4, H5, Hell, HellBot
 
 CONSOLE_LOGGER_VERBOSE = sb(os.environ.get("CONSOLE_LOGGER_VERBOSE", "False"))
 if CONSOLE_LOGGER_VERBOSE:
