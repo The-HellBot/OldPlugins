@@ -1,0 +1,6 @@
+CMD_LIST = {}
+CMD_HELP = {}
+CMD_HELP_BOT = {}
+CMD_INFO = {}
+LOAD_PLUG = {}
+SUDO_LIST = {}

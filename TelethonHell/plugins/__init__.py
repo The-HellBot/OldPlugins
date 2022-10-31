@@ -5,6 +5,7 @@ from TelethonHell.DB import gvar_sql
 from TelethonHell.helpers import *
 from TelethonHell.strings import *
 from TelethonHell.utils import *
+from TelethonHell.utils.globals import *
 from TelethonHell.version import __hellver__, __telever__
 
 
