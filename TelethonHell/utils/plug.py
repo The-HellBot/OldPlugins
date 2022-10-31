@@ -6,9 +6,9 @@ from pathlib import Path
 
 from HellConfig import Config
 from telethon.tl.types import InputMessagesFilterDocument
-from TelethonHell import LOGS
 from TelethonHell.clients.client_list import client_id
 from TelethonHell.clients.decs import hell_cmd
+from TelethonHell.clients.logger import LOGGER as LOGS
 from TelethonHell.clients.session import H2, H3, H4, H5, Hell, HellBot
 from TelethonHell.utils.cmds import CmdHelp
 from TelethonHell.utils.decorators import admin_cmd, command, sudo_cmd
