@@ -4,8 +4,7 @@ from pathlib import Path
 
 from HellConfig import Config
 from telethon import events
-from TelethonHell import bot
-from TelethonHell.clients.session import H2, H3, H4, H5
+from TelethonHell.clients.session import H2, H3, H4, H5, Hell
 from TelethonHell.utils.globals import CMD_LIST, LOAD_PLUG
 
 
@@ -70,21 +69,21 @@ def hell_cmd(
 
     def decorator(func):
         if not disable_edited:
-            bot.add_event_handler(
+            Hell.add_event_handler(
                 func, events.MessageEdited(**args, outgoing=True, pattern=hell_reg)
             )
-        bot.add_event_handler(
+        Hell.add_event_handler(
             func, events.NewMessage(**args, outgoing=True, pattern=hell_reg)
         )
         if allow_sudo:
             if not disable_edited:
-                bot.add_event_handler(
+                Hell.add_event_handler(
                     func,
                     events.MessageEdited(
                         **args, from_users=sudo_user, pattern=sudo_reg
                     ),
                 )
-            bot.add_event_handler(
+            Hell.add_event_handler(
                 func, events.NewMessage(**args, from_users=sudo_user, pattern=sudo_reg)
             )
         if H2:
@@ -131,7 +130,7 @@ def hell_cmd(
 def hell_handler(**args):
 #     args["func"] = lambda e: e.via_bot_id is None
     def decorator(func):
-        bot.add_event_handler(func, events.NewMessage(**args))
+        Hell.add_event_handler(func, events.NewMessage(**args))
         if H2:
             H2.add_event_handler(func, events.NewMessage(**args))
         if H3:

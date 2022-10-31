@@ -6,7 +6,7 @@ from pathlib import Path
 
 from HellConfig import Config
 from telethon.tl.types import InputMessagesFilterDocument
-from TelethonHell import LOGS, bot
+from TelethonHell import LOGS
 from TelethonHell.clients.client_list import client_id
 from TelethonHell.clients.decs import hell_cmd
 from TelethonHell.clients.session import H2, H3, H4, H5, Hell, HellBot
@@ -45,14 +45,14 @@ def load_module(shortname):
         mod.Hell = Hell
         mod.HellBot = HellBot
         mod.tbot = HellBot
-        mod.tgbot = bot.tgbot
+        mod.tgbot = Hell.tgbot
         mod.command = command
         mod.CmdHelp = CmdHelp
         mod.client_id = client_id
         mod.logger = logging.getLogger(shortname)
         mod.Config = Config
-        mod.borg = bot
-        mod.hellbot = bot
+        mod.borg = Hell
+        mod.hellbot = Hell
         mod.edit_or_reply = edit_or_reply
         mod.eor = edit_or_reply
         mod.delete_hell = delete_hell
@@ -75,16 +75,16 @@ def remove_plugin(shortname):
     try:
         try:
             for i in LOAD_PLUG[shortname]:
-                bot.remove_event_handler(i)
+                Hell.remove_event_handler(i)
             del LOAD_PLUG[shortname]
 
         except BaseException:
             name = f"TelethonHell.plugins.{shortname}"
 
-            for i in reversed(range(len(bot._event_builders))):
-                ev, cb = bot._event_builders[i]
+            for i in reversed(range(len(Hell._event_builders))):
+                ev, cb = Hell._event_builders[i]
                 if cb.__module__ == name:
-                    del bot._event_builders[i]
+                    del Hell._event_builders[i]
     except BaseException:
         raise ValueError
 

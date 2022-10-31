@@ -7,7 +7,7 @@ from typing import Optional
 
 from HellConfig import Config
 from PIL import Image
-from TelethonHell import LOGS
+from TelethonHell.clients.logger import LOGGER as LOGS
 from TelethonHell.helpers.progress import progress
 from TelethonHell.helpers.runner import runcmd
 from TelethonHell.helpers.vids import take_screen_shot

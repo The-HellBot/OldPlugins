@@ -2,7 +2,7 @@ from HellConfig import Config
 from telethon import Button
 from telethon.tl import functions
 from telethon.tl.types import ChatAdminRights
-from TelethonHell import LOGS
+from TelethonHell.clients.logger import LOGGER as LOGS
 from TelethonHell.DB.gvar_sql import addgvar, gvarstat
 from TelethonHell.helpers.int_str import make_int
 from TelethonHell.version import __telever__
