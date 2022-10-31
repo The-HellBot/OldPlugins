@@ -73,3 +73,5 @@ startup() {
     configs
     python3 -m TelethonHell
 }
+
+startup
