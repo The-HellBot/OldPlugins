@@ -99,3 +99,7 @@ HellBot = TelegramClient(
     auto_reconnect=True,
     connection_retries=None,
 ).start(bot_token=Config.BOT_TOKEN)
+
+
+bot = Hell
+tbot = HellBot

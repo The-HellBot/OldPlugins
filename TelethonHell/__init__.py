@@ -4,11 +4,9 @@ import heroku3
 from HellConfig import Config
 
 from TelethonHell.clients.logger import LOGGER
-from TelethonHell.clients.session import Hell, HellBot
+from TelethonHell.clients.session import bot, tbot
 
 StartTime = time.time()
-bot = Hell
-tbot = HellBot
 LOGS = LOGGER
 
 
