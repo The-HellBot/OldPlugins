@@ -1,5 +1,5 @@
 from telethon.tl.types import MessageEntityMentionName
-from TelethonHell.helpers.exceptions import parse_error
+from TelethonHell.utils.extras import parse_error
 
 
 async def get_user_from_event(event):
