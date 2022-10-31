@@ -41,7 +41,7 @@ class Config(object):
     SESSION_4 = os.environ.get("SESSION_4", None)
     SESSION_5 = os.environ.get("SESSION_5", None)
     SUDO_HANDLER = os.environ.get("SUDO_HANDLER", ".")
-    TAG_LOGGER = int(os.environ.get("TAG_LOGGER", None))
+    TAG_LOGGER = int(os.environ.get("TAG_LOGGER", 0))
     THUMB_IMG = os.environ.get("THUMB_IMG", "./HellConfig/resources/pics/hellbot_logo.jpg")
     UNLOAD = list(os.environ.get("UNLOAD", "").split())
     UPSTREAM_REPO = os.environ.get("UPSTREAM_REPO", "https://github.com/The-HellBot/HellBot")
