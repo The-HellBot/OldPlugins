@@ -1,5 +1,5 @@
-from TelethonHell.utils.extras import delete_hell as eod
-from TelethonHell.utils.extras import edit_or_reply as eor
+from TelethonHell.utils import delete_hell as eod
+from TelethonHell.utils import edit_or_reply as eor
 
 
 class CancelProcess(Exception):
