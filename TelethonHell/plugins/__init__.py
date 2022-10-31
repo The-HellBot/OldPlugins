@@ -1,13 +1,45 @@
 from HellConfig import Config, db_config, os_config
-from TelethonHell import *
-from TelethonHell.clients import *
+from TelethonHell import HEROKU_APP, StartTime
+from TelethonHell.clients.client_list import (client_id, clients_list,
+                                              get_user_id)
+from TelethonHell.clients.decs import hell_cmd, hell_handler
+from TelethonHell.clients.instaAPI import InstaGram
+from TelethonHell.clients.logger import LOGGER
+from TelethonHell.clients.session import (H2, H3, H4, H5, Hell, HellBot,
+                                          validate_session)
 from TelethonHell.DB import gvar_sql
-from TelethonHell.helpers import *
+from TelethonHell.helpers.anime import *
+from TelethonHell.helpers.classes import *
+from TelethonHell.helpers.convert import *
+from TelethonHell.helpers.exceptions import *
+from TelethonHell.helpers.formats import *
+from TelethonHell.helpers.gdriver import *
+from TelethonHell.helpers.google import *
+from TelethonHell.helpers.ig_helper import *
+from TelethonHell.helpers.image import *
+from TelethonHell.helpers.int_str import *
+from TelethonHell.helpers.mediatype import *
+from TelethonHell.helpers.mmf import *
+from TelethonHell.helpers.movies import *
+from TelethonHell.helpers.pasters import *
+from TelethonHell.helpers.pranks import *
+from TelethonHell.helpers.progress import *
+from TelethonHell.helpers.runner import *
+from TelethonHell.helpers.tools import *
+from TelethonHell.helpers.tweets import *
+from TelethonHell.helpers.users import *
+from TelethonHell.helpers.vids import *
+from TelethonHell.helpers.yt_helper import *
 from TelethonHell.strings import *
-from TelethonHell.utils import *
+from TelethonHell.utils.cmds import *
+from TelethonHell.utils.decorators import *
+from TelethonHell.utils.errors import *
+from TelethonHell.utils.extras import *
+from TelethonHell.utils.funcs import *
 from TelethonHell.utils.globals import *
+from TelethonHell.utils.plug import *
+from TelethonHell.utils.startup import *
 from TelethonHell.version import __hellver__, __telever__
-
 
 cjb = "./HellConfig/resources/pics/cjb.jpg"
 hell_logo = "./HellConfig/resources/pics/hellbot_logo.jpg"

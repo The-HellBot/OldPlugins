@@ -3,10 +3,9 @@ import time
 import heroku3
 from HellConfig import Config
 
-from TelethonHell.clients.logger import LOGGER
+from TelethonHell.clients.logger import LOGGER as LOGS
 
 StartTime = time.time()
-LOGS = LOGGER
 
 
 if not Config.API_HASH:
