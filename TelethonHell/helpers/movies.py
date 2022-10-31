@@ -1,5 +1,6 @@
 import os
 
+from HellConfig import Config
 from imdb import IMDb
 from justwatch import JustWatch
 

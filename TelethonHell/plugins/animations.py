@@ -1,7 +1,8 @@
 import asyncio
 from collections import deque
 
-from . import *
+from telethon.errors import MessageIdInvalidError
+from TelethonHell.plugins import *
 
 
 @hell_cmd(pattern="boxs$")
@@ -86,7 +87,7 @@ async def _(message):
             await asyncio.sleep(0.3)
             try:
                 await event.edit(something_else)
-            except errors.MessageIdInvalidError:
+            except MessageIdInvalidError:
                 return
 
 
@@ -637,7 +638,7 @@ async def _(event):
         "⬛⬛⬛⬛⬛⬛⬛\n⬛⬛⬛⬛⬛⬛⬛\n⬛⬛⬛⬛⬛⬛⬛\n⬛⬛⬛⬛⬛⬛⬛\n⬛⬛⬛⬛⬛⬛⬛\n⬜⬜⬜😊⬜⬜⬜\n⬜⬜⬜⬜⬜⬜⬜\n🔲🔲🔲🔲🔲🔲🔲",
     ]
     for i in animation_ttl:
-        await asyncio.sleep(animation_interval)
+        await asyncio.sleep(0.5)
         await event.edit(animation_chars[i % 16])
 
 

@@ -1,9 +1,7 @@
 import asyncio
 
-from telethon import events
 from telethon.errors.rpcerrorlist import YouBlockedUserError
-
-from . import *
+from TelethonHell.plugins import *
 
 
 @hell_cmd(pattern="newfed(?:\s|$)([\s\S]*)")

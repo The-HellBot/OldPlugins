@@ -25,3 +25,17 @@ HARMFUL = [
 ]
 
 INVALID_UPLOAD = ["Hell-TBot.session-journal", "Hell-TBot.session", "insta/settings.json"]
+
+enabled_list = [
+    "yes",
+    "true",
+    "enable",
+    "on",
+]
+
+disabled_list = [
+    "no",
+    "false",
+    "disable",
+    "off",
+]

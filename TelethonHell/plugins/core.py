@@ -2,7 +2,7 @@ import asyncio
 import os
 from pathlib import Path
 
-from . import *
+from TelethonHell.plugins import *
 
 
 @hell_cmd(pattern="cmds$")

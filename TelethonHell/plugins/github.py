@@ -2,11 +2,9 @@ import datetime
 import os
 import time
 
+from TelethonHell.plugins import *
+
 from github import Github
-
-from . import *
-
-GIT_TEMP_DIR = "./github/"
 
 
 @hell_cmd(pattern="commit(?:\s|$)([\s\S]*)")
@@ -22,15 +20,14 @@ async def download(event):
     path = splt[0]
     branch = splt[1] or "master"
     hellbot = await eor(event, "Processing ...")
-    if not os.path.isdir(GIT_TEMP_DIR):
-        os.makedirs(GIT_TEMP_DIR)
+    if not os.path.isdir("./github/"):
+        os.makedirs("./github/")
     start = datetime.datetime.now()
     reply_message = await event.get_reply_message()
     try:
-        time.time()
         print("Downloading to TEMP directory")
         downloaded_file_name = await event.client.download_media(
-            reply_message.media, GIT_TEMP_DIR
+            reply_message.media, "./github/"
         )
     except Exception as e:
         await parse_error(hellbot, e)
@@ -88,33 +85,53 @@ async def git_commit(file_name, path, branch, hellbot):
         return await parse_error(hellbot, "Committed Suicide")
 
 
+git_user = """
+**◈ {gh_type}:** [{name}]({html_url})
+
+**◈ Blog:** __{blog}__
+**◈ Repo:** __{public_repos}__
+**◈ Company:** __{company}__
+**◈ Location:** __{location}__
+**◈ Followers:** __{followers}__
+**◈ Following:** __{following}__
+**◈ Created at:** __{created_at}__
+**◈ Bio:** __{bio}__
+"""
+
 @hell_cmd(pattern="github(?:\s|$)([\s\S]*)")
 async def _(event):
-    input_str = event.pattern_match.group(1)
-    url = "https://api.github.com/users/{}".format(input_str)
-    r = requests.get(url)
+    username = event.text[8:].strip()
+    r = requests.get(f"https://api.github.com/users/{username}")
     if r.status_code != 404:
         b = r.json()
         avatar_url = b["avatar_url"]
-        html_url = b["html_url"]
-        gh_type = b["type"]
-        name = b["name"]
-        company = b["company"]
-        blog = b["blog"]
-        location = b["location"]
         bio = b["bio"]
+        blog = b["blog"]
+        company = b["company"]
         created_at = b["created_at"]
+        followers = b["followers"]
+        following = b["following"]
+        gh_type = b["type"]
+        html_url = b["html_url"]
+        location = b["location"]
+        name = b["name"]
+        public_repos = b["public_repos"]
+        git_text = git_user.format(
+            gh_type=gh_type,
+            name=name,
+            html_url=html_url,
+            blog=blog,
+            public_repos=public_repos,
+            company=company,
+            location=location,
+            followers=followers,
+            following=following,
+            created_at=created_at,
+            bio=bio,
+        )
         await event.client.send_file(
             event.chat_id,
-            caption="""Name: [{}]({})
-Type: {}
-Company: {}
-Blog: {}
-Location: {}
-Bio: {}
-Profile Created: {}""".format(
-                name, html_url, gh_type, company, blog, location, bio, created_at
-            ),
+            caption=git_text,
             file=avatar_url,
             force_document=False,
             allow_cache=False,
@@ -122,7 +139,7 @@ Profile Created: {}""".format(
         )
         await event.delete()
     else:
-        await eor(event, "`{}`: {}".format(input_str, r.text))
+        await parse_error(event, f"**{username}:** `{r.text}`", False)
 
 
 CmdHelp("github").add_command(

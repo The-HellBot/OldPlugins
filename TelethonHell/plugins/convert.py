@@ -7,8 +7,7 @@ from io import BytesIO
 from telethon import types
 from telethon.errors import PhotoInvalidDimensionsError
 from telethon.tl.functions.messages import SendMediaRequest
-
-from . import *
+from TelethonHell.plugins import *
 
 
 @hell_cmd(pattern="stog(?:\s|$)([\s\S]*)")

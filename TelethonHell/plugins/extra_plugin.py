@@ -2,8 +2,7 @@ import os
 from pathlib import Path
 
 from telethon.tl.types import InputMessagesFilterDocument
-
-from . import *
+from TelethonHell.plugins import *
 
 
 @hell_cmd(pattern="extdl$")

@@ -7,34 +7,7 @@ import time
 from hachoir.metadata import extractMetadata
 from hachoir.parser import createParser
 from telethon.tl.types import DocumentAttributeVideo
-
-from . import *
-
-thumb_image_path = Config.THUMB_IMG
-
-
-def get_video_thumb(file, output=None, width=90):
-    metadata = extractMetadata(createParser(file))
-    p = subprocess.Popen(
-        [
-            "ffmpeg",
-            "-i",
-            file,
-            "-ss",
-            str(
-                int((0, metadata.get("duration").seconds)[metadata.has("duration")] / 2)
-            ),
-            "-filter:v",
-            "scale={}:-1".format(width),
-            "-vframes",
-            "1",
-            output,
-        ],
-        stdout=subprocess.PIPE,
-        stderr=subprocess.DEVNULL,
-    )
-    if not p.returncode and os.path.lexists(file):
-        return output
+from TelethonHell.plugins import *
 
 
 @hell_cmd(pattern="rename(?:\s|$)([\s\S]*)")
@@ -97,10 +70,10 @@ async def _(event):
         ms_one = (end - start).seconds
         if os.path.exists(downloaded_file_name):
             thumb = None
-            if os.path.exists(thumb_image_path):
-                thumb = thumb_image_path
+            if os.path.exists(Config.THUMB_IMG):
+                thumb = Config.THUMB_IMG
             else:
-                thumb = get_video_thumb(downloaded_file_name, thumb_image_path)
+                thumb = get_video_thumb(downloaded_file_name, Config.THUMB_IMG)
             c_time = time.time()
             await event.client.send_file(
                 event.chat_id,
@@ -153,10 +126,10 @@ async def _(event):
             if not downloaded_file_name.endswith((".mkv", ".mp4", ".mp3", ".flac")):
                 return await parse_error(event, "__Only__ `.mkv`, `.mp4`, `.mp3`, `.flac` __supports streaming upload.__", False)
             thumb = None
-            if os.path.exists(thumb_image_path):
-                thumb = thumb_image_path
+            if os.path.exists(Config.THUMB_IMG):
+                thumb = Config.THUMB_IMG
             else:
-                thumb = get_video_thumb(downloaded_file_name, thumb_image_path)
+                thumb = get_video_thumb(downloaded_file_name, Config.THUMB_IMG)
             start = datetime.datetime.now()
             metadata = extractMetadata(createParser(downloaded_file_name))
             duration = 0
@@ -164,8 +137,8 @@ async def _(event):
             height = 0
             if metadata.has("duration"):
                 duration = metadata.get("duration").seconds
-            if os.path.exists(thumb_image_path):
-                metadata = extractMetadata(createParser(thumb_image_path))
+            if os.path.exists(Config.THUMB_IMG):
+                metadata = extractMetadata(createParser(Config.THUMB_IMG))
                 if metadata.has("width"):
                     width = metadata.get("width")
                 if metadata.has("height"):

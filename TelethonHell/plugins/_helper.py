@@ -2,8 +2,8 @@ from telethon.errors import ChatSendInlineForbiddenError as noin
 from telethon.errors.rpcerrorlist import BotInlineDisabledError as noinline
 from telethon.errors.rpcerrorlist import BotMethodInvalidError as dedbot
 from telethon.errors.rpcerrorlist import YouBlockedUserError
+from TelethonHell.plugins import *
 
-from . import *
 
 msg = f"""
 **⚡ ʟɛɢɛռɖaʀʏ ᴀғ ɦɛʟʟɮօt ⚡**
@@ -11,15 +11,13 @@ msg = f"""
   •        [HellBot Network](https://t.me/hellbot_network)
   •  ©️ {hell_channel} ™
 """
-botname = Config.BOT_USERNAME
 
 
 @hell_cmd(pattern="repo$")
 async def repo(event):
-    cids = await client_id(event)
-    ForGo10God, HELL_USER, hell_mention = cids[0], cids[1], cids[2]
+    ForGo10God, _, _ = await client_id(event)
     try:
-        hell = await event.client.inline_query(botname, "repo")
+        hell = await event.client.inline_query(Config.BOT_USERNAME, "repo")
         await hell[0].click(event.chat_id)
         if event.sender_id == ForGo10God:
             await event.delete()
@@ -29,22 +27,24 @@ async def repo(event):
 
 @hell_cmd(pattern="help$")
 async def _(event):
-    tgbotusername = Config.BOT_USERNAME
-    chat = "@Botfather"
-    if tgbotusername is not None:
+    if Config.BOT_USERNAME:
         try:
-            results = await event.client.inline_query(tgbotusername, "hellbot_help")
+            results = await event.client.inline_query(
+                Config.BOT_USERNAME,
+                "hellbot_help",
+            )
             await results[0].click(
-                event.chat_id, reply_to=event.reply_to_msg_id, hide_via=True
+                event.chat_id,
+                reply_to=event.reply_to_msg_id,
             )
             await event.delete()
         except noinline:
             hell = await eor(event, "**Inline Mode is disabled.** \n__Turning it on, please wait for a minute...__")
-            async with bot.conversation(chat) as conv:
+            async with bot.conversation("@BotFather") as conv:
                 try:
                     first = await conv.send_message("/setinline")
                     second = await conv.get_response()
-                    third = await conv.send_message(tgbotusername)
+                    third = await conv.send_message(Config.BOT_USERNAME)
                     fourth = await conv.get_response()
                     fifth = await conv.send_message(perf)
                     sixth = await conv.get_response()
@@ -64,7 +64,7 @@ async def _(event):
                 ],
             )
     else:
-        await parse_error(event, "__Please Re-Check__ `BOT_TOKEN` __on Heroku.__", False)
+        await parse_error(event, "__Please recheck__ `BOT_TOKEN` __on Heroku.__", False)
 
 
 @hell_cmd(pattern="plinfo(?:\s|$)([\s\S]*)")

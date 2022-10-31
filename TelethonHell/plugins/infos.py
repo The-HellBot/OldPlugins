@@ -3,18 +3,23 @@ from datetime import datetime
 from math import sqrt
 from os import remove
 
-from telethon import events
-from telethon.errors import ChannelInvalidError, ChannelPrivateError, ChannelPublicGroupNaError, ChatAdminRequiredError
-from telethon.errors.rpcerrorlist import MessageTooLongError, YouBlockedUserError
-from telethon.tl.functions.channels import GetFullChannelRequest, GetParticipantsRequest
-from telethon.tl.functions.messages import GetFullChatRequest, GetHistoryRequest
+from telethon.errors import (ChannelInvalidError, ChannelPrivateError,
+                             ChannelPublicGroupNaError, ChatAdminRequiredError)
+from telethon.errors.rpcerrorlist import MessageTooLongError
+from telethon.tl.functions.channels import (GetFullChannelRequest,
+                                            GetParticipantsRequest)
+from telethon.tl.functions.messages import (GetFullChatRequest,
+                                            GetHistoryRequest)
 from telethon.tl.functions.photos import GetUserPhotosRequest
 from telethon.tl.functions.users import GetFullUserRequest
-from telethon.tl.types import (ChannelParticipantAdmin, ChannelParticipantCreator, ChannelParticipantsAdmins,
-                               ChannelParticipantsBots, MessageActionChannelMigrateFrom, MessageEntityMentionName)
+from telethon.tl.types import (ChannelParticipantAdmin,
+                               ChannelParticipantCreator,
+                               ChannelParticipantsAdmins,
+                               ChannelParticipantsBots,
+                               MessageActionChannelMigrateFrom,
+                               MessageEntityMentionName)
 from telethon.utils import get_input_location, pack_bot_file_id
-
-from . import *
+from TelethonHell.plugins import *
 
 
 @hell_cmd(pattern="info(?:\s|$)([\s\S]*)")
@@ -54,16 +59,16 @@ async def _(event):
 <b><i><u>Extracted User info From Telegram</b></i></u>
 
 <b>🆔️ User ID</b>: <code>{}</code>
-<b>📎 Link To Profile</b>: <a href='tg://user?id={}'>Click Here🚪</a>
+<b>📎 Profile Link</b>: <a href='tg://user?id={}'>Click Here🚪</a>
 <b>🗣️ First Name</b>: <code>{}</code>
-<b>🗣️ Second Name</b>: <code>{}</code>
-<b>👨🏿‍💻 BIO</b>: {}
+<b>🗣️ Last Name</b>: <code>{}</code>
+<b>👨🏿‍💻 Bio</b>: {}
 <b>🌐 DC ID</b>: {}
-<b>📸 NO OF PSS</b> : {}
-<b>🧐 RESTRICTED</b>: {}
-<b>✅ VERIFIED</b>: {}
-<b>🤖 BOT</b>: {}
-<b>👥 Groups in Common</b>: {}
+<b>📸 Pictures</b> : {}
+<b>🧐 Restricted</b>: {}
+<b>✅ Verified</b>: {}
+<b>🤖 Bot</b>: {}
+<b>👥 Common Groups</b>: {}
 
 <b>⚡ <a href='https://t.me/HellBot_Network'>From DataBase of HellBot</a> ⚡ </b>
 """.format(

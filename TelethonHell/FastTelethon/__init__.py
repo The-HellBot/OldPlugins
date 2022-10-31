@@ -1,1 +1,1 @@
-from .phast import *
+from TelethonHell.FastTelethon.phast import *

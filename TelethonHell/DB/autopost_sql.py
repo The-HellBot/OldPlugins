@@ -1,8 +1,7 @@
 import threading
 
 from sqlalchemy import Column, String
-
-from . import BASE, SESSION
+from TelethonHell.DB import BASE, SESSION
 
 
 class Post(BASE):

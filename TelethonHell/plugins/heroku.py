@@ -1,21 +1,17 @@
-import asyncio
 import math
 import os
-import sys
-from asyncio.exceptions import CancelledError
 
 import heroku3
 import requests
 import urllib3
-
-from . import *
+from TelethonHell.plugins import *
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 Heroku = heroku3.from_key(Config.HEROKU_API_KEY)
 heroku_api = "https://api.heroku.com"
-HEROKU_APP_NAME = Config.HEROKU_APP_NAME
 HEROKU_API_KEY = Config.HEROKU_API_KEY
+HEROKU_APP_NAME = Config.HEROKU_APP_NAME
 
 
 @hell_cmd(pattern="(set|get|del) var(?: |$)(.*)(?: |$)([\s\S]*)")

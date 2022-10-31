@@ -1,6 +1,5 @@
 from sqlalchemy import Column, Numeric, UnicodeText
-
-from . import BASE, SESSION
+from TelethonHell.DB import BASE, SESSION
 
 
 class Note(BASE):

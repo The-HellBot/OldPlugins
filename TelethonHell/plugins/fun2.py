@@ -6,35 +6,32 @@ from urllib import parse
 import nekos
 import requests
 from telethon.tl.types import ChannelParticipantsAdmins
-
-from . import *
-
-BASE_URL = "https://headp.at/pats/{}"
-PAT_IMAGE = "pat.jpg"
+from TelethonHell.plugins import *
 
 
 @hell_cmd(pattern="pat ([\s\S]*)")
 async def _(event):
     username = event.pattern_match.group(1)
+    BASE_URL = "https://headp.at/pats/{}"
     if not username and not event.reply_to_msg_id:
-        await eod(event, "`Reply to a message or provide username`")
+        await parse_error(event, "Reply to a message or provide username")
         return
 
     resp = requests.get("http://headp.at/js/pats.json")
     pats = resp.json()
     pat = BASE_URL.format(parse.quote(random.choice(pats)))
     await event.delete()
-    with open(PAT_IMAGE, "wb") as f:
+    with open("pat.jpg", "wb") as f:
         f.write(requests.get(pat).content)
     if username:
         await event.client.send_file(
-            event.chat_id, PAT_IMAGE, caption=username, reply_to=event.reply_to_msg_id
+            event.chat_id, "pat.jpg", caption=username, reply_to=event.reply_to_msg_id
         )
     else:
         await event.client.send_file(
-            event.chat_id, PAT_IMAGE, reply_to=event.reply_to_msg_id
+            event.chat_id, "pat.jpg", reply_to=event.reply_to_msg_id
         )
-    remove(PAT_IMAGE)
+    remove("pat.jpg")
 
 
 @hell_cmd(pattern="join$")

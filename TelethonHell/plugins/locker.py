@@ -1,7 +1,6 @@
 from telethon.tl.functions.messages import EditChatDefaultBannedRightsRequest
 from telethon.tl.types import ChatBannedRights
-
-from . import *
+from TelethonHell.plugins import *
 
 
 def lock(event):

@@ -4,10 +4,8 @@ from random import choice
 from telethon.tl import functions
 from telethon.tl.functions.users import GetFullUserRequest
 from telethon.tl.types import MessageEntityMentionName
-
 from TelethonHell.DB.gvar_sql import addgvar, gvarstat
-
-from . import *
+from TelethonHell.plugins import *
 
 
 @hell_cmd(pattern="clone(?:\s|$)([\s\S]*)")

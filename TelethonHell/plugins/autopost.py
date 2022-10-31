@@ -1,7 +1,7 @@
-from TelethonHell.DB.autopost_sql import add_post, get_all_post, is_post, remove_post
+from TelethonHell.DB.autopost_sql import (add_post, get_all_post, is_post,
+                                          remove_post)
 from TelethonHell.DB.gvar_sql import addgvar, delgvar, gvarstat
-
-from . import *
+from TelethonHell.plugins import *
 
 
 @hell_cmd(pattern="autopost(?:\s|$)([\s\S]*)")

@@ -1,5 +1,6 @@
-from .formats import yaml_format
-from .progress import humanbytes
+from TelethonHell.clients.logger import LOGGER as LOGS
+from TelethonHell.helpers.formats import yaml_format
+from TelethonHell.helpers.progress import humanbytes
 
 
 async def mediadata(e_media):

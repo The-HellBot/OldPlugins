@@ -10,6 +10,7 @@ RUNSREACTS = [
     "`I am just walking off, coz me is too fat.`",
     "`I Fugged off!`",
 ]
+
 GAALI_STR = [
     "`Madarchod Randi ke bacche.Oye bosdike madarchod bhen ke lode tere gand me lohe ka danda garam karke dalu randwe tujhetho gali ke kutte gand pe chut rakh ke katenge me bata raha hu tere lode pe madhu makkhi Katelode ke ando pe Road roller chale tu kab bathroom me muthne Jaye tho Tera loda ghir Jaye fir tere ando me se lizard ke bacche nikle teko kidnap Kare aur childporn banaye maa ke chuttad ke lode tere saat Johnny sins rape Kare aur jab wo teko anal de tab loda andar fas Jaye bkl tere jhaat pe waxing karunga me dhek lio fir jab tu chillayega na tab tere muh me Mai gai ka gobar dalunga sale tere gand ke balo pe tel laga ke jala du me teko Anaconda leke gand me dalu tho muh se nikle maa ke lode hamesha chutiyo jaisa bartav kartha he tu maa ke Dai chawal drugs tere gand Me dalunga thi tatti nahi nikle maa darchod kabhi teko Marne ka mouka mil gaya na tho bas I'll do my best to get that tatti outof you aur tere jaise chutio ko is duniya me jagaha bhi nahi maa ke lode bandarchod tere gand me chitiya Kate wo bhi bullet ants maadarchod samj nahi aaraha tere baap NE teko kya khake paida kiya Tha kesa chutiya he tu rand ke bacche teko shadi me khana khane na mile teko gand pe 4 thappad mare sab log aur blade se likhe I want anal madarchod bosdike maccharki tatte ke baal chutiye maa ke chut pe ghode ka Lund tere gand me jaltha hu koila Dale bhen ke lode MAA KI CHUT MAI TALWAR DUNGA BC CHUT FAT JAEGI AUR USME SE ITNA KHOON NIKLEGA MZA AJAEGA DEKHNE KA SALE MAA KE BHOSDE SE BAHR AJA FIR BAAP SE ZUBAN DA TERI MAA KI CHUT CHOD CHOD KE BHOSDABNADU MADARCHOD AUR USKE UPAR CENENT LAGADU KI TERE JESA GANDU INSAAN KABHI BAHR NA A SKE ESI GANDI CHUT MAI SE LODA LASUN MADRCHOD TERI MAA KI CHUT GASTI AMA KA CHUTIA BACHA TERI MAA KO CHOD CHOD K PAGAL KAR DUNGA MAA K LODY KISI SASTIII RANDII K BACHY TERI MAA KI CHOOT MAIN TEER MAARUN GANDU HARAMI TERI COLLEGE JATI BAJI KA ROAD PEY RAPE KARONGANDU KI OLAAD HARAM KI NASAL PAPA HUN TERA BHEN PESH KAR AB PAPA KO TERI MAA KKALE KUSS MAIN KIS`",
     "`Main roz teri behno ki banjar chut me apna lawda daalke andar haryali lata tha magar aaj unke ke baare me sunke mujhe bhut afsos huwa..ki unko ab bada loudha chahye..ab mera balatkaaari lawda lagataar 4 ghante tk apne muh me kon rakhega..vo teri behne hi thi jo apni kaali magar rasilli chut mere saamne khol deti aur zameen pe naagin ki tarah rengne lgti thi jaise ki kisine unki chut pe naariyal tod diya ho vo b bada wala mumbai ka naariyal..apni chennal maa ko b nhi bhej rahe mere paas to main kaixe tum logo se vaada karu ki main teri maa chodd dungaw..ab agar tun sach me chahta hai ki main tum dono k mc ki chut me dhammal karu to mera lawda apne muh me rakho aur kaho Sameer hamare sage papa hain... Aur agar tb b the apni maa ki kaali chut mere saamne nahi rakhi to tumhare ghar me ghuske tumhari maa ka balatkaar kar dungaw jaixe delhi me huwa tha...ab teri chudi hui kuttiyo ki tarah apni gaand hilaate hue mere aage kalapna mt ni to tumhari fatti bhoxdi me 100 ched karunga`",
@@ -31,6 +32,7 @@ GAALI_STR = [
     "`Marzi Ka Sex Pap Nahi Hota.. Piche Se Dalne Wala Kabhi Baap Nahi Hota.. Condom Zarur Lagana Mere Dost Qki.. Sex K Waqt Popat Ke Pass Dimag Nahi Hota.`",
     "`Uss Ne Hothon Se Chhu Kar Lowd* Pe Nasha Kar Diya; Lu*D Ki Baat To Aur Thi, Uss Ne To Jhato* Ko Bhi Khada Kar Diya!`",
 ]
+
 RAPE_STRINGS = [
     "`Rape Done Drink The Cum`",
     "`EK baat yaad rkhio, Chut ka Chakkar matlab maut se takkar`",
@@ -44,6 +46,7 @@ RAPE_STRINGS = [
     "`Tu sasti rendi hai Sabko pta hai😂`",
     "`Lodu Andha hai kya Yaha tera rape ho raha hai aur tu abhi tak yahi gaand mara raha hai lulz`",
 ]
+
 ABUSE_STRINGS = [
     "`Madharchod`",
     "`Gaandu`",
@@ -58,6 +61,7 @@ ABUSE_STRINGS = [
     "`Teri maa meri malllll`",
     "`Tu wahi h naa jo roz apni maa chudata hai?`",
 ]
+
 HIABUSE_STR = [
     "Maderchod- MOTHERFUCKER",
     "Bhosadike-BORN FROM A ROTTEN PUSSY",
@@ -143,6 +147,7 @@ HIABUSE_STR = [
     "Tere gaand mein keede paday- May worms infest your ass-hole",
     "Ullu ke pathe- Idiot",
 ]
+
 GEY_STRINGS = [
     "`you gey bsdk`",
     "`you gey`",
@@ -152,6 +157,7 @@ GEY_STRINGS = [
     "`you gey go away`",
     "`bhago bhenchod gay aaya`",
 ]
+
 RENDISTR = [
     "`I Know Uh ez Rendi Bhay Dont show Your Randi Pesa Here`",
     "`Jag Suna suna laage Sab #maderchod bhay`",
@@ -168,6 +174,7 @@ RENDISTR = [
     "`Ravivaar ko dekha Chand Ka Tukra Itna Baar Dekha par Jaath na Ukra`",
     "`Katal kro Tir se Talwar me Ky Rkkha hai Maal Chodo Sari Me Salwar me Ky Rkkha hai`",
 ]
+
 NOOBSTR = [
     "`YOU PRO NIMBA DONT MESS WIDH MEH`",
     "`Haha yes`",
@@ -178,6 +185,7 @@ NOOBSTR = [
     "`Kysa kysaaaa haaan? Phir MAAR nhi Khayega tu?`",
     "`Zikr Jinka hota hai galiyo meh woh bhosdika ajj paya gya naliyo me`",
 ]
+
 PRO_STRINGS = [
     "`This gey is pro as phack.`",
     "`Proness Lebel: 6969696969`",
@@ -191,6 +199,7 @@ PRO_STRINGS = [
     "`Kysa kysaaaa haaan? Phir MAAR nhi Khayega tu?`",
     "`Zikr Jinka hota hai galiyo meh woh bhosdika ajj paya gya naliyo me`",
 ]
+
 CHU_STRINGS = [
     "`Taare hai Asmaan me very very bright jaat na jla bskd dekh le apni hight.`",
     "`jindagi ki na toote lari iski lulli hoti nhi khadi`",
@@ -214,6 +223,7 @@ CHU_STRINGS = [
     "`Permanent hai pakka tera baap chaka.`",
     "`Yaar azab tera nakhra ghazab tera style hai gand dhone ki tameez nahi haath mein mobile hain.`",
 ]
+
 FUK_STRINGS = [
     "`It's better to let someone think you are an Idiot than to open your mouth and prove it.`",
     "`Talking to a liberal is like trying to explain social media to a 70 years old`",
@@ -226,6 +236,7 @@ FUK_STRINGS = [
     "`Jinda toh jaat ke baal bhi hai`",
     "`Sab ko pta tu randi ka baccha hai (its just a joke)`",
 ]
+
 THANOS_STRINGS = [
     "`Mashoor Rand, Ne Arz Kiya Hai. Aane Wale Aate Hai, Jaane Wale Jaate Hai. Yaade Bas Unki Reh Jaati Hai, Jo G**Nd Sujaa Ke Jaate Hai`",
     "`Pani kam hai matkey me ga*d mardunga teri ek jatke me`",
@@ -238,6 +249,7 @@ THANOS_STRINGS = [
     "`Marzi Ka Sex Pap Nahi Hota.. Piche Se Dalne Wala Kabhi Baap Nahi Hota.. Condom Zarur Lagana Mere Dost Qki.. Sex K Waqt Popat Ke Pass Dimag Nahi Hota.`",
     "`Uss Ne Hothon Se Chhu Kar Lowd* Pe Nasha Kar Diya; Lu*D Ki Baat To Aur Thi, Uss Ne To Jhato* Ko Bhi Khada Kar Diya!`",
 ]
+
 INSULT_STRINGS = [
     "`Owww ... Such a stupid idiot.`",
     "`Don't drink and type.`",
@@ -269,6 +281,7 @@ INSULT_STRINGS = [
     "`You’re so ugly that when you cry, the tears roll down the back of your head…just to avoid your face.`",
     "`If you’re talking behind my back then you’re in a perfect position to kiss my a**!.`",
 ]
+
 GENDER = [
     "u is mard",
     "u is man",
@@ -277,6 +290,7 @@ GENDER = [
     "u is gey",
     "u is chakka",
 ]
+
 EMOTICONS = [
     "(҂⌣̀_⌣́)",
     "（；¬＿¬)",
@@ -284,6 +298,7 @@ EMOTICONS = [
     "┌[ O ʖ̯ O ]┐",
     "〳 ͡° Ĺ̯ ͡° 〵",
 ]
+
 WAVING = [
     "(ノ^∇^)",
     "(;-_-)/",
@@ -293,6 +308,7 @@ WAVING = [
     "(ό‿ὸ)ﾉ",
     "(ヾ(´・ω・｀)",
 ]
+
 WTF = [
     "༎ຶ‿༎ຶ",
     "(‿ˠ‿)",
@@ -301,6 +317,7 @@ WTF = [
     "╭∩╮(︶ε︶*)chu",
     "( ＾◡＾)っ (‿|‿)",
 ]
+
 LOB = [
     "乂❤‿❤乂",
     "(｡♥‿♥｡)",
@@ -308,6 +325,7 @@ LOB = [
     "໒( ♥ ◡ ♥ )७",
     "༼♥ل͜♥༽",
 ]
+
 CONFUSED = [
     "(・_・ヾ",
     "｢(ﾟﾍﾟ)",
@@ -316,6 +334,7 @@ CONFUSED = [
     "▐ ˵ ͠° (oo) °͠ ˵ ▐",
     "(-_-)ゞ゛",
 ]
+
 DEAD = [
     "(✖╭╮✖)",
     "✖‿✖",
@@ -323,6 +342,7 @@ DEAD = [
     "(✖﹏✖)",
     "∑(✘Д✘๑)",
 ]
+
 SED = [
     "(＠´＿｀＠)",
     "⊙︿⊙",
@@ -331,10 +351,12 @@ SED = [
     "(　´_ﾉ` )",
     "彡(-_-;)彡",
 ]
+
 DOG = [
     "-ᄒᴥᄒ-",
     "◖⚆ᴥ⚆◗",
 ]
+
 SHRUG = [
     "( ͡° ͜ʖ ͡°)",
     "¯\_(ツ)_/¯",
@@ -348,6 +370,7 @@ SHRUG = [
     "¯\_༼ ି ~ ି ༽_/¯",
     "c༼ ͡° ͜ʖ ͡° ༽⊃",
 ]
+
 SLAP_TEMPLATES = [
     "{user1} {hits} {user2} with a {item}.",
     "{user1} {hits} {user2} in the face with a {item}.",
@@ -361,6 +384,7 @@ SLAP_TEMPLATES = [
     "{user1} ties {user2} to a chair and {throws} a {item} at them.",
     "{user1} gave a friendly push to help {user2} learn to swim in lava.",
 ]
+
 ITEMS = [
     "cast iron skillet",
     "large trout",
@@ -392,12 +416,14 @@ ITEMS = [
     "bear",
     "ton of bricks",
 ]
+
 THROW = [
     "throws",
     "flings",
     "chucks",
     "hurls",
 ]
+
 HIT = [
     "hits",
     "whacks",

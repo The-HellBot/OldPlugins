@@ -1,8 +1,8 @@
 import os
+
 import requests
 from PIL import Image
-
-from . import *
+from TelethonHell.plugins import *
 
 
 @hell_cmd(pattern="rmbg(?:\s|$)([\s\S]*)")

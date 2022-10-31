@@ -1,8 +1,8 @@
 import asyncio
 import random
-import pyfiglet
 
-from . import *
+import pyfiglet
+from TelethonHell.plugins import *
 
 
 @hell_cmd(pattern="type(?:\s|$)([\s\S]*)")
@@ -14,7 +14,7 @@ async def _(event):
     try:
         await eor(event, shiiinabot)
     except Exception as e:
-        logger.warn(str(e))
+        LOGS.warn(str(e))
     typing_symbol = "_"
     previous_text = ""
     await eor(event, typing_symbol)
@@ -25,12 +25,12 @@ async def _(event):
         try:
             await eor(event, typing_text)
         except Exception as e:
-            logger.warn(str(e))
+            LOGS.warn(str(e))
         await asyncio.sleep(0.3)
         try:
             await eor(event, previous_text)
         except Exception as e:
-            logger.warn(str(e))
+            LOGS.warn(str(e))
         await asyncio.sleep(0.3)
 
 

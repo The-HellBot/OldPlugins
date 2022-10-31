@@ -1,8 +1,5 @@
-from async_timeout  import timeout
-
 from telethon.errors.rpcerrorlist import YouBlockedUserError
-
-from . import *
+from TelethonHell.plugins import *
 
 
 @hell_cmd(pattern="history(?:\s|$)([\s\S]*)")

@@ -1,8 +1,7 @@
 from random import choice
 
 import requests
-
-from . import *
+from TelethonHell.plugins import *
 
 
 @hell_cmd(pattern="love$")

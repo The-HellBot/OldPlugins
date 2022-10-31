@@ -1,8 +1,8 @@
+import io
 import re
 
 from TelethonHell.DB import blacklist_sql as sq
-
-from . import *
+from TelethonHell.plugins import *
 
 
 @hell_handler(incoming=True)

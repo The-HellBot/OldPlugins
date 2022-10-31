@@ -1,6 +1,5 @@
 from sqlalchemy import Column, Numeric, String
-
-from . import BASE, SESSION
+from TelethonHell.DB import BASE, SESSION
 
 
 class forceSubscribe(BASE):

@@ -1,19 +1,19 @@
 import asyncio
 import os
-import requests
 import shutil
-import yt_dlp
+import time
 
+import requests
+import yt_dlp
 from lyricsgenius import Genius
 from telethon.errors.rpcerrorlist import YouBlockedUserError
 from telethon.tl.types import DocumentAttributeAudio
-
-from . import *
+from TelethonHell.plugins import *
 
 
 @hell_cmd(pattern="song(?:\s|$)([\s\S]*)")
 async def songs(event):
-    ForGo10God, HELL_USER, hell_mention = await client_id(event)
+    ForGo10God, _, hell_mention = await client_id(event)
     lists = event.text.split(" ", 1)
     if len(lists) != 2:
         return await parse_error(event, "Nothing given to search.")
@@ -22,31 +22,37 @@ async def songs(event):
     if not query:
         return await parse_error(event, "Nothing given to search.")
     hell = await eor(event, f"<b><i>Searching “ {query} ”</i></b>", parse_mode="HTML")
-    ydl_opts = {"format": "bestaudio[ext=m4a]"}
     try:
-        results = Hell_YTS(query, max_results=1).to_dict()
-        link = f"https://youtube.com{results[0]['url_suffix']}"
-        thumbnail = results[0]["thumbnails"][0]
+        song_dict = await song_search(hell, query, 1)
+        link = song_dict[1]['link']
+        title = song_dict[1]['title']
+        views = song_dict[1]['views']
+        channel = song_dict[1]['channel']
+        duration = song_dict[1]['duration']
+        thumbnail = song_dict[1]['thumbnail']
         thumb_name = f'thumb{ForGo10God}.jpg'
         thumb = requests.get(thumbnail, allow_redirects=True)
         open(thumb_name, 'wb').write(thumb.content)
-        views = results[0]["views"]
-        duration = results[0]["duration"]
     except Exception as e:
         return await parse_error(hell, f"__No song found. Maybe give different name or check spelling.__ \n`{str(e)}`", False)
     try:
-        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+        with yt_dlp.YoutubeDL(song_opts) as ydl:
             info_dict = ydl.extract_info(link, download=False)
             audio_file = ydl.prepare_filename(info_dict)
             ydl.process_info(info_dict)
-        await hell.edit(f"**••• Uploading Song •••** \n\n__» {info_dict['title']}__\n__»» {info_dict['uploader']}__")
+        upload_text = f"**••• Uploading Song •••** \n\n__» {title}__\n__»» {channel}__"
+        await hell.edit(upload_text)
+        c_time = time.time()
         await event.client.send_file(
             event.chat_id,
             audio_file,
             supports_streaming=True,
-            caption=f"**✘ Song -** `{info_dict['title']}` \n**✘ Views -** `{views}` \n**✘ Duration -** `{duration}` \n\n**« ✘ »** {hell_mention}",
+            caption=f"**✘ Song -** `{title}` \n**✘ Views -** `{views}` \n**✘ Duration -** `{duration}` \n\n**« ✘ »** {hell_mention}",
             thumb=thumb_name,
             reply_to=reply,
+            progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
+                progress(d, t, hell, c_time, upload_text)
+            ),
             attributes=[
                 DocumentAttributeAudio(
                     duration=int(info_dict['duration']),
@@ -64,7 +70,7 @@ async def songs(event):
 
 @hell_cmd(pattern="vsong(?:\s|$)([\s\S]*)")
 async def vsong(event):
-    ForGo10God, HELL_USER, hell_mention = await client_id(event)
+    ForGo10God, _, hell_mention = await client_id(event)
     lists = event.text.split(" ", 1)
     if len(lists) != 2:
         return await parse_error(event, "Nothing given to search.")
@@ -73,41 +79,36 @@ async def vsong(event):
     if not query:
         return await parse_error(event, "Nothing given to search.")
     hell = await eor(event, f"<b><i>Searching “ {query} ”</i></b>", parse_mode="HTML")
-    ydl_opts = {
-        "format": "best",
-        "addmetadata": True,
-        "key": "FFmpegMetadata",
-        "prefer_ffmpeg": True,
-        "geo_bypass": True,
-        "nocheckcertificate": True,
-        "postprocessors": [{"key": "FFmpegVideoConvertor", "preferedformat": "mp4"}],
-        "outtmpl": "%(id)s.mp4",
-        "logtostderr": False,
-        "quiet": True,
-    }
     try:
-        results = Hell_YTS(query, max_results=1).to_dict()
-        link = f"https://youtube.com{results[0]['url_suffix']}"
-        thumbnail = results[0]["thumbnails"][0]
+        song_dict = await song_search(hell, query, 1)
+        link = song_dict[1]['link']
+        title = song_dict[1]['title']
+        views = song_dict[1]['views']
+        channel = song_dict[1]['channel']
+        duration = song_dict[1]['duration']
+        thumbnail = song_dict[1]['thumbnail']
         thumb_name = f'thumb{ForGo10God}.jpg'
         thumb = requests.get(thumbnail, allow_redirects=True)
         open(thumb_name, 'wb').write(thumb.content)
-        views = results[0]["views"]
-        duration = results[0]["duration"]
     except Exception as e:
         return await parse_error(hell, f"__No song found. Maybe give different name or check spelling.__ \n`{str(e)}`", False)
     try:
-        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-            vid_file = ydl.extract_info(link, download=True)
-        file_ = f"{vid_file['id']}.mp4"
-        await hell.edit(f"**••• Uploading video •••** \n\n__» {vid_file['title']}__\n__»» {vid_file['uploader']}__")
+        with yt_dlp.YoutubeDL(video_opts) as ydl:
+            info_dict = ydl.extract_info(link, download=True)
+        file_ = f"{info_dict['id']}.mp4"
+        upload_text = f"**••• Uploading video •••** \n\n__» {title}__\n__»» {channel}__"
+        await hell.edit(upload_text)
+        c_time = time.time()
         await event.client.send_file(
             event.chat_id,
             open(file_, "rb"),
             supports_streaming=True,
-            caption=f"**✘ Video -** `{vid_file['title']}` \n**✘ Views -** `{views}` \n**✘ Duration -** `{duration}` \n\n**« ✘ »** {hell_mention}",
+            caption=f"**✘ Video -** `{title}` \n**✘ Views -** `{views}` \n**✘ Duration -** `{duration}` \n\n**« ✘ »** {hell_mention}",
             thumb=thumb_name,
             reply_to=reply,
+            progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
+                progress(d, t, hell, c_time, upload_text)
+            ),
         )
         await hell.delete()
         os.remove(file_)
@@ -144,9 +145,8 @@ async def lyrics(event):
         lyrics = result['lyrics']
         final = f"<b><i>• Song:</b></i> <code>{title}</code> \n<b><i>• Lyrics:</b></i> \n<code>{lyrics}</code>"
         if len(final) >= 4095:
-            page_name = f"{title}"
-            to_paste = f"<img src='{image}'/> \n{final} \n<img src='https://telegra.ph/file/2c546060b20dfd7c1ff2d.jpg'/>"
-            link = await telegraph_paste(page_name, to_paste)
+            to_paste = f"<img src='{image}'/> \n{final} \n<img src='https://te.legra.ph/file/2c546060b20dfd7c1ff2d.jpg'/>"
+            link = await telegraph_paste(title, to_paste)
             await hell.edit(f"**Lyrics too big! Get it from here:** \n\n• [{title}]({link})", link_preview=False)
         else:
             await hell.edit(final, parse_mode="HTML")
@@ -178,7 +178,7 @@ async def _(event):
             await event.client.send_read_acknowledge(conv.chat_id)
         except YouBlockedUserError:
             return await hell.edit("Please unblock @auddbot and try again")
-    audio = f"**Song Name : **{fifth.text.splitlines()[0]}\n\n**Details : **__{fifth.text.splitlines()[2]}__"
+    audio = f"**Song Name: **{fifth.text.splitlines()[0]}\n\n**Details: **__{fifth.text.splitlines()[2]}__"
     await hell.edit(audio)
     await event.client.delete_messages(
         conv.chat_id, [first.id, second.id, third.id, fourth.id, fifth.id]
@@ -197,18 +197,22 @@ async def _(event):
     hell = await eor(event, f"__Downloading__ `{query}` __from spotify ...__")
     cmd = f"spotdl '{query}' --path-template 'spotify" + "/{artist}/{album}/{artist} - {title}.{ext}'"
     await runcmd(cmd)
-    art_list = os.listdir(dirs)
     dldirs = [i async for i in absolute_paths(dirs)]
     if len(dldirs) == 0:
         return await eod(hell, "Not found anything related to that.")
     for music in dldirs:
         try:
+            c_time = time.time()
             await event.client.send_file(
                 event.chat_id,
                 file=music,
                 caption=f"**✘ Spotify Song Downloaded !!** \n\n**« ✘ »** {hell_mention}",
                 reply_to=reply,
                 supports_streaming=True,
+                thumb=spotify_logo,
+                progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
+                    progress(d, t, hell, c_time, f"**Uploading spotify song ...**")
+                ),
             )
         except Exception as e:
             LOGS.info(str(e))
@@ -227,9 +231,9 @@ CmdHelp("songs").add_command(
 ).add_command(
     "wsong", "<reply to a song file>", "Searches for the details of replied mp3 song file and uploads it's details."
 ).add_command(
-    "lyrics", "<song - artist>", "Gives the lyrics of that song. Give arists name to get accurate results."
+    "lyrics", "<song - artist>", "Gives the lyrics of that song. Give arists name to get accurate results.", "lyrics Happier Marshmallow"
 ).add_command(
-    "spotify", "<song name>", "Downloads the song from Spotify."
+    "spotify", "<song name>", "Downloads the song from Spotify.", "spotify happier"
 ).add_info(
     "Songs & Lyrics."
 ).add_warning(

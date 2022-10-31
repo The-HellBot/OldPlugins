@@ -1,7 +1,6 @@
 from telethon.tl import functions
 from telethon.tl.types import MessageEntityMentionName
-
-from . import *
+from TelethonHell.plugins import *
 
 
 @hell_cmd(pattern="create (b|g|c) ([\s\S]*)")
@@ -112,19 +111,6 @@ async def get_user_from_event(event):
             return None
 
     return user_obj, extra
-
-
-async def get_user_from_id(user, event):
-    if isinstance(user, str):
-        user = int(user)
-
-    try:
-        user_obj = await event.client.get_entity(user)
-    except (TypeError, ValueError) as err:
-        await event.edit(str(err))
-        return None
-
-    return user_obj
 
 
 CmdHelp("create").add_command(

@@ -1,6 +1,7 @@
-from TelethonHell.DB import snip_sql as sq
+import io
 
-from . import *
+from TelethonHell.DB import snip_sql as sq
+from TelethonHell.plugins import *
 
 
 @hell_cmd(pattern=r"\#(\S+)")

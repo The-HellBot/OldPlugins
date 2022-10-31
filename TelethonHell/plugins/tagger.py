@@ -1,11 +1,10 @@
-from telethon import custom
+from telethon import Button
 from telethon.tl.types import Channel
 from telethon.utils import get_display_name
+from TelethonHell.plugins import *
 
-from . import *
 
-
-if Config.TAG_LOGGER:
+if Config.TAG_LOGGER is not 0:
     @hell_handler(func=lambda e: (e.mentioned), incoming=True)
     async def all_messages_catcher(event):
         ammoca_message = ""
@@ -27,7 +26,7 @@ if Config.TAG_LOGGER:
             int(Config.TAG_LOGGER),
             ammoca_message,
             link_preview=False,
-            buttons=[[custom.Button.url(button_text, message_link)]],
+            buttons=[[Button.url(button_text, message_link)]],
             silent=True,
         )
 

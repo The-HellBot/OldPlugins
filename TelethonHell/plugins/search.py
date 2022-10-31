@@ -1,6 +1,5 @@
 import requests
-
-from . import *
+from TelethonHell.plugins import *
 
 
 @hell_cmd(pattern="ytube(?:\s|$)([\s\S]*)")

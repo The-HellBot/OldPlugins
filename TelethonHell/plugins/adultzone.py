@@ -1,7 +1,7 @@
 import random
-import nekos
 
-from . import *
+import nekos
+from TelethonHell.plugins import *
 
 neko_category = [
     'wallpaper',
@@ -34,7 +34,7 @@ async def _(event):
     y = x.id
     if y == 1496036895:
         return await parse_error(event, "Can't use this command here.")
-    if Config.ABUSE != "ON":
+    if abuse_m == "Disabled":
         return await eod(
             event,
             "**This command is only for users with variable** `ABUSE` **as** `ON`",

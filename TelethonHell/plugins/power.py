@@ -1,11 +1,9 @@
-import asyncio
 import sys
-import heroku3
-
 from asyncio.exceptions import CancelledError
 
+import heroku3
 from TelethonHell.DB.gvar_sql import addgvar, delgvar, gvarstat
-from . import *
+from TelethonHell.plugins import *
 
 
 async def restart(event):

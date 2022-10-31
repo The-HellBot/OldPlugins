@@ -1,18 +1,15 @@
 
-import cv2
 import io
-import numpy as np
 import os
-
 from random import randint, uniform
-from vcam import meshGen, vcam
-from PIL import Image, ImageEnhance, ImageOps
 
-from telethon import events
+import cv2
+import numpy as np
+from PIL import Image, ImageEnhance, ImageOps
 from telethon.errors.rpcerrorlist import YouBlockedUserError
 from telethon.tl.types import DocumentAttributeFilename
-
-from . import *
+from TelethonHell.plugins import *
+from vcam import meshGen, vcam
 
 
 @hell_cmd(pattern="feye$")
@@ -118,7 +115,7 @@ async def _(event):
     hell = await eor(event, "`Processing`")
     async with event.client.conversation(chat) as conv:
         try:
-            first = await conv.send_message(reply_message)
+            first = await conv.send_message(reply)
             response = await conv.get_response()
         except YouBlockedUserError:
             return await parse_error(hell, "__Unblock @image_deepfrybot and try again.__", False)

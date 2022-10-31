@@ -1,7 +1,8 @@
-from TelethonHell.DB.pmlogger_sql import add_nolog, del_nolog, get_all_nolog, is_nolog
-from . import *
+from TelethonHell.DB.pmlogger_sql import (add_nolog, del_nolog, get_all_nolog,
+                                          is_nolog)
+from TelethonHell.plugins import *
 
-lg_id = Config.PM_LOG_ID
+lg_id = Config.PM_LOGGER
 
 
 @hell_cmd(pattern="save(?:\s|$)([\s\S]*)")
@@ -9,7 +10,7 @@ async def _(event):
     if f"{hl}savewelcome" in event.text:
         return
     ForGo10God, _, _ = await client_id(event)
-    if lg_id:
+    if lg_id is not 0:
         if event.reply_to_msg_id:
             reply_msg = await event.get_reply_message()
             await reply_msg.forward_to(lg_id)
@@ -37,7 +38,7 @@ async def _(event):
 
 @hell_handler(func=lambda e: e.is_private, incoming=True)
 async def _(event):
-    if lg_id is None:
+    if lg_id is 0:
         return
     ForGo10God, _, _ = await client_id(event)
     sender = await event.get_sender()
@@ -57,7 +58,7 @@ async def _(event):
 
 @hell_cmd(pattern="elog$")
 async def _(event):
-    if lg_id:
+    if lg_id is not 0:
         chat = await event.get_chat()
         if event.is_private:
             try:
@@ -68,12 +69,12 @@ async def _(event):
         else:
             await parse_error(event, "Chat is not a PM.")
     else:
-        await parse_error(event, "`PM_LOG_ID` is not configured.", False)
+        await parse_error(event, "`PM_LOGGER` is not configured.", False)
 
 
 @hell_cmd(pattern="nlog$")
 async def _(event):
-    if lg_id:
+    if lg_id is not 0:
         chat = await event.get_chat()
         if event.is_private:
             if is_nolog(str(chat.id)):
@@ -83,7 +84,7 @@ async def _(event):
         else:
             await parse_error(event, "Chat is not a PM.")
     else:
-        await parse_error(event, "`PM_LOG_ID` is not configured.", False)
+        await parse_error(event, "`PM_LOGGER` is not configured.", False)
 
 
 @hell_cmd(pattern="allnolog$")

@@ -7,9 +7,9 @@ from telethon import functions
 from telethon.errors.rpcerrorlist import YouBlockedUserError
 from telethon.tl.functions.channels import LeaveChannelRequest
 from telethon.tl.functions.messages import SaveDraftRequest
-
 from TelethonHell.DB.gvar_sql import gvarstat
-from . import *
+from TelethonHell.clients.client_list import get_user_id
+from TelethonHell.plugins import *
 
 ping_txt = """
 <b><i>╰•★★  ℘ơŋɠ ★★•╯</b></i>
@@ -87,7 +87,7 @@ async def _(event):
 async def _(event):
     result = await event.client(functions.help.GetConfigRequest())
     result = result.stringify()
-    logger.info(result)
+    LOGS.info(result)
     await eor(event, "Config Saved In You Heroku Logs.")
 
 
@@ -133,7 +133,7 @@ async def _(event):
     reply = await event.get_reply_message()
     if reply and len(lists) >= 2:
         try:
-            chat_id = await get_user_id(lists[1])
+            chat_id = await get_user_id(event, lists[1])
             to_send = reply
             await event.client.send_message(chat_id, to_send)
             await eod(event, "**[Done]**")
@@ -142,7 +142,7 @@ async def _(event):
     
     elif len(lists) == 3:
         try:
-            chat_id = await get_user_id(lists[1])
+            chat_id = await get_user_id(event, lists[1])
             to_send = lists[2]
             await event.client.send_message(chat_id, to_send)
             await eod(event, "**[Done]**")

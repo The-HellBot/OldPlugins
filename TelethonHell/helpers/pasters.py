@@ -1,9 +1,9 @@
 import json
 
 import requests
+from HellConfig import Config
 from html_telegraph_poster import TelegraphPoster
-
-from TelethonHell import *
+from TelethonHell.clients.logger import LOGGER as LOGS
 
 headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.104 Safari/537.36",

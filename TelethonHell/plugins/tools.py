@@ -11,10 +11,7 @@ import requests
 from barcode.writer import ImageWriter
 from bs4 import BeautifulSoup
 from PIL import Image, ImageColor, ImageDraw, ImageFont
-from telethon import events
-from telethon.errors.rpcerrorlist import YouBlockedUserError
-
-from . import *
+from TelethonHell.plugins import *
 
 FONT_FILE_TO_USE = "/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf"
 
@@ -177,7 +174,6 @@ async def make_qr(event):
 
 @hell_cmd(pattern="calendar(?:\s|$)([\s\S]*)")
 async def _(event):
-    reply = await event.get_reply_message()
     lists = event.text.split(" ", 1)
     year = datetime.datetime.now().year
     month = datetime.datetime.now().month
@@ -239,7 +235,7 @@ async def currencylist(event):
     try:
         for i in range(len(key)):
             output += f"<code>▸ {key[i]} : {value[i]}</code> \n"
-        output += "\n<img src='https://telegra.ph/file/2c546060b20dfd7c1ff2d.jpg'/>"
+        output += "\n<img src='https://te.legra.ph/file/2c546060b20dfd7c1ff2d.jpg'/>"
         link = await telegraph_paste("Currency List For HellBot", output)
         await hell.edit(
             f"<b><i>⊹ Supported currency lists are:</b></i> \n\n<i>⊷ <u><a href='{link}'>Currency Lists</a></u> ⊶</i>",

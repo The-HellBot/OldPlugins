@@ -2,8 +2,7 @@ import asyncio
 from collections import deque
 
 from telethon.tl.functions.users import GetFullUserRequest
-
-from . import *
+from TelethonHell.plugins import *
 
 
 @hell_cmd(pattern="indflag$")

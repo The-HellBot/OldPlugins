@@ -1,18 +1,14 @@
 import asyncio
+from curses.ascii import isdigit
+from typing import Any
 
-from . import *
-
-
-class SPAM:
-    def __init__(self):
-        self.spam = False
-        self.chat = None
+from TelethonHell.plugins import *
 
 Spam = SPAM()
 
 
 async def spam(event, msg, count, reply_to, delay, bspam, uspam, media):
-    chat = (await event.get_chat()).title
+    # chat = (await event.get_chat()).title
     if media:
         what = "MEDIA_SPAM"
         for i in range(count):
@@ -20,11 +16,13 @@ async def spam(event, msg, count, reply_to, delay, bspam, uspam, media):
                 await event.client.send_file(event.chat_id, media)
             else:
                 break
+        Spam.spam = False
     elif uspam:
         what = "UNLIMITED_SPAM"
         while Spam.spam == True:
             await event.client.send_message(event.chat_id, msg, reply_to=reply_to)
             count += 1
+        Spam.spam = False
     elif bspam:
         what = "BREAK_SPAM"
         x = int(count % 100)
@@ -38,6 +36,7 @@ async def spam(event, msg, count, reply_to, delay, bspam, uspam, media):
                     await asyncio.sleep(a)
                 else:
                     break
+        Spam.spam = False
     elif delay:
         what = "DELAY_SPAM"
         for i in range(count):
@@ -46,6 +45,7 @@ async def spam(event, msg, count, reply_to, delay, bspam, uspam, media):
                 await asyncio.sleep(delay)
             else:
                 break
+        Spam.spam = False
     else:
         what = "SPAM"
         for i in range(count):
@@ -53,19 +53,32 @@ async def spam(event, msg, count, reply_to, delay, bspam, uspam, media):
                 await event.client.send_message(event.chat_id, msg, reply_to=reply_to)
             else:
                 break
+        Spam.spam = False
 
     await event.client.send_message(
         Config.LOGGER_ID,
-        f"#{what} \n\n**Spammed** `{count}` **messages in** {chat}",
+        f"#{what} \n\n**Spammed** `{count}` **messages in** {Spam.spam}",
     )
 
 
 @hell_cmd(pattern="spam(?:\s|$)([\s\S]*)")
 async def spammer(event):
     reply_to = await event.get_reply_message()
-    hell = event.text[6:]
-    count = int(hell.split(" ", 1)[0])
-    msg = str(hell.split(" ", 1)[1]) or reply_to
+    lists = event.text.split(" ", 2)
+    if len(lists) < 2:
+        return await parse_error(event, "Nothing given to spam!")
+    elif len(lists) == 2:
+        if str(lists[1]).isdigit():
+            count = int(lists[1])
+            msg = reply_to.text
+        else:
+            return await parse_error(event, "Spam count not given!")
+    else:
+        if str(lists[1]).isdigit():
+            count = int(lists[1])
+            msg = str(lists[2])
+        else:
+            return await parse_error(event, "Wrong spam syntax. Checkout help menu!")
     Spam.spam = True
     await spam(event, msg, count, reply_to, None, None, None, None)
 
@@ -73,10 +86,29 @@ async def spammer(event):
 @hell_cmd(pattern="dspam(?:\s|$)([\s\S]*)")
 async def dspam(event):
     reply_to = await event.get_reply_message()
-    hell = event.text[7:]
-    delay = int(hell.split(" ", 2)[0])
-    count = int(hell.split(" ", 2)[1])
-    msg = str(hell.split(" ", 2)[2]) or reply_to
+    lists = event.text.split(" ", 3)
+    if len(lists) < 3:
+        return await parse_error(event, "Wrong spam syntax. Checkout help menu!")
+    elif len(lists) == 3:
+        if str(lists[1]).isdigit():
+            delay = int(lists[1])
+        else:
+            return await parse_error(event, "Wrong spam syntax. Checkout help menu!")
+        if str(lists[2]).isdigit():
+            count = int(lists[2])
+        else:
+            return await parse_error(event, "Wrong spam syntax. Checkout help menu!")
+        msg = reply_to.text
+    else:
+        if str(lists[1]).isdigit():
+            delay = int(lists[1])
+        else:
+            return await parse_error(event, "Wrong spam syntax. Checkout help menu!")
+        if str(lists[2]).isdigit():
+            count = int(lists[2])
+        else:
+            return await parse_error(event, "Wrong spam syntax. Checkout help menu!")
+        msg = str(lists[3])
     Spam.spam = True
     await spam(event, msg, count, reply_to, delay, None, None, None)
 
@@ -84,20 +116,36 @@ async def dspam(event):
 @hell_cmd(pattern="uspam(?:\s|$)([\s\S]*)")
 async def uspam(event):
     reply_to = await event.get_reply_message()
-    hell = event.text[7:]
-    msg = hell or reply_to
+    lists = event.text.split(" ", 1)
+    if len(lists) < 2:
+        if reply_to:
+            msg = reply_to.text
+        else:
+            return await parse_error(event, "Wrong spam syntax. Checkout help menu!")
+    else:
+        msg = str(lists[1])
     Spam.spam = True
     await spam(event, msg, 0, reply_to, None, None, True, None)
 
 
-# Special Break Spam Module For HellBot Made By Chirag Bhargava.
-# Team HellBot
 @hell_cmd(pattern="bspam(?:\s|$)([\s\S]*)")
 async def bspam(event):
     reply_to = await event.get_reply_message()
-    hell = event.text[7:]
-    count = int(hell.split(" ", 1)[0])
-    msg = str(hell.split(" ", 1)[1]) or reply_to
+    lists = event.text.split(" ", 2)
+    if len(lists) < 2:
+        return await parse_error(event, "Nothing given to spam!")
+    elif len(lists) == 2:
+        if str(lists[1]).isdigit():
+            count = int(lists[1])
+            msg = reply_to.text
+        else:
+            return await parse_error(event, "Spam count not given!")
+    else:
+        if str(lists[1]).isdigit():
+            count = int(lists[1])
+            msg = str(lists[2])
+        else:
+            return await parse_error(event, "Wrong spam syntax. Checkout help menu!")
     Spam.spam = True
     await spam(event, msg, count, reply_to, None, True, None, None)
 
@@ -105,11 +153,15 @@ async def bspam(event):
 @hell_cmd(pattern="mspam(?:\s|$)([\s\S]*)")
 async def mspam(event):
     reply_to = await event.get_reply_message()
-    hell = event.text[7:]
-    count = int(hell.split(" ", 1)[0])
+    lists = event.text.split(" ", 2)
+    if len(lists) < 2:
+        return await parse_error(event, "Wrong spam syntax. Checkout help menu!")
+    if not str(lists[1]).isdigit():
+        return await parse_error(event, "Wrong spam syntax. Checkout help menu!")
     if not reply_to and not reply_to.media:
-        return await eod(event, "Reply to a pic/gif/video/sticker to spam.")
+        return await parse_error(event, "Reply to a pic/gif/video/sticker to spam.")
     media = reply_to.media
+    count = int(lists[1])
     Spam.spam = True
     await spam(event, None, count, reply_to, None, None, None, media)
 
@@ -118,6 +170,7 @@ async def mspam(event):
 async def spamend(event):
     if Spam.spam == True:
         Spam.spam = False
+        Spam.chat = None
         await eod(event, "**Spam Terminated !!**")
     else:
         await eod(event, "**Nothing is spamming !!**")

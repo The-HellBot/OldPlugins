@@ -1,4 +1,3 @@
-import os
 import requests
 from PIL import Image
 from validators.url import url

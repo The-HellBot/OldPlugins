@@ -4,20 +4,15 @@ import os
 import sys
 from pathlib import Path
 
+from HellConfig import Config
 from telethon.tl.types import InputMessagesFilterDocument
-
-from TelethonHell import *
-from TelethonHell.clients import *
-from TelethonHell.helpers import *
-from TelethonHell.utils import *
-
-# ENV
-ENV = bool(os.environ.get("ENV", False))
-if ENV:
-    from HellConfig import Config
-else:
-    if os.path.exists("config.py"):
-        from config import Development as Config
+from TelethonHell import LOAD_PLUG, LOGS, bot
+from TelethonHell.clients.client_list import client_id
+from TelethonHell.clients.decs import hell_cmd
+from TelethonHell.clients.session import H2, H3, H4, H5, Hell, HellBot
+from TelethonHell.utils.cmds import CmdHelp
+from TelethonHell.utils.decorators import admin_cmd, command, sudo_cmd
+from TelethonHell.utils.extras import delete_hell, edit_or_reply
 
 
 # load plugins
@@ -54,8 +49,6 @@ def load_module(shortname):
         mod.CmdHelp = CmdHelp
         mod.client_id = client_id
         mod.logger = logging.getLogger(shortname)
-        # support for uniborg
-        sys.modules["uniborg.util"] = TelethonHell.utils
         mod.Config = Config
         mod.borg = bot
         mod.hellbot = bot
@@ -67,10 +60,8 @@ def load_module(shortname):
         mod.admin_cmd = admin_cmd
         mod.hell_cmd = hell_cmd
         mod.sudo_cmd = sudo_cmd
-        # support for other userbots
-        sys.modules["userbot.utils"] = TelethonHell.utils
+        sys.modules["userbot.utils"] = TelethonHell
         sys.modules["userbot"] = TelethonHell
-        # support for paperplaneextended
         sys.modules["userbot.events"] = TelethonHell
         spec.loader.exec_module(mod)
         # for imports

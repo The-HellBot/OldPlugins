@@ -3,9 +3,7 @@ import re
 import time
 
 from HellConfig import Config
-from TelethonHell import *
-from TelethonHell.helpers import *
-from TelethonHell.utils import *
+from TelethonHell.helpers.exceptions import CancelProcess
 
 
 async def reply_id(event):

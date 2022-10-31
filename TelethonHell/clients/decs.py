@@ -2,11 +2,10 @@ import inspect
 import re
 from pathlib import Path
 
-from telethon import events
-
 from HellConfig import Config
+from telethon import events
 from TelethonHell import CMD_LIST, LOAD_PLUG, bot
-from .session import H2, H3, H4, H5
+from TelethonHell.clients.session import H2, H3, H4, H5
 
 
 def hell_cmd(

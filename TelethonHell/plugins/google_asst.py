@@ -1,21 +1,11 @@
-import aiohttp
 import datetime
 import os
 import subprocess
-import emoji
 
+import emoji
 from googletrans import Translator
 from gtts import gTTS
-
-from . import *
-
-
-class AioHttp:
-    @staticmethod
-    async def get_json(link):
-        async with aiohttp.ClientSession() as session:
-            async with session.get(link) as resp:
-                return await resp.json()
+from TelethonHell.plugins import *
 
 
 @hell_cmd(pattern="meaning ([\s\S]*)")
@@ -26,7 +16,7 @@ async def _(event):
         word = response["list"][0]["word"]
         definition = response["list"][0]["definition"]
         example = response["list"][0]["example"]
-        result = f"**Text : {word}**\n**Meaning :**\n`{definition}`\n\n**Example :**\n`{example}`"
+        result = f"**Text: {word}**\n**Meaning:**\n`{definition}`\n\n**Example:**\n`{example}`"
         await eor(event, result)
     except Exception as e:
         await parse_error(event, e)
@@ -65,7 +55,7 @@ async def _(event):
 async def _(hell):
     await eor(
         hell,
-        "**All The Language Codes Can Be Found** ⚡ [Here](https://telegra.ph/SfMæisér--𐌷𐌴ࠋࠋ𐌱𐍈𐌸-𐌾𐌰𐍀𐌾-06-04) ⚡",
+        "**All The Language Codes Can Be Found** ⚡ [Here](https://te.legra.ph/SfMæisér--𐌷𐌴ࠋࠋ𐌱𐍈𐌸-𐌾𐌰𐍀𐌾-06-04) ⚡",
         link_preview=False,
     )
 
@@ -123,7 +113,7 @@ async def _(event):
         await event.client.send_file(
             event.chat_id,
             required_file_name,
-            caption=f"**• Voiced :** `{text[0:97]}....` \n**• Language :** `{lan}` \n**• Time Taken :** `{ms} seconds`",
+            caption=f"**• Voiced:** `{text[0:97]}....` \n**• Language:** `{lan}` \n**• Time Taken:** `{ms} seconds`",
             reply_to=event.message.reply_to_msg_id,
             allow_cache=False,
             voice_note=True,

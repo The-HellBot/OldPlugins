@@ -33,7 +33,7 @@ class Config(object):
     OCR_API = os.environ.get("OCR_API", None)
     PLUGIN_CHANNEL = int(os.environ.get("PLUGIN_CHANNEL", 0))
     PM_LOGGER = int(os.environ.get("PM_LOGGER", 0))
-    PM_PERMIT = os.environ.get("PM_PERMIT", None)
+    PM_PERMIT = os.environ.get("PM_PERMIT", "True")
     REMOVE_BG_API = os.environ.get("REMOVE_BG_API", None)
     HELLBOT_SESSION = os.environ.get("HELLBOT_SESSION", None)
     SESSION_2 = os.environ.get("SESSION_2", None)

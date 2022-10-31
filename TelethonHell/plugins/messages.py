@@ -1,8 +1,7 @@
 import string
 
 from telethon.tl.types import Channel
-
-from . import *
+from TelethonHell.plugins import *
 
 global msg_cache
 global groupsid

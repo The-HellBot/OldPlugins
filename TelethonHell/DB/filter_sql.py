@@ -1,6 +1,5 @@
 from sqlalchemy import Column, LargeBinary, Numeric, String, UnicodeText
-
-from . import BASE, SESSION
+from TelethonHell.DB import BASE, SESSION
 
 
 class Filters(BASE):

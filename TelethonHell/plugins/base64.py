@@ -2,7 +2,7 @@ import base64
 from subprocess import PIPE
 from subprocess import run as runapp
 
-from . import *
+from TelethonHell.plugins import *
 
 
 @hell_cmd(pattern="hash(?:\s|$)([\s\S]*)")

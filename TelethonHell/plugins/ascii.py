@@ -1,6 +1,5 @@
 from telethon.errors.rpcerrorlist import YouBlockedUserError
-
-from . import *
+from TelethonHell.plugins import *
 
 
 @hell_cmd(pattern="ascii(?:\s|$)([\s\S]*)")

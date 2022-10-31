@@ -2,12 +2,10 @@ import inspect
 import re
 from pathlib import Path
 
-from telethon import events
-
 from HellConfig import Config
-from TelethonHell import bot
+from telethon import events
+from TelethonHell import CMD_LIST, LOAD_PLUG, SUDO_LIST, bot
 from TelethonHell.clients import H2, H3, H4, H5
-from TelethonHell.helpers import *
 
 
 # admin cmd or normal user cmd
@@ -161,7 +159,7 @@ def on(**args):
             H5.add_event_handler(wrapper, events.NewMessage(**args))
         return wrapper
 
-    return decorater
+    return decorator
 
 
 # register decorate

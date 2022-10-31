@@ -1,7 +1,6 @@
 import requests
 from telethon.errors.rpcerrorlist import ChatSendMediaForbiddenError
-
-from . import *
+from TelethonHell.plugins import *
 
 
 @hell_cmd(pattern="anime(?:\s|$)([\s\S]*)")

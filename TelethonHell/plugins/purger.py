@@ -1,8 +1,7 @@
 from asyncio import sleep
 
 from telethon.errors import rpcbaseerrors
-
-from . import *
+from TelethonHell.plugins import *
 
 
 @hell_cmd(pattern="del$")

@@ -1,13 +1,12 @@
+import asyncio
 import os
-from asyncio import sleep
 
 import requests
 from bs4 import BeautifulSoup
-
-from TelethonHell.DB.husb_sql import add_hus_grp, get_all_hus_grp, is_husb, rm_hus_grp
+from TelethonHell.DB.husb_sql import (add_hus_grp, get_all_hus_grp, is_husb,
+                                      rm_hus_grp)
 from TelethonHell.DB.waifu_sql import add_grp, get_all_grp, is_harem, rm_grp
-
-from . import *
+from TelethonHell.plugins import *
 
 qt = "Add them to your harem by sending"
 qt_bots = ["792028928", "1733263647"]
@@ -93,10 +92,10 @@ async def _(event):
                 f"/protecc {text}",
                 reply_to=event,
             )
-            await sleep(2)
+            await asyncio.sleep(2)
             await hell.delete()
             os.remove(dl)
-        except:
+        except Exception as e:
             LOGS.info(str(e))
 
 
@@ -133,10 +132,10 @@ async def _(event):
                 f"/protecc {text}",
                 reply_to=event,
             )
-            await sleep(2)
+            await asyncio.sleep(2)
             await hell.delete()
             os.remove(dl)
-        except:
+        except Exception as e:
             LOGS.info(str(e))
 
 

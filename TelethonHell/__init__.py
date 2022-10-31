@@ -1,28 +1,15 @@
-import os
-import sys
 import time
-from distutils.util import strtobool as sb
-from logging import DEBUG, INFO, basicConfig, getLogger
 
 import heroku3
 from HellConfig import Config
 
-from TelethonHell.clients.session import H2, H3, H4, H5, Hell, HellBot
-
-CONSOLE_LOGGER_VERBOSE = sb(os.environ.get("CONSOLE_LOGGER_VERBOSE", "False"))
-if CONSOLE_LOGGER_VERBOSE:
-    basicConfig(
-        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=DEBUG
-    )
-else:
-    basicConfig(
-        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=INFO
-    )
-LOGS = getLogger(__name__)
+from TelethonHell.clients.logger import LOGGER
+from TelethonHell.clients.session import Hell, HellBot
 
 StartTime = time.time()
 bot = Hell
 tbot = HellBot
+LOGS = LOGGER
 
 
 if not Config.API_HASH:

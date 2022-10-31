@@ -1,29 +1,21 @@
 import datetime
 import io
 import os
-import requests
 import traceback
 import urllib.request
+from shutil import rmtree
 
+import requests
 from bs4 import BeautifulSoup
 from geopy.geocoders import Nominatim
 from search_engine_parser import GoogleSearch
-from search_engine_parser.core.exceptions import NoResultsOrTrafficError as GoglError
+from search_engine_parser.core.exceptions import \
+    NoResultsOrTrafficError as GoglError
 from selenium import webdriver
-from shutil import rmtree
 from telethon.tl import types
+from TelethonHell.plugins import *
 from wikipedia import summary
 from wikipedia.exceptions import DisambiguationError, PageError
-
-from . import *
-
-
-def progress(current, total):
-    logger.info(
-        "Downloaded {} of {}\nCompleted {}".format(
-            current, total, (current / total) * 100
-        )
-    )
 
 
 @hell_cmd(pattern="wiki(?:\s|$)([\s\S]*)")
@@ -53,7 +45,7 @@ async def _(event):
             return await parse_error(event, f"__DISAMBIGUATED PAGE:__\n{result}", False)
         except PageError:
             return await eod(event, f"**Sorry i Can't find any results for **`{match}`")
-    await eor(event, "**Search :**\n`" + match + "`\n\n**Result:**\n" + f"__{result}__")
+    await eor(event, "**Search:**\n`" + match + "`\n\n**Result:**\n" + f"__{result}__")
 
 
 @hell_cmd(pattern="google(?:\s|$)([\s\S]*)")
@@ -73,9 +65,9 @@ async def google(event):
         url = got["links"][i]
         des = got["descriptions"][i]
         output += f"<a href='{url}'>• {text}</a>\n≈ <code>{des}</code>\n\n"
-    res = f"""<h3><b><i>Google Search Query :</b></i> <u>{input_str}</u></h3>
+    res = f"""<h3><b><i>Google Search Query:</b></i> <u>{input_str}</u></h3>
 
-»» <b>Results :</b>
+»» <b>Results:</b>
 {output}"""
     paste = await telegraph_paste(f"Google Search Query “ {input_str} ”", res)
     await hell.edit(
@@ -94,7 +86,7 @@ async def img(event):
         try:
             lim = int(sim.split(";")[1])
             sim = sim.split(";")[0]
-        except BaseExceptaion:
+        except BaseException:
             lim = 5
     else:
         lim = 5
@@ -137,7 +129,7 @@ async def _(event):
     alls = div.find("a")
     link = alls["href"]
     text = alls.text
-    await hell.edit(f"**Possible Results :** [{text}](google.com{link})")
+    await hell.edit(f"**Possible Results:** [{text}](google.com{link})")
     img = googleimagesdownload()
     args = {
         "keywords": text,

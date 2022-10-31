@@ -1,16 +1,14 @@
 from telethon import events
-
 from TelethonHell.DB.gvar_sql import addgvar, delgvar, gvarstat
 from TelethonHell.DB.welcome_sql import (add_welcome, get_current_welcome,
-                                     rm_welcome, update_welcome)
+                                         rm_welcome, update_welcome)
+from TelethonHell.plugins import *
 
-from . import *
 
-
-@H1.on(events.ChatAction)
+@bot.on(events.ChatAction)
 async def _(event):
     lg_id = Config.LOGGER_ID
-    ForGo10God, HELL_USER, hell_mention = await client_id(event)
+    ForGo10God, _, _ = await client_id(event)
     if not gvarstat(f"WELCOME_{ForGo10God}_{str(event.chat_id)[1:]}"):
         return
     cws = get_current_welcome(event.chat_id)
@@ -72,11 +70,10 @@ async def _(event):
 
 
 if H2:
-
     @H2.on(events.ChatAction)
     async def _(event):
         lg_id = Config.LOGGER_ID
-        ForGo10God, HELL_USER, hell_mention = await client_id(event)
+        ForGo10God, _, _ = await client_id(event)
         if not gvarstat(f"WELCOME_{ForGo10God}_{str(event.chat_id)[1:]}"):
             return
         cws = get_current_welcome(event.chat_id)
@@ -138,11 +135,10 @@ if H2:
 
 
 if H3:
-
     @H3.on(events.ChatAction)
     async def _(event):
         lg_id = Config.LOGGER_ID
-        ForGo10God, HELL_USER, hell_mention = await client_id(event)
+        ForGo10God, _, _ = await client_id(event)
         if not gvarstat(f"WELCOME_{ForGo10God}_{str(event.chat_id)[1:]}"):
             return
         cws = get_current_welcome(event.chat_id)
@@ -208,7 +204,7 @@ if H4:
     @H4.on(events.ChatAction)
     async def _(event):
         lg_id = Config.LOGGER_ID
-        ForGo10God, HELL_USER, hell_mention = await client_id(event)
+        ForGo10God, _, _ = await client_id(event)
         if not gvarstat(f"WELCOME_{ForGo10God}_{str(event.chat_id)[1:]}"):
             return
         cws = get_current_welcome(event.chat_id)
@@ -270,11 +266,10 @@ if H4:
 
 
 if H5:
-
     @H5.on(events.ChatAction)
     async def _(event):
         lg_id = Config.LOGGER_ID
-        ForGo10God, HELL_USER, hell_mention = await client_id(event)
+        ForGo10God, _, _ = await client_id(event)
         if not gvarstat(f"WELCOME_{ForGo10God}_{str(event.chat_id)[1:]}"):
             return
         cws = get_current_welcome(event.chat_id)
@@ -338,7 +333,7 @@ if H5:
 @hell_cmd(pattern="savewelcome(?:\s|$)([\s\S]*)")
 async def save_welcome(event):
     reply = await event.get_reply_message()
-    ForGo10God, HELL_USER, hell_mention = await client_id(event)
+    ForGo10God, _, _ = await client_id(event)
     lists = event.text.split(" ", 1)
     string = None
     if len(lists) == 2:
@@ -355,7 +350,7 @@ async def save_welcome(event):
             \nDont delete this msg else welcome won't work.",
         )
         msg_o = await event.client.forward_messages(
-            entity=lg_id, messages=msg, from_peer=event.chat_id, silent=True
+            entity=Config.LOGGER_ID, messages=reply, from_peer=event.chat_id, silent=True
         )
         msg_id = msg_o.id
     elif reply and not string:
@@ -374,7 +369,7 @@ async def save_welcome(event):
 
 @hell_cmd(pattern="cleanwelcome$")
 async def del_welcome(event):
-    ForGo10God, HELL_USER, hell_mention = await client_id(event)
+    ForGo10God, _, _ = await client_id(event)
     if gvarstat(f"WELCOME_{ForGo10God}_{str(event.chat_id)[1:]}"):
         if rm_welcome(event.chat_id) is True:
             delgvar(f"WELCOME_{ForGo10God}_{str(event.chat_id)[1:]}")
@@ -387,14 +382,14 @@ async def del_welcome(event):
 
 @hell_cmd(pattern="showwelcome$")
 async def getwelcome(event):
-    ForGo10God, HELL_USER, hell_mention = await client_id(event)
+    ForGo10God, _, _ = await client_id(event)
     if not gvarstat(f"WELCOME_{ForGo10God}_{str(event.chat_id)[1:]}"):
         return await eod(event, "No welcome notes here!")
     cws = get_current_welcome(event.chat_id)
     if not cws:
         return await eod(event, "`No welcome message saved here.`")
     if cws.f_mesg_id:
-        msg_o = await event.client.get_messages(entity=lg_id, ids=int(cws.f_mesg_id))
+        msg_o = await event.client.get_messages(entity=Config.LOGGER_ID, ids=int(cws.f_mesg_id))
         await eor(event, "Welcome note in this chat is...")
         await event.reply(msg_o.message, file=msg_o.media)
     elif cws.reply:

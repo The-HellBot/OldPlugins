@@ -1,11 +1,9 @@
-import json
 import os
 import re
+
 import requests
-
 from telethon.utils import get_extension
-
-from . import *
+from TelethonHell.plugins import *
 
 
 @hell_cmd(pattern="paste(?:\s|$)([\s\S]*)")

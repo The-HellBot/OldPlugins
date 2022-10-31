@@ -49,8 +49,6 @@ async def env_safe_clean(text, harm):
         xx = x.split("=")
         if xx and xx[0] in harm:
             pass
-#         elif xx and xx not in harm:
-#             output += f"{x}\n"
         else:
             output += f"{x} "
 

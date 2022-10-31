@@ -2,10 +2,8 @@ import asyncio
 
 from telethon.tl.functions.channels import EditBannedRequest
 from telethon.tl.types import ChatBannedRights
-
 from TelethonHell.DB import antiflood_sql as sq
-
-from . import *
+from TelethonHell.plugins import *
 
 CHAT_FLOOD = sq.__load_flood_settings()
 ANTI_FLOOD_WARN_MODE = ChatBannedRights(

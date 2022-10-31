@@ -1,14 +1,13 @@
 import random
 
 from telethon import events
+from telethon.errors import BadRequestError
 from telethon.tl.functions.channels import EditAdminRequest
 from telethon.tl.types import ChatAdminRights, MessageEntityMentionName
-
 from TelethonHell.DB import gmute_sql as gsql
 from TelethonHell.DB.gban_sql import all_gbanned, gbaner, is_gbanned, ungbaner
 from TelethonHell.DB.gvar_sql import gvarstat
-
-from . import *
+from TelethonHell.plugins import *
 
 
 async def get_full_user(event):
@@ -40,20 +39,9 @@ async def get_full_user(event):
     return user_obj, extra
 
 
-async def get_user_from_id(user, event):
-    if isinstance(user, str):
-        user = int(user)
-    try:
-        user_obj = await event.client.get_entity(user)
-    except (TypeError, ValueError) as err:
-        await parse_error(event, err)
-        return None
-    return user_obj
-
-
 @hell_cmd(pattern="gpro(?:\s|$)([\s\S]*)")
 async def _(event):
-    ForGo10God, HELL_USER, hell_mention = await client_id(event)
+    ForGo10God, _, _ = await client_id(event)
     new_rights = ChatAdminRights(
         add_admins=False,
         invite_users=True,
@@ -103,7 +91,7 @@ async def _(event):
 
 @hell_cmd(pattern="gdem(?:\s|$)([\s\S]*)")
 async def _(event):
-    ForGo10God, HELL_USER, hell_mention = await client_id(event)
+    ForGo10God, _, _ = await client_id(event)
     newrights = ChatAdminRights(
         add_admins=None,
         invite_users=None,
@@ -133,7 +121,7 @@ async def _(event):
         ]
         for x in total_ch:
             try:
-                await event.client(EditAdminRequest(x, user, new_rights, rank))
+                await event.client(EditAdminRequest(x, user, newrights, rank))
                 yup += 1
             except BadRequestError:
                 sed += 1
@@ -152,8 +140,9 @@ async def _(event):
 @hell_cmd(pattern="gban(?:\s|$)([\s\S]*)")
 async def _(event):
     reason = ""
-    ForGo10God, HELL_USER, hell_mention = await client_id(event)
+    ForGo10God, _, hell_mention = await client_id(event)
     hell = await eor(event, f"`Gban in action...`")
+    reply = await event.get_reply_message()
     if event.reply_to_msg_id:
         userid = (await event.get_reply_message()).sender_id
         try:
@@ -162,7 +151,7 @@ async def _(event):
             reason = ""
     elif event.pattern_match.group(1):
         usr = event.text.split(" ", 2)[1]
-        userid = await get_user_id(usr)
+        userid = await get_user_id(event, usr)
         try:
             reason = event.text.split(" ", 2)[2]
         except IndexError:
@@ -216,9 +205,9 @@ async def _(event):
         ogmsg += f"\n**📍 Reason:** `{reason}`"
     
     if Config.ABUSE == "ON":
-        await event.client.send_message(event.chat_id, gmsg, file=gbpic)
+        await event.client.send_message(event.chat_id, gmsg, file=gbpic, reply_to=reply)
     else:
-        await event.client.send_message(event.chat_id, f"__**🔥 GBan Completed !!**__ \n\n{ogmsg}", file=gbpic)
+        await event.client.send_message(event.chat_id, f"__**🔥 GBan Completed !!**__ \n\n{ogmsg}", file=gbpic, reply_to=reply)
     await hell.delete()
     await event.client.send_message(
         Config.LOGGER_ID,
@@ -228,12 +217,12 @@ async def _(event):
 
 @hell_cmd(pattern="ungban(?:\s|$)([\s\S]*)")
 async def _(event):
-    ForGo10God, HELL_USER, hell_mention = await client_id(event)
+    _, _, hell_mention = await client_id(event)
     hell = await eor(event, "`Ungban in action...`")
     if event.reply_to_msg_id:
         userid = (await event.get_reply_message()).sender_id
     elif event.pattern_match.group(1):
-        userid = await get_user_id(event.pattern_match.group(1))
+        userid = await get_user_id(event, event.pattern_match.group(1))
     elif event.is_private:
         userid = (await event.get_chat()).id
     else:
@@ -266,11 +255,11 @@ async def _(event):
 async def already(event):
     hell = await eor(event, "`Fetching Gbanned users...`")
     gbanned_users = all_gbanned()
-    GBANNED_LIST = "**Gbanned Users :**\n"
+    GBANNED_LIST = "**Gbanned Users:**\n"
     if len(gbanned_users) > 0:
         for user in gbanned_users:
             usr = user.chat_id
-            userid = await get_user_id(int(usr))
+            userid = await get_user_id(event, int(usr))
             try:
                 name = (await event.client.get_entity(userid)).first_name
             except ValueError:
@@ -281,7 +270,7 @@ async def already(event):
     await hell.edit(GBANNED_LIST)
 
 
-@H1.on(events.ChatAction)
+@bot.on(events.ChatAction)
 async def _(event):
     if event.user_joined or event.added_by:
         user = await event.get_user()
@@ -290,7 +279,7 @@ async def _(event):
         if is_gbanned(str(user.id)):
             if chat.admin_rights:
                 try:
-                    await H1.edit_permissions(
+                    await bot.edit_permissions(
                         chat.id,
                         user.id,
                         view_messages=False,
@@ -304,7 +293,6 @@ async def _(event):
 
 
 if H2:
-
     @H2.on(events.ChatAction)
     async def _(event):
         if event.user_joined or event.added_by:
@@ -328,7 +316,6 @@ if H2:
 
 
 if H3:
-
     @H3.on(events.ChatAction)
     async def _(event):
         if event.user_joined or event.added_by:
@@ -352,7 +339,6 @@ if H3:
 
 
 if H4:
-
     @H4.on(events.ChatAction)
     async def _(event):
         if event.user_joined or event.added_by:
@@ -376,7 +362,6 @@ if H4:
 
 
 if H5:
-
     @H5.on(events.ChatAction)
     async def _(event):
         if event.user_joined or event.added_by:
@@ -402,7 +387,7 @@ if H5:
 @hell_cmd(pattern="gkick(?:\s|$)([\s\S]*)")
 async def gkick(event):
     reason = ""
-    ForGo10God, HELL_USER, hell_mention = await client_id(event)
+    ForGo10God, _, hell_mention = await client_id(event)
     hell = await eor(event, "`GKick in action...`")
     reply = await event.get_reply_message()
     if event.reply_to_msg_id:
@@ -410,20 +395,20 @@ async def gkick(event):
         try:
             reason = event.text.split(" ", 1)[1]
         except IndexError:
-            reason = ""
+            reason = "Not Mentioned!"
     elif event.pattern_match.group(1):
         usr = event.text.split(" ", 2)[1]
-        userid = await get_user_id(usr)
+        userid = await get_user_id(event, usr)
         try:
             reason = event.text.split(" ", 2)[2]
         except IndexError:
-            reason = ""
+            reason = "Not Mentioned!"
     elif event.is_private:
         userid = (await event.get_chat()).id
         try:
             reason = event.text.split(" ", 1)[1]
         except IndexError:
-            reason = ""
+            reason = "Not Mentioned!"
     else:
         return await parse_error(hell, "No user mentioned.")
     name = (await event.client.get_entity(userid)).first_name
@@ -453,8 +438,8 @@ async def gkick(event):
     else:
         gbpic = cjb
     
-    gkmsg = f"**📍 Victim:** [{name}](tg://user?id={userid}) \n**📍 Chats:** `{chats}` \n**📍 GKick By:** {hell_mention}"
-    await event.client.send_message(event.chat_id, f"__**🔥 GKick Completed !!**__ \n\n{gkmsg}", file=gbpic)
+    gkmsg = f"**📍 Victim:** [{name}](tg://user?id={userid}) \n**📍 Chats:** `{chats}` \n**Reason:** `{reason}`\n**📍 GKick By:** {hell_mention}"
+    await event.client.send_message(event.chat_id, f"__**🔥 GKick Completed !!**__ \n\n{gkmsg}", file=gbpic, reply_to=reply)
     await hell.delete()
     await event.client.send_message(
         Config.LOGGER_ID,
@@ -464,12 +449,12 @@ async def gkick(event):
 
 @hell_cmd(pattern="gmute(?:\s|$)([\s\S]*)")
 async def gm(event):
-    ForGo10God, HELL_USER, hell_mention = await client_id(event)
+    ForGo10God, _, hell_mention = await client_id(event)
     hell = await eor(event, "`GMute in action...`")
     if event.reply_to_msg_id:
         userid = (await event.get_reply_message()).sender_id
     elif event.pattern_match.group(1):
-        userid = await get_user_id(event.text.split(" ", 2)[1])
+        userid = await get_user_id(event, event.text.split(" ", 2)[1])
     elif event.is_private:
         userid = (await event.get_chat()).id
     else:
@@ -487,7 +472,7 @@ async def gm(event):
     try:
         gsql.gmute(userid, "gmute")
         if Config.ABUSE == "ON":
-            await event.client.send_message(event.chat_id, f"Chup [Madarchod](tg://user?id={userid})", file=shhh)
+            await event.client.send_message(event.chat_id, f"Chup [Madarchod](tg://user?id={userid})", file=shhh, reply_to=reply)
             await hell.delete()
         else:
             await hell.edit(f"__**🔥 GMute Completed !!**__ \n\n{ogmsg}")
@@ -501,12 +486,12 @@ async def gm(event):
 
 @hell_cmd(pattern="ungmute(?:\s|$)([\s\S]*)")
 async def endgmute(event):
-    ForGo10God, HELL_USER, hell_mention = await client_id(event)
+    _, _, hell_mention = await client_id(event)
     hell = await eor(event, "`UnGmute in action...`")
     if event.reply_to_msg_id:
         userid = (await event.get_reply_message()).sender_id
     elif event.pattern_match.group(1):
-        userid = await get_user_id(event.text.split(" ", 2)[1])
+        userid = await get_user_id(event, event.text.split(" ", 2)[1])
     elif event.is_private:
         userid = (await event.get_chat()).id
     else:

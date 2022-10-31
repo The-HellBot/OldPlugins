@@ -2,11 +2,10 @@ import asyncio
 
 from telethon import events
 from telethon.utils import get_peer_id
-
-from TelethonHell.DB.echo_sql import addecho, get_all_echos, is_echo, remove_echo
+from TelethonHell.DB.echo_sql import (addecho, get_all_echos, is_echo,
+                                      remove_echo)
 from TelethonHell.DB.gvar_sql import addgvar, gvarstat
-
-from . import *
+from TelethonHell.plugins import *
 
 
 @hell_cmd(pattern="echo$")
@@ -57,11 +56,11 @@ async def echo(event):
     await eor(event, output_str)
 
 
-@H1.on(events.NewMessage(incoming=True))
+@bot.on(events.NewMessage(incoming=True))
 async def samereply(event):
     if event.chat_id in Config.BL_CHAT:
         return
-    id_ = await H1.get_me()
+    id_ = await bot.get_me()
     uid = get_peer_id(id_)
     if is_echo(event.sender_id, event.chat_id):
         if gvarstat(f"ECHO_{uid}") == "True":

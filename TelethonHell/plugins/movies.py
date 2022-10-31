@@ -2,10 +2,9 @@ import os
 
 from bs4 import BeautifulSoup
 from pySmartDL import SmartDL
+from TelethonHell.plugins import *
 
-from . import *
-
-logo = "https://telegra.ph/file/2c546060b20dfd7c1ff2d.jpg"
+logo = "https://te.legra.ph/file/2c546060b20dfd7c1ff2d.jpg"
 
 
 @hell_cmd(pattern="imdb(?:\s|$)([\s\S]*)")
