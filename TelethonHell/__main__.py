@@ -5,10 +5,11 @@ from pathlib import Path
 
 from HellConfig import Config
 
-from TelethonHell import LOGGER as LOGS
+from TelethonHell.clients.logger import LOGGER as LOGS
 from TelethonHell.clients.session import H2, H3, H4, H5, Hell, HellBot
-from TelethonHell.utils import (join_it, load_module, logger_check,
-                                plug_channel, start_msg, update_sudo)
+from TelethonHell.utils.plug import load_module, plug_channel
+from TelethonHell.utils.startup import (join_it, logger_check, start_msg,
+                                        update_sudo)
 from TelethonHell.version import __hellver__
 
 # Global Variables #
