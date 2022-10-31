@@ -7,7 +7,6 @@ from TelethonHell.plugins import *
 
 @bot.on(events.ChatAction)
 async def _(event):
-    lg_id = Config.LOGGER_ID
     ForGo10God, _, _ = await client_id(event)
     if not gvarstat(f"WELCOME_{ForGo10God}_{str(event.chat_id)[1:]}"):
         return
@@ -41,7 +40,7 @@ async def _(event):
         if cws:
             if cws.f_mesg_id:
                 msg_o = await event.client.get_messages(
-                    entity=lg_id, ids=int(cws.f_mesg_id)
+                    entity=Config.LOGGER_ID, ids=int(cws.f_mesg_id)
                 )
                 file_media = msg_o.media
                 current_saved_welcome_message = msg_o.message
@@ -72,7 +71,6 @@ async def _(event):
 if H2:
     @H2.on(events.ChatAction)
     async def _(event):
-        lg_id = Config.LOGGER_ID
         ForGo10God, _, _ = await client_id(event)
         if not gvarstat(f"WELCOME_{ForGo10God}_{str(event.chat_id)[1:]}"):
             return
@@ -106,7 +104,7 @@ if H2:
             if cws:
                 if cws.f_mesg_id:
                     msg_o = await event.client.get_messages(
-                        entity=lg_id, ids=int(cws.f_mesg_id)
+                        entity=Config.LOGGER_ID, ids=int(cws.f_mesg_id)
                     )
                     file_media = msg_o.media
                     current_saved_welcome_message = msg_o.message
@@ -137,7 +135,6 @@ if H2:
 if H3:
     @H3.on(events.ChatAction)
     async def _(event):
-        lg_id = Config.LOGGER_ID
         ForGo10God, _, _ = await client_id(event)
         if not gvarstat(f"WELCOME_{ForGo10God}_{str(event.chat_id)[1:]}"):
             return
@@ -171,7 +168,7 @@ if H3:
             if cws:
                 if cws.f_mesg_id:
                     msg_o = await event.client.get_messages(
-                        entity=lg_id, ids=int(cws.f_mesg_id)
+                        entity=Config.LOGGER_ID, ids=int(cws.f_mesg_id)
                     )
                     file_media = msg_o.media
                     current_saved_welcome_message = msg_o.message
@@ -203,7 +200,6 @@ if H4:
 
     @H4.on(events.ChatAction)
     async def _(event):
-        lg_id = Config.LOGGER_ID
         ForGo10God, _, _ = await client_id(event)
         if not gvarstat(f"WELCOME_{ForGo10God}_{str(event.chat_id)[1:]}"):
             return
@@ -237,7 +233,7 @@ if H4:
             if cws:
                 if cws.f_mesg_id:
                     msg_o = await event.client.get_messages(
-                        entity=lg_id, ids=int(cws.f_mesg_id)
+                        entity=Config.LOGGER_ID, ids=int(cws.f_mesg_id)
                     )
                     file_media = msg_o.media
                     current_saved_welcome_message = msg_o.message
@@ -268,7 +264,6 @@ if H4:
 if H5:
     @H5.on(events.ChatAction)
     async def _(event):
-        lg_id = Config.LOGGER_ID
         ForGo10God, _, _ = await client_id(event)
         if not gvarstat(f"WELCOME_{ForGo10God}_{str(event.chat_id)[1:]}"):
             return
@@ -302,7 +297,7 @@ if H5:
             if cws:
                 if cws.f_mesg_id:
                     msg_o = await event.client.get_messages(
-                        entity=lg_id, ids=int(cws.f_mesg_id)
+                        entity=Config.LOGGER_ID, ids=int(cws.f_mesg_id)
                     )
                     file_media = msg_o.media
                     current_saved_welcome_message = msg_o.message

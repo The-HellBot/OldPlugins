@@ -64,7 +64,7 @@ async def update_sudo():
 
 # Checks for logger group.
 async def logger_check(bot):
-    if Config.LOGGER_ID is None:
+    if Config.LOGGER_ID == 0:
         if gvarstat("LOGGER_ID") is None:
             grp_id = await logger_id(bot)
             addgvar("LOGGER_ID", grp_id)

@@ -14,7 +14,6 @@ from telethon.tl.types import (ChannelParticipantsAdmins, ChatAdminRights,
 from TelethonHell.DB.mute_sql import is_muted, mute, unmute
 from TelethonHell.plugins import *
 
-lg_id = Config.LOGGER_ID
 PP_TOO_SMOL = "🥴 The image is too small."
 PP_ERROR = "😕 Failure while processing the image."
 NO_ADMIN = "😪 I'm not an admin here!"
@@ -86,7 +85,7 @@ async def set_group_photo(event):
             await parse_error(event, e)
         if kraken:
             await event.client.send_message(
-                lg_id,
+                Config.LOGGER_ID,
                 "#GROUPPIC\n"
                 f"\nGroup profile pic changed "
                 f"\n**CHAT:** {event.chat.title}(`{event.chat_id}`)",
@@ -126,7 +125,7 @@ async def promote(event):
     except BadRequestError:
         return await parse_error(hellevent, NO_PERM)
     await event.client.send_message(
-        lg_id,
+        Config.LOGGER_ID,
         "#PROMOTE\n"
         f"\n**USER:** [{user.first_name}](tg://user?id={user.id})"
         f"\n**CHAT:** {event.chat.title}(`{event.chat_id}`)",
@@ -164,7 +163,7 @@ async def demote(event):
         return await parse_error(hellevent, NO_PERM)
     await hellevent.edit(f"**😪 Demoted  [{user.first_name}](tg://user?id={user.id})  Successfully In**  `{event.chat.title}`")
     await event.client.send_message(
-        lg_id,
+        Config.LOGGER_ID,
         "#DEMOTE\n"
         f"\n**USER:** [{user.first_name}](tg://user?id={user.id})"
         f"\n**CHAT:** {event.chat.title}(`{event.chat_id}`)",
@@ -253,7 +252,7 @@ async def muth(event):
         except BaseException as be:
             await parse_error(hell, be)
         await event.client.send_message(
-            lg_id,
+            Config.LOGGER_ID,
             "#MUTE\n"
             f"\n**USER:**  [{name}](tg://user?id={userid})"
             f"\n**CHAT:**  {chat.title}",
@@ -328,7 +327,7 @@ async def nomuth(event):
             except Exception as be:
                 await parse_error(hell, be)
         await event.client.send_message(
-            lg_id,
+            Config.LOGGER_ID,
             "#UNMUTE\n"
             f"\n**USER:**  [{name}](tg://user?id={userid})"
             f"\n**CHAT:**  {chat.title}",
@@ -373,7 +372,7 @@ async def ban(event):
             f"**Bitch** [{user.first_name}](tg://user?id={user.id}) **is now banned in**  `[{event.chat.title}]`!!"
         )
     await event.client.send_message(
-        lg_id,
+        Config.LOGGER_ID,
         "#BAN\n"
         f"\n**USER:** [{user.first_name}](tg://user?id={user.id})"
         f"\n**CHAT:** {event.chat.title}(`{event.chat_id}`)",
@@ -402,7 +401,7 @@ async def nothanos(event):
             f"[{user.first_name}](tg://user?id={user.id}) **Is Now Unbanned in**  `{event.chat.title}` !!"
         )
         await event.client.send_message(
-            lg_id,
+            Config.LOGGER_ID,
             "#UNBAN\n"
             f"\n**USER:** [{user.first_name}](tg://user?id={user.id})\n"
             f"**CHAT:** {event.chat.title}(`{event.chat_id}`)",
@@ -440,7 +439,7 @@ async def pin(event):
             f"📌 **Pinned  [this message](https://t.me/c/{ms_l.id}/{to_pin})  Successfully!**",
         )
         await event.client.send_message(
-            lg_id,
+            Config.LOGGER_ID,
             "#PIN\n"
             f"**CHAT:** {event.chat.title}(`{event.chat_id}`)\n"
             f"**LOUD:** {not is_silent}",
@@ -471,7 +470,7 @@ async def unpin(event):
                     f"**Unpinned [this message](https://t.me/c/{ms_l.id}/{rply}) successfully !!**",
                 )
                 await event.client.send_message(
-                    lg_id,
+                    Config.LOGGER_ID,
                     f"#UNPIN \n\n**Chat :** {event.chat.title} (`{event.chat_id}`) \n**Message :** [Here](https://t.me/c/{ms_l.id}/{rply})",
                 )
         elif options == "all":
@@ -479,7 +478,7 @@ async def unpin(event):
             await eod(event, f"**Unpinned all pinned msgs.**")
             if not event.is_private:
                 await event.client.send_message(
-                    lg_id,
+                    Config.LOGGER_ID,
                     f"#UNPIN \n\n**Chat :** {event.chat.title} (`{event.chat_id}`) \n**Messages :** __All__",
                 )
         else:
@@ -523,7 +522,7 @@ async def kick(event):
             f"**🏃 Kicked**  [{user.first_name}](tg://user?id={user.id})'s **Butt from** `{event.chat.title}!`"
         )
     await event.client.send_message(
-        lg_id,
+        Config.LOGGER_ID,
         "#KICK\n"
         f"\n**USER:** [{user.first_name}](tg://user?id={user.id})\n"
         f"**CHAT:** {event.chat.title}(`{event.chat_id}`)\n",
@@ -566,7 +565,7 @@ async def rm_deletedacc(event):
             del_status = f"**Zombies Purged!!**\n\n**Cleaned:** `{del_u}`\n\n`{del_a}` **Zombies Holds Immunity!!**"
         await hell.edit(del_status)
         await event.client.send_message(
-            lg_id,
+            Config.LOGGER_ID,
             f"#ZOMBIES\
             \n{del_status}\
            \n**CHAT:** {event.chat.title}(`{event.chat_id}`)",

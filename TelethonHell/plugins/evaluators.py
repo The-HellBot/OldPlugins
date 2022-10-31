@@ -12,7 +12,6 @@ from TelethonHell.plugins import *
 @hell_cmd(pattern="exec(?:\s|$)([\s\S]*)")
 async def _(event):
     if gvarstat("USE_EVAL") == "TRUE":
-        Config.LOGGER_ID
         cmd = "".join(event.text.split(maxsplit=1)[1:])
         if not cmd:
             return await eod(event, "`What should i execute?..`")

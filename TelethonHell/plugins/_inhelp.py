@@ -16,7 +16,6 @@ if mybot.startswith("@"):
 else:
     botname = f"@{mybot}"
 
-LOG_GP = Config.LOGGER_ID
 
 alive_txt = """{}\n
 <b><i>🏅 𝙱𝚘𝚝 𝚂𝚝𝚊𝚝𝚞𝚜 🏅</b></i>
@@ -74,7 +73,7 @@ if Config.BOT_USERNAME and tbot:
             if a:
                 help_pic = a.split(" ")[0]
             else:
-                help_pic = "https://telegra.ph/file/3a48c5756d2a9763eafaf.jpg"
+                help_pic = "https://te.legra.ph/file/3a48c5756d2a9763eafaf.jpg"
             help_msg = f"🔰 **{hell_mention}**\n\n📜 __Plugins:__ `{len(CMD_HELP)}` \n🗂️ __Commands:__ `{len(apn)}`\n🗒️ __Page:__ 1/{veriler[0]}"
             if help_pic == "DISABLE":
                 result = builder.article(
@@ -123,7 +122,7 @@ if Config.BOT_USERNAME and tbot:
                         pic_list.append(c)
                 PIC = random.choice(pic_list)
             else:
-                PIC = "https://telegra.ph/file/ea9e11f7c9db21c1b8d5e.mp4"
+                PIC = "https://te.legra.ph/file/ea9e11f7c9db21c1b8d5e.mp4"
             if PIC and PIC.endswith((".jpg", ".png")):
                 result = builder.photo(
                     PIC,
@@ -166,7 +165,7 @@ if Config.BOT_USERNAME and tbot:
                         pic_list.append(c)
                 PIC = random.choice(pic_list)
             else:
-                PIC = "https://telegra.ph/file/58df4d86400922aa32acd.jpg"
+                PIC = "https://te.legra.ph/file/58df4d86400922aa32acd.jpg"
             if PIC and PIC.endswith((".jpg", ".png")):
                 result = builder.photo(
                     file=PIC,
@@ -223,7 +222,7 @@ if Config.BOT_USERNAME and tbot:
                     ],
                     [
                         Button.url("• Repo •", "https://github.com/The-HellBot/HellBot"),
-                        Button.url("• Docs •", "https://hellbot/tech"),
+                        Button.url("• Docs •", "https://hellbot.tech"),
                     ],
                     [
                         Button.url("◈ HellBot Network ◈", "https://t.me/hellbot_networks"),
@@ -257,7 +256,7 @@ if Config.BOT_USERNAME and tbot:
             if first_name is not None:
                 first_name = first_name.replace("\u2060", "")
             await tbot.send_message(
-                LOG_GP,
+                Config.LOGGER_ID,
                 f"#PM_REQUEST \n\n⚜️ You got a PM request from [{first_name}](tg://user?id={event.query.user_id}) !",
             )
 
@@ -283,7 +282,7 @@ if Config.BOT_USERNAME and tbot:
             if first_name is not None:
                 first_name = first_name.replace("\u2060", "")
             await tbot.send_message(
-                LOG_GP,
+                Config.LOGGER_ID,
                 f"#BLOCK \n\n**Blocked** [{first_name}](tg://user?id={event.query.user_id}) \nReason:- PM Self Block",
             )
 
@@ -303,7 +302,7 @@ if Config.BOT_USERNAME and tbot:
             if a:
                 help_pic = a.split(" ")[0]
             else:
-                help_pic = "https://telegra.ph/file/3a48c5756d2a9763eafaf.jpg"
+                help_pic = "https://te.legra.ph/file/3a48c5756d2a9763eafaf.jpg"
 
             if help_pic == "DISABLE":
                 await event.edit(
