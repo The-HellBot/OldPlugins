@@ -23,7 +23,7 @@ pip_works() {
 
 # check if there's a config file and ask to edit
 configs() {
-    if [ -f "configs.py" ]
+    if [ -f "config.py" ]
     then
         echo -n "Found config file. Do you want to edit it? [y/n]"; read want_to_edit
         if [ $want_to_edit == "y" ]
