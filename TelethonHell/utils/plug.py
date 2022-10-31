@@ -89,7 +89,7 @@ def remove_plugin(shortname):
 
 
 async def plug_channel(client, channel):
-    if channel:
+    if channel != 0:
         LOGS.info("⚡ Hêllẞø† ⚡ - PLUGIN CHANNEL DETECTED.")
         LOGS.info("⚡ Hêllẞø† ⚡ - Starting to load extra plugins.")
         plugs = await client.get_messages(channel, None, filter=InputMessagesFilterDocument)

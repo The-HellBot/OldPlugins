@@ -8,7 +8,7 @@ from TelethonHell.plugins import *
 @hell_cmd(pattern="extdl$")
 async def install(event):
     chat = Config.PLUGIN_CHANNEL
-    if not chat:
+    if chat == 0:
         return await parse_error(event, f"PLUGIN_CHANNEL not configured.")
     documentss = await event.client.get_messages(
         chat, None, filter=InputMessagesFilterDocument
