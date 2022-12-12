@@ -13,6 +13,7 @@
     docker_image_name: "library/python"
     docker_image_tag: "3.9"
     execute_commands:
+    - "python -m pip install --upgrade pip"
     - "pip install -r requirements.txt"
     - "python3 -m TelethonHell"
     cached_dirs:
@@ -32,5 +33,11 @@
       type: "VAR"
       encrypted: true
     - key: "HELLBOT_SESSION"
+      type: "VAR"
+      encrypted: true
+    - key: "DATABASE_URL"
+      type: "VAR"
+      encrypted: true
+    - key: "DB_URI"
       type: "VAR"
       encrypted: true
