@@ -38,6 +38,4 @@
     - key: "DATABASE_URL"
       type: "VAR"
       encrypted: true
-    - key: "DB_URI"
-      type: "VAR"
-      encrypted: true
+
