@@ -16,6 +16,15 @@
 
 -----
 
+<details><summary><h1><b>Deploy Alternatives 🥷🏻</h1></b></summary>
+
+  - 
+    [![Deploy to Koyeb](https://www.koyeb.com/static/images/deploy/button.svg)](https://app.koyeb.com/deploy?type=git&repository=github.com/The-HellBot/Plugins-T&branch=master&name=hellbot-koyeb&run_command=bash+runkoyeb&env[APP_ID]&env[API_HASH]&env[BOT_TOKEN]&env[HELLBOT_SESSION]&env[DATABASE_URL])
+
+</details>
+
+-----
+
 <h1 align="center">
   <b>Follow this format to make your own plugin for HellBot</b>
 </h1>
