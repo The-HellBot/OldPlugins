@@ -3,8 +3,7 @@ import re
 
 from telethon.tl.functions.users import GetFullUserRequest
 from telethon.tl.types import MessageEntityMentionName
-
-from . import *
+from TelethonHell.plugins import *
 
 
 @hell_cmd(pattern="slap ([\s\S]*)")

@@ -4,29 +4,29 @@ import sys
 from pathlib import Path
 
 from HellConfig import Config
-from TelethonHell import LOGS, bot, tbot
-from TelethonHell.clients.session import H2, H3, H4, H5
-from TelethonHell.utils import (join_it, load_module, 
-                                logger_check, plug_channel, 
-                                start_msg, update_sudo)
+
+from TelethonHell.clients.logger import LOGGER as LOGS
+from TelethonHell.clients.session import H2, H3, H4, H5, Hell, HellBot
+from TelethonHell.utils.plug import load_module, plug_channel
+from TelethonHell.utils.startup import (join_it, logger_check, start_msg,
+                                        update_sudo)
 from TelethonHell.version import __hellver__
 
 # Global Variables #
-HELL_PIC = "https://telegra.ph/file/cb0bd62632a3a2b6b2726.jpg"
+HELL_PIC = "https://te.legra.ph/file/cb0bd62632a3a2b6b2726.jpg"
 
 
 # Client Starter
 async def hells(session=None, client=None, session_name="Main"):
+    num = 0
     if session:
         LOGS.info(f"••• Starting Client [{session_name}] •••")
         try:
             await client.start()
-            return 1
+            num = 1
         except:
             LOGS.error(f"Error in {session_name}!! Check & try again!")
-            return 0
-    else:
-        return 0
+    return num
 
 
 # Load plugins based on config UNLOAD
@@ -45,9 +45,9 @@ async def plug_load(path):
 # Final checks after startup
 async def hell_is_on(total):
     await update_sudo()
-    await logger_check(bot)
-    await start_msg(tbot, HELL_PIC, __hellver__, total)
-    await join_it(bot)
+    await logger_check(Hell)
+    await start_msg(HellBot, HELL_PIC, __hellver__, total)
+    await join_it(Hell)
     await join_it(H2)
     await join_it(H3)
     await join_it(H4)
@@ -57,21 +57,21 @@ async def hell_is_on(total):
 # Hellbot starter...
 async def start_hellbot():
     try:
-        tbot_id = await tbot.get_me()
+        tbot_id = await HellBot.get_me()
         Config.BOT_USERNAME = f"@{tbot_id.username}"
-        bot.tgbot = tbot
+        Hell.tgbot = HellBot
         LOGS.info("••• Starting HellBot (TELETHON) •••")
-        C1 = await hells(Config.HELLBOT_SESSION, bot, "HELLBOT_SESSION")
+        C1 = await hells(Config.HELLBOT_SESSION, Hell, "HELLBOT_SESSION")
         C2 = await hells(Config.SESSION_2, H2, "SESSION_2")
         C3 = await hells(Config.SESSION_3, H3, "SESSION_3")
         C4 = await hells(Config.SESSION_4, H4, "SESSION_4")
         C5 = await hells(Config.SESSION_5, H5, "SESSION_5")
-        await tbot.start()
+        await HellBot.start()
         total = C1 + C2 + C3 + C4 + C5
         LOGS.info("••• HellBot Startup Completed •••")
         LOGS.info("••• Starting to load Plugins •••")
         await plug_load("TelethonHell/plugins/*.py")
-        await plug_channel(bot, Config.PLUGIN_CHANNEL)
+        await plug_channel(Hell, Config.PLUGIN_CHANNEL)
         LOGS.info("⚡ Your HellBot Is Now Working ⚡")
         LOGS.info("Head to @Its_HellBot for Updates. Also join chat group to get help regarding HellBot.")
         LOGS.info(f"» Total Clients = {str(total)} «")
@@ -81,13 +81,13 @@ async def start_hellbot():
         sys.exit()
 
 
-bot.loop.run_until_complete(start_hellbot())
+Hell.loop.run_until_complete(start_hellbot())
 
 if len(sys.argv) not in (1, 3, 4):
-    bot.disconnect()
+    Hell.disconnect()
 else:
     try:
-        bot.run_until_disconnected()
+        Hell.run_until_disconnected()
     except ConnectionError:
         pass
 

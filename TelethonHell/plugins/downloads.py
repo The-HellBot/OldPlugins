@@ -6,8 +6,7 @@ import subprocess
 import time
 
 from pySmartDL import SmartDL
-
-from . import *
+from TelethonHell.plugins import *
 
 
 @hell_cmd(pattern="download(?:\s|$)([\s\S]*)")
@@ -75,7 +74,7 @@ async def _(event):
                     await hell.edit(current_message)
                     display_message = current_message
             except Exception as e:
-                logger.info(str(e))
+                LOGS.info(str(e))
         end = datetime.datetime.now()
         ms = (end - start).seconds
         if downloader.isSuccessful():

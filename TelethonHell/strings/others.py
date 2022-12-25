@@ -1,0 +1,45 @@
+carbon_theme = [
+    "3024-night",
+    "a11y-dark",
+    "base16-dark",
+    "base16-light",
+    "blackboard",
+    "cobalt",
+    "dracula",
+    "duotone-dark",
+    "hopscotch",
+    "lucario",
+    "material",
+    "monokai",
+    "night-owl",
+    "nord",
+    "oceanic-next",
+    "one-dark",
+    "one-light",
+    "panda-syntax",
+    "paraiso-dark",
+    "seti",
+    "shades-of-purple",
+    "solarized",
+    "solarized%20light",
+    "synthwave-84",
+    "twilight",
+    "verminal",
+    "vscode",
+    "yeti",
+    "zenburn",
+]
+
+enabled_list = [
+    "yes",
+    "true",
+    "enable",
+    "on",
+]
+
+disabled_list = [
+    "no",
+    "false",
+    "disable",
+    "off",
+]

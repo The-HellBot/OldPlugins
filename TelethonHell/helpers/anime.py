@@ -2,8 +2,7 @@ import time
 
 import requests
 from bs4 import BeautifulSoup
-
-from .pasters import telegraph_paste
+from TelethonHell.helpers.pasters import telegraph_paste
 
 ANIME_DB = {}
 MANGA_DB = {}

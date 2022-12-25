@@ -1,8 +1,6 @@
 from telethon.tl.functions.users import GetFullUserRequest
-
 from TelethonHell.DB.gvar_sql import addgvar, delgvar, gvarstat
-
-from . import *
+from TelethonHell.plugins import *
 
 
 @hell_cmd(pattern="sudo$")

@@ -1,0 +1,77 @@
+#! /bin/bash
+
+
+# check if there's a virtual environment and activate it
+check_venv() {
+    if [ -d "venv" ]
+    then
+        source venv/bin/activate
+    else
+        echo "Creating A Virtual Environment (venv)"
+        virtualenv venv
+        source venv/bin/activate
+    fi
+}
+
+# upgrade pip and install requirements
+pip_works() {
+    echo "UPDATING PIP AND INSTALLING REQUIREMENTS"
+    pip install --upgrade pip
+    pip3 install -U -r requirements.txt
+    echo  "INSTALLED ALL REQUIREMENTS"
+}
+
+# check if there's a config file and ask to edit
+configs() {
+    if [ -f "config.py" ]
+    then
+        echo -n "Found config file. Do you want to edit it? [y/n]: "; read want_to_edit
+        if [ $want_to_edit == "y" ]
+        then
+            rm config.py
+            edit_config
+        elif [ $want_to_edit == "n" ]
+        then
+            echo "Skipped editing of config file."
+        else
+            echo "Unknown command. Startup terminated!!"
+            exit 1
+        fi
+    else
+        echo "No config file found! Let's make one ..."
+        edit_config
+    fi
+}
+
+# edit the config file
+edit_config() {
+    touch config.py
+    echo "Enter correct values one by one..."
+    echo -n "APP_ID: "; read api_id
+    echo -n "API_HASH: "; read api_hash
+    echo -n "HELLBOT_SESSION: "; read session
+    echo -n "BOT_TOKEN: "; read bot_token
+    echo -n "DATABASE_URL: "; read db_uri
+    echo "Adding these values to config file..."
+    echo """
+from HellConfig.config import Config
+
+class Development(Config):
+    APP_ID = int($api_id)
+    API_HASH = '$api_hash'
+    HELLBOT_SESSION = '$session'
+    BOT_TOKEN = '$bot_token'
+    DATABASE_URL = '$db_uri'
+    """ > config.py
+}
+
+
+startup() {
+    clear
+    check_venv
+    pip_works
+    configs
+    python3 -m TelethonHell
+}
+
+startup

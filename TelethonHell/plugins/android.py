@@ -1,17 +1,10 @@
 import json
 import re
-import requests
 
+import requests
 from bs4 import BeautifulSoup
 from requests import get
-
-from . import *
-
-GITHUB = "https://github.com"
-DEVICES_DATA = (
-    "https://raw.githubusercontent.com/androidtrackers/"
-    "certified-android-devices/master/devices.json"
-)
+from TelethonHell.plugins import *
 
 
 @hell_cmd(pattern="app(?:\s|$)([\s\S]*)")

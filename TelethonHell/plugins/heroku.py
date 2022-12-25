@@ -1,26 +1,21 @@
-import asyncio
 import math
 import os
-import sys
-from asyncio.exceptions import CancelledError
 
 import heroku3
 import requests
 import urllib3
-
-from . import *
+from TelethonHell.plugins import *
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 Heroku = heroku3.from_key(Config.HEROKU_API_KEY)
 heroku_api = "https://api.heroku.com"
-HEROKU_APP_NAME = Config.HEROKU_APP_NAME
 HEROKU_API_KEY = Config.HEROKU_API_KEY
+HEROKU_APP_NAME = Config.HEROKU_APP_NAME
 
 
 @hell_cmd(pattern="(set|get|del) var(?: |$)(.*)(?: |$)([\s\S]*)")
 async def variable(hell):
-    lg_id = Config.LOGGER_ID
     if Config.HEROKU_APP_NAME is not None:
         app = Heroku.app(Config.HEROKU_APP_NAME)
     else:
@@ -44,13 +39,13 @@ async def variable(hell):
                     await event.client.send_file(hell.chat_id, cjb, caption=cap)
                     await event.delete()
                     await event.client.send_message(
-                        lg_id, f"#HEROKU_VAR \n\n`{heroku_var[variable]}`"
+                        Config.LOGGER_ID, f"#HEROKU_VAR \n\n`{heroku_var[variable]}`"
                     )
                     return
                 else:
                     await event.edit(f"**{capn}**")
                     await event.client.send_message(
-                        lg_id, f"#HEROKU_VAR \n\n`{heroku_var[variable]}`"
+                        Config.LOGGER_ID, f"#HEROKU_VAR \n\n`{heroku_var[variable]}`"
                     )
                     return
             if variable in heroku_var:

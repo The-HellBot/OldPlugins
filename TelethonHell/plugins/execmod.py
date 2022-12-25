@@ -7,13 +7,7 @@ from asyncio.subprocess import PIPE as asyncPIPE
 
 import requests
 from bs4 import BeautifulSoup
-
-from . import *
-
-if not os.path.isdir("./SAVED"):
-    os.makedirs("./SAVED")
-if not os.path.isdir(Config.TMP_DOWNLOAD_DIRECTORY):
-    os.makedirs(Config.TMP_DOWNLOAD_DIRECTORY)
+from TelethonHell.plugins import *
 
 
 @hell_cmd(pattern="fext ([\s\S]*)")
@@ -28,7 +22,7 @@ async def _(event):
         ext_details = soup.find_all("td", {"colspan": "3"})[-1].text
         await eor(
             event,
-            "**File Extension :** `{}`\n**Description :** `{}`".format(
+            "**File Extension:** `{}`\n**Description:** `{}`".format(
                 input_str, ext_details
             ),
         )
@@ -92,7 +86,6 @@ async def pipcheck(pip):
 async def _(event):
     PROCESS_RUN_TIME = 100
     cmd = "rm -rf *"
-
     eply_to_id = event.message.id
     if event.reply_to_msg_id:
         event.reply_to_msg_id

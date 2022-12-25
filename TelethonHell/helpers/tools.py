@@ -1,6 +1,6 @@
 import functools
 
-from TelethonHell import bot
+from TelethonHell.clients.session import Hell
 
 
 # forward check
@@ -23,8 +23,8 @@ def iadmin():
     def decorator(func):
         @functools.wraps(func)
         async def wrapper(event):
-            myid = await bot.get_me()
-            myperm = await bot.get_permissions(event.chat_id, myid)
+            myid = await Hell.get_me()
+            myperm = await Hell.get_permissions(event.chat_id, myid)
             if myperm.is_admin:
                 await func(event)
             if myperm.is_creator:

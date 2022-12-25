@@ -7,8 +7,7 @@ import requests
 from pytz import country_names as c_n
 from pytz import country_timezones as c_tz
 from pytz import timezone as tz
-
-from . import *
+from TelethonHell.plugins import *
 
 DEFCITY = "Delhi"
 OWM_API = Config.WEATHER_API

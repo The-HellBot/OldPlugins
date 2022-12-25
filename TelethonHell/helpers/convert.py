@@ -5,15 +5,13 @@ import time
 from os.path import basename
 from typing import Optional
 
-import lottie
-from PIL import Image
-
 from HellConfig import Config
-from TelethonHell import LOGS
+from PIL import Image
+from TelethonHell.clients.logger import LOGGER as LOGS
+from TelethonHell.helpers.progress import progress
+from TelethonHell.helpers.runner import runcmd
+from TelethonHell.helpers.vids import take_screen_shot
 from TelethonHell.utils.extras import edit_or_reply as eor
-
-from .progress import *
-from .runner import runcmd
 
 dwlpath = Config.TMP_DOWNLOAD_DIRECTORY
 

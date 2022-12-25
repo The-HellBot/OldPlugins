@@ -4,9 +4,9 @@ import random
 import string
 
 from PIL import Image
-from telegraph import Telegraph, exceptions, upload_file
+from TelethonHell.plugins import *
 
-from . import *
+from telegraph import Telegraph, exceptions, upload_file
 
 telegraph = Telegraph()
 account = telegraph.create_account(short_name=Config.TELEGRAPH_NAME)
@@ -26,7 +26,7 @@ async def _(event):
     if len(lists) == 2:
         optional_title = lists[1].strip()
     hell = await eor(event, "Making Telegraph Link....")
-    ForGo10God, HELL_USER, hell_mention = await client_id(event)
+    _, _, hell_mention = await client_id(event)
     reply = await event.get_reply_message()
     if reply:
         start = datetime.datetime.now()
@@ -53,7 +53,7 @@ async def _(event):
                 ms_two = (end - start).seconds
                 os.remove(downloaded_file_name)
                 await hell.edit(
-                    "✓ **[File uploaded to telegraph](https://telegra.ph{})** \n✓ **Time Taken :-** `{}` secs \n✓ **By :- {}** \n✓  `https://telegra.ph{}`".format(
+                    "✓ **[File uploaded to telegraph](https://te.legra.ph{})** \n✓ **Time Taken:** `{}` secs \n✓ **By: {}** \n✓  `https://te.legra.ph{}`".format(
                         media_urls[0],
                         (ms + ms_two),
                         hell_mention,
@@ -91,7 +91,7 @@ async def _(event):
             end = datetime.datetime.now()
             ms = (end - start).seconds
             await hell.edit(
-                f"✓ **[Pasted to telegraph](https://telegra.ph/{response['path']})** \n✓ **Time Taken :-** `{ms}` secs\n✓** By :**  {hell_mention} \n✓  `https://telegra.ph/{response['path']}`",
+                f"✓ **[Pasted to telegraph](https://te.legra.ph/{response['path']})** \n✓ **Time Taken:** `{ms}` secs\n✓** By:**  {hell_mention} \n✓  `https://te.legra.ph/{response['path']}`",
                 link_preview=True,
             )
     else:

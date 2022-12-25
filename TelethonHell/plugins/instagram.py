@@ -1,8 +1,8 @@
 import os
 import re
-import requests
 
-from . import *
+import requests
+from TelethonHell.plugins import *
 
 
 @hell_cmd(pattern="igdl(?:\s|$)([\s\S]*)")

@@ -3,22 +3,17 @@ import io
 import os
 import time
 
-from . import *
-
-if not os.path.isdir("./SAVED"):
-    os.makedirs("./SAVED")
-if not os.path.isdir(Config.TMP_DOWNLOAD_DIRECTORY):
-    os.makedirs(Config.TMP_DOWNLOAD_DIRECTORY)
+from TelethonHell.plugins import *
 
 
 @hell_cmd(pattern="ls(?:\s|$)([\s\S]*)")
 async def lst(event):
     input_str = event.pattern_match.group(1)
     if input_str:
-        msg = "📂 **Files in {} :**\n".format(input_str)
+        msg = "📂 **Files in {}:**\n".format(input_str)
         files = os.listdir(input_str)
     else:
-        msg = "📂 **Files in Current Directory :**\n"
+        msg = "📂 **Files in Current Directory:**\n"
         files = os.listdir(os.getcwd())
     for file in files:
         msg += "📑 `{}`\n".format(file)

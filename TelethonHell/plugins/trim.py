@@ -3,7 +3,7 @@ import datetime
 import os
 import time
 
-from . import *
+from TelethonHell.plugins import *
 
 
 async def trimmer(file, out_dir, start, end=None, file_name=None):

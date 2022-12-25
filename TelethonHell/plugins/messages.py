@@ -1,8 +1,7 @@
 import string
 
 from telethon.tl.types import Channel
-
-from . import *
+from TelethonHell.plugins import *
 
 global msg_cache
 global groupsid
@@ -21,7 +20,7 @@ async def all_groups_id(hell):
 
 @hell_cmd(pattern="frwd$")
 async def _(event):
-    if Config.LOGGER_ID is None:
+    if Config.LOGGER_ID is 0:
         await parse_error(event, "`LOGGER_ID` not configured.", False)
         return
     try:

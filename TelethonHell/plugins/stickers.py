@@ -1,31 +1,20 @@
 import asyncio
 import io
-import math
 import os
 import random
 import textwrap
 import urllib.request
-from os import remove
 
 from PIL import Image, ImageDraw, ImageFont
-from telethon import Button, events
+from telethon import Button
 from telethon.errors import PackShortNameOccupiedError
 from telethon.errors.rpcerrorlist import YouBlockedUserError
 from telethon.tl import functions, types
 from telethon.tl.functions.messages import GetStickerSetRequest
-from telethon.tl.types import (DocumentAttributeFilename, DocumentAttributeSticker,
-                               InputMessagesFilterDocument, InputStickerSetID)
+from telethon.tl.types import DocumentAttributeSticker, InputStickerSetID
 from telethon.utils import get_input_document
-
 from TelethonHell.DB.gvar_sql import addgvar, gvarstat
-from . import *
-
-class STICKER:
-    def __init__(self):
-        self.emoji = "🍀"
-        self.pack = 1
-
-Sticker = STICKER()
+from TelethonHell.plugins import *
 
 
 @hell_cmd(pattern="kang(?:\s|$)([\s\S]*)")
@@ -33,7 +22,7 @@ async def kang(event):
     hell = await eor(event, "__**Starting sticker kang process ...**__")
     reply = await event.get_reply_message()
     lists = event.text.split(" ", 2)
-
+    Sticker = STICKER()
     if len(lists) == 3:
         if lists[1].isdigit():
             Sticker.pack = int(lists[1])
@@ -48,7 +37,7 @@ async def kang(event):
             Sticker.emoji = lists[1]
 
     user = await event.client.get_me()
-    ForGo10God, HELL_USER, hell_mention = await client_id(event)
+    ForGo10God, HELL_USER, _ = await client_id(event)
     nick = f"@{user.username}" if user.username else HELL_USER
     name = user.username if user.username else ForGo10God
     custompack = gvarstat("STICKER_PACKNAME")
@@ -235,8 +224,6 @@ async def kang(event):
             await event.client.send_read_acknowledge(conv.chat_id)
             if is_vid and os.path.exists("./VideoSticker.webm"):
                 os.remove("VideoSticker.webm")
-    Sticker.emoji = "🍀" # reset
-    Sticker.pack = 1
     await tbot.send_message(
         Config.LOGGER_ID,
         f"#KANG #STICKER \n\nA sticker has been kanged into the pack of {HELL_USER}. Click below to see the pack!",
@@ -249,6 +236,7 @@ async def kang(event):
     await eod(
         hell,
         f"⚡** This Sticker iz [kanged](t.me/addstickers/{packname}) successfully to your pack **⚡",
+        20
     )
 
 
@@ -256,7 +244,7 @@ async def kang(event):
 async def _(event):
     hell = await eor(event, "`Preparing pack kang...`")
     reply = await event.get_reply_message()
-    ForGo10God, HELL_USER, hell_mention = await client_id(event)
+    ForGo10God, HELL_USER, _ = await client_id(event)
     lists = event.text.split(" ", 1)
     bot_ = Config.BOT_USERNAME
     bot_un = bot_.replace("@", "")
@@ -408,7 +396,7 @@ async def _(event):
             first = await conv.send_message("/editsticker")
             second = await conv.get_response()
             await asyncio.sleep(1)
-            third = await event.client.forward_messages("@Stickers", reply_message)
+            third = await event.client.forward_messages("@Stickers", reply)
             fourth = await conv.get_response()
             if fourth.text.startswith("Current emoji:"):
                 fifth = await conv.send_message(emoji)
@@ -425,35 +413,26 @@ async def sticklet(event):
     R = random.randint(0, 256)
     G = random.randint(0, 256)
     B = random.randint(0, 256)
-
     sticktext = event.pattern_match.group(1)
     await event.delete()
-
     sticktext = textwrap.wrap(sticktext, width=10)
     sticktext = "\n".join(sticktext)
-
     image = Image.new("RGBA", (512, 512), (255, 255, 255, 0))
     draw = ImageDraw.Draw(image)
     fontsize = 230
-
     FONT_FILE = await get_font_file(event.client, "@HellFonts")
-
     font = ImageFont.truetype(FONT_FILE, size=fontsize)
-
     while draw.multiline_textsize(sticktext, font=font) > (512, 512):
         fontsize -= 3
         font = ImageFont.truetype(FONT_FILE, size=fontsize)
-
     width, height = draw.multiline_textsize(sticktext, font=font)
     draw.multiline_text(
         ((512 - width) / 2, (512 - height) / 2), sticktext, font=font, fill=(R, G, B)
     )
-
     image_stream = io.BytesIO()
     image_stream.name = "Hellbot.webp"
     image.save(image_stream, "WebP")
     image_stream.seek(0)
-
     await event.client.send_message(
         event.chat_id,
         "{}".format(sticktext),

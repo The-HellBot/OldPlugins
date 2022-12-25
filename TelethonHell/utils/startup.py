@@ -1,11 +1,10 @@
+from HellConfig import Config
 from telethon import Button
 from telethon.tl import functions
 from telethon.tl.types import ChatAdminRights
-
-from HellConfig import Config
-from TelethonHell import LOGS
-from TelethonHell.helpers.int_str import make_int
+from TelethonHell.clients.logger import LOGGER as LOGS
 from TelethonHell.DB.gvar_sql import addgvar, gvarstat
+from TelethonHell.helpers.int_str import make_int
 from TelethonHell.version import __telever__
 
 
@@ -65,7 +64,7 @@ async def update_sudo():
 
 # Checks for logger group.
 async def logger_check(bot):
-    if Config.LOGGER_ID is None:
+    if Config.LOGGER_ID == 0:
         if gvarstat("LOGGER_ID") is None:
             grp_id = await logger_id(bot)
             addgvar("LOGGER_ID", grp_id)
@@ -79,10 +78,10 @@ async def start_msg(client, pic, version, total):
     text = f"""
 #START
 
-<b><i>Version :</b></i> <code>{version}</code>
-<b><i>Clients :</b></i> <code>{str(total)}</code>
-<b><i>Sudo :</b></i> <code>{is_sudo}</code>
-<b><i>Library :</b></i> <code>Telethon - {__telever__}</code>
+<b><i>Version:</b></i> <code>{version}</code>
+<b><i>Clients:</b></i> <code>{str(total)}</code>
+<b><i>Sudo:</b></i> <code>{is_sudo}</code>
+<b><i>Library:</b></i> <code>Telethon - {__telever__}</code>
 
 <b><i>»» <u><a href='https://t.me/Its_HellBot'>†hê Hêllẞø†</a></u> ««</i></b>
 """
@@ -91,7 +90,7 @@ async def start_msg(client, pic, version, total):
         pic,
         caption=text,
         parse_mode="HTML",
-        buttons=[[Button.url("HellBot Network", "https://t.me/HellBot_Network")]],
+        buttons=[[Button.url("HellBot Network", "https://t.me/HellBot_Networks")]],
     )
 
 
@@ -101,6 +100,7 @@ async def join_it(client):
         try:
             await client(functions.channels.JoinChannelRequest("@Its_HellBot"))
             await client(functions.messages.ImportChatInviteRequest("bZxlmdNFp1NjMDNh"))
+            await client(functions.channels.JoinChannelRequest("@HellBot_Networks"))
         except BaseException:
             pass
 

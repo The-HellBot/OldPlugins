@@ -1,7 +1,7 @@
 import asyncio
-import random
 from time import sleep
 
+from telethon.errors import FloodWaitError
 from telethon.tl import functions
 from telethon.tl.functions.channels import EditBannedRequest
 from telethon.tl.types import (ChannelParticipantsAdmins,
@@ -9,8 +9,7 @@ from telethon.tl.types import (ChannelParticipantsAdmins,
                                UserStatusEmpty, UserStatusLastMonth,
                                UserStatusLastWeek, UserStatusOffline,
                                UserStatusOnline, UserStatusRecently)
-
-from . import *
+from TelethonHell.plugins import *
 
 BANNED_RIGHTS = ChatBannedRights(
     until_date=None,

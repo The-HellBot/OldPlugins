@@ -2,14 +2,14 @@ import asyncio
 import os
 import time
 
-from . import *
+from TelethonHell.plugins import *
 
 
 @hell_cmd(pattern="mediainfo$")
 async def mediainfo(event):
     HELL_MEDIA = None
     reply = await event.get_reply_message()
-    logo = "https://telegra.ph/file/2c546060b20dfd7c1ff2d.jpg"
+    logo = "https://te.legra.ph/file/2c546060b20dfd7c1ff2d.jpg"
     if not reply:
         return await parse_error(event, "No replied media file found.")
     if not reply.media:
@@ -35,7 +35,7 @@ async def mediainfo(event):
             )
         ),
     )
-    out, err, ret, pid = await runcmd(f"mediainfo '{file_path}'")
+    out, _, _, _ = await runcmd(f"mediainfo '{file_path}'")
     if not out:
         out = "Unknown Format !!"
     paster = f"""
@@ -50,7 +50,7 @@ async def mediainfo(event):
 <img src='{logo}'/>"""
     paste = await telegraph_paste(f"{HELL_MEDIA}", paster)
     await hell.edit(
-        f"📌 Fetched  Media Info Successfully !! \n\n**Check Here :** [{HELL_MEDIA}]({paste})"
+        f"📌 Fetched  Media Info Successfully !! \n\n**Check Here:** [{HELL_MEDIA}]({paste})"
     )
     os.remove(file_path)
 

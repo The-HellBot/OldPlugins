@@ -2,12 +2,10 @@ import inspect
 import re
 from pathlib import Path
 
-from telethon import events
-
 from HellConfig import Config
-from TelethonHell import bot
-from TelethonHell.clients import H2, H3, H4, H5
-from TelethonHell.helpers import *
+from telethon import events
+from TelethonHell.clients.session import H2, H3, H4, H5, Hell
+from TelethonHell.utils.globals import CMD_LIST, LOAD_PLUG, SUDO_LIST
 
 
 # admin cmd or normal user cmd
@@ -142,7 +140,7 @@ def sudo_cmd(pattern=None, command=None, **args):
     return events.NewMessage(**args)
 
 
-on = bot.on
+on = Hell.on
 
 
 def on(**args):
@@ -150,7 +148,7 @@ def on(**args):
         async def wrapper(event):
             await func(event)
 
-        bot.add_event_handler(wrapper, events.NewMessage(**args))
+        Hell.add_event_handler(wrapper, events.NewMessage(**args))
         if H2:
             H2.add_event_handler(wrapper, events.NewMessage(**args))
         if H3:
@@ -161,7 +159,7 @@ def on(**args):
             H5.add_event_handler(wrapper, events.NewMessage(**args))
         return wrapper
 
-    return decorater
+    return decorator
 
 
 # register decorate
@@ -215,8 +213,8 @@ def register(**args):
 
     def decorator(func):
         if not disable_edited:
-            bot.add_event_handler(func, events.MessageEdited(**args))
-        bot.add_event_handler(func, events.NewMessage(**args))
+            Hell.add_event_handler(func, events.MessageEdited(**args))
+        Hell.add_event_handler(func, events.NewMessage(**args))
         if H2:
             H2.add_event_handler(func, events.NewMessage(**args))
         if H3:
@@ -291,8 +289,8 @@ def command(**args):
 
     def decorator(func):
         if allow_edited_updates:
-            bot.add_event_handler(func, events.MessageEdited(**args))
-        bot.add_event_handler(func, events.NewMessage(**args))
+            Hell.add_event_handler(func, events.MessageEdited(**args))
+        Hell.add_event_handler(func, events.NewMessage(**args))
         if H2:
             H2.add_event_handler(func, events.NewMessage(**args))
         if H3:

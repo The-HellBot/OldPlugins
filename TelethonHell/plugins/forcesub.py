@@ -3,13 +3,11 @@ from telethon.errors.rpcerrorlist import UserNotParticipantError
 from telethon.tl.functions.channels import GetParticipantRequest
 from telethon.tl.functions.messages import ExportChatInviteRequest
 from telethon.tl.functions.users import GetFullUserRequest
-
 from TelethonHell.DB.fsub_sql import *
+from TelethonHell.plugins import *
 
-from . import *
 
-
-@H1.on(events.ChatAction())
+@bot.on(events.ChatAction())
 async def forcesub(event):
     if all_fsub() == None:
         return
@@ -117,52 +115,23 @@ async def _(event):
     if uid == event.sender_id:
         nm = (await event.client(GetFullUserRequest(uid))).user.first_name
         try:
-            await H1(GetParticipantRequest(int(joinchat), uid))
-        except Exception:
-            await H2(GetParticipantRequest(int(joinchat), uid))
-        except Exception:
-            await H3(GetParticipantRequest(int(joinchat), uid))
-        except Exception:
-            await H4(GetParticipantRequest(int(joinchat), uid))
-        except Exception:
-            await H5(GetParticipantRequest(int(joinchat), uid))
-        except Exception:
-            await tbot(GetParticipantRequest(int(joinchat), uid))
+            await event.client(GetParticipantRequest(int(joinchat), uid))
         except UserNotParticipantError:
             await event.answer("You need to join the channel first.", alert=True)
             return
+        except Exception as e:
+            return LOGS.info(str(e))
         try:
-            await H1.edit_permissions(
-                event.chat.id, uid, until_date=None, send_messages=True
-            )
-        except Exception:
-            await H2.edit_permissions(
-                event.chat.id, uid, until_date=None, send_messages=True
-            )
-        except Exception:
-            await H3.edit_permissions(
-                event.chat.id, uid, until_date=None, send_messages=True
-            )
-        except Exception:
-            await H4.edit_permissions(
-                event.chat.id, uid, until_date=None, send_messages=True
-            )
-        except Exception:
-            await H5.edit_permissions(
-                event.chat.id, uid, until_date=None, send_messages=True
-            )
-        except Exception:
-            await tbot.edit_permissions(
+            await event.client.edit_permissions(
                 event.chat.id, uid, until_date=None, send_messages=True
             )
         except Exception as e:
-            print(str(e))
-            return
+            return LOGS.info(str(e))
         msg = f"**Hello {nm} !! Welcome to {(await event.get_chat()).title} ✨**"
         await event.edit(msg)
     else:
         await event.answer(
-            "You are an old member and can speak freely! This isn't for you!",
+            "This isn't for you!",
             cache_time=0,
             alert=True,
         )

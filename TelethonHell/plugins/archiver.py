@@ -9,8 +9,7 @@ import zipfile
 from hachoir.metadata import extractMetadata
 from hachoir.parser import createParser
 from telethon.tl.types import DocumentAttributeVideo
-
-from . import *
+from TelethonHell.plugins import *
 
 
 @hell_cmd(pattern="zip$")
@@ -122,7 +121,9 @@ async def _(event):
     hell = await eor(event, "Processing ...")
     if not os.path.isdir(Config.TMP_DOWNLOAD_DIRECTORY):
         os.makedirs(Config.TMP_DOWNLOAD_DIRECTORY)
-    if event.reply_to_msg_id:
+    if not event.reply_to_msg_id:
+        return await parse_error(hell, "Reply to zip file!")
+    else:
         start = datetime.datetime.now()
         reply_message = await event.get_reply_message()
         try:
@@ -140,7 +141,7 @@ async def _(event):
             end = datetime.datetime.now()
             ms = (end - start).seconds
             await hell.edit("Stored the zip to `{}` in {} seconds.".format(downloaded_file_name, ms))
-
+        extracted = "./extracted"
         with zipfile.ZipFile(downloaded_file_name, "r") as zip_ref:
             zip_ref.extractall(extracted)
         filename = sorted(get_lst_of_files(extracted, []))
@@ -158,8 +159,8 @@ async def _(event):
                     height = 0
                     if metadata.has("duration"):
                         duration = metadata.get("duration").seconds
-                    if os.path.exists(thumb_image_path):
-                        metadata = extractMetadata(createParser(thumb_image_path))
+                    if os.path.exists(Config.THUMB_IMG):
+                        metadata = extractMetadata(createParser(Config.THUMB_IMG))
                         if metadata.has("width"):
                             width = metadata.get("width")
                         if metadata.has("height"):
@@ -227,7 +228,19 @@ async def _(event):
             ms = (end - start).seconds
             await hell.edit(f"Stored the tar to `{downloaded_file_name}` in {ms} seconds.")
         with tarfile.TarFile.open(downloaded_file_name, "r") as tar_file:
-            tar_file.extractall(path=extracted)
+            def is_within_directory(directory, target):
+                abs_directory = os.path.abspath(directory)
+                abs_target = os.path.abspath(target)
+                prefix = os.path.commonprefix([abs_directory, abs_target])
+                return prefix == abs_directory
+            
+            def safe_extract(tar, path=".", members=None, *, numeric_owner=False):
+                for member in tar.getmembers():
+                    member_path = os.path.join(path, member.name)
+                    if not is_within_directory(path, member_path):
+                        raise Exception("Attempted Path Traversal in Tar File")
+                tar.extractall(path, members, numeric_owner=numeric_owner) 
+            safe_extract(tar_file, path=extracted)
         filename = sorted(get_lst_of_files(extracted, []))
         await hell.edit("Untarring now")
         for single_file in filename:

@@ -5,12 +5,8 @@ import time
 from telethon.errors import FloodWaitError
 from telethon.tl import functions
 from telethon.tl.functions.channels import GetAdminedPublicChannelsRequest
-
 from TelethonHell.DB.gvar_sql import gvarstat
-
-from . import *
-
-DEL_TIME_OUT = 60
+from TelethonHell.plugins import *
 
 
 @hell_cmd(pattern="autoname$")
@@ -25,13 +21,13 @@ async def _(event):
         HB = time.strftime("%d-%m-%y")
         HE = time.strftime("%H:%M")
         name = f"🕒{HE} ⚡{HELL_USER}⚡ 📅{HB}"
-        logger.info(name)
+        LOGS.info(name)
         try:
             await event.client(functions.account.UpdateProfileRequest(first_name=name))
         except FloodWaitError as ex:
-            logger.warning(str(ex))
+            LOGS.warning(str(ex))
             await asyncio.sleep(ex.seconds)
-        await asyncio.sleep(DEL_TIME_OUT)
+        await asyncio.sleep(60)
 
 
 @hell_cmd(pattern="autobio$")
@@ -40,18 +36,16 @@ async def _(event):
     await hell.edit("AutoBio Activated...")
     await event.client.send_message(Config.LOGGER_ID, "#AUTOBIO \n\nAutoBio Started!!")
     while True:
-        time.strftime("%d.%m.%Y")
-        HM = time.strftime("%H:%M:%S")
         bio_ = gvarstat("BIO_MSG") or random.choice(bio_msgs)
         DEFAULTUSERBIO = bio_[:66]
         bio = f"“ {DEFAULTUSERBIO} ”"
-        logger.info(bio)
+        LOGS.info(bio)
         try:
             await event.client(functions.account.UpdateProfileRequest(about=bio))
         except FloodWaitError as ex:
-            logger.warning(str(ex))
+            LOGS.warning(str(ex))
             await asyncio.sleep(ex.seconds)
-        await asyncio.sleep(DEL_TIME_OUT)
+        await asyncio.sleep(60)
 
 
 @hell_cmd(pattern="reserved$")

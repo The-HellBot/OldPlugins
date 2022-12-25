@@ -1,6 +1,6 @@
 import random
 
-from . import *
+from TelethonHell.plugins import *
 
 
 @hell_cmd(pattern="sing$")

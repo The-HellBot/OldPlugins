@@ -1,12 +1,12 @@
-from TelethonHell.DB import snip_sql as sq
+import io
 
-from . import *
+from TelethonHell.DB import snip_sql as sq
+from TelethonHell.plugins import *
 
 
 @hell_cmd(pattern=r"\#(\S+)")
 async def incom_note(event):
-    lg_id = Config.LOGGER_ID
-    if not lg_id:
+    if Config.LOGGER_ID is 0:
         return
     try:
         if not (await event.get_sender()).bot:
@@ -17,7 +17,7 @@ async def incom_note(event):
             if note:
                 if note.f_mesg_id:
                     msg_o = await event.client.get_messages(
-                        entity=lg_id, ids=int(note.f_mesg_id)
+                        entity=Config.LOGGER_ID, ids=int(note.f_mesg_id)
                     )
                     await event.delete()
                     await event.client.send_message(
@@ -40,8 +40,7 @@ async def incom_note(event):
 
 @hell_cmd(pattern="snip(?:\s|$)([\s\S]*)")
 async def add_snip(event):
-    lg_id = Config.LOGGER_ID
-    if not lg_id:
+    if Config.LOGGER_ID is 0:
         return await eod(event, "You need to setup  `LOGGER_ID`  to save snips...")
     trigger = event.pattern_match.group(1)
     stri = event.text.partition(trigger)[2]
@@ -50,11 +49,11 @@ async def add_snip(event):
     trigger = trigger.lower()
     if cht and not stri:
         await event.client.send_message(
-            lg_id,
+            Config.LOGGER_ID,
             f"#NOTE \n\nAdded Note with  `#{trigger}`. Below message is the output. \n**DO NOT DELETE IT**",
         )
         cht_o = await event.client.forward_messages(
-            entity=lg_id, messages=cht, from_peer=event.chat_id, silent=True
+            entity=Config.LOGGER_ID, messages=cht, from_peer=event.chat_id, silent=True
         )
         cht_id = cht_o.id
     elif cht:
@@ -62,10 +61,10 @@ async def add_snip(event):
     if not cht:
         if stri:
             await event.client.send_message(
-                lg_id,
+                Config.LOGGER_ID,
                 f"#NOTE \n\nAdded Note with  `#{trigger}`. Below message is the output. \n**DO NOT DELETE IT**",
             )
-            cht_o = await event.client.send_message(lg_id, stri)
+            cht_o = await event.client.send_message(Config.LOGGER_ID, stri)
             cht_id = cht_o.id
             stri = None
         else:
@@ -84,7 +83,6 @@ async def add_snip(event):
 
 @hell_cmd(pattern="rmsnip(?:\s|$)([\s\S]*)")
 async def _(event):
-    Config.LOGGER_ID
     input_str = (event.pattern_match.group(1)).lower()
     if not input_str:
         return await eod(event, "I need a snip name to remove...")

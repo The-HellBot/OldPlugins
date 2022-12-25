@@ -2,8 +2,7 @@ import json
 import os
 
 import requests
-
-from . import *
+from TelethonHell.plugins import *
 
 
 def ocr_space_file(filename, overlay=False, api_key=Config.OCR_API, language="eng"):

@@ -2,7 +2,6 @@ import json
 import urllib.parse
 
 import requests
-
 from TelethonHell.utils.extras import delete_hell as eod
 
 
@@ -84,22 +83,27 @@ class Hell_YTS:
         return result
 
 
-# Gets yt link of given query.
-async def song_search(event, query, max_results, details=False):
+# Gets yt result of given query.
+async def song_search(event, query, max_results=1):
     try:
         results = json.loads(Hell_YTS(query, max_results=max_results).to_json())
     except KeyError:
         return await eod(event, "Unable to find relevant search query.")
-    x = ""
+    yt_dict = {}
+    nums = 1
     for i in results["videos"]:
-        x += f"https://www.youtube.com{i['url_suffix']}\n"
-        if details:
-            title = f"{i['title']}"
-            views = f"{i['views']}"
-            duration = f"{i['duration']}"
-            thumb = f"{i['thumbnails'][0]}"
-            return x, title, views, duration, thumb
-    return x
+        dict_form = {
+            "link": f"https://www.youtube.com{i['url_suffix']}",
+            "title": i['title'],
+            "views": i['views'],
+            "channel": i['channel'],
+            "duration": i['duration'],
+            "thumbnail": i['thumbnails'][0]
+        }
+        yt_dict.update({nums: dict_form})
+        nums += 1
+
+    return yt_dict
 
 
 song_opts = {
@@ -107,7 +111,6 @@ song_opts = {
     "addmetadata": True,
     "key": "FFmpegMetadata",
     "writethumbnail": True,
-    "age_limit": 25,
     "prefer_ffmpeg": True,
     "geo_bypass": True,
     "nocheckcertificate": True,

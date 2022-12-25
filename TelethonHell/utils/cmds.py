@@ -1,5 +1,5 @@
 from HellConfig import Config
-from .. import CMD_HELP, CMD_HELP_BOT, CMD_INFO
+from TelethonHell.utils.globals import CMD_HELP, CMD_HELP_BOT, CMD_INFO
 
 HANDLER = Config.HANDLER
 

@@ -1,4 +1,4 @@
-from . import *
+from TelethonHell.plugins import *
 
 
 @hell_cmd(pattern="gcast(?:\s|$)([\s\S]*)")
@@ -46,7 +46,7 @@ async def _(event):
                     sed += 1
         else:
             return await hell.edit(
-                "Please give a flag to Gcast message. \n\n**Available flags are :** \n• -all : To Gcast in all chats. \n• -pvt : To Gcast in private chats. \n• -grp : To Gcast in groups."
+                "Please give a flag to Gcast message. \n\n**Available flags are:** \n• -all : To Gcast in all chats. \n• -pvt : To Gcast in private chats. \n• -grp : To Gcast in groups."
             )
     UwU = sed + owo
     if flag.lower() == "-all":

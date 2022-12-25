@@ -1,15 +1,11 @@
 import asyncio
-import json
 import os
-import requests
-import subprocess
 import time
 
 from hachoir.metadata import extractMetadata
 from hachoir.parser import createParser
 from telethon.tl.types import DocumentAttributeVideo
-
-from . import *
+from TelethonHell.plugins import *
 
 
 @hell_cmd(pattern="upload(?:\s|$)([\s\S]*)")
@@ -196,7 +192,7 @@ async def uploadas(event):
             elif spam_big_messages:
                 await eod(hell, "**TODO:** Not (yet) Implemented")
             os.remove(thumb)
-            await eod(hell, f"__Uploaded__ `{uploaded} files` __successfully !!__")
+            await eod(hell, f"__Uploaded__ `files` __successfully !!__")
         except FileNotFoundError as err:
             await eod(hell, f"**ERROR !!** \n\n`{str(err)}`")
     else:

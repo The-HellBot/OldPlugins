@@ -1,19 +1,21 @@
 import os
+import time
 import urllib
 
 from telethon.errors.rpcerrorlist import UsernameOccupiedError
 from telethon.tl import functions
+from telethon.tl.custom import Dialog
 from telethon.tl.functions.account import UpdateUsernameRequest
 from telethon.tl.functions.channels import GetAdminedPublicChannelsRequest
-from telethon.tl.functions.photos import DeletePhotosRequest, GetUserPhotosRequest
+from telethon.tl.functions.photos import (DeletePhotosRequest,
+                                          GetUserPhotosRequest)
 from telethon.tl.types import Channel, Chat, InputPhoto, User
-
-from . import *
+from TelethonHell.plugins import *
 
 
 @hell_cmd(pattern="offline$")
 async def _(event):
-    ForGo10God, HELL_USER, hell_mention = await client_id(event)
+    ForGo10God, HELL_USER, _ = await client_id(event)
     user = await event.client.get_entity(ForGo10God)
     if HELL_USER.startswith("[ • OFFLINE • ]"):
         return await eod(event, "**Already in Offline Mode.**")
@@ -21,7 +23,7 @@ async def _(event):
     if not os.path.isdir(Config.TMP_DOWNLOAD_DIRECTORY):
         os.makedirs(Config.TMP_DOWNLOAD_DIRECTORY)
     urllib.request.urlretrieve(
-        "https://telegra.ph/file/249f27d5b52a87babcb3f.jpg", "donottouch.jpg"
+        "https://te.legra.ph/file/249f27d5b52a87babcb3f.jpg", "donottouch.jpg"
     )
     photo = "donottouch.jpg"
     if photo:
@@ -52,10 +54,10 @@ async def _(event):
 
 @hell_cmd(pattern="online$")
 async def _(event):
-    ForGo10God, HELL_USER, hell_mention = await client_id(event)
+    ForGo10God, HELL_USER, _ = await client_id(event)
     user = await event.client.get_entity(ForGo10God)
     if HELL_USER.startswith("[ • OFFLINE • ]"):
-        await eor(event, "**Changing Profile to Online...**")
+        hell = await eor(event, "**Changing Profile to Online...**")
     else:
         return await eod(event, "**Already Online.**")
     if not os.path.isdir(Config.TMP_DOWNLOAD_DIRECTORY):
@@ -202,7 +204,7 @@ async def count(event):
     await hell.edit(result, parse_mode="HTML")
 
 
-@hell_cmd(pattern="delpfp$")
+@hell_cmd(pattern="delpfp(?:\s|$)([\s\S]*)")
 async def remove_profilepic(event):
     group = event.text[8:]
     if group == "all":
@@ -241,6 +243,69 @@ async def _(event):
     await eor(event, output_str)
 
 
+@hell_cmd(pattern="stats$")
+async def stats(event):
+    hell = await eor(event, "`Collecting stats...`")
+    start_time = time.time()
+    private_chats = 0
+    bots = 0
+    groups = 0
+    broadcast_channels = 0
+    admin_in_groups = 0
+    creator_in_groups = 0
+    admin_in_broadcast_channels = 0
+    creator_in_channels = 0
+    unread_mentions = 0
+    unread = 0
+    dialog: Dialog
+    async for dialog in event.client.iter_dialogs():
+        entity = dialog.entity
+        if isinstance(entity, Channel):
+            if entity.broadcast:
+                broadcast_channels += 1
+                if entity.creator or entity.admin_rights:
+                    admin_in_broadcast_channels += 1
+                if entity.creator:
+                    creator_in_channels += 1
+            elif entity.megagroup:
+                groups += 1
+                if entity.creator or entity.admin_rights:
+                    admin_in_groups += 1
+                if entity.creator:
+                    creator_in_groups += 1
+        elif isinstance(entity, User):
+            private_chats += 1
+            if entity.bot:
+                bots += 1
+        elif isinstance(entity, Chat):
+            groups += 1
+            if entity.creator or entity.admin_rights:
+                admin_in_groups += 1
+            if entity.creator:
+                creator_in_groups += 1
+        unread_mentions += dialog.unread_mentions_count
+        unread += dialog.unread_count
+    stop_time = time.time() - start_time
+    ForGo10God, HELL_USER, _ = await client_id(event)
+    hell_mention = f"<a href='tg://user?id={ForGo10God}'>{HELL_USER}</a>"
+    response = f"<b><i><u>♛ Stats for {hell_mention} ♛</b></i></u>\n\n"
+    response += f"<b>◈ Private Chats:</b> <code>{private_chats}</code> \n"
+    response += f"    <i>○ Users:</i> <code>{private_chats - bots}</code> \n"
+    response += f"    <i>○ Bots:</i> <code>{bots}</code> \n"
+    response += f"<b>◈ Groups:</b> <code>{groups}</code> \n"
+    response += f"<b>◈ Channels:</b> <code>{broadcast_channels}</code> \n"
+    response += f"<b>◈ Admin Groups:</b> <code>{admin_in_groups}</code> \n"
+    response += f"    <i>○ Creator:</i> <code>{creator_in_groups}</code> \n"
+    response += f"    <i>○ Admin Rights:</i> <code>{admin_in_groups - creator_in_groups}</code> \n"
+    response += f"<b>◈ Admin Channels:</b> <code>{admin_in_broadcast_channels}</code> \n"
+    response += f"    <i>○ Creator:</i> <code>{creator_in_channels}</code> \n"
+    response += f"    <i>○ Admin Rights:</i> <code>{admin_in_broadcast_channels - creator_in_channels}</code> \n"
+    response += f"<b>◈ Unread:</b> <code>{unread}</code> \n"
+    response += f"<b>◈ Unread Mentions:</b> <code>{unread_mentions}</code> \n\n"
+    response += f"<b><i>⊶ Time Taken: {stop_time:.02f}s ⊷</b></i> \n"
+    await hell.edit(response, parse_mode="HTML", link_preview=False)
+
+
 CmdHelp("profile").add_command(
     "count", None, "Counts your groups, chats, bots etc..."
 ).add_command(
@@ -259,6 +324,8 @@ CmdHelp("profile").add_command(
     "online", None, "Remove Offline Tag from your name and change profile pic to vars PROFILE_IMAGE."
 ).add_command(
     "offline", None, "Add an offline tag in your name and change profile pic to black."
+).add_command(
+    "stats", None, "Shows you the count of your groups, channels, private chats, etc."
 ).add_info(
     "🌝 Managing Profile was never so easy."
 ).add_warning(

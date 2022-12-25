@@ -3,12 +3,7 @@ import os
 
 import cv2
 from PIL import Image
-
-from . import *
-
-path = "./hellmify/"
-if not os.path.isdir(path):
-    os.makedirs(path)
+from TelethonHell.plugins import *
 
 
 @hell_cmd(pattern="mms(?:\s|$)([\s\S]*)")

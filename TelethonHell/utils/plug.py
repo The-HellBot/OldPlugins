@@ -4,20 +4,16 @@ import os
 import sys
 from pathlib import Path
 
+from HellConfig import Config
 from telethon.tl.types import InputMessagesFilterDocument
-
-from TelethonHell import *
-from TelethonHell.clients import *
-from TelethonHell.helpers import *
-from TelethonHell.utils import *
-
-# ENV
-ENV = bool(os.environ.get("ENV", False))
-if ENV:
-    from HellConfig import Config
-else:
-    if os.path.exists("config.py"):
-        from config import Development as Config
+from TelethonHell.clients.client_list import client_id
+from TelethonHell.clients.decs import hell_cmd
+from TelethonHell.clients.logger import LOGGER as LOGS
+from TelethonHell.clients.session import H2, H3, H4, H5, Hell, HellBot
+from TelethonHell.utils.cmds import CmdHelp
+from TelethonHell.utils.decorators import admin_cmd, command, sudo_cmd
+from TelethonHell.utils.extras import delete_hell, edit_or_reply
+from TelethonHell.utils.globals import LOAD_PLUG
 
 
 # load plugins
@@ -49,16 +45,14 @@ def load_module(shortname):
         mod.Hell = Hell
         mod.HellBot = HellBot
         mod.tbot = HellBot
-        mod.tgbot = bot.tgbot
+        mod.tgbot = Hell.tgbot
         mod.command = command
         mod.CmdHelp = CmdHelp
         mod.client_id = client_id
         mod.logger = logging.getLogger(shortname)
-        # support for uniborg
-        sys.modules["uniborg.util"] = TelethonHell.utils
         mod.Config = Config
-        mod.borg = bot
-        mod.hellbot = bot
+        mod.borg = Hell
+        mod.hellbot = Hell
         mod.edit_or_reply = edit_or_reply
         mod.eor = edit_or_reply
         mod.delete_hell = delete_hell
@@ -67,10 +61,8 @@ def load_module(shortname):
         mod.admin_cmd = admin_cmd
         mod.hell_cmd = hell_cmd
         mod.sudo_cmd = sudo_cmd
-        # support for other userbots
-        sys.modules["userbot.utils"] = TelethonHell.utils
+        sys.modules["userbot.utils"] = TelethonHell
         sys.modules["userbot"] = TelethonHell
-        # support for paperplaneextended
         sys.modules["userbot.events"] = TelethonHell
         spec.loader.exec_module(mod)
         # for imports
@@ -83,22 +75,22 @@ def remove_plugin(shortname):
     try:
         try:
             for i in LOAD_PLUG[shortname]:
-                bot.remove_event_handler(i)
+                Hell.remove_event_handler(i)
             del LOAD_PLUG[shortname]
 
         except BaseException:
             name = f"TelethonHell.plugins.{shortname}"
 
-            for i in reversed(range(len(bot._event_builders))):
-                ev, cb = bot._event_builders[i]
+            for i in reversed(range(len(Hell._event_builders))):
+                ev, cb = Hell._event_builders[i]
                 if cb.__module__ == name:
-                    del bot._event_builders[i]
+                    del Hell._event_builders[i]
     except BaseException:
         raise ValueError
 
 
 async def plug_channel(client, channel):
-    if channel:
+    if channel != 0:
         LOGS.info("⚡ Hêllẞø† ⚡ - PLUGIN CHANNEL DETECTED.")
         LOGS.info("⚡ Hêllẞø† ⚡ - Starting to load extra plugins.")
         plugs = await client.get_messages(channel, None, filter=InputMessagesFilterDocument)

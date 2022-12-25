@@ -1,14 +1,11 @@
-import os
-
+from HellConfig import Config
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import scoped_session, sessionmaker
 
-from HellConfig import Config
-
 
 def start() -> scoped_session:
-    engine = create_engine(Config.DB_URI)
+    engine = create_engine(Config.DATABASE_URL)
     BASE.metadata.bind = engine
     BASE.metadata.create_all(engine)
     return scoped_session(sessionmaker(bind=engine, autoflush=False))
@@ -20,6 +17,6 @@ try:
 except AttributeError as e:
     # this is a dirty way for the work-around required for #23
     print(
-        "DB_URI is not configured. Features depending on the database might have issues."
+        "DATABASE_URL is not configured. Features depending on the database might have issues."
     )
     print(str(e))

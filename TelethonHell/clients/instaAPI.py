@@ -1,10 +1,9 @@
 import os
 
+from HellConfig import Config
 from instagrapi import Client
 from instagrapi.exceptions import LoginRequired
-
-from HellConfig import Config
-from TelethonHell import LOGS
+from TelethonHell.clients.logger import LOGGER as LOGS
 
 settings = "insta/settings.json" if os.path.exists("insta/settings.json") else {}
 

@@ -4,8 +4,7 @@ import os
 import requests
 from telethon.tl.functions.users import GetFullUserRequest
 from telethon.tl.types import ChannelParticipantsAdmins
-
-from . import *
+from TelethonHell.plugins import *
 
 
 @hell_cmd(pattern="fpic$")

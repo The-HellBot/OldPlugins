@@ -1,4 +1,4 @@
-from . import *
+from TelethonHell.plugins import *
 
 
 @hell_cmd(pattern="carry(?:\s|$)([\s\S]*)")

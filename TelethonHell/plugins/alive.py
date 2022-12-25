@@ -1,27 +1,26 @@
 import datetime
 import random
 import time
+from unicodedata import name
 
 from telethon.errors import ChatSendInlineForbiddenError as noin
 from telethon.errors.rpcerrorlist import BotMethodInvalidError as dedbot
-
-from TelethonHell.DB.gvar_sql import gvarstat
-
-from . import *
+from TelethonHell.DB.gvar_sql import gvarstat, addgvar
+from TelethonHell.plugins import *
 
 # -------------------------------------------------------------------------------
 
 ALIVE_TEMP = """
-<b><i>🔥🔥ɦɛʟʟɮօt ɨs օռʟɨռɛ🔥🔥</b></i>
-<i><b>↼ Øwñêr ⇀</i></b> : 『 <a href='tg://user?id={}'>{}</a> 』
+__**🔥🔥ɦɛʟʟɮօt ɨs օռʟɨռɛ🔥🔥**__
+__**↼ Øwñêr ⇀**__ : 『 [{name}]({userid}) 』
 ╭──────────────
-┣─ <b>» Telethon ~</b> <i>{}</i>
-┣─ <b>» Hêllẞø† ~</b> <i>{}</i>
-┣─ <b>» Sudo ~</b> <i>{}</i>
-┣─ <b>» Uptime ~</b> <i>{}</i>
-┣─ <b>» Ping ~</b> <i>{}</i>
+┣─ **» Telethon:** __{telethon_version}__
+┣─ **» Hêllẞø†:** __{hellbot_version}__
+┣─ **» Sudo:** __{is_sudo}__
+┣─ **» Uptime:** __{uptime}__
+┣─ **» Ping:** __{ping}__
 ╰──────────────
-<b><i>»»» <a href='https://t.me/its_hellbot'>[ †hê Hêllẞø† ]</a> «««</i></b>
+__**»»» [[ †hê Hêllẞø† ]](https://t.me/its_hellbot) «««**__
 """
 
 msg = """{}\n
@@ -35,14 +34,25 @@ msg = """{}\n
 # -------------------------------------------------------------------------------
 
 
-@hell_cmd(pattern="alive$")
-async def up(event):
-    ForGo10God, HELL_USER, hell_mention = await client_id(event)
-    start = datetime.datetime.now()
+@hell_cmd(pattern="alivetemp$")
+async def set_alive_temp(event):
+    hell = await eor(event, "`Setting alive template ...`")
     reply = await event.get_reply_message()
+    if not reply:
+        return await parse_error(hell, "Reply to a message")
+    addgvar("ALIVE_TEMPLATE", reply.text)
+    await hell.edit(f"`ALIVE_TEMPLATE` __changed to:__ \n\n`{reply.text}`")
+
+
+@hell_cmd(pattern="alive$")
+async def _(event):
+    start = datetime.datetime.now()
+    userid, hell_user, _ = await client_id(event)
     hell = await eor(event, "`Building Alive....`")
+    reply = await event.get_reply_message()
     uptime = await get_time((time.time() - StartTime))
-    alive_name = gvarstat("ALIVE_NAME") or HELL_USER
+    name = gvarstat("ALIVE_NAME") or hell_user
+    alive_temp = gvarstat("ALIVE_TEMPLATE") or ALIVE_TEMP
     a = gvarstat("ALIVE_PIC")
     pic_list = []
     if a:
@@ -52,15 +62,22 @@ async def up(event):
                 pic_list.append(c)
         PIC = random.choice(pic_list)
     else:
-        PIC = "https://telegra.ph/file/ea9e11f7c9db21c1b8d5e.mp4"
+        PIC = "https://te.legra.ph/file/ea9e11f7c9db21c1b8d5e.mp4"
     end = datetime.datetime.now()
-    ling = (end - start).microseconds / 1000
-    omk = ALIVE_TEMP.format(ForGo10God, alive_name, tel_ver, hell_ver, is_sudo, uptime, ling)
+    ping = (end - start).microseconds / 1000
+    alive = alive_temp.format(
+        name=name,
+        userid=userid,
+        telethon_version=telethon_version,
+        hellbot_version=hellbot_version,
+        is_sudo=is_sudo,
+        uptime=uptime,
+        ping=ping,
+    )
     await event.client.send_file(
         event.chat_id,
         file=PIC,
-        caption=omk,
-        parse_mode="HTML",
+        caption=alive,
         reply_to=reply,
     )
     await hell.delete()
@@ -68,18 +85,18 @@ async def up(event):
 
 @hell_cmd(pattern="hell$")
 async def hell_a(event):
-    ForGo10God, HELL_USER, hell_mention = await client_id(event)
+    userid, _, _ = await client_id(event)
     uptime = await get_time((time.time() - StartTime))
     am = gvarstat("ALIVE_MSG") or "<b>»» нєℓℓвσт ιѕ σиℓιиє ««</b>"
     try:
         hell = await event.client.inline_query(Config.BOT_USERNAME, "alive")
         await hell[0].click(event.chat_id)
-        if event.sender_id == ForGo10God:
+        if event.sender_id == userid:
             await event.delete()
     except (noin, dedbot):
         await eor(
             event,
-            msg.format(am, tel_ver, hell_ver, uptime, abuse_m, is_sudo),
+            msg.format(am, telethon_version, hellbot_version, uptime, abuse_m, is_sudo),
             parse_mode="HTML",
         )
 

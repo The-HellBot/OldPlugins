@@ -1,7 +1,6 @@
-import asyncio
 import os
 
-from . import *
+from TelethonHell.plugins import *
 
 
 @hell_cmd(pattern="unpack$")
@@ -13,7 +12,11 @@ async def _(event):
     c = a.read()
     a.close()
     if len(c) > 4095:
-        await parse_error(hell, "Telegram Word Limit Of 4095 words exceeded.")
+        try:
+            x = await event.client.send_message(event.chat_id, f"{c[:4095]}", parse_mode=None, reply_to=reply)
+            await x.respond(f"{c[4095:]}", parse_mode=None)
+        except:
+            pass
     else:
         await event.client.send_message(event.chat_id, f"{c}", parse_mode=None, reply_to=reply)
         await hell.delete()
@@ -22,7 +25,7 @@ async def _(event):
 
 @hell_cmd(pattern="pack(?:\s|$)([\s\S]*)")
 async def _(event):
-    input_str = event.pattern_match.group(1)
+    input_str = event.text[6:]
     hell = await eor(event, f"Packing into `{input_str}`")
     a = await event.get_reply_message()
     b = open(input_str, "w")

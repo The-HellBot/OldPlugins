@@ -2,9 +2,9 @@
 # Original Plugin By -> @Krishna_Singhal
 # Plugin link -> https://github.com/UsergeTeam/Userge-Plugins/blob/master/plugins/glitch.py
 # Info -> Glitch plugin for Userge made by @Krishna_Singhal in Pyrogram.
-
+# 
 # Ported from Pyrogram to Telethon by @ForGo10God for †hê Hêllẞø†
-
+# 
 # USE WITH CREDITS !!
 ##################################
 
@@ -12,14 +12,12 @@ import os
 
 from glitch_this import ImageGlitcher
 from PIL import Image
-
-from . import *
-
-Glitched = Config.TMP_DOWNLOAD_DIRECTORY + "glitch.gif"
+from TelethonHell.plugins import *
 
 
 @hell_cmd(pattern="glitch(?:\s|$)([\s\S]*)")
 async def glitch_(event):
+    Glitched = Config.TMP_DOWNLOAD_DIRECTORY + "glitch.gif"
     hell = await eor(event, "`Trying to glitch this ...`")
     replied = await event.get_reply_message()
     lists = event.text.split(" ", 2)

@@ -1,19 +1,19 @@
 import asyncio
 import os
+import subprocess
 import time
 import zipfile
-import subprocess
 
 from hachoir.metadata import extractMetadata
 from hachoir.parser import createParser
 from telethon.errors.rpcerrorlist import YouBlockedUserError
 from telethon.tl import functions
 from telethon.utils import get_input_document
+from TelethonHell.helpers.runner import runcmd
+from TelethonHell.clients.logger import LOGGER as LOGS
 
-from TelethonHell import LOGS
 
-
-# generate thumbnail from audio...
+# generate thumbnail from audio
 async def thumb_from_audio(audio_path, output):
     await runcmd(f"ffmpeg -i {audio_path} -filter:v scale=500:500 -an {output}")
 
@@ -72,8 +72,8 @@ async def take_screen_shot(video_file, output_directory, ttl):
     if os.path.lexists(out_put_file_name):
         return out_put_file_name
     else:
-        logger.info(e_response)
-        logger.info(t_response)
+        LOGS.info(e_response)
+        LOGS.info(t_response)
         return None
 
 
@@ -108,8 +108,8 @@ async def cult_small_video(video_file, output_directory, start_time, end_time):
     if os.path.lexists(out_put_file_name):
         return out_put_file_name
     else:
-        logger.info(e_response)
-        logger.info(t_response)
+        LOGS.info(e_response)
+        LOGS.info(t_response)
         return None
 
 

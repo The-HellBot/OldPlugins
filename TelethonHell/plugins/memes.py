@@ -3,14 +3,10 @@ import os
 
 import cv2
 from PIL import Image
-from telegraph import upload_file
 from telethon.tl.functions.users import GetFullUserRequest
+from TelethonHell.plugins import *
 
-from . import *
-
-dwllpath = "./imgs/"
-if not os.path.isdir(dwllpath):
-    os.makedirs(dwllpath)
+from telegraph import upload_file
 
 
 @hell_cmd(pattern="thug$")
@@ -21,7 +17,7 @@ async def _(event):
     await event.get_reply_message()
     img = await convert_to_image(event, event.client)
     imagePath = img
-    maskPath = "./HellConfig/resources/pics/mask (1).png"
+    maskPath = "./HellConfig/resources/pics/mask.png"
     cascPath = "./HellConfig/resources/xmls/haarcascade_frontalface_default.xml"
     faceCascade = cv2.CascadeClassifier(cascPath)
     image = cv2.imread(imagePath)
@@ -34,6 +30,9 @@ async def _(event):
         offset = (x, y)
         background.paste(mask, offset, mask=mask)
     file_name = "thug.png"
+    dwllpath = "./imgs/"
+    if not os.path.isdir(dwllpath):
+        os.makedirs(dwllpath)
     ok = dwllpath + "/" + file_name
     background.save(ok, "PNG")
     await event.client.send_file(event.chat_id, ok)
@@ -49,7 +48,7 @@ async def _(event):
     owo = await event.get_reply_message()
     img = await convert_to_image(event, bot)
     url_s = upload_file(img)
-    imglink = f"https://telegra.ph{url_s[0]}"
+    imglink = f"https://te.legra.ph{url_s[0]}"
     doit = f"https://some-random-api.ml/canvas/triggered?avatar={imglink}"
     r = requests.get(doit)
     open("triggered.gif", "wb").write(r.content)
@@ -69,7 +68,7 @@ async def _(event):
     owo = await event.get_reply_message()
     img = await convert_to_image(event, event.client)
     url_s = upload_file(img)
-    imglink = f"https://telegra.ph{url_s[0]}"
+    imglink = f"https://te.legra.ph{url_s[0]}"
     doit = f"https://some-random-api.ml/canvas/gay?avatar={imglink}"
     r = requests.get(doit)
     open("geys.png", "wb").write(r.content)
@@ -89,7 +88,7 @@ async def _(event):
     owo = await event.get_reply_message()
     img = await convert_to_image(event, event.client)
     url_s = upload_file(img)
-    imglink = f"https://telegra.ph{url_s[0]}"
+    imglink = f"https://te.legra.ph{url_s[0]}"
     doit = f"https://some-random-api.ml/canvas/pixelate?avatar={imglink}"
     r = requests.get(doit)
     open("pix.png", "wb").write(r.content)
@@ -108,12 +107,15 @@ async def _(event):
     hell = await eor(event, "`Making a youthuub comment...`")
     owo = await event.get_reply_message()
     senderr = await event.client(GetFullUserRequest(owo.sender_id))
+    dwllpath = "./imgs/"
+    if not os.path.isdir(dwllpath):
+        os.makedirs(dwllpath)
     if not senderr.profile_photo:
-        imglink = "https://telegra.ph/file/93e181ec03a3761a63918.jpg"
+        imglink = "https://te.legra.ph/file/93e181ec03a3761a63918.jpg"
     elif senderr.profile_photo:
         img = await event.client.download_media(senderr.profile_photo, dwllpath)
         url_s = upload_file(img)
-        imglink = f"https://telegra.ph{url_s[0]}"
+        imglink = f"https://te.legra.ph{url_s[0]}"
     first_name = html.escape(senderr.user.first_name)
     if first_name is not None:
         first_name = first_name.replace("\u2060", "")

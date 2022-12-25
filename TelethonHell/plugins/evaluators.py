@@ -6,13 +6,12 @@ import time
 import traceback
 
 from TelethonHell.DB.gvar_sql import gvarstat
-from . import *
+from TelethonHell.plugins import *
 
 
 @hell_cmd(pattern="exec(?:\s|$)([\s\S]*)")
 async def _(event):
     if gvarstat("USE_EVAL") == "TRUE":
-        Config.LOGGER_ID
         cmd = "".join(event.text.split(maxsplit=1)[1:])
         if not cmd:
             return await eod(event, "`What should i execute?..`")
@@ -152,7 +151,7 @@ async def _(event):
                 reply_to=reply_to_id,
             )
             await event.delete()
-    await eor(event, output)
+    await eor(event, OUTPUT)
 
 
 CmdHelp("evaluators").add_command(

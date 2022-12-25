@@ -1,17 +1,6 @@
-from telethon import events
 from telethon.tl.functions.channels import GetParticipantRequest
 from telethon.tl.types import (ChannelParticipantAdmin,
                                ChannelParticipantCreator)
-
-from TelethonHell import *
-from TelethonHell.helpers import *
-
-
-# just a small shit for big works
-class Loader:
-    def __init__(self, func=None, **args):
-        self.Var = Var
-        bot.add_event_handler(func, events.NewMessage(**args))
 
 
 # Check if Admin

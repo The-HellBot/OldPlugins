@@ -1,8 +1,7 @@
 import threading
 
 from sqlalchemy import Column, Integer, String
-
-from . import BASE, SESSION
+from TelethonHell.DB import BASE, SESSION
 
 DEF_COUNT = 0
 DEF_LIMIT = 0

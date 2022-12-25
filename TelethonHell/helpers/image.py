@@ -1,10 +1,10 @@
 import math
-import os
 import random
-import PIL.ImageOps
 
+import PIL.ImageOps
 from PIL import Image
 from telethon.tl.types import InputMessagesFilterDocument
+
 
 # inverting colors...
 async def invert_colors(imagefile, endname):

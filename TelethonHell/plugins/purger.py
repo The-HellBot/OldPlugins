@@ -1,8 +1,7 @@
 from asyncio import sleep
 
 from telethon.errors import rpcbaseerrors
-
-from . import *
+from TelethonHell.plugins import *
 
 
 @hell_cmd(pattern="del$")
@@ -106,7 +105,6 @@ async def fastpurger(event):
 @hell_cmd(pattern="sd(?:\s|$)([\s\S]*)")
 @errors_handler
 async def selfdestruct(event):
-    lg_id = Config.LOGGER_ID
     message = event.text[4:]
     splt = message.split("|")
     counter = int(splt[0].strip())
@@ -116,7 +114,7 @@ async def selfdestruct(event):
     await sleep(counter)
     await smsg.delete()
     await event.client.send_message(
-        lg_id,
+        Config.LOGGER_ID,
         f"#SELF_DESTRUCT \n\nSelf Destructed message successfully!\n\n**SD Msg :**  `{text}` \n**Time:** `{counter}`",
     )
 

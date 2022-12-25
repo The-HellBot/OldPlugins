@@ -7,15 +7,14 @@ import requests
 import urllib3
 from git import Repo
 from git.exc import GitCommandError, InvalidGitRepositoryError, NoSuchPathError
+from TelethonHell.plugins import *
 
-from . import *
-
-HEROKU_APP_NAME = Config.HEROKU_APP_NAME or None
-HEROKU_API_KEY = Config.HEROKU_API_KEY or None
+hellbot_info = "https://raw.githubusercontent.com/The-HellBot/Plugins/master/hellbot-info.json"
 Heroku = heroku3.from_key(Config.HEROKU_API_KEY)
+HEROKU_API_KEY = Config.HEROKU_API_KEY or None
+HEROKU_APP_NAME = Config.HEROKU_APP_NAME or None
 UPSTREAM_REPO_BRANCH = Config.UPSTREAM_REPO_BRANCH
 UPSTREAM_REPO_URL = Config.UPSTREAM_REPO
-hellbot_info = "https://raw.githubusercontent.com/The-HellBot/Plugins/master/hellbot-info.json"
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 
@@ -137,8 +136,8 @@ async def upstream(event):
     _, _, hell_mention = await client_id(event)
     if changelog == "" and not force_update:
         _version, _release, _branch, _author, _auturl = await hell_info(hellbot_info)
-        output_ = f"**◈ Your Bot Version:** `{hell_ver}` \n**◈ Owner:** {hell_mention} \n\n**◈ HellBot Global Version:** `{_version}` \n**◈ Release Date:** `{_release}` \n**◈ Official Repo Branch:** `{_branch}` \n**◈ Update By:** [{_author}]({_auturl})"
-        if str(_version) != str(hell_ver):
+        output_ = f"**◈ Your Bot Version:** `{hellbot_version}` \n**◈ Owner:** {hell_mention} \n\n**◈ HellBot Global Version:** `{_version}` \n**◈ Release Date:** `{_release}` \n**◈ Official Repo Branch:** `{_branch}` \n**◈ Update By:** [{_author}]({_auturl})"
+        if str(_version) != str(hellbot_version):
             output_ += f"\n\n__Do__ `{hl}update build` __to update your HellBot to latest version.__"
         else:
             output_ += "\n\n__You are already on latest version.__"
@@ -158,6 +157,7 @@ async def upstream(event):
 
 async def deploy(event, repo, ups_rem, ac_br, txt):
     if HEROKU_API_KEY is not None:
+        _, _, hell_mention = await client_id(event)
         heroku = heroku3.from_key(HEROKU_API_KEY)
         heroku_app = None
         heroku_applications = heroku.apps()
@@ -196,7 +196,7 @@ async def deploy(event, repo, ups_rem, ac_br, txt):
         build_status = app.builds(order_by="created_at", sort="desc")[0]
         if build_status.status == "failed":
            return await eod(event, "__Build Failed !!__")
-        await event.edit(f"**Your Hêllẞø† Is UpToDate**\n\n**Version :**  __{hell_ver}__\n**Oɯɳҽɾ :**  {hell_mention}")
+        await event.edit(f"**Your Hêllẞø† Is UpToDate**\n\n**Version :**  __{hellbot_version}__\n**Oɯɳҽɾ:**  {hell_mention}")
     else:
         await parse_error(event, "`HEROKU_API_KEY` __is not configured.__")
     return

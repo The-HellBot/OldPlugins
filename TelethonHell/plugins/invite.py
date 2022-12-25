@@ -1,9 +1,10 @@
-from telethon.errors import ChannelInvalidError, ChannelPrivateError, ChannelPublicGroupNaError
+from telethon.errors import (ChannelInvalidError, ChannelPrivateError,
+                             ChannelPublicGroupNaError)
 from telethon.tl import functions
-from telethon.tl.functions.channels import GetFullChannelRequest, InviteToChannelRequest
+from telethon.tl.functions.channels import (GetFullChannelRequest,
+                                            InviteToChannelRequest)
 from telethon.tl.functions.messages import GetFullChatRequest
-
-from . import *
+from TelethonHell.plugins import *
 
 
 async def get_chatinfo(event):
@@ -84,7 +85,7 @@ async def _(event):
     if event.is_private:
         await eod(event, f"Use `{hl}add` users to a chat, not to a Private Message")
     else:
-        logger.info(to_add_users)
+        LOGS.info(to_add_users)
         if not event.is_channel and event.is_group:
             for user_id in to_add_users.split(" "):
                 try:

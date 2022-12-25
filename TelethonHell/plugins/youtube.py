@@ -2,11 +2,10 @@ import asyncio
 import json
 import os
 import time
+
 import yt_dlp
-
 from telethon.tl.types import DocumentAttributeAudio
-
-from . import *
+from TelethonHell.plugins import *
 
 
 @hell_cmd(pattern="yt(a|v)(?:\s|$)([\s\S]*)")
@@ -17,7 +16,7 @@ async def download_video(event):
     url = lists[1].strip()
     type_ = lists[0][3:4]
     reply = await event.get_reply_message()
-    ForGo10God, HELL_USER, hell_mention = await client_id(event)
+    _, _, hell_mention = await client_id(event)
     hell = await eor(event, "`Preparing to download...`")
     if type_ == "a":
         opts = song_opts

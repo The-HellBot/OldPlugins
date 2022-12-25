@@ -1,9 +1,7 @@
 from telethon.tl.functions.users import GetFullUserRequest
 from telethon.utils import get_peer_id
-
+from TelethonHell.clients.session import H2, H3, H4, H5, Hell
 from TelethonHell.DB.gvar_sql import gvarstat
-
-from .session import H2, H3, H4, H5, Hell
 
 
 async def clients_list():
@@ -60,3 +58,11 @@ async def client_id(event, botid=None):
         HELL_USER = client.first_name
         hell_mention = f"[{HELL_USER}](tg://user?id={ForGo10God})"
     return ForGo10God, HELL_USER, hell_mention
+
+
+async def get_user_id(event, ids):
+    if str(ids).isdigit():
+        userid = int(ids)
+    else:
+        userid = (await event.client.get_entity(ids)).id
+    return userid

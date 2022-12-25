@@ -7,8 +7,7 @@ from random import choice
 import requests
 from bs4 import BeautifulSoup
 from humanize import naturalsize
-
-from . import *
+from TelethonHell.plugins import *
 
 
 @hell_cmd(pattern="direct(?:\s|$)([\s\S]*)")

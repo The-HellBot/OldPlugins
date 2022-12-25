@@ -1,6 +1,6 @@
 import os
 
-from . import *
+from TelethonHell.plugins import *
 
 
 @hell_cmd(pattern="mytweet(?:\s|$)([\s\S]*)")
