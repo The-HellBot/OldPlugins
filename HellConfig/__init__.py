@@ -27,7 +27,7 @@ os_config = [
     "BOT_USERNAME",
     "BUTTONS_IN_HELP",
     "CURRENCY_API",
-    "DB_URI",
+    "DATABASE_URL",
     "EMOJI_IN_HELP",
     "G_DRIVE_CLIENT_ID",
     "G_DRIVE_CLIENT_SECRET",

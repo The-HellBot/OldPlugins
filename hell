@@ -61,7 +61,7 @@ class Development(Config):
     API_HASH = '$api_hash'
     HELLBOT_SESSION = '$session'
     BOT_TOKEN = '$bot_token'
-    DB_URI = '$db_uri'
+    DATABASE_URL = '$db_uri'
     """ > config.py
 }
 

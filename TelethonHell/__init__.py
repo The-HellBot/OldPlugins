@@ -20,7 +20,7 @@ if not Config.BOT_TOKEN:
     LOGS.warning("Please fill var BOT_TOKEN to continue.")
     quit(1)
 
-if not Config.DB_URI:
+if not Config.DATABASE_URL:
     LOGS.warning("Please fill var DATABASE_URL to continue.")
     quit(1)
 
