@@ -1,0 +1,41 @@
+- pipeline: "Hell"
+  on: "EVENT"
+  events:
+  - type: "PUSH"
+    refs:
+    - "refs/heads/master"
+  priority: "NORMAL"
+  fail_on_prepare_env_warning: true
+  actions:
+  - action: "Execute python3 -m TelethonHell"
+    type: "BUILD"
+    main_service_name: "Main"
+    docker_image_name: "library/python"
+    docker_image_tag: "3.9"
+    execute_commands:
+    - "python -m pip install --upgrade pip"
+    - "pip install -r requirements.txt"
+    - "python3 -m TelethonHell"
+    cached_dirs:
+    - "/root/.cache/pip"
+    volume_mappings:
+    - "/:/buddy/plugins-t"
+    cache_base_image: true
+    shell: "BASH"
+    variables:
+    - key: "API_HASH"
+      type: "VAR"
+      encrypted: true
+    - key: "APP_ID"
+      type: "VAR"
+      encrypted: true
+    - key: "BOT_TOKEN"
+      type: "VAR"
+      encrypted: true
+    - key: "HELLBOT_SESSION"
+      type: "VAR"
+      encrypted: true
+    - key: "DATABASE_URL"
+      type: "VAR"
+      encrypted: true
+
