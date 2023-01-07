@@ -8,7 +8,7 @@ async def _(event):
     if f"{hl}savewelcome" in event.text:
         return
     ForGo10God, _, _ = await client_id(event)
-    if Config.PM_LOGGER is not 0:
+    if Config.PM_LOGGER != 0:
         if event.reply_to_msg_id:
             reply_msg = await event.get_reply_message()
             await reply_msg.forward_to(Config.PM_LOGGER)
@@ -36,7 +36,7 @@ async def _(event):
 
 @hell_handler(func=lambda e: e.is_private, incoming=True)
 async def _(event):
-    if Config.PM_LOGGER is 0:
+    if Config.PM_LOGGER == 0:
         return
     ForGo10God, _, _ = await client_id(event)
     sender = await event.get_sender()
@@ -56,7 +56,7 @@ async def _(event):
 
 @hell_cmd(pattern="elog$")
 async def _(event):
-    if Config.PM_LOGGER is not 0:
+    if Config.PM_LOGGER != 0:
         chat = await event.get_chat()
         if event.is_private:
             try:
@@ -72,7 +72,7 @@ async def _(event):
 
 @hell_cmd(pattern="nlog$")
 async def _(event):
-    if Config.PM_LOGGER is not 0:
+    if Config.PM_LOGGER != 0:
         chat = await event.get_chat()
         if event.is_private:
             if is_nolog(str(chat.id)):
