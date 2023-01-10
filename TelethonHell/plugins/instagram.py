@@ -9,7 +9,7 @@ from TelethonHell.plugins import *
 async def download(event):
     lists = event.text.split(" ", 3)
     link = None
-    flag = None
+    flag = "None"
     post = 10
     if len(lists) == 4:
         flag = lists[1].strip()

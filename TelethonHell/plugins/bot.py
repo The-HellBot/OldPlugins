@@ -93,7 +93,7 @@ async def _(event):
 
 @hell_cmd(pattern="vars(?:\s|$)([\s\S]*)")
 async def lst(event):
-    flag = (event.text[6:9]).lower()
+    flag = str(event.text[6:9]).lower()
     if flag and flag == "-db":
         hell = await eor(event, "Getting DB variables..")
         dbx = "**• List of DB Variables:** \n\n"

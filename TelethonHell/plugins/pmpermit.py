@@ -66,7 +66,7 @@ async def unblock(event):
         return await parse_error(event, "Only groups and PMs supported.")
 
 
-if Config.PM_PERMIT.lower() not in disabled_list:
+if str(Config.PM_PERMIT).lower() not in disabled_list:
     @bot.on(NewMessage(outgoing=True))
     async def _(event):
         if not event.is_private:
@@ -176,7 +176,7 @@ if Config.PM_PERMIT.lower() not in disabled_list:
             return
         if sender.verified:
             return
-        if Config.PM_PERMIT.lower() in disabled_list:
+        if str(Config.PM_PERMIT).lower() in disabled_list:
             return
         if pm_sql.is_approved(event.chat_id):
             return
@@ -293,7 +293,7 @@ if Config.PM_PERMIT.lower() not in disabled_list:
                 return
             if sender.verified:
                 return
-            if Config.PM_PERMIT.lower() in disabled_list:
+            if str(Config.PM_PERMIT).lower() in disabled_list:
                 return
             if pm_sql.is_approved(event.chat_id):
                 return
@@ -410,7 +410,7 @@ if Config.PM_PERMIT.lower() not in disabled_list:
                 return
             if sender.verified:
                 return
-            if Config.PM_PERMIT.lower() in disabled_list:
+            if str(Config.PM_PERMIT).lower() in disabled_list:
                 return
             if pm_sql.is_approved(event.chat_id):
                 return
@@ -527,7 +527,7 @@ if Config.PM_PERMIT.lower() not in disabled_list:
                 return
             if sender.verified:
                 return
-            if Config.PM_PERMIT.lower() in disabled_list:
+            if str(Config.PM_PERMIT).lower() in disabled_list:
                 return
             if pm_sql.is_approved(event.chat_id):
                 return
@@ -644,7 +644,7 @@ if Config.PM_PERMIT.lower() not in disabled_list:
                 return
             if sender.verified:
                 return
-            if Config.PM_PERMIT.lower() in disabled_list:
+            if str(Config.PM_PERMIT).lower() in disabled_list:
                 return
             if pm_sql.is_approved(event.chat_id):
                 return
@@ -710,7 +710,7 @@ async def do_pm_permit_action(chat_ids, event, client):
     client.PREV_REPLY_MESSAGE[chat_ids] = hell
 
 
-if Config.INSTANT_BLOCK.lower() in enabled_list:
+if str(Config.INSTANT_BLOCK).lower() in enabled_list:
     @hell_handler(incoming=True)
     async def instant(event):
         sender = await event.client.get_entity(event.chat_id)

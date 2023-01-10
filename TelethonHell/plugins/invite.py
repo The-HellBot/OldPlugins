@@ -52,7 +52,6 @@ def user_full_name(user):
 @hell_cmd(pattern="inviteall(?:\s|$)([\s\S]*)")
 async def get_users(event):
     hel_ = event.text[11:]
-    hell_chat = hel_.lower()
     hell = await eor(event, f"__Inviting members from__ {hel_}")
     kraken = await get_chatinfo(event)
     chat = await event.get_chat()

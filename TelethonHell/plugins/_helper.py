@@ -96,7 +96,7 @@ async def hellbott(event):
 
 @hell_cmd(pattern="cmdinfo(?:\s|$)([\s\S]*)")
 async def cmdinfo(event):
-    cmd = (event.text[9:]).lower()
+    cmd = str(event.text[9:]).lower()
     try:
         info = CMD_INFO[cmd]["info"]
         file = CMD_INFO[cmd]["plugin"]
