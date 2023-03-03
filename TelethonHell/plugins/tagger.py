@@ -4,7 +4,7 @@ from telethon.utils import get_display_name
 from TelethonHell.plugins import *
 
 
-if Config.TAG_LOGGER is not 0:
+if Config.TAG_LOGGER != 0:
     @hell_handler(func=lambda e: (e.mentioned), incoming=True)
     async def all_messages_catcher(event):
         ammoca_message = ""
