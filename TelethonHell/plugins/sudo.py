@@ -86,7 +86,7 @@ async def get_user(event):
             replied_user = await event.client(
                 GetFullUserRequest(previous_message.sender_id)
             )
-    target = replied_user.user.id
+    target = replied_user.users[0].id
     return target
 
 
