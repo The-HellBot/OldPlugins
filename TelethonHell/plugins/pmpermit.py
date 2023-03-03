@@ -22,7 +22,7 @@ async def block(event):
         getuser = await event.client(
             GetFullUserRequest(await event.get_input_chat())
         )
-        firstname = getuser.user.first_name
+        firstname = getuser.users[0].first_name
         if str(event.chat_id) in DEVLIST:
             return await eod(event, "**I can't block my creator !!**")
         if pm_sql.is_approved(event.chat_id):
@@ -34,7 +34,7 @@ async def block(event):
         if not reply:
             return await eod(event, "Reply to someone to block them.")
         getuser = await event.client(GetFullUserRequest(reply.sender_id))
-        firstname = getuser.user.first_name
+        firstname = getuser.users[0].first_name
         if str(reply.sender_id) in DEVLIST:
             return await eod(event, "**I can't block my creator !!**")
         if pm_sql.is_approved(event.chat_id):
@@ -51,7 +51,7 @@ async def unblock(event):
         getuser = await event.client(
             GetFullUserRequest(await event.get_input_chat())
         )
-        firstname = getuser.user.first_name
+        firstname = getuser.users[0].first_name
         await eor(event, f"**Unblocked:** [{firstname}](tg://user?id={event.chat_id})")
         await event.client(functions.contacts.UnblockRequest(event.chat_id))
     elif event.is_group:
@@ -59,7 +59,7 @@ async def unblock(event):
         if not reply:
             return await eod(event, "Reply to someone to unblock them.")
         getuser = await event.client(GetFullUserRequest(reply.sender_id))
-        firstname = getuser.user.first_name
+        firstname = getuser.users[0].first_name
         await eor(event, f"**Unblocked:** [{firstname}](tg://user?id={reply.sender_id})")
         await event.client(functions.contacts.UnblockRequest(reply.sender_id))
     else:
@@ -75,9 +75,9 @@ if str(Config.PM_PERMIT).lower() not in disabled_list:
         sender = await event.client(GetFullUserRequest(await event.get_input_chat()))
         if str(event.chat_id) == str(ForGo10God):
             return
-        if sender.user.bot:
+        if sender.users[0].bot:
             return
-        if sender.user.verified:
+        if sender.users[0].verified:
             return
         if str(event.chat_id) in DEVLIST:
             return
@@ -97,7 +97,7 @@ if str(Config.PM_PERMIT).lower() not in disabled_list:
             getuser = await event.client(
                 GetFullUserRequest(await event.get_input_chat())
             )
-            firstname = getuser.user.first_name
+            firstname = getuser.users[0].first_name
             if not pm_sql.is_approved(event.chat_id):
                 if event.chat_id in pm1.PM_WARNS:
                     del pm1.PM_WARNS[event.chat_id]
@@ -114,7 +114,7 @@ if str(Config.PM_PERMIT).lower() not in disabled_list:
                 return await eod(event, "Reply to someone to approve them !!")
             if not pm_sql.is_approved(reply.sender_id):
                 getuser = await event.client(GetFullUserRequest(reply.sender_id))
-                firstname = getuser.user.first_name
+                firstname = getuser.users[0].first_name
                 pm_sql.approve(reply.sender_id, "Approved")
                 await eod(event, f"**Approved:** [{firstname}](tg://user?id={reply.sender_id})")
             elif pm_sql.is_approved(reply.sender_id):
@@ -128,7 +128,7 @@ if str(Config.PM_PERMIT).lower() not in disabled_list:
             getuser = await event.client(
                 GetFullUserRequest(await event.get_input_chat())
             )
-            firstname = getuser.user.first_name
+            firstname = getuser.users[0].first_name
             if str(event.chat_id) in DEVLIST:
                 return await eod(event, "Can't disapprove my developer!")
             if pm_sql.is_approved(event.chat_id):
@@ -144,7 +144,7 @@ if str(Config.PM_PERMIT).lower() not in disabled_list:
                 return await eod(event, "Can't disapprove my developer!")
             if pm_sql.is_approved(reply.sender_id):
                 getuser = await event.client(GetFullUserRequest(reply.sender_id))
-                firstname = getuser.user.first_name
+                firstname = getuser.users[0].first_name
                 pm_sql.disapprove(reply.sender_id)
                 await eod(event, f"**Disapproved:** [{firstname}](tg://user?id={reply.sender_id})")
             elif not pm_sql.is_approved(reply.sender_id):
@@ -193,9 +193,9 @@ if str(Config.PM_PERMIT).lower() not in disabled_list:
             sender = await event.client(GetFullUserRequest(await event.get_input_chat()))
             if str(event.chat_id) == str(ForGo10God):
                 return
-            if sender.user.bot:
+            if sender.users[0].bot:
                 return
-            if sender.user.verified:
+            if sender.users[0].verified:
                 return
             if str(event.chat_id) in DEVLIST:
                 return
@@ -215,7 +215,7 @@ if str(Config.PM_PERMIT).lower() not in disabled_list:
                 getuser = await event.client(
                     GetFullUserRequest(await event.get_input_chat())
                 )
-                firstname = getuser.user.first_name
+                firstname = getuser.users[0].first_name
                 if not pm_sql.is_approved(event.chat_id):
                     if event.chat_id in pm2.PM_WARNS:
                         del pm2.PM_WARNS[event.chat_id]
@@ -232,7 +232,7 @@ if str(Config.PM_PERMIT).lower() not in disabled_list:
                     return await eod(event, "Reply to someone to approve them !!")
                 if not pm_sql.is_approved(reply.sender_id):
                     getuser = await event.client(GetFullUserRequest(reply.sender_id))
-                    firstname = getuser.user.first_name
+                    firstname = getuser.users[0].first_name
                     pm_sql.approve(reply.sender_id, "Approved")
                     await eod(event, f"**Approved:** [{firstname}](tg://user?id={reply.sender_id})")
                 elif pm_sql.is_approved(reply.sender_id):
@@ -246,7 +246,7 @@ if str(Config.PM_PERMIT).lower() not in disabled_list:
                 getuser = await event.client(
                     GetFullUserRequest(await event.get_input_chat())
                 )
-                firstname = getuser.user.first_name
+                firstname = getuser.users[0].first_name
                 if str(event.chat_id) in DEVLIST:
                     return await eod(event, "Can't disapprove my developer!")
                 if pm_sql.is_approved(event.chat_id):
@@ -262,7 +262,7 @@ if str(Config.PM_PERMIT).lower() not in disabled_list:
                     return await eod(event, "Can't disapprove my developer!")
                 if pm_sql.is_approved(reply.sender_id):
                     getuser = await event.client(GetFullUserRequest(reply.sender_id))
-                    firstname = getuser.user.first_name
+                    firstname = getuser.users[0].first_name
                     pm_sql.disapprove(reply.sender_id)
                     await eod(event, f"**Disapproved:** [{firstname}](tg://user?id={reply.sender_id})")
                 elif not pm_sql.is_approved(reply.sender_id):
@@ -310,9 +310,9 @@ if str(Config.PM_PERMIT).lower() not in disabled_list:
             sender = await event.client(GetFullUserRequest(await event.get_input_chat()))
             if str(event.chat_id) == str(ForGo10God):
                 return
-            if sender.user.bot:
+            if sender.users[0].bot:
                 return
-            if sender.user.verified:
+            if sender.users[0].verified:
                 return
             if str(event.chat_id) in DEVLIST:
                 return
@@ -332,7 +332,7 @@ if str(Config.PM_PERMIT).lower() not in disabled_list:
                 getuser = await event.client(
                     GetFullUserRequest(await event.get_input_chat())
                 )
-                firstname = getuser.user.first_name
+                firstname = getuser.users[0].first_name
                 if not pm_sql.is_approved(event.chat_id):
                     if event.chat_id in pm3.PM_WARNS:
                         del pm3.PM_WARNS[event.chat_id]
@@ -349,7 +349,7 @@ if str(Config.PM_PERMIT).lower() not in disabled_list:
                     return await eod(event, "Reply to someone to approve them !!")
                 if not pm_sql.is_approved(reply.sender_id):
                     getuser = await event.client(GetFullUserRequest(reply.sender_id))
-                    firstname = getuser.user.first_name
+                    firstname = getuser.users[0].first_name
                     pm_sql.approve(reply.sender_id, "Approved")
                     await eod(event, f"**Approved:** [{firstname}](tg://user?id={reply.sender_id})")
                 elif pm_sql.is_approved(reply.sender_id):
@@ -363,7 +363,7 @@ if str(Config.PM_PERMIT).lower() not in disabled_list:
                 getuser = await event.client(
                     GetFullUserRequest(await event.get_input_chat())
                 )
-                firstname = getuser.user.first_name
+                firstname = getuser.users[0].first_name
                 if str(event.chat_id) in DEVLIST:
                     return await eod(event, "Can't disapprove my developer!")
                 if pm_sql.is_approved(event.chat_id):
@@ -379,7 +379,7 @@ if str(Config.PM_PERMIT).lower() not in disabled_list:
                     return await eod(event, "Can't disapprove my developer!")
                 if pm_sql.is_approved(reply.sender_id):
                     getuser = await event.client(GetFullUserRequest(reply.sender_id))
-                    firstname = getuser.user.first_name
+                    firstname = getuser.users[0].first_name
                     pm_sql.disapprove(reply.sender_id)
                     await eod(event, f"**Disapproved:** [{firstname}](tg://user?id={reply.sender_id})")
                 elif not pm_sql.is_approved(reply.sender_id):
@@ -427,9 +427,9 @@ if str(Config.PM_PERMIT).lower() not in disabled_list:
             sender = await event.client(GetFullUserRequest(await event.get_input_chat()))
             if str(event.chat_id) == str(ForGo10God):
                 return
-            if sender.user.bot:
+            if sender.users[0].bot:
                 return
-            if sender.user.verified:
+            if sender.users[0].verified:
                 return
             if str(event.chat_id) in DEVLIST:
                 return
@@ -449,7 +449,7 @@ if str(Config.PM_PERMIT).lower() not in disabled_list:
                 getuser = await event.client(
                     GetFullUserRequest(await event.get_input_chat())
                 )
-                firstname = getuser.user.first_name
+                firstname = getuser.users[0].first_name
                 if not pm_sql.is_approved(event.chat_id):
                     if event.chat_id in pm4.PM_WARNS:
                         del pm4.PM_WARNS[event.chat_id]
@@ -466,7 +466,7 @@ if str(Config.PM_PERMIT).lower() not in disabled_list:
                     return await eod(event, "Reply to someone to approve them !!")
                 if not pm_sql.is_approved(reply.sender_id):
                     getuser = await event.client(GetFullUserRequest(reply.sender_id))
-                    firstname = getuser.user.first_name
+                    firstname = getuser.users[0].first_name
                     pm_sql.approve(reply.sender_id, "Approved")
                     await eod(event, f"**Approved:** [{firstname}](tg://user?id={reply.sender_id})")
                 elif pm_sql.is_approved(reply.sender_id):
@@ -480,7 +480,7 @@ if str(Config.PM_PERMIT).lower() not in disabled_list:
                 getuser = await event.client(
                     GetFullUserRequest(await event.get_input_chat())
                 )
-                firstname = getuser.user.first_name
+                firstname = getuser.users[0].first_name
                 if str(event.chat_id) in DEVLIST:
                     return await eod(event, "Can't disapprove my developer!")
                 if pm_sql.is_approved(event.chat_id):
@@ -496,7 +496,7 @@ if str(Config.PM_PERMIT).lower() not in disabled_list:
                     return await eod(event, "Can't disapprove my developer!")
                 if pm_sql.is_approved(reply.sender_id):
                     getuser = await event.client(GetFullUserRequest(reply.sender_id))
-                    firstname = getuser.user.first_name
+                    firstname = getuser.users[0].first_name
                     pm_sql.disapprove(reply.sender_id)
                     await eod(event, f"**Disapproved:** [{firstname}](tg://user?id={reply.sender_id})")
                 elif not pm_sql.is_approved(reply.sender_id):
@@ -544,9 +544,9 @@ if str(Config.PM_PERMIT).lower() not in disabled_list:
             sender = await event.client(GetFullUserRequest(await event.get_input_chat()))
             if str(event.chat_id) == str(ForGo10God):
                 return
-            if sender.user.bot:
+            if sender.users[0].bot:
                 return
-            if sender.user.verified:
+            if sender.users[0].verified:
                 return
             if str(event.chat_id) in DEVLIST:
                 return
@@ -566,7 +566,7 @@ if str(Config.PM_PERMIT).lower() not in disabled_list:
                 getuser = await event.client(
                     GetFullUserRequest(await event.get_input_chat())
                 )
-                firstname = getuser.user.first_name
+                firstname = getuser.users[0].first_name
                 if not pm_sql.is_approved(event.chat_id):
                     if event.chat_id in pm5.PM_WARNS:
                         del pm5.PM_WARNS[event.chat_id]
@@ -583,7 +583,7 @@ if str(Config.PM_PERMIT).lower() not in disabled_list:
                     return await eod(event, "Reply to someone to approve them !!")
                 if not pm_sql.is_approved(reply.sender_id):
                     getuser = await event.client(GetFullUserRequest(reply.sender_id))
-                    firstname = getuser.user.first_name
+                    firstname = getuser.users[0].first_name
                     pm_sql.approve(reply.sender_id, "Approved")
                     await eod(event, f"**Approved:** [{firstname}](tg://user?id={reply.sender_id})")
                 elif pm_sql.is_approved(reply.sender_id):
@@ -597,7 +597,7 @@ if str(Config.PM_PERMIT).lower() not in disabled_list:
                 getuser = await event.client(
                     GetFullUserRequest(await event.get_input_chat())
                 )
-                firstname = getuser.user.first_name
+                firstname = getuser.users[0].first_name
                 if str(event.chat_id) in DEVLIST:
                     return await eod(event, "Can't disapprove my developer!")
                 if pm_sql.is_approved(event.chat_id):
@@ -613,7 +613,7 @@ if str(Config.PM_PERMIT).lower() not in disabled_list:
                     return await eod(event, "Can't disapprove my developer!")
                 if pm_sql.is_approved(reply.sender_id):
                     getuser = await event.client(GetFullUserRequest(reply.sender_id))
-                    firstname = getuser.user.first_name
+                    firstname = getuser.users[0].first_name
                     pm_sql.disapprove(reply.sender_id)
                     await eod(event, f"**Disapproved:** [{firstname}](tg://user?id={reply.sender_id})")
                 elif not pm_sql.is_approved(reply.sender_id):
