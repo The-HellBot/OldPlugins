@@ -55,7 +55,7 @@ async def gbun(event):
     if event.reply_to_msg_id:
         reply_message = await event.get_reply_message()
         replied_user = await event.client(GetFullUserRequest(reply_message.sender_id))
-        firstname = replied_user.user.first_name
+        firstname = replied_user.users[0].first_name
         usname = replied_user.user.username
         idd = reply_message.sender_id
         if idd == 1432756163:
