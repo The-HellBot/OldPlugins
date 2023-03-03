@@ -186,7 +186,6 @@ async def muth(event):
     if event.is_private:
         hell = await eor(event, "**Enough of your bullshit  !!**")
         await event.get_reply_message()
-        await event.client(GetFullUserRequest(event.chat_id))
         if is_muted(event.chat_id, event.chat_id):
             return await eod(hell, "User is already muted here 🥴")
         if event.chat_id == ForGo10God:
@@ -285,7 +284,7 @@ async def nomuth(event):
             reply = await event.get_reply_message()
             userid = reply.sender_id
             getuser = await event.client(GetFullUserRequest(reply.sender_id))
-            name = getuser.user.first_name
+            name = getuser.users[0].first_name
         elif input_str:
             if input_str.isdigit():
                 try:
