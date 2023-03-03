@@ -252,7 +252,7 @@ if Config.BOT_USERNAME and tbot:
                 "✅ **Request Registered** \n\nMy master will now decide to look for your request or not.\n😐 Till then wait patiently and don't spam!!"
             )
             target = await event.client(GetFullUserRequest(event.query.user_id))
-            first_name = html.escape(target.user.first_name)
+            first_name = html.escape(target.users[0].first_name)
             if first_name is not None:
                 first_name = first_name.replace("\u2060", "")
             await tbot.send_message(
@@ -278,7 +278,7 @@ if Config.BOT_USERNAME and tbot:
             if H5:
                 await H5(functions.contacts.BlockRequest(event.query.user_id))
             target = await event.client(GetFullUserRequest(event.query.user_id))
-            first_name = html.escape(target.user.first_name)
+            first_name = html.escape(target.users[0].first_name)
             if first_name is not None:
                 first_name = first_name.replace("\u2060", "")
             await tbot.send_message(
