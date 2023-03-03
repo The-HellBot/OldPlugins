@@ -17,22 +17,22 @@ async def _(event):
     if replied_user is None:
         await eod(event, str(error_i_a))
         return False
-    user_id = replied_user.user.id
+    user_id = replied_user.users[0].id
     profile_pic = await event.client.download_profile_photo(
         user_id, Config.TMP_DOWNLOAD_DIRECTORY
     )
-    first_name = html.escape(replied_user.user.first_name)
+    first_name = html.escape(replied_user.users[0].first_name)
     if first_name is not None:
         first_name = first_name.replace("\u2060", "")
-    last_name = replied_user.user.last_name
+    last_name = replied_user.users[0].last_name
     if last_name is not None:
         last_name = html.escape(last_name)
         last_name = last_name.replace("\u2060", "")
     if last_name is None:
         last_name = "⁪⁬⁮⁮⁮⁮ ‌"
-    user_bio = replied_user.about
+    user_bio = replied_user.full_user.about
     if user_bio is not None:
-        user_bio = replied_user.about
+        user_bio = replied_user.full_user.about
     await event.client(functions.account.UpdateProfileRequest(first_name=first_name))
     await event.client(functions.account.UpdateProfileRequest(last_name=last_name))
     await event.client(functions.account.UpdateProfileRequest(about=user_bio))
