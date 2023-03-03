@@ -6,7 +6,7 @@ from TelethonHell.plugins import *
 
 @hell_cmd(pattern=r"\#(\S+)")
 async def incom_note(event):
-    if Config.LOGGER_ID is 0:
+    if Config.LOGGER_ID == 0:
         return
     try:
         if not (await event.get_sender()).bot:
@@ -40,7 +40,7 @@ async def incom_note(event):
 
 @hell_cmd(pattern="snip(?:\s|$)([\s\S]*)")
 async def add_snip(event):
-    if Config.LOGGER_ID is 0:
+    if Config.LOGGER_ID == 0:
         return await eod(event, "You need to setup  `LOGGER_ID`  to save snips...")
     trigger = event.pattern_match.group(1)
     stri = event.text.partition(trigger)[2]
