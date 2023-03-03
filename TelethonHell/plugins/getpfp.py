@@ -16,7 +16,7 @@ async def _(event):
         return False
     replied_user_profile_photos = await event.client(
         GetUserPhotosRequest(
-            user_id=replied_user.user.id, offset=42, max_id=0, limit=80
+            user_id=replied_user.users[0].id, offset=42, max_id=0, limit=80
         )
     )
     replied_user_profile_photos_count = "NaN"
@@ -24,16 +24,15 @@ async def _(event):
         replied_user_profile_photos_count = replied_user_profile_photos.count
     except AttributeError:
         pass
-    user_id = replied_user.user.id
-    first_name = html.escape(replied_user.user.first_name)
+    user_id = replied_user.users[0].id
+    first_name = html.escape(replied_user.users[0].first_name)
     if first_name is not None:
         first_name = first_name.replace("\u2060", "")
-    user_bio = replied_user.about
+    user_bio = replied_user.full_user.about
     if user_bio is not None:
-        user_bio = html.escape(replied_user.about)
-    replied_user.common_chats_count
+        user_bio = html.escape(replied_user.full_user.about)
     try:
-        dc_id, location = get_input_location(replied_user.profile_photo)
+        dc_id, location = get_input_location(replied_user.full_user.profile_photo)
     except Exception as e:
         dc_id = "Need a Profile Picture to check this"
         str(e)
@@ -58,7 +57,7 @@ async def _(event):
         caption,
         reply_to=message_id_to_reply,
         parse_mode="HTML",
-        file=replied_user.profile_photo,
+        file=replied_user.full_user.profile_photo,
         force_document=False,
         silent=True,
     )
