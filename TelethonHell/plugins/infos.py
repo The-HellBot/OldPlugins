@@ -30,7 +30,7 @@ async def _(event):
         return False
     replied_user_profile_photos = await event.client(
         GetUserPhotosRequest(
-            user_id=replied_user.user.id, offset=42, max_id=0, limit=80
+            user_id=replied_user.users[0].id, offset=42, max_id=0, limit=80
         )
     )
     replied_user_profile_photos_count = "NaN"
@@ -38,20 +38,20 @@ async def _(event):
         replied_user_profile_photos_count = replied_user_profile_photos.count
     except AttributeError:
         pass
-    user_id = replied_user.user.id
-    first_name = html.escape(replied_user.user.first_name)
+    user_id = replied_user.users[0].id
+    first_name = html.escape(replied_user.users[0].first_name)
     if first_name is not None:
         first_name = first_name.replace("\u2060", "")
-    last_name = replied_user.user.last_name
+    last_name = replied_user.users[0].last_name
     last_name = (
         last_name.replace("\u2060", "") if last_name else ("Last Name not found")
     )
-    user_bio = replied_user.about
+    user_bio = replied_user.full_user.about
     if user_bio is not None:
-        user_bio = html.escape(replied_user.about)
-    common_chats = replied_user.common_chats_count
+        user_bio = html.escape(replied_user.full_user.about)
+    common_chats = replied_user.full_user.common_chats_count
     try:
-        dc_id, location = get_input_location(replied_user.profile_photo)
+        dc_id, location = get_input_location(replied_user.full_user.profile_photo)
     except Exception as e:
         dc_id = "`Need a Profile Picture to check **this**`"
         str(e)
@@ -79,9 +79,9 @@ async def _(event):
         user_bio,
         dc_id,
         replied_user_profile_photos_count,
-        replied_user.user.restricted,
-        replied_user.user.verified,
-        replied_user.user.bot,
+        replied_user.users[0].restricted,
+        replied_user.users[0].verified,
+        replied_user.users[0].bot,
         common_chats,
     )
     message_id_to_reply = event.message.reply_to_msg_id
@@ -92,7 +92,7 @@ async def _(event):
         caption,
         reply_to=message_id_to_reply,
         parse_mode="HTML",
-        file=replied_user.profile_photo,
+        file=replied_user.full_user.profile_photo,
         force_document=False,
         silent=True,
         link_preview=False,
@@ -104,19 +104,16 @@ async def get_full_user(event):
     if event.reply_to_msg_id:
         previous_message = await event.get_reply_message()
         if previous_message.forward:
-            replied_user = (
-                await event.client(
-                    GetFullUserRequest(
-                        previous_message.forward.sender_id
-                        or previous_message.forward.channel_id
-                    )
+            replied_user = await event.client(
+                GetFullUserRequest(
+                    previous_message.forward.sender_id or previous_message.forward.channel_id
                 )
-            ).full_user
+            )
             return replied_user, None
         else:
-            replied_user = (await event.client(
+            replied_user = await event.client(
                 GetFullUserRequest(previous_message.sender_id)
-            )).full_user
+            )
             return replied_user, None
     else:
         input_str = None
@@ -127,7 +124,7 @@ async def get_full_user(event):
         if input_str and input_str.isdigit():
             try:
                 user_id = int(input_str)
-                replied_user = (await event.client(GetFullUserRequest(user_id))).full_user
+                replied_user = await event.client(GetFullUserRequest(user_id))
                 return replied_user, None
             except Exception as e:
                 return None, e
@@ -136,20 +133,20 @@ async def get_full_user(event):
             probable_user_mention_entity = mention_entity[0]
             if isinstance(probable_user_mention_entity, MessageEntityMentionName):
                 user_id = probable_user_mention_entity.user_id
-                replied_user = (await event.client(GetFullUserRequest(user_id))).full_user
+                replied_user = await event.client(GetFullUserRequest(user_id))
                 return replied_user, None
             else:
                 try:
                     user_object = await event.client.get_entity(input_str)
                     user_id = user_object.id
-                    replied_user = (await event.client(GetFullUserRequest(user_id))).full_user
+                    replied_user = await event.client(GetFullUserRequest(user_id))
                     return replied_user, None
                 except Exception as e:
                     return None, e
         elif event.is_private:
             try:
                 user_id = event.chat_id
-                replied_user = (await event.client(GetFullUserRequest(user_id))).full_user
+                replied_user = await event.client(GetFullUserRequest(user_id))
                 return replied_user, None
             except Exception as e:
                 return None, e
@@ -157,7 +154,7 @@ async def get_full_user(event):
             try:
                 user_object = await event.client.get_entity(int(input_str))
                 user_id = user_object.id
-                replied_user = (await event.client(GetFullUserRequest(user_id))).full_user
+                replied_user = await event.client(GetFullUserRequest(user_id))
                 return replied_user, None
             except Exception as e:
                 return None, e
