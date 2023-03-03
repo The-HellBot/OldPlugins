@@ -54,9 +54,9 @@ async def get_user(event):
 
 
 async def slap(replied_user, event):
-    user_id = replied_user.user.id
-    first_name = replied_user.user.first_name
-    username = replied_user.user.username
+    user_id = replied_user.users[0].id
+    first_name = replied_user.users[0].first_name
+    username = replied_user.users[0].username
     if username:
         slapped = "@{}".format(username)
     else:
