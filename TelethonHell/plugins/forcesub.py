@@ -113,7 +113,7 @@ async def _(event):
     fsub = is_fsub(event.chat_id)
     joinchat = fsub.channel
     if uid == event.sender_id:
-        nm = (await event.client(GetFullUserRequest(uid))).user.first_name
+        nm = (await event.client(GetFullUserRequest(uid))).users[0].first_name
         try:
             await event.client(GetParticipantRequest(int(joinchat), uid))
         except UserNotParticipantError:
