@@ -20,7 +20,7 @@ __**↼ Øwñêr ⇀**__ : 『 [{name}]({userid}) 』
 ┣─ **» Uptime:** __{uptime}__
 ┣─ **» Ping:** __{ping}__
 ╰──────────────
-__**»»» [[ †hê Hêllẞø† ]](https://t.me/its_hellbot) «««**__
+__»»» [[ †hê Hêllẞø† ]](https://t.me/its_hellbot) «««__
 """
 
 msg = """{}\n
