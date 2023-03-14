@@ -36,7 +36,7 @@ async def songs(event):
     except Exception as e:
         return await parse_error(hell, f"__No song found. Maybe give different name or check spelling.__ \n`{str(e)}`", False)
     try:
-        upload_text = f"**••• Uploading Song •••** \n\n__» {title}__\n__»» {channel}__")
+        upload_text = f"**••• Uploading Song •••** \n\n__» {title}__\n__»» {channel}__"
         with yt_dlp.YoutubeDL(song_opts) as ydl:
             info_dict = ydl.extract_info(link, download=False)
             audio_file = ydl.prepare_filename(info_dict)
