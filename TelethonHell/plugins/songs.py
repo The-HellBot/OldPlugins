@@ -197,7 +197,7 @@ CmdHelp("songs").add_command(
 ).add_command(
     "wsong", "<reply to a song file>", "Searches for the details of replied mp3 song file and uploads it's details."
 ).add_command(
-    "lyrics", "<song - artist>", "Gives the lyrics of that song. Give arists name to get accurate results.", "lyrics Happier Marshmallow"
+    "lyrics", "<song - artist>", "Gives the lyrics of that song. Give arists name to get accurate results.", "lyrics Happier - Marshmallow"
 ).add_info(
     "Songs & Lyrics."
 ).add_warning(
