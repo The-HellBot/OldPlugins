@@ -35,7 +35,7 @@ sfw_list = ['waifu', 'neko', 'shinobu', 'megumin', 'bully', 'cuddle', 'cry', 'hu
 async def nsfw(event):
     x = await event.get_chat()
     y = x.id
-    if y = 1496036895:
+    if y == 1496036895:
         return await parse_error(event, "Can't use this command here.")
         if abuse_m == "Disabled":
             return await eod(event, "**This command is only for users with variable** `ABUSE` **as** `ON`")
