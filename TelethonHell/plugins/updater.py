@@ -146,13 +146,8 @@ async def upstream(event):
     if not conf and not force_update:
         await print_changelogs(event, ac_br, changelog)
         return await hell.edit(f"🌚 Do `{hl}update build` to update your **Hêllẞø†** !!")
-
     if force_update:
         await hell.edit(f"**⥼ Synced Repo ⥽** \n\n__Do__ `{hl}update` __again to start updating ...__")
-    if conf == "now":
-        await hell.edit("`Update In Progress! Please Wait....`")
-        await update(event, repo, ups_rem, ac_br)
-    return
 
 
 async def deploy(event, repo, ups_rem, ac_br, txt):
