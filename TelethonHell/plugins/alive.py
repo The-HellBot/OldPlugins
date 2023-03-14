@@ -79,6 +79,7 @@ async def _(event):
         file=PIC,
         caption=alive,
         reply_to=reply,
+        parse_mode="md",
     )
     await hell.delete()
 
