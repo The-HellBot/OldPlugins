@@ -38,7 +38,7 @@ async def download_video(event):
             await hell.edit(upload_txt)
             await event.client.send_file(
                 event.chat_id,
-                audio_file,
+                f"{audio_file}.mp3",
                 supports_streaming=True,
                 caption=f"**✘ Audio:** `{ytdl_data['title']}` \n**✘ Channel:** [{ytdl_data['uploader']}]({ytdl_data['uploader_url']}) \n**✘ Views:** `{ytdl_data['view_count']} views` \n\n**« ✘ »** {hell_mention}",
                 reply_to=reply,
@@ -55,7 +55,8 @@ async def download_video(event):
                     )
                 ),
             )
-            os.remove(audio_file)
+            os.remove(f"{audio_file}.mp3")
+            os.remove(f"{audio_file}.webp")
             await hell.delete()
         except Exception as e:
             return await parse_error(hell, e)
