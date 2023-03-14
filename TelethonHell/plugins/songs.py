@@ -44,7 +44,7 @@ async def songs(event):
         c_time = time.time()
         await event.client.send_file(
             event.chat_id,
-            audio_file,
+            f"{audio_file}.mp3",
             supports_streaming=True,
             caption=f"**✘ Song -** `{title}` \n**✘ Views -** `{views}` \n**✘ Duration -** `{duration}` \n\n**« ✘ »** {hell_mention}",
             thumb=thumb_name,
@@ -61,10 +61,14 @@ async def songs(event):
             ],
         )
         await hell.delete()
-        os.remove(audio_file)
-        os.remove(thumb_name)
     except Exception as e:
         await parse_error(hell, e)
+    try:
+        os.remove(f"{audio_file}.mp3")
+        os.remove(f"{audio_file}.webp")
+        os.remove(thumb_name)
+    except:
+        pass
 
 
 @hell_cmd(pattern="vsong(?:\s|$)([\s\S]*)")
