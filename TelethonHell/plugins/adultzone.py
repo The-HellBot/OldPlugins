@@ -57,14 +57,14 @@ async def nsfw(event):
         limit = 1
     if int(limit) > 30:
         limit = 30
-    if category not in sfw_list:
-        sfw_cat = "Available categories are: \n• `random` \n"
-        for s in sfw_list:
-            sfw_cat += f"• `{s}` \n"
-        txt = f"**Invalid category provided:** `{category}`\n\n{sfw_cat}"
+    if category not in nsfw_list:
+        nsfw_cat = "Available categories are: \n• `random` \n"
+        for n in nsfw_list:
+            nsfw_cat += f"• `{n}` \n"
+        txt = f"**Invalid category provided:** `{category}`\n\n{nsfw_cat}"
         return await eor(event, txt)
     waifu = WaifuAsync()
-    pics = await waifu.sfw(category, many=True)
+    pics = await waifu.nsfw(category, many=True)
     for p in range(int(limit)):
         await event.client.send_file(event.chat_id, file=pics[p])
     await event.delete()
@@ -93,14 +93,14 @@ async def sfw(event):
         limit = 1
     if int(limit) > 30:
         limit = 30
-    if category not in nsfw_list:
-        nsfw_cat = "Available categories are: \n• `random` \n"
-        for n in nsfw_list:
-            nsfw_cat += f"• `{n}` \n"
-        txt = f"**Invalid category provided:** `{category}`\n\n{nsfw_cat}"
+    if category not in sfw_list:
+        sfw_cat = "Available categories are: \n• `random` \n"
+        for s in sfw_list:
+            sfw_cat += f"• `{s}` \n"
+        txt = f"**Invalid category provided:** `{category}`\n\n{sfw_cat}"
         return await eor(event, txt)
     waifu = WaifuAsync()
-    pics = await waifu.nsfw(category, many=True)
+    pics = await waifu.sfw(category, many=True)
     for p in range(int(limit)):
         await event.client.send_file(event.chat_id, file=pics[p])
     await event.delete()
