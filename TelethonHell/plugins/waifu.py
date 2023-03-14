@@ -4,30 +4,7 @@ import nekos
 from WaifuPicsPython import WaifuAsync
 from TelethonHell.plugins import *
 
-neko_category = [
-    'wallpaper',
-    'ngif',
-    'tickle',
-    'feed',
-    'gecg',
-    'gasm',
-    'slap',
-    'avatar',
-    'lizard',
-    'waifu',
-    'pat',
-    '8ball',
-    'kiss',
-    'neko',
-    'spank',
-    'cuddle',
-    'fox_girl',
-    'hug',
-    'smug',
-    'goose',
-    'woof',
-]
-
+neko_category = ['wallpaper', 'ngif', 'tickle', 'feed', 'gecg', 'gasm', 'slap', 'avatar', 'lizard', 'waifu', 'pat', '8ball', 'kiss', 'neko', 'spank', 'cuddle', 'fox_girl', 'hug', 'smug', 'goose', 'woof']
 nsfw_list = ["waifu", "neko", "trap", "blowjob", "random"]
 sfw_list = ['waifu', 'neko', 'shinobu', 'megumin', 'bully', 'cuddle', 'cry', 'hug', 'awoo', 'kiss', 'lick', 'pat', 'smug', 'bonk', 'yeet', 'blush', 'smile', 'wave', 'highfive', 'handhold', 'nom', 'bite', 'glomp', 'slap', 'kill', 'kick', 'happy', 'wink', 'poke', 'dance', 'cringe', 'random']
 
@@ -58,7 +35,7 @@ async def nsfw(event):
     if int(limit) > 30:
         limit = 30
     if category not in nsfw_list:
-        nsfw_cat = "Available categories are: \n• `random` \n"
+        nsfw_cat = "Available categories are: \n"
         for n in nsfw_list:
             nsfw_cat += f"• `{n}` \n"
         txt = f"**Invalid category provided:** `{category}`\n\n{nsfw_cat}"
@@ -94,7 +71,7 @@ async def sfw(event):
     if int(limit) > 30:
         limit = 30
     if category not in sfw_list:
-        sfw_cat = "Available categories are: \n• `random` \n"
+        sfw_cat = "Available categories are: \n"
         for s in sfw_list:
             sfw_cat += f"• `{s}` \n"
         txt = f"**Invalid category provided:** `{category}`\n\n{sfw_cat}"
@@ -143,7 +120,7 @@ async def _(event):
         )
 
 
-CmdHelp("adultzone").add_command(
+CmdHelp("waifu").add_command(
     "nekos", "<category>", "Searches and sends some SFW & NSFW neko images/gifs according to category mentioned or sends a random NSFW/SFW image/gif."
 ).add_command(
     "nsfw", "<category> <limit>", "Sends NSFW pictures and GIFs. Category and Limit are optional."
