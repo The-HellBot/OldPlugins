@@ -36,10 +36,13 @@ msg = """{}\n
 
 @hell_cmd(pattern="alivetemp$")
 async def set_alive_temp(event):
-    hell = await eor(event, "`Setting alive template ...`")
+    hell = await eor(event, "`Fetching template ...`")
     reply = await event.get_reply_message()
     if not reply:
-        return await parse_error(hell, "Reply to a message")
+        alive_temp = gvarstat("ALIVE_TEMPLATE") or ALIVE_TEMP
+        to_reply = await hell.edit("Below is your current alive template 👇")
+        await event.client.send_message(event.chat_id, alive_temp, parse_mode=None, reply_to=to_reply)
+        return
     addgvar("ALIVE_TEMPLATE", reply.text)
     await hell.edit(f"`ALIVE_TEMPLATE` __changed to:__ \n\n`{reply.text}`")
 
