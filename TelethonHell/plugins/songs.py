@@ -47,7 +47,7 @@ async def songs(event):
             event.chat_id,
             f"{audio_file}.mp3",
             supports_streaming=True,
-            caption=f"**✘ Song -** `{title}` \n**✘ Views -** `{views}` \n**✘ Duration -** `{duration}` \n\n**« ✘ »** {hell_mention}",
+            caption=f"**✘ Song -** [{title}]({link}) \n**✘ Views -** `{views}` \n**✘ Duration -** `{duration}` \n\n**« ✘ »** {hell_mention}",
             thumb=thumb_name,
             reply_to=reply,
             progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
@@ -107,7 +107,7 @@ async def vsong(event):
             event.chat_id,
             open(file_, "rb"),
             supports_streaming=True,
-            caption=f"**✘ Video -** `{title}` \n**✘ Views -** `{views}` \n**✘ Duration -** `{duration}` \n\n**« ✘ »** {hell_mention}",
+            caption=f"**✘ Video -** [{title}]({link}) \n**✘ Views -** `{views}` \n**✘ Duration -** `{duration}` \n\n**« ✘ »** {hell_mention}",
             thumb=thumb_name,
             reply_to=reply,
             progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
