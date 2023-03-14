@@ -12,7 +12,7 @@ from TelethonHell.plugins import *
 
 ALIVE_TEMP = """
 __**🔥🔥ɦɛʟʟɮօt ɨs օռʟɨռɛ🔥🔥**__
-__**↼ Øwñêr ⇀**__ : 『 [{name}]({userid}) 』
+__**↼ Øwñêr ⇀**__ : 『 {hell_mention} 』
 ╭──────────────
 ┣─ **» Telethon:** __{telethon_version}__
 ┣─ **» Hêllẞø†:** __{hellbot_version}__
@@ -41,7 +41,7 @@ async def set_alive_temp(event):
     if not reply:
         alive_temp = gvarstat("ALIVE_TEMPLATE") or ALIVE_TEMP
         to_reply = await hell.edit("Below is your current alive template 👇")
-        await event.client.send_message(event.chat_id, alive_temp, parse_mode=None, reply_to=to_reply)
+        await event.client.send_message(event.chat_id, alive_temp, parse_mode=None, link_preview=False, reply_to=to_reply)
         return
     addgvar("ALIVE_TEMPLATE", reply.text)
     await hell.edit(f"`ALIVE_TEMPLATE` __changed to:__ \n\n`{reply.text}`")
@@ -50,7 +50,7 @@ async def set_alive_temp(event):
 @hell_cmd(pattern="alive$")
 async def _(event):
     start = datetime.datetime.now()
-    userid, hell_user, _ = await client_id(event)
+    userid, hell_user, hell_mention = await client_id(event)
     hell = await eor(event, "`Building Alive....`")
     reply = await event.get_reply_message()
     uptime = await get_time((time.time() - StartTime))
@@ -69,8 +69,7 @@ async def _(event):
     end = datetime.datetime.now()
     ping = (end - start).microseconds / 1000
     alive = alive_temp.format(
-        name=name,
-        userid=userid,
+        hell_mention=hell_mention,
         telethon_version=telethon_version,
         hellbot_version=hellbot_version,
         is_sudo=is_sudo,
