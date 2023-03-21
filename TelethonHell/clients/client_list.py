@@ -45,18 +45,22 @@ async def clients_list():
     return user_ids
 
 
-async def client_id(event, botid=None):
+async def client_id(event, botid=None, is_html=None):
     if botid is not None:
         uid = await event.client(GetFullUserRequest(botid))
         ForGo10God = uid.users[0].id
         HELL_USER = uid.users[0].first_name
-        hell_mention = f"[{HELL_USER}](tg://user?id={ForGo10God})"
+        _mention = f"[{HELL_USER}](tg://user?id={ForGo10God})"
+        _html = f"<a href='tg://user?id={ForGo10God}'>{HELL_USER}</a>"
+        hell_mention = _html if is_html else _mention
     else:
         client = await event.client.get_me()
         uid = get_peer_id(client)
         ForGo10God = uid
         HELL_USER = client.first_name
-        hell_mention = f"[{HELL_USER}](tg://user?id={ForGo10God})"
+        _mention = f"[{HELL_USER}](tg://user?id={ForGo10God})"
+        _html = f"<a href='tg://user?id={ForGo10God}'>{HELL_USER}</a>"
+        hell_mention = _html if is_html else _mention
     return ForGo10God, HELL_USER, hell_mention
 
 
