@@ -14,7 +14,7 @@ ALIVE_TEMP = """
 <b><i>🔥🔥ɦɛʟʟɮօt ɨs օռʟɨռɛ🔥🔥</i></b>
 <b><i>↼ Øwñêr ⇀</i></b> : 『 {hell_mention} 』
 ╭──────────────
-┣─ <b>» Telethon:</b> <i>{telethon_version}}</i>
+┣─ <b>» Telethon:</b> <i>{telethon_version}</i>
 ┣─ <b>» Hêllẞø†:</b> <i>{hellbot_version}</i>
 ┣─ <b>» Sudo:</b> <i>{is_sudo}</i>
 ┣─ <b>» Uptime:</b> <i>{uptime}</i>
