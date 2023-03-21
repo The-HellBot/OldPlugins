@@ -11,16 +11,16 @@ from TelethonHell.plugins import *
 # -------------------------------------------------------------------------------
 
 ALIVE_TEMP = """
-__**🔥🔥ɦɛʟʟɮօt ɨs օռʟɨռɛ🔥🔥**__
-__**↼ Øwñêr ⇀**__ : 『 {hell_mention} 』
+<b><i>🔥🔥ɦɛʟʟɮօt ɨs օռʟɨռɛ🔥🔥</i></b>
+<b><i>↼ Øwñêr ⇀</i></b> : 『 {hell_mention} 』
 ╭──────────────
-┣─ **» Telethon:** __{telethon_version}__
-┣─ **» Hêllẞø†:** __{hellbot_version}__
-┣─ **» Sudo:** __{is_sudo}__
-┣─ **» Uptime:** __{uptime}__
-┣─ **» Ping:** __{ping}__
+┣─ <b>» Telethon:</b> <i>{telethon_version}}</i>
+┣─ <b>» Hêllẞø†:</b> <i>{hellbot_version}</i>
+┣─ <b>» Sudo:</b> <i>{is_sudo}</i>
+┣─ <b>» Uptime:</b> <i>{uptime}</i>
+┣─ <b>» Ping:</b> <i>{ping}</i>
 ╰──────────────
-**__»»» [†hê Hêllẞø†](https://t.me/its_hellbot) «««__**
+<b><i>»»» <a href='https://t.me/its_hellbot'>[†hê Hêllẞø†]</a> «««</i></b>
 """
 
 msg = """{}\n
@@ -50,8 +50,9 @@ async def set_alive_temp(event):
 @hell_cmd(pattern="alive$")
 async def _(event):
     start = datetime.datetime.now()
-    userid, hell_user, hell_mention = await client_id(event)
+    userid, hell_user, _ = await client_id(event)
     hell = await eor(event, "`Building Alive....`")
+    hell_mention = f"<a href='tg://user?id={userid}'>{hell_user}</a>"
     reply = await event.get_reply_message()
     uptime = await get_time((time.time() - StartTime))
     name = gvarstat("ALIVE_NAME") or hell_user
@@ -105,9 +106,9 @@ async def hell_a(event):
 
 
 CmdHelp("alive").add_command(
-    "alive", None, "Shows the Default Alive Message"
+    "alive", None, "Shows the default Alive message."
 ).add_command(
-    "hell", None, "Shows Inline Alive Menu with more details."
+    "hell", None, "Shows inline Alive message."
 ).add_warning(
     "✅ Harmless Module"
 ).add()
