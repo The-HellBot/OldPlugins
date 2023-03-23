@@ -207,7 +207,7 @@ if Config.BOT_USERNAME and tbot:
                 text=f"**⚡ ʟɛɢɛռɖaʀʏ ᴀғ ɦɛʟʟɮօt ⚡**",
                 buttons=[
                     [Button.url("📑 Repo 📑", "https://github.com/The-HellBot/HellBot")],
-                    [Button.url("HellBot Network", "https://t.me/hellbot_network")],
+                    [Button.url("HellBot Network", "https://t.me/hellbot_networks")],
                 ],
             )
 
@@ -218,7 +218,7 @@ if Config.BOT_USERNAME and tbot:
                 buttons=[
                     [
                         Button.url("• Updates •", "https://t.me/Its_HellBot"),
-                        Button.url("• Chat •", "https://t.me/hellbot_chat"),
+                        Button.url("• Chat •", "https://t.me/hellbot_chats"),
                     ],
                     [
                         Button.url("• Repo •", "https://github.com/The-HellBot/HellBot"),
@@ -330,7 +330,7 @@ if Config.BOT_USERNAME and tbot:
                 f"{hell_emoji} Re-Open Menu {hell_emoji}", data="reopen"
             )
             await event.edit(
-                f"**⚜️ Hêllẞø† Mêñû Prõvîdêr ìs ñôw Çlösëd ⚜️**\n\n**Bot Of:**  {hell_mention}\n\n        [©️ Hêllẞø† ™️]({chnl_link})",
+                f"**🎭 Closed HellBot's help menu**\n\n**Bot Of:**  {hell_mention}\n\n        [©️ Hêllẞø† ™️]({chnl_link})",
                 buttons=veriler,
                 link_preview=False,
             )
