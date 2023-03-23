@@ -3,7 +3,6 @@ import os
 import random
 import requests
 
-from io import BytesIO
 from PIL import Image, ImageDraw, ImageFont
 from TelethonHell.plugins import *
 
