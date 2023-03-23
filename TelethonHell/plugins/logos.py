@@ -22,7 +22,7 @@ async def logo(event):
     query = lists[1]
     start = datetime.datetime.now()
     _bg = await unsplash(_type, 1)
-    with open("temp_bg.jpg", wb) as file:
+    with open("temp_bg.jpg", "wb") as file:
         file.write(await _bg[0].read())
     await hell.edit(f"__Downloaded a__ `{_type}` __background... starting to make logo__")
     bg = "logo_bg.jpg"
