@@ -662,4 +662,15 @@ GBYE = [
 
 rand_bg = ["anime", "neon", "cars", "marvel", "cosmos", "space", "bikes", "night"]
 
-rand_font = ["https://github.com/The-HellBot/resources/blob/master/fonts/impact.ttf?raw=true"]
+rand_font = [
+    "https://github.com/The-HellBot/resources/blob/master/fonts/impact.ttf?raw=true",
+    "https://github.com/The-HellBot/resources/blob/master/fonts/Ace%20Records.ttf?raw=true",
+    "https://github.com/The-HellBot/resources/blob/master/fonts/1942.ttf?raw=true",
+    "https://github.com/The-HellBot/resources/blob/master/fonts/DIGIT.ttf?raw=true",
+    "https://github.com/The-HellBot/resources/blob/master/fonts/Homina.ttf?raw=true",
+    "https://github.com/The-HellBot/resources/blob/master/fonts/Vampire%20Wars.ttf?raw=true",
+    "https://github.com/The-HellBot/resources/blob/master/fonts/digital.ttf?raw=true",
+    "https://github.com/The-HellBot/resources/blob/master/fonts/hotpizza.ttf?raw=true",
+    "https://github.com/The-HellBot/resources/blob/master/fonts/italic.ttf?raw=true",
+    "https://github.com/The-HellBot/resources/blob/master/fonts/DisposableDroidBB_bld.ttf?raw=true",
+]
