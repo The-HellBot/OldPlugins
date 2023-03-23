@@ -24,8 +24,8 @@ async def hell_info(hellbot_info):
     _release = infos["HELLBOT-INFO"]["release-date"]
     _branch = infos["HELLBOT-INFO"]["branch"]
     _author = infos["HELLBOT-INFO"]["author"]
-    _auturl = infos["HELLBOT-INFO"]["author-url"]
-    return _version, _release, _branch, _author, _auturl
+    _coauthor = infos["HELLBOT-INFO"]["co-author"]
+    return _version, _release, _branch, _author, _coauthor
 
 
 async def gen_chlog(repo, diff):
@@ -135,8 +135,8 @@ async def upstream(event):
     changelog = await gen_chlog(repo, f"HEAD..upstream/{ac_br}")
     _, _, hell_mention = await client_id(event)
     if changelog == "" and not force_update:
-        _version, _release, _branch, _author, _auturl = await hell_info(hellbot_info)
-        output_ = f"**◈ Your Bot Version:** `{hellbot_version}` \n**◈ Owner:** {hell_mention} \n\n**◈ HellBot Global Version:** `{_version}` \n**◈ Release Date:** `{_release}` \n**◈ Official Repo Branch:** `{_branch}` \n**◈ Update By:** [{_author}]({_auturl})"
+        _version, _release, _branch, _author, _coauthor = await hell_info(hellbot_info)
+        output_ = f"**◈ Your Bot Version:** `{hellbot_version}` \n**◈ Owner:** {hell_mention} \n\n**◈ HellBot Global Version:** `{_version}` \n**◈ Release Date:** `{_release}` \n**◈ Official Repo Branch:** `{_branch}` \n**◈ Update By:** [{_author}](https://github.com/{_author}), [{_coauthor}](https://github.com/{_coauthor})"
         if str(_version) != str(hellbot_version):
             output_ += f"\n\n__Do__ `{hl}update build` __to update your HellBot to latest version.__"
         else:
@@ -167,9 +167,9 @@ async def deploy(event, repo, ups_rem, ac_br, txt):
         if heroku_app is None:
             await parse_error(event, f"{txt}__Invalid Heroku Vars.__", False)
             return repo.__del__()
-        _version, _release, _branch, _author, _auturl = await hell_info(hellbot_info)
+        _version, _release, _branch, _author, _coauthor = await hell_info(hellbot_info)
         await event.edit(
-            f"<b><i>Hêllẞø† Docker Build In Progress !!!</b></i> \n\n<b><i><u>Update Information :</b></i></u> \n<b>• Branch :</b> {_branch} \n<b>• Release Date :</b> {_release} \n<b>• Version :</b> {_version} \n<b>• Author :</b> <a href='{_auturl}'>{_author}</a>",
+            f"<b><i>Hêllẞø† Docker Build In Progress !!!</b></i> \n\n<b><i><u>Update Information:</b></i></u> \n<b>• Branch:</b> {_branch} \n<b>• Release Date:</b> {_release} \n<b>• Version:</b> {_version} \n<b>• Authors:</b> <a href='https://github.com/{_author}'>{_author}</a>, <a href='https://github.com/{_coauthor}'>{_coauthor}</a>",
             link_preview=False,
             parse_mode="HTML",
         )
@@ -191,7 +191,7 @@ async def deploy(event, repo, ups_rem, ac_br, txt):
         build_status = app.builds(order_by="created_at", sort="desc")[0]
         if build_status.status == "failed":
            return await eod(event, "__Build Failed !!__")
-        await event.edit(f"**Your Hêllẞø† Is UpToDate**\n\n**Version :**  __{hellbot_version}__\n**Oɯɳҽɾ:**  {hell_mention}")
+        await event.edit(f"**Your Hêllẞø† Is UpToDate**\n\n**Version:**  __{hellbot_version}__\n**Oɯɳҽɾ:**  {hell_mention}")
     else:
         await parse_error(event, "`HEROKU_API_KEY` __is not configured.__")
     return
@@ -230,9 +230,9 @@ async def upstream(event):
     ac_br = repo.active_branch.name
     ups_rem = repo.remote("upstream")
     ups_rem.fetch(ac_br)
-    _version, _release, _branch, _author, _auturl = await hell_info(hellbot_info)
+    _version, _release, _branch, _author, _coauthor = await hell_info(hellbot_info)
     await event.edit(
-        f"<b><i>Hêllẞø† Docker Build In Progress !!</b></i> \n\n<b><i><u>Update Information :</b></i></u> \n<b>• Branch :</b> {_branch} \n<b>• Release Date :</b> {_release} \n<b>• Version :</b> {_version} \n<b>• Author :</b> <a href='{_auturl}'>{_author}</a>",
+        f"<b><i>Hêllẞø† Docker Build In Progress !!</b></i> \n\n<b><i><u>Update Information:</b></i></u> \n<b>• Branch:</b> {_branch} \n<b>• Release Date:</b> {_release} \n<b>• Version:</b> {_version} \n<b>• Authors:</b> <a href='https://github.com/{_author}'>{_author}</a>, <a href='https://github.com/{_coauthor}'>{_coauthor}</a>",
         link_preview=False,
         parse_mode="HTML",
     )
