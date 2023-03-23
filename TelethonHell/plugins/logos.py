@@ -13,6 +13,8 @@ async def logo(event):
     _, _, hell_mention = await client_id(event)
     text = event.text
     lists = text.split(" ", 1)
+    if len(lists) == 1:
+        return await parse_error(hell, "Give some text to make Logo")
     if (text[5:]).startswith("-"):
         _type = (lists[0])[6:]
     else:
@@ -20,11 +22,16 @@ async def logo(event):
     _fnt = random.choice(rand_font)
     query = lists[1]
     start = datetime.datetime.now()
-    _unsp = await unsplash(_type, 1)
-    _bg = requests.get(_unsp[0])
-    with open("temp_bg.jpg", "wb") as file:
-        file.write(_bg.content)
-    await hell.edit(f"__Downloaded a__ `{_type}` __background... starting to make logo__")
+    reply = await event.get_reply_message()
+    if reply and reply.media and reply.media.photo:
+        await reply.download_media("temp_bg.jpg")
+        await hell.edit("__Downloaded replied photo... starting to make logo__")
+    else:
+        _unsp = await unsplash(_type, 1)
+        _bg = requests.get(_unsp[0])
+        with open("temp_bg.jpg", "wb") as file:
+            file.write(_bg.content)
+        await hell.edit(f"__Downloaded__ `{_type}` __background... starting to make logo__")
     img = Image.open("temp_bg.jpg")
     img.resize((5000, 5000)).save("logo_bg.jpg")
     os.remove("temp_bg.jpg")
@@ -43,7 +50,7 @@ async def logo(event):
         query,
         font=font,
         fill="white",
-        stroke_width=7,
+        stroke_width=8,
         stroke_fill="black",
     )
     img.save("logo.png", "PNG")
@@ -52,8 +59,10 @@ async def logo(event):
     await event.client.send_file(
         event.chat_id,
         "logo.png",
-        caption=f"**Made by:** {hell_mention} \n**Time taken:** `{ms} seconds`"
+        caption=f"**Made by:** {hell_mention} \n**Time taken:** `{ms} seconds`",
+        reply_to=reply,
     )
+    await hell.delete()
     os.remove(_font)
     os.remove("logo.png")
     os.remove("logo_bg.jpg")
