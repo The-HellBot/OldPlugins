@@ -1,9 +1,9 @@
 {
     "HELLBOT-INFO": {
-        "version": "β • 1.4.0",
-        "release-date": "10th September 2022",
+        "version": "α • 1.4.0",
+        "release-date": "24th March 2022",
         "branch": "master",
         "author": "HellBoy-OP",
-        "author-url": "https://github.com/HellBoy-OP"
+        "co-author": "ProRaiden"
     }
 }
