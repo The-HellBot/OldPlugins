@@ -659,3 +659,7 @@ GBYE = [
     " जब तुम जाते हो, तो गुलिस्तां के सभी फूल झड़ जाते हैं,\nसंभलकर कहो अलविदा जाते-जाते पेड़ों से क्यों टकरा जाते हो।\n\n\n✍️ {}",
     " तिरछी निगाहों से जो देखा उन्होंने,\nतो हम मदहोश हो चले,\nजब पता चला कि वो अलविदा कहने आए,\nतो हम बेहोश हो चले।\n\n\n✍️ {}",
 ]
+
+rand_bg = ["anime", "neon", "cars", "marvel", "cosmos", "space", "bikes", "night"]
+
+rand_font = ["https://github.com/The-HellBot/resources/blob/master/fonts/impact.ttf?raw=true"]
