@@ -1,8 +1,10 @@
 import math
 import random
 
+from aiohttp import ClientSession as aio_client
+from bs4 import BeautifulSoup
 import PIL.ImageOps
-from PIL import Image
+from PIL import Image, ImageFont, ImageDraw
 from telethon.tl.types import InputMessagesFilterDocument
 
 
@@ -76,5 +78,27 @@ async def get_font_file(client, channel_id):
 
     return await client.download_media(font_file_message)
 
+
+async def get_font_size(font, text, image):
+    temp_size = 100
+    _font = ImageFont.truetype(font, temp_size)
+    img = Image.new("RGB", (image.width, image.height))
+    draw = ImageDraw.Draw(img)
+    wid, _ = draw.textsize(text, _font)
+    _font_size = (
+        temp_size / (wid / image.width) * 0.7
+    )
+    return round(_font_size)
+
+
+async def unsplash(search, limit):
+    _url = f"https://unsplash.com/s/photos/{search}"
+    async with aio_client() as session:
+        _data = await session.get(_url)
+        aio_res = await _data.read()
+    bs_res = BeautifulSoup(aio_res, "html.parser", from_encoding="utf-8")
+    all_res = bs_res.find_all("img", srcset=re.compile("images.unsplash.com/photo"))
+    random.shuffle(all_res)
+    return list(map(lambda e: e['src'], all_res[:limit]))
 
 # hellbot
