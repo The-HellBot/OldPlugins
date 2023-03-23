@@ -1,4 +1,5 @@
 DEVLIST = [
+    "5672065955",   # Miss Pro
     "1432756163",   # ForGo10God
     "1874070588",   # ForGo10_God
     "1533682758",   # Harry
