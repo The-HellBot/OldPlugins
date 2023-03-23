@@ -50,9 +50,8 @@ async def set_alive_temp(event):
 @hell_cmd(pattern="alive$")
 async def _(event):
     start = datetime.datetime.now()
-    userid, hell_user, _ = await client_id(event)
+    userid, hell_user, hell_mention = await client_id(event, is_html=True)
     hell = await eor(event, "`Building Alive....`")
-    hell_mention = f"<a href='tg://user?id={userid}'>{hell_user}</a>"
     reply = await event.get_reply_message()
     uptime = await get_time((time.time() - StartTime))
     name = gvarstat("ALIVE_NAME") or hell_user
