@@ -41,7 +41,7 @@ async def logo(event):
         ((wid - w) / 2, (hig - h) / 2),
         query,
         font=font,
-        fill="white"",
+        fill="white",
         stroke_width=7,
         stroke_fill="black",
     )
