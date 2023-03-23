@@ -26,11 +26,10 @@ async def logo(event):
     with open("temp_bg.jpg", "wb") as file:
         file.write(_bg.content)
     await hell.edit(f"__Downloaded a__ `{_type}` __background... starting to make logo__")
-    bg = "logo_bg.jpg"
-    img = Image.open(bg_)
-    img.resize((5000, 5000)).save(bg)
+    img = Image.open("temp_bg.jpg")
+    img.resize((5000, 5000)).save("logo_bg.jpg")
     os.remove("temp_bg.jpg")
-    img = Image.open(bg)
+    img = Image.open("logo_bg.jpg")
     wid, hig = img.size
     draw = ImageDraw.Draw(img)
     font_ = requests.get(_fnt)
