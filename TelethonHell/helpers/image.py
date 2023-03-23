@@ -1,5 +1,6 @@
 import math
 import random
+import re
 
 from aiohttp import ClientSession as aio_client
 from bs4 import BeautifulSoup
