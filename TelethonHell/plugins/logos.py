@@ -1,103 +1,66 @@
 import datetime
 import os
 import random
+import requests
 
+from io import BytesIO
 from PIL import Image, ImageDraw, ImageFont
-from telethon.tl.types import (InputMessagesFilterDocument,
-                               InputMessagesFilterPhotos)
 from TelethonHell.plugins import *
-
-PICS_STR = []
 
 
 @hell_cmd(pattern="logo(?:\s|$)([\s\S]*)")
-async def _(event):
+async def logo(event):
     hell = await eor(event, "`Processing.....`")
-    text = event.text[6:]
-    if text == "":
-        await parse_error(hell, "No text given.")
-        return
-    cid = await client_id(event)
-    hell_mention = cid[2]
+    _, _, hell_mention = await client_id(event)
+    text = event.text
+    lists = text.split(" ", 1)
+    if (text[5:]).startswith("-"):
+        _type = (lists[0])[6:]
+    else:
+        _type = random.choice(rand_bg)
+    _fnt = random.choice(rand_font)
+    query = lists[1]
     start = datetime.datetime.now()
-    fnt = await get_font_file(event.client, "@HELL_FRONTS")
-    if event.reply_to_msg_id:
-        rply = await event.get_reply_message()
-        try:
-            logo_ = await rply.download_media()
-        except Exception as e:
-            return await parse_error(hell, e)
-    else:
-        await hell.edit("Picked a Logo BG...")
-        async for i in event.client.iter_messages(
-            "@HELLBOT_LOGOS", filter=InputMessagesFilterPhotos
-        ):
-            PICS_STR.append(i)
-        pic = random.choice(PICS_STR)
-        logo_ = await pic.download_media()
-    if len(text) <= 8:
-        font_size_ = 150
-        strik = 10
-    elif len(text) >= 9:
-        font_size_ = 50
-        strik = 5
-    else:
-        font_size_ = 130
-        strik = 20
-    await hell.edit("Making Logo...")
-    img = Image.open(logo_)
+    _bg = await unsplash(_type, 1)
+    with open("temp_bg.jpg", wb) as file:
+        file.write(await _bg[0].read())
+    await hell.edit(f"__Downloaded a__ `{_type}` __background... starting to make logo__")
+    bg = "logo_bg.jpg"
+    img = Image.open(bg_)
+    img.resize((5000, 5000)).save(bg)
+    os.remove("temp_bg.jpg")
+    img = Image.open(bg)
+    wid, hig = img.size
     draw = ImageDraw.Draw(img)
-    font = ImageFont.truetype(fnt, font_size_)
-    image_widthz, image_heightz = img.size
-    w, h = draw.textsize(text, font=font)
-    h += int(h * 0.21)
-    image_width, image_height = img.size
+    font_ = requests.get(_fnt)
+    _font = BytesIO(font_.content)
+    font_size = await get_font_size(_font, query, img)
+    font = ImageFont.truetype(_font, font_size)
+    w, h = draw.textsize(query, font=font)
     draw.text(
-        ((image_width - w) / 2, (image_height - h) / 2),
-        text,
+        ((wid - w) / 2, (hig - h) / 2),
+        query,
         font=font,
-        fill=(255, 255, 255),
+        fill="white"",
+        stroke_width=7,
+        stroke_fill="black",
     )
-    w_ = (image_width - w) / 2
-    h_ = (image_height - h) / 2
-    draw.text(
-        (w_, h_), text, font=font, fill="white", stroke_width=strik, stroke_fill="black"
-    )
-    file_name = "HellBot.png"
+    img.save("logo.png", "PNG")
     end = datetime.datetime.now()
     ms = (end - start).seconds
-    img.save(file_name, "png")
     await event.client.send_file(
         event.chat_id,
-        file_name,
-        caption=f"**Made By :** {hell_mention} \n**Time Taken :** `{ms} seconds`",
+        "logo.png",
+        caption=f"**Made by:** {hell_mention} \n**Time taken:** `{ms} seconds`"
     )
-    await hell.delete()
-    try:
-        os.remove(file_name)
-        os.remove(fnt)
-        os.remove(logo_)
-    except:
-        pass
-
-
-async def get_font_file(client, channel_id):
-    font_file_message_s = await client.get_messages(
-        entity=channel_id,
-        filter=InputMessagesFilterDocument,
-        limit=None,
-    )
-    font_file_message = random.choice(font_file_message_s)
-
-    return await client.download_media(font_file_message)
+    os.remove("logo.png")
+    os.remove("logo_bg.jpg")
 
 
 CmdHelp("logos").add_command(
-    "logo", "<reply to pic + text> or <text>", "Makes a logo with the given text. If replied to a picture makes logo on that else gets random BG."
+    "logo", "-{type} {logo text}", "Makes a logo with the given text. If replied to a picture makes logo on that else gets random BG.", f"logo Hellbot \n{hl}logo-car HellBot \n{hl}logo-anime HellBot \netc..."
 ).add_info(
     "Logo Maker."
-).add_extra(
-    "🙋🏻‍♂️ Note", "Currently only supports custom pics. Fonts are choosen randomly."
 ).add_warning(
     "✅ Harmless Module."
 ).add()
