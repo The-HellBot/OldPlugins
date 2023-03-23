@@ -33,7 +33,9 @@ async def logo(event):
     wid, hig = img.size
     draw = ImageDraw.Draw(img)
     font_ = requests.get(_fnt)
-    _font = BytesIO(font_.content)
+    _font = "logo_font.ttf"
+    with open(_font, "wb") as file:
+        file.write(font_.content)
     font_size = await get_font_size(_font, query, img)
     font = ImageFont.truetype(_font, font_size)
     w, h = draw.textsize(query, font=font)
@@ -53,6 +55,7 @@ async def logo(event):
         "logo.png",
         caption=f"**Made by:** {hell_mention} \n**Time taken:** `{ms} seconds`"
     )
+    os.remove(_font)
     os.remove("logo.png")
     os.remove("logo_bg.jpg")
 
