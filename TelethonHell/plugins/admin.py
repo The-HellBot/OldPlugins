@@ -145,7 +145,6 @@ async def demote(event):
     hellevent = await eor(event, "`Demoting User...`")
     rank = "ǟɖʍɨռ"
     user, _ = await get_user_from_event(event)
-    user = user[0]
     if not user:
         return
     newrights = ChatAdminRights(
@@ -391,7 +390,6 @@ async def nothanos(event):
         return
     hellevent = await eor(event, "`Unbanning...`")
     user, _ = await get_user_from_event(event)
-    user = user[0]
     if not user:
         return
     try:
