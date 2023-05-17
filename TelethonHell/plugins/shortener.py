@@ -31,3 +31,12 @@ def short(api_key, long_url):
     except Exception as e:
         LOGS.exception(str(e))
         return None
+
+
+CmdHelp("shortener").add_command(
+    "shorten", "<url>", "Shortens the given url."
+).add_info(
+    "Shorten using shareus"
+).add_warning(
+    "✅ Harmless Module."
+).add()
