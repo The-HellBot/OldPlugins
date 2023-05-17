@@ -40,6 +40,7 @@ class Config(object):
     SESSION_3 = os.environ.get("SESSION_3", None)
     SESSION_4 = os.environ.get("SESSION_4", None)
     SESSION_5 = os.environ.get("SESSION_5", None)
+    SHORTENER_API = os.environ.get("SHORTENER_API", None)
     SUDO_HANDLER = os.environ.get("SUDO_HANDLER", ".")
     TAG_LOGGER = int(os.environ.get("TAG_LOGGER", 0))
     THUMB_IMG = os.environ.get("THUMB_IMG", "./HellConfig/resources/pics/hellbot_logo.jpg")
