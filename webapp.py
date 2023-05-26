@@ -7,5 +7,5 @@ app = Flask(__name__)
 def start():
     return "HellBot Started Successfully"
 
-os.system("bash hell")
+os.system("python3 -m TelethonHell/__main__.py")
 app.run(port=5000)
