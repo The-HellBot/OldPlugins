@@ -46,3 +46,11 @@ class STICKER:
     def __init__(self):
         self.emoji = "🍀"
         self.pack = 1
+
+
+# class for youtube
+class YouTube:
+    def __init__(self):
+        self.yt_link = None
+        self.yt_name = None
+        self.yt_queue = False

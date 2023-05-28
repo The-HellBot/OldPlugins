@@ -76,34 +76,6 @@ async def google(event):
     )
 
 
-@hell_cmd(pattern="img(?:\s|$)([\s\S]*)")
-async def img(event):
-    sim = event.pattern_match.group(1)
-    if not sim:
-        return await parse_error(event, "Nothing given to search.")
-    hell = await eor(event, f"Searching for `{sim}`...")
-    if ";" in sim:
-        try:
-            lim = int(sim.split(";")[1])
-            sim = sim.split(";")[0]
-        except BaseException:
-            lim = 5
-    else:
-        lim = 5
-    imgs = googleimagesdownload()
-    args = {
-        "keywords": sim,
-        "limit": lim,
-        "format": "jpg",
-        "output_directory": "./DOWNLOADS/",
-    }
-    letsgo = imgs.download(args)
-    gotit = letsgo[0][sim]
-    await event.client.send_file(event.chat_id, gotit, caption=sim, album=True)
-    rmtree(f"./DOWNLOADS/{sim}/")
-    await hell.delete()
-
-
 @hell_cmd(pattern="reverse(?:\s|$)([\s\S]*)")
 async def _(event):
     reply = await event.get_reply_message()
@@ -241,9 +213,7 @@ async def _(event):
 
 
 CmdHelp("google").add_command(
-    "google", "<query>", "Does a google search for the query provided"
-).add_command(
-    "img", "<query>", "Does a image search for the query provided"
+    "google", "<query>", "Does a google search for the query provided", "google hellbot"
 ).add_command(
     "reverse", "<reply to a sticker/pic>", "Does a reverse image search on google and provides the similar images"
 ).add_command(
