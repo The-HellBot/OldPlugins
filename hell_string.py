@@ -1,16 +1,35 @@
+import os
 import base64
 import ipaddress
 import random
 import struct
 from random import randint
 
-from instagrapi import Client as IClient
-from instagrapi.exceptions import ChallengeRequired, TwoFactorRequired
-from pyrogram import Client as PClient
-from telethon.sessions import StringSession
-from telethon.sessions.string import (_STRUCT_PREFORMAT, CURRENT_VERSION,
-                                      StringSession)
-from telethon.sync import TelegramClient
+try:
+    from instagrapi import Client as IClient
+    from instagrapi.exceptions import ChallengeRequired, TwoFactorRequired
+except:
+    os.system("pip install instagrapi")
+    from instagrapi import Client as IClient
+    from instagrapi.exceptions import ChallengeRequired, TwoFactorRequired
+
+try:
+    from pyrogram import Client as PClient
+except:
+    os.system("pip install pyrogram")
+    from pyrogram import Client as PClient
+
+try:
+    from telethon.sessions import StringSession
+    from telethon.sessions.string import (_STRUCT_PREFORMAT, CURRENT_VERSION,
+                                          StringSession)
+    from telethon.sync import TelegramClient
+except:
+    os.system("pip install telethon")
+    from telethon.sessions import StringSession
+    from telethon.sessions.string import (_STRUCT_PREFORMAT, CURRENT_VERSION,
+                                          StringSession)
+    from telethon.sync import TelegramClient
 
 
 def main():
