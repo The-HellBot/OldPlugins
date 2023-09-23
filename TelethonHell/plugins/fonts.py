@@ -36,185 +36,73 @@ async def font(event):
     old = rply.text
     normie = normal_str.split(" ")
     prev = " ".join(old).upper()
-    if not flag.isnumeric():
-        return await eod(hell, "Give font numbers only!")
-    match int(flag):
-        case 1:
+    if flag.isnumeric():
+        font_number = int(flag)
+        if font_number == 1:
             to_ = one.split(" ")
-            for normal in prev:
-                if normal in normie:
-                    new = to_[normie.index(normal)]
-                    prev = prev.replace(normal, new)
-            await hell.edit(prev)
-        case 2:
+        elif font_number == 2:
             to_ = two.split(" ")
-            for normal in prev:
-                if normal in normie:
-                    new = to_[normie.index(normal)]
-                    prev = prev.replace(normal, new)
-            await hell.edit(prev)
-        case 3:
+        elif font_number == 3:
             to_ = three.split(" ")
-            for normal in prev:
-                if normal in normie:
-                    new = to_[normie.index(normal)]
-                    prev = prev.replace(normal, new)
-            await hell.edit(prev)
-        case 4:
+        elif font_number == 4:
             to_ = four.split(" ")
-            for normal in prev:
-                if normal in normie:
-                    new = to_[normie.index(normal)]
-                    prev = prev.replace(normal, new)
-            await hell.edit(prev)
-        case 5:
+        elif font_number == 5:
             to_ = five.split(" ")
-            for normal in prev:
-                if normal in normie:
-                    new = to_[normie.index(normal)]
-                    prev = prev.replace(normal, new)
-            await hell.edit(prev)
-        case 6:
+        elif font_number == 6:
             to_ = six.split(" ")
-            for normal in prev:
-                if normal in normie:
-                    new = to_[normie.index(normal)]
-                    prev = prev.replace(normal, new)
-            await hell.edit(prev)
-        case 7:
+        elif font_number == 7:
             to_ = seven.split(" ")
-            for normal in prev:
-                if normal in normie:
-                    new = to_[normie.index(normal)]
-                    prev = prev.replace(normal, new)
-            await hell.edit(prev)
-        case 8:
+        elif font_number == 8:
             to_ = eight.split(" ")
-            for normal in prev:
-                if normal in normie:
-                    new = to_[normie.index(normal)]
-                    prev = prev.replace(normal, new)
-            await hell.edit(prev)
-        case 9:
+        elif font_number == 9:
             to_ = nine.split(" ")
-            for normal in prev:
-                if normal in normie:
-                    new = to_[normie.index(normal)]
-                    prev = prev.replace(normal, new)
-            await hell.edit(prev)
-        case 10:
+        elif font_number == 10:
             to_ = ten.split(" ")
-            for normal in prev:
-                if normal in normie:
-                    new = to_[normie.index(normal)]
-                    prev = prev.replace(normal, new)
-            await hell.edit(prev)
-        case 11:
+        elif font_number == 11:
             to_ = eleven.split(" ")
-            for normal in prev:
-                if normal in normie:
-                    new = to_[normie.index(normal)]
-                    prev = prev.replace(normal, new)
-            await hell.edit(prev)
-        case 12:
+        elif font_number == 12:
             to_ = twelve.split(" ")
-            for normal in prev:
-                if normal in normie:
-                    new = to_[normie.index(normal)]
-                    prev = prev.replace(normal, new)
-            await hell.edit(prev)
-        case 13:
+        elif font_number == 13:
             to_ = thirteen.split(" ")
-            for normal in prev:
-                if normal in normie:
-                    new = to_[normie.index(normal)]
-                    prev = prev.replace(normal, new)
-            await hell.edit(prev)
-        case 14:
+        elif font_number == 14:
             to_ = fourteen.split(" ")
-            for normal in prev:
-                if normal in normie:
-                    new = to_[normie.index(normal)]
-                    prev = prev.replace(normal, new)
-            await hell.edit(prev)
-        case 15:
+        elif font_number == 15:
             to_ = fifteen.split(" ")
-            for normal in prev:
-                if normal in normie:
-                    new = to_[normie.index(normal)]
-                    prev = prev.replace(normal, new)
-            await hell.edit(prev)
-        case 16:
+        elif font_number == 16:
             to_ = sixteen.split(" ")
-            for normal in prev:
-                if normal in normie:
-                    new = to_[normie.index(normal)]
-                    prev = prev.replace(normal, new)
-            await hell.edit(prev)
-        case 17:
+        elif font_number == 17:
             to_ = seventeen.split(" ")
-            for normal in prev:
-                if normal in normie:
-                    new = to_[normie.index(normal)]
-                    prev = prev.replace(normal, new)
-            await hell.edit(prev)
-        case 18:
+        elif font_number == 18:
             to_ = eighteen.split(" ")
-            for normal in prev:
-                if normal in normie:
-                    new = to_[normie.index(normal)]
-                    prev = prev.replace(normal, new)
-            await hell.edit(prev)
-        case 19:
+        elif font_number == 19:
             to_ = nineteen.split(" ")
-            for normal in prev:
-                if normal in normie:
-                    new = to_[normie.index(normal)]
-                    prev = prev.replace(normal, new)
-            await hell.edit(prev)
-        case 20:
+        elif font_number == 20:
             to_ = twenty.split(" ")
-            for normal in prev:
-                if normal in normie:
-                    new = to_[normie.index(normal)]
-                    prev = prev.replace(normal, new)
-            await hell.edit(prev)
-        case 21:
+        elif font_number == 21:
             to_ = twentyone.split(" ")
-            for normal in prev:
-                if normal in normie:
-                    new = to_[normie.index(normal)]
-                    prev = prev.replace(normal, new)
-            await hell.edit(prev)
-        case 22:
+        elif font_number == 22:
             to_ = twentytwo.split(" ")
-            for normal in prev:
-                if normal in normie:
-                    new = to_[normie.index(normal)]
-                    prev = prev.replace(normal, new)
-            await hell.edit(prev)
-        case 23:
+        elif font_number == 23:
             to_ = twentythree.split(" ")
-            for normal in prev:
-                if normal in normie:
-                    new = to_[normie.index(normal)]
-                    prev = prev.replace(normal, new)
-            await hell.edit(prev)
-        case 24:
+        elif font_number == 24:
             to_ = twentyfour.split(" ")
-            for normal in prev:
-                if normal in normie:
-                    new = to_[normie.index(normal)]
-                    prev = prev.replace(normal, new)
-            await hell.edit(prev)
-        case _:
+        else:
             await eod(hell, "Unsupported font!")
+            return
+
+        for normal in prev:
+            if normal in normie:
+                new = to_[normie.index(normal)]
+                prev = prev.replace(normal, new)
+        await hell.edit(prev)
+    else:
+        await eod(hell, "Give font numbers only!")
 
 
 CmdHelp("fonts").add_command(
-    "font", "<font number>", "Changes the replied text to desired font.", "font 07"
+    "font", "<font number>", "Changes the replied text to the desired font.", "font 7"
 ).add_extra(
-    "📌 Font Numbers", "01 to 23"
+    "📌 Font Numbers", "1 to N (number of available fonts)"
 ).add_info(
     "Font Changer."
 ).add_warning(
