@@ -11,7 +11,7 @@ from TelethonHell.plugins import *
 # -------------------------------------------------------------------------------
 
 ALIVE_TEMP = """
-<b><i>🔥🔥ɦɛʟʟɮօt ɨs օռʟɨռɛ🔥🔥</i></b>
+<b><i>🔥🔥Bhumihar bot ɨs օռʟɨռɛ🔥🔥</i></b>
 <b><i>↼ Øwñêr ⇀</i></b> : 『 {hell_mention} 』
 ╭──────────────
 ┣─ <b>» Telethon:</b> <i>{telethon_version}</i>
@@ -20,7 +20,7 @@ ALIVE_TEMP = """
 ┣─ <b>» Uptime:</b> <i>{uptime}</i>
 ┣─ <b>» Ping:</b> <i>{ping}</i>
 ╰──────────────
-<b><i>»»» <a href='https://t.me/its_hellbot'>[†hê Hêllẞø†]</a> «««</i></b>
+<b><i>»»» <a href='https://t.me/Assaulted_dark'>[Mr royal bhumihar]</a> «««</i></b>
 """
 
 msg = """{}\n
